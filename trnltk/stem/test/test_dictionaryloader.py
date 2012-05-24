@@ -133,7 +133,7 @@ class DictionaryLoaderTest(unittest.TestCase):
 
         item = DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI])
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI, PI])))
+        assert_that(item, equal_to(DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI, PI, NVO])))
 
         item = DictionaryItem(u'atmak', u'at', PrimaryPosition.VERB, None, [NVO])
         DictionaryLoader._infer_morphemic_attributes(item)
@@ -205,19 +205,17 @@ class DictionaryLoaderTest(unittest.TestCase):
         assert_that(dictionary_items, has_item(DictionaryItem(u'ad', u'ad', PrimaryPosition.NOUN, None, [RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'ad', u'ad', PrimaryPosition.NOUN, None, [RootAttribute.Doubling, RootAttribute.InverseHarmony, RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'addetmek', u'addet', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Voicing])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'addolmak', u'addol', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_t, RootAttribute.Passive_In])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'addolmak', u'addol', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_t, RootAttribute.NoVoicing, RootAttribute.Passive_In])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'ahlat', u'ahlat', PrimaryPosition.NOUN, None, [RootAttribute.NoVoicing, RootAttribute.Plural])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'akşam', u'akşam', PrimaryPosition.NOUN, SecondaryPosition.TIME, [RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'atamak', u'ata', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_t, RootAttribute.NoVoicing, RootAttribute.Passive_In, RootAttribute.ProgressiveVowelDrop])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'yemek', u'yemek', PrimaryPosition.NOUN, None, [RootAttribute.Voicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'yemek', u'ye', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_t, RootAttribute.NoVoicing, RootAttribute.Passive_In, RootAttribute.ProgressiveVowelDrop])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'ürkmek', u'ürk', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_t])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'ürkmek', u'ürk', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_t, RootAttribute.NoVoicing])))
 
 
     def test_should_validate_master_dict(self):
-        path = '../resources/master_dictionary.txt'
-        if not os.path.exists(path):
-            path = 'trnltk/resources/master_dictionary.txt'
+        path = os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt')
 
         items = DictionaryLoader.load_from_file(path)
         assert_that(len(items)>0, equal_to(True))

@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
@@ -15,10 +16,8 @@ class ParserTest(unittest.TestCase):
         super(ParserTest, cls).setUpClass()
         cls.all_stems = []
 
-        dictionary_items = DictionaryLoader.load_from_file('../resources/master_dictionary.txt')
+        dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-        #    if not di.lemma.startswith('ata'):
-        #        continue
             if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB]:
                 cls.all_stems.extend(StemGenerator.generate(di))
 

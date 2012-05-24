@@ -121,8 +121,8 @@ class DictionaryLoader:
             if RootAttribute.ProgressiveVowelDrop in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.NoVoicing)
 
-            # TODO: correct??
-            dictionary_item.attributes.append(RootAttribute.NoVoicing)
+            if RootAttribute.Voicing not in dictionary_item.attributes and RootAttribute.NoVoicing not in dictionary_item.attributes:
+                dictionary_item.attributes.append(RootAttribute.NoVoicing)
 
         elif dictionary_item.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.ADJECTIVE]:
             if RootAttribute.VoicingOpt in dictionary_item.attributes:
