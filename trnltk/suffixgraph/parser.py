@@ -284,6 +284,8 @@ class Parser:
             return NOUN_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.VERB:
             return VERB_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.ADVERB:
+            return ADVERB_ROOT
         else:
             raise Exception("No stem state found!")
 

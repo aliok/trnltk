@@ -18,7 +18,7 @@ class ParserTest(unittest.TestCase):
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB]:
+            if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB]:
                 cls.all_stems.extend(StemGenerator.generate(di))
 
         cls.parser = Parser(cls.all_stems)
