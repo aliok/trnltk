@@ -98,6 +98,7 @@ VERB_ROOT = State("VERB_ROOT", 'Verb', State.TRANSFER)
 VERB_WITH_POLARITY = State("VERB_WITH_POLARITY", 'Verb', State.TRANSFER)
 VERB_WITH_TENSE = State("VERB_WITH_TENSE", 'Verb', State.TRANSFER)
 VERB_TERMINAL = State("VERB_TERMINAL", 'Verb', State.TERMINAL)
+VERB_DERIV = State("VERB_DERIV", 'Verb', State.DERIV)
 
 ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", 'Adj', State.TRANSFER)
 ADJECTIVE_TERMINAL = State("ADJECTIVE_ROOT", 'Adj', State.TERMINAL)
@@ -109,12 +110,13 @@ ADVERB_DERIV = State("ADVERB_DERIV", 'Adv', State.DERIV)
 
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_TERMINAL, NOUN_DERIV,
-    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL,
+    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_DERIV,
     ADJECTIVE_ROOT, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV
 }
 
 #############  Empty transitions
+Verb_Free_Transition = FreeTransitionSuffix("Verb_Free_Transition", VERB_DERIV, VERB_ROOT)
 Adj_Free_Transition = FreeTransitionSuffix("Adj_Free_Transition", ADJECTIVE_ROOT, ADJECTIVE_TERMINAL)
 Adv_Free_Transition = FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
 
@@ -172,13 +174,16 @@ Positive = Suffix("Pos", 6, Verb_Polarity_Group)
 Aorist = Suffix("Aor", 10)
 Progressive = Suffix("Prog", 10)
 Future = Suffix("Fut", 10)
-Evid = Suffix("Evid", 15)
+Narr = Suffix("Narr", 15)
 Past = Suffix("Past", 20)
 
 ############ Modals
 Abil = Suffix("Abil", 10)
 Necess = Suffix("Necess", 10)
 Opt = Suffix("Opt", 10)
+
+############ Verb to Verb derivations
+Pass = Suffix("Pass", 4)
 
 ###########################################################################
 ############################## Forms ######################################
@@ -303,15 +308,15 @@ Progressive.add_suffix_form(u"mAktA")
 VERB_WITH_POLARITY.add_out_suffix(Future, VERB_WITH_TENSE)
 Future.add_suffix_form(u"+yAcAk")
 
-VERB_WITH_POLARITY.add_out_suffix(Evid, VERB_WITH_TENSE)
-Evid.add_suffix_form(u"mIş")
-Evid.add_suffix_form(u"ymIş")
+VERB_WITH_POLARITY.add_out_suffix(Narr, VERB_WITH_TENSE)
+Narr.add_suffix_form(u"mIş")
+Narr.add_suffix_form(u"ymIş")
 
 VERB_WITH_POLARITY.add_out_suffix(Past, VERB_WITH_TENSE)
 Past.add_suffix_form(u"dI")
 Past.add_suffix_form(u"ydI")
 
-VERB_WITH_TENSE.add_out_suffix(Evid, VERB_WITH_TENSE)
+VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
 VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
 
 ############ Modals
@@ -324,6 +329,12 @@ Necess.add_suffix_form(u"mAlI")
 
 VERB_WITH_POLARITY.add_out_suffix(Opt, VERB_WITH_TENSE)
 Opt.add_suffix_form(u"Ay")
-Opt.add_suffix_form(u"A", ~comes_after(Negative), followed_by(Past) | followed_by(Evid) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
+Opt.add_suffix_form(u"A", ~comes_after(Negative), followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
 Opt.add_suffix_form(u"yAy")
-Opt.add_suffix_form(u"yA", None, followed_by(Past) | followed_by(Evid) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
+Opt.add_suffix_form(u"yA", None, followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
+
+############ Verb to Verb derivations
+VERB_ROOT.add_out_suffix(Pass, VERB_DERIV)
+Pass.add_suffix_form(u"+In")
+Pass.add_suffix_form(u"+nIl")
+Pass.add_suffix_form(u"+InIl")

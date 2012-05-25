@@ -81,9 +81,9 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'yaptın',            u'yap(yapmak)+Verb+Pos+Past(dI[tı])+A2sg(n[n])')
         self.assert_parse_correct(u'yaptı',             u'yap(yapmak)+Verb+Pos+Past(dI[tı])+A3sg')
 
-        self.assert_parse_correct(u'yapmışım',          u'yap(yapmak)+Verb+Pos+Evid(mIş[mış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapmışsın',         u'yap(yapmak)+Verb+Pos+Evid(mIş[mış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapmış',            u'yap(yapmak)+Verb+Pos+Evid(mIş[mış])+A3sg')
+        self.assert_parse_correct(u'yapmışım',          u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapmışsın',         u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapmış',            u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A3sg')
 
 
         self.assert_parse_correct(u'çeviririm',         u'çevir(çevirmek)+Verb+Pos+Aor(+Ir[ir])+A1sg(+Im[im])')
@@ -106,9 +106,9 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'çevirdin',          u'çevir(çevirmek)+Verb+Pos+Past(dI[di])+A2sg(n[n])')
         self.assert_parse_correct(u'çevirdi',           u'çevir(çevirmek)+Verb+Pos+Past(dI[di])+A3sg')
 
-        self.assert_parse_correct(u'çevirmişim',        u'çevir(çevirmek)+Verb+Pos+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'çevirmişsin',       u'çevir(çevirmek)+Verb+Pos+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'çevirmiş',          u'çevir(çevirmek)+Verb+Pos+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'çevirmişim',        u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'çevirmişsin',       u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'çevirmiş',          u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A3sg')
 
 
         self.assert_parse_correct(u'elerim',            u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A1sg(+Im[im])')
@@ -131,9 +131,9 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'eledin',            u'ele(elemek)+Verb+Pos+Past(dI[di])+A2sg(n[n])')
         self.assert_parse_correct(u'eledi',             u'ele(elemek)+Verb+Pos+Past(dI[di])+A3sg')
 
-        self.assert_parse_correct(u'elemişim',          u'ele(elemek)+Verb+Pos+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elemişsin',         u'ele(elemek)+Verb+Pos+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elemiş',            u'ele(elemek)+Verb+Pos+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'elemişim',          u'ele(elemek)+Verb+Pos+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elemişsin',         u'ele(elemek)+Verb+Pos+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elemiş',            u'ele(elemek)+Verb+Pos+Narr(mIş[miş])+A3sg')
 
     def test_should_parse_negative_verb_tenses(self):
         self.assert_parse_correct(u'yapmam',             u'yap(yapmak)+Verb+Neg(mA[ma])+Aor+A1sg(+Im[m])')
@@ -156,9 +156,9 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'yapmadın',           u'yap(yapmak)+Verb+Neg(mA[ma])+Past(dI[dı])+A2sg(n[n])')
         self.assert_parse_correct(u'yapmadı',            u'yap(yapmak)+Verb+Neg(mA[ma])+Past(dI[dı])+A3sg')
 
-        self.assert_parse_correct(u'yapmamışım',         u'yap(yapmak)+Verb+Neg(mA[ma])+Evid(mIş[mış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapmamışsın',        u'yap(yapmak)+Verb+Neg(mA[ma])+Evid(mIş[mış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapmamış',           u'yap(yapmak)+Verb+Neg(mA[ma])+Evid(mIş[mış])+A3sg')
+        self.assert_parse_correct(u'yapmamışım',         u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mIş[mış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapmamışsın',        u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mIş[mış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapmamış',           u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mIş[mış])+A3sg')
 
 
         self.assert_parse_correct(u'çevirmem',           u'çevir(çevirmek)+Verb+Neg(mA[me])+Aor+A1sg(+Im[m])')
@@ -181,9 +181,9 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'çevirmedin',         u'çevir(çevirmek)+Verb+Neg(mA[me])+Past(dI[di])+A2sg(n[n])')
         self.assert_parse_correct(u'çevirmedi',          u'çevir(çevirmek)+Verb+Neg(mA[me])+Past(dI[di])+A3sg')
 
-        self.assert_parse_correct(u'çevirmemişim',       u'çevir(çevirmek)+Verb+Neg(mA[me])+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'çevirmemişsin',      u'çevir(çevirmek)+Verb+Neg(mA[me])+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'çevirmemiş',         u'çevir(çevirmek)+Verb+Neg(mA[me])+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'çevirmemişim',       u'çevir(çevirmek)+Verb+Neg(mA[me])+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'çevirmemişsin',      u'çevir(çevirmek)+Verb+Neg(mA[me])+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'çevirmemiş',         u'çevir(çevirmek)+Verb+Neg(mA[me])+Narr(mIş[miş])+A3sg')
 
 
         self.assert_parse_correct(u'elemem',             u'ele(elemek)+Verb+Neg(mA[me])+Aor+A1sg(+Im[m])')
@@ -206,9 +206,9 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'elemedin',           u'ele(elemek)+Verb+Neg(mA[me])+Past(dI[di])+A2sg(n[n])')
         self.assert_parse_correct(u'elemedi',            u'ele(elemek)+Verb+Neg(mA[me])+Past(dI[di])+A3sg')
 
-        self.assert_parse_correct(u'elememişim',         u'ele(elemek)+Verb+Neg(mA[me])+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elememişsin',        u'ele(elemek)+Verb+Neg(mA[me])+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elememiş',           u'ele(elemek)+Verb+Neg(mA[me])+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'elememişim',         u'ele(elemek)+Verb+Neg(mA[me])+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elememişsin',        u'ele(elemek)+Verb+Neg(mA[me])+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elememiş',           u'ele(elemek)+Verb+Neg(mA[me])+Narr(mIş[miş])+A3sg')
 
     def test_should_parse_positive_multiple_verb_tenses(self):
         self.assert_parse_correct(u'yapardım',          u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Past(dI[dı])+A1sg(+Im[m])')
@@ -232,26 +232,26 @@ class ParserTest(unittest.TestCase):
 #        self.assert_parse_correct(u'yaptıydın',         u'yap(yapmak)+Verb+Pos+Past(dI[tı])+Past(ydI[ydı])+A2sg(n[n])')
 #        self.assert_parse_correct(u'yaptıydı',          u'yap(yapmak)+Verb+Pos+Past(dI[tı])+Past(ydI[ydı])+A3sg')
 
-        self.assert_parse_correct(u'yapmıştım',         u'yap(yapmak)+Verb+Pos+Evid(mIş[mış])+Past(dI[tı])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'yapmıştın',         u'yap(yapmak)+Verb+Pos+Evid(mIş[mış])+Past(dI[tı])+A2sg(n[n])')
-        self.assert_parse_correct(u'yapmıştı',          u'yap(yapmak)+Verb+Pos+Evid(mIş[mış])+Past(dI[tı])+A3sg')
+        self.assert_parse_correct(u'yapmıştım',         u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+Past(dI[tı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yapmıştın',         u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+Past(dI[tı])+A2sg(n[n])')
+        self.assert_parse_correct(u'yapmıştı',          u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+Past(dI[tı])+A3sg')
 
 
-        self.assert_parse_correct(u'yaparmışım',        u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Evid(mIş[mış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yaparmışsın',       u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Evid(mIş[mış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yaparmış',          u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Evid(mIş[mış])+A3sg')
+        self.assert_parse_correct(u'yaparmışım',        u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Narr(mIş[mış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yaparmışsın',       u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Narr(mIş[mış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yaparmış',          u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Narr(mIş[mış])+A3sg')
 
-        self.assert_parse_correct(u'yapıyormuşum',      u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+Evid(mIş[muş])+A1sg(+Im[um])')
-        self.assert_parse_correct(u'yapıyormuşsun',     u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+Evid(mIş[muş])+A2sg(sIn[sun])')
-        self.assert_parse_correct(u'yapıyormuş',        u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+Evid(mIş[muş])+A3sg')
+        self.assert_parse_correct(u'yapıyormuşum',      u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+Narr(mIş[muş])+A1sg(+Im[um])')
+        self.assert_parse_correct(u'yapıyormuşsun',     u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+Narr(mIş[muş])+A2sg(sIn[sun])')
+        self.assert_parse_correct(u'yapıyormuş',        u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+Narr(mIş[muş])+A3sg')
 
-        self.assert_parse_correct(u'yapmaktaymışım',    u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+Evid(ymIş[ymış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapmaktaymışsın',   u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+Evid(ymIş[ymış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapmaktaymış',      u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+Evid(ymIş[ymış])+A3sg')
+        self.assert_parse_correct(u'yapmaktaymışım',    u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+Narr(ymIş[ymış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapmaktaymışsın',   u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+Narr(ymIş[ymış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapmaktaymış',      u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+Narr(ymIş[ymış])+A3sg')
 
-        self.assert_parse_correct(u'yapacakmışım',      u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Evid(mIş[mış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapacakmışsın',     u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Evid(mIş[mış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapacakmış',        u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Evid(mIş[mış])+A3sg')
+        self.assert_parse_correct(u'yapacakmışım',      u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Narr(mIş[mış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapacakmışsın',     u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Narr(mIş[mış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapacakmış',        u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Narr(mIş[mış])+A3sg')
 
 
         self.assert_parse_correct(u'elerdim',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Past(dI[di])+A1sg(+Im[m])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Past(dI[di])+A1sg(+Im[m])')
@@ -270,26 +270,26 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'eleyecektin',       u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Past(dI[ti])+A2sg(n[n])')
         self.assert_parse_correct(u'eleyecekti',        u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Past(dI[ti])+A3sg')
 
-        self.assert_parse_correct(u'elemiştim',         u'ele(elemek)+Verb+Pos+Evid(mIş[miş])+Past(dI[ti])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'elemiştin',         u'ele(elemek)+Verb+Pos+Evid(mIş[miş])+Past(dI[ti])+A2sg(n[n])')
-        self.assert_parse_correct(u'elemişti',          u'ele(elemek)+Verb+Pos+Evid(mIş[miş])+Past(dI[ti])+A3sg')
+        self.assert_parse_correct(u'elemiştim',         u'ele(elemek)+Verb+Pos+Narr(mIş[miş])+Past(dI[ti])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'elemiştin',         u'ele(elemek)+Verb+Pos+Narr(mIş[miş])+Past(dI[ti])+A2sg(n[n])')
+        self.assert_parse_correct(u'elemişti',          u'ele(elemek)+Verb+Pos+Narr(mIş[miş])+Past(dI[ti])+A3sg')
 
 
-        self.assert_parse_correct(u'elermişim',         u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Evid(mIş[miş])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elermişsin',        u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Evid(mIş[miş])+A2sg(sIn[sin])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elermiş',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Evid(mIş[miş])+A3sg', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'elermişim',         u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Narr(mIş[miş])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elermişsin',        u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Narr(mIş[miş])+A2sg(sIn[sin])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elermiş',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Narr(mIş[miş])+A3sg', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Narr(mIş[miş])+A3sg')
 
-        self.assert_parse_correct(u'eliyormuşum',       u'el(elemek)+Verb+Pos+Prog(Iyor[iyor])+Evid(mIş[muş])+A1sg(+Im[um])')
-        self.assert_parse_correct(u'eliyormuşsun',      u'el(elemek)+Verb+Pos+Prog(Iyor[iyor])+Evid(mIş[muş])+A2sg(sIn[sun])')
-        self.assert_parse_correct(u'eliyormuş',         u'el(elemek)+Verb+Pos+Prog(Iyor[iyor])+Evid(mIş[muş])+A3sg')
+        self.assert_parse_correct(u'eliyormuşum',       u'el(elemek)+Verb+Pos+Prog(Iyor[iyor])+Narr(mIş[muş])+A1sg(+Im[um])')
+        self.assert_parse_correct(u'eliyormuşsun',      u'el(elemek)+Verb+Pos+Prog(Iyor[iyor])+Narr(mIş[muş])+A2sg(sIn[sun])')
+        self.assert_parse_correct(u'eliyormuş',         u'el(elemek)+Verb+Pos+Prog(Iyor[iyor])+Narr(mIş[muş])+A3sg')
 
-        self.assert_parse_correct(u'elemekteymişim',    u'ele(elemek)+Verb+Pos+Prog(mAktA[mekte])+Evid(ymIş[ymiş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elemekteymişsin',   u'ele(elemek)+Verb+Pos+Prog(mAktA[mekte])+Evid(ymIş[ymiş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elemekteymiş',      u'ele(elemek)+Verb+Pos+Prog(mAktA[mekte])+Evid(ymIş[ymiş])+A3sg')
+        self.assert_parse_correct(u'elemekteymişim',    u'ele(elemek)+Verb+Pos+Prog(mAktA[mekte])+Narr(ymIş[ymiş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elemekteymişsin',   u'ele(elemek)+Verb+Pos+Prog(mAktA[mekte])+Narr(ymIş[ymiş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elemekteymiş',      u'ele(elemek)+Verb+Pos+Prog(mAktA[mekte])+Narr(ymIş[ymiş])+A3sg')
 
-        self.assert_parse_correct(u'eleyecekmişim',     u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'eleyecekmişsin',    u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'eleyecekmiş',       u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'eleyecekmişim',     u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'eleyecekmişsin',    u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'eleyecekmiş',       u'ele(elemek)+Verb+Pos+Fut(+yAcAk[yecek])+Narr(mIş[miş])+A3sg')
 
     def test_should_parse_negative_multiple_verb_tenses(self):
         self.assert_parse_correct(u'yapmazdım',         u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Past(dI[dı])+A1sg(+Im[m])')
@@ -308,26 +308,26 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'yapmayacaktın',     u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Past(dI[tı])+A2sg(n[n])')
         self.assert_parse_correct(u'yapmayacaktı',      u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Past(dI[tı])+A3sg')
 
-        self.assert_parse_correct(u'yapmamıştım',       u'yap(yapmak)+Verb+Neg(mA[ma])+Evid(mIş[mış])+Past(dI[tı])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'yapmamıştın',       u'yap(yapmak)+Verb+Neg(mA[ma])+Evid(mIş[mış])+Past(dI[tı])+A2sg(n[n])')
-        self.assert_parse_correct(u'yapmamıştı',        u'yap(yapmak)+Verb+Neg(mA[ma])+Evid(mIş[mış])+Past(dI[tı])+A3sg')
+        self.assert_parse_correct(u'yapmamıştım',       u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mIş[mış])+Past(dI[tı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yapmamıştın',       u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mIş[mış])+Past(dI[tı])+A2sg(n[n])')
+        self.assert_parse_correct(u'yapmamıştı',        u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mIş[mış])+Past(dI[tı])+A3sg')
 
 
-        self.assert_parse_correct(u'yapmazmışım',       u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Evid(mIş[mış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapmazmışsın',      u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Evid(mIş[mış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapmazmış',         u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Evid(mIş[mış])+A3sg')
+        self.assert_parse_correct(u'yapmazmışım',       u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Narr(mIş[mış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapmazmışsın',      u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Narr(mIş[mış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapmazmış',         u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Narr(mIş[mış])+A3sg')
 
-        self.assert_parse_correct(u'yapmıyormuşum',     u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+Evid(mIş[muş])+A1sg(+Im[um])')
-        self.assert_parse_correct(u'yapmıyormuşsun',    u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+Evid(mIş[muş])+A2sg(sIn[sun])')
-        self.assert_parse_correct(u'yapmıyormuş',       u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+Evid(mIş[muş])+A3sg')
+        self.assert_parse_correct(u'yapmıyormuşum',     u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+Narr(mIş[muş])+A1sg(+Im[um])')
+        self.assert_parse_correct(u'yapmıyormuşsun',    u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+Narr(mIş[muş])+A2sg(sIn[sun])')
+        self.assert_parse_correct(u'yapmıyormuş',       u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+Narr(mIş[muş])+A3sg')
 
-        self.assert_parse_correct(u'yapmamaktaymışım',  u'yap(yapmak)+Verb+Neg(mA[ma])+Prog(mAktA[makta])+Evid(ymIş[ymış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapmamaktaymışsın', u'yap(yapmak)+Verb+Neg(mA[ma])+Prog(mAktA[makta])+Evid(ymIş[ymış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapmamaktaymış',    u'yap(yapmak)+Verb+Neg(mA[ma])+Prog(mAktA[makta])+Evid(ymIş[ymış])+A3sg')
+        self.assert_parse_correct(u'yapmamaktaymışım',  u'yap(yapmak)+Verb+Neg(mA[ma])+Prog(mAktA[makta])+Narr(ymIş[ymış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapmamaktaymışsın', u'yap(yapmak)+Verb+Neg(mA[ma])+Prog(mAktA[makta])+Narr(ymIş[ymış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapmamaktaymış',    u'yap(yapmak)+Verb+Neg(mA[ma])+Prog(mAktA[makta])+Narr(ymIş[ymış])+A3sg')
 
-        self.assert_parse_correct(u'yapmayacakmışım',   u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Evid(mIş[mış])+A1sg(+Im[ım])')
-        self.assert_parse_correct(u'yapmayacakmışsın',  u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Evid(mIş[mış])+A2sg(sIn[sın])')
-        self.assert_parse_correct(u'yapmayacakmış',     u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Evid(mIş[mış])+A3sg')
+        self.assert_parse_correct(u'yapmayacakmışım',   u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Narr(mIş[mış])+A1sg(+Im[ım])')
+        self.assert_parse_correct(u'yapmayacakmışsın',  u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Narr(mIş[mış])+A2sg(sIn[sın])')
+        self.assert_parse_correct(u'yapmayacakmış',     u'yap(yapmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+Narr(mIş[mış])+A3sg')
 
 
         self.assert_parse_correct(u'elemezdim',         u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Past(dI[di])+A1sg(+Im[m])')
@@ -346,26 +346,26 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'elemeyecektin',     u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Past(dI[ti])+A2sg(n[n])')
         self.assert_parse_correct(u'elemeyecekti',      u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Past(dI[ti])+A3sg')
 
-        self.assert_parse_correct(u'elememiştim',       u'ele(elemek)+Verb+Neg(mA[me])+Evid(mIş[miş])+Past(dI[ti])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'elememiştin',       u'ele(elemek)+Verb+Neg(mA[me])+Evid(mIş[miş])+Past(dI[ti])+A2sg(n[n])')
-        self.assert_parse_correct(u'elememişti',        u'ele(elemek)+Verb+Neg(mA[me])+Evid(mIş[miş])+Past(dI[ti])+A3sg')
+        self.assert_parse_correct(u'elememiştim',       u'ele(elemek)+Verb+Neg(mA[me])+Narr(mIş[miş])+Past(dI[ti])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'elememiştin',       u'ele(elemek)+Verb+Neg(mA[me])+Narr(mIş[miş])+Past(dI[ti])+A2sg(n[n])')
+        self.assert_parse_correct(u'elememişti',        u'ele(elemek)+Verb+Neg(mA[me])+Narr(mIş[miş])+Past(dI[ti])+A3sg')
 
 
-        self.assert_parse_correct(u'elemezmişim',       u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elemezmişsin',      u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elemezmiş',         u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'elemezmişim',       u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elemezmişsin',      u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elemezmiş',         u'ele(elemek)+Verb+Neg(mA[me])+Aor(z[z])+Narr(mIş[miş])+A3sg')
 
-        self.assert_parse_correct(u'elemiyormuşum',     u'ele(elemek)+Verb+Neg(m[m])+Prog(Iyor[iyor])+Evid(mIş[muş])+A1sg(+Im[um])')
-        self.assert_parse_correct(u'elemiyormuşsun',    u'ele(elemek)+Verb+Neg(m[m])+Prog(Iyor[iyor])+Evid(mIş[muş])+A2sg(sIn[sun])')
-        self.assert_parse_correct(u'elemiyormuş',       u'ele(elemek)+Verb+Neg(m[m])+Prog(Iyor[iyor])+Evid(mIş[muş])+A3sg')
+        self.assert_parse_correct(u'elemiyormuşum',     u'ele(elemek)+Verb+Neg(m[m])+Prog(Iyor[iyor])+Narr(mIş[muş])+A1sg(+Im[um])')
+        self.assert_parse_correct(u'elemiyormuşsun',    u'ele(elemek)+Verb+Neg(m[m])+Prog(Iyor[iyor])+Narr(mIş[muş])+A2sg(sIn[sun])')
+        self.assert_parse_correct(u'elemiyormuş',       u'ele(elemek)+Verb+Neg(m[m])+Prog(Iyor[iyor])+Narr(mIş[muş])+A3sg')
 
-        self.assert_parse_correct(u'elememekteymişim',  u'ele(elemek)+Verb+Neg(mA[me])+Prog(mAktA[mekte])+Evid(ymIş[ymiş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elememekteymişsin', u'ele(elemek)+Verb+Neg(mA[me])+Prog(mAktA[mekte])+Evid(ymIş[ymiş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elememekteymiş',    u'ele(elemek)+Verb+Neg(mA[me])+Prog(mAktA[mekte])+Evid(ymIş[ymiş])+A3sg')
+        self.assert_parse_correct(u'elememekteymişim',  u'ele(elemek)+Verb+Neg(mA[me])+Prog(mAktA[mekte])+Narr(ymIş[ymiş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elememekteymişsin', u'ele(elemek)+Verb+Neg(mA[me])+Prog(mAktA[mekte])+Narr(ymIş[ymiş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elememekteymiş',    u'ele(elemek)+Verb+Neg(mA[me])+Prog(mAktA[mekte])+Narr(ymIş[ymiş])+A3sg')
 
-        self.assert_parse_correct(u'elemeyecekmişim',   u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Evid(mIş[miş])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'elemeyecekmişsin',  u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Evid(mIş[miş])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'elemeyecekmiş',     u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Evid(mIş[miş])+A3sg')
+        self.assert_parse_correct(u'elemeyecekmişim',   u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Narr(mIş[miş])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'elemeyecekmişsin',  u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Narr(mIş[miş])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'elemeyecekmiş',     u'ele(elemek)+Verb+Neg(mA[me])+Fut(+yAcAk[yecek])+Narr(mIş[miş])+A3sg')
 
     def test_should_parse_some_verbs(self):
         self.assert_parse_correct(u'yapardık',          u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Past(dI[dı])+A1pl(k[k])')
@@ -388,8 +388,8 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'yapmamalıyım',      u'yap(yapmak)+Verb+Neg(mA[ma])+Necess(mAlI[malı])+A1sg(yIm[yım])')
         self.assert_parse_correct(u'yapmamalıydım',     u'yap(yapmak)+Verb+Neg(mA[ma])+Necess(mAlI[malı])+Past(ydI[ydı])+A1sg(+Im[m])')
 
-        self.assert_parse_correct(u'elemeliymiş',       u'ele(elemek)+Verb+Pos+Necess(mAlI[meli])+Evid(ymIş[ymiş])+A3sg')
-        self.assert_parse_correct(u'elememeliymiş',     u'ele(elemek)+Verb+Neg(mA[me])+Necess(mAlI[meli])+Evid(ymIş[ymiş])+A3sg')
+        self.assert_parse_correct(u'elemeliymiş',       u'ele(elemek)+Verb+Pos+Necess(mAlI[meli])+Narr(ymIş[ymiş])+A3sg')
+        self.assert_parse_correct(u'elememeliymiş',     u'ele(elemek)+Verb+Neg(mA[me])+Necess(mAlI[meli])+Narr(ymIş[ymiş])+A3sg')
 
         self.assert_parse_correct(u'eleyesin',          u'ele(elemek)+Verb+Pos+Opt(yA[ye])+A2sg(sIn[sin])')
         self.assert_parse_correct(u'elemeyeydim',       u'ele(elemek)+Verb+Neg(mA[me])+Opt(yAy[yey])+Past(dI[di])+A1sg(+Im[m])', u'ele(elemek)+Verb+Neg(mA[me])+Opt(yA[ye])+Past(ydI[ydi])+A1sg(+Im[m])')
