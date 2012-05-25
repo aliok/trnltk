@@ -99,17 +99,23 @@ VERB_WITH_POLARITY = State("VERB_WITH_POLARITY", 'Verb', State.TRANSFER)
 VERB_WITH_TENSE = State("VERB_WITH_TENSE", 'Verb', State.TRANSFER)
 VERB_TERMINAL = State("VERB_TERMINAL", 'Verb', State.TERMINAL)
 
+ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", 'Adj', State.TRANSFER)
+ADJECTIVE_TERMINAL = State("ADJECTIVE_ROOT", 'Adj', State.TERMINAL)
+ADJECTIVE_DERIV = State("ADJECTIVE_DERIV", 'Adj', State.DERIV)
+
 ADVERB_ROOT = State("ADVERB_ROOT", 'Adv', State.TRANSFER)
 ADVERB_TERMINAL = State("ADVERB_ROOT", 'Adv', State.TERMINAL)
-ADVERB_DERIV = State("ADVERB_DERIV", 'Noun', State.DERIV)
+ADVERB_DERIV = State("ADVERB_DERIV", 'Adv', State.DERIV)
 
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_TERMINAL, NOUN_DERIV,
     VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL,
+    ADJECTIVE_ROOT, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV
 }
 
 #############  Empty transitions
+Adj_Free_Transition = FreeTransitionSuffix("Adj_Free_Transition", ADJECTIVE_ROOT, ADJECTIVE_TERMINAL)
 Adv_Free_Transition = FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
 
 #############  Noun Agreements
@@ -144,6 +150,9 @@ Dim = Suffix("Dim", 99)
 
 ############# Noun to Verb derivations
 Acquire = Suffix("Acquire", 99)
+
+############# Noun to Adjective derivations
+With = Suffix("With", 99)
 
 ############# Verb agreements
 Verb_Agreements_Group = SuffixGroup('Verb_Agreements_Group')
@@ -242,6 +251,10 @@ Dim.add_suffix_form(u"cIk")
 ############# Noun to Verb derivations
 NOUN_DERIV.add_out_suffix(Acquire, VERB_ROOT)
 Acquire.add_suffix_form(u"lAn")
+
+############# Noun to Adjective derivations
+NOUN_DERIV.add_out_suffix(With, ADJECTIVE_ROOT)
+With.add_suffix_form(u"lI")
 
 ############# Verb agreements
 VERB_WITH_TENSE.add_out_suffix(A1Sg_Verb, VERB_TERMINAL)
