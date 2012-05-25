@@ -177,6 +177,8 @@ Future = Suffix("Fut", 10)
 Narr = Suffix("Narr", 15)
 Past = Suffix("Past", 20)
 
+Cond = Suffix("Cond", 30)
+
 ############ Modals
 Abil = Suffix("Abil", 10)
 Necess = Suffix("Necess", 10)
@@ -316,6 +318,10 @@ VERB_WITH_POLARITY.add_out_suffix(Past, VERB_WITH_TENSE)
 Past.add_suffix_form(u"dI")
 Past.add_suffix_form(u"ydI")
 
+VERB_WITH_POLARITY.add_out_suffix(Cond, VERB_WITH_TENSE)
+Cond.add_suffix_form(u"sA")
+
+VERB_WITH_TENSE.add_out_suffix(Cond, VERB_WITH_TENSE)
 VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
 VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
 

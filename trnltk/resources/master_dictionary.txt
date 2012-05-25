@@ -10112,6 +10112,7 @@ hayıf [A:LastVowelDrop]
 hayıflanmak
 hayır
 hayır [P:Part]
+hayır [P:Adv]
 hayır [A:LastVowelDrop]
 hayırdua
 hayırperver
