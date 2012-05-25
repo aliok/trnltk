@@ -96,17 +96,17 @@ ALL_STATES = {NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_TERMINA
 
 #############  Noun Agreements
 Noun_Agreements_Group = SuffixGroup("Noun_Agreements_Group")
-A3Sg_Noun = Suffix("A3Sg_Noun", 10, Noun_Agreements_Group, 'A3Sg')
-A3Pl_Noun = Suffix("A3Pl_Noun", 8, Noun_Agreements_Group, 'A3Pl')
+A3Sg_Noun = Suffix("A3Sg_Noun", 10, Noun_Agreements_Group, 'A3sg')
+A3Pl_Noun = Suffix("A3Pl_Noun", 8, Noun_Agreements_Group, 'A3pl')
 
 ###########  Possessive agreements
 Pnon = Suffix("Pnon", 11)
-P1Sg = Suffix("P1Sg", 11)
-P2Sg = Suffix("P2Sg", 11)
-P3Sg = Suffix("P3Sg", 11)
-P1Pl = Suffix("P1Pl", 11)
-P2Pl = Suffix("P2Pl", 11)
-P3Pl = Suffix("P3Pl", 11)
+P1Sg = Suffix("P1sg", 11)
+P2Sg = Suffix("P2sg", 11)
+P3Sg = Suffix("P3sg", 11)
+P1Pl = Suffix("P1pl", 11)
+P2Pl = Suffix("P2pl", 11)
+P3Pl = Suffix("P3pl", 11)
 
 ###########  Noun cases
 Noun_Case_Group = SuffixGroup('Noun_Case_Group')
@@ -122,18 +122,19 @@ Inst = Suffix("Inst", 99, Noun_Case_Group)
 
 ############# Noun to Noun derivations
 Agt = Suffix("Agt", 99)
+Dim = Suffix("Dim", 99)
 
 ############# Noun to Verb derivations
 Acquire = Suffix("Acquire", 99)
 
 ############# Verb agreements
 Verb_Agreements_Group = SuffixGroup('Verb_Agreements_Group')
-A1Sg_Verb = Suffix("A1Sg_Verb", 99, Verb_Agreements_Group, "A1Sg")
-A2Sg_Verb = Suffix("A2Sg_Verb", 99, Verb_Agreements_Group, "A2Sg")
-A3Sg_Verb = Suffix("A3Sg_Verb", 99, Verb_Agreements_Group, "A3Sg")
-A1Pl_Verb = Suffix("A1Pl_Verb", 99, Verb_Agreements_Group, "A1Pl")
-A2Pl_Verb = Suffix("A2Pl_Verb", 99, Verb_Agreements_Group, "A2Pl")
-A3Pl_Verb = Suffix("A3Pl_Verb", 99, Verb_Agreements_Group, "A3Pl")
+A1Sg_Verb = Suffix("A1Sg_Verb", 99, Verb_Agreements_Group, "A1sg")
+A2Sg_Verb = Suffix("A2Sg_Verb", 99, Verb_Agreements_Group, "A2sg")
+A3Sg_Verb = Suffix("A3Sg_Verb", 99, Verb_Agreements_Group, "A3sg")
+A1Pl_Verb = Suffix("A1Pl_Verb", 99, Verb_Agreements_Group, "A1pl")
+A2Pl_Verb = Suffix("A2Pl_Verb", 99, Verb_Agreements_Group, "A2pl")
+A3Pl_Verb = Suffix("A3Pl_Verb", 99, Verb_Agreements_Group, "A3pl")
 
 ############# Verb conditions
 Verb_Polarity_Group = SuffixGroup("Verb_Conditions_Group")
@@ -216,6 +217,9 @@ Inst.add_suffix_form(u"+ylA")
 ############# Noun to Noun derivations
 NOUN_DERIV.add_out_suffix(Agt, NOUN_ROOT)
 Agt.add_suffix_form(u"cI")
+
+NOUN_DERIV.add_out_suffix(Dim, NOUN_ROOT)
+Dim.add_suffix_form(u"cIk")
 
 ############# Noun to Verb derivations
 NOUN_DERIV.add_out_suffix(Acquire, VERB_ROOT)
