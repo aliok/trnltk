@@ -111,7 +111,9 @@ class ParseToken:
     def to_pretty_str(self):
         returnValue = u'{}({})+{}'.format(self.stem.root, self.stem.dictionary_item.lemma, self.stem_state.pretty_name)
         if self.transitions:
-            returnValue = returnValue + u'+' + u'+'.join([t.to_pretty_str() for t in self.transitions])
+            non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), self.transitions)
+            if non_free_transitions:
+                returnValue = returnValue + u'+' + u'+'.join([t.to_pretty_str() for t in non_free_transitions])
 
         return returnValue
 

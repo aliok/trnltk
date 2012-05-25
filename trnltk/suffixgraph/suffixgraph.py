@@ -67,6 +67,13 @@ class Suffix:
     def __eq__(self, other):
         return self.name==other.name
 
+class FreeTransitionSuffix(Suffix):
+    def __init__(self, name, from_state, to_state):
+        Suffix.__init__(self, name, 999, None)
+        self.add_suffix_form("")
+        from_state.add_out_suffix(self, to_state)
+
+
 class SuffixForm:
     def __init__(self, form, precondition=None, postcondition=None):
         self.form = form
@@ -98,7 +105,12 @@ ADVERB_DERIV = State("ADVERB_DERIV", 'Noun', State.DERIV)
 
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_TERMINAL, NOUN_DERIV,
-    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL}
+    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL,
+    ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV
+}
+
+#############  Empty transitions
+Adv_Free_Transition = FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
 
 #############  Noun Agreements
 Noun_Agreements_Group = SuffixGroup("Noun_Agreements_Group")

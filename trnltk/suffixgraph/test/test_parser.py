@@ -398,8 +398,6 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'eleyememeliydi',    u'ele(elemek)+Verb+Neg+Abil(+yAmA[yeme])+Necess(mAlI[meli])+Past(ydI[ydi])+A3sg')
 
     def test_should_possessives(self):
-        parser_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct(u'kalemim',           u'kalem(kalem)+Noun+A3sg+P1sg(+Im[im])+Nom')
         self.assert_parse_correct(u'kalemimi',          u'kalem(kalem)+Noun+A3sg+P1sg(+Im[im])+Acc(+yI[i])')
         self.assert_parse_correct(u'kalemimden',        u'kalem(kalem)+Noun+A3sg+P1sg(+Im[im])+Abl(dAn[den])')
@@ -422,6 +420,9 @@ class ParserTest(unittest.TestCase):
 
         self.assert_parse_correct(u'sandalyeleri',      u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Nom')   # TODO: 2nd and 3rd!
         self.assert_parse_correct(u'sandalyelerini',    u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Acc(+yI[i])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Acc(nI[ni])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Acc(nI[ni])')
+
+    def test_should_parse_some_adverbs(self):
+        self.assert_parse_correct(u'aceleten',           u'aceleten(aceleten)+Adv')
 
     def assert_parse_correct(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
