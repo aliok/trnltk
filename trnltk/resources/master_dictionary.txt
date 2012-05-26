@@ -1184,6 +1184,7 @@ Anıtkabir
 anız
 ani [P:Adj]
 ani [P:Adv]
+aniden [P:Adv]
 anîde
 anif [P:Adj]
 anif [P:Adv]
@@ -3408,7 +3409,7 @@ birleşik [P:Adj]
 birleşim
 birleşmek
 birlik
-birlikte
+birlikte [P:Adv]
 birliktelik
 birsam
 birtakım [P:Adj]
@@ -7892,6 +7893,8 @@ evdeş
 evecen
 evelallah [P:Interj]
 evermek
+#TODO: also hayir
+evet [P:Adv]
 evet [P:Part]
 evgin
 evham
@@ -10374,7 +10377,7 @@ hicret [A:NoVoicing]
 hicrî [P:Adj]
 hicvetmek [A:Voicing, Aorist_A]
 hicviye
-hiç
+hiç [P:Adv]
 hiçbir [P:Adj]
 hiçbiri [P:Pron]
 hiçlemek
@@ -17355,6 +17358,7 @@ narsisizm
 nas [A:Doubling]
 nasfet [A:NoVoicing]
 nasıl [P:Adj]
+nasıl [P:Adv]
 nasıp [A:Voicing, LastVowelDrop]
 nasır
 nasırlanmak
@@ -17424,6 +17428,7 @@ necip
 nedamet [A:NoVoicing]
 nedbe
 neden
+neden [P:Adv, Ques]
 nedim
 nedime
 nedret [A:NoVoicing]
@@ -22078,6 +22083,7 @@ süzülmek
 şimal [A:InverseHarmony]
 şimalî
 şimdi [P:Noun, Time; S:+Rel_ki]
+şimdi [P:Adv, Time]
 şimendifer
 şimiotaksi
 şimiotropizm

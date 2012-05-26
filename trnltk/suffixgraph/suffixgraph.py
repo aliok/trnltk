@@ -102,6 +102,7 @@ VERB_WITH_TENSE = State("VERB_WITH_TENSE", 'Verb', State.TRANSFER)
 VERB_TERMINAL = State("VERB_TERMINAL", 'Verb', State.TERMINAL)
 VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", 'Verb', State.DERIV)
 VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", 'Verb', State.DERIV)
+VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", 'Verb', State.DERIV)
 
 ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", 'Adj', State.TRANSFER)
 ADJECTIVE_TERMINAL = State("ADJECTIVE_ROOT", 'Adj', State.TERMINAL)
@@ -113,7 +114,7 @@ ADVERB_DERIV = State("ADVERB_DERIV", 'Adv', State.DERIV)
 
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_WITH_CASE, NOUN_TERMINAL, NOUN_DERIV_WITH_CASE, NOUN_NOM_DERIV,
-    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV,
+    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV,
     ADJECTIVE_ROOT, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV
 }
@@ -123,6 +124,7 @@ FreeTransitionSuffix("Noun_Free_Transition_1", NOUN_WITH_CASE, NOUN_TERMINAL)
 FreeTransitionSuffix("Noun_Free_Transition_2", NOUN_WITH_CASE, NOUN_DERIV_WITH_CASE)
 FreeTransitionSuffix("Verb_Free_Transition_1", VERB_ROOT, VERB_PLAIN_DERIV)
 FreeTransitionSuffix("Verb_Free_Transition_2", VERB_WITH_POLARITY, VERB_POLARITY_DERIV)
+FreeTransitionSuffix("Verb_Free_Transition_2", VERB_WITH_TENSE, VERB_TENSE_DERIV)
 FreeTransitionSuffix("Adj_Free_Transition_1", ADJECTIVE_ROOT, ADJECTIVE_TERMINAL)
 FreeTransitionSuffix("Adj_Free_Transition_2", ADJECTIVE_ROOT, ADJECTIVE_DERIV)
 FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
@@ -152,7 +154,7 @@ Abl = Suffix("Abl", 99, Noun_Case_Group)
 
 ############# Noun case-likes
 Gen = Suffix("Gen", 99, Noun_Case_Group)
-Inst = Suffix("Inst", 99, Noun_Case_Group)
+Ins = Suffix("Ins", 99, Noun_Case_Group)
 
 ############# Noun to Noun derivations
 Agt = Suffix("Agt")
@@ -163,6 +165,7 @@ Acquire = Suffix("Acquire", 99)
 
 ############# Noun to Adjective derivations
 With = Suffix("With")
+Without = Suffix("Without")
 Rel = Suffix("Rel")
 
 ############# Verb agreements
@@ -189,19 +192,32 @@ Past = Suffix("Past", 20)
 Cond = Suffix("Cond", 30)
 
 ############ Modals
-Abil = Suffix("Abil", 10)
 Necess = Suffix("Necess", 10)
 Opt = Suffix("Opt", 10)
 
+############ Verb to Noun derivations
+Inf = Suffix("Inf")
+PastPart_Noun = Suffix("PastPart_Noun", pretty_name='PastPart')
+
 ############ Verb to Verb derivations
+Able = Suffix("Able", 10)
 Pass = Suffix("Pass")
+Hastily = Suffix("Hastily")
 
 ########### Verb to Adverb derivations
 AfterDoingSo = Suffix("AfterDoingSo")
+ByDoingSo = Suffix("ByDoingSo")
+While = Suffix("While")
+
+########### Verb to Adjective derivations
+PresPart = Suffix("PresPart")
+FutPart = Suffix('FutPart')
 
 ########### Adjective to Adverb derivations
 Ly = Suffix("Ly")
 
+########### Adjective to Noun derivations
+Ness = Suffix("Ness")
 
 
 ###########################################################################
@@ -264,8 +280,8 @@ Abl.add_suffix_form(u"ndAn")
 NOUN_WITH_POSSESSION.add_out_suffix(Gen, NOUN_WITH_CASE)
 Gen.add_suffix_form(u"+nIn")
 
-NOUN_WITH_POSSESSION.add_out_suffix(Inst, NOUN_WITH_CASE)
-Inst.add_suffix_form(u"+ylA")
+NOUN_WITH_POSSESSION.add_out_suffix(Ins, NOUN_WITH_CASE)
+Ins.add_suffix_form(u"+ylA")
 
 ############# Noun to Noun derivations
 NOUN_NOM_DERIV.add_out_suffix(Agt, NOUN_ROOT)
@@ -281,6 +297,9 @@ Acquire.add_suffix_form(u"lAn")
 ############# Noun to Adjective derivations
 NOUN_NOM_DERIV.add_out_suffix(With, ADJECTIVE_ROOT)
 With.add_suffix_form(u"lI")
+
+NOUN_NOM_DERIV.add_out_suffix(Without, ADJECTIVE_ROOT)
+Without.add_suffix_form(u"sIz")
 
 NOUN_DERIV_WITH_CASE.add_out_suffix(Rel, ADJECTIVE_ROOT)
 Rel.add_suffix_form(u"ki")
@@ -313,7 +332,7 @@ A3Pl_Verb.add_suffix_form("lAr")
 VERB_ROOT.add_out_suffix(Negative, VERB_WITH_POLARITY)
 Negative.add_suffix_form(u"m")
 Negative.add_suffix_form(u"mA")
-Negative.add_suffix_form(u"", postcondition=followed_by(Abil))
+Negative.add_suffix_form(u"", postcondition=followed_by(Able))
 
 VERB_ROOT.add_out_suffix(Positive, VERB_WITH_POLARITY)
 Positive.add_suffix_form("")
@@ -348,10 +367,6 @@ VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
 VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
 
 ############ Modals
-VERB_WITH_POLARITY.add_out_suffix(Abil, VERB_WITH_POLARITY)
-Abil.add_suffix_form(u"+yAbil", ~comes_after(Negative))
-Abil.add_suffix_form(u"+yAmA", comes_after(Negative))
-
 VERB_WITH_POLARITY.add_out_suffix(Necess, VERB_WITH_TENSE)
 Necess.add_suffix_form(u"mAlI")
 
@@ -362,15 +377,49 @@ Opt.add_suffix_form(u"yAy")
 Opt.add_suffix_form(u"yA", None, followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
 
 ############ Verb to Verb derivations
+VERB_POLARITY_DERIV.add_out_suffix(Able, VERB_WITH_POLARITY)
+Able.add_suffix_form(u"+yAbil", ~comes_after(Negative))
+Able.add_suffix_form(u"+yAmA", comes_after(Negative))
+
+VERB_POLARITY_DERIV.add_out_suffix(Hastily, VERB_ROOT)
+Hastily.add_suffix_form(u"+yIver")
+
 VERB_PLAIN_DERIV.add_out_suffix(Pass, VERB_ROOT)
 Pass.add_suffix_form(u"+In")
 Pass.add_suffix_form(u"+nIl")
 Pass.add_suffix_form(u"+InIl")
 
+############ Verb to Noun derivations
+VERB_POLARITY_DERIV.add_out_suffix(Inf, NOUN_ROOT)
+Inf.add_suffix_form(u"mAk")
+Inf.add_suffix_form(u"mA")
+Inf.add_suffix_form(u"+yIş")
+
+VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, NOUN_ROOT)
+VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, ADJECTIVE_ROOT)
+PastPart_Noun.add_suffix_form(u"dIk")
+
 ########### Verb to Adverb derivations:
 VERB_POLARITY_DERIV.add_out_suffix(AfterDoingSo, ADVERB_ROOT)
-AfterDoingSo.add_suffix_form("+yIp")
+AfterDoingSo.add_suffix_form(u"+yIp")
+
+VERB_POLARITY_DERIV.add_out_suffix(ByDoingSo, ADVERB_ROOT)
+ByDoingSo.add_suffix_form(u"+yArAk")
+
+VERB_TENSE_DERIV.add_out_suffix(While, ADVERB_ROOT)
+While.add_suffix_form(u"ken")
+
+########### Verb to Adjective derivations
+VERB_POLARITY_DERIV.add_out_suffix(PresPart, ADJECTIVE_ROOT)
+PresPart.add_suffix_form(u'An')
+
+VERB_POLARITY_DERIV.add_out_suffix(FutPart, ADJECTIVE_ROOT)
+FutPart.add_suffix_form(u'+yAcak')
 
 ########### Adjective to Adverb derivations
 ADJECTIVE_DERIV.add_out_suffix(Ly, ADVERB_ROOT)
-Ly.add_suffix_form("cA")
+Ly.add_suffix_form(u"cA")
+
+########### Adjective to Noun derivations
+ADJECTIVE_DERIV.add_out_suffix(Ness, NOUN_ROOT)
+Ness.add_suffix_form(u"lIk")

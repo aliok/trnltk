@@ -11,15 +11,23 @@ from trnltk.stem.stemgenerator import StemGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
+#TODO
 cases_to_skip = {
     u'+Punc',
-    u'Noun+Zero',
+    u'+Zero',
     u'+Pres+',
     u'+Det',
     u'_',
     u'+PersP+',
     u'PCNom',
-    u"+Conj"
+    u"+Conj",
+    u'Adj+PastPart+',
+    u'Adj+FutPart+',
+    u'+Prop+',
+    u'Verb+Able+Neg',
+    u'+Imp+',
+    u'+Pron+',
+    u'+Num+'
 }
 
 class ParserTestWithSets(unittest.TestCase):
@@ -52,6 +60,15 @@ class ParserTestWithSets(unittest.TestCase):
                 (word, parse_result) = line.split('=')
                 if any([case_to_skip in parse_result for case_to_skip in cases_to_skip]):
                     continue
+
+                #TODO
+                parse_result = parse_result.replace('Prog1', 'Prog')
+                parse_result = parse_result.replace('Prog2', 'Prog')
+                parse_result = parse_result.replace('Inf1', 'Inf')
+                parse_result = parse_result.replace('Inf2', 'Inf')
+                parse_result = parse_result.replace('Inf3', 'Inf')
+                parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
+
 
                 self.assert_parse_correct(word.lower(), parse_result)
 
@@ -88,8 +105,6 @@ class ParserTestWithSets(unittest.TestCase):
 
 
         for i in range(1, len(groups)):
-            if i!=len(groups)-2:
-                return_value += u','
             group = groups[i]
             return_value += u'({},"{}")'.format(i+1, u'+'.join(group))
 
