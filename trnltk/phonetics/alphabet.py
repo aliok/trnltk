@@ -65,7 +65,7 @@ class TurkishAlphabet:
 
     L_ac = TurkishLetter(u'â', u'Â', 33, vowel=True, in_ascii=False, english_equivalent_char=u'a')
     L_ic = TurkishLetter(u'î', u'Î', 34, vowel=True, frontal=True, in_ascii=False, english_equivalent_char=u'i')
-    L_uc = TurkishLetter(u'û', u'Û', 35, vowel=True, frontal=True, rounded=True, in_ascii=False, english_equivalent_char=u'u')
+    L_uc = TurkishLetter(u'û', u'Û', 35, vowel=True, rounded=True, in_ascii=False, english_equivalent_char=u'u')
 
     Turkish_Letters = {L_a, L_b, L_c, L_cc, L_d, L_e, L_f, L_g,
                        L_gg, L_h, L_ii, L_i, L_j, L_k, L_l, L_m,

@@ -297,7 +297,7 @@ class Parser:
         new_candidates = []
         for candidate in candidates:
             if candidate.stem.dictionary_item.primary_position==PrimaryPosition.VERB:
-                if RootAttribute.ProgressiveVowelDrop in candidate.stem.dictionary_item.attributes and candidate.stem.dictionary_item.root!=candidate.stem.root:
+                if RootAttribute.ProgressiveVowelDrop in candidate.stem.dictionary_item.attributes and len(candidate.stem.root)==len(candidate.stem.dictionary_item.root)-1:
                     # apply Positive + Progressive 'Iyor'
 
                     # apply Positive

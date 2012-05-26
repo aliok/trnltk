@@ -3,7 +3,7 @@ import unittest
 from hamcrest import *
 from trnltk.phonetics.phonetics import PhoneticAttributes, PhoneticExpectation
 from trnltk.stem.dictionaryitem import DictionaryItem, PrimaryPosition, RootAttribute
-from trnltk.stem.stemgenerator import StemGenerator, Stem
+from trnltk.stem.stemgenerator import StemGenerator, Stem, CircumflexConvertingStemGenerator
 
 LLV = PhoneticAttributes.LastLetterVowel
 LLC = PhoneticAttributes.LastLetterConsonant
@@ -97,6 +97,32 @@ class StemGeneratorTest(unittest.TestCase):
         generated_stems = StemGenerator.generate(dictionary_item)
         assert_that(generated_stems, has_length(1))
         assert_that(generated_stems, has_item(Stem(u"kanaat", dictionary_item, None, {LVF, LLC, LLVless, LLVlessStop, LVU})))
+
+    def test_should_generate_converting_circumflexes(self):
+        dictionary_item = DictionaryItem(u"rüzgâr", u"rüzgâr", PrimaryPosition.NOUN, None, None)
+        generated_stems = CircumflexConvertingStemGenerator.generate(dictionary_item)
+        assert_that(generated_stems, has_length(2))
+        assert_that(generated_stems, has_item(Stem(u"rüzgar", dictionary_item, None, {LVB, LLC, LLNotVless, LVU})))
+        assert_that(generated_stems, has_item(Stem(u"rüzgâr", dictionary_item, None, {LVB, LLC, LLNotVless, LVU})))
+
+        dictionary_item = DictionaryItem(u"alenî", u"alenî", PrimaryPosition.ADJECTIVE, None, None)
+        generated_stems = CircumflexConvertingStemGenerator.generate(dictionary_item)
+        assert_that(generated_stems, has_length(2))
+        assert_that(generated_stems, has_item(Stem(u"aleni", dictionary_item, None, {LVF, LLV, LLNotVless, LVU})))
+        assert_that(generated_stems, has_item(Stem(u"alenî", dictionary_item, None, {LVF, LLV, LLNotVless, LVU})))
+
+        dictionary_item = DictionaryItem(u"cülûs", u"cülûs", PrimaryPosition.NOUN, None, None)
+        generated_stems = CircumflexConvertingStemGenerator.generate(dictionary_item)
+        assert_that(generated_stems, has_length(2))
+        assert_that(generated_stems, has_item(Stem(u"cülus", dictionary_item, None, {LVB, LLC, LLVless, LVR})))
+        assert_that(generated_stems, has_item(Stem(u"cülûs", dictionary_item, None, {LVB, LLC, LLVless, LVR})))
+
+        dictionary_item = DictionaryItem(u"Âdem", u"Âdem", PrimaryPosition.NOUN, None, None)
+        generated_stems = CircumflexConvertingStemGenerator.generate(dictionary_item)
+        assert_that(generated_stems, has_length(2))
+        assert_that(generated_stems, has_item(Stem(u"Adem", dictionary_item, None, {LVF, LLC, LLNotVless, LVU})))
+        assert_that(generated_stems, has_item(Stem(u"Âdem", dictionary_item, None, {LVF, LLC, LLNotVless, LVU})))
+
 
 if __name__ == '__main__':
     unittest.main()

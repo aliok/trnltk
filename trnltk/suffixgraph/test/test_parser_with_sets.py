@@ -7,7 +7,7 @@ from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryitem import  PrimaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator
+from trnltk.stem.stemgenerator import StemGenerator, CircumflexConvertingStemGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
@@ -40,7 +40,7 @@ class ParserTestWithSets(unittest.TestCase):
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
             if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB, PrimaryPosition.ADJECTIVE]:
-                cls.all_stems.extend(StemGenerator.generate(di))
+                cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
         cls.parser = Parser(cls.all_stems)
 
@@ -71,6 +71,8 @@ class ParserTestWithSets(unittest.TestCase):
                 parse_result = parse_result.replace('Inf1', 'Inf')
                 parse_result = parse_result.replace('Inf2', 'Inf')
                 parse_result = parse_result.replace('Inf3', 'Inf')
+
+                #TODO
                 parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
 
 
@@ -98,20 +100,25 @@ class ParserTestWithSets(unittest.TestCase):
 
         groups.append(current_group)
 
+        root = result.stem.dictionary_item.root
 
         if not groups:
-            return u'({},"{}+{}")'.format(1, result.stem.dictionary_item.root, result.stem_state.pretty_name)
+            return u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
 
         if not groups[0]:
-            return_value = u'({},"{}+{}")'.format(1, result.stem.dictionary_item.root, result.stem_state.pretty_name)
+            return_value = u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
         else:
-            return_value = u'({},"{}+{}+{}")'.format(1, result.stem.dictionary_item.root, result.stem_state.pretty_name, u'+'.join(groups[0]))
+            return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, u'+'.join(groups[0]))
 
 
         for i in range(1, len(groups)):
             group = groups[i]
             return_value += u'({},"{}")'.format(i+1, u'+'.join(group))
 
+        ##TODO:
+        if any(c in CircumflexConvertingStemGenerator.Circumflex_Chars for c in return_value):
+            for (cir, pla) in CircumflexConvertingStemGenerator.Circumflex_Letters_Map.iteritems():
+                return_value = return_value.replace(cir, pla)
 
         return return_value
 
