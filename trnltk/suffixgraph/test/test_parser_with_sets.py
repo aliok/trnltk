@@ -16,7 +16,10 @@ cases_to_skip = {
     u'Noun+Zero',
     u'+Pres+',
     u'+Det',
-    u'_'
+    u'_',
+    u'+PersP+',
+    u'PCNom',
+    u"+Conj"
 }
 
 class ParserTestWithSets(unittest.TestCase):
@@ -28,7 +31,7 @@ class ParserTestWithSets(unittest.TestCase):
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB]:
+            if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB, PrimaryPosition.ADJECTIVE]:
                 cls.all_stems.extend(StemGenerator.generate(di))
 
         cls.parser = Parser(cls.all_stems)
@@ -63,7 +66,7 @@ class ParserTestWithSets(unittest.TestCase):
         groups = []
         current_group = []
         for transition in result.transitions:
-            if transition.to_state.type==State.DERIV:
+            if transition.from_state.type==State.DERIV:
                 groups.append(current_group)
                 current_group = [transition.to_state.pretty_name]
             else:

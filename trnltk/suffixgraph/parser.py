@@ -90,7 +90,7 @@ class ParseToken:
     def add_transition(self, suffix_form_application, to_state):
         last_state = self.get_last_state()
         self.transitions.append(Transition(last_state, suffix_form_application, to_state))
-        if last_state.type==State.DERIV:
+        if to_state.type==State.DERIV:
             self.last_rank = -99999
         else:
             self.last_rank = suffix_form_application.suffix_form.suffix.rank
@@ -288,6 +288,8 @@ class Parser:
             return VERB_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.ADVERB:
             return ADVERB_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.ADJECTIVE:
+            return ADJECTIVE_ROOT
         else:
             raise Exception("No stem state found!")
 
