@@ -42,6 +42,21 @@ def generate_directed_graph():
 
 def write_graph_to_file(graph, file_path):
     A=nx.to_agraph(graph)
+
+    roots_sub_graph = A.add_subgraph('roots')
+    roots_sub_graph.graph_attr['rank'] = 'same'
+
+    roots_sub_graph.add_node('NOUN_ROOT')
+    roots_sub_graph.add_node('VERB_ROOT')
+
+
+    terminals_sub_graph = A.add_subgraph('terminals')
+    terminals_sub_graph.graph_attr['rank'] = 'same'
+
+    for node in A.nodes_iter():
+        if node.endswith('TERMINAL'):
+            terminals_sub_graph.add_node(node)
+
     A.write(file_path)
 
 if __name__ == "__main__":
