@@ -52,6 +52,10 @@ class ParserTestWithSets(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("001")
 
+    def test_should_parse_set_002(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self._test_should_parse_set("002")
+
     def _test_should_parse_set(self, set_number):
         path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))
         with codecs.open(path, 'r', 'utf-8') as parse_set_file:
