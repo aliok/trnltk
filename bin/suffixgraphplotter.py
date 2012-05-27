@@ -12,6 +12,13 @@ def generate_directed_graph():
     possible_edge_group_colors = {'red', 'blue', 'yellow', 'green', 'cyan'}
 
     for state in ALL_STATES:
+        graph.add_node(state.name)
+        if state.name in graph:
+            if state.type==State.TERMINAL:
+                graph.node[state.name]['shape'] = 'doubleoctagon'
+            elif state.type==State.DERIV:
+                graph.node[state.name]['shape'] = 'house'
+
         colormap = dict()
 
         for (suffix, output_state) in state.outputs:
@@ -32,11 +39,6 @@ def generate_directed_graph():
 
             graph.add_edge(state.name, output_state.name, label = label, color = color)
 
-        if state.name in graph:
-            if state.type==State.TERMINAL:
-                graph.node[state.name]['shape'] = 'doubleoctagon'
-            elif state.type==State.DERIV:
-                graph.node[state.name]['shape'] = 'house'
 
     return graph
 
