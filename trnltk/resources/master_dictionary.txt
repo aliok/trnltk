@@ -3380,6 +3380,7 @@ birazcık [P:Adv]
 birazdan [P:Adv]
 birbiri [P:Pron]
 birçok
+birden [P:Adv]
 birdenbire [P:Adv]
 birdirbir
 birebir [P:Adj]
@@ -5853,6 +5854,7 @@ demagojik [P:Adj]
 dembedem [P:Adv]
 deme
 demeç
+demek [P:Adv]
 demek [A:StemChange]
 demet [A:NoVoicing]
 demetlemek
@@ -9038,6 +9040,8 @@ gergi
 gergin [P:Adj]
 geri
 geri [P:Adj]
+#TODO
+geri [P:Adv]
 geriatri
 gerici
 gerilek
@@ -10230,7 +10234,7 @@ hematoloji
 hemayar
 hemcins
 hemdert
-hemen
+hemen [P:Adv, Time]
 hemencecik [P:Adv]
 hemfikir
 hemhâl [A:InverseHarmony]
@@ -10253,8 +10257,8 @@ hendesî
 hengâm
 hengâme
 hentbol
-henüz
-hep
+henüz [P:Adv, Time]
+hep [P:Adv, Time]
 hepatit [A:NoVoicing]
 hepatoloji
 hepçil
@@ -11155,7 +11159,7 @@ ilk [P:Adj]
 ilkbahar
 ilke
 ilkel [P:Adj]
-ilkin
+ilkin [P:Adv, Time]
 ilkokul
 ilköğrenim
 ilköğretim
@@ -11689,6 +11693,7 @@ işret [A:NoVoicing]
 iştah
 iştahlanmak
 işte [P:Part]
+işte [P:Adv]
 işteş
 iştial [A:InverseHarmony]
 iştigal [A:InverseHarmony]
@@ -12625,6 +12630,7 @@ karst
 karstik
 karşı
 karşı [P:Adj]
+karşı [P:Adv]
 karşılamak
 karşılaşmak
 karşılık
@@ -13383,7 +13389,7 @@ kısıt [A:NoVoicing]
 kısıtlamak
 kıska
 kıskaç
-kıskanç
+kıskanç [P:Adj]
 kıskanmak
 kıskı
 kıskıvrak [P:Adj]
@@ -18194,6 +18200,7 @@ ozuga
 ön [P:Adj]
 önayak
 önce [P:Noun, Time; S:+Rel_ki]
+önce [P:Adv, Time]
 öncelemek
 öncelik
 öncü
@@ -18672,10 +18679,14 @@ pehpeh
 pehpehlemek
 pejmürde [P:Adj]
 pek [P:Adj]
+#TODO
+pek [P:Adv]
 pekâlâ [P:Adj]
 pekâlâ [P:Part]
 pekâlâ [P:Adv]
 pekent
+#TODO: not an adverb actually, also for tamam, evet, hayir etc
+peki [P:Adv]
 peki [P:Part]
 pekişmek
 pekitmek
@@ -21195,6 +21206,7 @@ somurtkan [P:Adj]
 somurtmak
 somut [P:Adj; A:NoVoicing]
 somya
+son [P:Adj]
 son [P:Num]
 sonar
 sonat [A:NoVoicing]
@@ -21208,6 +21220,7 @@ sone
 sonlanmak
 sonlu
 sonra [P:Noun, Time; S:+Rel_ki]
+sonra [P:Adv, Time]
 sonsuz
 sonuç
 sonuçlamak

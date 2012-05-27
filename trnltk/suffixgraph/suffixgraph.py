@@ -202,12 +202,15 @@ PastPart_Noun = Suffix("PastPart_Noun", pretty_name='PastPart')
 ############ Verb to Verb derivations
 Able = Suffix("Able", 10)
 Pass = Suffix("Pass")
+Caus = Suffix("Caus")
 Hastily = Suffix("Hastily")
 
 ########### Verb to Adverb derivations
 AfterDoingSo = Suffix("AfterDoingSo")
+AsLongAs = Suffix("AsLongAs")
 ByDoingSo = Suffix("ByDoingSo")
 While = Suffix("While")
+AsIf = Suffix("AsIf")
 
 ########### Verb to Adjective derivations
 PresPart = Suffix("PresPart")
@@ -219,6 +222,8 @@ Ly = Suffix("Ly")
 ########### Adjective to Noun derivations
 Ness = Suffix("Ness")
 
+########### Adjective to Verb derivations
+Become = Suffix("Become")
 
 ###########################################################################
 ############################## Forms ######################################
@@ -252,6 +257,7 @@ P2Pl.add_suffix_form("+InIz")
 
 NOUN_WITH_AGREEMENT.add_out_suffix(P3Pl, NOUN_WITH_POSSESSION)
 P3Pl.add_suffix_form("lArI")
+P3Pl.add_suffix_form("I", comes_after(A3Pl_Noun))
 
 ###########  Noun cases
 NOUN_WITH_POSSESSION.add_out_suffix(Nom, NOUN_WITH_CASE)
@@ -389,6 +395,10 @@ Pass.add_suffix_form(u"+In")
 Pass.add_suffix_form(u"+nIl")
 Pass.add_suffix_form(u"+InIl")
 
+VERB_PLAIN_DERIV.add_out_suffix(Caus, VERB_ROOT)
+Caus.add_suffix_form(u"t")
+Caus.add_suffix_form(u"dIr")
+
 ############ Verb to Noun derivations
 VERB_POLARITY_DERIV.add_out_suffix(Inf, NOUN_ROOT)
 Inf.add_suffix_form(u"mAk")
@@ -403,11 +413,17 @@ PastPart_Noun.add_suffix_form(u"dIk")
 VERB_POLARITY_DERIV.add_out_suffix(AfterDoingSo, ADVERB_ROOT)
 AfterDoingSo.add_suffix_form(u"+yIp")
 
+VERB_POLARITY_DERIV.add_out_suffix(AsLongAs, ADVERB_ROOT)
+AsLongAs.add_suffix_form(u"dIkçA")
+
 VERB_POLARITY_DERIV.add_out_suffix(ByDoingSo, ADVERB_ROOT)
 ByDoingSo.add_suffix_form(u"+yArAk")
 
 VERB_TENSE_DERIV.add_out_suffix(While, ADVERB_ROOT)
 While.add_suffix_form(u"ken")
+
+VERB_TENSE_DERIV.add_out_suffix(AsIf, ADVERB_ROOT)
+AsIf.add_suffix_form(u"cAsInA")
 
 ########### Verb to Adjective derivations
 VERB_POLARITY_DERIV.add_out_suffix(PresPart, ADJECTIVE_ROOT)
@@ -423,3 +439,7 @@ Ly.add_suffix_form(u"cA")
 ########### Adjective to Noun derivations
 ADJECTIVE_DERIV.add_out_suffix(Ness, NOUN_ROOT)
 Ness.add_suffix_form(u"lIk")
+
+########### Adjective to Verb derivations
+ADJECTIVE_DERIV.add_out_suffix(Become, VERB_ROOT)
+Become.add_suffix_form(u"lAş")

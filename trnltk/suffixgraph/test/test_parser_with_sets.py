@@ -23,11 +23,24 @@ cases_to_skip = {
     u"+Conj",
     u'Adj+PastPart+',
     u'Adj+FutPart+',
+    u'"Noun+FutPart',
     u'+Prop+',
     u'Verb+Able+Neg',
     u'+Imp+',
     u'+Pron+',
-    u'+Num+'
+    u'+Num+',
+    u'herkes',
+    u'"var',
+    u'â',
+    u'akşamüst',
+    u'kadar',
+    u'bit+Verb',
+    u'çık+Verb',
+    u'Postp',
+    u'Aor+A3pl+Past"',
+    u'Recip',
+    u'ol+Verb+Pos+Neces',
+    u'içeri'
 }
 
 class ParserTestWithSets(unittest.TestCase):
@@ -60,6 +73,9 @@ class ParserTestWithSets(unittest.TestCase):
         path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))
         with codecs.open(path, 'r', 'utf-8') as parse_set_file:
             for line in parse_set_file:
+                if line.startswith('#'):
+                    continue
+
                 line = line.strip()
                 (word, parse_result) = line.split('=')
                 if any([case_to_skip in parse_result for case_to_skip in cases_to_skip]):
