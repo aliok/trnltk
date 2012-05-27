@@ -175,6 +175,9 @@ class Parser:
         return new_candidates
 
     def _traverse_candidate(self, token, word):
+        if token.get_last_state().type==State.TERMINAL:
+            return [token]
+
         new_candidates = []
 
         from_state = token.get_last_state()
@@ -290,6 +293,8 @@ class Parser:
             return ADVERB_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.ADJECTIVE:
             return ADJECTIVE_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:
+            return PUNC_ROOT_TERMINAL
         else:
             raise Exception("No stem state found!")
 

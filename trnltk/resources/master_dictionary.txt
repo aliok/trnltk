@@ -25903,3 +25903,10 @@ zürafagiller
 zürra
 zürriyet [A:NoVoicing]
 züyuf
+. [P:Punc]
+, [P:Punc]
+! [P:Punc]
+? [P:Punc]
+: [P:Punc]
+; [P:Punc]
+... [P:Punc]
