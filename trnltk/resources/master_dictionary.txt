@@ -10265,7 +10265,7 @@ hepçil
 hepsi
 hepten
 hepyek [A:NoVoicing]
-her [P:Adj]
+her [P:Det]
 hercaî
 hercümerç
 herek
@@ -10382,7 +10382,7 @@ hicrî [P:Adj]
 hicvetmek [A:Voicing, Aorist_A]
 hicviye
 hiç [P:Adv]
-hiçbir [P:Adj]
+hiçbir [P:Det]
 hiçbiri [P:Pron]
 hiçlemek
 hidatit
@@ -13559,7 +13559,7 @@ kils
 kilüs
 kim [P:Pron]
 kim [P:Conj]
-kimi [P:Adj]
+kimi [P:Det]
 kimi [P:Pron]
 kimisi [P:Pron]
 kimlik
@@ -17715,6 +17715,7 @@ nüsha
 nütasyon
 nüve
 nüzul [A:InverseHarmony]
+o [P:Det]
 o [P:Pron]
 oba
 obabaşı

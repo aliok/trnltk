@@ -293,6 +293,8 @@ class Parser:
             return ADVERB_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.ADJECTIVE:
             return ADJECTIVE_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.DETERMINER:
+            return DETERMINER_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:
             return PUNC_ROOT_TERMINAL
         else:

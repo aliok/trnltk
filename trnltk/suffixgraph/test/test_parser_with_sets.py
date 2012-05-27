@@ -15,7 +15,6 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 cases_to_skip = {
     u'+Zero',
     u'+Pres+',
-    u'+Det',
     u'_',
     u'+PersP+',
     u'PCNom',
@@ -51,7 +50,10 @@ class ParserTestWithSets(unittest.TestCase):
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            if di.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB, PrimaryPosition.ADJECTIVE, PrimaryPosition.PUNCTUATION]:
+            if di.primary_position in [
+                PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
+                PrimaryPosition.ADJECTIVE, PrimaryPosition.DETERMINER, PrimaryPosition.PUNCTUATION]:
+
                 cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
         cls.parser = Parser(cls.all_stems)
