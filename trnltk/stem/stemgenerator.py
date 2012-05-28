@@ -51,9 +51,11 @@ class StemGenerator:
 
     @classmethod
     def _generate_modified_root_nodes(cls, dictionary_item):
-#        if RootAttribute.StemChange in dictionary_item.attributes: ##TODO:
-#            return handle_special_stems(dictionary_item)
-#
+        if RootAttribute.StemChange in dictionary_item.attributes:
+            special_stems = cls._handle_special_stems(dictionary_item)
+            if special_stems:
+                return special_stems
+
         if RootAttribute.CompoundP3sg in dictionary_item.attributes: ##TODO:
             return cls._handle_p3sg_compounds(dictionary_item)
 
@@ -115,6 +117,26 @@ class StemGenerator:
             return [original, modified]
 
     @classmethod
+    def _handle_special_stems(cls, dictionary_item):
+        ##TODO: de-ye
+        if dictionary_item.lemma==u'ben':
+            dictionary_item.attributes.remove(RootAttribute.StemChange)
+            stem_ben = Stem(u'ben', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ben'))
+            stem_ban = Stem(u'ban', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ban'))
+            return [stem_ben, stem_ban]
+        elif dictionary_item.lemma==u'sen':
+            dictionary_item.attributes.remove(RootAttribute.StemChange)
+            stem_sen = Stem(u'sen', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ben'))
+            stem_san = Stem(u'san', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ban'))
+            return [stem_sen, stem_san]
+        elif dictionary_item.lemma==u'demek':
+            return None
+        elif dictionary_item.lemma==u'yemek':
+            return None
+        else:
+            raise Exception('Unhandled stem change : {} !'.format(dictionary_item))
+
+    @classmethod
     def _handle_p3sg_compounds(cls, dictionary_item):
         return []
 
@@ -125,6 +147,7 @@ class StemGenerator:
                 return True
 
         return False
+
 
 class CircumflexConvertingStemGenerator:
     Circumflex_Letters_Map = {

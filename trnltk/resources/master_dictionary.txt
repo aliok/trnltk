@@ -3490,7 +3490,7 @@ biyoşimi
 biyotit [A:NoVoicing]
 biyotop [A:NoVoicing]
 biz
-biz [P:Pron]
+biz [P:Pron, Pers]
 bizar [P:Adv]
 bizatihi [P:Adv]
 bizce [P:Adv]
@@ -3798,7 +3798,7 @@ bröve
 Brüksel
 brülör
 brüt [P:Adj]
-bu [P:Pron]
+bu [P:Pron, Demons]
 bu [P:Det]
 buat [A:NoVoicing]
 Buca
@@ -17716,7 +17716,8 @@ nütasyon
 nüve
 nüzul [A:InverseHarmony]
 o [P:Det]
-o [P:Pron]
+o [P:Pron, Pers]
+o [P:Pron, Demons]
 oba
 obabaşı
 obelisk [A:NoVoicing]
@@ -17876,7 +17877,6 @@ ongun
 onikiparmak [P:Noun; A:Compound]
 oniks
 onkoloji
-onlar [P:Pron]
 onlarca [P:Adj]
 onmak
 onmaz
@@ -17885,10 +17885,8 @@ onomatope
 ons
 ontojenez
 ontoloji
-onu
 onulmak
 onum
-onun
 onur
 onurlanmak
 oosfer
@@ -20533,7 +20531,7 @@ sempatizan
 sempozyum
 semptom
 semt
-sen [P:Pron ;A:StemChange]
+sen [P:Pron, Pers;A:StemChange]
 sena
 senarist [A:NoVoicing]
 senaryo
@@ -21103,7 +21101,7 @@ siyer
 siymek
 siyonist [A:NoVoicing]
 siyonizm
-siz [P:Pron]
+siz [P:Pron, Pers]
 skandal
 skandiyum
 skavut
@@ -22178,7 +22176,8 @@ süzülmek
 şöyle [P:Adj]
 şöyle [P:Adv]
 şöylesine [P:Adv]
-şu [P:Pron]
+şu [P:Pron, Demons]
+şu [P:Det]
 şua
 şuara
 şubara

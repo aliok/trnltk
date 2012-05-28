@@ -110,6 +110,9 @@ class ParseToken:
 
     def to_pretty_str(self):
         returnValue = u'{}({})+{}'.format(self.stem.root, self.stem.dictionary_item.lemma, self.stem_state.pretty_name)
+        if self.stem.dictionary_item.secondary_position:
+            returnValue += u'+{}'.format(self.stem.dictionary_item.secondary_position)
+
         if self.transitions:
             non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), self.transitions)
             if non_free_transitions:
@@ -220,10 +223,6 @@ class Parser:
             logger.debug('    The last derivation suffix is same with the suffix, skipping.')
             return False
 
-        if token.transitions and token.transitions[-1].suffix_form_application.suffix_form.postcondition and not token.transitions[-1].suffix_form_application.suffix_form.postcondition.matches([suffix]):
-            logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.transitions[-1].suffix_form_application.suffix_form.postcondition, token.transitions[-1].to_pretty_str())
-            return False
-
         return True
 
     def _try_suffix_form(self, token, suffix_form, to_state, word):
@@ -238,6 +237,11 @@ class Parser:
             clone.add_transition(SuffixFormApplication(suffix_form, applied_suffix_form), to_state)
             clone.so_far = applied_str
             clone.rest_str = word[len(applied_str):]
+
+            if token.transitions and token.transitions[-1].suffix_form_application.suffix_form.postcondition and not token.transitions[-1].suffix_form_application.suffix_form.postcondition.matches(clone):
+                logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.transitions[-1].suffix_form_application.suffix_form.postcondition, clone.transitions[-1].to_pretty_str())
+                return False
+
             return clone
 
         else:
@@ -245,8 +249,8 @@ class Parser:
             return None
 
     def _is_transition_allowed_for_suffix_form(self, token, suffix_form):
-        if suffix_form.precondition and not suffix_form.precondition.matches(token.get_suffixes_since_derivation_suffix()):
-            logger.debug('      Precondition "%s" of suffix form "%s" is not satisfied with transitions %s, skipping.', suffix_form.form, suffix_form.precondition, token.get_suffixes_since_derivation_suffix())
+        if suffix_form.precondition and not suffix_form.precondition.matches(token):
+            logger.debug('      Precondition "%s" of suffix form "%s" is not satisfied with transitions %s, skipping.', suffix_form.form, suffix_form.precondition, token)
             return False
 
         if suffix_form.form and not Phonetics.expectations_satisfied(token.current_phonetic_expectations, suffix_form.form):
@@ -293,6 +297,8 @@ class Parser:
             return ADVERB_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.ADJECTIVE:
             return ADJECTIVE_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN:
+            return PRONOUN_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.DETERMINER:
             return DETERMINER_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:

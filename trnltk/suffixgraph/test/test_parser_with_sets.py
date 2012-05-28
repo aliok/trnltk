@@ -25,9 +25,8 @@ cases_to_skip = {
     u'+Prop+',
     u'Verb+Able+Neg',
     u'+Imp+',
-    u'+Pron+',
     u'+Num+',
-    u'herkes',
+    u'herkes',      ## should be Pron on the parsesets
     u'"var',
     u'â',
     u'akşamüst',
@@ -52,7 +51,8 @@ class ParserTestWithSets(unittest.TestCase):
         for di in dictionary_items:
             if di.primary_position in [
                 PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
-                PrimaryPosition.ADJECTIVE, PrimaryPosition.DETERMINER, PrimaryPosition.PUNCTUATION]:
+                PrimaryPosition.ADJECTIVE, PrimaryPosition.PRONOUN,
+                PrimaryPosition.DETERMINER, PrimaryPosition.PUNCTUATION]:
 
                 cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
