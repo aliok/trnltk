@@ -13,6 +13,7 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
 #TODO
 cases_to_skip = {
+    u'+Interj',
     u'+Zero',
     u'+Pres+',
     u'_',
@@ -34,15 +35,17 @@ cases_to_skip = {
     u'(1,"o+Pron+DemonsP+A3sg+Pnon+Nom")(2,"Adj+Without")',
     u'"var',
     u'â',
-    u'akşamüst',
+    u'akşamüst',  # compounds!
     u'kadar',
-    u'bit+Verb',
+    u'bit+Verb',  # recip and causal verbs!
     u'çık+Verb',
     u'Postp',
-    u'Aor+A3pl+Past"',
+    u'Aor+A3pl+Past"',   # yaparlardi
+    u'Prog1+A3pl+Past',   # yapiyorlardi
     u'Recip',
     u'ol+Verb+Pos+Neces',
-    u'içeri'
+    u'içeri',
+    u'ürk+Verb'
 }
 
 class ParserTestWithSets(unittest.TestCase):
@@ -74,6 +77,10 @@ class ParserTestWithSets(unittest.TestCase):
     def test_should_parse_set_002(self):
         parser_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("002")
+
+    def test_should_parse_set_003(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self._test_should_parse_set("003")
 
     def _test_should_parse_set(self, set_number):
         path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))

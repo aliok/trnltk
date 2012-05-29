@@ -171,11 +171,11 @@ Gen = Suffix("Gen", 99, Noun_Case_Group)
 Ins = Suffix("Ins", 99, Noun_Case_Group)
 
 ############# Noun to Noun derivations
-Agt = Suffix("Agt")
+Agt_Noun = Suffix("Agt_Noun", pretty_name='Agt')
 Dim = Suffix("Dim")
 
 ############# Noun to Verb derivations
-Acquire = Suffix("Acquire", 99)
+Acquire = Suffix("Acquire")
 
 ############# Noun to Adjective derivations
 With = Suffix("With")
@@ -229,6 +229,7 @@ AsIf = Suffix("AsIf")
 ########### Verb to Adjective derivations
 PresPart = Suffix("PresPart")
 FutPart = Suffix('FutPart')
+Agt_Adj = Suffix('Agt_Adj', pretty_name='Agt')
 
 ########### Adjective to Adverb derivations
 Ly = Suffix("Ly")
@@ -368,8 +369,8 @@ def _register_noun_cases():
     Ins.add_suffix_form(u"+ylA")
 
 def _register_noun_to_noun_derivations():
-    NOUN_NOM_DERIV.add_out_suffix(Agt, NOUN_ROOT)
-    Agt.add_suffix_form(u"cI")
+    NOUN_NOM_DERIV.add_out_suffix(Agt_Noun, NOUN_ROOT)
+    Agt_Noun.add_suffix_form(u"cI")
 
     NOUN_NOM_DERIV.add_out_suffix(Dim, NOUN_ROOT)
     Dim.add_suffix_form(u"cIk")
@@ -511,6 +512,9 @@ def _register_verb_to_adjective_derivations():
     
     VERB_POLARITY_DERIV.add_out_suffix(FutPart, ADJECTIVE_ROOT)
     FutPart.add_suffix_form(u'+yAcak')
+
+    VERB_POLARITY_DERIV.add_out_suffix(Agt_Adj, ADJECTIVE_ROOT)
+    Agt_Adj.add_suffix_form(u"+yIcI")
 
 def _register_adjective_to_adverb_derivations():
     ADJECTIVE_DERIV.add_out_suffix(Ly, ADVERB_ROOT)

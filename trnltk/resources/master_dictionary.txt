@@ -10295,7 +10295,6 @@ heyamola
 heybe
 heybet [A:NoVoicing]
 heyecan
-heyecanlanmak
 heyelân
 heyet [A:NoVoicing]
 heyhat [P:Interj]
@@ -23954,7 +23953,8 @@ tükürük
 tükürüklemek
 tül
 tülbent
-tüm [P:Adj]
+tüm
+tüm [P:Det]
 tümamiral [A:InverseHarmony]
 tümbek
 tümce
@@ -24891,6 +24891,7 @@ yallah [P:Interj]
 yalman
 yalnız [P:Conj]
 yalnız [P:Adj]
+yalnızca [P:Adv]
 Yalova
 yalpa
 yalpak
