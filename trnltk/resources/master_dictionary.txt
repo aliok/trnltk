@@ -17414,11 +17414,11 @@ nazir
 nazire
 Nazizm [A:NoQuote]
 nazlanmak
-ne [P:Adj]
-ne [P:Adv]
+ne [P:Adj, Ques]
+ne [P:Adv, Ques]
 ne [P:Conj]
 ne [P:Interj]
-ne [P:Pron]
+ne [P:Pron, Ques]
 nebat  [A:NoVoicing]
 nebatat  [A:NoVoicing, Plural]
 nebatî

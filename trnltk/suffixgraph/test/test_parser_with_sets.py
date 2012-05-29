@@ -27,6 +27,11 @@ cases_to_skip = {
     u'+Imp+',
     u'+Num+',
     u'herkes',      ## should be Pron on the parsesets
+    u'hepsi',
+    u'kimi+Pron',  # TODO: check how "bazi" is on the set
+    u'kendi+Pron',
+    u'birbiri+Pron',    #TODO: need to add pron acc form +nA
+    u'(1,"o+Pron+DemonsP+A3sg+Pnon+Nom")(2,"Adj+Without")',
     u'"var',
     u'â',
     u'akşamüst',
