@@ -13,6 +13,8 @@ class SuffixFormCondition:
     def __invert__(self):
         return Invert(self)
 
+    def __str__(self):
+        raise NotImplementedError( "Should have implemented this" )
 
 class And(SuffixFormCondition):
     def __init__(self, conditions):
@@ -25,6 +27,9 @@ class And(SuffixFormCondition):
 
         return True
 
+    def __str__(self):
+        return u' & '.join(repr(c) for c in self._conditions)
+
 class Or(SuffixFormCondition):
     def __init__(self, conditions):
         self._conditions = conditions
@@ -36,12 +41,18 @@ class Or(SuffixFormCondition):
 
         return False
 
+    def __str__(self):
+        return u' | '.join(repr(c) for c in self._conditions)
+
 class Invert(SuffixFormCondition):
     def __init__(self, condition):
         self._condition = condition
 
     def matches(self, parse_token):
         return not self._condition.matches(parse_token)
+
+    def __str__(self):
+        return u'~'+repr(self._condition)
 
 class HasOne(SuffixFormCondition):
     def __init__(self, _suffix):
@@ -56,6 +67,9 @@ class HasOne(SuffixFormCondition):
 
         return self._suffix in since_derivation_suffix
 
+    def __str__(self):
+        return u'has_one({})'.format(self._suffix)
+
 
 class AppliesToStem(SuffixFormCondition):
     def __init__(self, stem_str):
@@ -66,8 +80,18 @@ class AppliesToStem(SuffixFormCondition):
             return False
         return parse_token.stem.root==self._stem_str
 
+    def __str__(self):
+        return u'applies_to_stem({})'.format(self._stem_str)
+
 def comes_after(suffix):
     return HasOne(suffix)
+
+
+def doesnt(condition):
+    return ~condition
+
+def doesnt_come_after(suffix):
+    return doesnt(comes_after(suffix))
 
 def followed_by(suffix):
     return HasOne(suffix)

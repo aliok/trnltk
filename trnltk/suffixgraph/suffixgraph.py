@@ -1,5 +1,5 @@
 # coding=utf-8
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt
 
 MAX_RANK = 99999
 
@@ -274,283 +274,365 @@ Ins_Pron = Suffix("Ins", 99, Pronoun_Case_Group)
 ############################## Forms ######################################
 ###########################################################################
 
-#############  Noun Agreements
-NOUN_ROOT.add_out_suffix(A3Sg_Noun, NOUN_WITH_AGREEMENT)
-A3Sg_Noun.add_suffix_form("")
-
-NOUN_ROOT.add_out_suffix(A3Pl_Noun, NOUN_WITH_AGREEMENT)
-A3Pl_Noun.add_suffix_form("lAr")
-
-###########  Possessive agreements
-NOUN_WITH_AGREEMENT.add_out_suffix(Pnon, NOUN_WITH_POSSESSION)
-Pnon.add_suffix_form("")
-
-NOUN_WITH_AGREEMENT.add_out_suffix(P1Sg, NOUN_WITH_POSSESSION)
-P1Sg.add_suffix_form("+Im")
-
-NOUN_WITH_AGREEMENT.add_out_suffix(P2Sg, NOUN_WITH_POSSESSION)
-P2Sg.add_suffix_form("+In")
-
-NOUN_WITH_AGREEMENT.add_out_suffix(P3Sg, NOUN_WITH_POSSESSION)
-P3Sg.add_suffix_form("+sI")
-
-NOUN_WITH_AGREEMENT.add_out_suffix(P1Pl, NOUN_WITH_POSSESSION)
-P1Pl.add_suffix_form("+ImIz")
-
-NOUN_WITH_AGREEMENT.add_out_suffix(P2Pl, NOUN_WITH_POSSESSION)
-P2Pl.add_suffix_form("+InIz")
-
-NOUN_WITH_AGREEMENT.add_out_suffix(P3Pl, NOUN_WITH_POSSESSION)
-P3Pl.add_suffix_form("lArI")
-P3Pl.add_suffix_form("I", comes_after(A3Pl_Noun))
-
-###########  Noun cases
-NOUN_WITH_POSSESSION.add_out_suffix(Nom, NOUN_WITH_CASE)
-Nom.add_suffix_form("")
-
-NOUN_WITH_POSSESSION.add_out_suffix(Nom_Deriv, NOUN_NOM_DERIV)
-Nom_Deriv.add_suffix_form("", comes_after(Pnon))
-
-NOUN_WITH_POSSESSION.add_out_suffix(Acc, NOUN_WITH_CASE)
-Acc.add_suffix_form(u"+yI", ~comes_after(P3Sg))
-Acc.add_suffix_form(u"nI", comes_after(P3Sg))
-
-NOUN_WITH_POSSESSION.add_out_suffix(Dat, NOUN_WITH_CASE)
-Dat.add_suffix_form(u"+yA", ~comes_after(P3Sg))
-Dat.add_suffix_form(u"nA", comes_after(P3Sg))
-
-NOUN_WITH_POSSESSION.add_out_suffix(Loc, NOUN_WITH_CASE)
-Loc.add_suffix_form(u"dA", ~comes_after(P3Sg))
-Loc.add_suffix_form(u"ndA")
-
-NOUN_WITH_POSSESSION.add_out_suffix(Abl, NOUN_WITH_CASE)
-Abl.add_suffix_form(u"dAn", ~comes_after(P3Sg))
-Abl.add_suffix_form(u"ndAn")
-
-############# Noun case-likes
-NOUN_WITH_POSSESSION.add_out_suffix(Gen, NOUN_WITH_CASE)
-Gen.add_suffix_form(u"+nIn")
-
-NOUN_WITH_POSSESSION.add_out_suffix(Ins, NOUN_WITH_CASE)
-Ins.add_suffix_form(u"+ylA")
-
-############# Noun to Noun derivations
-NOUN_NOM_DERIV.add_out_suffix(Agt, NOUN_ROOT)
-Agt.add_suffix_form(u"cI")
-
-NOUN_NOM_DERIV.add_out_suffix(Dim, NOUN_ROOT)
-Dim.add_suffix_form(u"cIk")
-
-############# Noun to Verb derivations
-NOUN_NOM_DERIV.add_out_suffix(Acquire, VERB_ROOT)
-Acquire.add_suffix_form(u"lAn")
-
-############# Noun to Adjective derivations
-NOUN_NOM_DERIV.add_out_suffix(With, ADJECTIVE_ROOT)
-With.add_suffix_form(u"lI")
-
-NOUN_NOM_DERIV.add_out_suffix(Without, ADJECTIVE_ROOT)
-Without.add_suffix_form(u"sIz")
-
-NOUN_DERIV_WITH_CASE.add_out_suffix(Rel, ADJECTIVE_ROOT)
-Rel.add_suffix_form(u"ki")
-
-############# Verb agreements
-VERB_WITH_TENSE.add_out_suffix(A1Sg_Verb, VERB_TERMINAL)
-A1Sg_Verb.add_suffix_form("+Im")
-A1Sg_Verb.add_suffix_form("yIm")   #"yap-makta-yım", gel-meli-yim
-
-VERB_WITH_TENSE.add_out_suffix(A2Sg_Verb, VERB_TERMINAL)
-A2Sg_Verb.add_suffix_form("n")
-A2Sg_Verb.add_suffix_form("sIn")
-
-VERB_WITH_TENSE.add_out_suffix(A3Sg_Verb, VERB_TERMINAL)
-A3Sg_Verb.add_suffix_form("")
-
-VERB_WITH_TENSE.add_out_suffix(A1Pl_Verb, VERB_TERMINAL)
-A1Pl_Verb.add_suffix_form("+Iz", ~comes_after(Aorist))
-A1Pl_Verb.add_suffix_form("k")     # only for "gel-di-k"
-A1Pl_Verb.add_suffix_form("yIz")   # "yap-makta-yız" OR "gel-me-yiz"
-
-VERB_WITH_TENSE.add_out_suffix(A2Pl_Verb, VERB_TERMINAL)
-A2Pl_Verb.add_suffix_form("sInIz")
-A2Pl_Verb.add_suffix_form("nIz")
-
-VERB_WITH_TENSE.add_out_suffix(A3Pl_Verb, VERB_TERMINAL)
-A3Pl_Verb.add_suffix_form("lAr")
-
-############# Verb conditions
-VERB_ROOT.add_out_suffix(Negative, VERB_WITH_POLARITY)
-Negative.add_suffix_form(u"m")
-Negative.add_suffix_form(u"mA")
-Negative.add_suffix_form(u"", postcondition=followed_by(Able))
-
-VERB_ROOT.add_out_suffix(Positive, VERB_WITH_POLARITY)
-Positive.add_suffix_form("")
-
-############# Verbal tenses
-VERB_WITH_POLARITY.add_out_suffix(Aorist, VERB_WITH_TENSE)
-Aorist.add_suffix_form(u"+Ir")
-Aorist.add_suffix_form(u"+Ar")
-Aorist.add_suffix_form(u"z", comes_after(Negative))    # gel-me-z or gel-me-z-sin
-Aorist.add_suffix_form(u"", comes_after(Negative), followed_by(A1Sg_Verb) or followed_by(A1Pl_Verb))     # gel-me-m or gel-me-yiz
-
-VERB_WITH_POLARITY.add_out_suffix(Progressive, VERB_WITH_TENSE)
-Progressive.add_suffix_form(u"Iyor")
-Progressive.add_suffix_form(u"mAktA")
-
-VERB_WITH_POLARITY.add_out_suffix(Future, VERB_WITH_TENSE)
-Future.add_suffix_form(u"+yAcAk")
-
-VERB_WITH_POLARITY.add_out_suffix(Narr, VERB_WITH_TENSE)
-Narr.add_suffix_form(u"mIş")
-Narr.add_suffix_form(u"ymIş")
-
-VERB_WITH_POLARITY.add_out_suffix(Past, VERB_WITH_TENSE)
-Past.add_suffix_form(u"dI")
-Past.add_suffix_form(u"ydI")
-
-VERB_WITH_POLARITY.add_out_suffix(Cond, VERB_WITH_TENSE)
-Cond.add_suffix_form(u"sA")
-
-VERB_WITH_TENSE.add_out_suffix(Cond, VERB_WITH_TENSE)
-VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
-VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
-
-############ Modals
-VERB_WITH_POLARITY.add_out_suffix(Necess, VERB_WITH_TENSE)
-Necess.add_suffix_form(u"mAlI")
-
-VERB_WITH_POLARITY.add_out_suffix(Opt, VERB_WITH_TENSE)
-Opt.add_suffix_form(u"Ay")
-Opt.add_suffix_form(u"A", ~comes_after(Negative), followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
-Opt.add_suffix_form(u"yAy")
-Opt.add_suffix_form(u"yA", None, followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) ) # TODO: add the group!
-
-############ Verb to Verb derivations
-VERB_POLARITY_DERIV.add_out_suffix(Able, VERB_WITH_POLARITY)
-Able.add_suffix_form(u"+yAbil", ~comes_after(Negative))
-Able.add_suffix_form(u"+yAmA", comes_after(Negative))
-
-VERB_POLARITY_DERIV.add_out_suffix(Hastily, VERB_ROOT)
-Hastily.add_suffix_form(u"+yIver")
-
-VERB_PLAIN_DERIV.add_out_suffix(Pass, VERB_ROOT)
-Pass.add_suffix_form(u"+In")
-Pass.add_suffix_form(u"+nIl")
-Pass.add_suffix_form(u"+InIl")
-
-VERB_PLAIN_DERIV.add_out_suffix(Caus, VERB_ROOT)
-Caus.add_suffix_form(u"t")
-Caus.add_suffix_form(u"dIr")
-
-############ Verb to Noun derivations
-VERB_POLARITY_DERIV.add_out_suffix(Inf, NOUN_ROOT)
-Inf.add_suffix_form(u"mAk")
-Inf.add_suffix_form(u"mA")
-Inf.add_suffix_form(u"+yIş")
-
-VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, NOUN_ROOT)
-VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, ADJECTIVE_ROOT)
-PastPart_Noun.add_suffix_form(u"dIk")
-
-########### Verb to Adverb derivations:
-VERB_POLARITY_DERIV.add_out_suffix(AfterDoingSo, ADVERB_ROOT)
-AfterDoingSo.add_suffix_form(u"+yIp")
-
-VERB_POLARITY_DERIV.add_out_suffix(AsLongAs, ADVERB_ROOT)
-AsLongAs.add_suffix_form(u"dIkçA")
-
-VERB_POLARITY_DERIV.add_out_suffix(ByDoingSo, ADVERB_ROOT)
-ByDoingSo.add_suffix_form(u"+yArAk")
-
-VERB_TENSE_DERIV.add_out_suffix(While, ADVERB_ROOT)
-While.add_suffix_form(u"ken")
-
-VERB_TENSE_DERIV.add_out_suffix(AsIf, ADVERB_ROOT)
-AsIf.add_suffix_form(u"cAsInA")
-
-########### Verb to Adjective derivations
-VERB_POLARITY_DERIV.add_out_suffix(PresPart, ADJECTIVE_ROOT)
-PresPart.add_suffix_form(u'An')
-
-VERB_POLARITY_DERIV.add_out_suffix(FutPart, ADJECTIVE_ROOT)
-FutPart.add_suffix_form(u'+yAcak')
-
-########### Adjective to Adverb derivations
-ADJECTIVE_DERIV.add_out_suffix(Ly, ADVERB_ROOT)
-Ly.add_suffix_form(u"cA")
-
-########### Adjective to Noun derivations
-ADJECTIVE_DERIV.add_out_suffix(Ness, NOUN_ROOT)
-Ness.add_suffix_form(u"lIk")
-
-########### Adjective to Verb derivations
-ADJECTIVE_DERIV.add_out_suffix(Become, VERB_ROOT)
-Become.add_suffix_form(u"lAş")
-
-#############  Pronoun Agreements
-PRONOUN_ROOT.add_out_suffix(A1Sg_Pron, PRONOUN_WITH_AGREEMENT)
-A1Sg_Pron.add_suffix_form("", applies_to_stem('ben') | applies_to_stem('ban'))
-
-PRONOUN_ROOT.add_out_suffix(A2Sg_Pron, PRONOUN_WITH_AGREEMENT)
-A2Sg_Pron.add_suffix_form("", applies_to_stem('sen') | applies_to_stem('san'))
-
-PRONOUN_ROOT.add_out_suffix(A3Sg_Pron, PRONOUN_WITH_AGREEMENT)
-A3Sg_Pron.add_suffix_form("", applies_to_stem('o')|applies_to_stem('bu')|applies_to_stem(u'şu'))
-
-PRONOUN_ROOT.add_out_suffix(A1Pl_Pron, PRONOUN_WITH_AGREEMENT)
-A1Pl_Pron.add_suffix_form("", applies_to_stem('biz'))
-
-PRONOUN_ROOT.add_out_suffix(A2Pl_Pron, PRONOUN_WITH_AGREEMENT)
-A2Pl_Pron.add_suffix_form("", applies_to_stem('siz'))
-
-PRONOUN_ROOT.add_out_suffix(A3Pl_Pron, PRONOUN_WITH_AGREEMENT)
-A3Pl_Pron.add_suffix_form("nlar", applies_to_stem('o')|applies_to_stem('bu')|applies_to_stem(u'şu'))
-
-########### Pronoun possessions
-PRONOUN_WITH_AGREEMENT.add_out_suffix(Pnon_Pron, PRONOUN_WITH_POSSESSION)
-Pnon_Pron.add_suffix_form("")
-
-#PRONOUN_WITH_AGREEMENT.add_out_suffix(P1Sg_Pron, PRONOUN_WITH_POSSESSION)
-#P1Sg_Pron.add_suffix_form("", comes_after())
-
-###########  Pronoun cases
-PRONOUN_WITH_POSSESSION.add_out_suffix(Nom_Pron, PRONOUN_WITH_CASE)
-Nom_Pron.add_suffix_form("")
-
-PRONOUN_WITH_POSSESSION.add_out_suffix(Acc_Pron, PRONOUN_WITH_CASE)
-Acc_Pron.add_suffix_form(u"+yI", ~comes_after(A3Sg_Pron))
-Acc_Pron.add_suffix_form(u"nI", comes_after(A3Sg_Pron) & comes_after(Pnon_Pron))
-Acc_Pron.add_suffix_form(u"leri", (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-
-PRONOUN_WITH_POSSESSION.add_out_suffix(Dat_Pron, PRONOUN_WITH_CASE)
-Dat_Pron.add_suffix_form(u"+yA", ~comes_after(A3Sg_Pron))
-Dat_Pron.add_suffix_form(u"nA", comes_after(A3Sg_Pron) & comes_after(Pnon_Pron))
-Dat_Pron.add_suffix_form(u"lere", (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-
-PRONOUN_WITH_POSSESSION.add_out_suffix(Loc_Pron, PRONOUN_WITH_CASE)
-Loc_Pron.add_suffix_form(u"dA", ~comes_after(A3Sg_Pron))
-Loc_Pron.add_suffix_form(u"ndA")
-Loc_Pron.add_suffix_form(u"lerde", (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-
-PRONOUN_WITH_POSSESSION.add_out_suffix(Abl_Pron, PRONOUN_WITH_CASE)
-Abl_Pron.add_suffix_form(u"dAn", ~comes_after(A3Sg_Pron))
-Abl_Pron.add_suffix_form(u"ndAn")
-Abl_Pron.add_suffix_form(u"lerden", (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-
-############# Pronoun case-likes
-PRONOUN_WITH_POSSESSION.add_out_suffix(Gen_Pron, PRONOUN_WITH_CASE)
-Gen_Pron.add_suffix_form(u"im", (comes_after(A1Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)))
-Gen_Pron.add_suffix_form(u"in", (comes_after(A2Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-Gen_Pron.add_suffix_form(u"nun", comes_after(A3Sg_Pron) & comes_after(Pnon_Pron))
-Gen_Pron.add_suffix_form(u"ın", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
-Gen_Pron.add_suffix_form(u"lerin", (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-
-PRONOUN_WITH_POSSESSION.add_out_suffix(Ins_Pron, PRONOUN_WITH_CASE)
-Ins_Pron.add_suffix_form(u"+ylA")
-Ins_Pron.add_suffix_form(u"imle", (comes_after(A1Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)))
-Ins_Pron.add_suffix_form(u"inle", (comes_after(A2Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
-Ins_Pron.add_suffix_form(u"nunla", comes_after(A3Sg_Pron) & comes_after(Pnon_Pron))
-Ins_Pron.add_suffix_form(u"nla", comes_after(A3Sg_Pron) & comes_after(Pnon_Pron))
-Ins_Pron.add_suffix_form(u"lerle", (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))
+def _register_noun_suffixes():
+    _register_noun_agreements()
+    _register_possessive_agreements()
+    _register_noun_cases()
+    _register_noun_to_noun_derivations()
+    _register_noun_to_verb_derivations()
+    _register_noun_to_adjective_derivations()
+
+def _register_verb_suffixes():
+    _register_verb_agreements()
+    _register_verb_polarisations()
+    _register_verb_tenses()
+    _register_modal_verbs()
+    _register_verb_to_verb_derivations()
+    _register_verb_to_noun_derivations()
+    _register_verb_to_adverb_derivations()
+    _register_verb_to_adjective_derivations()
+
+def _register_adjective_suffixes():
+    _register_adjective_to_adverb_derivations()
+    _register_adjective_to_noun_derivations()
+    _register_adjective_to_verb_derivations()
+
+def _register_pronoun_suffixes():
+    _register_pronoun_agreements()
+    _register_pronoun_possessions()
+    _register_pronoun_cases()
+
+
+def _register_noun_agreements():
+    NOUN_ROOT.add_out_suffix(A3Sg_Noun, NOUN_WITH_AGREEMENT)
+    A3Sg_Noun.add_suffix_form("")
+
+    NOUN_ROOT.add_out_suffix(A3Pl_Noun, NOUN_WITH_AGREEMENT)
+    A3Pl_Noun.add_suffix_form("lAr")
+
+def _register_possessive_agreements():
+    #TODO: rename these to Pnon_Noun etc
+    NOUN_WITH_AGREEMENT.add_out_suffix(Pnon, NOUN_WITH_POSSESSION)
+    Pnon.add_suffix_form("")
+
+    NOUN_WITH_AGREEMENT.add_out_suffix(P1Sg, NOUN_WITH_POSSESSION)
+    P1Sg.add_suffix_form("+Im")
+
+    NOUN_WITH_AGREEMENT.add_out_suffix(P2Sg, NOUN_WITH_POSSESSION)
+    P2Sg.add_suffix_form("+In")
+
+    NOUN_WITH_AGREEMENT.add_out_suffix(P3Sg, NOUN_WITH_POSSESSION)
+    P3Sg.add_suffix_form("+sI")
+
+    NOUN_WITH_AGREEMENT.add_out_suffix(P1Pl, NOUN_WITH_POSSESSION)
+    P1Pl.add_suffix_form("+ImIz")
+
+    NOUN_WITH_AGREEMENT.add_out_suffix(P2Pl, NOUN_WITH_POSSESSION)
+    P2Pl.add_suffix_form("+InIz")
+
+    NOUN_WITH_AGREEMENT.add_out_suffix(P3Pl, NOUN_WITH_POSSESSION)
+    P3Pl.add_suffix_form("lArI")
+    P3Pl.add_suffix_form("I", comes_after(A3Pl_Noun))
+
+def _register_noun_cases():
+    comes_after_P3Sg = comes_after(P3Sg)
+    doesnt_come_after_P3Sg = ~comes_after_P3Sg
+    
+    #TODO rename these to Nom_Noun etc
+    NOUN_WITH_POSSESSION.add_out_suffix(Nom, NOUN_WITH_CASE)
+    Nom.add_suffix_form("")
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Nom_Deriv, NOUN_NOM_DERIV)
+    Nom_Deriv.add_suffix_form("", comes_after(Pnon))
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Acc, NOUN_WITH_CASE)
+    Acc.add_suffix_form(u"+yI", doesnt_come_after_P3Sg)
+    Acc.add_suffix_form(u"nI", comes_after_P3Sg)
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Dat, NOUN_WITH_CASE)
+    Dat.add_suffix_form(u"+yA", doesnt_come_after_P3Sg)
+    Dat.add_suffix_form(u"nA", comes_after_P3Sg)
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Loc, NOUN_WITH_CASE)
+    Loc.add_suffix_form(u"dA", doesnt_come_after_P3Sg)
+    Loc.add_suffix_form(u"ndA")
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Abl, NOUN_WITH_CASE)
+    Abl.add_suffix_form(u"dAn", doesnt_come_after_P3Sg)
+    Abl.add_suffix_form(u"ndAn")
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Gen, NOUN_WITH_CASE)
+    Gen.add_suffix_form(u"+nIn")
+
+    NOUN_WITH_POSSESSION.add_out_suffix(Ins, NOUN_WITH_CASE)
+    Ins.add_suffix_form(u"+ylA")
+
+def _register_noun_to_noun_derivations():
+    NOUN_NOM_DERIV.add_out_suffix(Agt, NOUN_ROOT)
+    Agt.add_suffix_form(u"cI")
+
+    NOUN_NOM_DERIV.add_out_suffix(Dim, NOUN_ROOT)
+    Dim.add_suffix_form(u"cIk")
+
+def _register_noun_to_verb_derivations():
+    NOUN_NOM_DERIV.add_out_suffix(Acquire, VERB_ROOT)
+    Acquire.add_suffix_form(u"lAn")
+
+def _register_noun_to_adjective_derivations():
+    NOUN_NOM_DERIV.add_out_suffix(With, ADJECTIVE_ROOT)
+    With.add_suffix_form(u"lI")
+
+    NOUN_NOM_DERIV.add_out_suffix(Without, ADJECTIVE_ROOT)
+    Without.add_suffix_form(u"sIz")
+
+    NOUN_DERIV_WITH_CASE.add_out_suffix(Rel, ADJECTIVE_ROOT)
+    Rel.add_suffix_form(u"ki")
+
+def _register_verb_agreements():
+    VERB_WITH_TENSE.add_out_suffix(A1Sg_Verb, VERB_TERMINAL)
+    A1Sg_Verb.add_suffix_form("+Im")
+    A1Sg_Verb.add_suffix_form("yIm")   #"yap-makta-yım", gel-meli-yim
+
+    VERB_WITH_TENSE.add_out_suffix(A2Sg_Verb, VERB_TERMINAL)
+    A2Sg_Verb.add_suffix_form("n")
+    A2Sg_Verb.add_suffix_form("sIn")
+
+    VERB_WITH_TENSE.add_out_suffix(A3Sg_Verb, VERB_TERMINAL)
+    A3Sg_Verb.add_suffix_form("")
+
+    VERB_WITH_TENSE.add_out_suffix(A1Pl_Verb, VERB_TERMINAL)
+    A1Pl_Verb.add_suffix_form("+Iz", doesnt_come_after(Aorist))
+    A1Pl_Verb.add_suffix_form("k")     # only for "gel-di-k"
+    A1Pl_Verb.add_suffix_form("yIz")   # "yap-makta-yız" OR "gel-me-yiz"
+
+    VERB_WITH_TENSE.add_out_suffix(A2Pl_Verb, VERB_TERMINAL)
+    A2Pl_Verb.add_suffix_form("sInIz")
+    A2Pl_Verb.add_suffix_form("nIz")
+
+    VERB_WITH_TENSE.add_out_suffix(A3Pl_Verb, VERB_TERMINAL)
+    A3Pl_Verb.add_suffix_form("lAr")
+
+def _register_verb_polarisations():
+    VERB_ROOT.add_out_suffix(Negative, VERB_WITH_POLARITY)
+    Negative.add_suffix_form(u"m")
+    Negative.add_suffix_form(u"mA")
+    Negative.add_suffix_form(u"", postcondition=followed_by(Able))
+
+    VERB_ROOT.add_out_suffix(Positive, VERB_WITH_POLARITY)
+    Positive.add_suffix_form("")
+
+def _register_verb_tenses():
+    VERB_WITH_POLARITY.add_out_suffix(Aorist, VERB_WITH_TENSE)
+    Aorist.add_suffix_form(u"+Ir")
+    Aorist.add_suffix_form(u"+Ar")
+    Aorist.add_suffix_form(u"z", comes_after(Negative))    # gel-me-z or gel-me-z-sin
+    Aorist.add_suffix_form(u"", comes_after(Negative), followed_by(A1Sg_Verb) or followed_by(A1Pl_Verb))     # gel-me-m or gel-me-yiz
+
+    VERB_WITH_POLARITY.add_out_suffix(Progressive, VERB_WITH_TENSE)
+    Progressive.add_suffix_form(u"Iyor")
+    Progressive.add_suffix_form(u"mAktA")
+
+    VERB_WITH_POLARITY.add_out_suffix(Future, VERB_WITH_TENSE)
+    Future.add_suffix_form(u"+yAcAk")
+
+    VERB_WITH_POLARITY.add_out_suffix(Narr, VERB_WITH_TENSE)
+    Narr.add_suffix_form(u"mIş")
+    Narr.add_suffix_form(u"ymIş")
+
+    VERB_WITH_POLARITY.add_out_suffix(Past, VERB_WITH_TENSE)
+    Past.add_suffix_form(u"dI")
+    Past.add_suffix_form(u"ydI")
+
+    VERB_WITH_POLARITY.add_out_suffix(Cond, VERB_WITH_TENSE)
+    Cond.add_suffix_form(u"sA")
+
+    VERB_WITH_TENSE.add_out_suffix(Cond, VERB_WITH_TENSE)
+    VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
+    VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
+
+def _register_modal_verbs():
+    followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb)
+
+    VERB_WITH_POLARITY.add_out_suffix(Necess, VERB_WITH_TENSE)
+    Necess.add_suffix_form(u"mAlI")
+    
+    VERB_WITH_POLARITY.add_out_suffix(Opt, VERB_WITH_TENSE)
+    Opt.add_suffix_form(u"Ay")
+    Opt.add_suffix_form(u"A", doesnt_come_after(Negative), followed_by_modal_followers) # TODO: add the group!
+    Opt.add_suffix_form(u"yAy")
+    Opt.add_suffix_form(u"yA", postcondition=followed_by_modal_followers) # TODO: add the group!
+
+def _register_verb_to_verb_derivations():
+    VERB_POLARITY_DERIV.add_out_suffix(Able, VERB_WITH_POLARITY)
+    Able.add_suffix_form(u"+yAbil", doesnt_come_after(Negative))
+    Able.add_suffix_form(u"+yAmA", comes_after(Negative))
+    
+    VERB_POLARITY_DERIV.add_out_suffix(Hastily, VERB_ROOT)
+    Hastily.add_suffix_form(u"+yIver")
+    
+    VERB_PLAIN_DERIV.add_out_suffix(Pass, VERB_ROOT)
+    Pass.add_suffix_form(u"+In")
+    Pass.add_suffix_form(u"+nIl")
+    Pass.add_suffix_form(u"+InIl")
+    
+    VERB_PLAIN_DERIV.add_out_suffix(Caus, VERB_ROOT)
+    Caus.add_suffix_form(u"t")
+    Caus.add_suffix_form(u"dIr")
+
+def _register_verb_to_noun_derivations():
+    VERB_POLARITY_DERIV.add_out_suffix(Inf, NOUN_ROOT)
+    Inf.add_suffix_form(u"mAk")
+    Inf.add_suffix_form(u"mA")
+    Inf.add_suffix_form(u"+yIş")
+    
+    VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, NOUN_ROOT)
+    VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, ADJECTIVE_ROOT)
+    PastPart_Noun.add_suffix_form(u"dIk")
+
+def _register_verb_to_adverb_derivations():
+    VERB_POLARITY_DERIV.add_out_suffix(AfterDoingSo, ADVERB_ROOT)
+    AfterDoingSo.add_suffix_form(u"+yIp")
+    
+    VERB_POLARITY_DERIV.add_out_suffix(AsLongAs, ADVERB_ROOT)
+    AsLongAs.add_suffix_form(u"dIkçA")
+    
+    VERB_POLARITY_DERIV.add_out_suffix(ByDoingSo, ADVERB_ROOT)
+    ByDoingSo.add_suffix_form(u"+yArAk")
+    
+    VERB_TENSE_DERIV.add_out_suffix(While, ADVERB_ROOT)
+    While.add_suffix_form(u"ken")
+    
+    VERB_TENSE_DERIV.add_out_suffix(AsIf, ADVERB_ROOT)
+    AsIf.add_suffix_form(u"cAsInA")
+
+def _register_verb_to_adjective_derivations():
+    VERB_POLARITY_DERIV.add_out_suffix(PresPart, ADJECTIVE_ROOT)
+    PresPart.add_suffix_form(u'An')
+    
+    VERB_POLARITY_DERIV.add_out_suffix(FutPart, ADJECTIVE_ROOT)
+    FutPart.add_suffix_form(u'+yAcak')
+
+def _register_adjective_to_adverb_derivations():
+    ADJECTIVE_DERIV.add_out_suffix(Ly, ADVERB_ROOT)
+    Ly.add_suffix_form(u"cA")
+
+def _register_adjective_to_noun_derivations():
+    ADJECTIVE_DERIV.add_out_suffix(Ness, NOUN_ROOT)
+    Ness.add_suffix_form(u"lIk")
+
+def _register_adjective_to_verb_derivations():
+    ADJECTIVE_DERIV.add_out_suffix(Become, VERB_ROOT)
+    Become.add_suffix_form(u"lAş")
+
+def _register_pronoun_agreements():
+    applies_to_ben = applies_to_stem('ben') | applies_to_stem('ban')
+    applies_to_sen = applies_to_stem('sen') | applies_to_stem('san')
+    applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
+    applies_to_biz = applies_to_stem('biz')
+    applies_to_siz = applies_to_stem('siz')
+    applies_to_biz_siz = applies_to_biz | applies_to_siz
+
+    PRONOUN_ROOT.add_out_suffix(A1Sg_Pron, PRONOUN_WITH_AGREEMENT)
+    A1Sg_Pron.add_suffix_form("", applies_to_ben)
+    
+    PRONOUN_ROOT.add_out_suffix(A2Sg_Pron, PRONOUN_WITH_AGREEMENT)
+    A2Sg_Pron.add_suffix_form("", applies_to_sen)
+    
+    PRONOUN_ROOT.add_out_suffix(A3Sg_Pron, PRONOUN_WITH_AGREEMENT)
+    A3Sg_Pron.add_suffix_form("", doesnt(applies_to_ben) & doesnt(applies_to_sen) & doesnt(applies_to_biz_siz))
+    
+    PRONOUN_ROOT.add_out_suffix(A1Pl_Pron, PRONOUN_WITH_AGREEMENT)
+    A1Pl_Pron.add_suffix_form("", applies_to_biz)
+    
+    PRONOUN_ROOT.add_out_suffix(A2Pl_Pron, PRONOUN_WITH_AGREEMENT)
+    A2Pl_Pron.add_suffix_form("", applies_to_siz)
+    
+    PRONOUN_ROOT.add_out_suffix(A3Pl_Pron, PRONOUN_WITH_AGREEMENT)
+    A3Pl_Pron.add_suffix_form("nlar", applies_to_bu_su_o)
+    A3Pl_Pron.add_suffix_form("lAr", doesnt(applies_to_ben) & doesnt(applies_to_sen) & doesnt(applies_to_biz) & doesnt(applies_to_siz))
+
+def _register_pronoun_possessions():
+    doesnt_apply_to_persp = ~applies_to_stem('ben') & ~applies_to_stem('sen') & ~applies_to_stem('ban') & ~applies_to_stem('san') & ~applies_to_stem('biz') & ~applies_to_stem('siz')
+    doesnt_apply_to_demonsp = ~applies_to_stem('o') & ~applies_to_stem('bu') & ~applies_to_stem(u'şu')
+    doesnt_apply_to_persp_and_demonsp = doesnt_apply_to_demonsp & doesnt_apply_to_persp
+
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(Pnon_Pron, PRONOUN_WITH_POSSESSION)
+    Pnon_Pron.add_suffix_form("")
+    
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(P1Sg_Pron, PRONOUN_WITH_POSSESSION)
+    P1Sg_Pron.add_suffix_form("+Im", doesnt_apply_to_persp_and_demonsp)
+    
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(P2Sg_Pron, PRONOUN_WITH_POSSESSION)
+    P2Sg_Pron.add_suffix_form("+In", doesnt_apply_to_persp_and_demonsp)
+    
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(P3Sg_Pron, PRONOUN_WITH_POSSESSION)
+    P3Sg_Pron.add_suffix_form("+sI", doesnt_apply_to_persp_and_demonsp)
+    
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(P1Pl_Pron, PRONOUN_WITH_POSSESSION)
+    P1Pl_Pron.add_suffix_form("+ImIz", doesnt_apply_to_persp_and_demonsp)
+    
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(P2Pl_Pron, PRONOUN_WITH_POSSESSION)
+    P2Pl_Pron.add_suffix_form("+InIz", doesnt_apply_to_persp_and_demonsp)
+    
+    PRONOUN_WITH_AGREEMENT.add_out_suffix(P3Pl_Pron, PRONOUN_WITH_POSSESSION)
+    P3Pl_Pron.add_suffix_form("lArI", doesnt_apply_to_persp_and_demonsp)
+    P3Pl_Pron.add_suffix_form("I", comes_after(A3Pl_Pron) & doesnt_apply_to_persp_and_demonsp)
+
+def _register_pronoun_cases():
+    applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
+    doesnt_apply_to_bu_su_o = ~applies_to_bu_su_o
+
+    comes_after_biz_siz_pnon = (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron))
+    comes_after_A3Sg_pnon = comes_after(A3Sg_Pron) & comes_after(Pnon_Pron)
+
+    comes_after_bu_su_o_pnon = comes_after_A3Sg_pnon & applies_to_bu_su_o
+
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Nom_Pron, PRONOUN_WITH_CASE)
+    Nom_Pron.add_suffix_form("")
+    
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Acc_Pron, PRONOUN_WITH_CASE)
+    Acc_Pron.add_suffix_form(u"nu", comes_after_bu_su_o_pnon)   #bu-nu, su-nu, o-nu
+    Acc_Pron.add_suffix_form(u"+yI", doesnt(comes_after_bu_su_o_pnon))   #ben-i, sen-i, biz-i, siz-i, onlar-i, nere-yi, kim-i
+    Acc_Pron.add_suffix_form(u"leri", comes_after_biz_siz_pnon)     # biz-leri, siz-leri
+    
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Dat_Pron, PRONOUN_WITH_CASE)
+    Dat_Pron.add_suffix_form(u"+yA", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
+    Dat_Pron.add_suffix_form(u"+yA", doesnt_apply_to_bu_su_o)
+    Dat_Pron.add_suffix_form(u"nA", comes_after_bu_su_o_pnon)
+    Dat_Pron.add_suffix_form(u"lere", comes_after_biz_siz_pnon)
+    
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Loc_Pron, PRONOUN_WITH_CASE)
+    Loc_Pron.add_suffix_form(u"dA", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
+    Loc_Pron.add_suffix_form(u"dA", doesnt_apply_to_bu_su_o)
+    Loc_Pron.add_suffix_form(u"ndA", comes_after_bu_su_o_pnon)
+    Loc_Pron.add_suffix_form(u"lerde", comes_after_biz_siz_pnon)
+    
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Abl_Pron, PRONOUN_WITH_CASE)
+    Abl_Pron.add_suffix_form(u"dAn", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
+    Abl_Pron.add_suffix_form(u"dAn", doesnt_apply_to_bu_su_o)
+    Abl_Pron.add_suffix_form(u"ndAn", comes_after_bu_su_o_pnon)
+    Abl_Pron.add_suffix_form(u"lerden", comes_after_biz_siz_pnon)
+    
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Gen_Pron, PRONOUN_WITH_CASE)
+    Gen_Pron.add_suffix_form(u"im", (comes_after(A1Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)))    # ben-im, biz-im
+    Gen_Pron.add_suffix_form(u"in", (comes_after(A2Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))    # sen-in, siz-in
+    Gen_Pron.add_suffix_form(u"nun", comes_after_bu_su_o_pnon)      # bu-nun, su-nun, o-nun
+    Gen_Pron.add_suffix_form(u"lerin", comes_after_biz_siz_pnon)    # biz-lerin, siz-lerin
+    Gen_Pron.add_suffix_form(u"+nIn", doesnt(comes_after_bu_su_o_pnon) & (comes_after(A3Pl_Pron) | comes_after(A3Sg_Pron)))     #onlar-in, kim-in, nere-nin, kimi-miz-in
+
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Ins_Pron, PRONOUN_WITH_CASE)
+    Ins_Pron.add_suffix_form(u"imle", (comes_after(A1Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)))  # ben-imle, biz-imle
+    Ins_Pron.add_suffix_form(u"inle", (comes_after(A2Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))  # sen-inle, siz-inle
+    Ins_Pron.add_suffix_form(u"nunla", comes_after_bu_su_o_pnon)   # o-nunla, bu-nunla, su-nunla
+    Ins_Pron.add_suffix_form(u"nla", comes_after_bu_su_o_pnon)     # o-nla, bu-nla, su-nla
+    Ins_Pron.add_suffix_form(u"lerle", comes_after_biz_siz_pnon)   # biz-lerle, siz-lerle
+    Ins_Pron.add_suffix_form(u"+ylA")    # onlar-la, nere-yle, kim-le
+
+def _register_suffixes():
+    _register_noun_suffixes()
+    _register_verb_suffixes()
+    _register_adjective_suffixes()
+    _register_pronoun_suffixes()
+
+
+_register_suffixes()

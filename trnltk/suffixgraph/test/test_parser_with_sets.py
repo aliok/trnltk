@@ -5,7 +5,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.stem.dictionaryitem import  PrimaryPosition
+from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, CircumflexConvertingStemGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
@@ -119,13 +119,43 @@ class ParserTestWithSets(unittest.TestCase):
 
         root = result.stem.dictionary_item.root
 
-        if not groups:
-            return u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
+        secondary_position_str = None
 
-        if not groups[0]:
+        ##TODO:
+        if result.stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN:
+            if result.stem.dictionary_item.secondary_position==SecondaryPosition.PERSONAL:
+                secondary_position_str = "PersP"
+            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.DEMONSTRATIVE:
+                secondary_position_str = "DemonsP"
+            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.QUESTION:
+                secondary_position_str = "QuesP"
+
+
+        if not groups:
+            if not secondary_position_str:
+                return u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
+            else:
+                return u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str)
+
+
+
+        return_value = None
+
+        if not secondary_position_str:
             return_value = u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
         else:
-            return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, u'+'.join(groups[0]))
+            return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str)
+
+        if not groups[0]:
+            if not secondary_position_str:
+                return_value = u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
+            else:
+                return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str)
+        else:
+            if not secondary_position_str:
+                return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, u'+'.join(groups[0]))
+            else:
+                return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str, u'+'.join(groups[0]))
 
 
         for i in range(1, len(groups)):

@@ -13557,7 +13557,7 @@ kilovat [A:NoVoicing]
 kilovolt [A:NoVoicing]
 kils
 kilüs
-kim [P:Pron]
+kim [P:Pron, Ques]
 kim [P:Conj]
 kimi [P:Det]
 kimi [P:Pron]
@@ -17488,7 +17488,7 @@ neoplâzma
 neozoik
 Neptün
 neptünyum
-nere
+nere [P:Pron, Ques]
 nergis
 nergisgiller
 neritik
