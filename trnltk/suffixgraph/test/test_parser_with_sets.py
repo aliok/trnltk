@@ -13,13 +13,10 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
 #TODO
 cases_to_skip = {
-    u'+Interj',
     u'+Zero',
     u'+Pres+',
     u'_',
-    u'+PersP+',
     u'PCNom',
-    u"+Conj",
     u'Adj+PastPart+',
     u'Adj+FutPart+',
     u'"Noun+FutPart',
@@ -60,7 +57,7 @@ class ParserTestWithSets(unittest.TestCase):
             if di.primary_position in [
                 PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
                 PrimaryPosition.ADJECTIVE, PrimaryPosition.PRONOUN,
-                PrimaryPosition.DETERMINER, PrimaryPosition.PUNCTUATION]:
+                PrimaryPosition.DETERMINER, PrimaryPosition.INTERJECTION, PrimaryPosition.CONJUNCTION, PrimaryPosition.PUNCTUATION]:
 
                 cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 

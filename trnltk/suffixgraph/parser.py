@@ -301,6 +301,10 @@ class Parser:
             return PRONOUN_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.DETERMINER:
             return DETERMINER_ROOT_TERMINAL
+        elif stem.dictionary_item.primary_position==PrimaryPosition.INTERJECTION:
+            return INTERJECTION_ROOT_TERMINAL
+        elif stem.dictionary_item.primary_position==PrimaryPosition.CONJUNCTION:
+            return CONJUNCTION_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:
             return PUNC_ROOT_TERMINAL
         else:
