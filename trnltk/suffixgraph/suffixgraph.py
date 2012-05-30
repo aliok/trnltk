@@ -73,6 +73,11 @@ class FreeTransitionSuffix(Suffix):
         self.add_suffix_form("")
         from_state.add_out_suffix(self, to_state)
 
+class ZeroTransitionSuffix(Suffix):
+    def __init__(self, name, from_state, to_state, pretty_name="Zero"):
+        Suffix.__init__(self, name, 0 if from_state.type==State.DERIV else 999, None, pretty_name)
+        self.add_suffix_form("")
+        from_state.add_out_suffix(self, to_state)
 
 class SuffixForm:
     def __init__(self, form, precondition=None, postcondition=None):
@@ -124,6 +129,9 @@ INTERJECTION_ROOT_TERMINAL = State("INTERJECTION_ROOT_TERMINAL", "Interj", State
 
 CONJUNCTION_ROOT_TERMINAL = State("CONJUNCTION_ROOT_TERMINAL", "Conj", State.TERMINAL)
 
+NUMERAL_ROOT = State("NUMERAL_ROOT", "Num", State.TRANSFER)
+NUMERAL_DERIV = State("NUMERAL_DERIV", "Num", State.DERIV)
+
 PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", 'Punc', State.TERMINAL)
 
 ALL_STATES = {
@@ -135,6 +143,7 @@ ALL_STATES = {
     DETERMINER_ROOT_TERMINAL,
     INTERJECTION_ROOT_TERMINAL,
     CONJUNCTION_ROOT_TERMINAL,
+    NUMERAL_ROOT, NUMERAL_DERIV,
     PUNC_ROOT_TERMINAL
 }
 
@@ -148,6 +157,9 @@ FreeTransitionSuffix("Adj_Free_Transition_1", ADJECTIVE_ROOT, ADJECTIVE_TERMINAL
 FreeTransitionSuffix("Adj_Free_Transition_2", ADJECTIVE_ROOT, ADJECTIVE_DERIV)
 FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
 FreeTransitionSuffix("Pronoun_Free_Transition", PRONOUN_WITH_CASE, PRONOUN_TERMINAL)
+FreeTransitionSuffix("Numeral_Free_Transition", NUMERAL_ROOT, NUMERAL_DERIV)
+ZeroTransitionSuffix("Numeral_Zero_Transition", NUMERAL_DERIV, ADJECTIVE_ROOT)
+#TODO: transition from numeral to adverb for case "birer birer geldiler?" hmm maybe duplication caused an adj->adv transition?
 
 #############  Noun Agreements
 Noun_Agreements_Group = SuffixGroup("Noun_Agreements_Group")

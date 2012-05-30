@@ -305,6 +305,8 @@ class Parser:
             return INTERJECTION_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.CONJUNCTION:
             return CONJUNCTION_ROOT_TERMINAL
+        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL:
+            return NUMERAL_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:
             return PUNC_ROOT_TERMINAL
         else:

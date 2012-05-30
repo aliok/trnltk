@@ -22,7 +22,6 @@ cases_to_skip = {
     u'"Noun+FutPart',
     u'+Prop+',
     u'Verb+Able+Neg',
-    u'+Num+',
     u'herkes',      ## should be Pron on the parsesets
     u'hepsi',
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
@@ -56,7 +55,8 @@ class ParserTestWithSets(unittest.TestCase):
             if di.primary_position in [
                 PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
                 PrimaryPosition.ADJECTIVE, PrimaryPosition.PRONOUN,
-                PrimaryPosition.DETERMINER, PrimaryPosition.INTERJECTION, PrimaryPosition.CONJUNCTION, PrimaryPosition.PUNCTUATION]:
+                PrimaryPosition.DETERMINER, PrimaryPosition.INTERJECTION, PrimaryPosition.CONJUNCTION,
+                PrimaryPosition.NUMERAL,  PrimaryPosition.PUNCTUATION]:
 
                 cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
@@ -137,6 +137,10 @@ class ParserTestWithSets(unittest.TestCase):
                 secondary_position_str = "DemonsP"
             elif result.stem.dictionary_item.secondary_position==SecondaryPosition.QUESTION:
                 secondary_position_str = "QuesP"
+
+        if result.stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL:
+            if result.stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
+                secondary_position_str = "Card"
 
 
         if not groups:

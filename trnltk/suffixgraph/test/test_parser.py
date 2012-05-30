@@ -21,7 +21,8 @@ class ParserTest(unittest.TestCase):
             if di.primary_position in [
                 PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
                 PrimaryPosition.ADJECTIVE, PrimaryPosition.PRONOUN,
-                PrimaryPosition.DETERMINER, PrimaryPosition.PUNCTUATION]:
+                PrimaryPosition.DETERMINER, PrimaryPosition.INTERJECTION, PrimaryPosition.CONJUNCTION,
+                PrimaryPosition.NUMERAL,  PrimaryPosition.PUNCTUATION]:
 
                 cls.all_stems.extend(StemGenerator.generate(di))
 
@@ -554,6 +555,11 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'söylemeyin',        u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yIn[yin])')
         self.assert_parse_correct(u'söylemeyiniz',      u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yInIz[yiniz])')
         self.assert_parse_correct(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
+
+    def test_should_parse_some_numerals(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self.assert_parse_correct(u'iki',               u'iki(iki)+Num+Card+Adj+Zero')
+        self.assert_parse_correct(u'sekiz',             u'sekiz(sekiz)+Num+Card+Adj+Zero')
 
 
     def assert_parse_correct(self, word_to_parse, *args):
