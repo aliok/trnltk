@@ -530,6 +530,32 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'kimlerimize',       u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Dat(+yA[e])')
         self.assert_parse_correct(u'kimlerimizin',      u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])')
 
+    def test_should_parse_some_imperatives(self):
+        self.assert_parse_correct(u'gel',               u'gel(gelmek)+Verb+Pos+Imp+A2sg')
+        self.assert_parse_correct(u'gelsin',            u'gel(gelmek)+Verb+Pos+Imp+A3sg(sIn[sin])')
+        self.assert_parse_correct(u'gelin',             u'gel(gelmek)+Verb+Pos+Imp+A2pl(+yIn[in])', u'gelin(gelin)+Noun+A3sg+Pnon+Nom', u'gel(gelmek)+Verb+Verb+Pass(+In[in])+Pos+Imp+A2sg')
+        self.assert_parse_correct(u'geliniz',           u'gel(gelmek)+Verb+Pos+Imp+A2pl(+yInIz[iniz])')
+        self.assert_parse_correct(u'gelsinler',         u'gel(gelmek)+Verb+Pos+Imp+A3pl(sInlAr[sinler])')
+
+        self.assert_parse_correct(u'gelme',             u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A2sg', u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'gelmesin',          u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A3sg(sIn[sin])')
+        self.assert_parse_correct(u'gelmeyin',          u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A2pl(+yIn[yin])')
+        self.assert_parse_correct(u'gelmeyiniz',        u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A2pl(+yInIz[yiniz])')
+        self.assert_parse_correct(u'gelmesinler',       u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
+
+        self.assert_parse_correct(u'söyle',             u'söyle(söylemek)+Verb+Pos+Imp+A2sg')
+        self.assert_parse_correct(u'söylesin',          u'söyle(söylemek)+Verb+Pos+Imp+A3sg(sIn[sin])')
+        self.assert_parse_correct(u'söyleyin',          u'söyle(söylemek)+Verb+Pos+Imp+A2pl(+yIn[yin])')
+        self.assert_parse_correct(u'söyleyiniz',        u'söyle(söylemek)+Verb+Pos+Imp+A2pl(+yInIz[yiniz])')
+        self.assert_parse_correct(u'söylesinler',       u'söyle(söylemek)+Verb+Pos+Imp+A3pl(sInlAr[sinler])')
+
+        self.assert_parse_correct(u'söyleme',           u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2sg', u'söylem(söylem)+Noun+A3sg+Pnon+Dat(+yA[e])', u'söyle(söylemek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'söylemesin',        u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3sg(sIn[sin])')
+        self.assert_parse_correct(u'söylemeyin',        u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yIn[yin])')
+        self.assert_parse_correct(u'söylemeyiniz',      u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yInIz[yiniz])')
+        self.assert_parse_correct(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
+
+
     def assert_parse_correct(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
 

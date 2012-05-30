@@ -210,6 +210,7 @@ Narr = Suffix("Narr", 15)
 Past = Suffix("Past", 20)
 
 Cond = Suffix("Cond", 30)
+Imp = Suffix("Imp", 10)
 
 ############ Modals
 Necess = Suffix("Necess", 10)
@@ -395,30 +396,6 @@ def _register_noun_to_adjective_derivations():
     NOUN_DERIV_WITH_CASE.add_out_suffix(Rel, ADJECTIVE_ROOT)
     Rel.add_suffix_form(u"ki")
 
-def _register_verb_agreements():
-    VERB_WITH_TENSE.add_out_suffix(A1Sg_Verb, VERB_TERMINAL)
-    A1Sg_Verb.add_suffix_form("+Im")
-    A1Sg_Verb.add_suffix_form("yIm")   #"yap-makta-yım", gel-meli-yim
-
-    VERB_WITH_TENSE.add_out_suffix(A2Sg_Verb, VERB_TERMINAL)
-    A2Sg_Verb.add_suffix_form("n")
-    A2Sg_Verb.add_suffix_form("sIn")
-
-    VERB_WITH_TENSE.add_out_suffix(A3Sg_Verb, VERB_TERMINAL)
-    A3Sg_Verb.add_suffix_form("")
-
-    VERB_WITH_TENSE.add_out_suffix(A1Pl_Verb, VERB_TERMINAL)
-    A1Pl_Verb.add_suffix_form("+Iz", doesnt_come_after(Aorist))
-    A1Pl_Verb.add_suffix_form("k")     # only for "gel-di-k"
-    A1Pl_Verb.add_suffix_form("yIz")   # "yap-makta-yız" OR "gel-me-yiz"
-
-    VERB_WITH_TENSE.add_out_suffix(A2Pl_Verb, VERB_TERMINAL)
-    A2Pl_Verb.add_suffix_form("sInIz")
-    A2Pl_Verb.add_suffix_form("nIz")
-
-    VERB_WITH_TENSE.add_out_suffix(A3Pl_Verb, VERB_TERMINAL)
-    A3Pl_Verb.add_suffix_form("lAr")
-
 def _register_verb_polarisations():
     VERB_ROOT.add_out_suffix(Negative, VERB_WITH_POLARITY)
     Negative.add_suffix_form(u"m")
@@ -453,9 +430,44 @@ def _register_verb_tenses():
     VERB_WITH_POLARITY.add_out_suffix(Cond, VERB_WITH_TENSE)
     Cond.add_suffix_form(u"sA")
 
+    VERB_WITH_POLARITY.add_out_suffix(Imp, VERB_WITH_TENSE)
+    Imp.add_suffix_form(u"", postcondition=followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) | followed_by(A2Pl_Verb) | followed_by(A3Pl_Verb))
+
     VERB_WITH_TENSE.add_out_suffix(Cond, VERB_WITH_TENSE)
     VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
     VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
+
+def _register_verb_agreements():
+    comes_after_imperative = comes_after(Imp)
+    doesnt_come_after_imperative = doesnt(comes_after_imperative)
+
+    VERB_WITH_TENSE.add_out_suffix(A1Sg_Verb, VERB_TERMINAL)
+    A1Sg_Verb.add_suffix_form("+Im")
+    A1Sg_Verb.add_suffix_form("yIm")   #"yap-makta-yım", gel-meli-yim
+
+    VERB_WITH_TENSE.add_out_suffix(A2Sg_Verb, VERB_TERMINAL)
+    A2Sg_Verb.add_suffix_form("n", doesnt_come_after_imperative)
+    A2Sg_Verb.add_suffix_form("sIn", doesnt_come_after_imperative)
+    A2Sg_Verb.add_suffix_form("", comes_after_imperative)
+
+    VERB_WITH_TENSE.add_out_suffix(A3Sg_Verb, VERB_TERMINAL)
+    A3Sg_Verb.add_suffix_form("", doesnt_come_after_imperative)
+    A3Sg_Verb.add_suffix_form("sIn", comes_after_imperative)
+
+    VERB_WITH_TENSE.add_out_suffix(A1Pl_Verb, VERB_TERMINAL)
+    A1Pl_Verb.add_suffix_form("+Iz")
+    A1Pl_Verb.add_suffix_form("k")     # only for "gel-di-k"
+    A1Pl_Verb.add_suffix_form("yIz")   # "yap-makta-yız" OR "gel-me-yiz"
+
+    VERB_WITH_TENSE.add_out_suffix(A2Pl_Verb, VERB_TERMINAL)
+    A2Pl_Verb.add_suffix_form("sInIz", doesnt_come_after_imperative)
+    A2Pl_Verb.add_suffix_form("nIz", doesnt_come_after_imperative)
+    A2Pl_Verb.add_suffix_form("+yIn", comes_after_imperative)
+    A2Pl_Verb.add_suffix_form("+yInIz", comes_after_imperative)
+
+    VERB_WITH_TENSE.add_out_suffix(A3Pl_Verb, VERB_TERMINAL)
+    A3Pl_Verb.add_suffix_form("lAr", doesnt_come_after_imperative)
+    A3Pl_Verb.add_suffix_form("sInlAr", comes_after_imperative)
 
 def _register_modal_verbs():
     followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb)

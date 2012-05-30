@@ -22,7 +22,6 @@ cases_to_skip = {
     u'"Noun+FutPart',
     u'+Prop+',
     u'Verb+Able+Neg',
-    u'+Imp+',
     u'+Num+',
     u'herkes',      ## should be Pron on the parsesets
     u'hepsi',
