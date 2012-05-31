@@ -25536,7 +25536,6 @@ yürük
 yürümek
 yürürlük
 yürüteç
-yürütmek
 yüsrü
 yüz
 yüz [P:Num, Card]

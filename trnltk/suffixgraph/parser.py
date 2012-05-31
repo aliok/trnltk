@@ -83,7 +83,10 @@ class ParseToken:
 
     def get_attributes(self):      ##TODO: rename it!
         if self.transitions and any(t.suffix_form_application.applied_suffix_form for t in self.transitions):
-            return None
+            if self.get_last_state().name.startswith("VERB_") and self.get_last_state().type==State.DERIV:  #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
+                return [RootAttribute.NoVoicing]
+            else:
+                return None
         else:
             return self.stem.dictionary_item.attributes
 

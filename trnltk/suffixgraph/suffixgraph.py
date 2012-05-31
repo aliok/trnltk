@@ -234,7 +234,7 @@ Inf = Suffix("Inf")
 PastPart_Noun = Suffix("PastPart_Noun", pretty_name='PastPart')
 
 ############ Verb to Verb derivations
-Able = Suffix("Able", 10)
+Able = Suffix("Able")
 Pass = Suffix("Pass")
 Caus = Suffix("Caus")
 Hastily = Suffix("Hastily")
@@ -418,7 +418,6 @@ def _register_verb_polarisations():
     VERB_ROOT.add_out_suffix(Negative, VERB_WITH_POLARITY)
     Negative.add_suffix_form(u"m", postcondition=doesnt(followed_by_suffix(that_goes_to(State.DERIV))))
     Negative.add_suffix_form(u"mA")
-    Negative.add_suffix_form(u"", postcondition=followed_by(Able))
 
     VERB_ROOT.add_out_suffix(Positive, VERB_WITH_POLARITY)
     Positive.add_suffix_form("")
@@ -500,9 +499,9 @@ def _register_modal_verbs():
     Opt.add_suffix_form(u"yA", postcondition=followed_by_modal_followers) # TODO: add the group!
 
 def _register_verb_to_verb_derivations():
-    VERB_POLARITY_DERIV.add_out_suffix(Able, VERB_WITH_POLARITY)
-    Able.add_suffix_form(u"+yAbil", doesnt_come_after(Negative))
-    Able.add_suffix_form(u"+yAmA", comes_after(Negative))
+    VERB_PLAIN_DERIV.add_out_suffix(Able, VERB_ROOT)
+    Able.add_suffix_form(u"+yAbil", postcondition=doesnt(followed_by(Negative)))
+    Able.add_suffix_form(u"+yA", postcondition=followed_by(Negative))
     
     VERB_POLARITY_DERIV.add_out_suffix(Hastily, VERB_ROOT)
     Hastily.add_suffix_form(u"+yIver")

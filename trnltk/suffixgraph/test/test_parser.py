@@ -382,14 +382,14 @@ class ParserTest(unittest.TestCase):
 
     def test_should_parse_modals(self):
         parser_logger.setLevel(logging.DEBUG)
-        self.assert_parse_correct(u'eleyebilirim',      u'ele(elemek)+Verb+Pos+Verb+Able(+yAbil[yebil])+Aor(+Ir[ir])+A1sg(+Im[im])')
-        self.assert_parse_correct(u'eleyemem',          u'ele(elemek)+Verb+Neg+Verb+Able(+yAmA[yeme])+Aor+A1sg(+Im[m])')
-        self.assert_parse_correct(u'eleyemezsin',       u'ele(elemek)+Verb+Neg+Verb+Able(+yAmA[yeme])+Aor(z[z])+A2sg(sIn[sin])')
-        self.assert_parse_correct(u'yapamazdım',        u'yap(yapmak)+Verb+Neg+Verb+Able(+yAmA[ama])+Aor(z[z])+Past(dI[dı])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'eleyemeyeceğim',    u'ele(elemek)+Verb+Neg+Verb+Able(+yAmA[yeme])+Fut(+yAcAk[yeceğ])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'eleyebilirim',      u'ele(elemek)+Verb+Verb+Able(+yAbil[yebil])+Pos+Aor(+Ir[ir])+A1sg(+Im[im])')
+        self.assert_parse_correct(u'eleyemem',          u'ele(elemek)+Verb+Verb+Able(+yA[ye])+Neg(mA[me])+Aor+A1sg(+Im[m])')
+        self.assert_parse_correct(u'eleyemezsin',       u'ele(elemek)+Verb+Verb+Able(+yA[ye])+Neg(mA[me])+Aor(z[z])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'yapamazdım',        u'yap(yapmak)+Verb+Verb+Able(+yA[a])+Neg(mA[ma])+Aor(z[z])+Past(dI[dı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'eleyemeyeceğim',    u'ele(elemek)+Verb+Verb+Able(+yA[ye])+Neg(mA[me])+Fut(+yAcAk[yeceğ])+A1sg(+Im[im])')
 
-        self.assert_parse_correct(u'yapabilirdim',      u'yap(yapmak)+Verb+Pos+Verb+Able(+yAbil[abil])+Aor(+Ir[ir])+Past(dI[di])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'yapabileceksin',    u'yap(yapmak)+Verb+Pos+Verb+Able(+yAbil[abil])+Fut(+yAcAk[ecek])+A2sg(sIn[sin])')
+        self.assert_parse_correct(u'yapabilirdim',      u'yap(yapmak)+Verb+Verb+Able(+yAbil[abil])+Pos+Aor(+Ir[ir])+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yapabileceksin',    u'yap(yapmak)+Verb+Verb+Able(+yAbil[abil])+Pos+Fut(+yAcAk[ecek])+A2sg(sIn[sin])')
 
         self.assert_parse_correct(u'yapmalıyım',        u'yap(yapmak)+Verb+Pos+Necess(mAlI[malı])+A1sg(yIm[yım])')
         self.assert_parse_correct(u'yapmalıydım',       u'yap(yapmak)+Verb+Pos+Necess(mAlI[malı])+Past(ydI[ydı])+A1sg(+Im[m])')
@@ -402,8 +402,8 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'eleyesin',          u'ele(elemek)+Verb+Pos+Opt(yA[ye])+A2sg(sIn[sin])')
         self.assert_parse_correct(u'elemeyeydim',       u'ele(elemek)+Verb+Neg(mA[me])+Opt(yAy[yey])+Past(dI[di])+A1sg(+Im[m])', u'ele(elemek)+Verb+Neg(mA[me])+Opt(yA[ye])+Past(ydI[ydi])+A1sg(+Im[m])')
 
-        self.assert_parse_correct(u'eleyebilmeliydim',  u'ele(elemek)+Verb+Pos+Verb+Able(+yAbil[yebil])+Necess(mAlI[meli])+Past(ydI[ydi])+A1sg(+Im[m])')
-        self.assert_parse_correct(u'eleyememeliydi',    u'ele(elemek)+Verb+Neg+Verb+Able(+yAmA[yeme])+Necess(mAlI[meli])+Past(ydI[ydi])+A3sg')
+        self.assert_parse_correct(u'eleyebilmeliydim',  u'ele(elemek)+Verb+Verb+Able(+yAbil[yebil])+Pos+Necess(mAlI[meli])+Past(ydI[ydi])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'eleyememeliydi',    u'ele(elemek)+Verb+Verb+Able(+yA[ye])+Neg(mA[me])+Necess(mAlI[meli])+Past(ydI[ydi])+A3sg')
 
     def test_should_possessives(self):
         self.assert_parse_correct(u'kalemim',           u'kalem(kalem)+Noun+A3sg+P1sg(+Im[im])+Nom')
