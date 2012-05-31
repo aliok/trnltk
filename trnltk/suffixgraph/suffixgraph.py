@@ -121,6 +121,7 @@ PRONOUN_ROOT = State("PRONOUN_ROOT", 'Pron', State.TRANSFER)
 PRONOUN_WITH_AGREEMENT = State("PRONOUN_WITH_AGREEMENT", 'Pron', State.TRANSFER)
 PRONOUN_WITH_POSSESSION = State("PRONOUN_WITH_POSSESSION", 'Pron', State.TRANSFER)
 PRONOUN_WITH_CASE = State("PRONOUN_WITH_CASE", 'Pron', State.TRANSFER)
+PRONOUN_NOM_DERIV = State("PRONOUN_NOM_DERIV", 'Pron', State.DERIV)
 PRONOUN_TERMINAL = State("PRONOUN_TERMINAL", 'Pron', State.TERMINAL)
 
 DETERMINER_ROOT_TERMINAL = State("DETERMINER_ROOT_TERMINAL", "Det", State.TERMINAL)
@@ -139,7 +140,7 @@ ALL_STATES = {
     VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV,
     ADJECTIVE_ROOT, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV,
-    PRONOUN_ROOT, PRONOUN_WITH_AGREEMENT, PRONOUN_WITH_POSSESSION, PRONOUN_WITH_CASE, PRONOUN_TERMINAL,
+    PRONOUN_ROOT, PRONOUN_WITH_AGREEMENT, PRONOUN_WITH_POSSESSION, PRONOUN_WITH_CASE, PRONOUN_TERMINAL, PRONOUN_NOM_DERIV,
     DETERMINER_ROOT_TERMINAL,
     INTERJECTION_ROOT_TERMINAL,
     CONJUNCTION_ROOT_TERMINAL,
@@ -281,6 +282,7 @@ P3Pl_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P3pl')
 ###########  Pronoun cases
 Pronoun_Case_Group = SuffixGroup('Pronoun_Case_Group')
 Nom_Pron = Suffix("Nom", 99, Pronoun_Case_Group)
+Nom_Pron_Deriv = Suffix("Nom_Pron_Deriv", 99, Pronoun_Case_Group, pretty_name="Nom")
 Acc_Pron = Suffix("Acc", 99, Pronoun_Case_Group)
 Dat_Pron = Suffix("Dat", 99, Pronoun_Case_Group)
 Loc_Pron = Suffix("Loc", 99, Pronoun_Case_Group)
@@ -289,6 +291,9 @@ Abl_Pron = Suffix("Abl", 99, Pronoun_Case_Group)
 ############# Pronoun case-likes
 Gen_Pron = Suffix("Gen", 99, Pronoun_Case_Group)
 Ins_Pron = Suffix("Ins", 99, Pronoun_Case_Group)
+
+############# Pronoun to Adjective derivations
+Without_Pron = Suffix("Without_Pron", pretty_name="Without")
 
 ###########################################################################
 ############################## Forms ######################################
@@ -321,6 +326,7 @@ def _register_pronoun_suffixes():
     _register_pronoun_agreements()
     _register_pronoun_possessions()
     _register_pronoun_cases()
+    _register_pronoun_to_adjective_suffixes()
 
 
 def _register_noun_agreements():
@@ -623,6 +629,9 @@ def _register_pronoun_cases():
 
     PRONOUN_WITH_POSSESSION.add_out_suffix(Nom_Pron, PRONOUN_WITH_CASE)
     Nom_Pron.add_suffix_form("")
+
+    PRONOUN_WITH_POSSESSION.add_out_suffix(Nom_Pron_Deriv, PRONOUN_NOM_DERIV)
+    Nom_Pron_Deriv.add_suffix_form("", comes_after(Pnon_Pron))
     
     PRONOUN_WITH_POSSESSION.add_out_suffix(Acc_Pron, PRONOUN_WITH_CASE)
     Acc_Pron.add_suffix_form(u"nu", comes_after_bu_su_o_pnon)   #bu-nu, su-nu, o-nu
@@ -661,6 +670,17 @@ def _register_pronoun_cases():
     Ins_Pron.add_suffix_form(u"nla", comes_after_bu_su_o_pnon)     # o-nla, bu-nla, su-nla
     Ins_Pron.add_suffix_form(u"lerle", comes_after_biz_siz_pnon)   # biz-lerle, siz-lerle
     Ins_Pron.add_suffix_form(u"+ylA")    # onlar-la, nere-yle, kim-le
+
+def _register_pronoun_to_adjective_suffixes():
+    applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
+
+    comes_after_A3Sg_pnon = comes_after(A3Sg_Pron) & comes_after(Pnon_Pron)
+
+    comes_after_bu_su_o_pnon = comes_after_A3Sg_pnon & applies_to_bu_su_o
+
+    PRONOUN_NOM_DERIV.add_out_suffix(Without_Pron, ADJECTIVE_ROOT)
+    Without_Pron.add_suffix_form(u"sIz", doesnt(comes_after_bu_su_o_pnon))  # ben-siz, onlar-siz
+    Without_Pron.add_suffix_form(u"nsuz", comes_after_bu_su_o_pnon)         # o-nsuz, bu-nsuz, su-nsuz
 
 def _register_suffixes():
     _register_noun_suffixes()

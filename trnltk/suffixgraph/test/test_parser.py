@@ -531,6 +531,19 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'kimlerimize',       u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Dat(+yA[e])')
         self.assert_parse_correct(u'kimlerimizin',      u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])')
 
+    def test_should_parse_pronouns(self):
+        self.assert_parse_correct(u'bensiz',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Adj+Without(sIz[siz])', u'ben(ben)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[siz])')
+        self.assert_parse_correct(u'sensiz',            u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom+Adj+Without(sIz[siz])')
+        self.assert_parse_correct(u'onsuz',             u'o(o)+Pron+Pers+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])', u'o(o)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])')
+        self.assert_parse_correct(u'bizsiz',            u'biz(biz)+Pron+Pers+A1pl+Pnon+Nom+Adj+Without(sIz[siz])', u'biz(biz)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[siz])')
+        self.assert_parse_correct(u'sizsiz',            u'siz(siz)+Pron+Pers+A2pl+Pnon+Nom+Adj+Without(sIz[siz])')
+        self.assert_parse_correct(u'onlarsız',          u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])')
+
+        self.assert_parse_correct(u'bunsuz',             u'bu(bu)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])', u'bun(bun)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])')
+        self.assert_parse_correct(u'şunsuz',             u'şu(şu)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])')
+        self.assert_parse_correct(u'bunlarsız',          u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])', u'bun(bun)+Noun+A3pl(lAr[lar])+Pnon+Nom+Adj+Without(sIz[s\u0131z])')
+        self.assert_parse_correct(u'şunlarsız',          u'şu(şu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])')
+
     def test_should_parse_some_imperatives(self):
         self.assert_parse_correct(u'gel',               u'gel(gelmek)+Verb+Pos+Imp+A2sg')
         self.assert_parse_correct(u'gelsin',            u'gel(gelmek)+Verb+Pos+Imp+A3sg(sIn[sin])')
