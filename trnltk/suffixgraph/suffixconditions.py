@@ -70,6 +70,8 @@ class HasOne(SuffixFormCondition):
     def __str__(self):
         return u'has_one({})'.format(self._suffix)
 
+    def __repr__(self):
+        return self.__str__()
 
 class AppliesToStem(SuffixFormCondition):
     def __init__(self, stem_str):
@@ -83,6 +85,28 @@ class AppliesToStem(SuffixFormCondition):
     def __str__(self):
         return u'applies_to_stem({})'.format(self._stem_str)
 
+    def __repr__(self):
+        return self.__str__()
+
+class SuffixGoesTo(SuffixFormCondition):
+    def __init__(self, state_type):
+        self._state_type = state_type
+
+    def matches(self, parse_token):
+        if not parse_token or not parse_token.transitions:
+            return False
+
+        if not parse_token.transitions[-1]:
+            return False
+
+        return parse_token.transitions[-1].to_state.type==self._state_type
+
+    def __str__(self):
+        return u'suffix_goes_to({})'.format(self._state_type)
+
+    def __repr__(self):
+        return self.__str__()
+
 def comes_after(suffix):
     return HasOne(suffix)
 
@@ -95,6 +119,12 @@ def doesnt_come_after(suffix):
 
 def followed_by(suffix):
     return HasOne(suffix)
+
+def followed_by_suffix(condition):
+    return condition
+
+def that_goes_to(state_type):
+    return SuffixGoesTo(state_type)
 
 def applies_to_stem(stem_str):
     return AppliesToStem(stem_str)

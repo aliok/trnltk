@@ -1,5 +1,5 @@
 # coding=utf-8
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to
 
 MAX_RANK = 99999
 
@@ -361,8 +361,8 @@ def _register_possessive_agreements():
     P3Pl.add_suffix_form("I", comes_after(A3Pl_Noun))
 
 def _register_noun_cases():
-    comes_after_P3Sg = comes_after(P3Sg)
-    doesnt_come_after_P3Sg = ~comes_after_P3Sg
+    comes_after_P3 = comes_after(P3Sg) | comes_after(P3Pl)
+    doesnt_come_after_P3 = ~comes_after_P3
     
     #TODO rename these to Nom_Noun etc
     NOUN_WITH_POSSESSION.add_out_suffix(Nom, NOUN_WITH_CASE)
@@ -372,19 +372,19 @@ def _register_noun_cases():
     Nom_Deriv.add_suffix_form("", comes_after(Pnon))
 
     NOUN_WITH_POSSESSION.add_out_suffix(Acc, NOUN_WITH_CASE)
-    Acc.add_suffix_form(u"+yI", doesnt_come_after_P3Sg)
-    Acc.add_suffix_form(u"nI", comes_after_P3Sg)
+    Acc.add_suffix_form(u"+yI", doesnt_come_after_P3)
+    Acc.add_suffix_form(u"nI", comes_after_P3)
 
     NOUN_WITH_POSSESSION.add_out_suffix(Dat, NOUN_WITH_CASE)
-    Dat.add_suffix_form(u"+yA", doesnt_come_after_P3Sg)
-    Dat.add_suffix_form(u"nA", comes_after_P3Sg)
+    Dat.add_suffix_form(u"+yA", doesnt_come_after_P3)
+    Dat.add_suffix_form(u"nA", comes_after_P3)
 
     NOUN_WITH_POSSESSION.add_out_suffix(Loc, NOUN_WITH_CASE)
-    Loc.add_suffix_form(u"dA", doesnt_come_after_P3Sg)
+    Loc.add_suffix_form(u"dA", doesnt_come_after_P3)
     Loc.add_suffix_form(u"ndA")
 
     NOUN_WITH_POSSESSION.add_out_suffix(Abl, NOUN_WITH_CASE)
-    Abl.add_suffix_form(u"dAn", doesnt_come_after_P3Sg)
+    Abl.add_suffix_form(u"dAn", doesnt_come_after_P3)
     Abl.add_suffix_form(u"ndAn")
 
     NOUN_WITH_POSSESSION.add_out_suffix(Gen, NOUN_WITH_CASE)
@@ -416,7 +416,7 @@ def _register_noun_to_adjective_derivations():
 
 def _register_verb_polarisations():
     VERB_ROOT.add_out_suffix(Negative, VERB_WITH_POLARITY)
-    Negative.add_suffix_form(u"m")
+    Negative.add_suffix_form(u"m", postcondition=doesnt(followed_by_suffix(that_goes_to(State.DERIV))))
     Negative.add_suffix_form(u"mA")
     Negative.add_suffix_form(u"", postcondition=followed_by(Able))
 

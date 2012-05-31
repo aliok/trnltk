@@ -381,6 +381,7 @@ class ParserTest(unittest.TestCase):
 #        self.assert_parse_correct(u'yaparlardı',        u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Past(dI[dı])+A3sg')    ##TODO
 
     def test_should_parse_modals(self):
+        parser_logger.setLevel(logging.DEBUG)
         self.assert_parse_correct(u'eleyebilirim',      u'ele(elemek)+Verb+Pos+Verb+Able(+yAbil[yebil])+Aor(+Ir[ir])+A1sg(+Im[im])')
         self.assert_parse_correct(u'eleyemem',          u'ele(elemek)+Verb+Neg+Verb+Able(+yAmA[yeme])+Aor+A1sg(+Im[m])')
         self.assert_parse_correct(u'eleyemezsin',       u'ele(elemek)+Verb+Neg+Verb+Able(+yAmA[yeme])+Aor(z[z])+A2sg(sIn[sin])')
@@ -426,7 +427,12 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'sandalyelerinizden',u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2pl(+InIz[iniz])+Abl(dAn[den])')
 
         self.assert_parse_correct(u'sandalyeleri',      u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Nom', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Nom')   # TODO
-        self.assert_parse_correct(u'sandalyelerini',    u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Acc(+yI[i])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Acc(nI[ni])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Acc(nI[ni])')
+        self.assert_parse_correct(u'sandalyelerini',    u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Acc(+yI[i])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Acc(nI[ni])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Acc(nI[ni])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Acc(nI[ni])')
+        self.assert_parse_correct(u'sandalyelerine',    u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Dat(+yA[e])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Dat(nA[ne])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Dat(nA[ne])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Dat(nA[ne])')
+        self.assert_parse_correct(u'sandalyelerinde',   u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Loc(dA[de])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Loc(ndA[nde])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Loc(ndA[nde])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Loc(ndA[nde])')
+        self.assert_parse_correct(u'sandalyelerinin',   u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Gen(+nIn[in])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Gen(+nIn[nin])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Gen(+nIn[nin])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Gen(+nIn[nin])')
+        self.assert_parse_correct(u'sandalyeleriyle',   u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Ins(+ylA[yle])', u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Ins(+ylA[yle])', u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Ins(+ylA[yle])')
+        self.assert_parse_correct(u'sandalyelerinle',   u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Ins(+ylA[le])')
 
     def test_should_parse_some_adverbs(self):
         self.assert_parse_correct(u'aceleten',          u'aceleten(aceleten)+Adv')
@@ -570,10 +576,33 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
 
     def test_should_parse_some_numerals(self):
-        parser_logger.setLevel(logging.DEBUG)
         self.assert_parse_correct(u'iki',               u'iki(iki)+Num+Card+Adj+Zero')
         self.assert_parse_correct(u'sekiz',             u'sekiz(sekiz)+Num+Card+Adj+Zero')
 
+    def test_should_parse_verb_to_noun_derivations(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self.assert_parse_correct(u'yapmak',            u'yap(yapmak)+Verb+Pos+Noun+Inf(mAk[mak])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yapma',             u'yap(yapmak)+Verb+Neg(mA[ma])+Imp+A2sg', u'yap(yapmak)+Verb+Pos+Noun+Inf(mA[ma])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yapış',             u'yapış(yapışmak)+Verb+Pos+Imp+A2sg', u'yap(yapmak)+Verb+Pos+Noun+Inf(+yIş[ış])+A3sg+Pnon+Nom')
+
+        self.assert_parse_correct(u'gelmek',            u'gel(gelmek)+Verb+Pos+Noun+Inf(mAk[mek])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'gelme',             u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A2sg', u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'geliş',             u'geliş(gelişmek)+Verb+Pos+Imp+A2sg', u'gel(gelmek)+Verb+Pos+Noun+Inf(+yIş[iş])+A3sg+Pnon+Nom')
+
+        self.assert_parse_correct(u'söylemek',          u'söyle(söylemek)+Verb+Pos+Noun+Inf(mAk[mek])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'söyleme',           u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2sg', u'söylem(söylem)+Noun+A3sg+Pnon+Dat(+yA[e])', u'söyle(söylemek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'söyleyiş',          u'söyle(söylemek)+Verb+Pos+Noun+Inf(+yIş[yiş])+A3sg+Pnon+Nom')
+
+        self.assert_parse_correct(u'yapmamak',          u'yap(yapmak)+Verb+Neg(mA[ma])+Noun+Inf(mAk[mak])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yapmama',           u'yap(yapmak)+Verb+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom', u'yap(yapmak)+Verb+Pos+Noun+Inf(mA[ma])+A3sg+P1sg(+Im[m])+Dat(+yA[a])')
+        self.assert_parse_correct(u'yapmayış',          u'yap(yapmak)+Verb+Neg(mA[ma])+Noun+Inf(+yIş[yış])+A3sg+Pnon+Nom')
+
+        self.assert_parse_correct(u'gelmemek',          u'gel(gelmek)+Verb+Neg(mA[me])+Noun+Inf(mAk[mek])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'gelmeyiş',          u'gel(gelmek)+Verb+Neg(mA[me])+Noun+Inf(+yIş[yiş])+A3sg+Pnon+Nom')
+
+        self.assert_parse_correct(u'söylememek',        u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(mAk[mek])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'söylememe',         u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(mA[me])+A3sg+Pnon+Nom', u'söyle(söylemek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+P1sg(+Im[m])+Dat(+yA[e])')
+        self.assert_parse_correct(u'söylemeyiş',        u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(+yIş[yiş])+A3sg+Pnon+Nom')
 
     def assert_parse_correct(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
