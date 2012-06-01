@@ -74,8 +74,8 @@ class DictionaryLoaderTest(unittest.TestCase):
         item = DictionaryLoader._crate_dictionary_item_from_line(u'yemek')
         assert_that(item, equal_to(DictionaryItem(u"yemek", u"yemek", None, None, None)))
 
-        item = DictionaryLoader._crate_dictionary_item_from_line(u'ürkmek [A:Causative_t]')
-        assert_that(item, equal_to(DictionaryItem(u"ürkmek", u"ürkmek", None, None, [RootAttribute.Causative_t])))
+        item = DictionaryLoader._crate_dictionary_item_from_line(u'ürkmek [A:Causative_It]')
+        assert_that(item, equal_to(DictionaryItem(u"ürkmek", u"ürkmek", None, None, [RootAttribute.Causative_It])))
 
     def test_should_not_set_position_and_lemma_if_position_is_set_already(self):
         item_org = DictionaryItem(u'elma', u'elma', PrimaryPosition.NOUN, None, None)
@@ -122,34 +122,50 @@ class DictionaryLoaderTest(unittest.TestCase):
         PI = RootAttribute.Passive_In
         AA = RootAttribute.Aorist_A
         AI = RootAttribute.Aorist_I
-        CT = RootAttribute.Causative_t
         VO = RootAttribute.Voicing
         NVO = RootAttribute.NoVoicing
 
+        C_T = RootAttribute.Causative_t
+        C_IR = RootAttribute.Causative_Ir
+        C_IT = RootAttribute.Causative_It
+        C_AR = RootAttribute.Causative_Ar
+        C_DIR = RootAttribute.Causative_dIr
 
-        item = DictionaryItem(u'gitmek', u'git', PrimaryPosition.VERB, None, [VO])
+        item = DictionaryItem(u'gitmek', u'git', PrimaryPosition.VERB, None, [VO, C_DIR])
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'gitmek', u'git', PrimaryPosition.VERB, None, [VO, AA])))
+        assert_that(item, equal_to(DictionaryItem(u'gitmek', u'git', PrimaryPosition.VERB, None, [VO, C_DIR, AA])))
 
-        item = DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI])
+        item = DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI, C_DIR])
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI, PI, NVO])))
+        assert_that(item, equal_to(DictionaryItem(u'gelmek', u'gel', PrimaryPosition.VERB, None, [AI, C_DIR, PI, NVO])))
 
-        item = DictionaryItem(u'atmak', u'at', PrimaryPosition.VERB, None, [NVO])
+        item = DictionaryItem(u'atmak', u'at', PrimaryPosition.VERB, None, [NVO, C_DIR])
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'atmak', u'at', PrimaryPosition.VERB, None, [NVO, AA])))
+        assert_that(item, equal_to(DictionaryItem(u'atmak', u'at', PrimaryPosition.VERB, None, [NVO, C_DIR, AA])))
 
         item = DictionaryItem(u'atamak', u'ata', PrimaryPosition.VERB, None, None)
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'atamak', u'ata', PrimaryPosition.VERB, None, [PVD, PI, AI, CT, NVO])))
+        assert_that(item, equal_to(DictionaryItem(u'atamak', u'ata', PrimaryPosition.VERB, None, [PVD, PI, AI, C_T, NVO])))
 
         item = DictionaryItem(u'dolamak', u'dola', PrimaryPosition.VERB, None, None)
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'dolamak', u'dola', PrimaryPosition.VERB, None, [PVD, PI, AI, CT, NVO])))
+        assert_that(item, equal_to(DictionaryItem(u'dolamak', u'dola', PrimaryPosition.VERB, None, [PVD, PI, AI, C_T, NVO])))
 
         item = DictionaryItem(u'tanımak', u'tanı', PrimaryPosition.VERB, None, [AI])
         DictionaryLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(DictionaryItem(u'tanımak', u'tanı', PrimaryPosition.VERB, None, [AI, PVD, PI, AI, CT, NVO])))
+        assert_that(item, equal_to(DictionaryItem(u'tanımak', u'tanı', PrimaryPosition.VERB, None, [AI, PVD, PI, AI, C_T, NVO])))
+
+        item = DictionaryItem(u'getirmek', u'getir', PrimaryPosition.VERB, None, [AI])
+        DictionaryLoader._infer_morphemic_attributes(item)
+        assert_that(item, equal_to(DictionaryItem(u'getirmek', u'getir', PrimaryPosition.VERB, None, [AI, AI, C_T, NVO])))
+
+        item = DictionaryItem(u'ürkmek', u'ürk', PrimaryPosition.VERB, None, [C_IT])
+        DictionaryLoader._infer_morphemic_attributes(item)
+        assert_that(item, equal_to(DictionaryItem(u'ürkmek', u'ürk', PrimaryPosition.VERB, None, [C_IT, AA, NVO])))
+
+        item = DictionaryItem(u'ağlamak', u'ağla', PrimaryPosition.VERB, None, None)
+        DictionaryLoader._infer_morphemic_attributes(item)
+        assert_that(item, equal_to(DictionaryItem(u'ağlamak', u'ağla', PrimaryPosition.VERB, None, [PVD, PI, AI, C_T, NVO])))
 
     def test_should_load_dictionary_from_str(self):
         dictionary_content = u'''
@@ -171,13 +187,13 @@ class DictionaryLoaderTest(unittest.TestCase):
             ad
             ad [P:Noun; A:Doubling, InverseHarmony]
             addetmek [A:Voicing, Aorist_A]
-            addolmak
+            addolmak [A:Causative_dIr]
             ahlat [A:NoVoicing, Plural]
             akşam [P:Noun, Time; S:+Rel_ki]
-            atamak
+            atamak [A:Causative_It]
             yemek [P:Noun]
-            yemek
-            ürkmek [A:Causative_t]
+            yemek [A:Causative_dIr]
+            ürkmek [A:Causative_It]
         '''
         dictionary_lines = dictionary_content.split('\n')
         dictionary_lines = [l.strip() for l in dictionary_lines]
@@ -204,14 +220,14 @@ class DictionaryLoaderTest(unittest.TestCase):
         assert_that(dictionary_items, has_item(DictionaryItem(u'açık', u'açık', PrimaryPosition.ADJECTIVE, None, [RootAttribute.Voicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'ad', u'ad', PrimaryPosition.NOUN, None, [RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'ad', u'ad', PrimaryPosition.NOUN, None, [RootAttribute.Doubling, RootAttribute.InverseHarmony, RootAttribute.NoVoicing])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'addetmek', u'addet', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Voicing])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'addolmak', u'addol', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_t, RootAttribute.NoVoicing, RootAttribute.Passive_In])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'addetmek', u'addet', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_dIr, RootAttribute.Voicing])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'addolmak', u'addol', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_dIr, RootAttribute.NoVoicing, RootAttribute.Passive_In])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'ahlat', u'ahlat', PrimaryPosition.NOUN, None, [RootAttribute.NoVoicing, RootAttribute.Plural])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'akşam', u'akşam', PrimaryPosition.NOUN, SecondaryPosition.TIME, [RootAttribute.NoVoicing])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'atamak', u'ata', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_t, RootAttribute.NoVoicing, RootAttribute.Passive_In, RootAttribute.ProgressiveVowelDrop])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'atamak', u'ata', PrimaryPosition.VERB, None, [RootAttribute.Aorist_I, RootAttribute.Causative_It, RootAttribute.NoVoicing, RootAttribute.Passive_In, RootAttribute.ProgressiveVowelDrop])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'yemek', u'yemek', PrimaryPosition.NOUN, None, [RootAttribute.Voicing])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'yemek', u'ye', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_t, RootAttribute.NoVoicing, RootAttribute.Passive_In, RootAttribute.ProgressiveVowelDrop])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'ürkmek', u'ürk', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_t, RootAttribute.NoVoicing])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'yemek', u'ye', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_dIr, RootAttribute.NoVoicing, RootAttribute.Passive_In, RootAttribute.ProgressiveVowelDrop])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'ürkmek', u'ürk', PrimaryPosition.VERB, None, [RootAttribute.Aorist_A, RootAttribute.Causative_It, RootAttribute.NoVoicing])))
 
 
     def test_should_validate_master_dict(self):

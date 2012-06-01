@@ -24326,7 +24326,7 @@ uzviyet [A:NoVoicing]
 üretmek
 Ürgüp
 ürkek [P:Adj]
-ürkmek [A:Causative_t]
+ürkmek [A:Causative_It]
 ürkü
 ürkünç
 ürküntü

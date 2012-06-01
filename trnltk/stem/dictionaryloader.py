@@ -115,8 +115,13 @@ class DictionaryLoader:
             if last_letter==TurkishAlphabet.L_l:
                 dictionary_item.attributes.append(RootAttribute.Passive_In)
 
-            if last_letter.vowel or (last_letter in [TurkishAlphabet.L_l, TurkishAlphabet.L_r]) and root_vowel_count>1:
-                dictionary_item.attributes.append(RootAttribute.Causative_t)
+            if all(a not in dictionary_item.attributes for a in RootAttribute.CAUSATIVES):
+                if last_letter.vowel or (last_letter in [TurkishAlphabet.L_l, TurkishAlphabet.L_r]) and root_vowel_count>1:
+                    dictionary_item.attributes.append(RootAttribute.Causative_t)
+                elif last_letter==TurkishAlphabet.L_t and root_vowel_count<2:
+                    dictionary_item.attributes.append(RootAttribute.Causative_Ir)
+                else:
+                    dictionary_item.attributes.append(RootAttribute.Causative_dIr)
 
             if RootAttribute.ProgressiveVowelDrop in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.NoVoicing)

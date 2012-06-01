@@ -49,15 +49,24 @@ class RootAttribute:
     Passive_In = "Passive_In"
     CompoundP3sg = "CompoundP3sg"
     Compound = "Compound"
-    Causative_t = "Causative_t"
     Reflexive = "Reflexive"
     Reciprocal = "Reciprocal"
     NoSuffix = "NoSuffix"
 
+    Causative_t = "Causative_t"
+    Causative_Ir = "Causative_Ir"
+    Causative_It = "Causative_It"
+    Causative_Ar = "Causative_Ar"
+    Causative_dIr = "Causative_dIr"
+
     ALL = sorted({
         Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, StemChange, NounConsInsert, NounConsInsert_n,
         NoQuote, Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, NonTransitive, Passive_In, CompoundP3sg, Compound,
-        Causative_t, Reflexive, Reciprocal, NoSuffix
+        Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, Reflexive, Reciprocal, NoSuffix
+    })
+
+    CAUSATIVES = sorted({
+        Causative_t, Causative_Ir, Causative_It, Causative_Ar, Causative_dIr
     })
 
 class DictionaryItem:
