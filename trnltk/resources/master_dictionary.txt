@@ -3443,7 +3443,6 @@ bitik [P:Adj; A:NoVoicing]
 bitim
 bitirim [P:Adj]
 bitirimhane
-bitirmek
 bitişik
 bitişik [P:Adj]
 bitişken [P:Adj]
@@ -3453,7 +3452,7 @@ bitkin [P:Adj]
 bitkisel
 bitlemek
 Bitlis
-bitmek
+bitmek [A:Aorist_A]
 bitnik
 bitpazarı [A:CompoundP3sg; R:bitpazar]
 bittabi [P:Adv]
@@ -5021,9 +5020,7 @@ cüzzam
 çıkarcı [P:Adj]
 çıkarma
 çıkarsama
-çıkarmak
 çıkarım
-çıkartmak
 çıkı
 çıkık
 çıkık [P:Adj]
@@ -6582,7 +6579,6 @@ dolay
 dolayı [P:Adj]
 dolayı [P:Adv]
 dolayısıyla [P:Adv]
-doldurmak
 dolgu
 dolgun [P:Adj]
 dolikosefal [A:InverseHarmony]
@@ -6954,7 +6950,6 @@ düzce [P:Adj]
 Düzce
 düzelmek
 düzelti
-düzeltmek
 düzeltmen
 düzen
 düzenbaz [P:Adj]
@@ -12337,7 +12332,6 @@ kaparo
 kaparoz
 kaparozlamak
 kapasite
-kapatmak
 kapçak
 kapçık
 kapelâ
@@ -24330,7 +24324,6 @@ uzviyet [A:NoVoicing]
 ürkü
 ürkünç
 ürküntü
-ürkütmek
 ürolog
 üroloji
 ürpermek
@@ -25359,7 +25352,6 @@ yirmi [P:Num, Card]
 yirmigen
 yitik [P:Adj]
 yitim
-yitirmek
 yitmek
 yiv
 yivaçar

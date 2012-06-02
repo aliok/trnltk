@@ -604,6 +604,32 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'söylememe',         u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(mA[me])+A3sg+Pnon+Nom', u'söyle(söylemek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+P1sg(+Im[m])+Dat(+yA[e])')
         self.assert_parse_correct(u'söylemeyiş',        u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(+yIş[yiş])+A3sg+Pnon+Nom')
 
+    def test_should_parse_causatives(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self.assert_parse_correct(u'düzelttim',         u'düzel(düzelmek)+Verb+Verb+Caus(t[t])+Pos+Past(dI[ti])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'çevirttim',         u'çevir(çevirmek)+Verb+Verb+Caus(t[t])+Pos+Past(dI[ti])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'kapattım',          u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Pos+Past(dI[tı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'bitirdim',          u'bit(bitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yitirdim',          u'yit(yitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'ürküttüm',          u'ürk(ürkmek)+Verb+Verb+Caus(It[üt])+Pos+Past(dI[tü])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'çıkardım',          u'çık(çıkmak)+Verb+Pos+Aor(+Ar[ar])+Past(dI[dı])+A1sg(+Im[m])', u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Pos+Past(dI[dı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'ettirdim',          u'et(etmek)+Verb+Verb+Caus(dIr[tir])+Pos+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yaptırdım',         u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Pos+Past(dI[dı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'doldurdum',         u'dol(dolmak)+Verb+Verb+Caus(dIr[dur])+Pos+Past(dI[du])+A1sg(+Im[m])')
+
+    def test_should_parse_double_causatives(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self.assert_parse_correct(u'düzelttirdim',      u'düzel(düzelmek)+Verb+Verb+Caus(t[t])+Pos+Past(dI[ti])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'çevirttirdim',      u'çevir(çevirmek)+Verb+Verb+Caus(t[t])+Pos+Past(dI[ti])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'kapattırdım',       u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Pos+Past(dI[tı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'bitirttim',         u'bit(bitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yitirttim',         u'yit(yitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'ürküttürdüm',       u'ürk(ürkmek)+Verb+Verb+Caus(It[üt])+Pos+Past(dI[tü])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'çıkarttım',         u'çık(çıkmak)+Verb+Pos+Aor(+Ar[ar])+Past(dI[dı])+A1sg(+Im[m])', u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Pos+Past(dI[dı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'ettirttim',         u'et(etmek)+Verb+Verb+Caus(dIr[tir])+Pos+Past(dI[di])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'yaptırtım',         u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Pos+Past(dI[dı])+A1sg(+Im[m])')
+        self.assert_parse_correct(u'doldurttum',        u'dol(dolmak)+Verb+Verb+Caus(dIr[dur])+Pos+Past(dI[du])+A1sg(+Im[m])')
+
     def assert_parse_correct(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
 

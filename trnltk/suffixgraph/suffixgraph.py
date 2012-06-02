@@ -1,97 +1,9 @@
 # coding=utf-8
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to
+from trnltk.stem.dictionaryitem import RootAttribute
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute
+from trnltk.suffixgraph.suffixgraphmodel import *
 
 MAX_RANK = 99999
-
-class State:
-    TERMINAL = "TERMINAL"
-    TRANSFER = "TRANSFER"
-    DERIV = "DERIVATIONAL"
-
-    def __init__(self, name, pretty_name, type):
-        self.name = name
-        self.pretty_name = pretty_name
-        self.outputs = [] #(suffix, out_state) tuples
-        self.type = type
-
-    def add_out_suffix(self, suffix, to_state):
-        self.outputs.append((suffix, to_state))
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return repr(self.name)
-
-class SuffixGroup:
-    def __init__(self, name):
-        self.name = name
-        self.suffixes = []
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return repr(self.name)
-
-class Suffix:
-    def __init__(self, name, rank=0, group=None, pretty_name=None):
-        self.name = name
-        self.suffix_forms = []
-        self.rank = rank
-        self.group = None
-        self.pretty_name = pretty_name or name
-
-        if group:
-            self.group = group
-            group.suffixes.append(self)
-
-    def add_suffix_form(self, suffix_form, precondition=None, postcondition=None):
-        form = None
-        if type(suffix_form) is str or type(suffix_form) is unicode:
-            form = SuffixForm(suffix_form, precondition, postcondition)
-        elif type(suffix_form) is SuffixForm:
-            assert precondition is None and  postcondition is None
-        else:
-            raise Exception("Unknown type for suffixForm" + repr(suffix_form))
-
-        form.suffix=self
-        self.suffix_forms.append(form)
-
-    def __str__(self):
-        return "{}({})".format(self.name, self.rank)
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __eq__(self, other):
-        return self.name==other.name
-
-class FreeTransitionSuffix(Suffix):
-    def __init__(self, name, from_state, to_state):
-        Suffix.__init__(self, name, 0 if from_state.type==State.DERIV else 999, None)
-        self.add_suffix_form("")
-        from_state.add_out_suffix(self, to_state)
-
-class ZeroTransitionSuffix(Suffix):
-    def __init__(self, name, from_state, to_state, pretty_name="Zero"):
-        Suffix.__init__(self, name, 0 if from_state.type==State.DERIV else 999, None, pretty_name)
-        self.add_suffix_form("")
-        from_state.add_out_suffix(self, to_state)
-
-class SuffixForm:
-    def __init__(self, form, precondition=None, postcondition=None):
-        self.form = form
-        self.suffix = None
-        self.precondition = precondition
-        self.postcondition = postcondition
-
-    def __str__(self):
-        return self.form
-
-    def __repr__(self):
-        return repr(self.form)
-
 
 NOUN_ROOT = State("NOUN_ROOT", 'Noun', State.TRANSFER)
 NOUN_WITH_AGREEMENT = State("NOUN_WITH_AGREEMENT", 'Noun', State.TRANSFER)
@@ -424,7 +336,7 @@ def _register_verb_polarisations():
 
 def _register_verb_tenses():
     VERB_WITH_POLARITY.add_out_suffix(Aorist, VERB_WITH_TENSE)
-    Aorist.add_suffix_form(u"+Ir")
+    Aorist.add_suffix_form(u"+Ir", requires_root_attribute(RootAttribute.Aorist_I))
     Aorist.add_suffix_form(u"+Ar")
     Aorist.add_suffix_form(u"z", comes_after(Negative))    # gel-me-z or gel-me-z-sin
     Aorist.add_suffix_form(u"", comes_after(Negative), followed_by(A1Sg_Verb) or followed_by(A1Pl_Verb))     # gel-me-m or gel-me-yiz
@@ -512,8 +424,11 @@ def _register_verb_to_verb_derivations():
     Pass.add_suffix_form(u"+InIl")
     
     VERB_PLAIN_DERIV.add_out_suffix(Caus, VERB_ROOT)
-    Caus.add_suffix_form(u"t")
-    Caus.add_suffix_form(u"dIr")
+    Caus.add_suffix_form(u"t", requires_root_attribute(RootAttribute.Causative_t))
+    Caus.add_suffix_form(u"Ir", requires_root_attribute(RootAttribute.Causative_Ir))
+    Caus.add_suffix_form(u"It", requires_root_attribute(RootAttribute.Causative_It))
+    Caus.add_suffix_form(u"Ar", requires_root_attribute(RootAttribute.Causative_Ar))
+    Caus.add_suffix_form(u"dIr", requires_root_attribute(RootAttribute.Causative_dIr))
 
 def _register_verb_to_noun_derivations():
     VERB_POLARITY_DERIV.add_out_suffix(Inf, NOUN_ROOT)

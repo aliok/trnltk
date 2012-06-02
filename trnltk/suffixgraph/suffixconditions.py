@@ -1,3 +1,5 @@
+from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
+
 __author__ = 'ali'
 
 class SuffixFormCondition:
@@ -107,6 +109,28 @@ class SuffixGoesTo(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
+class RequiresRootAttributes(SuffixFormCondition):
+    def __init__(self, root_attrs):
+        self._root_attrs = root_attrs
+
+    def matches(self, parse_token):
+        if not parse_token:
+            return False
+
+        if not parse_token.get_suffixes_since_derivation_suffix() or not filter(lambda s : not isinstance(s, FreeTransitionSuffix), parse_token.get_suffixes_since_derivation_suffix()):
+            return True
+
+        if not parse_token.stem.dictionary_item.attributes:
+            return False
+
+        return all(r in parse_token.stem.dictionary_item.attributes for r in self._root_attrs)
+
+    def __str__(self):
+        return u'requires_root_attributes({})'.format(self._root_attrs)
+
+    def __repr__(self):
+        return self.__str__()
+
 def comes_after(suffix):
     return HasOne(suffix)
 
@@ -128,3 +152,9 @@ def that_goes_to(state_type):
 
 def applies_to_stem(stem_str):
     return AppliesToStem(stem_str)
+
+def requires_root_attributes(root_attrs):
+    return RequiresRootAttributes(root_attrs)
+
+def requires_root_attribute(root_attr):
+    return requires_root_attributes([root_attr])
