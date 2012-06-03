@@ -1,4 +1,4 @@
-from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
+from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix, ZeroTransitionSuffix
 
 __author__ = 'ali'
 
@@ -18,6 +18,9 @@ class SuffixFormCondition:
     def __str__(self):
         raise NotImplementedError( "Should have implemented this" )
 
+    def __repr__(self):
+        raise NotImplementedError( "Should have implemented this" )
+
 class And(SuffixFormCondition):
     def __init__(self, conditions):
         self._conditions = conditions
@@ -31,6 +34,9 @@ class And(SuffixFormCondition):
 
     def __str__(self):
         return u' & '.join(repr(c) for c in self._conditions)
+
+    def __repr__(self):
+        return self.__str__()
 
 class Or(SuffixFormCondition):
     def __init__(self, conditions):
@@ -46,6 +52,9 @@ class Or(SuffixFormCondition):
     def __str__(self):
         return u' | '.join(repr(c) for c in self._conditions)
 
+    def __repr__(self):
+        return self.__str__()
+
 class Invert(SuffixFormCondition):
     def __init__(self, condition):
         self._condition = condition
@@ -56,9 +65,13 @@ class Invert(SuffixFormCondition):
     def __str__(self):
         return u'~'+repr(self._condition)
 
+    def __repr__(self):
+        return self.__str__()
+
 class HasOne(SuffixFormCondition):
-    def __init__(self, _suffix):
+    def __init__(self, _suffix, _form_str=None):
         self._suffix = _suffix
+        self._form_str = _form_str
 
     def matches(self, parse_token):
         if not parse_token:
@@ -67,10 +80,48 @@ class HasOne(SuffixFormCondition):
         if not since_derivation_suffix:
             return False
 
-        return self._suffix in since_derivation_suffix
+        if self._form_str:
+            transitions_since_derivation_suffix = parse_token.get_transitions_since_derivation_suffix()
+            if any([transition.suffix_form_application.suffix_form.suffix==self._suffix and transition.suffix_form_application.suffix_form.form==self._form_str
+                        for transition in transitions_since_derivation_suffix]):
+                return True
+            else:
+                return False
+        else:
+            return self._suffix in since_derivation_suffix
 
     def __str__(self):
-        return u'has_one({})'.format(self._suffix)
+        if self._form_str:
+            return u'has_one({}[{}])'.format(self._suffix, self._form_str)
+        else:
+            return u'has_one({})'.format(self._suffix)
+
+    def __repr__(self):
+        return self.__str__()
+
+class HasLastDerivation(SuffixFormCondition):
+    def __init__(self, _suffix, _form_str=None):
+        self._suffix = _suffix
+        self._form_str = _form_str
+
+    def matches(self, parse_token):
+        if not parse_token:
+            return False
+        last_derivation_transition = parse_token.get_last_derivation_transition()
+        if not last_derivation_transition:
+            return False
+
+        if self._form_str:
+            return last_derivation_transition.suffix_form_application.suffix_form.suffix==self._suffix \
+                and last_derivation_transition.suffix_form_application.suffix_form.form==self._form_str
+        else:
+            return last_derivation_transition.suffix_form_application.suffix_form.suffix==self._suffix
+
+    def __str__(self):
+        if self._form_str:
+            return u'has_last_derivation({}[{}])'.format(self._suffix, self._form_str)
+        else:
+            return u'has_last_derivation({})'.format(self._suffix)
 
     def __repr__(self):
         return self.__str__()
@@ -117,7 +168,12 @@ class RequiresRootAttributes(SuffixFormCondition):
         if not parse_token:
             return False
 
-        if not parse_token.get_suffixes_since_derivation_suffix() or not filter(lambda s : not isinstance(s, FreeTransitionSuffix), parse_token.get_suffixes_since_derivation_suffix()):
+        transitions = parse_token.transitions
+        transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
+        transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
+        transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
+
+        if transitions:
             return True
 
         if not parse_token.stem.dictionary_item.attributes:
@@ -131,15 +187,20 @@ class RequiresRootAttributes(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-def comes_after(suffix):
-    return HasOne(suffix)
+def comes_after(suffix, form_str=None):
+    return HasOne(suffix, form_str)
 
+def comes_after_derivation(suffix, form_str=None):
+    return HasLastDerivation(suffix, form_str)
 
 def doesnt(condition):
     return ~condition
 
-def doesnt_come_after(suffix):
-    return doesnt(comes_after(suffix))
+def doesnt_come_after(suffix, form_str=None):
+    return doesnt(comes_after(suffix, form_str))
+
+def doesnt_come_after_derivation(suffix, form_str=None):
+    return doesnt(comes_after_derivation(suffix, form_str))
 
 def followed_by(suffix):
     return HasOne(suffix)

@@ -31,12 +31,13 @@ class SuffixGroup:
         return repr(self.name)
 
 class Suffix:
-    def __init__(self, name, rank=0, group=None, pretty_name=None):
+    def __init__(self, name, rank=0, group=None, pretty_name=None, allow_repetition=False):
         self.name = name
         self.suffix_forms = []
         self.rank = rank
         self.group = None
         self.pretty_name = pretty_name or name
+        self.allow_repetition = allow_repetition
 
         if group:
             self.group = group

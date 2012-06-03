@@ -64,12 +64,19 @@ class ParseToken:
         else:
             return self.stem_state
 
-    def get_last_derivation_suffix(self):
+    def get_last_derivation_transition(self):
         for transition in reversed(self.transitions):
             if transition.from_state.type==State.DERIV:
-                return transition.suffix_form_application.suffix_form.suffix
+                return transition
 
         return None
+
+    def get_last_derivation_suffix(self):
+        transition = self.get_last_derivation_transition()
+        if transition:
+            return transition.suffix_form_application.suffix_form.suffix
+        else:
+            return None
 
     def get_suffixes_since_derivation_suffix(self):
         result = []
@@ -81,9 +88,19 @@ class ParseToken:
 
         return result
 
+    def get_transitions_since_derivation_suffix(self):
+        result = []
+        for transition in reversed(self.transitions):
+            if transition.from_state.type==State.DERIV:
+                break
+            else:
+                result.append(transition)
+
+        return result
+
     def get_attributes(self):      ##TODO: rename it!
         if self.transitions and any(t.suffix_form_application.applied_suffix_form for t in self.transitions):
-            if self.get_last_state().name.startswith("VERB_") and self.get_last_state().type==State.DERIV:  #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
+            if self.get_last_state().name.startswith("VERB_") and self.get_last_state().type==State.DERIV:   #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
                 return [RootAttribute.NoVoicing]
             else:
                 return None
@@ -222,7 +239,7 @@ class Parser:
             logger.debug('    Groups since last derivation are : %s', self._get_suffix_groups_since_last_derivation(token))
             return False
 
-        if token.get_last_derivation_suffix() and token.get_last_derivation_suffix()==suffix:
+        if not suffix.allow_repetition and token.get_last_derivation_suffix() and token.get_last_derivation_suffix()==suffix:
             logger.debug('    The last derivation suffix is same with the suffix, skipping.')
             return False
 
@@ -233,7 +250,7 @@ class Parser:
             return None
 
         applied_str = Phonetics.apply(token.so_far, suffix_form.form, token.get_attributes())
-        if Phonetics.application_matches(word, applied_str):
+        if Phonetics.application_matches(word, applied_str, to_state.name!='VERB_ROOT'):
             applied_suffix_form = word[len(token.so_far):len(applied_str)]
             logger.debug('      Word "%s" starts with applied str "%s" (%s), adding to current token', word, applied_str, applied_suffix_form)
             clone = token.clone()

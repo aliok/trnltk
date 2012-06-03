@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 MAX_RANK = 99999
@@ -65,7 +65,7 @@ FreeTransitionSuffix("Noun_Free_Transition_1", NOUN_WITH_CASE, NOUN_TERMINAL)
 FreeTransitionSuffix("Noun_Free_Transition_2", NOUN_WITH_CASE, NOUN_DERIV_WITH_CASE)
 FreeTransitionSuffix("Verb_Free_Transition_1", VERB_ROOT, VERB_PLAIN_DERIV)
 FreeTransitionSuffix("Verb_Free_Transition_2", VERB_WITH_POLARITY, VERB_POLARITY_DERIV)
-FreeTransitionSuffix("Verb_Free_Transition_2", VERB_WITH_TENSE, VERB_TENSE_DERIV)
+FreeTransitionSuffix("Verb_Free_Transition_3", VERB_WITH_TENSE, VERB_TENSE_DERIV)
 FreeTransitionSuffix("Adj_Free_Transition_1", ADJECTIVE_ROOT, ADJECTIVE_TERMINAL)
 FreeTransitionSuffix("Adj_Free_Transition_2", ADJECTIVE_ROOT, ADJECTIVE_DERIV)
 FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
@@ -148,7 +148,7 @@ PastPart_Noun = Suffix("PastPart_Noun", pretty_name='PastPart')
 ############ Verb to Verb derivations
 Able = Suffix("Able")
 Pass = Suffix("Pass")
-Caus = Suffix("Caus")
+Caus = Suffix("Caus", allow_repetition=True)
 Hastily = Suffix("Hastily")
 
 ########### Verb to Adverb derivations
@@ -292,7 +292,7 @@ def _register_noun_cases():
     Dat.add_suffix_form(u"nA", comes_after_P3)
 
     NOUN_WITH_POSSESSION.add_out_suffix(Loc, NOUN_WITH_CASE)
-    Loc.add_suffix_form(u"dA", doesnt_come_after_P3)
+    Loc.add_suffix_form(u"dA", doesnt_come_after_P3 & doesnt_come_after_derivation(Inf, "mAk"))
     Loc.add_suffix_form(u"ndA")
 
     NOUN_WITH_POSSESSION.add_out_suffix(Abl, NOUN_WITH_CASE)
@@ -399,16 +399,16 @@ def _register_verb_agreements():
     A3Pl_Verb.add_suffix_form("sInlAr", comes_after_imperative)
 
 def _register_modal_verbs():
-    followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb)
+    followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) # TODO: add the group!
 
     VERB_WITH_POLARITY.add_out_suffix(Necess, VERB_WITH_TENSE)
     Necess.add_suffix_form(u"mAlI")
     
     VERB_WITH_POLARITY.add_out_suffix(Opt, VERB_WITH_TENSE)
     Opt.add_suffix_form(u"Ay")
-    Opt.add_suffix_form(u"A", doesnt_come_after(Negative), followed_by_modal_followers) # TODO: add the group!
+    Opt.add_suffix_form(u"A", doesnt_come_after(Negative), followed_by_modal_followers)
     Opt.add_suffix_form(u"yAy")
-    Opt.add_suffix_form(u"yA", postcondition=followed_by_modal_followers) # TODO: add the group!
+    Opt.add_suffix_form(u"yA", postcondition=followed_by_modal_followers)
 
 def _register_verb_to_verb_derivations():
     VERB_PLAIN_DERIV.add_out_suffix(Able, VERB_ROOT)
@@ -424,10 +424,10 @@ def _register_verb_to_verb_derivations():
     Pass.add_suffix_form(u"+InIl")
     
     VERB_PLAIN_DERIV.add_out_suffix(Caus, VERB_ROOT)
-    Caus.add_suffix_form(u"t", requires_root_attribute(RootAttribute.Causative_t))
-    Caus.add_suffix_form(u"Ir", requires_root_attribute(RootAttribute.Causative_Ir))
-    Caus.add_suffix_form(u"It", requires_root_attribute(RootAttribute.Causative_It))
-    Caus.add_suffix_form(u"Ar", requires_root_attribute(RootAttribute.Causative_Ar))
+    Caus.add_suffix_form(u"t", requires_root_attribute(RootAttribute.Causative_t) & doesnt_come_after_derivation(Caus, "t") & doesnt_come_after_derivation(Caus, "It"))
+    Caus.add_suffix_form(u"Ir", requires_root_attribute(RootAttribute.Causative_Ir) & doesnt_come_after_derivation(Able))
+    Caus.add_suffix_form(u"It", requires_root_attribute(RootAttribute.Causative_It) & doesnt_come_after_derivation(Able))
+    Caus.add_suffix_form(u"Ar", requires_root_attribute(RootAttribute.Causative_Ar) & doesnt_come_after_derivation(Able))
     Caus.add_suffix_form(u"dIr", requires_root_attribute(RootAttribute.Causative_dIr))
 
 def _register_verb_to_noun_derivations():

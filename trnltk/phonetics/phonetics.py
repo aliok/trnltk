@@ -250,14 +250,17 @@ class Phonetics:
                 return turkish_letter
 
     @classmethod
-    def application_matches(cls, word, applied_str):
+    def application_matches(cls, word, applied_str, voicing_allowed):
         if not applied_str or len(applied_str)>len(word):
             return False
 
         elif word==applied_str or word.startswith(applied_str):
             return True
 
-        elif word.startswith(applied_str[:-1]):
+        if  voicing_allowed and word.startswith(applied_str[:-1]):
             last_letter_of_application = TurkishAlphabet.get_letter_for_char(applied_str[-1])
             last_letter_of_word_part = TurkishAlphabet.get_letter_for_char(word[len(applied_str)-1])
             return TurkishAlphabet.voice(last_letter_of_application)==last_letter_of_word_part
+
+        else:
+            return False

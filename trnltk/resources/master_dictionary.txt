@@ -5034,7 +5034,7 @@ cüzzam
 çıkkın [P:Adj]
 çıkma
 çıkma [P:Adj]
-çıkmak
+çıkmak [A:Causative_Ar]
 çıkmaz
 çıkmaz [P:Adj]
 çıkra
@@ -7852,7 +7852,7 @@ etkimek
 etkin [P:Adj]
 etlenmek
 etlik
-etmek [A:Voicing, Aorist_A]
+etmek [A:Voicing, Aorist_A, Causative_dIr]
 etmen
 etnik
 etnik [P:Adj]
