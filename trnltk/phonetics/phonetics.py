@@ -79,15 +79,21 @@ class Phonetics:
         if not word or not word.strip():
             return None
 
-        phonetic_attributes = cls.calculate_phonetic_attributes(word)
-        if root_attributes and RootAttribute.InverseHarmony in root_attributes:
-            if PhoneticAttributes.LastVowelBack in phonetic_attributes:
-                phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
-                phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
+        phonetic_attributes = None
 
-            elif PhoneticAttributes.LastVowelFrontal in phonetic_attributes:
-                phonetic_attributes.remove(PhoneticAttributes.LastVowelFrontal)
-                phonetic_attributes.add(PhoneticAttributes.LastVowelBack)
+        if word==u'd' or word==u'y':  #verbs demek, yemek
+            phonetic_attributes = cls.calculate_phonetic_attributes(word + u'e')
+            phonetic_attributes.remove(PhoneticAttributes.LastLetterVowel)
+        else:
+            phonetic_attributes = cls.calculate_phonetic_attributes(word)
+            if root_attributes and RootAttribute.InverseHarmony in root_attributes:
+                if PhoneticAttributes.LastVowelBack in phonetic_attributes:
+                    phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
+                    phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
+
+                elif PhoneticAttributes.LastVowelFrontal in phonetic_attributes:
+                    phonetic_attributes.remove(PhoneticAttributes.LastVowelFrontal)
+                    phonetic_attributes.add(PhoneticAttributes.LastVowelBack)
 
         # ci, dik, +yacak, +iyor, +ar, +yi, +im, +yla
 
@@ -140,7 +146,13 @@ class Phonetics:
 
         applied = word
 
-        for c in form_str:
+        for i in range(len(form_str)):
+            c = form_str[i]
+            next_c = form_str[i+1] if i+1<len(form_str) else None
+
+            if c=='!':
+                continue
+
             letter = TurkishAlphabet.get_letter_for_char(c)
             if letter.vowel and letter.upper_case_char_value==c:
                 if c==u'A':
@@ -150,12 +162,12 @@ class Phonetics:
                         applied += u'e'
                 elif c==u'I':
                     if PhoneticAttributes.LastVowelBack in phonetic_attributes:
-                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes:
+                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes or next_c=='!':
                             applied += u'ı'
                         else:
                             applied += u'u'
                     else:
-                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes:
+                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes or next_c=='!':
                             applied += u'i'
                         else:
                             applied += u'ü'

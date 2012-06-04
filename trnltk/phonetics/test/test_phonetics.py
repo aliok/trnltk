@@ -120,6 +120,9 @@ class PhoneticExpectationsTest(unittest.TestCase):
         self.assertEqual(ap(u'ata', u'+IyOr'), u'atayor')   ## TODO: should be atıyor actually. to be handled later
         self.assertEqual(ap(u'ata', u'+Ar'), u'atar')
 
+        self.assertEqual(ap(u'bul', u'mAlI'), u'bulmalu')
+        self.assertEqual(ap(u'bul', u'mAlI!'), u'bulmalı')
+
     def test_should_apply_suffixes_with_attributes(self):
         def apnv(word, form_str):
             return Phonetics.apply(word, form_str, [RootAttribute.NoVoicing])
@@ -209,28 +212,34 @@ class PhoneticExpectationsTest(unittest.TestCase):
         self.assertEqual({LLV, LVR, LVB, LLNotVless}, cpa("elmo"))
 
     def test_should_match_application(self):
-        self.assertTrue(am(u'elma', u'elma'))
-        self.assertTrue(am(u'elmalar', u'elma'))
-        self.assertTrue(am(u'elmalar', u'elma'))
-        self.assertTrue(am(u'keklerim', u'kekler'))
-        self.assertTrue(am(u'armudunu', u'armut'))
-        self.assertTrue(am(u'armudunu', u'armudu'))
-        self.assertTrue(am(u'armudunu', u'armudunu'))
-        self.assertTrue(am(u'yapacağım', u'yap'))
-        self.assertTrue(am(u'yapacağım', u'yapacak'))
-        self.assertTrue(am(u'yapacağım', u'yapacağım'))
+        self.assertTrue(am(u'elma', u'elma', True))
+        self.assertTrue(am(u'elmalar', u'elma', True))
+        self.assertTrue(am(u'elmalar', u'elma', True))
+        self.assertTrue(am(u'keklerim', u'kekler', True))
+        self.assertTrue(am(u'armudunu', u'armut', True))
+        self.assertTrue(am(u'armudunu', u'armudu', True))
+        self.assertTrue(am(u'armudunu', u'armudunu', True))
+        self.assertTrue(am(u'yapacağım', u'yap', True))
+        self.assertTrue(am(u'yapacağım', u'yapacak', True))
+        self.assertTrue(am(u'yapacağım', u'yapacağım', True))
+
+        self.assertTrue(am(u'yapacağım', u'yap', False))
+        self.assertTrue(am(u'armut', u'armut', False))
 
     def test_should_not_match_application(self):
-        self.assertFalse(am(u'elma', None))
-        self.assertFalse(am(u'elma', u'elmax'))
-        self.assertFalse(am(u'elmalar', u'a'))
-        self.assertFalse(am(u'elmalar', u'ea'))
-        self.assertFalse(am(u'elmalar', u'ela'))
-        self.assertFalse(am(u'elmalar', u'elmx'))
-        self.assertFalse(am(u'elmalar', u'elmax'))
-        self.assertFalse(am(u'elmalar', u'elmalx'))
-        self.assertFalse(am(u'elmalar', u'elmalax'))
-        self.assertFalse(am(u'elmalar', u'elmalarx'))
+        self.assertFalse(am(u'elma', None, True))
+        self.assertFalse(am(u'elma', u'elmax', True))
+        self.assertFalse(am(u'elmalar', u'a', True))
+        self.assertFalse(am(u'elmalar', u'ea', True))
+        self.assertFalse(am(u'elmalar', u'ela', True))
+        self.assertFalse(am(u'elmalar', u'elmx', True))
+        self.assertFalse(am(u'elmalar', u'elmax', True))
+        self.assertFalse(am(u'elmalar', u'elmalx', True))
+        self.assertFalse(am(u'elmalar', u'elmalax', True))
+        self.assertFalse(am(u'elmalar', u'elmalarx', True))
+
+        self.assertFalse(am(u'yapacağım', u'yapacak', False))
+        self.assertFalse(am(u'armudunu', u'armut', False))
 
 if __name__ == '__main__':
     unittest.main()

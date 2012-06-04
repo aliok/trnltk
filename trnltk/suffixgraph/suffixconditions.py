@@ -80,7 +80,7 @@ class HasOne(SuffixFormCondition):
         if not since_derivation_suffix:
             return False
 
-        if self._form_str:
+        if self._form_str is not None:
             transitions_since_derivation_suffix = parse_token.get_transitions_since_derivation_suffix()
             if any([transition.suffix_form_application.suffix_form.suffix==self._suffix and transition.suffix_form_application.suffix_form.form==self._form_str
                         for transition in transitions_since_derivation_suffix]):
@@ -91,7 +91,7 @@ class HasOne(SuffixFormCondition):
             return self._suffix in since_derivation_suffix
 
     def __str__(self):
-        if self._form_str:
+        if self._form_str is not None:
             return u'has_one({}[{}])'.format(self._suffix, self._form_str)
         else:
             return u'has_one({})'.format(self._suffix)

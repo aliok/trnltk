@@ -21,24 +21,28 @@ cases_to_skip = {
     u'Adj+FutPart+',
     u'"Noun+FutPart',
     u'+Prop+',
-    u'herkes',      ## should be Pron on the parsesets
     u'hepsi',
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
     u'kendi+Pron',
     u'birbiri+Pron',    #TODO: need to add pron acc form +nA
+    u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'"var',
     u'â',
     u'akşamüst',  # compounds!
     u'kadar',
-    u'bit+Verb',  # recip and causal verbs!
-    u'çık+Verb',
     u'Postp',
     u'Aor+A3pl+Past"',   # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
     u'Recip',
-    u'ol+Verb+Pos+Neces',
     u'içeri',
-    u'ürk+Verb'
+    u'ürk+Verb',
+    u'yaşa+Verb+Neg+Past+A2pl+Cond"',
+    u'niçin+',
+    u'havil+',
+    u'kimbilir+',
+    u'yeniden+',
+    u'ora+Noun+A3sg+Pnon+Loc' #orada -> orda
+
 }
 
 class ParserTestWithSets(unittest.TestCase):
@@ -76,9 +80,10 @@ class ParserTestWithSets(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("003")
 
-    def _test_should_parse_set(self, set_number):
+    def _test_should_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))
         with codecs.open(path, 'r', 'utf-8') as parse_set_file:
+            index = 0
             for line in parse_set_file:
                 if line.startswith('#'):
                     continue
@@ -88,21 +93,24 @@ class ParserTestWithSets(unittest.TestCase):
                 if any([case_to_skip in parse_result for case_to_skip in cases_to_skip]):
                     continue
 
-                #TODO
-                parse_result = parse_result.replace('Prog1', 'Prog')
-                parse_result = parse_result.replace('Prog2', 'Prog')
-                parse_result = parse_result.replace('Inf1', 'Inf')
-                parse_result = parse_result.replace('Inf2', 'Inf')
-                parse_result = parse_result.replace('Inf3', 'Inf')
+                if start_index<=index:
+                    #TODO
+                    parse_result = parse_result.replace('Prog1', 'Prog')
+                    parse_result = parse_result.replace('Prog2', 'Prog')
+                    parse_result = parse_result.replace('Inf1', 'Inf')
+                    parse_result = parse_result.replace('Inf2', 'Inf')
+                    parse_result = parse_result.replace('Inf3', 'Inf')
 
-                #TODO
-                parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
+                    #TODO
+                    parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
 
 
-                self.assert_parse_correct(word.lower(), parse_result)
+                    self.assert_parse_correct(word.lower(), index, parse_result)
 
-    def assert_parse_correct(self, word_to_parse, *args):
-        assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
+                index += 1
+
+    def assert_parse_correct(self, word_to_parse, index, *args):
+        assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 
     def parse_result(self, word):
         return [self._parse_token_to_parse_set_str(r) for r in (self.parser.parse(word))]

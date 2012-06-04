@@ -3395,7 +3395,7 @@ biricik [P:Adj]
 birikim
 birikinti
 birikmek
-birileri
+birileri [P:Pron]
 birim
 birincasıf
 birinci
@@ -8924,12 +8924,11 @@ geçici [P:Adv]
 geçim
 geçinmek
 geçirgen
-geçirmek
 geçişmek
 geçiştirmek
 geçit
 geçkin [P:Adj]
-geçmek
+geçmek [A:Causative_Ir]
 geçmiş
 geçmiş [P:Adj]
 geda
@@ -10257,7 +10256,7 @@ hep [P:Adv, Time]
 hepatit [A:NoVoicing]
 hepatoloji
 hepçil
-hepsi
+hepsi [P:Pron]
 hepten
 hepyek [A:NoVoicing]
 her [P:Det]
@@ -10272,7 +10271,7 @@ herhangi [P:Adv]
 herif
 herifçioğlu [A:CompoundP3sg, LastVowelDrop; R:herifçioğul]
 herk
-herkes [P:Pron, Pers]
+herkes [P:Pron]
 hertz
 herze
 herzevekil
@@ -13557,7 +13556,7 @@ kimi [P:Pron]
 kimisi [P:Pron]
 kimlik
 kimono
-kimse
+kimse [P:Pron]
 kimüs
 kimya
 kimyager
@@ -24222,7 +24221,7 @@ uyum
 uyumak
 uyurgezer
 uyuşmak
-uyuşturmak
+uyuşturucu
 uyuşuk [P:Adj]
 uyuşum
 uyuz
