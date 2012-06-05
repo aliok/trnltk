@@ -162,6 +162,7 @@ AsIf = Suffix("AsIf")
 
 ########### Verb to Adjective derivations
 PresPart = Suffix("PresPart")
+PastPart_Adj = Suffix("PastPart_Adj", pretty_name='PastPart')
 FutPart_Adj = Suffix('FutPart_Adj', pretty_name='FutPart')
 Agt_Adj = Suffix('Agt_Adj', pretty_name='Agt')
 
@@ -458,7 +459,6 @@ def _register_verb_to_noun_derivations():
     Inf.add_suffix_form(u"+yIş")
     
     VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, NOUN_ROOT)
-    VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, ADJECTIVE_ROOT)   ##TODO: !create another suffix!
     PastPart_Noun.add_suffix_form(u"dIk")
 
     VERB_POLARITY_DERIV.add_out_suffix(FutPart_Noun, NOUN_ROOT)
@@ -483,7 +483,10 @@ def _register_verb_to_adverb_derivations():
 def _register_verb_to_adjective_derivations():
     VERB_POLARITY_DERIV.add_out_suffix(PresPart, ADJECTIVE_ROOT)
     PresPart.add_suffix_form(u'An')
-    
+
+    VERB_POLARITY_DERIV.add_out_suffix(PastPart_Adj, ADJECTIVE_PART_WITHOUT_POSSESSION)
+    PastPart_Adj.add_suffix_form(u'dIk')
+
     VERB_POLARITY_DERIV.add_out_suffix(FutPart_Adj, ADJECTIVE_PART_WITHOUT_POSSESSION)
     FutPart_Adj.add_suffix_form(u'+yAcAk')
 

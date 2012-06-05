@@ -17,7 +17,6 @@ cases_to_skip = {
     u'+Pres+',
     u'_',
     u'PCNom',
-    u'Adj+PastPart+',
     u'+Prop+',
     u'hepsi',
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
