@@ -22,6 +22,7 @@ VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", 'Verb', State.DERIV)
 VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", 'Verb', State.DERIV)
 
 ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", 'Adj', State.TRANSFER)
+ADJECTIVE_PART_WITHOUT_POSSESSION = State("ADJECTIVE_PART_WITHOUT_POSSESSION", 'Adj', State.TRANSFER)
 ADJECTIVE_TERMINAL = State("ADJECTIVE_TERMINAL", 'Adj', State.TERMINAL)
 ADJECTIVE_DERIV = State("ADJECTIVE_DERIV", 'Adj', State.DERIV)
 
@@ -50,7 +51,7 @@ PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", 'Punc', State.TERMINAL)
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_WITH_CASE, NOUN_TERMINAL, NOUN_DERIV_WITH_CASE, NOUN_NOM_DERIV,
     VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV,
-    ADJECTIVE_ROOT, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
+    ADJECTIVE_ROOT, ADJECTIVE_PART_WITHOUT_POSSESSION, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV,
     PRONOUN_ROOT, PRONOUN_WITH_AGREEMENT, PRONOUN_WITH_POSSESSION, PRONOUN_WITH_CASE, PRONOUN_TERMINAL, PRONOUN_NOM_DERIV,
     DETERMINER_ROOT_TERMINAL,
@@ -144,6 +145,7 @@ Opt = Suffix("Opt", 10)
 ############ Verb to Noun derivations
 Inf = Suffix("Inf")
 PastPart_Noun = Suffix("PastPart_Noun", pretty_name='PastPart')
+FutPart_Noun = Suffix('FutPart_Noun', pretty_name='FutPart')
 
 ############ Verb to Verb derivations
 Able = Suffix("Able")
@@ -160,7 +162,7 @@ AsIf = Suffix("AsIf")
 
 ########### Verb to Adjective derivations
 PresPart = Suffix("PresPart")
-FutPart = Suffix('FutPart')
+FutPart_Adj = Suffix('FutPart_Adj', pretty_name='FutPart')
 Agt_Adj = Suffix('Agt_Adj', pretty_name='Agt')
 
 ########### Adjective to Adverb derivations
@@ -171,6 +173,16 @@ Ness = Suffix("Ness")
 
 ########### Adjective to Verb derivations
 Become = Suffix("Become")
+
+########### Adjective possessions
+Adjective_Possessions_Group = SuffixGroup("Adjective_Possessions_Group")
+Pnon_Adj = Suffix("Pnon_Adj", 10, Adjective_Possessions_Group, 'Pnon')
+P1Sg_Adj = Suffix("P1Sg_Adj", 10, Adjective_Possessions_Group, 'P1sg')
+P2Sg_Adj = Suffix("P2Sg_Adj", 10, Adjective_Possessions_Group, 'P2sg')
+P3Sg_Adj = Suffix("P3Sg_Adj", 10, Adjective_Possessions_Group, 'P3sg')
+P1Pl_Adj = Suffix("P1Pl_Adj", 10, Adjective_Possessions_Group, 'P1pl')
+P2Pl_Adj = Suffix("P2Pl_Adj", 10, Adjective_Possessions_Group, 'P2pl')
+P3Pl_Adj = Suffix("P3Pl_Adj", 10, Adjective_Possessions_Group, 'P3pl')
 
 #############  Pronoun Agreements
 Pronoun_Agreements_Group = SuffixGroup("Pronoun_Agreements_Group")
@@ -185,11 +197,11 @@ A3Pl_Pron = Suffix("A3Pl_Pron", 10, Pronoun_Agreements_Group, 'A3pl')
 Pronoun_Possessions_Group = SuffixGroup("Pronoun_Possessions_Group")
 Pnon_Pron = Suffix("Pnon_Pron", 10, Pronoun_Possessions_Group, 'Pnon')
 P1Sg_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P1sg')
-P2Sg_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P2sg')
-P3Sg_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P3sg')
-P1Pl_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P1pl')
-P2Pl_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P2pl')
-P3Pl_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P3pl')
+P2Sg_Pron = Suffix("P2Sg_Pron", 10, Pronoun_Possessions_Group, 'P2sg')
+P3Sg_Pron = Suffix("P3Sg_Pron", 10, Pronoun_Possessions_Group, 'P3sg')
+P1Pl_Pron = Suffix("P1Pl_Pron", 10, Pronoun_Possessions_Group, 'P1pl')
+P2Pl_Pron = Suffix("P2Pl_Pron", 10, Pronoun_Possessions_Group, 'P2pl')
+P3Pl_Pron = Suffix("P3Pl_Pron", 10, Pronoun_Possessions_Group, 'P3pl')
 
 ###########  Pronoun cases
 Pronoun_Case_Group = SuffixGroup('Pronoun_Case_Group')
@@ -233,6 +245,7 @@ def _register_adjective_suffixes():
     _register_adjective_to_adverb_derivations()
     _register_adjective_to_noun_derivations()
     _register_adjective_to_verb_derivations()
+    _register_adjective_possessions()
 
 def _register_pronoun_suffixes():
     _register_pronoun_agreements()
@@ -445,8 +458,11 @@ def _register_verb_to_noun_derivations():
     Inf.add_suffix_form(u"+yIş")
     
     VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, NOUN_ROOT)
-    VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, ADJECTIVE_ROOT)
+    VERB_POLARITY_DERIV.add_out_suffix(PastPart_Noun, ADJECTIVE_ROOT)   ##TODO: !create another suffix!
     PastPart_Noun.add_suffix_form(u"dIk")
+
+    VERB_POLARITY_DERIV.add_out_suffix(FutPart_Noun, NOUN_ROOT)
+    FutPart_Noun.add_suffix_form(u'+yAcAk')
 
 def _register_verb_to_adverb_derivations():
     VERB_POLARITY_DERIV.add_out_suffix(AfterDoingSo, ADVERB_ROOT)
@@ -468,8 +484,8 @@ def _register_verb_to_adjective_derivations():
     VERB_POLARITY_DERIV.add_out_suffix(PresPart, ADJECTIVE_ROOT)
     PresPart.add_suffix_form(u'An')
     
-    VERB_POLARITY_DERIV.add_out_suffix(FutPart, ADJECTIVE_ROOT)
-    FutPart.add_suffix_form(u'+yAcak')
+    VERB_POLARITY_DERIV.add_out_suffix(FutPart_Adj, ADJECTIVE_PART_WITHOUT_POSSESSION)
+    FutPart_Adj.add_suffix_form(u'+yAcAk')
 
     VERB_POLARITY_DERIV.add_out_suffix(Agt_Adj, ADJECTIVE_ROOT)
     Agt_Adj.add_suffix_form(u"+yIcI")
@@ -485,6 +501,28 @@ def _register_adjective_to_noun_derivations():
 def _register_adjective_to_verb_derivations():
     ADJECTIVE_DERIV.add_out_suffix(Become, VERB_ROOT)
     Become.add_suffix_form(u"lAş")
+
+def _register_adjective_possessions():
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(Pnon_Adj, ADJECTIVE_TERMINAL)
+    Pnon_Adj.add_suffix_form("")
+
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(P1Sg_Adj, ADJECTIVE_TERMINAL)
+    P1Sg_Adj.add_suffix_form("+Im")
+
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(P2Sg_Adj, ADJECTIVE_TERMINAL)
+    P2Sg_Adj.add_suffix_form("+In")
+
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(P3Sg_Adj, ADJECTIVE_TERMINAL)
+    P3Sg_Adj.add_suffix_form("+sI")
+
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(P1Pl_Adj, ADJECTIVE_TERMINAL)
+    P1Pl_Adj.add_suffix_form("+ImIz")
+
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(P2Pl_Adj, ADJECTIVE_TERMINAL)
+    P2Pl_Adj.add_suffix_form("+InIz")
+
+    ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(P3Pl_Adj, ADJECTIVE_TERMINAL)
+    P3Pl_Adj.add_suffix_form("lArI")
 
 def _register_pronoun_agreements():
     applies_to_ben = applies_to_stem('ben') | applies_to_stem('ban')

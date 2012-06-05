@@ -63,7 +63,7 @@ class Invert(SuffixFormCondition):
         return not self._condition.matches(parse_token)
 
     def __str__(self):
-        return u'~'+repr(self._condition)
+        return u'~{}'.format(repr(self._condition))
 
     def __repr__(self):
         return self.__str__()
