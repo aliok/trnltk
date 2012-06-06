@@ -581,11 +581,11 @@ class ParserTest(unittest.TestCase):
     def test_should_parse_verb_to_noun_derivations(self):
         self.assert_parse_correct(u'yapmak',            u'yap(yapmak)+Verb+Pos+Noun+Inf(mAk[mak])+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'yapma',             u'yap(yapmak)+Verb+Neg(mA[ma])+Imp+A2sg', u'yap(yapmak)+Verb+Pos+Noun+Inf(mA[ma])+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yapış',             u'yapış(yapışmak)+Verb+Pos+Imp+A2sg', u'yap(yapmak)+Verb+Pos+Noun+Inf(+yIş[ış])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yapış',             u'yapış(yapışmak)+Verb+Pos+Imp+A2sg', u'yap(yapmak)+Verb+Verb+Recip(+Iş[ış])+Pos+Imp+A2sg', u'yap(yapmak)+Verb+Pos+Noun+Inf(+yIş[ış])+A3sg+Pnon+Nom')
 
         self.assert_parse_correct(u'gelmek',            u'gel(gelmek)+Verb+Pos+Noun+Inf(mAk[mek])+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'gelme',             u'gel(gelmek)+Verb+Neg(mA[me])+Imp+A2sg', u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'geliş',             u'geliş(gelişmek)+Verb+Pos+Imp+A2sg', u'gel(gelmek)+Verb+Pos+Noun+Inf(+yIş[iş])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'geliş',             u'geliş(gelişmek)+Verb+Pos+Imp+A2sg', u'gel(gelmek)+Verb+Verb+Recip(+Iş[iş])+Pos+Imp+A2sg', u'gel(gelmek)+Verb+Pos+Noun+Inf(+yIş[iş])+A3sg+Pnon+Nom')
 
         self.assert_parse_correct(u'söylemek',          u'söyle(söylemek)+Verb+Pos+Noun+Inf(mAk[mek])+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'söyleme',           u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2sg', u'söylem(söylem)+Noun+A3sg+Pnon+Dat(+yA[e])', u'söyle(söylemek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom')
@@ -678,6 +678,11 @@ class ParserTest(unittest.TestCase):
 
         self.assert_parse_correct(u'yediği',            u'ye(yemek)+Verb+Pos+Adj+PastPart(dIk[diğ])+P3sg(+sI[i])', u'ye(yemek)+Verb+Pos+Noun+PastPart(dIk[diğ])+A3sg+Pnon+Acc(+yI[i])', u'ye(yemek)+Verb+Pos+Noun+PastPart(dIk[diğ])+A3sg+P3sg(+sI[i])+Nom')
         self.assert_parse_correct(u'yedik',             u'ye(yemek)+Verb+Pos+Past(dI[di])+A1pl(k[k])', u'ye(yemek)+Verb+Pos+Adj+PastPart(dIk[dik])+Pnon', u'ye(yemek)+Verb+Pos+Noun+PastPart(dIk[dik])+A3sg+Pnon+Nom')
+
+
+    def test_should_parse_recip_verbs(self):
+        parser_logger.setLevel(logging.DEBUG)
+        self.assert_parse_correct(u'bakıştılar',        u'bak(bakmak)+Verb+Verb+Recip(+Iş[ış])+Pos+Past(dI[tı])+A3pl(lAr[lar])')
 
 
     def test_should_parse_some_problematic_words(self):

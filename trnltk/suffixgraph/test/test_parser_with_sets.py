@@ -30,7 +30,6 @@ cases_to_skip = {
     u'Postp',
     u'Aor+A3pl+Past"',   # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
-    u'Recip',
     u'içeri',
     u'ürk+Verb',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',

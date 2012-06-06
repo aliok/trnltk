@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation, followed_by_derivation
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 MAX_RANK = 99999
@@ -150,6 +150,7 @@ FutPart_Noun = Suffix('FutPart_Noun', pretty_name='FutPart')
 ############ Verb to Verb derivations
 Able = Suffix("Able")
 Pass = Suffix("Pass")
+Recip = Suffix("Recip")
 Caus = Suffix("Caus", allow_repetition=True)
 Hastily = Suffix("Hastily")
 
@@ -444,6 +445,9 @@ def _register_verb_to_verb_derivations():
     Pass.add_suffix_form(u"+In")
     Pass.add_suffix_form(u"+nIl")
     Pass.add_suffix_form(u"+InIl")
+
+    VERB_PLAIN_DERIV.add_out_suffix(Recip, VERB_ROOT)
+    Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(Caus)))
     
     VERB_PLAIN_DERIV.add_out_suffix(Caus, VERB_ROOT)
     Caus.add_suffix_form(u"t", requires_root_attribute(RootAttribute.Causative_t) & doesnt_come_after_derivation(Caus, "t") & doesnt_come_after_derivation(Caus, "It"))

@@ -43,12 +43,12 @@ class Suffix:
             self.group = group
             group.suffixes.append(self)
 
-    def add_suffix_form(self, suffix_form, precondition=None, postcondition=None):
+    def add_suffix_form(self, suffix_form, precondition=None, postcondition=None, post_derivation_condition=None):
         form = None
         if type(suffix_form) is str or type(suffix_form) is unicode:
-            form = SuffixForm(suffix_form, precondition, postcondition)
+            form = SuffixForm(suffix_form, precondition, postcondition, post_derivation_condition)
         elif type(suffix_form) is SuffixForm:
-            assert precondition is None and  postcondition is None
+            assert precondition is None and  postcondition is None and post_derivation_condition is None
         else:
             raise Exception("Unknown type for suffixForm" + repr(suffix_form))
 
@@ -77,11 +77,12 @@ class ZeroTransitionSuffix(Suffix):
         from_state.add_out_suffix(self, to_state)
 
 class SuffixForm:
-    def __init__(self, form, precondition=None, postcondition=None):
+    def __init__(self, form, precondition=None, postcondition=None, post_derivation_condition=None):
         self.form = form
         self.suffix = None
         self.precondition = precondition
         self.postcondition = postcondition
+        self.post_derivation_condition = post_derivation_condition
 
     def __str__(self):
         return self.form

@@ -202,8 +202,11 @@ def doesnt_come_after(suffix, form_str=None):
 def doesnt_come_after_derivation(suffix, form_str=None):
     return doesnt(comes_after_derivation(suffix, form_str))
 
-def followed_by(suffix):
-    return HasOne(suffix)
+def followed_by(suffix, form_str=None):
+    return HasOne(suffix, form_str)
+
+def followed_by_derivation(suffix, form_str=None):
+    return HasLastDerivation(suffix, form_str)
 
 def followed_by_suffix(condition):
     return condition

@@ -98,6 +98,17 @@ class ParseToken:
 
         return result
 
+    def get_transitions_from_derivation_suffix(self):
+        result = []
+        for transition in reversed(self.transitions):
+            if transition.from_state.type==State.DERIV:
+                result.append(transition)
+                break
+            else:
+                result.append(transition)
+
+        return result
+
     def get_attributes(self):      ##TODO: rename it!
         if self.transitions and any(t.suffix_form_application.applied_suffix_form for t in self.transitions):
             if self.get_last_state().name.startswith("VERB_") and self.get_last_state().type==State.DERIV:   #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
@@ -246,6 +257,8 @@ class Parser:
         return True
 
     def _try_suffix_form(self, token, suffix_form, to_state, word):
+        current_state = token.get_last_state()
+
         if not self._is_transition_allowed_for_suffix_form(token, suffix_form):
             return None
 
@@ -260,7 +273,17 @@ class Parser:
 
             if token.transitions and token.transitions[-1].suffix_form_application.suffix_form.postcondition and not token.transitions[-1].suffix_form_application.suffix_form.postcondition.matches(clone):
                 logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.transitions[-1].suffix_form_application.suffix_form.postcondition, clone.transitions[-1].to_pretty_str())
-                return False
+                return None
+
+            if token.transitions and current_state.type==State.DERIV:
+                logger.debug('      Suffix is derivative, checking the post derivation conditions of suffixes from previous derivation.')
+                for transition in token.get_transitions_from_derivation_suffix():
+                    application_suffix_form = transition.suffix_form_application.suffix_form
+                    if application_suffix_form.post_derivation_condition:
+                        matches = application_suffix_form.post_derivation_condition.matches(clone)
+                        if not matches:
+                            logger.debug('      Post derivation condition "%s" of suffix "%s" is not satisfied, skipping.', application_suffix_form.post_derivation_condition, application_suffix_form.suffix)
+                            return None
 
             return clone
 
