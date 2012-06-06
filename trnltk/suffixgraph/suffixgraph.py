@@ -532,6 +532,7 @@ def _register_adjective_possessions():
     P3Pl_Adj.add_suffix_form("lArI")
 
 def _register_pronoun_agreements():
+    applies_to_kendi = applies_to_stem('kendi')
     applies_to_ben = applies_to_stem('ben') | applies_to_stem('ban')
     applies_to_sen = applies_to_stem('sen') | applies_to_stem('san')
     applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
@@ -541,30 +542,39 @@ def _register_pronoun_agreements():
 
     PRONOUN_ROOT.add_out_suffix(A1Sg_Pron, PRONOUN_WITH_AGREEMENT)
     A1Sg_Pron.add_suffix_form("", applies_to_ben)
+    A1Sg_Pron.add_suffix_form("", applies_to_kendi, followed_by(P1Sg_Pron))
     
     PRONOUN_ROOT.add_out_suffix(A2Sg_Pron, PRONOUN_WITH_AGREEMENT)
     A2Sg_Pron.add_suffix_form("", applies_to_sen)
-    
+    A2Sg_Pron.add_suffix_form("", applies_to_kendi, followed_by(P2Sg_Pron))
+
     PRONOUN_ROOT.add_out_suffix(A3Sg_Pron, PRONOUN_WITH_AGREEMENT)
-    A3Sg_Pron.add_suffix_form("", doesnt(applies_to_ben) & doesnt(applies_to_sen) & doesnt(applies_to_biz_siz))
+    A3Sg_Pron.add_suffix_form("", doesnt(applies_to_ben) & doesnt(applies_to_sen) & doesnt(applies_to_biz_siz) & doesnt(applies_to_kendi))
+    A3Sg_Pron.add_suffix_form("", applies_to_kendi, followed_by(P3Sg_Pron))
     
     PRONOUN_ROOT.add_out_suffix(A1Pl_Pron, PRONOUN_WITH_AGREEMENT)
     A1Pl_Pron.add_suffix_form("", applies_to_biz)
-    
+    A1Pl_Pron.add_suffix_form("", applies_to_kendi, followed_by(P1Pl_Pron))
+    A1Pl_Pron.add_suffix_form("ler", applies_to_kendi, followed_by(P1Pl_Pron))
+
     PRONOUN_ROOT.add_out_suffix(A2Pl_Pron, PRONOUN_WITH_AGREEMENT)
     A2Pl_Pron.add_suffix_form("", applies_to_siz)
-    
+    A2Pl_Pron.add_suffix_form("", applies_to_kendi, followed_by(P2Pl_Pron))
+    A2Pl_Pron.add_suffix_form("ler", applies_to_kendi, followed_by(P2Pl_Pron))
+
     PRONOUN_ROOT.add_out_suffix(A3Pl_Pron, PRONOUN_WITH_AGREEMENT)
     A3Pl_Pron.add_suffix_form("nlar", applies_to_bu_su_o)
-    A3Pl_Pron.add_suffix_form("lAr", doesnt(applies_to_ben) & doesnt(applies_to_sen) & doesnt(applies_to_biz) & doesnt(applies_to_siz))
+    A3Pl_Pron.add_suffix_form("lAr", doesnt(applies_to_ben) & doesnt(applies_to_sen) & doesnt(applies_to_biz) & doesnt(applies_to_siz) & doesnt(applies_to_kendi))
+    A3Pl_Pron.add_suffix_form("leri", applies_to_kendi, followed_by(P3Pl_Pron))
 
 def _register_pronoun_possessions():
     doesnt_apply_to_persp = ~applies_to_stem('ben') & ~applies_to_stem('sen') & ~applies_to_stem('ban') & ~applies_to_stem('san') & ~applies_to_stem('biz') & ~applies_to_stem('siz')
     doesnt_apply_to_demonsp = ~applies_to_stem('o') & ~applies_to_stem('bu') & ~applies_to_stem(u'şu')
     doesnt_apply_to_persp_and_demonsp = doesnt_apply_to_demonsp & doesnt_apply_to_persp
+    applies_to_kendi = applies_to_stem('kendi')
 
     PRONOUN_WITH_AGREEMENT.add_out_suffix(Pnon_Pron, PRONOUN_WITH_POSSESSION)
-    Pnon_Pron.add_suffix_form("")
+    Pnon_Pron.add_suffix_form("", doesnt(applies_to_kendi))
     
     PRONOUN_WITH_AGREEMENT.add_out_suffix(P1Sg_Pron, PRONOUN_WITH_POSSESSION)
     P1Sg_Pron.add_suffix_form("+Im", doesnt_apply_to_persp_and_demonsp)
@@ -574,7 +584,8 @@ def _register_pronoun_possessions():
     
     PRONOUN_WITH_AGREEMENT.add_out_suffix(P3Sg_Pron, PRONOUN_WITH_POSSESSION)
     P3Sg_Pron.add_suffix_form("+sI", doesnt_apply_to_persp_and_demonsp)
-    
+    P3Sg_Pron.add_suffix_form("", applies_to_kendi)
+
     PRONOUN_WITH_AGREEMENT.add_out_suffix(P1Pl_Pron, PRONOUN_WITH_POSSESSION)
     P1Pl_Pron.add_suffix_form("+ImIz", doesnt_apply_to_persp_and_demonsp)
     
@@ -584,6 +595,7 @@ def _register_pronoun_possessions():
     PRONOUN_WITH_AGREEMENT.add_out_suffix(P3Pl_Pron, PRONOUN_WITH_POSSESSION)
     P3Pl_Pron.add_suffix_form("lArI", doesnt_apply_to_persp_and_demonsp)
     P3Pl_Pron.add_suffix_form("I", comes_after(A3Pl_Pron) & doesnt_apply_to_persp_and_demonsp)
+    P3Pl_Pron.add_suffix_form("", applies_to_kendi)
 
 def _register_pronoun_cases():
     applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
@@ -594,6 +606,8 @@ def _register_pronoun_cases():
 
     comes_after_bu_su_o_pnon = comes_after_A3Sg_pnon & applies_to_bu_su_o
 
+    applies_to_kendi = applies_to_stem('kendi')
+
     PRONOUN_WITH_POSSESSION.add_out_suffix(Nom_Pron, PRONOUN_WITH_CASE)
     Nom_Pron.add_suffix_form("")
 
@@ -601,34 +615,34 @@ def _register_pronoun_cases():
     Nom_Pron_Deriv.add_suffix_form("", comes_after(Pnon_Pron))
     
     PRONOUN_WITH_POSSESSION.add_out_suffix(Acc_Pron, PRONOUN_WITH_CASE)
-    Acc_Pron.add_suffix_form(u"nu", comes_after_bu_su_o_pnon)   #bu-nu, su-nu, o-nu
+    Acc_Pron.add_suffix_form(u"nI", comes_after_bu_su_o_pnon | applies_to_kendi)   #bu-nu, su-nu, o-nu, kendileri-ni
     Acc_Pron.add_suffix_form(u"+yI", doesnt(comes_after_bu_su_o_pnon))   #ben-i, sen-i, biz-i, siz-i, onlar-i, nere-yi, kim-i
     Acc_Pron.add_suffix_form(u"leri", comes_after_biz_siz_pnon)     # biz-leri, siz-leri
-    
+
     PRONOUN_WITH_POSSESSION.add_out_suffix(Dat_Pron, PRONOUN_WITH_CASE)
     Dat_Pron.add_suffix_form(u"+yA", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
     Dat_Pron.add_suffix_form(u"+yA", doesnt_apply_to_bu_su_o)
-    Dat_Pron.add_suffix_form(u"nA", comes_after_bu_su_o_pnon)
+    Dat_Pron.add_suffix_form(u"nA", comes_after_bu_su_o_pnon | applies_to_kendi)
     Dat_Pron.add_suffix_form(u"lere", comes_after_biz_siz_pnon)
     
     PRONOUN_WITH_POSSESSION.add_out_suffix(Loc_Pron, PRONOUN_WITH_CASE)
     Loc_Pron.add_suffix_form(u"dA", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
     Loc_Pron.add_suffix_form(u"dA", doesnt_apply_to_bu_su_o)
-    Loc_Pron.add_suffix_form(u"ndA", comes_after_bu_su_o_pnon)
+    Loc_Pron.add_suffix_form(u"ndA", comes_after_bu_su_o_pnon | applies_to_kendi)
     Loc_Pron.add_suffix_form(u"lerde", comes_after_biz_siz_pnon)
     
     PRONOUN_WITH_POSSESSION.add_out_suffix(Abl_Pron, PRONOUN_WITH_CASE)
     Abl_Pron.add_suffix_form(u"dAn", comes_after(A3Pl_Pron) & comes_after(Pnon_Pron))
     Abl_Pron.add_suffix_form(u"dAn", doesnt_apply_to_bu_su_o)
-    Abl_Pron.add_suffix_form(u"ndAn", comes_after_bu_su_o_pnon)
+    Abl_Pron.add_suffix_form(u"ndAn", comes_after_bu_su_o_pnon | applies_to_kendi)
     Abl_Pron.add_suffix_form(u"lerden", comes_after_biz_siz_pnon)
     
     PRONOUN_WITH_POSSESSION.add_out_suffix(Gen_Pron, PRONOUN_WITH_CASE)
     Gen_Pron.add_suffix_form(u"im", (comes_after(A1Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)))    # ben-im, biz-im
     Gen_Pron.add_suffix_form(u"in", (comes_after(A2Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A2Pl_Pron) & comes_after(Pnon_Pron)))    # sen-in, siz-in
-    Gen_Pron.add_suffix_form(u"nun", comes_after_bu_su_o_pnon)      # bu-nun, su-nun, o-nun
+    Gen_Pron.add_suffix_form(u"nIn", comes_after_bu_su_o_pnon)      # bu-nun, su-nun, o-nun
     Gen_Pron.add_suffix_form(u"lerin", comes_after_biz_siz_pnon)    # biz-lerin, siz-lerin
-    Gen_Pron.add_suffix_form(u"+nIn", doesnt(comes_after_bu_su_o_pnon) & (comes_after(A3Pl_Pron) | comes_after(A3Sg_Pron)))     #onlar-in, kim-in, nere-nin, kimi-miz-in
+    Gen_Pron.add_suffix_form(u"+nIn", doesnt(comes_after_bu_su_o_pnon) & (comes_after(A3Pl_Pron) | comes_after(A3Sg_Pron) | applies_to_kendi))     #onlar-in, kim-in, nere-nin, kimi-miz-in, kendi-si0nin
 
     PRONOUN_WITH_POSSESSION.add_out_suffix(Ins_Pron, PRONOUN_WITH_CASE)
     Ins_Pron.add_suffix_form(u"imle", (comes_after(A1Sg_Pron) & comes_after(Pnon_Pron)) | (comes_after(A1Pl_Pron) & comes_after(Pnon_Pron)))  # ben-imle, biz-imle
@@ -636,7 +650,7 @@ def _register_pronoun_cases():
     Ins_Pron.add_suffix_form(u"nunla", comes_after_bu_su_o_pnon)   # o-nunla, bu-nunla, su-nunla
     Ins_Pron.add_suffix_form(u"nla", comes_after_bu_su_o_pnon)     # o-nla, bu-nla, su-nla
     Ins_Pron.add_suffix_form(u"lerle", comes_after_biz_siz_pnon)   # biz-lerle, siz-lerle
-    Ins_Pron.add_suffix_form(u"+ylA")    # onlar-la, nere-yle, kim-le
+    Ins_Pron.add_suffix_form(u"+ylA")    # onlar-la, nere-yle, kim-le, kendileri-yle, kendim-le
 
 def _register_pronoun_to_adjective_suffixes():
     applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')

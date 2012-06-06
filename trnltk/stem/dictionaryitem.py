@@ -20,6 +20,7 @@ class SecondaryPosition:
     POST_POSITIVE = "Postp"
     QUESTION = "Ques"
     DEMONSTRATIVE = "Demons"
+    REFLEXIVE = "Reflex"
     PERSONAL = "Pers"
     TIME = "Time"
     PROPER_NOUN = "Prop"

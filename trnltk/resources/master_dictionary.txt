@@ -13063,7 +13063,7 @@ kemre
 kemrelemek
 kenar
 kenarortay
-kendi
+kendi [P:Pron, Reflex]
 kendigelen
 kendince
 kendir

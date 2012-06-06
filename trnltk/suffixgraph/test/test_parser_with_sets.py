@@ -20,7 +20,6 @@ cases_to_skip = {
     u'+Prop+',
     u'hepsi',
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
-    u'kendi+Pron',
     u'birbiri+Pron',    #TODO: need to add pron acc form +nA
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'"var',
@@ -139,6 +138,8 @@ class ParserTestWithSets(unittest.TestCase):
                 secondary_position_str = "DemonsP"
             elif result.stem.dictionary_item.secondary_position==SecondaryPosition.QUESTION:
                 secondary_position_str = "QuesP"
+            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.REFLEXIVE:
+                secondary_position_str = "ReflexP"
 
         if result.stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL:
             if result.stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
