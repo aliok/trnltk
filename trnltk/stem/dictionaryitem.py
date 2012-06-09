@@ -69,6 +69,7 @@ class RootAttribute:
     })
 
 class DictionaryItem:
+    #TODO: make this and similar classes immutable
     def __init__(self, lemma, root, primary_position, secondary_position, attributes):
         self.lemma = lemma
         self.root = root

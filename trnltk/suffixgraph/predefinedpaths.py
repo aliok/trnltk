@@ -91,6 +91,7 @@ class PredefinedPaths():
         self._create_predefined_path_of_sunlar_pron_demons()
         self._create_predefined_path_of_onlar_pron_demons()
 
+        self._create_predefined_path_of_kendi()
 
     def _create_predefined_path_of_ben(self):
         stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
@@ -277,3 +278,103 @@ class PredefinedPaths():
         self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Gen_Pron, u'ın')])
 
         self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
+
+    def _create_predefined_path_of_kendi(self):
+        stem_kendi = self._find_stem(u'kendi', PrimaryPosition.PRONOUN, SecondaryPosition.REFLEXIVE)
+
+        ##### A1Sg
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), Nom_Pron])
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), Nom_Pron_Deriv])
+
+        ##### A2Sg
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), Nom_Pron])
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), Nom_Pron_Deriv])
+
+        ##### A3Sg
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron])
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Acc_Pron, u'ni')])
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Dat_Pron, u'ne')])
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Loc_Pron, u'nde')])
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Abl_Pron, u'nden')])
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Ins_Pron, u'yle')])
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Gen_Pron, u'nin')])
+
+        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron_Deriv])
+
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), Nom_Pron])
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Acc_Pron, u'ni')])
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Dat_Pron, u'ne')])
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Loc_Pron, u'nde')])
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Abl_Pron, u'nden')])
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Ins_Pron, u'yle')])
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Gen_Pron, u'nin')])
+
+        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), Nom_Pron_Deriv])
+
+
+        ##### A1pl
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), Nom_Pron])
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), Nom_Pron_Deriv])
+
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), Nom_Pron])
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), Nom_Pron_Deriv])
+
+        ##### A2pl
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), Nom_Pron])
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), Nom_Pron_Deriv])
+
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), Nom_Pron])
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), Nom_Pron_Deriv])
+
+        ##### A3pl
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, Nom_Pron])
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Acc_Pron, u'ni')])
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Dat_Pron, u'ne')])
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Loc_Pron, u'nde')])
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Abl_Pron, u'nden')])
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Ins_Pron, u'yle')])
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Gen_Pron, u'nin')])
+
+        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, Nom_Pron_Deriv])

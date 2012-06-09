@@ -103,7 +103,7 @@ class ParseToken:
     def get_suffix_groups_since_last_derivation(self):
         return [s.group for s in self.get_suffixes_since_derivation_suffix()]
 
-    def get_attributes(self):      ##TODO: rename it!
+    def get_attributes(self):
         if self.transitions and any(t.suffix_form_application.applied_suffix_form for t in self.transitions):
             if self.get_last_state().name.startswith("VERB_") and self.get_last_state().type==State.DERIV:   #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
                 return [RootAttribute.NoVoicing]
