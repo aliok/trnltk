@@ -443,9 +443,6 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'aceleten',          u'aceleten(aceleten)+Adv')
 
     def test_should_parse_pronouns(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct(u'ben',               u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom', u'ben(ben)+Noun+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'sen',               u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom')
         self.assert_parse_correct(u'o',                 u'o(o)+Det', u'o(o)+Pron+Pers+A3sg+Pnon+Nom', u'o(o)+Pron+Demons+A3sg+Pnon+Nom')
@@ -692,7 +689,6 @@ class ParserTest(unittest.TestCase):
 
 
     def test_should_parse_recip_verbs(self):
-        parser_logger.setLevel(logging.DEBUG)
         self.assert_parse_correct(u'bakıştılar',        u'bak(bakmak)+Verb+Verb+Recip(+Iş[ış])+Pos+Past(dI[tı])+A3pl(lAr[lar])')
 
     def test_should_parse_reflexive_pronouns(self):
@@ -767,8 +763,8 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'diyordunuz',        u'd(demek)+Verb+Pos+Prog(Iyor[iyor])+Past(dI[du])+A2pl(nIz[nuz])')
         self.assert_parse_correct(u'yiyoruz',           u'y(yemek)+Verb+Pos+Prog(Iyor[iyor])+A1pl(+Iz[uz])')
         self.assert_parse_correct(u'baksana',           u'bak(bakmak)+Verb+Pos+Imp(sAnA[sana])+A2sg')
-        parser_logger.setLevel(logging.DEBUG)
         self.assert_parse_correct(u'gelsenize',         u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
+        parser_logger.setLevel(logging.DEBUG)
 
     def assert_parse_correct(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
@@ -780,8 +776,8 @@ class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):
         self.expected_results = expected_results
 
-    def _matches(self, item):
-        return item==self.expected_results
+    def _matches(self, items):
+        return all(er in items for er in self.expected_results) and all(item in self.expected_results for item in items)
 
     def describe_to(self, description):
         description.append_text(u'     ' + str(self.expected_results))

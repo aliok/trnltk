@@ -31,10 +31,9 @@ class SuffixGroup:
         return repr(self.name)
 
 class Suffix:
-    def __init__(self, name, rank=0, group=None, pretty_name=None, allow_repetition=False):
+    def __init__(self, name, group=None, pretty_name=None, allow_repetition=False):
         self.name = name
         self.suffix_forms = []
-        self.rank = rank
         self.group = None
         self.pretty_name = pretty_name or name
         self.allow_repetition = allow_repetition
@@ -67,7 +66,7 @@ class Suffix:
         return result
 
     def __str__(self):
-        return "{}({})".format(self.name, self.rank)
+        return self.name
 
     def __repr__(self):
         return self.__str__()
@@ -77,13 +76,13 @@ class Suffix:
 
 class FreeTransitionSuffix(Suffix):
     def __init__(self, name, from_state, to_state):
-        Suffix.__init__(self, name, 0 if from_state.type==State.DERIV else 999, None)
+        Suffix.__init__(self, name)
         self.add_suffix_form("")
         from_state.add_out_suffix(self, to_state)
 
 class ZeroTransitionSuffix(Suffix):
     def __init__(self, name, from_state, to_state, pretty_name="Zero"):
-        Suffix.__init__(self, name, 0 if from_state.type==State.DERIV else 999, None, pretty_name)
+        Suffix.__init__(self, name, None, pretty_name)
         self.add_suffix_form("")
         from_state.add_out_suffix(self, to_state)
 

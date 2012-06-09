@@ -3,8 +3,6 @@ from trnltk.stem.dictionaryitem import RootAttribute
 from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation, followed_by_derivation
 from trnltk.suffixgraph.suffixgraphmodel import *
 
-MAX_RANK = 99999
-
 NOUN_ROOT = State("NOUN_ROOT", 'Noun', State.TRANSFER)
 NOUN_WITH_AGREEMENT = State("NOUN_WITH_AGREEMENT", 'Noun', State.TRANSFER)
 NOUN_WITH_POSSESSION = State("NOUN_WITH_POSSESSION", 'Noun', State.TRANSFER)
@@ -77,30 +75,30 @@ ZeroTransitionSuffix("Numeral_Zero_Transition", NUMERAL_DERIV, ADJECTIVE_ROOT)
 
 #############  Noun Agreements
 Noun_Agreements_Group = SuffixGroup("Noun_Agreements_Group")
-A3Sg_Noun = Suffix("A3Sg_Noun", 10, Noun_Agreements_Group, 'A3sg')
-A3Pl_Noun = Suffix("A3Pl_Noun", 8, Noun_Agreements_Group, 'A3pl')
+A3Sg_Noun = Suffix("A3Sg_Noun", Noun_Agreements_Group, 'A3sg')
+A3Pl_Noun = Suffix("A3Pl_Noun", Noun_Agreements_Group, 'A3pl')
 
 ###########  Possessive agreements
-Pnon = Suffix("Pnon", 11)
-P1Sg = Suffix("P1sg", 11)
-P2Sg = Suffix("P2sg", 11)
-P3Sg = Suffix("P3sg", 11)
-P1Pl = Suffix("P1pl", 11)
-P2Pl = Suffix("P2pl", 11)
-P3Pl = Suffix("P3pl", 11)
+Pnon = Suffix("Pnon")
+P1Sg = Suffix("P1sg")
+P2Sg = Suffix("P2sg")
+P3Sg = Suffix("P3sg")
+P1Pl = Suffix("P1pl")
+P2Pl = Suffix("P2pl")
+P3Pl = Suffix("P3pl")
 
 ###########  Noun cases
 Noun_Case_Group = SuffixGroup('Noun_Case_Group')
-Nom = Suffix("Nom", 99, Noun_Case_Group)
-Nom_Deriv = Suffix("Nom_Deriv", 99, Noun_Case_Group, "Nom")
-Acc = Suffix("Acc", 99, Noun_Case_Group)
-Dat = Suffix("Dat", 99, Noun_Case_Group)
-Loc = Suffix("Loc", 99, Noun_Case_Group)
-Abl = Suffix("Abl", 99, Noun_Case_Group)
+Nom = Suffix("Nom", Noun_Case_Group)
+Nom_Deriv = Suffix("Nom_Deriv", Noun_Case_Group, "Nom")
+Acc = Suffix("Acc", Noun_Case_Group)
+Dat = Suffix("Dat", Noun_Case_Group)
+Loc = Suffix("Loc", Noun_Case_Group)
+Abl = Suffix("Abl", Noun_Case_Group)
 
 ############# Noun case-likes
-Gen = Suffix("Gen", 99, Noun_Case_Group)
-Ins = Suffix("Ins", 99, Noun_Case_Group)
+Gen = Suffix("Gen", Noun_Case_Group)
+Ins = Suffix("Ins", Noun_Case_Group)
 
 ############# Noun to Noun derivations
 Agt_Noun = Suffix("Agt_Noun", pretty_name='Agt')
@@ -116,31 +114,31 @@ Rel = Suffix("Rel")
 
 ############# Verb agreements
 Verb_Agreements_Group = SuffixGroup('Verb_Agreements_Group')
-A1Sg_Verb = Suffix("A1Sg_Verb", 99, Verb_Agreements_Group, "A1sg")
-A2Sg_Verb = Suffix("A2Sg_Verb", 99, Verb_Agreements_Group, "A2sg")
-A3Sg_Verb = Suffix("A3Sg_Verb", 99, Verb_Agreements_Group, "A3sg")
-A1Pl_Verb = Suffix("A1Pl_Verb", 99, Verb_Agreements_Group, "A1pl")
-A2Pl_Verb = Suffix("A2Pl_Verb", 99, Verb_Agreements_Group, "A2pl")
-A3Pl_Verb = Suffix("A3Pl_Verb", 99, Verb_Agreements_Group, "A3pl")
+A1Sg_Verb = Suffix("A1Sg_Verb", Verb_Agreements_Group, "A1sg")
+A2Sg_Verb = Suffix("A2Sg_Verb", Verb_Agreements_Group, "A2sg")
+A3Sg_Verb = Suffix("A3Sg_Verb", Verb_Agreements_Group, "A3sg")
+A1Pl_Verb = Suffix("A1Pl_Verb", Verb_Agreements_Group, "A1pl")
+A2Pl_Verb = Suffix("A2Pl_Verb", Verb_Agreements_Group, "A2pl")
+A3Pl_Verb = Suffix("A3Pl_Verb", Verb_Agreements_Group, "A3pl")
 
 ############# Verb conditions
 Verb_Polarity_Group = SuffixGroup("Verb_Conditions_Group")
-Negative = Suffix("Neg", 5, Verb_Polarity_Group)
-Positive = Suffix("Pos", 6, Verb_Polarity_Group)
+Negative = Suffix("Neg", Verb_Polarity_Group)
+Positive = Suffix("Pos", Verb_Polarity_Group)
 
 ############# Verbal tenses
-Aorist = Suffix("Aor", 10)
-Progressive = Suffix("Prog", 10)
-Future = Suffix("Fut", 10)
-Narr = Suffix("Narr", 15)
-Past = Suffix("Past", 20)
+Aorist = Suffix("Aor")
+Progressive = Suffix("Prog")
+Future = Suffix("Fut")
+Narr = Suffix("Narr")
+Past = Suffix("Past")
 
-Cond = Suffix("Cond", 30)
-Imp = Suffix("Imp", 10)
+Cond = Suffix("Cond")
+Imp = Suffix("Imp")
 
 ############ Modals
-Neces = Suffix("Neces", 10)
-Opt = Suffix("Opt", 10)
+Neces = Suffix("Neces")
+Opt = Suffix("Opt")
 
 ############ Verb to Noun derivations
 Inf = Suffix("Inf")
@@ -178,45 +176,45 @@ Become = Suffix("Become")
 
 ########### Adjective possessions
 Adjective_Possessions_Group = SuffixGroup("Adjective_Possessions_Group")
-Pnon_Adj = Suffix("Pnon_Adj", 10, Adjective_Possessions_Group, 'Pnon')
-P1Sg_Adj = Suffix("P1Sg_Adj", 10, Adjective_Possessions_Group, 'P1sg')
-P2Sg_Adj = Suffix("P2Sg_Adj", 10, Adjective_Possessions_Group, 'P2sg')
-P3Sg_Adj = Suffix("P3Sg_Adj", 10, Adjective_Possessions_Group, 'P3sg')
-P1Pl_Adj = Suffix("P1Pl_Adj", 10, Adjective_Possessions_Group, 'P1pl')
-P2Pl_Adj = Suffix("P2Pl_Adj", 10, Adjective_Possessions_Group, 'P2pl')
-P3Pl_Adj = Suffix("P3Pl_Adj", 10, Adjective_Possessions_Group, 'P3pl')
+Pnon_Adj = Suffix("Pnon_Adj", Adjective_Possessions_Group, 'Pnon')
+P1Sg_Adj = Suffix("P1Sg_Adj", Adjective_Possessions_Group, 'P1sg')
+P2Sg_Adj = Suffix("P2Sg_Adj", Adjective_Possessions_Group, 'P2sg')
+P3Sg_Adj = Suffix("P3Sg_Adj", Adjective_Possessions_Group, 'P3sg')
+P1Pl_Adj = Suffix("P1Pl_Adj", Adjective_Possessions_Group, 'P1pl')
+P2Pl_Adj = Suffix("P2Pl_Adj", Adjective_Possessions_Group, 'P2pl')
+P3Pl_Adj = Suffix("P3Pl_Adj", Adjective_Possessions_Group, 'P3pl')
 
 #############  Pronoun Agreements
 Pronoun_Agreements_Group = SuffixGroup("Pronoun_Agreements_Group")
-A1Sg_Pron = Suffix("A1Sg_Pron", 10, Pronoun_Agreements_Group, 'A1sg')
-A2Sg_Pron = Suffix("A2Sg_Pron", 10, Pronoun_Agreements_Group, 'A2sg')
-A3Sg_Pron = Suffix("A3Sg_Pron", 10, Pronoun_Agreements_Group, 'A3sg')
-A1Pl_Pron = Suffix("A1Pl_Pron", 10, Pronoun_Agreements_Group, 'A1pl')
-A2Pl_Pron = Suffix("A2Pl_Pron", 10, Pronoun_Agreements_Group, 'A2pl')
-A3Pl_Pron = Suffix("A3Pl_Pron", 10, Pronoun_Agreements_Group, 'A3pl')
+A1Sg_Pron = Suffix("A1Sg_Pron", Pronoun_Agreements_Group, 'A1sg')
+A2Sg_Pron = Suffix("A2Sg_Pron", Pronoun_Agreements_Group, 'A2sg')
+A3Sg_Pron = Suffix("A3Sg_Pron", Pronoun_Agreements_Group, 'A3sg')
+A1Pl_Pron = Suffix("A1Pl_Pron", Pronoun_Agreements_Group, 'A1pl')
+A2Pl_Pron = Suffix("A2Pl_Pron", Pronoun_Agreements_Group, 'A2pl')
+A3Pl_Pron = Suffix("A3Pl_Pron", Pronoun_Agreements_Group, 'A3pl')
 
 ########### Pronoun possessions
 Pronoun_Possessions_Group = SuffixGroup("Pronoun_Possessions_Group")
-Pnon_Pron = Suffix("Pnon_Pron", 10, Pronoun_Possessions_Group, 'Pnon')
-P1Sg_Pron = Suffix("P1Sg_Pron", 10, Pronoun_Possessions_Group, 'P1sg')
-P2Sg_Pron = Suffix("P2Sg_Pron", 10, Pronoun_Possessions_Group, 'P2sg')
-P3Sg_Pron = Suffix("P3Sg_Pron", 10, Pronoun_Possessions_Group, 'P3sg')
-P1Pl_Pron = Suffix("P1Pl_Pron", 10, Pronoun_Possessions_Group, 'P1pl')
-P2Pl_Pron = Suffix("P2Pl_Pron", 10, Pronoun_Possessions_Group, 'P2pl')
-P3Pl_Pron = Suffix("P3Pl_Pron", 10, Pronoun_Possessions_Group, 'P3pl')
+Pnon_Pron = Suffix("Pnon_Pron", Pronoun_Possessions_Group, 'Pnon')
+P1Sg_Pron = Suffix("P1Sg_Pron", Pronoun_Possessions_Group, 'P1sg')
+P2Sg_Pron = Suffix("P2Sg_Pron", Pronoun_Possessions_Group, 'P2sg')
+P3Sg_Pron = Suffix("P3Sg_Pron", Pronoun_Possessions_Group, 'P3sg')
+P1Pl_Pron = Suffix("P1Pl_Pron", Pronoun_Possessions_Group, 'P1pl')
+P2Pl_Pron = Suffix("P2Pl_Pron", Pronoun_Possessions_Group, 'P2pl')
+P3Pl_Pron = Suffix("P3Pl_Pron", Pronoun_Possessions_Group, 'P3pl')
 
 ###########  Pronoun cases
 Pronoun_Case_Group = SuffixGroup('Pronoun_Case_Group')
-Nom_Pron = Suffix("Nom", 99, Pronoun_Case_Group)
-Nom_Pron_Deriv = Suffix("Nom_Pron_Deriv", 99, Pronoun_Case_Group, pretty_name="Nom")
-Acc_Pron = Suffix("Acc", 99, Pronoun_Case_Group)
-Dat_Pron = Suffix("Dat", 99, Pronoun_Case_Group)
-Loc_Pron = Suffix("Loc", 99, Pronoun_Case_Group)
-Abl_Pron = Suffix("Abl", 99, Pronoun_Case_Group)
+Nom_Pron = Suffix("Nom", Pronoun_Case_Group)
+Nom_Pron_Deriv = Suffix("Nom_Pron_Deriv", Pronoun_Case_Group, pretty_name="Nom")
+Acc_Pron = Suffix("Acc", Pronoun_Case_Group)
+Dat_Pron = Suffix("Dat", Pronoun_Case_Group)
+Loc_Pron = Suffix("Loc", Pronoun_Case_Group)
+Abl_Pron = Suffix("Abl", Pronoun_Case_Group)
 
 ############# Pronoun case-likes
-Gen_Pron = Suffix("Gen", 99, Pronoun_Case_Group)
-Ins_Pron = Suffix("Ins", 99, Pronoun_Case_Group)
+Gen_Pron = Suffix("Gen", Pronoun_Case_Group)
+Ins_Pron = Suffix("Ins", Pronoun_Case_Group)
 
 ############# Pronoun to Adjective derivations
 Without_Pron = Suffix("Without_Pron", pretty_name="Without")

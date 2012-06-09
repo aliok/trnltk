@@ -39,7 +39,6 @@ class ParseToken:
         self.so_far = stem.root
         self.rest_str = rest_str
         self.transitions = []
-        self.last_rank = -99999
         self.current_phonetic_expectations = stem.phonetic_expectations
 
     def clone(self):
@@ -47,7 +46,6 @@ class ParseToken:
         clone.so_far = self.so_far
         clone.transitions = []
         clone.transitions.extend(self.transitions)
-        clone.last_rank = self.last_rank
         clone.current_phonetic_expectations = self.current_phonetic_expectations
         return clone
 
@@ -117,10 +115,6 @@ class ParseToken:
     def add_transition(self, suffix_form_application, to_state):
         last_state = self.get_last_state()
         self.transitions.append(Transition(last_state, suffix_form_application, to_state))
-        if to_state.type==State.DERIV:
-            self.last_rank = -99999
-        else:
-            self.last_rank = suffix_form_application.suffix_form.suffix.rank
 
         if suffix_form_application.suffix_form.form:
             self.current_phonetic_expectations = []
