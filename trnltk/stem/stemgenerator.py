@@ -15,6 +15,12 @@ class Stem:
             and self.phonetic_expectations==other.phonetic_expectations \
             and self.phonetic_attributes==other.phonetic_attributes
 
+    def __hash__(self):
+        return hash((self.root,
+                     tuple(sorted(self.phonetic_expectations or [])),
+                     tuple(sorted(self.phonetic_attributes or []))
+            ))
+
     def __str__(self):
         return u'{}({}) PH_ATTR:{} PH_EXPC:{}'.format(repr(self.root), self.dictionary_item, self.phonetic_attributes, self.phonetic_expectations)
 

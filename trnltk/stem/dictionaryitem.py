@@ -1,5 +1,3 @@
-__author__ = 'ali'
-
 class PrimaryPosition:
     NOUN = "Noun"
     ADJECTIVE = "Adj"
