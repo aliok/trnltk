@@ -1,5 +1,4 @@
 # coding=utf-8
-__author__ = 'ali'
 
 class TurkishLetter:
     def __init__(self, char_value, upper_case_char_value, alphabetic_index, vowel=False, frontal=False, rounded=False, voiceless=False,
@@ -23,10 +22,18 @@ class TurkishLetter:
             not self.vowel and (self.frontal or self.rounded)):
             raise Exception("Letter seems to have both vowel and Consonant attributes")
         elif (not self.in_ascii) and ('a' > self.char_value > 'z'):
-            raise Exception("Marked as english alphabet but it is not." + self.char_value)
+            raise Exception("Marked as English alphabet but it is not." + self.char_value)
         elif self.alphabetic_index < 0:
             raise Exception("Alphabetical index must be positive:" + str(self.alphabetic_index))
 
+    def __eq__(self, other):
+        if not other:
+            return False
+
+        return self.char_value==other.char_value and self.upper_case_char_value==other.upper_case_char_value
+
+    def __hash__(self):
+        return hash((self.char_value, self.upper_case_char_value))
 
 class TurkishAlphabet:
     L_a = TurkishLetter(u'a', u'A', 1, vowel=True)
@@ -76,12 +83,16 @@ class TurkishAlphabet:
     Devoicing_Map = {L_b: L_p, L_c: L_cc, L_d: L_t, L_g: L_k, L_gg: L_k}
     Voicing_Map =   {L_p: L_b, L_cc: L_c, L_t: L_d, L_g: L_gg, L_k: L_gg}
 
+    Lower_Case_Letter_Map = None
+    Upper_Case_Letter_Map = None
+
     @classmethod
     def get_letter_for_char(cls, char):
-        #TODO: map!
-        for letter in TurkishAlphabet.Turkish_Letters:
-            if letter.char_value == char or letter.upper_case_char_value==char:
-                return letter
+        if TurkishAlphabet.Lower_Case_Letter_Map.has_key(char):
+            return TurkishAlphabet.Lower_Case_Letter_Map[char]
+
+        elif TurkishAlphabet.Upper_Case_Letter_Map.has_key(char):
+            return TurkishAlphabet.Upper_Case_Letter_Map[char]
 
         return TurkishLetter(char, char.upper(), 99)
 
@@ -98,3 +109,16 @@ class TurkishAlphabet:
             return TurkishAlphabet.Devoicing_Map[letter]
         else:
             return None
+
+    @classmethod
+    def initialize(cls):
+        if not TurkishAlphabet.Lower_Case_Letter_Map or not TurkishAlphabet.Upper_Case_Letter_Map:
+            TurkishAlphabet.Lower_Case_Letter_Map = {}
+            TurkishAlphabet.Upper_Case_Letter_Map = {}
+
+            for letter in TurkishAlphabet.Turkish_Letters:
+                TurkishAlphabet.Lower_Case_Letter_Map[letter.char_value] = letter
+                TurkishAlphabet.Upper_Case_Letter_Map[letter.upper_case_char_value] = letter
+
+
+TurkishAlphabet.initialize()
