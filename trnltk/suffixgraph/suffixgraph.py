@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation, followed_by_derivation
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 NOUN_ROOT = State("NOUN_ROOT", 'Noun', State.TRANSFER)
@@ -79,26 +79,26 @@ A3Sg_Noun = Suffix("A3Sg_Noun", Noun_Agreements_Group, 'A3sg')
 A3Pl_Noun = Suffix("A3Pl_Noun", Noun_Agreements_Group, 'A3pl')
 
 ###########  Possessive agreements
-Pnon = Suffix("Pnon")
-P1Sg = Suffix("P1sg")
-P2Sg = Suffix("P2sg")
-P3Sg = Suffix("P3sg")
-P1Pl = Suffix("P1pl")
-P2Pl = Suffix("P2pl")
-P3Pl = Suffix("P3pl")
+Noun_Possessions_Group = SuffixGroup("Noun_Possession_Group")
+Pnon_Noun = Suffix("Pnon_Noun", Noun_Possessions_Group, "Pnon")
+P1Sg_Noun = Suffix("P1sg_Noun", Noun_Possessions_Group, "P1sg")
+P2Sg_Noun = Suffix("P2sg_Noun", Noun_Possessions_Group, "P2sg")
+P3Sg_Noun = Suffix("P3sg_Noun", Noun_Possessions_Group, "P3sg")
+P1Pl_Noun = Suffix("P1pl_Noun", Noun_Possessions_Group, "P1pl")
+P2Pl_Noun = Suffix("P2pl_Noun", Noun_Possessions_Group, "P2pl")
+P3Pl_Noun = Suffix("P3pl_Noun", Noun_Possessions_Group, "P3pl")
 
 ###########  Noun cases
-Noun_Case_Group = SuffixGroup('Noun_Case_Group')
-Nom = Suffix("Nom", Noun_Case_Group)
-Nom_Deriv = Suffix("Nom_Deriv", Noun_Case_Group, "Nom")
-Acc = Suffix("Acc", Noun_Case_Group)
-Dat = Suffix("Dat", Noun_Case_Group)
-Loc = Suffix("Loc", Noun_Case_Group)
-Abl = Suffix("Abl", Noun_Case_Group)
+Noun_Cases_Group = SuffixGroup('Noun_Case_Group')
+Nom_Noun = Suffix("Nom_Noun", Noun_Cases_Group, "Nom")
+Nom_Noun_Deriv = Suffix("Nom_Deriv_Noun", Noun_Cases_Group, "Nom")
+Acc_Noun = Suffix("Acc_Noun", Noun_Cases_Group, "Acc")
+Dat_Noun = Suffix("Dat_Noun", Noun_Cases_Group, "Dat")
+Loc_Noun = Suffix("Loc_Noun", Noun_Cases_Group, "Loc")
+Abl_Noun = Suffix("Abl_Noun", Noun_Cases_Group, "Abl")
 
-############# Noun case-likes
-Gen = Suffix("Gen", Noun_Case_Group)
-Ins = Suffix("Ins", Noun_Case_Group)
+Gen_Noun = Suffix("Gen_Noun", Noun_Cases_Group, "Gen")
+Ins_Noun = Suffix("Ins_Noun", Noun_Cases_Group, "Ins")
 
 ############# Noun to Noun derivations
 Agt_Noun = Suffix("Agt_Noun", pretty_name='Agt')
@@ -262,61 +262,59 @@ def _register_noun_agreements():
     A3Pl_Noun.add_suffix_form("lAr")
 
 def _register_possessive_agreements():
-    #TODO: rename these to Pnon_Noun etc
-    NOUN_WITH_AGREEMENT.add_out_suffix(Pnon, NOUN_WITH_POSSESSION)
-    Pnon.add_suffix_form("")
+    NOUN_WITH_AGREEMENT.add_out_suffix(Pnon_Noun, NOUN_WITH_POSSESSION)
+    Pnon_Noun.add_suffix_form("")
 
-    NOUN_WITH_AGREEMENT.add_out_suffix(P1Sg, NOUN_WITH_POSSESSION)
-    P1Sg.add_suffix_form("+Im")
+    NOUN_WITH_AGREEMENT.add_out_suffix(P1Sg_Noun, NOUN_WITH_POSSESSION)
+    P1Sg_Noun.add_suffix_form("+Im")
 
-    NOUN_WITH_AGREEMENT.add_out_suffix(P2Sg, NOUN_WITH_POSSESSION)
-    P2Sg.add_suffix_form("+In")
+    NOUN_WITH_AGREEMENT.add_out_suffix(P2Sg_Noun, NOUN_WITH_POSSESSION)
+    P2Sg_Noun.add_suffix_form("+In")
 
-    NOUN_WITH_AGREEMENT.add_out_suffix(P3Sg, NOUN_WITH_POSSESSION)
-    P3Sg.add_suffix_form("+sI")
+    NOUN_WITH_AGREEMENT.add_out_suffix(P3Sg_Noun, NOUN_WITH_POSSESSION)
+    P3Sg_Noun.add_suffix_form("+sI")
 
-    NOUN_WITH_AGREEMENT.add_out_suffix(P1Pl, NOUN_WITH_POSSESSION)
-    P1Pl.add_suffix_form("+ImIz")
+    NOUN_WITH_AGREEMENT.add_out_suffix(P1Pl_Noun, NOUN_WITH_POSSESSION)
+    P1Pl_Noun.add_suffix_form("+ImIz")
 
-    NOUN_WITH_AGREEMENT.add_out_suffix(P2Pl, NOUN_WITH_POSSESSION)
-    P2Pl.add_suffix_form("+InIz")
+    NOUN_WITH_AGREEMENT.add_out_suffix(P2Pl_Noun, NOUN_WITH_POSSESSION)
+    P2Pl_Noun.add_suffix_form("+InIz")
 
-    NOUN_WITH_AGREEMENT.add_out_suffix(P3Pl, NOUN_WITH_POSSESSION)
-    P3Pl.add_suffix_form("lArI")
-    P3Pl.add_suffix_form("I", comes_after(A3Pl_Noun))
+    NOUN_WITH_AGREEMENT.add_out_suffix(P3Pl_Noun, NOUN_WITH_POSSESSION)
+    P3Pl_Noun.add_suffix_form("lArI")
+    P3Pl_Noun.add_suffix_form("I", comes_after(A3Pl_Noun))
 
 def _register_noun_cases():
-    comes_after_P3 = comes_after(P3Sg) | comes_after(P3Pl)
+    comes_after_P3 = comes_after(P3Sg_Noun) | comes_after(P3Pl_Noun)
     doesnt_come_after_P3 = ~comes_after_P3
     
-    #TODO rename these to Nom_Noun etc
-    NOUN_WITH_POSSESSION.add_out_suffix(Nom, NOUN_WITH_CASE)
-    Nom.add_suffix_form("")
+    NOUN_WITH_POSSESSION.add_out_suffix(Nom_Noun, NOUN_WITH_CASE)
+    Nom_Noun.add_suffix_form("")
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Nom_Deriv, NOUN_NOM_DERIV)
-    Nom_Deriv.add_suffix_form("", comes_after(Pnon))
+    NOUN_WITH_POSSESSION.add_out_suffix(Nom_Noun_Deriv, NOUN_NOM_DERIV)
+    Nom_Noun_Deriv.add_suffix_form("", comes_after(Pnon_Noun))
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Acc, NOUN_WITH_CASE)
-    Acc.add_suffix_form(u"+yI", doesnt_come_after_P3)
-    Acc.add_suffix_form(u"nI", comes_after_P3)
+    NOUN_WITH_POSSESSION.add_out_suffix(Acc_Noun, NOUN_WITH_CASE)
+    Acc_Noun.add_suffix_form(u"+yI", doesnt_come_after_P3)
+    Acc_Noun.add_suffix_form(u"nI", comes_after_P3)
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Dat, NOUN_WITH_CASE)
-    Dat.add_suffix_form(u"+yA", doesnt_come_after_P3)
-    Dat.add_suffix_form(u"nA", comes_after_P3)
+    NOUN_WITH_POSSESSION.add_out_suffix(Dat_Noun, NOUN_WITH_CASE)
+    Dat_Noun.add_suffix_form(u"+yA", doesnt_come_after_P3)
+    Dat_Noun.add_suffix_form(u"nA", comes_after_P3)
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Loc, NOUN_WITH_CASE)
-    Loc.add_suffix_form(u"dA", doesnt_come_after_P3 & doesnt_come_after_derivation(Inf, "mAk"))
-    Loc.add_suffix_form(u"ndA")
+    NOUN_WITH_POSSESSION.add_out_suffix(Loc_Noun, NOUN_WITH_CASE)
+    Loc_Noun.add_suffix_form(u"dA", doesnt_come_after_P3 & doesnt_come_after_derivation(Inf, "mAk"))
+    Loc_Noun.add_suffix_form(u"ndA")
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Abl, NOUN_WITH_CASE)
-    Abl.add_suffix_form(u"dAn", doesnt_come_after_P3)
-    Abl.add_suffix_form(u"ndAn")
+    NOUN_WITH_POSSESSION.add_out_suffix(Abl_Noun, NOUN_WITH_CASE)
+    Abl_Noun.add_suffix_form(u"dAn", doesnt_come_after_P3)
+    Abl_Noun.add_suffix_form(u"ndAn")
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Gen, NOUN_WITH_CASE)
-    Gen.add_suffix_form(u"+nIn")
+    NOUN_WITH_POSSESSION.add_out_suffix(Gen_Noun, NOUN_WITH_CASE)
+    Gen_Noun.add_suffix_form(u"+nIn")
 
-    NOUN_WITH_POSSESSION.add_out_suffix(Ins, NOUN_WITH_CASE)
-    Ins.add_suffix_form(u"+ylA")
+    NOUN_WITH_POSSESSION.add_out_suffix(Ins_Noun, NOUN_WITH_CASE)
+    Ins_Noun.add_suffix_form(u"+ylA")
 
 def _register_noun_to_noun_derivations():
     NOUN_NOM_DERIV.add_out_suffix(Agt_Noun, NOUN_ROOT)
@@ -418,9 +416,7 @@ def _register_verb_agreements():
     A3Pl_Verb.add_suffix_form("sInlAr", comes_after_imperative)
 
 def _register_modal_verbs():
-    followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | \
-                                  followed_by(A1Sg_Verb) | followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) | \
-                                  followed_by(A1Pl_Verb) | followed_by(A2Pl_Verb) | followed_by(A3Pl_Verb)# TODO: add the group!
+    followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | followed_by_one_from_group(Verb_Agreements_Group)
 
     VERB_WITH_POLARITY.add_out_suffix(Neces, VERB_WITH_TENSE)
     Neces.add_suffix_form(u"mAlI!")

@@ -46,7 +46,7 @@ class Phonetics:
         if first_form_letter.char_value == '+':
             # +yacak, +iyor, +ar, +yi, +im, +yla
 
-            optional_letter = TurkishAlphabet.get_letter_for_char(form_str[1])  #TODO: better naming: kaynastirma
+            optional_letter = TurkishAlphabet.get_letter_for_char(form_str[1])
             if optional_letter.vowel:
                 #+iyor, +ar, +im
                 if PhoneticAttributes.LastLetterVowel in phonetic_attributes:
@@ -101,7 +101,7 @@ class Phonetics:
         if first_form_letter.char_value == '+':
             # +yacak, +iyor, +ar, +yi, +im, +yla
 
-            optional_letter = TurkishAlphabet.get_letter_for_char(form_str[1])  #TODO: better naming: kaynastirma
+            optional_letter = TurkishAlphabet.get_letter_for_char(form_str[1])
             if optional_letter.vowel:
                 #+iyor, +ar, +im
                 if PhoneticAttributes.LastLetterVowel in phonetic_attributes:

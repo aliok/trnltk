@@ -66,6 +66,26 @@ class Invert(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
+class FalseCondition(SuffixFormCondition):
+    def matches(self, parse_token):
+        return False
+
+    def __str__(self):
+        return u'False'
+
+    def __repr__(self):
+        return self.__str__()
+
+class TrueCondition(SuffixFormCondition):
+    def matches(self, parse_token):
+        return True
+
+    def __str__(self):
+        return u'True'
+
+    def __repr__(self):
+        return self.__str__()
+
 class HasOne(SuffixFormCondition):
     def __init__(self, _suffix, _form_str=None):
         self._suffix = _suffix
@@ -185,6 +205,8 @@ class RequiresRootAttributes(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
+_false_condition = FalseCondition()
+
 def comes_after(suffix, form_str=None):
     return HasOne(suffix, form_str)
 
@@ -202,6 +224,13 @@ def doesnt_come_after_derivation(suffix, form_str=None):
 
 def followed_by(suffix, form_str=None):
     return HasOne(suffix, form_str)
+
+def followed_by_one_from_group(suffix_group):
+    condition = _false_condition
+    for suffix in suffix_group.suffixes:
+        condition = condition | followed_by(suffix)
+
+    return condition
 
 def followed_by_derivation(suffix, form_str=None):
     return HasLastDerivation(suffix, form_str)
