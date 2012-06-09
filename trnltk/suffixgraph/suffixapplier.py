@@ -83,25 +83,3 @@ def transition_allowed_for_suffix_form(token, suffix_form):
         return False
 
     return True
-
-def get_applicable_suffixes_of_state_for_token(from_state, token):
-    logger.debug('  Finding applicable suffixes for token from state %s: %s', from_state, token)
-    logger.debug('   Found outputs %s', from_state.outputs)
-
-    # filter out suffixes with bigger ranks
-    state_applicable_suffixes = filter(lambda t: t[0].rank >= token.last_rank, from_state.outputs)
-    logger.debug('   Filtered by rank %d : %s',token.last_rank,  state_applicable_suffixes)
-
-    # filter out suffixes which are already added since last derivation
-    state_applicable_suffixes = filter(lambda t: t[0] not in token.get_suffixes_since_derivation_suffix(), state_applicable_suffixes)
-    logger.debug('   Filtered out the applied suffixes since last derivation %s : %s', token.get_suffixes_since_derivation_suffix(),  state_applicable_suffixes)
-
-    # filter out suffixes if one of the suffixes of whose group is already added since last derivation
-    state_applicable_suffixes = filter(lambda t: True if not t[0].group else t[0].group not in token.get_suffix_groups_since_last_derivation(), state_applicable_suffixes)
-    logger.debug('   Filtered out the suffixes that has one applied in their groups: %s', state_applicable_suffixes)
-
-    # sort suffixes by rank
-    state_applicable_suffixes = sorted(state_applicable_suffixes, cmp=lambda x, y: cmp(x[0].rank, y[0].rank))
-    logger.debug('   Sorted by rank: %s', state_applicable_suffixes)
-
-    return state_applicable_suffixes

@@ -29,7 +29,7 @@ class ParserTest(unittest.TestCase):
                 cls.all_stems.extend(StemGenerator.generate(di))
 
         predefined_paths = PredefinedPaths(cls.all_stems)
-        predefined_paths.define_predefined_paths()
+        predefined_paths.create_predefined_paths()
 
         cls.parser = Parser(cls.all_stems, predefined_paths)
 

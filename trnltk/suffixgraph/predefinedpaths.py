@@ -8,7 +8,7 @@ from trnltk.suffixgraph.suffixgraph import *
 class PredefinedPaths():
     def __init__(self, stems):
         self._stems = stems
-        self.token_map = {}
+        self.token_map = None
 
     def _find_stem(self, stem_str, primary_position, secondary_position):
         for stem in self._stems:
@@ -17,9 +17,6 @@ class PredefinedPaths():
 
         raise Exception('Unable to find stem {}+{}+{}'.format(stem_str, primary_position, secondary_position))
 
-
-    def _create_token(self, stem):
-        return ParseToken(stem, get_default_stem_state(stem), u'')
 
     def _add_transition(self, token, suffix_form_application_str, suffix, to_state, whole_word):
         suffix_form = SuffixForm(suffix_form_application_str)
@@ -38,7 +35,7 @@ class PredefinedPaths():
 
 
     def _follow_path(self, stem, path_edges):
-        token = self._create_token(stem)
+        token = ParseToken(stem, get_default_stem_state(stem), u'')
         for path_edge in path_edges:
             suffix = None
             suffix_form_application_str = None
@@ -65,40 +62,37 @@ class PredefinedPaths():
 
         self.token_map[stem].append(token)
 
-        ##TODO: review!
-#        path_result = token.so_far
-#        if not path_result:
-#            raise Exception('Path result is empty for {} {}'.format(stem, path_tuples))
-#        if not self.token_map.has_key(path_result):
-#            self.token_map[path_result] = []
-
-#        self.token_map[path_result].append(token)
-
     def has_paths(self, stem):
-        self.token_map.keys()
+        if not self.token_map:
+            raise Exception("Predefined paths are not yet created. Maybe you forgot to run 'create_predefined_paths' ?")
+
         return self.token_map.has_key(stem)
 
     def get_paths(self, stem):
+        if not self.token_map:
+            raise Exception("Predefined paths are not yet created. Maybe you forgot to run 'create_predefined_paths' ?")
+
         return self.token_map[stem]
 
-    def define_predefined_paths(self):
-        self._define_predefined_path_of_ben()
-        self._define_predefined_path_of_sen()
-        self._define_predefined_path_of_o_pron_pers()
-        self._define_predefined_path_of_biz()
-        self._define_predefined_path_of_siz()
-        self._define_predefined_path_of_onlar_pron_pers()
+    def create_predefined_paths(self):
+        self.token_map = {}
+
+        self._create_predefined_path_of_ben()
+        self._create_predefined_path_of_sen()
+        self._create_predefined_path_of_o_pron_pers()
+        self._create_predefined_path_of_biz()
+        self._create_predefined_path_of_siz()
+        self._create_predefined_path_of_onlar_pron_pers()
+
+        self._create_predefined_path_of_bu_pron_demons()
+        self._create_predefined_path_of_su_pron_demons()
+        self._create_predefined_path_of_o_pron_demons()
+        self._create_predefined_path_of_bunlar_pron_demons()
+        self._create_predefined_path_of_sunlar_pron_demons()
+        self._create_predefined_path_of_onlar_pron_demons()
 
 
-        self._define_predefined_path_of_bu_pron_demons()
-        self._define_predefined_path_of_su_pron_demons()
-        self._define_predefined_path_of_o_pron_demons()
-        self._define_predefined_path_of_bunlar_pron_demons()
-        self._define_predefined_path_of_sunlar_pron_demons()
-        self._define_predefined_path_of_onlar_pron_demons()
-
-
-    def _define_predefined_path_of_ben(self):
+    def _create_predefined_path_of_ben(self):
         stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
         stem_ban = self._find_stem(u'ban', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
@@ -113,7 +107,7 @@ class PredefinedPaths():
 
         self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_sen(self):
+    def _create_predefined_path_of_sen(self):
         stem_sen = self._find_stem(u'sen', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
         stem_san = self._find_stem(u'san', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
@@ -128,7 +122,7 @@ class PredefinedPaths():
 
         self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_o_pron_pers(self):
+    def _create_predefined_path_of_o_pron_pers(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
         self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
@@ -142,7 +136,7 @@ class PredefinedPaths():
 
         self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_biz(self):
+    def _create_predefined_path_of_biz(self):
         stem_biz = self._find_stem(u'biz', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
         self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, Nom_Pron])
@@ -166,7 +160,7 @@ class PredefinedPaths():
 
         self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_siz(self):
+    def _create_predefined_path_of_siz(self):
         stem_siz = self._find_stem(u'siz', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
         self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, Nom_Pron])
@@ -190,7 +184,7 @@ class PredefinedPaths():
 
         self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_onlar_pron_pers(self):
+    def _create_predefined_path_of_onlar_pron_pers(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
         self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
@@ -203,7 +197,7 @@ class PredefinedPaths():
 
         self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_bu_pron_demons(self):
+    def _create_predefined_path_of_bu_pron_demons(self):
         stem_bu = self._find_stem(u'bu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
         self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
@@ -217,7 +211,7 @@ class PredefinedPaths():
 
         self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_su_pron_demons(self):
+    def _create_predefined_path_of_su_pron_demons(self):
         stem_su = self._find_stem(u'şu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
         self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
@@ -231,7 +225,7 @@ class PredefinedPaths():
 
         self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_o_pron_demons(self):
+    def _create_predefined_path_of_o_pron_demons(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
         self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
@@ -245,7 +239,7 @@ class PredefinedPaths():
 
         self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_bunlar_pron_demons(self):
+    def _create_predefined_path_of_bunlar_pron_demons(self):
         stem_bu = self._find_stem(u'bu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
         self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
@@ -258,7 +252,7 @@ class PredefinedPaths():
 
         self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_sunlar_pron_demons(self):
+    def _create_predefined_path_of_sunlar_pron_demons(self):
         stem_su = self._find_stem(u'şu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
         self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
@@ -271,7 +265,7 @@ class PredefinedPaths():
 
         self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
 
-    def _define_predefined_path_of_onlar_pron_demons(self):
+    def _create_predefined_path_of_onlar_pron_demons(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
         self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])

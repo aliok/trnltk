@@ -55,6 +55,17 @@ class Suffix:
         form.suffix=self
         self.suffix_forms.append(form)
 
+    def get_suffix_form(self, suffix_form_str):
+        result = None
+        for suffix_form in self.suffix_forms:
+            if suffix_form.form==suffix_form_str:
+                if result:
+                    raise Exception("Multiple suffix forms found for suffix {} and form {}".format(self, suffix_form_str))
+                else:
+                    result = suffix_form
+
+        return result
+
     def __str__(self):
         return "{}({})".format(self.name, self.rank)
 

@@ -1,7 +1,5 @@
 from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix, ZeroTransitionSuffix
 
-__author__ = 'ali'
-
 class SuffixFormCondition:
     def matches(self, parse_token):
         raise NotImplementedError( "Should have implemented this" )
