@@ -91,14 +91,14 @@ class PredefinedPathsTest(unittest.TestCase):
 
         # last one ends with transition to derivation state
         self.assert_defined_path(u'hepsi', PRON, None,
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Nom',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Acc(ni[ni])',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Dat(ne[ne])',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Loc(nde[nde])',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Abl(nden[nden])',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Ins(yle[yle])',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Gen(nin[nin])',
-            u'hepsi(hepsi)+Pron+A3sg+P3sg+Nom')
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Nom',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Acc(ni[ni])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Dat(ne[ne])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Loc(nde[nde])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Abl(nden[nden])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Ins(yle[yle])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Gen(nin[nin])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+Nom')
 
         # last one ends with transition to derivation state
         self.assert_defined_path(u'hep', PRON, None,

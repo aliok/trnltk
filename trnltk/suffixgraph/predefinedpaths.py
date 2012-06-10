@@ -386,16 +386,7 @@ class PredefinedPaths():
 
         ##### No A2Sg
 
-        ##### A3Sg
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron])
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Acc_Pron, u'ni')])
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Dat_Pron, u'ne')])
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Loc_Pron, u'nde')])
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Abl_Pron, u'nden')])
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Ins_Pron, u'yle')])
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Gen_Pron, u'nin')])
-
-        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron_Deriv])
+        ##### No A3Sg
 
         ##### A1pl
         self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), Nom_Pron])
@@ -420,3 +411,13 @@ class PredefinedPaths():
         self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), Nom_Pron_Deriv])
 
         ##### No A3pl
+
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, Nom_Pron])
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Acc_Pron, u'ni')])
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Dat_Pron, u'ne')])
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Loc_Pron, u'nde')])
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Abl_Pron, u'nden')])
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Ins_Pron, u'yle')])
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Gen_Pron, u'nin')])
+
+        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, Nom_Pron_Deriv])

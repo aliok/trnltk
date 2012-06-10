@@ -761,8 +761,8 @@ class ParserTest(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.assert_parse_correct(u'hepsi',              u'hepsi(hepsi)+Pron+A3sg+P3sg+Nom')
-        self.assert_parse_correct(u'hepsini',            u'hepsi(hepsi)+Pron+A3sg+P3sg+Acc(ni[ni])')
+        self.assert_parse_correct(u'hepsi',              u'hepsi(hepsi)+Pron+A3pl+P3pl+Nom')
+        self.assert_parse_correct(u'hepsini',            u'hepsi(hepsi)+Pron+A3pl+P3pl+Acc(ni[ni])')
         self.assert_parse_correct(u'hepimize',           u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Dat(e[e])')
         self.assert_parse_correct(u'hepinizle',          u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Ins(le[le])')
 
