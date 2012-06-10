@@ -9,7 +9,7 @@ import networkx as nx
 def generate_directed_graph():
     graph=nx.MultiDiGraph()
 
-    possible_edge_group_colors = {'red', 'blue', 'yellow', 'green', 'cyan', 'magenta', 'purple', 'brown'}
+    possible_edge_group_colors = {'red', 'blue', 'yellow', 'green', 'cyan', 'magenta', 'purple', 'brown', 'orange', 'skyblue', 'turquoise'}
 
     for state in ALL_STATES:
         graph.add_node(state.name)
@@ -22,7 +22,7 @@ def generate_directed_graph():
         colormap = dict()
 
         for (suffix, output_state) in state.outputs:
-            label = '{}({})'.format(suffix.name, suffix.rank)
+            label = suffix.name
             print 'Adding edge ', state.name, output_state.name, label
 
             color = 'black'

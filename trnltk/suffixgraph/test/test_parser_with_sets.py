@@ -15,7 +15,8 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
 #TODO
 cases_to_skip = {
-    u'+Zero',
+    u'Verb+Zero',
+    u'"Adj+Zero")',
     u'+Pres+',
     u'_',
     u'PCNom',
@@ -68,18 +69,18 @@ class ParserTestWithSets(unittest.TestCase):
         suffix_applier_logger.setLevel(logging.INFO)
 
     def test_should_parse_set_001(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
+#        parser_logger.setLevel(logging.DEBUG)
+#        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("001")
 
     def test_should_parse_set_002(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
+#        parser_logger.setLevel(logging.DEBUG)
+#        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("002")
 
     def test_should_parse_set_003(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
+#        parser_logger.setLevel(logging.DEBUG)
+#        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("003")
 
     def _test_should_parse_set(self, set_number, start_index=0):

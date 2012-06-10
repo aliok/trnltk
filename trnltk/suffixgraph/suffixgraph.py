@@ -71,6 +71,7 @@ FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
 FreeTransitionSuffix("Pronoun_Free_Transition", PRONOUN_WITH_CASE, PRONOUN_TERMINAL)
 FreeTransitionSuffix("Numeral_Free_Transition", NUMERAL_ROOT, NUMERAL_DERIV)
 ZeroTransitionSuffix("Numeral_Zero_Transition", NUMERAL_DERIV, ADJECTIVE_ROOT)
+ZeroTransitionSuffix("Adjective_to_Noun_Zero_Transition", ADJECTIVE_DERIV, NOUN_ROOT)
 #TODO: transition from numeral to adverb for case "birer birer geldiler?" hmm maybe duplication caused an adj->adv transition?
 
 #############  Noun Agreements

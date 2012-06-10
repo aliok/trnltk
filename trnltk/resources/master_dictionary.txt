@@ -4854,7 +4854,6 @@ cüzzam
 çekiçlemek
 çekik [P:Adj]
 çekiliş
-çekilmek
 çekim
 çekimlemek
 çekimsenmek
@@ -8972,7 +8971,6 @@ Gemlik
 gen
 gencecik [P:Adj]
 gencelmek
-genç [A:Voicing]
 genç [P:Adj; A:Voicing]
 Genç
 gençten [P:Adj]
