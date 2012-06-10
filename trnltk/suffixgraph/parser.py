@@ -12,6 +12,15 @@ class Parser:
     def __init__(self, stems, predefined_paths):
         self.stems = stems
         self.predefined_paths = predefined_paths or []
+        self.stem_map =  {}
+
+        for stem in stems:
+            key = stem.root
+            if not self.stem_map.has_key(key):
+                self.stem_map[key] = []
+
+            self.stem_map[key].append(stem)
+
 
     def parse(self, input):
         logger.debug('\n\n-------------Parsing word "%s"', input)
@@ -49,26 +58,25 @@ class Parser:
                 if self.predefined_paths.has_paths(stem):
                     predefined_tokens = self.predefined_paths.get_paths(stem)
                     logger.debug('Found predefined tokens for stem candidate "%s" : %s', stem, predefined_tokens)
-                    for token in predefined_tokens:
-                        if input.startswith(token.so_far):
-                            logger.debug('Predefined token is applicable %s', token)
-                            clone = token.clone()
-                            clone.rest_str = input[len(token.so_far):]
+                    for predefined_token in predefined_tokens:
+                        if input.startswith(predefined_token.so_far):
+                            logger.debug('Predefined token is applicable %s', predefined_token)
+                            clone = predefined_token.clone()
+                            clone.rest_str = input[len(predefined_token.so_far):]
                             candidates.append(clone)
                         else:
-                            logger.debug('Predefined token is not applicable, skipping %s', token)
+                            logger.debug('Predefined token is not applicable, skipping %s', predefined_token)
                 else:
-                    token = ParseToken(stem, get_default_stem_state(stem), input[len(partial_input):])
-                    candidates.append(token)
+                    predefined_token = ParseToken(stem, get_default_stem_state(stem), input[len(partial_input):])
+                    candidates.append(predefined_token)
 
         return candidates
 
     def _find_stems_for_partial_input(self, partial_input):
-        dictionary_stems = []
-        for stem in self.stems:
-            if stem.root == partial_input:
-                dictionary_stems.append(stem)
-        return dictionary_stems
+        if self.stem_map.has_key(partial_input):
+            return self.stem_map[partial_input][:]
+        else:
+            return []
 
     def _traverse_candidates(self, candidates, results, word):
         if logger.isEnabledFor(logging.DEBUG):
