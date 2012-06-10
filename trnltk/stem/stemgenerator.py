@@ -124,14 +124,14 @@ class StemGenerator:
 
     @classmethod
     def _handle_special_stems(cls, dictionary_item):
+        dictionary_item.attributes.remove(RootAttribute.StemChange)
+
         ##TODO: de-ye
         if dictionary_item.lemma==u'ben':
-            dictionary_item.attributes.remove(RootAttribute.StemChange)
             stem_ben = Stem(u'ben', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ben'))
             stem_ban = Stem(u'ban', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ban'))
             return [stem_ben, stem_ban]
         elif dictionary_item.lemma==u'sen':
-            dictionary_item.attributes.remove(RootAttribute.StemChange)
             stem_sen = Stem(u'sen', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ben'))
             stem_san = Stem(u'san', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ban'))
             return [stem_sen, stem_san]
@@ -139,6 +139,10 @@ class StemGenerator:
             return None
         elif dictionary_item.lemma==u'yemek':
             return None
+        elif dictionary_item.lemma==u'hepsi':
+            stem_hep = Stem(u'hep', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'hep'))
+            stem_hepsi = Stem(u'hepsi', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'hepsi'))
+            return [stem_hep, stem_hepsi]
         else:
             raise Exception('Unhandled stem change : {} !'.format(dictionary_item))
 

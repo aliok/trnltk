@@ -10256,7 +10256,8 @@ hep [P:Adv, Time]
 hepatit [A:NoVoicing]
 hepatoloji
 hepçil
-hepsi [P:Pron]
+# NoVoicing for StemChange to 'hep'
+hepsi [P:Pron; A:StemChange, NoVoicing]
 hepten
 hepyek [A:NoVoicing]
 her [P:Det]

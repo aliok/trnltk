@@ -7,8 +7,10 @@ from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator, CircumflexConvertingStemGenerator
+from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
+from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
+from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
 #TODO
@@ -57,22 +59,28 @@ class ParserTestWithSets(unittest.TestCase):
 
                 cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
-        cls.parser = Parser(cls.all_stems)
+        predefined_paths = PredefinedPaths(cls.all_stems)
+        predefined_paths.create_predefined_paths()
+        cls.parser = Parser(cls.all_stems, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
         parser_logger.setLevel(logging.INFO)
+        suffix_applier_logger.setLevel(logging.INFO)
 
     def test_should_parse_set_001(self):
         parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("001")
 
     def test_should_parse_set_002(self):
         parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("002")
 
     def test_should_parse_set_003(self):
         parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("003")
 
     def _test_should_parse_set(self, set_number, start_index=0):

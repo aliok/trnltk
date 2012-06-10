@@ -8,7 +8,7 @@ from trnltk.suffixgraph.suffixgraph import *
 class PredefinedPaths():
     def __init__(self, stems):
         self._stems = stems
-        self.token_map = None
+        self.token_map = {}
 
     def _find_stem(self, stem_str, primary_position, secondary_position):
         for stem in self._stems:
@@ -75,8 +75,6 @@ class PredefinedPaths():
         return self.token_map[stem]
 
     def create_predefined_paths(self):
-        self.token_map = {}
-
         self._create_predefined_path_of_ben()
         self._create_predefined_path_of_sen()
         self._create_predefined_path_of_o_pron_pers()
@@ -92,6 +90,7 @@ class PredefinedPaths():
         self._create_predefined_path_of_onlar_pron_demons()
 
         self._create_predefined_path_of_kendi()
+        self._create_predefined_path_of_hepsi()
 
     def _create_predefined_path_of_ben(self):
         stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
@@ -378,3 +377,46 @@ class PredefinedPaths():
         self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Gen_Pron, u'nin')])
 
         self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, Nom_Pron_Deriv])
+
+    def _create_predefined_path_of_hepsi(self):
+        stem_hep = self._find_stem(u'hep', PrimaryPosition.PRONOUN, None)
+        stem_hepsi = self._find_stem(u'hepsi', PrimaryPosition.PRONOUN, None)
+
+        ##### No A1Sg
+
+        ##### No A2Sg
+
+        ##### A3Sg
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron])
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Acc_Pron, u'ni')])
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Dat_Pron, u'ne')])
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Loc_Pron, u'nde')])
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Abl_Pron, u'nden')])
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Ins_Pron, u'yle')])
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, (Gen_Pron, u'nin')])
+
+        self._add_token(stem_hepsi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron_Deriv])
+
+        ##### A1pl
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), Nom_Pron])
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Acc_Pron, u'i')])
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Dat_Pron, u'e')])
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Loc_Pron, u'de')])
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Abl_Pron, u'den')])
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Ins_Pron, u'le')])
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), Nom_Pron_Deriv])
+
+        ##### A2pl
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), Nom_Pron])
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Acc_Pron, u'i')])
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Dat_Pron, u'e')])
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Loc_Pron, u'de')])
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Abl_Pron, u'den')])
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Ins_Pron, u'le')])
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Gen_Pron, u'in')])
+
+        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), Nom_Pron_Deriv])
+
+        ##### No A3pl

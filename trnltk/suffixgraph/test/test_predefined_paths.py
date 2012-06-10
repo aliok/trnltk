@@ -1,4 +1,5 @@
 # coding=utf-8
+import logging
 import os
 import unittest
 from hamcrest import *
@@ -7,11 +8,13 @@ from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.suffixgraph.parser import Parser, logger as parser_logger
+from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 
-class ParserTest(unittest.TestCase):
+class PredefinedPathsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        super(ParserTest, cls).setUpClass()
+        super(PredefinedPathsTest, cls).setUpClass()
         cls.all_stems = []
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
@@ -23,12 +26,28 @@ class ParserTest(unittest.TestCase):
                 PrimaryPosition.NUMERAL, PrimaryPosition.PUNCTUATION]:
                 cls.all_stems.extend(StemGenerator.generate(di))
 
-        predefinedPaths = PredefinedPaths(cls.all_stems)
-        predefinedPaths.create_predefined_paths()
+        cls.token_map = {}
 
-        cls.predefined_paths = predefinedPaths.token_map
+    def setUp(self):
+        super(PredefinedPathsTest, self).setUp()
+
+        logging.basicConfig(level=logging.INFO)
+        parser_logger.setLevel(logging.INFO)
+        suffix_applier_logger.setLevel(logging.INFO)
+
+        self.predefined_paths = PredefinedPaths(self.all_stems)
+
+    def tearDown(self):
+        self.predefined_paths = None
+        self.token_map = {}
+
 
     def test_should_have_paths_for_personal_pronouns(self):
+        self.predefined_paths._create_predefined_path_of_ben()
+        self.predefined_paths._create_predefined_path_of_sen()
+
+        self.token_map = self.predefined_paths.token_map
+
         PRON = PrimaryPosition.PRONOUN
         PERS = SecondaryPosition.PERSONAL
 
@@ -60,15 +79,54 @@ class ParserTest(unittest.TestCase):
         self.assert_defined_path(u'san', PRON, PERS,
             u'san(sen)+Pron+Pers+A2sg+Pnon+Dat(a[a])')
 
+    def test_should_have_paths_for_hepsi(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.predefined_paths._create_predefined_path_of_hepsi()
+
+        self.token_map = self.predefined_paths.token_map
+
+        PRON = PrimaryPosition.PRONOUN
+
+        # last one ends with transition to derivation state
+        self.assert_defined_path(u'hepsi', PRON, None,
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Nom',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Acc(ni[ni])',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Dat(ne[ne])',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Loc(nde[nde])',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Abl(nden[nden])',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Ins(yle[yle])',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Gen(nin[nin])',
+            u'hepsi(hepsi)+Pron+A3sg+P3sg+Nom')
+
+        # last one ends with transition to derivation state
+        self.assert_defined_path(u'hep', PRON, None,
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Nom',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Acc(i[i])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Dat(e[e])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Loc(de[de])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Abl(den[den])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Ins(le[le])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Gen(in[in])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Nom',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Nom',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Acc(i[i])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Dat(e[e])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Loc(de[de])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Abl(den[den])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Ins(le[le])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Gen(in[in])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Nom')
 
     def assert_defined_path(self, stem_root, primary_position, secondary_position, *args):
         assert_that(self.predefined_tokens(stem_root, primary_position, secondary_position), IsTokensMatches([a for a in args]))
 
     def predefined_tokens(self, stem_root, primary_position, secondary_position):
         predefined_tokens = []
-        for stem in self.predefined_paths.keys():
+        for stem in self.token_map.keys():
             if stem.root==stem_root and stem.dictionary_item.primary_position==primary_position and stem.dictionary_item.secondary_position==secondary_position:
-                predefined_tokens.extend(self.predefined_paths[stem])
+                predefined_tokens.extend(self.token_map[stem])
 
         return [r.to_pretty_str() for r in predefined_tokens]
 

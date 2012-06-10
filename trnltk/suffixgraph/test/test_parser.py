@@ -692,9 +692,6 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'bakıştılar',        u'bak(bakmak)+Verb+Verb+Recip(+Iş[ış])+Pos+Past(dI[tı])+A3pl(lAr[lar])')
 
     def test_should_parse_reflexive_pronouns(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct(u'kendim',             u'kendi(kendi)+Pron+Reflex+A1sg+P1sg(m[m])+Nom')
         self.assert_parse_correct(u'kendin',             u'kendi(kendi)+Pron+Reflex+A2sg+P2sg(n[n])+Nom')
         self.assert_parse_correct(u'kendi',              u'kendi(kendi)+Pron+Reflex+A3sg+P3sg+Nom')
@@ -759,6 +756,15 @@ class ParserTest(unittest.TestCase):
         self.assert_parse_correct(u'kendisiyle',         u'kendi(kendi)+Pron+Reflex+A3sg+P3sg(si[si])+Ins(yle[yle])')
         self.assert_parse_correct(u'kendilerimizle',     u'kendi(kendi)+Pron+Reflex+A1pl(ler[ler])+P1pl(imiz[imiz])+Ins(le[le])')
         self.assert_parse_correct(u'kendilerinizle',     u'kendi(kendi)+Pron+Reflex+A2pl(ler[ler])+P2pl(iniz[iniz])+Ins(le[le])')
+
+    def test_should_parse_pronoun_hepsi(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_correct(u'hepsi',              u'hepsi(hepsi)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct(u'hepsini',            u'hepsi(hepsi)+Pron+A3sg+P3sg+Acc(ni[ni])')
+        self.assert_parse_correct(u'hepimize',           u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Dat(e[e])')
+        self.assert_parse_correct(u'hepinizle',          u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Ins(le[le])')
 
     def test_should_parse_some_problematic_words(self):
         self.assert_parse_correct(u'bitirelim',         u'bit(bitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Opt(A[e])+A1pl(lIm[lim])')
