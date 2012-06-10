@@ -16,7 +16,6 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 #TODO
 cases_to_skip = {
     u'Verb+Zero',
-    u'"Adj+Zero")',
     u'+Pres+',
     u'_',
     u'PCNom',
@@ -32,7 +31,6 @@ cases_to_skip = {
     u'Aor+A3pl+Past"',   # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
     u'içeri',
-    u'ürk+Verb',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
     u'niçin+',
     u'havil+',

@@ -50,6 +50,7 @@ def write_graph_to_file(graph, file_path):
 
     roots_sub_graph.add_node('NOUN_ROOT')
     roots_sub_graph.add_node('VERB_ROOT')
+    roots_sub_graph.add_node('PRONOUN_ROOT')
 
 
     terminals_sub_graph = A.add_subgraph('terminals')

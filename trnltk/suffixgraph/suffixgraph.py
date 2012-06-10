@@ -18,6 +18,7 @@ VERB_TERMINAL = State("VERB_TERMINAL", 'Verb', State.TERMINAL)
 VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", 'Verb', State.DERIV)
 VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", 'Verb', State.DERIV)
 VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", 'Verb', State.DERIV)
+VERB_TENSE_ADJ_DERIV = State("VERB_TENSE_ADJ_DERIV", 'Verb', State.DERIV)
 
 ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", 'Adj', State.TRANSFER)
 ADJECTIVE_PART_WITHOUT_POSSESSION = State("ADJECTIVE_PART_WITHOUT_POSSESSION", 'Adj', State.TRANSFER)
@@ -48,7 +49,7 @@ PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", 'Punc', State.TERMINAL)
 
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_WITH_CASE, NOUN_TERMINAL, NOUN_DERIV_WITH_CASE, NOUN_NOM_DERIV,
-    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV,
+    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV, VERB_TENSE_ADJ_DERIV,
     ADJECTIVE_ROOT, ADJECTIVE_PART_WITHOUT_POSSESSION, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV,
     PRONOUN_ROOT, PRONOUN_WITH_AGREEMENT, PRONOUN_WITH_POSSESSION, PRONOUN_WITH_CASE, PRONOUN_TERMINAL, PRONOUN_NOM_DERIV,
@@ -72,6 +73,8 @@ FreeTransitionSuffix("Pronoun_Free_Transition", PRONOUN_WITH_CASE, PRONOUN_TERMI
 FreeTransitionSuffix("Numeral_Free_Transition", NUMERAL_ROOT, NUMERAL_DERIV)
 ZeroTransitionSuffix("Numeral_Zero_Transition", NUMERAL_DERIV, ADJECTIVE_ROOT)
 ZeroTransitionSuffix("Adjective_to_Noun_Zero_Transition", ADJECTIVE_DERIV, NOUN_ROOT)
+ZeroTransitionSuffix("Verb_to_Adjective_Zero_Transition", VERB_TENSE_ADJ_DERIV, ADJECTIVE_ROOT)
+
 #TODO: transition from numeral to adverb for case "birer birer geldiler?" hmm maybe duplication caused an adj->adv transition?
 
 #############  Noun Agreements
@@ -165,6 +168,10 @@ PresPart = Suffix("PresPart")
 PastPart_Adj = Suffix("PastPart_Adj", pretty_name='PastPart')
 FutPart_Adj = Suffix('FutPart_Adj', pretty_name='FutPart')
 Agt_Adj = Suffix('Agt_Adj', pretty_name='Agt')
+
+Aorist_to_Adj = Suffix("Aorist_to_Adj", pretty_name="Aor")
+Future_to_Adj = Suffix("Future_to_Adj", pretty_name="Fut")
+Narr_to_Adj = Suffix("Narr_to_Adj", pretty_name="Narr")
 
 ########### Adjective to Adverb derivations
 Ly = Suffix("Ly")
@@ -491,6 +498,16 @@ def _register_verb_to_adjective_derivations():
 
     VERB_POLARITY_DERIV.add_out_suffix(Agt_Adj, ADJECTIVE_ROOT)
     Agt_Adj.add_suffix_form(u"+yIcI")
+
+
+    VERB_WITH_POLARITY.add_out_suffix(Aorist_to_Adj, VERB_TENSE_ADJ_DERIV)
+    Aorist_to_Adj.add_suffix_form(u"+Ir", requires_root_attribute(RootAttribute.Aorist_I))
+    Aorist_to_Adj.add_suffix_form(u"+Ar")
+    Aorist_to_Adj.add_suffix_form(u"z", comes_after(Negative))    # gel-me-z
+
+    VERB_WITH_POLARITY.add_out_suffix(Narr_to_Adj, VERB_TENSE_ADJ_DERIV)
+    Narr_to_Adj.add_suffix_form(u"mIş")
+    Narr_to_Adj.add_suffix_form(u"ymIş")
 
 def _register_adjective_to_adverb_derivations():
     ADJECTIVE_DERIV.add_out_suffix(Ly, ADVERB_ROOT)

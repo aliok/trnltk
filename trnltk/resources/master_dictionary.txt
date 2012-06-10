@@ -3488,14 +3488,12 @@ biyosfer
 biyoşimi
 biyotit [A:NoVoicing]
 biyotop [A:NoVoicing]
-biz
 biz [P:Pron, Pers]
 bizar [P:Adv]
 bizatihi [P:Adv]
 bizce [P:Adv]
 bizcileyin [P:Adv]
 bizimki [P:Pron]
-bizlemek
 bizlengiç
 bizmut [A:NoVoicing]
 bizon
