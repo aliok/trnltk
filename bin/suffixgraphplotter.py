@@ -2,16 +2,16 @@ __author__ = 'ali'
 
 
 from trnltk.suffixgraph.suffixgraph import *
+from trnltk.suffixgraph.extendedsuffixgraph import *
+
 
 import networkx as nx
 
 
-def generate_directed_graph():
+def generate_directed_graph(suffix_graph):
     graph=nx.MultiDiGraph()
 
     possible_edge_group_colors = {'red', 'blue', 'yellow', 'green', 'cyan', 'magenta', 'purple', 'brown', 'orange', 'skyblue', 'turquoise'}
-
-    suffix_graph = SuffixGraph()
 
     for state in suffix_graph.ALL_STATES:
         graph.add_node(state.name)
@@ -72,12 +72,23 @@ def write_graph_to_file(graph, file_path):
 if __name__ == "__main__":
     import sys
 
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print "Usage:\n"
-        print sys.argv[0] + " <output file path> \n"
+        print sys.argv[0] + " {S|E}  <output file path> \n Type S is simple, and type E is extended (with copula, etc.)"
         sys.exit(2)
 
-    output_file_path = sys.argv[1]
+    graph_type = sys.argv[1]
+    output_file_path = sys.argv[2]
 
-    di_graph = generate_directed_graph()
+    suffix_graph = None
+    if(graph_type=='S'):
+        suffix_graph = SuffixGraph()
+    elif(graph_type=='E'):
+        suffix_graph = ExtendedSuffixGraph()
+
+    if not suffix_graph:
+        print "Unknown graph type : {} ".format(graph_type)
+        sys.exit(2)
+
+    di_graph = generate_directed_graph(suffix_graph)
     write_graph_to_file(di_graph, output_file_path)
