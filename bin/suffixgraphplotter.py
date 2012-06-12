@@ -58,9 +58,14 @@ def write_graph_to_file(graph, file_path):
     terminals_sub_graph = A.add_subgraph('terminals')
     terminals_sub_graph.graph_attr['rank'] = 'same'
 
+    terminal_transfers_sub_graph = A.add_subgraph('terminal_transfers')
+    terminal_transfers_sub_graph.graph_attr['rank'] = 'same'
+
     for node in A.nodes_iter():
         if node.endswith('TERMINAL'):
             terminals_sub_graph.add_node(node)
+        elif node.endswith('TERMINAL_TRANSFER'):
+            terminal_transfers_sub_graph.add_node(node)
 
     A.write(file_path)
 
