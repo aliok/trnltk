@@ -1,6 +1,5 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import SecondaryPosition, PrimaryPosition
-from trnltk.suffixgraph.stem import get_default_stem_state
 from trnltk.suffixgraph.suffixapplier import *
 from trnltk.suffixgraph.token import *
 from trnltk.suffixgraph.suffixgraph import *
@@ -8,6 +7,7 @@ from trnltk.suffixgraph.suffixgraph import *
 class PredefinedPaths():
     def __init__(self, stems):
         self._stems = stems
+        self.suffix_graph = SuffixGraph()
         self.token_map = {}
 
     def _find_stem(self, stem_str, primary_position, secondary_position):
@@ -35,7 +35,7 @@ class PredefinedPaths():
 
 
     def _follow_path(self, stem, path_edges):
-        token = ParseToken(stem, get_default_stem_state(stem), u'')
+        token = ParseToken(stem, self.suffix_graph.get_default_stem_state(stem), u'')
         for path_edge in path_edges:
             suffix = None
             suffix_form_application_str = None
@@ -96,287 +96,287 @@ class PredefinedPaths():
         stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
         stem_ban = self._find_stem(u'ban', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, (Acc_Pron, u'i')])
-        self._add_token(stem_ban, [A1Sg_Pron, Pnon_Pron, (Dat_Pron, u'a')])
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, (Loc_Pron, u'de')])
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, (Abl_Pron, u'den')])
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, (Ins_Pron, u'le')])
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, (Ins_Pron, u'imle')])
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, (Gen_Pron, u'im')])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_ban, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'a')])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'imle')])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'im')])
 
-        self._add_token(stem_ben, [A1Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_sen(self):
         stem_sen = self._find_stem(u'sen', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
         stem_san = self._find_stem(u'san', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, (Acc_Pron, u'i')])
-        self._add_token(stem_san, [A2Sg_Pron, Pnon_Pron, (Dat_Pron, u'a')])
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, (Loc_Pron, u'de')])
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, (Abl_Pron, u'den')])
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, (Ins_Pron, u'le')])
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, (Ins_Pron, u'inle')])
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, (Gen_Pron, u'in')])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_san, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'a')])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'inle')])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_sen, [A2Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_o_pron_pers(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Acc_Pron, u'nu')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Dat_Pron, u'na')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Loc_Pron, u'nda')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Abl_Pron, u'ndan')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nla')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nunla')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Gen_Pron, u'nun')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'na')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'nda')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'ndan')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nla')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nunla')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'nun')])
 
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_biz(self):
         stem_biz = self._find_stem(u'biz', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Acc_Pron, u'i')])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Dat_Pron, u'e')])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Loc_Pron, u'de')])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Abl_Pron, u'den')])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Ins_Pron, u'le')])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Ins_Pron, u'imle')])
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, (Gen_Pron, u'im')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'imle')])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'im')])
 
-        self._add_token(stem_biz, [A1Pl_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, Nom_Pron])
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, (Acc_Pron, u'i')])
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, (Dat_Pron, u'e')])
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, (Loc_Pron, u'de')])
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, (Abl_Pron, u'den')])
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, (Ins_Pron, u'le')])
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, (Gen_Pron, u'in')])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_biz, [(A1Pl_Pron, u'ler'), Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_siz(self):
         stem_siz = self._find_stem(u'siz', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Acc_Pron, u'i')])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Dat_Pron, u'e')])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Loc_Pron, u'de')])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Abl_Pron, u'den')])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Ins_Pron, u'le')])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Ins_Pron, u'inle')])
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, (Gen_Pron, u'in')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'inle')])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_siz, [A2Pl_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, Nom_Pron])
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, (Acc_Pron, u'i')])
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, (Dat_Pron, u'e')])
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, (Loc_Pron, u'de')])
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, (Abl_Pron, u'den')])
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, (Ins_Pron, u'le')])
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, (Gen_Pron, u'in')])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_siz, [(A2Pl_Pron, u'ler'), Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_onlar_pron_pers(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
 
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Acc_Pron, u'ı')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Dat_Pron, u'a')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Loc_Pron, u'da')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Abl_Pron, u'dan')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Ins_Pron, u'la')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Gen_Pron, u'ın')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'a')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'da')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'dan')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'la')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'ın')])
 
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_bu_pron_demons(self):
         stem_bu = self._find_stem(u'bu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Acc_Pron, u'nu')])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Dat_Pron, u'na')])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Loc_Pron, u'nda')])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Abl_Pron, u'ndan')])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nla')])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nunla')])
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, (Gen_Pron, u'nun')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'na')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'nda')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'ndan')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nla')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nunla')])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'nun')])
 
-        self._add_token(stem_bu, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_su_pron_demons(self):
         stem_su = self._find_stem(u'şu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Acc_Pron, u'nu')])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Dat_Pron, u'na')])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Loc_Pron, u'nda')])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Abl_Pron, u'ndan')])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nla')])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nunla')])
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, (Gen_Pron, u'nun')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'na')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'nda')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'ndan')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nla')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nunla')])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'nun')])
 
-        self._add_token(stem_su, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_o_pron_demons(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Acc_Pron, u'nu')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Dat_Pron, u'na')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Loc_Pron, u'nda')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Abl_Pron, u'ndan')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nla')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Ins_Pron, u'nunla')])
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, (Gen_Pron, u'nun')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'na')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'nda')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'ndan')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nla')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'nunla')])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'nun')])
 
-        self._add_token(stem_o, [A3Sg_Pron, Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_bunlar_pron_demons(self):
         stem_bu = self._find_stem(u'bu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Acc_Pron, u'ı')])
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Dat_Pron, u'a')])
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Loc_Pron, u'da')])
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Abl_Pron, u'dan')])
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Ins_Pron, u'la')])
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Gen_Pron, u'ın')])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'a')])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'da')])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'dan')])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'la')])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'ın')])
 
-        self._add_token(stem_bu, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_sunlar_pron_demons(self):
         stem_su = self._find_stem(u'şu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Acc_Pron, u'ı')])
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Dat_Pron, u'a')])
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Loc_Pron, u'da')])
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Abl_Pron, u'dan')])
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Ins_Pron, u'la')])
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Gen_Pron, u'ın')])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'a')])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'da')])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'dan')])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'la')])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'ın')])
 
-        self._add_token(stem_su, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_onlar_pron_demons(self):
         stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
 
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Acc_Pron, u'ı')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Dat_Pron, u'a')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Loc_Pron, u'da')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Abl_Pron, u'dan')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Ins_Pron, u'la')])
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, (Gen_Pron, u'ın')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Dat_Pron, u'a')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Loc_Pron, u'da')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Abl_Pron, u'dan')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Ins_Pron, u'la')])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Gen_Pron, u'ın')])
 
-        self._add_token(stem_o, [(A3Pl_Pron, 'nlar'), Pnon_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_kendi(self):
         stem_kendi = self._find_stem(u'kendi', PrimaryPosition.PRONOUN, SecondaryPosition.REFLEXIVE)
 
         ##### A1Sg
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), Nom_Pron])
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Acc_Pron, u'i')])
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Dat_Pron, u'e')])
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Loc_Pron, u'de')])
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Abl_Pron, u'den')])
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Ins_Pron, u'le')])
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), (Gen_Pron, u'in')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_kendi, [A1Sg_Pron, (P1Sg_Pron,'m'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), self.suffix_graph.Nom_Pron_Deriv])
 
         ##### A2Sg
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), Nom_Pron])
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Acc_Pron, u'i')])
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Dat_Pron, u'e')])
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Loc_Pron, u'de')])
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Abl_Pron, u'den')])
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Ins_Pron, u'le')])
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), (Gen_Pron, u'in')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_kendi, [A2Sg_Pron, (P2Sg_Pron,'n'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Sg_Pron, (self.suffix_graph.P2Sg_Pron,'n'), self.suffix_graph.Nom_Pron_Deriv])
 
         ##### A3Sg
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron])
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Acc_Pron, u'ni')])
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Dat_Pron, u'ne')])
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Loc_Pron, u'nde')])
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Abl_Pron, u'nden')])
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Ins_Pron, u'yle')])
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, (Gen_Pron, u'nin')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, (self.suffix_graph.Acc_Pron, u'ni')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, (self.suffix_graph.Dat_Pron, u'ne')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, (self.suffix_graph.Loc_Pron, u'nde')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, (self.suffix_graph.Abl_Pron, u'nden')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, (self.suffix_graph.Ins_Pron, u'yle')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, (self.suffix_graph.Gen_Pron, u'nin')])
 
-        self._add_token(stem_kendi, [A3Sg_Pron, P3Sg_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.P3Sg_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), Nom_Pron])
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Acc_Pron, u'ni')])
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Dat_Pron, u'ne')])
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Loc_Pron, u'nde')])
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Abl_Pron, u'nden')])
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Ins_Pron, u'yle')])
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), (Gen_Pron, u'nin')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), (self.suffix_graph.Acc_Pron, u'ni')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), (self.suffix_graph.Dat_Pron, u'ne')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), (self.suffix_graph.Loc_Pron, u'nde')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), (self.suffix_graph.Abl_Pron, u'nden')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), (self.suffix_graph.Ins_Pron, u'yle')])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), (self.suffix_graph.Gen_Pron, u'nin')])
 
-        self._add_token(stem_kendi, [A3Sg_Pron, (P3Sg_Pron,'si'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [self.suffix_graph.A3Sg_Pron, (self.suffix_graph.P3Sg_Pron,'si'), self.suffix_graph.Nom_Pron_Deriv])
 
 
         ##### A1pl
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), Nom_Pron])
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Acc_Pron, u'i')])
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Dat_Pron, u'e')])
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Loc_Pron, u'de')])
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Abl_Pron, u'den')])
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Ins_Pron, u'le')])
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), (Gen_Pron, u'in')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_kendi, [A1Pl_Pron, (P1Pl_Pron,'miz'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'miz'), self.suffix_graph.Nom_Pron_Deriv])
 
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), Nom_Pron])
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Acc_Pron, u'i')])
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Dat_Pron, u'e')])
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Loc_Pron, u'de')])
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Abl_Pron, u'den')])
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Ins_Pron, u'le')])
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), (Gen_Pron, u'in')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_kendi, [(A1Pl_Pron,'ler'), (P1Pl_Pron,'imiz'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [(self.suffix_graph.A1Pl_Pron,'ler'), (self.suffix_graph.P1Pl_Pron,'imiz'), self.suffix_graph.Nom_Pron_Deriv])
 
         ##### A2pl
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), Nom_Pron])
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Acc_Pron, u'i')])
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Dat_Pron, u'e')])
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Loc_Pron, u'de')])
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Abl_Pron, u'den')])
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Ins_Pron, u'le')])
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), (Gen_Pron, u'in')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_kendi, [A2Pl_Pron, (P2Pl_Pron,'niz'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'niz'), self.suffix_graph.Nom_Pron_Deriv])
 
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), Nom_Pron])
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Acc_Pron, u'i')])
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Dat_Pron, u'e')])
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Loc_Pron, u'de')])
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Abl_Pron, u'den')])
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Ins_Pron, u'le')])
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), (Gen_Pron, u'in')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_kendi, [(A2Pl_Pron,'ler'), (P2Pl_Pron,'iniz'), Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [(self.suffix_graph.A2Pl_Pron,'ler'), (self.suffix_graph.P2Pl_Pron,'iniz'), self.suffix_graph.Nom_Pron_Deriv])
 
         ##### A3pl
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, Nom_Pron])
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Acc_Pron, u'ni')])
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Dat_Pron, u'ne')])
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Loc_Pron, u'nde')])
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Abl_Pron, u'nden')])
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Ins_Pron, u'yle')])
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, (Gen_Pron, u'nin')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Acc_Pron, u'ni')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Dat_Pron, u'ne')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Loc_Pron, u'nde')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Abl_Pron, u'nden')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Ins_Pron, u'yle')])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Gen_Pron, u'nin')])
 
-        self._add_token(stem_kendi, [(A3Pl_Pron,'leri'), P3Pl_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_hepsi(self):
         stem_hep = self._find_stem(u'hep', PrimaryPosition.PRONOUN, None)
@@ -389,35 +389,35 @@ class PredefinedPaths():
         ##### No A3Sg
 
         ##### A1pl
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), Nom_Pron])
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Acc_Pron, u'i')])
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Dat_Pron, u'e')])
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Loc_Pron, u'de')])
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Abl_Pron, u'den')])
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Ins_Pron, u'le')])
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), (Gen_Pron, u'in')])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_hep, [A1Pl_Pron, (P1Pl_Pron,'imiz'), Nom_Pron_Deriv])
+        self._add_token(stem_hep, [self.suffix_graph.A1Pl_Pron, (self.suffix_graph.P1Pl_Pron,'imiz'), self.suffix_graph.Nom_Pron_Deriv])
 
         ##### A2pl
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), Nom_Pron])
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Acc_Pron, u'i')])
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Dat_Pron, u'e')])
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Loc_Pron, u'de')])
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Abl_Pron, u'den')])
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Ins_Pron, u'le')])
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), (Gen_Pron, u'in')])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), self.suffix_graph.Nom_Pron])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Acc_Pron, u'i')])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Dat_Pron, u'e')])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Loc_Pron, u'de')])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Abl_Pron, u'den')])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Ins_Pron, u'le')])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), (self.suffix_graph.Gen_Pron, u'in')])
 
-        self._add_token(stem_hep, [A2Pl_Pron, (P2Pl_Pron,'iniz'), Nom_Pron_Deriv])
+        self._add_token(stem_hep, [self.suffix_graph.A2Pl_Pron, (self.suffix_graph.P2Pl_Pron,'iniz'), self.suffix_graph.Nom_Pron_Deriv])
 
         ##### No A3pl
 
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, Nom_Pron])
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Acc_Pron, u'ni')])
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Dat_Pron, u'ne')])
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Loc_Pron, u'nde')])
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Abl_Pron, u'nden')])
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Ins_Pron, u'yle')])
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, (Gen_Pron, u'nin')])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Acc_Pron, u'ni')])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Dat_Pron, u'ne')])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Loc_Pron, u'nde')])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Abl_Pron, u'nden')])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Ins_Pron, u'yle')])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Gen_Pron, u'nin')])
 
-        self._add_token(stem_hepsi, [A3Pl_Pron, P3Pl_Pron, Nom_Pron_Deriv])
+        self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron_Deriv])

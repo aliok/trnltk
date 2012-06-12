@@ -11,13 +11,14 @@ from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
+from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGraph
 
 #TODO
 cases_to_skip = {
     u'Verb+Zero',
     u'+Cop+'
     u'+Pres+',
+    u'+Part"',
     u'_',
     u'PCNom',
     u'+Prop+',
@@ -50,17 +51,11 @@ class ParserTestWithSets(unittest.TestCase):
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            if di.primary_position in [
-                PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
-                PrimaryPosition.ADJECTIVE, PrimaryPosition.PRONOUN,
-                PrimaryPosition.DETERMINER, PrimaryPosition.INTERJECTION, PrimaryPosition.CONJUNCTION,
-                PrimaryPosition.NUMERAL,  PrimaryPosition.PUNCTUATION]:
-
-                cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
+            cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
         predefined_paths = PredefinedPaths(cls.all_stems)
         predefined_paths.create_predefined_paths()
-        cls.parser = Parser(cls.all_stems, predefined_paths)
+        cls.parser = Parser(cls.all_stems, SuffixGraph(), predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)

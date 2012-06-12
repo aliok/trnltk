@@ -11,7 +11,9 @@ def generate_directed_graph():
 
     possible_edge_group_colors = {'red', 'blue', 'yellow', 'green', 'cyan', 'magenta', 'purple', 'brown', 'orange', 'skyblue', 'turquoise'}
 
-    for state in ALL_STATES:
+    suffix_graph = SuffixGraph()
+
+    for state in suffix_graph.ALL_STATES:
         graph.add_node(state.name)
         if state.name in graph:
             if state.type==State.TERMINAL:

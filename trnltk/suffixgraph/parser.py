@@ -1,16 +1,15 @@
 # coding=utf-8
 import logging
 from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
-from trnltk.suffixgraph.stem import get_default_stem_state
 from trnltk.suffixgraph.suffixapplier import *
-from trnltk.suffixgraph.suffixgraph import *
 from trnltk.suffixgraph.token import ParseToken
 
 logger = logging.getLogger('parser')
 
 class Parser:
-    def __init__(self, stems, predefined_paths):
+    def __init__(self, stems, suffix_graph, predefined_paths):
         self.stems = stems
+        self.suffix_graph = suffix_graph
         self.predefined_paths = predefined_paths or []
         self.stem_map =  {}
 
@@ -67,7 +66,7 @@ class Parser:
                         else:
                             logger.debug('Predefined token is not applicable, skipping %s', predefined_token)
                 else:
-                    predefined_token = ParseToken(stem, get_default_stem_state(stem), input[len(partial_input):])
+                    predefined_token = ParseToken(stem, self.suffix_graph.get_default_stem_state(stem), input[len(partial_input):])
                     candidates.append(predefined_token)
 
         return candidates
@@ -145,12 +144,14 @@ class Parser:
             if candidate.stem.dictionary_item.primary_position==PrimaryPosition.VERB:
                 if RootAttribute.ProgressiveVowelDrop in candidate.stem.dictionary_item.attributes and len(candidate.stem.root)==len(candidate.stem.dictionary_item.root)-1:
                     # apply Positive + Progressive 'Iyor'
+                    Positive = self.suffix_graph.Positive
+                    Progressive = self.suffix_graph.Progressive
 
                     # apply Positive
                     if not transition_allowed_for_suffix(candidate, Positive):
                         raise Exception('There is a progressive vowel drop, but suffix "{}" cannot be applied to {}'.format(Positive, candidate))
 
-                    clone = try_suffix_form(candidate, Positive.get_suffix_form(u''), VERB_WITH_POLARITY, word)
+                    clone = try_suffix_form(candidate, Positive.get_suffix_form(u''), self.suffix_graph.VERB_WITH_POLARITY, word)
                     if not clone:
                         logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Positive.suffix_forms[0], candidate))
                         continue
@@ -159,7 +160,7 @@ class Parser:
                     if not transition_allowed_for_suffix(clone, Progressive):
                         raise Exception('There is a progressive vowel drop, but suffix "{}" cannot be applied to {}'.format(Progressive, candidate))
 
-                    clone = try_suffix_form(clone, Progressive.get_suffix_form(u'Iyor'), VERB_WITH_TENSE, word)
+                    clone = try_suffix_form(clone, Progressive.get_suffix_form(u'Iyor'), self.suffix_graph.VERB_WITH_TENSE, word)
                     if not clone:
                         logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Progressive.suffix_forms[0], candidate))
                         continue
