@@ -16,6 +16,7 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 #TODO
 cases_to_skip = {
     u'Verb+Zero',
+    u'+Cop+'
     u'+Pres+',
     u'_',
     u'PCNom',

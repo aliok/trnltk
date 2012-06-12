@@ -14,6 +14,8 @@ NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", 'Noun', State.DERIV)
 VERB_ROOT = State("VERB_ROOT", 'Verb', State.TRANSFER)
 VERB_WITH_POLARITY = State("VERB_WITH_POLARITY", 'Verb', State.TRANSFER)
 VERB_WITH_TENSE = State("VERB_WITH_TENSE", 'Verb', State.TRANSFER)
+VERB_FROM_OTHER_POS = State("VERB_FROM_OTHER_POS", 'Verb', State.TRANSFER)
+VERB_FROM_OTHER_POS_WITH_TENSE = State("VERB_FROM_OTHER_POS_WITH_TENSE", 'Verb', State.TRANSFER)
 VERB_TERMINAL = State("VERB_TERMINAL", 'Verb', State.TERMINAL)
 VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", 'Verb', State.DERIV)
 VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", 'Verb', State.DERIV)
@@ -49,7 +51,7 @@ PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", 'Punc', State.TERMINAL)
 
 ALL_STATES = {
     NOUN_ROOT, NOUN_WITH_AGREEMENT, NOUN_WITH_POSSESSION, NOUN_WITH_CASE, NOUN_TERMINAL, NOUN_DERIV_WITH_CASE, NOUN_NOM_DERIV,
-    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV, VERB_TENSE_ADJ_DERIV,
+    VERB_ROOT, VERB_WITH_POLARITY, VERB_WITH_TENSE, VERB_FROM_OTHER_POS, VERB_FROM_OTHER_POS_WITH_TENSE, VERB_TERMINAL, VERB_PLAIN_DERIV, VERB_POLARITY_DERIV, VERB_TENSE_DERIV, VERB_TENSE_ADJ_DERIV,
     ADJECTIVE_ROOT, ADJECTIVE_PART_WITHOUT_POSSESSION, ADJECTIVE_TERMINAL, ADJECTIVE_DERIV,
     ADVERB_ROOT, ADVERB_TERMINAL, ADVERB_DERIV,
     PRONOUN_ROOT, PRONOUN_WITH_AGREEMENT, PRONOUN_WITH_POSSESSION, PRONOUN_WITH_CASE, PRONOUN_TERMINAL, PRONOUN_NOM_DERIV,
@@ -71,6 +73,8 @@ FreeTransitionSuffix("Adj_Free_Transition_2", ADJECTIVE_ROOT, ADJECTIVE_DERIV)
 FreeTransitionSuffix("Adv_Free_Transition", ADVERB_ROOT, ADVERB_TERMINAL)
 FreeTransitionSuffix("Pronoun_Free_Transition", PRONOUN_WITH_CASE, PRONOUN_TERMINAL)
 FreeTransitionSuffix("Numeral_Free_Transition", NUMERAL_ROOT, NUMERAL_DERIV)
+
+ZeroTransitionSuffix("Noun_to_Verb_Zero_Transition", NOUN_DERIV_WITH_CASE, VERB_FROM_OTHER_POS)
 ZeroTransitionSuffix("Numeral_Zero_Transition", NUMERAL_DERIV, ADJECTIVE_ROOT)
 ZeroTransitionSuffix("Adjective_to_Noun_Zero_Transition", ADJECTIVE_DERIV, NOUN_ROOT)
 ZeroTransitionSuffix("Verb_to_Adjective_Zero_Transition", VERB_TENSE_ADJ_DERIV, ADJECTIVE_ROOT)
@@ -125,6 +129,15 @@ A1Pl_Verb = Suffix("A1Pl_Verb", Verb_Agreements_Group, "A1pl")
 A2Pl_Verb = Suffix("A2Pl_Verb", Verb_Agreements_Group, "A2pl")
 A3Pl_Verb = Suffix("A3Pl_Verb", Verb_Agreements_Group, "A3pl")
 
+############# Verb from other position agreements
+Verb_From_Other_Positions_Agreements_Group = SuffixGroup('Verb_From_Other_Positions_Agreements_Group')
+A1Sg_Verb_From_Other_Pos = Suffix("A1Sg_Verb_From_Other_Pos", Verb_From_Other_Positions_Agreements_Group, "A1sg")
+A2Sg_Verb_From_Other_Pos = Suffix("A2Sg_Verb_From_Other_Pos", Verb_From_Other_Positions_Agreements_Group, "A2sg")
+A3Sg_Verb_From_Other_Pos = Suffix("A3Sg_Verb_From_Other_Pos", Verb_From_Other_Positions_Agreements_Group, "A3sg")
+A1Pl_Verb_From_Other_Pos = Suffix("A1Pl_Verb_From_Other_Pos", Verb_From_Other_Positions_Agreements_Group, "A1pl")
+A2Pl_Verb_From_Other_Pos = Suffix("A2Pl_Verb_From_Other_Pos", Verb_From_Other_Positions_Agreements_Group, "A2pl")
+A3Pl_Verb_From_Other_Pos = Suffix("A3Pl_Verb_From_Other_Pos", Verb_From_Other_Positions_Agreements_Group, "A3pl")
+
 ############# Verb conditions
 Verb_Polarity_Group = SuffixGroup("Verb_Conditions_Group")
 Negative = Suffix("Neg", Verb_Polarity_Group)
@@ -136,6 +149,7 @@ Progressive = Suffix("Prog")
 Future = Suffix("Fut")
 Narr = Suffix("Narr")
 Past = Suffix("Past")
+Pres = Suffix("Pres")
 
 Cond = Suffix("Cond")
 Imp = Suffix("Imp")
@@ -241,6 +255,7 @@ def _register_noun_suffixes():
 
 def _register_verb_suffixes():
     _register_verb_agreements()
+    _register_verb_from_other_positions_agreements()
     _register_verb_polarisations()
     _register_verb_tenses()
     _register_modal_verbs()
@@ -354,38 +369,46 @@ def _register_verb_polarisations():
     Positive.add_suffix_form("")
 
 def _register_verb_tenses():
-    VERB_WITH_POLARITY.add_out_suffix(Aorist, VERB_WITH_TENSE)
     Aorist.add_suffix_form(u"+Ir", requires_root_attribute(RootAttribute.Aorist_I))
     Aorist.add_suffix_form(u"+Ar")
     Aorist.add_suffix_form(u"z", comes_after(Negative))    # gel-me-z or gel-me-z-sin
     Aorist.add_suffix_form(u"", comes_after(Negative), followed_by(A1Sg_Verb) or followed_by(A1Pl_Verb))     # gel-me-m or gel-me-yiz
 
-    VERB_WITH_POLARITY.add_out_suffix(Progressive, VERB_WITH_TENSE)
     Progressive.add_suffix_form(u"Iyor")
     Progressive.add_suffix_form(u"mAktA")
 
-    VERB_WITH_POLARITY.add_out_suffix(Future, VERB_WITH_TENSE)
     Future.add_suffix_form(u"+yAcAk")
 
-    VERB_WITH_POLARITY.add_out_suffix(Narr, VERB_WITH_TENSE)
     Narr.add_suffix_form(u"mIş")
     Narr.add_suffix_form(u"ymIş")
 
-    VERB_WITH_POLARITY.add_out_suffix(Past, VERB_WITH_TENSE)
     Past.add_suffix_form(u"dI")
     Past.add_suffix_form(u"ydI")
 
-    VERB_WITH_POLARITY.add_out_suffix(Cond, VERB_WITH_TENSE)
-    Cond.add_suffix_form(u"sA")
+    Cond.add_suffix_form(u"+ysA")
 
-    VERB_WITH_POLARITY.add_out_suffix(Imp, VERB_WITH_TENSE)
     Imp.add_suffix_form(u"", postcondition=followed_by(A2Sg_Verb) | followed_by(A3Sg_Verb) | followed_by(A2Pl_Verb) | followed_by(A3Pl_Verb))
     Imp.add_suffix_form(u"sAnA", postcondition=followed_by(A2Sg_Verb))
     Imp.add_suffix_form(u"sAnIzA", postcondition=followed_by(A2Pl_Verb))
 
+    Pres.add_suffix_form(u"")
+
+    VERB_WITH_POLARITY.add_out_suffix(Aorist, VERB_WITH_TENSE)
+    VERB_WITH_POLARITY.add_out_suffix(Progressive, VERB_WITH_TENSE)
+    VERB_WITH_POLARITY.add_out_suffix(Future, VERB_WITH_TENSE)
+    VERB_WITH_POLARITY.add_out_suffix(Narr, VERB_WITH_TENSE)
+    VERB_WITH_POLARITY.add_out_suffix(Past, VERB_WITH_TENSE)
+    VERB_WITH_POLARITY.add_out_suffix(Cond, VERB_WITH_TENSE)
+    VERB_WITH_POLARITY.add_out_suffix(Imp, VERB_WITH_TENSE)
+
     VERB_WITH_TENSE.add_out_suffix(Cond, VERB_WITH_TENSE)
     VERB_WITH_TENSE.add_out_suffix(Narr, VERB_WITH_TENSE)
     VERB_WITH_TENSE.add_out_suffix(Past, VERB_WITH_TENSE)
+
+    VERB_FROM_OTHER_POS.add_out_suffix(Cond, VERB_FROM_OTHER_POS_WITH_TENSE)
+    VERB_FROM_OTHER_POS.add_out_suffix(Narr, VERB_FROM_OTHER_POS_WITH_TENSE)
+    VERB_FROM_OTHER_POS.add_out_suffix(Past, VERB_FROM_OTHER_POS_WITH_TENSE)
+    VERB_FROM_OTHER_POS.add_out_suffix(Pres, VERB_FROM_OTHER_POS_WITH_TENSE)
 
 def _register_verb_agreements():
     comes_after_imperative = comes_after(Imp)
@@ -422,6 +445,32 @@ def _register_verb_agreements():
     VERB_WITH_TENSE.add_out_suffix(A3Pl_Verb, VERB_TERMINAL)
     A3Pl_Verb.add_suffix_form("lAr", doesnt_come_after_imperative)
     A3Pl_Verb.add_suffix_form("sInlAr", comes_after_imperative)
+
+def _register_verb_from_other_positions_agreements():
+    comes_after_cond_or_past = comes_after(Cond) | comes_after(Past)
+
+    VERB_FROM_OTHER_POS_WITH_TENSE.add_out_suffix(A1Sg_Verb_From_Other_Pos, VERB_TERMINAL)
+    A1Sg_Verb_From_Other_Pos.add_suffix_form("+yIm")                          # (ben) elma-yim, (ben) armud-um, elma-ymis-im
+    A1Sg_Verb_From_Other_Pos.add_suffix_form("m", comes_after_cond_or_past)   # elma-ydi-m, elma-ysa-m
+
+
+    VERB_FROM_OTHER_POS_WITH_TENSE.add_out_suffix(A2Sg_Verb_From_Other_Pos, VERB_TERMINAL)
+    A2Sg_Verb_From_Other_Pos.add_suffix_form("sIn")                           # (sen) elma-sin, (sen) armutsun, elma-ymis-sin
+    A2Sg_Verb_From_Other_Pos.add_suffix_form("n", comes_after_cond_or_past)   # elma-ydi-n, elma-ysa-n
+
+    VERB_FROM_OTHER_POS_WITH_TENSE.add_out_suffix(A3Sg_Verb_From_Other_Pos, VERB_TERMINAL)
+    A3Sg_Verb_From_Other_Pos.add_suffix_form("")                              # (o) elma(dir), (o) armut(tur), elma-ymis, elma-ysa, elma-ydi
+
+    VERB_FROM_OTHER_POS_WITH_TENSE.add_out_suffix(A1Pl_Verb_From_Other_Pos, VERB_TERMINAL)
+    A1Pl_Verb_From_Other_Pos.add_suffix_form("+yIz")                          # (biz) elma-yiz, (biz) armud-uz, elma-ymis-iz
+    A1Pl_Verb_From_Other_Pos.add_suffix_form("k", comes_after_cond_or_past)   # elma-ydi-k, elma-ysa-k
+
+    VERB_FROM_OTHER_POS_WITH_TENSE.add_out_suffix(A2Pl_Verb_From_Other_Pos, VERB_TERMINAL)
+    A2Pl_Verb_From_Other_Pos.add_suffix_form("sInIz")                         # (siz) elma-siniz, (siz) armut-sunuz, elma-ymis-siniz
+    A2Pl_Verb_From_Other_Pos.add_suffix_form("nIz", comes_after_cond_or_past) # elma-ydi-niz, elma-ysa-niz
+
+    VERB_FROM_OTHER_POS_WITH_TENSE.add_out_suffix(A3Pl_Verb_From_Other_Pos, VERB_TERMINAL)
+    A3Pl_Verb_From_Other_Pos.add_suffix_form("lAr")    # (onlar) elma-lar(dir), (onlar) armut-lar(dir), elma-ymis-lar, elma-ydi-lar, elma-ysa-lar
 
 def _register_modal_verbs():
     followed_by_modal_followers = followed_by(Past) | followed_by(Narr) | followed_by_one_from_group(Verb_Agreements_Group)
