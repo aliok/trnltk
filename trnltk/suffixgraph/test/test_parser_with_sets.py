@@ -16,8 +16,7 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGr
 
 #TODO
 cases_to_skip = {
-    u'+Cop+',
-    u'+Pres+',
+    u'+Cop+', u'+Cop"',
     u'+Part"',
     u'+Ques+',
     u'_',
@@ -26,7 +25,6 @@ cases_to_skip = {
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
     u'birbiri+Pron',    #TODO: need to add pron acc form +nA
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
-    u'"var',
     u'de\u011fil+',
     u'â',
     u'akşamüst',  # compounds!

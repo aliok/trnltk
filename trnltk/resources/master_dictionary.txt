@@ -24467,7 +24467,7 @@ vantuz
 vapur
 vapurdumanı [A:CompoundP3sg; R:vapurduman]
 vapurdumanı [P:Adj; A:CompoundP3sg; R:vapurduman]
-var
+var [P:Adj]
 varagele
 varak
 varaka

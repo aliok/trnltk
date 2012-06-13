@@ -1,6 +1,3 @@
-__author__ = 'ali'
-
-
 from trnltk.suffixgraph.suffixgraph import *
 from trnltk.suffixgraph.extendedsuffixgraph import *
 
@@ -11,7 +8,7 @@ import networkx as nx
 def generate_directed_graph(suffix_graph):
     graph=nx.MultiDiGraph()
 
-    possible_edge_group_colors = {'red', 'blue', 'yellow', 'green', 'cyan', 'magenta', 'purple', 'brown', 'orange', 'skyblue', 'turquoise'}
+    possible_edge_group_colors = {'red', 'blue', 'green', 'cyan', 'magenta', 'purple', 'brown', 'orange', 'skyblue', 'turquoise'}
 
     for state in suffix_graph.ALL_STATES:
         graph.add_node(state.name)
@@ -47,27 +44,20 @@ def generate_directed_graph(suffix_graph):
 def write_graph_to_file(graph, file_path):
     A=nx.to_agraph(graph)
 
-    roots_sub_graph = A.add_subgraph('roots')
-    roots_sub_graph.graph_attr['rank'] = 'same'
-
-    roots_sub_graph.add_node('NOUN_ROOT')
-    roots_sub_graph.add_node('VERB_ROOT')
-    roots_sub_graph.add_node('PRONOUN_ROOT')
-
-
-    terminals_sub_graph = A.add_subgraph('terminals')
-    terminals_sub_graph.graph_attr['rank'] = 'same'
-
-    terminal_transfers_sub_graph = A.add_subgraph('terminal_transfers')
-    terminal_transfers_sub_graph.graph_attr['rank'] = 'same'
-
-    for node in A.nodes_iter():
-        if node.endswith('TERMINAL'):
-            terminals_sub_graph.add_node(node)
-        elif node.endswith('TERMINAL_TRANSFER'):
-            terminal_transfers_sub_graph.add_node(node)
+    set_same_rank(['NOUN_ROOT', 'VERB_ROOT', 'PRONOUN_ROOT', 'NUMERAL_ROOT'], A, 'source')
+#    set_same_rank(['VERB_WITH_POLARITY', 'VERB_COPULA_WITHOUT_TENSE'], A)
+#
+#    set_same_rank([node.name for node in filter(lambda node : node.name.endswith('TERMINAL_TRANSFER'), A.nodes())], A)
+    set_same_rank([node.name for node in filter(lambda node : node.name.endswith('COPULA'), A.nodes())], A)
+    set_same_rank([node.name for node in filter(lambda node : node.name.endswith('TERMINAL'), A.nodes())], A, 'sink')
 
     A.write(file_path)
+
+def set_same_rank(node_names, A, rank='same'):
+    sub_graph = A.add_subgraph()
+    sub_graph.graph_attr['rank'] = rank
+    for name_name in node_names:
+        sub_graph.add_node(name_name)
 
 if __name__ == "__main__":
     import sys
