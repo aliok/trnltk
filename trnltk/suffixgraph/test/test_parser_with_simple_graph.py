@@ -119,9 +119,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'çevirmiş',          u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A3sg', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
 
-        stems_el = self.parser.stem_map['el']
-        stems_el = filter(lambda stem : stem.dictionary_item.lemma=='elemek', stems_el)
-        self.parser.stem_map['el'] = stems_el
+        self.parser.stem_map['el'] = filter(lambda stem : stem.dictionary_item.lemma=='elemek', self.parser.stem_map['el'])
 
         self.assert_parse_correct(u'elerim',            u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom')
         self.assert_parse_correct(u'elersin',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A2sg(sIn[sin])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A2sg(sIn[sin])')

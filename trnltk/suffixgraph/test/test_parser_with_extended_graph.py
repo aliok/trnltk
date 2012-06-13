@@ -39,10 +39,10 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         suffix_applier_logger.setLevel(logging.DEBUG)
 
         #remove some stems for keeping the tests simple!
-        self.parser.stem_map.pop('elmas')
-        self.parser.stem_map.pop('bent')
-        self.parser.stem_map.pop('bend')
-        self.parser.stem_map.pop('oy')
+        self.parser.stem_map['elmas'] = []
+        self.parser.stem_map['bent'] = []
+        self.parser.stem_map['bend'] = []
+        self.parser.stem_map['oy'] = []
         self.parser.stem_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_map['ben'])
 
 
@@ -106,8 +106,8 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.parser.stem_map.pop('elmas')
-        self.parser.stem_map.pop('on')
+        self.parser.stem_map['elmas'] = []
+        self.parser.stem_map['on'] = []
 
         self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
