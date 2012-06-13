@@ -21,11 +21,12 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.PRONOUN_COPULA = State("PRONOUN_COPULA", 'Noun', State.DERIV)
 
         self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", 'Verb', State.TRANSFER)
+        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", 'Verb', State.DERIV)
         self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", 'Verb', State.TRANSFER)
 
         self.ALL_STATES |= {
             self.NOUN_COPULA, self.ADJECTIVE_COPULA, self.ADVERB_COPULA, self.PRONOUN_COPULA,
-            self.VERB_COPULA_WITHOUT_TENSE, self.VERB_COPULA_WITH_TENSE
+            self.VERB_COPULA_WITHOUT_TENSE, self.VERB_COPULA_WITHOUT_TENSE_DERIV, self.VERB_COPULA_WITH_TENSE
         }
 
     def _add_suffixes(self):
@@ -35,6 +36,7 @@ class ExtendedSuffixGraph(SuffixGraph):
         FreeTransitionSuffix("Adjective_Cop_Free_Transition",    self.ADJECTIVE_TERMINAL_TRANSFER, self.ADJECTIVE_COPULA)
         FreeTransitionSuffix("Adverb_Cop_Free_Transition",       self.ADVERB_TERMINAL_TRANSFER,    self.ADVERB_COPULA)
         FreeTransitionSuffix("Pronoun_Cop_Free_Transition",      self.PRONOUN_TERMINAL_TRANSFER,   self.PRONOUN_COPULA)
+        FreeTransitionSuffix("Copula_Deriv_Free_Transition",     self.VERB_COPULA_WITHOUT_TENSE,   self.VERB_COPULA_WITHOUT_TENSE_DERIV)
 
         ZeroTransitionSuffix("Noun_Copula_Zero_Transition",      self.NOUN_COPULA,        self.VERB_COPULA_WITHOUT_TENSE)
         ZeroTransitionSuffix("Adjective_Copula_Zero_Transition", self.ADJECTIVE_COPULA,   self.VERB_COPULA_WITHOUT_TENSE)
@@ -56,12 +58,15 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.A2Pl_Cop = Suffix("A2Pl_Cop", self.Copula_Agreements_Group, "A2pl")
         self.A3Pl_Cop = Suffix("A3Pl_Cop", self.Copula_Agreements_Group, "A3pl")
 
+        ############ Copula tenses to Adverb
+        self.While_Cop = Suffix("While_Cop", pretty_name="While")
+
     def _register_suffixes(self):
         SuffixGraph._register_suffixes(self)
 
         self._register_copula_tenses()
         self._register_copula_agreements()
-
+        self._register_copula_tenses_to_other_positions()
 
     def _register_copula_tenses(self):
         self.VERB_COPULA_WITHOUT_TENSE.add_out_suffix(self.Pres_Cop, self.VERB_COPULA_WITH_TENSE)
@@ -100,3 +105,7 @@ class ExtendedSuffixGraph(SuffixGraph):
 
         self.VERB_COPULA_WITH_TENSE.add_out_suffix(self.A3Pl_Cop, self.VERB_TERMINAL_TRANSFER)
         self.A3Pl_Cop.add_suffix_form("lAr")    # (onlar) elma-lar(dir), (onlar) armut-lar(dir), elma-ymis-lar, elma-ydi-lar, elma-ysa-lar
+
+    def _register_copula_tenses_to_other_positions(self):
+        self.VERB_COPULA_WITHOUT_TENSE_DERIV.add_out_suffix(self.While_Cop, self.ADVERB_ROOT)
+        self.While_Cop.add_suffix_form("+yken")

@@ -102,6 +102,23 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
             u'hız(hız)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lı])+Adv+Ly(cA[ca])+Verb+Zero+Narr(+ymIş[ymış])+A3pl(lAr[lar])'
         )
 
+    def test_should_parse_copula_derivations(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.parser.stem_map.pop('elmas')
+        self.parser.stem_map.pop('on')
+
+        self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'kitapken',            u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'kitaplarıyken',       u'kitap(kitap)+Noun+A3sg+P3pl(lArI[ları])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3pl(I[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3sg+P3pl(lArI[lar\u0131])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[\u0131])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3pl(I[\u0131])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'küçükken',            u'küçük(küçük)+Adj+Verb+Zero+Adv+While(+yken[ken])', u'küçük(küçük)+Adj+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg', u'küçük(küçük)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'küçük(küçük)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'küçüğümüzdeyken',     u'küçüğ(küçük)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[ümüz])+Loc(dA[de])+Verb+Zero+Adv+While(+yken[yken])', u'küçüğ(küçük)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[ümüz])+Loc(dA[de])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'maviceyken',          u'mavi(mavi)+Adj+Adv+Ly(cA[ce])+Verb+Zero+Adv+While(+yken[yken])', u'mavi(mavi)+Adj+Adv+Ly(cA[ce])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'seninken',            u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Verb+Zero+Adv+While(+yken[ken])', u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'onlarken',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
+
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
 
