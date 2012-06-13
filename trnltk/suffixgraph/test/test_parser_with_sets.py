@@ -8,6 +8,7 @@ from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator
+from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
@@ -15,10 +16,10 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGr
 
 #TODO
 cases_to_skip = {
-    u'Verb+Zero',
-    u'+Cop+'
+    u'+Cop+',
     u'+Pres+',
     u'+Part"',
+    u'+Ques+',
     u'_',
     u'PCNom',
     u'+Prop+',
@@ -26,6 +27,7 @@ cases_to_skip = {
     u'birbiri+Pron',    #TODO: need to add pron acc form +nA
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'"var',
+    u'de\u011fil+',
     u'â',
     u'akşamüst',  # compounds!
     u'kadar',
@@ -53,9 +55,11 @@ class ParserTestWithSets(unittest.TestCase):
         for di in dictionary_items:
             cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
 
-        predefined_paths = PredefinedPaths(cls.all_stems)
+        suffix_graph = ExtendedSuffixGraph()
+        predefined_paths = PredefinedPaths(cls.all_stems, suffix_graph)
         predefined_paths.create_predefined_paths()
-        cls.parser = Parser(cls.all_stems, SuffixGraph(), predefined_paths)
+
+        cls.parser = Parser(cls.all_stems, suffix_graph, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)

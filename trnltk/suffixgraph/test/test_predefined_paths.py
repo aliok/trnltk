@@ -10,6 +10,7 @@ from trnltk.stem.stemgenerator import StemGenerator
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
+from trnltk.suffixgraph.suffixgraph import SuffixGraph
 
 class PredefinedPathsTest(unittest.TestCase):
     @classmethod
@@ -28,6 +29,8 @@ class PredefinedPathsTest(unittest.TestCase):
 
         cls.token_map = {}
 
+        cls.suffix_graph = SuffixGraph()
+
     def setUp(self):
         super(PredefinedPathsTest, self).setUp()
 
@@ -35,7 +38,7 @@ class PredefinedPathsTest(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-        self.predefined_paths = PredefinedPaths(self.all_stems)
+        self.predefined_paths = PredefinedPaths(self.all_stems, self.suffix_graph)
 
     def tearDown(self):
         self.predefined_paths = None

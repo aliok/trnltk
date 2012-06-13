@@ -5,9 +5,9 @@ from trnltk.suffixgraph.token import *
 from trnltk.suffixgraph.suffixgraph import *
 
 class PredefinedPaths():
-    def __init__(self, stems):
+    def __init__(self, stems, suffix_graph):
         self._stems = stems
-        self.suffix_graph = SuffixGraph()
+        self.suffix_graph = suffix_graph
         self.token_map = {}
 
     def _find_stem(self, stem_str, primary_position, secondary_position):

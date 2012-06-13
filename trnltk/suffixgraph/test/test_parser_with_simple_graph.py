@@ -22,10 +22,11 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         for di in dictionary_items:
             cls.all_stems.extend(StemGenerator.generate(di))
 
-        predefined_paths = PredefinedPaths(cls.all_stems)
+        suffix_graph = SuffixGraph()
+        predefined_paths = PredefinedPaths(cls.all_stems, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        cls.parser = Parser(cls.all_stems, SuffixGraph(), predefined_paths)
+        cls.parser = Parser(cls.all_stems, suffix_graph, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
