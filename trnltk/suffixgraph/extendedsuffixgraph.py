@@ -1,4 +1,5 @@
 # coding=utf-8
+from trnltk.stem.dictionaryitem import PrimaryPosition
 from trnltk.suffixgraph.suffixconditions import comes_after
 from trnltk.suffixgraph.suffixgraph import SuffixGraph
 from trnltk.suffixgraph.suffixgraphmodel import *
@@ -19,15 +20,23 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", 'Noun', State.DERIV)
         self.ADVERB_COPULA = State("ADVERB_COPULA", 'Noun', State.DERIV)
         self.PRONOUN_COPULA = State("PRONOUN_COPULA", 'Noun', State.DERIV)
+        self.VERB_DEGIL_ROOT = State("VERB_DEGIL_ROOT", 'Verb', State.TRANSFER)
 
         self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", 'Verb', State.TRANSFER)
         self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", 'Verb', State.DERIV)
         self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", 'Verb', State.TRANSFER)
 
         self.ALL_STATES |= {
-            self.NOUN_COPULA, self.ADJECTIVE_COPULA, self.ADVERB_COPULA, self.PRONOUN_COPULA,
+            self.NOUN_COPULA, self.ADJECTIVE_COPULA, self.ADVERB_COPULA, self.PRONOUN_COPULA, self.VERB_DEGIL_ROOT,
             self.VERB_COPULA_WITHOUT_TENSE, self.VERB_COPULA_WITHOUT_TENSE_DERIV, self.VERB_COPULA_WITH_TENSE
         }
+
+    def get_default_stem_state(self, stem):
+        if stem.dictionary_item.primary_position==PrimaryPosition.VERB and stem.root==u'değil':
+            return self.VERB_DEGIL_ROOT
+        else:
+            return SuffixGraph.get_default_stem_state(self, stem)
+
 
     def _add_suffixes(self):
         SuffixGraph._add_suffixes(self)
@@ -36,6 +45,7 @@ class ExtendedSuffixGraph(SuffixGraph):
         FreeTransitionSuffix("Adjective_Cop_Free_Transition",    self.ADJECTIVE_TERMINAL_TRANSFER, self.ADJECTIVE_COPULA)
         FreeTransitionSuffix("Adverb_Cop_Free_Transition",       self.ADVERB_TERMINAL_TRANSFER,    self.ADVERB_COPULA)
         FreeTransitionSuffix("Pronoun_Cop_Free_Transition",      self.PRONOUN_TERMINAL_TRANSFER,   self.PRONOUN_COPULA)
+        FreeTransitionSuffix("Verb_Degil_Free_Transition",       self.VERB_DEGIL_ROOT,             self.VERB_COPULA_WITHOUT_TENSE)
         FreeTransitionSuffix("Copula_Deriv_Free_Transition",     self.VERB_COPULA_WITHOUT_TENSE,   self.VERB_COPULA_WITHOUT_TENSE_DERIV)
 
         ZeroTransitionSuffix("Noun_Copula_Zero_Transition",      self.NOUN_COPULA,        self.VERB_COPULA_WITHOUT_TENSE)

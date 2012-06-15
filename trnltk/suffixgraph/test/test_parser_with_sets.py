@@ -25,7 +25,6 @@ cases_to_skip = {
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
     u'birbiri+Pron',    #TODO: need to add pron acc form +nA
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
-    u'de\u011fil+',
     u'â',
     u'akşamüst',  # compounds!
     u'kadar',

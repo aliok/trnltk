@@ -102,7 +102,7 @@ class DictionaryLoader:
         last_letter = TurkishAlphabet.get_letter_for_char(item_root[-1])
 
         if dictionary_item.primary_position==PrimaryPosition.VERB:
-            if last_letter.vowel:
+            if last_letter.vowel and RootAttribute.Passive_NotApplicable not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.ProgressiveVowelDrop)
                 dictionary_item.attributes.append(RootAttribute.Passive_In)
 
@@ -112,7 +112,7 @@ class DictionaryLoader:
             if root_vowel_count==1 and RootAttribute.Aorist_I not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.Aorist_A)
 
-            if last_letter==TurkishAlphabet.L_l:
+            if last_letter==TurkishAlphabet.L_l and RootAttribute.Passive_NotApplicable not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.Passive_In)
 
             if all(a not in dictionary_item.attributes for a in RootAttribute.CAUSATIVES):

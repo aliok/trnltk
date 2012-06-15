@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, requires_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 class SuffixGraph():
@@ -427,7 +427,7 @@ class SuffixGraph():
         self.Positive.add_suffix_form("")
 
     def _register_verb_tenses(self):
-        self.Aorist.add_suffix_form(u"+Ir", requires_root_attribute(RootAttribute.Aorist_I))
+        self.Aorist.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I))
         self.Aorist.add_suffix_form(u"+Ar")
         self.Aorist.add_suffix_form(u"z", comes_after(self.Negative))    # gel-me-z or gel-me-z-sin
         self.Aorist.add_suffix_form(u"", comes_after(self.Negative), followed_by(self.A1Sg_Verb) or followed_by(self.A1Pl_Verb))     # gel-me-m or gel-me-yiz
@@ -519,20 +519,21 @@ class SuffixGraph():
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Hastily, self.VERB_ROOT)
         self.Hastily.add_suffix_form(u"+yIver")
 
+        stem_doesnt_have_passive = ~has_root_attribute(RootAttribute.Passive_NotApplicable)
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
-        self.Pass.add_suffix_form(u"+In")
-        self.Pass.add_suffix_form(u"+nIl")
-        self.Pass.add_suffix_form(u"+InIl")
+        self.Pass.add_suffix_form(u"+In", stem_doesnt_have_passive)
+        self.Pass.add_suffix_form(u"+nIl", stem_doesnt_have_passive)
+        self.Pass.add_suffix_form(u"+InIl", stem_doesnt_have_passive)
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)
         self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Caus, self.VERB_ROOT)
-        self.Caus.add_suffix_form(u"t",  requires_root_attribute(RootAttribute.Causative_t) & doesnt_come_after_derivation(self.Caus, "t") & doesnt_come_after_derivation(self.Caus, "It"))
-        self.Caus.add_suffix_form(u"Ir", requires_root_attribute(RootAttribute.Causative_Ir) & doesnt_come_after_derivation(self.Able))
-        self.Caus.add_suffix_form(u"It", requires_root_attribute(RootAttribute.Causative_It) & doesnt_come_after_derivation(self.Able))
-        self.Caus.add_suffix_form(u"Ar", requires_root_attribute(RootAttribute.Causative_Ar) & doesnt_come_after_derivation(self.Able))
-        self.Caus.add_suffix_form(u"dIr", requires_root_attribute(RootAttribute.Causative_dIr))
+        self.Caus.add_suffix_form(u"t",  has_root_attribute(RootAttribute.Causative_t) & doesnt_come_after_derivation(self.Caus, "t") & doesnt_come_after_derivation(self.Caus, "It"))
+        self.Caus.add_suffix_form(u"Ir", has_root_attribute(RootAttribute.Causative_Ir) & doesnt_come_after_derivation(self.Able))
+        self.Caus.add_suffix_form(u"It", has_root_attribute(RootAttribute.Causative_It) & doesnt_come_after_derivation(self.Able))
+        self.Caus.add_suffix_form(u"Ar", has_root_attribute(RootAttribute.Causative_Ar) & doesnt_come_after_derivation(self.Able))
+        self.Caus.add_suffix_form(u"dIr", has_root_attribute(RootAttribute.Causative_dIr))
 
     def _register_verb_to_noun_derivations(self):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Inf, self.NOUN_ROOT)
@@ -577,7 +578,7 @@ class SuffixGraph():
 
 
         self.VERB_WITH_POLARITY.add_out_suffix(self.Aorist_to_Adj, self.VERB_TENSE_ADJ_DERIV)
-        self.Aorist_to_Adj.add_suffix_form(u"+Ir", requires_root_attribute(RootAttribute.Aorist_I))
+        self.Aorist_to_Adj.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I))
         self.Aorist_to_Adj.add_suffix_form(u"+Ar")
         self.Aorist_to_Adj.add_suffix_form(u"z", comes_after(self.Negative))    # gel-me-z
 

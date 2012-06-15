@@ -119,6 +119,19 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'seninken',            u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Verb+Zero+Adv+While(+yken[ken])', u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'onlarken',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
 
+    def test_should_parse_verb_degil(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_correct_for_verb(u'değil',               u'değil(değil)+Verb+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'değilim',             u'değil(değil)+Verb+Pres+A1sg(+yIm[im])')
+        self.assert_parse_correct_for_verb(u'değilsin',            u'değil(değil)+Verb+Pres+A2sg(sIn[sin])')
+        self.assert_parse_correct_for_verb(u'değildik',            u'değil(değil)+Verb+Past(+ydI[di])+A1pl(k[k])')
+        self.assert_parse_correct_for_verb(u'değilmişsiniz',       u'değil(değil)+Verb+Narr(+ymIş[miş])+A2pl(sInIz[siniz])')
+        self.assert_parse_correct_for_verb(u'değildiler',          u'değil(değil)+Verb+Past(+ydI[di])+A3pl(lAr[ler])')
+        self.assert_parse_correct_for_verb(u'değilseler',          u'değil(değil)+Verb+Cond(+ysA[se])+A3pl(lAr[ler])')
+        #TODO: degillerdi, degillerse, degillermis
+
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
 

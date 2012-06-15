@@ -178,7 +178,7 @@ class SuffixGoesTo(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class RequiresRootAttributes(SuffixFormCondition):
+class HasRootAttributes(SuffixFormCondition):
     def __init__(self, root_attrs):
         self._root_attrs = root_attrs
 
@@ -200,7 +200,7 @@ class RequiresRootAttributes(SuffixFormCondition):
         return all(r in parse_token.stem.dictionary_item.attributes for r in self._root_attrs)
 
     def __str__(self):
-        return u'requires_root_attributes({})'.format(self._root_attrs)
+        return u'has_root_attributes({})'.format(self._root_attrs)
 
     def __repr__(self):
         return self.__str__()
@@ -244,8 +244,8 @@ def that_goes_to(state_type):
 def applies_to_stem(stem_str):
     return AppliesToStem(stem_str)
 
-def requires_root_attributes(root_attrs):
-    return RequiresRootAttributes(root_attrs)
+def has_root_attributes(root_attrs):
+    return HasRootAttributes(root_attrs)
 
-def requires_root_attribute(root_attr):
-    return requires_root_attributes([root_attr])
+def has_root_attribute(root_attr):
+    return has_root_attributes([root_attr])

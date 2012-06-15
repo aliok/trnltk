@@ -5738,7 +5738,7 @@ değerlendirmek
 değerli [P:Adj]
 değersiz [P:Adj]
 değgin [P:Adj]
-değil
+değil [P:Verb]
 değim
 değin
 değin [P:Part]
@@ -5763,7 +5763,7 @@ değiştirgeç
 değişmez [P:Adj]
 değme
 değme [P:Adj]
-değmek
+değmek [A:Passive_NotApplicable]
 değnek
 değnekçi
 değneklemek

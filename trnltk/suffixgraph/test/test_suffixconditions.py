@@ -4,7 +4,7 @@ from hamcrest import *
 from mock import Mock
 from trnltk.stem.dictionaryitem import RootAttribute
 from trnltk.suffixgraph.parser import SuffixFormApplication
-from trnltk.suffixgraph.suffixconditions import comes_after, requires_root_attributes
+from trnltk.suffixgraph.suffixconditions import comes_after, has_root_attributes
 from trnltk.suffixgraph.suffixgraph import Suffix
 from trnltk.suffixgraph.suffixgraphmodel import SuffixForm
 from trnltk.suffixgraph.token import Transition
@@ -82,20 +82,20 @@ class SuffixConditionsTest(unittest.TestCase):
         C_T = RootAttribute.Causative_t
         C_AR = RootAttribute.Causative_Ar
 
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T]), None)
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T]), [])
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T]), [C_AR])
-        self.assert_root_attr_matches    (requires_root_attributes([C_T]), [C_T])
-        self.assert_root_attr_matches    (requires_root_attributes([C_T]), [C_T, C_AR])
+        self.assert_root_attr_matches_not(has_root_attributes([C_T]), None)
+        self.assert_root_attr_matches_not(has_root_attributes([C_T]), [])
+        self.assert_root_attr_matches_not(has_root_attributes([C_T]), [C_AR])
+        self.assert_root_attr_matches    (has_root_attributes([C_T]), [C_T])
+        self.assert_root_attr_matches    (has_root_attributes([C_T]), [C_T, C_AR])
 
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T, C_AR]), None)
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T, C_AR]), [])
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T, C_AR]), [C_AR])
-        self.assert_root_attr_matches_not(requires_root_attributes([C_T, C_AR]), [C_T])
-        self.assert_root_attr_matches    (requires_root_attributes([C_T, C_AR]), [C_T, C_AR])
+        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), None)
+        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), [])
+        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), [C_AR])
+        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), [C_T])
+        self.assert_root_attr_matches    (has_root_attributes([C_T, C_AR]), [C_T, C_AR])
 
-        self.assert_root_attr_matches    (~requires_root_attributes([C_T, C_AR]), [C_T])
-        self.assert_root_attr_matches_not(~requires_root_attributes([C_T, C_AR]), [C_T, C_AR])
+        self.assert_root_attr_matches    (~has_root_attributes([C_T, C_AR]), [C_T])
+        self.assert_root_attr_matches_not(~has_root_attributes([C_T, C_AR]), [C_T, C_AR])
 
 
     def assert_suffixes_matches(self, condition, suffix_form_tuples):
