@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import PrimaryPosition
-from trnltk.suffixgraph.suffixconditions import comes_after
+from trnltk.suffixgraph.suffixconditions import comes_after, doesnt_come_after
 from trnltk.suffixgraph.suffixgraph import SuffixGraph
 from trnltk.suffixgraph.suffixgraphmodel import *
 
@@ -71,12 +71,16 @@ class ExtendedSuffixGraph(SuffixGraph):
         ############ Copula tenses to Adverb
         self.While_Cop = Suffix("While_Cop", pretty_name="While")
 
+        ############ Explicit Copula
+        self.Cop_Verb = Suffix("Cop_Verb", pretty_name="Cop")
+
     def _register_suffixes(self):
         SuffixGraph._register_suffixes(self)
 
         self._register_copula_tenses()
         self._register_copula_agreements()
         self._register_copula_tenses_to_other_positions()
+        self._register_verb_explicit_copula()
 
     def _register_copula_tenses(self):
         self.VERB_COPULA_WITHOUT_TENSE.add_out_suffix(self.Pres_Cop, self.VERB_COPULA_WITH_TENSE)
@@ -119,3 +123,16 @@ class ExtendedSuffixGraph(SuffixGraph):
     def _register_copula_tenses_to_other_positions(self):
         self.VERB_COPULA_WITHOUT_TENSE_DERIV.add_out_suffix(self.While_Cop, self.ADVERB_ROOT)
         self.While_Cop.add_suffix_form("+yken")
+
+    def _register_verb_explicit_copula(self):
+
+        explicit_verb_copula_precondition = doesnt_come_after(self.Aorist) & doesnt_come_after(self.Past) \
+                                            & doesnt_come_after(self.Cond) & doesnt_come_after(self.Imp) \
+                                            & doesnt_come_after(self.Opt)
+
+        explicit_verb_copula_precondition &= doesnt_come_after(self.Cond_Cop) & doesnt_come_after(self.Past_Cop) & doesnt_come_after(self.Narr_Cop)
+        explicit_verb_copula_precondition &= doesnt_come_after(self.Narr_Ques) & doesnt_come_after(self.Past_Ques)
+
+
+        self.VERB_TERMINAL_TRANSFER.add_out_suffix(self.Cop_Verb, self.VERB_TERMINAL_TRANSFER)
+        self.Cop_Verb.add_suffix_form("dIr", precondition=explicit_verb_copula_precondition)

@@ -116,7 +116,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'kitapken',            u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
-        self.assert_parse_correct_for_verb(u'kitaplarıyken',       u'kitap(kitap)+Noun+A3sg+P3pl(lArI[ları])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3pl(I[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3sg+P3pl(lArI[lar\u0131])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[\u0131])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3pl(I[\u0131])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'kitaplarıyken',       u'kitap(kitap)+Noun+A3sg+P3pl(lArI[ları])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3pl(I[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'kitap(kitap)+Noun+A3sg+P3pl(lArI[ları])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg', u'kitap(kitap)+Noun+A3pl(lAr[lar])+P3pl(I[ı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'küçükken',            u'küçük(küçük)+Adj+Verb+Zero+Adv+While(+yken[ken])', u'küçük(küçük)+Adj+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg', u'küçük(küçük)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'küçük(küçük)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'küçüğümüzdeyken',     u'küçüğ(küçük)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[ümüz])+Loc(dA[de])+Verb+Zero+Adv+While(+yken[yken])', u'küçüğ(küçük)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[ümüz])+Loc(dA[de])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'maviceyken',          u'mavi(mavi)+Adj+Adv+Ly(cA[ce])+Verb+Zero+Adv+While(+yken[yken])', u'mavi(mavi)+Adj+Adv+Ly(cA[ce])+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
@@ -135,6 +135,34 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'değildiler',          u'değil(değil)+Verb+Past(+ydI[di])+A3pl(lAr[ler])')
         self.assert_parse_correct_for_verb(u'değilseler',          u'değil(değil)+Verb+Cond(+ysA[se])+A3pl(lAr[ler])')
         #TODO: degillerdi, degillerse, degillermis
+
+    def test_should_parse_verbs_with_explicit_copula(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        # remove some stems to keep tests simple
+        self.parser.stem_root_map['on'] = []
+        self.parser.stem_root_map['gelecek'] = []
+        self.parser.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['ben'])
+
+        self.assert_parse_correct_for_verb(u'elmadır',             u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dır])')
+        self.assert_parse_correct_for_verb(u'müdürdür',            u'müdür(müdür)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dür])')
+        self.assert_parse_correct_for_verb(u'zilidir',             u'zil(zil)+Noun+A3sg+Pnon+Acc(+yI[i])+Verb+Zero+Pres+A3sg+Cop(dIr[dir])', u'zil(zil)+Noun+A3sg+P3sg(+sI[i])+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'mavidir',             u'mavi(mavi)+Adj+Verb+Zero+Pres+A3sg+Cop(dIr[dir])', u'mavi(mavi)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'mavisindir',          u'mavi(mavi)+Adj+Verb+Zero+Pres+A2sg(sIn[sin])+Cop(dIr[dir])', u'mavi(mavi)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A2sg(sIn[sin])+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'onlardır',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dır])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dır])')
+        self.assert_parse_correct_for_verb(u'benimdir',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[im])+Cop(dIr[dir])', u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])+Verb+Zero+Pres+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'benimledir',          u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])+Verb+Zero+Pres+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'sıcakçayımdır',       u'sıcak(sıcak)+Adj+Adv+Ly(cA[ça])+Verb+Zero+Pres+A1sg(+yIm[yım])+Cop(dIr[dır])')
+        self.assert_parse_correct_for_verb(u'gelmektedir',         u'gel(gelmek)+Verb+Pos+Prog(mAktA[mekte])+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'geliyorlardır',       u'gel(gelmek)+Verb+Pos+Prog(Iyor[iyor])+A3pl(lAr[lar])+Cop(dIr[dır])')
+        self.assert_parse_correct_for_verb(u'gelmiştir',           u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+A3sg+Cop(dIr[tir])', u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Verb+Zero+Pres+A3sg+Cop(dIr[tir])', u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[tir])')
+        self.assert_parse_correct_for_verb(u'geleceksinizdir',     u'gel(gelmek)+Verb+Pos+Fut(+yAcAk[ecek])+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Adj+FutPart(+yAcAk[ecek])+Pnon+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+FutPart(+yAcAk[ecek])+A3sg+Pnon+Nom+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'gelmelilerdir',       u'gel(gelmek)+Verb+Pos+Neces(mAlI![meli])+A3pl(lAr[ler])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom+Adj+With(lI[li])+Verb+Zero+Pres+A3pl(lAr[ler])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom+Adj+With(lI[li])+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A3pl(lAr[ler])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom+Adj+With(lI[li])+Noun+Zero+A3pl(lAr[ler])+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'değildir',            u'değil(değil)+Verb+Pres+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'değillerdir',         u'değil(değil)+Verb+Pres+A3pl(lAr[ler])+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'mıdır',               u'mı(mı)+Ques+Pres+A3sg+Cop(dIr[dır])')
+        self.assert_parse_correct_for_verb(u'mıyımdır',            u'mı(mı)+Ques+Pres+A1sg(yım[yım])+Cop(dIr[dır])')
 
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
