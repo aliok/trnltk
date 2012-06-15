@@ -26,17 +26,13 @@ cases_to_skip = {
     u'akşamüst',  # compounds!
     u'kadar',
     u'Postp',
-    u'Aor+A3pl+Past"',   # yaparlardi
+    u'Aor+A3pl+Past"',    # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
     u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "QuesPart"s : midirler
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
-    u'niçin+',
     u'havil+',
-    u'kimbilir+',
-    u'yeniden+',
-    u'ora+Noun+A3sg+Pnon+Loc' #orada -> orda
-
+    u'kimbilir+'
 }
 
 class ParserTestWithSets(unittest.TestCase):

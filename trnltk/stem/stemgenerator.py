@@ -143,6 +143,10 @@ class StemGenerator:
             stem_hep = Stem(u'hep', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'hep'))
             stem_hepsi = Stem(u'hepsi', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'hepsi'))
             return [stem_hep, stem_hepsi]
+        elif dictionary_item.lemma==u'ora':
+            stem_or = Stem(u'or', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'or'))
+            stem_ora = Stem(u'ora', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ora'))
+            return [stem_or, stem_ora]
         else:
             raise Exception('Unhandled stem change : {} !'.format(dictionary_item))
 

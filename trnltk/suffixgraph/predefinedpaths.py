@@ -518,3 +518,11 @@ class PredefinedPaths():
         self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A1Pl_Ques,u'üz')])
         self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A2Pl_Ques,u'sünüz')])
         self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A3Pl_Ques,u'ler')])
+
+    def _create_predefined_path_of_ora(self):
+        stem_or = self._find_stem(u'or', PrimaryPosition.NOUN, None)
+
+        # define predefined paths for "orda" and "ordan"
+
+        self._add_token(stem_or, [self.suffix_graph.A3Sg_Noun, (self.suffix_graph.Loc_Noun,'da')])
+        self._add_token(stem_or, [self.suffix_graph.A3Sg_Noun, (self.suffix_graph.Abl_Noun,'dan')])

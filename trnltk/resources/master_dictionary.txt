@@ -17554,7 +17554,7 @@ nışadır
 nice [P:Adj]
 nicel
 nicelemek
-niçin
+niçin [P:Adv]
 nida
 nifak [A:NoVoicing]
 Niğde
@@ -17898,7 +17898,7 @@ optimist [A:NoVoicing]
 optimizm
 optimum
 opus
-ora
+ora [A:StemChange]
 orak
 oral
 oramiral [A:InverseHarmony]
@@ -25205,6 +25205,7 @@ yenibahar
 Yenice
 Yeniçağa
 yeniçeri
+yeniden [P:Adv]
 yenidünya
 Yenifakılı
 Yenihisar
