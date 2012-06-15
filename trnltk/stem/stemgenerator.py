@@ -190,3 +190,15 @@ class CircumflexConvertingStemGenerator:
 
 
         return stems
+
+class StemRootMapGenerator:
+    def generate(self, all_stems):
+        stem_root_map = {}
+        for stem in all_stems:
+            key = stem.root
+            if not stem_root_map.has_key(key):
+                stem_root_map[key] = []
+
+            stem_root_map[key].append(stem)
+
+        return stem_root_map

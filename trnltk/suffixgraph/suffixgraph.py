@@ -58,6 +58,11 @@ class SuffixGraph():
         self.NUMERAL_ROOT = State("NUMERAL_ROOT", "Num", State.TRANSFER)
         self.NUMERAL_DERIV = State("NUMERAL_DERIV", "Num", State.DERIV)
 
+        self.QUESTION_ROOT = State("QUESTION_ROOT", "Ques", State.TRANSFER)
+        self.QUESTION_WITH_TENSE = State("QUESTION_WITH_TENSE", "Ques", State.TRANSFER)
+        self.QUESTION_WITH_AGREEMENT = State("QUESTION_WITH_AGREEMENT", "Ques", State.TRANSFER)
+        self.QUESTION_TERMINAL = State("QUESTION_TERMINAL", "Ques", State.TERMINAL)
+
         self.PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", 'Punc', State.TERMINAL)
 
         self.PART_ROOT_TERMINAL = State("PART_ROOT_TERMINAL", 'Part', State.TERMINAL)
@@ -84,6 +89,8 @@ class SuffixGraph():
             self.CONJUNCTION_ROOT_TERMINAL,
 
             self.NUMERAL_ROOT, self.NUMERAL_DERIV,
+
+            self.QUESTION_ROOT, self.QUESTION_WITH_TENSE, self.QUESTION_WITH_AGREEMENT, self.QUESTION_TERMINAL,
 
             self.PUNC_ROOT_TERMINAL,
 
@@ -113,6 +120,8 @@ class SuffixGraph():
             return self.PUNC_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.PARTICLE:
             return self.PART_ROOT_TERMINAL
+        elif stem.dictionary_item.primary_position==PrimaryPosition.QUESTION:
+            return self.QUESTION_ROOT
         else:
             raise Exception("No stem state found for stem {} !".format(stem))
 
@@ -139,6 +148,8 @@ class SuffixGraph():
         FreeTransitionSuffix("Pronoun_Free_Transition_2",    self.PRONOUN_TERMINAL_TRANSFER,   self.PRONOUN_TERMINAL)
 
         FreeTransitionSuffix("Numeral_Free_Transition_1",    self.NUMERAL_ROOT,                self.NUMERAL_DERIV)
+
+        FreeTransitionSuffix("Question_Free_Transition_1",   self.QUESTION_WITH_AGREEMENT,     self.QUESTION_TERMINAL)
 
 
         ZeroTransitionSuffix("Numeral_Zero_Transition",      self.NUMERAL_DERIV,               self.ADJECTIVE_ROOT)
@@ -298,11 +309,27 @@ class SuffixGraph():
         ############# Pronoun to Adjective derivations
         self.Without_Pron = Suffix("Without_Pron", pretty_name="Without")
 
+        ############ Question Tenses
+        self.Question_Tense_Group = SuffixGroup('Question_Tense_Group')
+        self.Pres_Ques = Suffix("Pres_Ques", self.Question_Tense_Group, "Pres")
+        self.Past_Ques = Suffix("Past_Ques", self.Question_Tense_Group, "Past")
+        self.Narr_Ques = Suffix("Narr_Ques", self.Question_Tense_Group, "Narr")
+
+        ############ Question Agreements
+        self.Question_Agreements_Group = SuffixGroup("Question_Agreements_Group")
+        self.A1Sg_Ques = Suffix("A1Sg_Ques", self.Question_Agreements_Group, 'A1sg')
+        self.A2Sg_Ques = Suffix("A2Sg_Ques", self.Question_Agreements_Group, 'A2sg')
+        self.A3Sg_Ques = Suffix("A3Sg_Ques", self.Question_Agreements_Group, 'A3sg')
+        self.A1Pl_Ques = Suffix("A1Pl_Ques", self.Question_Agreements_Group, 'A1pl')
+        self.A2Pl_Ques = Suffix("A2Pl_Ques", self.Question_Agreements_Group, 'A2pl')
+        self.A3Pl_Ques = Suffix("A3Pl_Ques", self.Question_Agreements_Group, 'A3pl')
+
     def _register_suffixes(self):
         self._register_noun_suffixes()
         self._register_verb_suffixes()
         self._register_adjective_suffixes()
         self._register_pronoun_suffixes()
+        self._register_question_suffixes()
 
     def _register_noun_suffixes(self):
         self._register_noun_agreements()
@@ -334,6 +361,9 @@ class SuffixGraph():
         self._register_pronoun_cases()
         self._register_pronoun_to_adjective_suffixes()
 
+    def _register_question_suffixes(self):
+        self._register_question_tenses()
+        self._register_question_agreements()
 
     def _register_noun_agreements(self):
         self.NOUN_ROOT.add_out_suffix(self.A3Sg_Noun, self.NOUN_WITH_AGREEMENT)
@@ -713,3 +743,18 @@ class SuffixGraph():
         self.PRONOUN_NOM_DERIV.add_out_suffix(self.Without_Pron, self.ADJECTIVE_ROOT)
         self.Without_Pron.add_suffix_form(u"sIz", doesnt(comes_after_bu_su_o_pnon))  # ben-siz, onlar-siz
         self.Without_Pron.add_suffix_form(u"nsuz", comes_after_bu_su_o_pnon)         # o-nsuz, bu-nsuz, su-nsuz
+
+    def _register_question_tenses(self):
+        # Question tenses are all predefined
+        self.QUESTION_ROOT.add_out_suffix(self.Pres_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_ROOT.add_out_suffix(self.Narr_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_ROOT.add_out_suffix(self.Past_Ques, self.QUESTION_WITH_AGREEMENT)
+
+    def _register_question_agreements(self):
+        # Question agreements are all predefined
+        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A1Sg_Ques, self.VERB_TERMINAL_TRANSFER)
+        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A2Sg_Ques, self.VERB_TERMINAL_TRANSFER)
+        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A3Sg_Ques, self.VERB_TERMINAL_TRANSFER)
+        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A1Pl_Ques, self.VERB_TERMINAL_TRANSFER)
+        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A2Pl_Ques, self.VERB_TERMINAL_TRANSFER)
+        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A3Pl_Ques, self.VERB_TERMINAL_TRANSFER)

@@ -5,17 +5,19 @@ from trnltk.suffixgraph.token import *
 from trnltk.suffixgraph.suffixgraph import *
 
 class PredefinedPaths():
-    def __init__(self, stems, suffix_graph):
-        self._stems = stems
+    def __init__(self, stem_root_map, suffix_graph):
+        self._stem_root_map = stem_root_map
         self.suffix_graph = suffix_graph
         self.token_map = {}
 
     def _find_stem(self, stem_str, primary_position, secondary_position):
-        for stem in self._stems:
-            if stem.root == stem_str and stem.dictionary_item.primary_position == primary_position and stem.dictionary_item.secondary_position == secondary_position:
-                return stem
+        if self._stem_root_map.has_key(stem_str):
+            stems_for_stem_str = self._stem_root_map[stem_str]
+            for stem in stems_for_stem_str:
+                if stem.dictionary_item.primary_position == primary_position and stem.dictionary_item.secondary_position == secondary_position:
+                    return stem
 
-        raise Exception('Unable to find stem {}+{}+{}'.format(stem_str, primary_position, secondary_position))
+        raise Exception(u'Unable to find stem {}+{}+{}'.format(stem_str, primary_position, secondary_position))
 
 
     def _add_transition(self, token, suffix_form_application_str, suffix, to_state, whole_word):
@@ -31,7 +33,7 @@ class PredefinedPaths():
             if out_suffix == suffix:
                 return out_state
 
-        raise Exception('Unable to find output state for {} {}'.format(state, suffix))
+        raise Exception(u'Unable to find output state for {} {}'.format(state, suffix))
 
 
     def _follow_path(self, stem, path_edges):
@@ -64,7 +66,7 @@ class PredefinedPaths():
 
     def has_paths(self, stem):
         if not self.token_map:
-            raise Exception("Predefined paths are not yet created. Maybe you forgot to run 'create_predefined_paths' ?")
+            raise Exception(u"Predefined paths are not yet created. Maybe you forgot to run 'create_predefined_paths' ?")
 
         return self.token_map.has_key(stem)
 
@@ -91,6 +93,8 @@ class PredefinedPaths():
 
         self._create_predefined_path_of_kendi()
         self._create_predefined_path_of_hepsi()
+
+        self._create_predefined_path_of_question_particles()
 
     def _create_predefined_path_of_ben(self):
         stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
@@ -421,3 +425,96 @@ class PredefinedPaths():
         self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, (self.suffix_graph.Gen_Pron, u'nin')])
 
         self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron_Deriv])
+
+    def _create_predefined_path_of_question_particles(self):
+        stem_mii = self._find_stem(u'mı', PrimaryPosition.QUESTION, None)
+        stem_mi  = self._find_stem(u'mi', PrimaryPosition.QUESTION, None)
+        stem_mu  = self._find_stem(u'mu', PrimaryPosition.QUESTION, None)
+        stem_muu = self._find_stem(u'mü', PrimaryPosition.QUESTION, None)
+
+        ##### Pres
+        self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Sg_Ques,u'yım')])
+        self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Sg_Ques,u'sın')])
+        self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Pl_Ques,u'yız')])
+        self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Pl_Ques,u'sınız')])
+        self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Pl_Ques,u'lar')])
+
+        self._add_token(stem_mi , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Sg_Ques,u'yim')])
+        self._add_token(stem_mi , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Sg_Ques,u'sin')])
+        self._add_token(stem_mi , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mi , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Pl_Ques,u'yiz')])
+        self._add_token(stem_mi , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Pl_Ques,u'siniz')])
+        self._add_token(stem_mi , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Pl_Ques,u'ler')])
+
+        self._add_token(stem_mu , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Sg_Ques,u'yum')])
+        self._add_token(stem_mu , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Sg_Ques,u'sun')])
+        self._add_token(stem_mu , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mu , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Pl_Ques,u'yuz')])
+        self._add_token(stem_mu , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Pl_Ques,u'sunuz')])
+        self._add_token(stem_mu , [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Pl_Ques,u'lar')])
+
+        self._add_token(stem_muu, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Sg_Ques,u'yüm')])
+        self._add_token(stem_muu, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Sg_Ques,u'sün')])
+        self._add_token(stem_muu, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_muu, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Pl_Ques,u'yüz')])
+        self._add_token(stem_muu, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A2Pl_Ques,u'sünüz')])
+        self._add_token(stem_muu, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A3Pl_Ques,u'ler')])
+
+        ##### Past
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ydı'), (self.suffix_graph.A1Sg_Ques,u'm')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ydı'), (self.suffix_graph.A2Sg_Ques,u'n')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ydı'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ydı'), (self.suffix_graph.A1Pl_Ques,u'k')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ydı'), (self.suffix_graph.A2Pl_Ques,u'nız')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ydı'), (self.suffix_graph.A3Pl_Ques,u'lar')])
+
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ydi'), (self.suffix_graph.A1Sg_Ques,u'm')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ydi'), (self.suffix_graph.A2Sg_Ques,u'n')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ydi'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ydi'), (self.suffix_graph.A1Pl_Ques,u'k')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ydi'), (self.suffix_graph.A2Pl_Ques,u'niz')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ydi'), (self.suffix_graph.A3Pl_Ques,u'ler')])
+
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ydu'), (self.suffix_graph.A1Sg_Ques,u'm')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ydu'), (self.suffix_graph.A2Sg_Ques,u'n')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ydu'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ydu'), (self.suffix_graph.A1Pl_Ques,u'k')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ydu'), (self.suffix_graph.A2Pl_Ques,u'nuz')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ydu'), (self.suffix_graph.A3Pl_Ques,u'lar')])
+
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ydü'), (self.suffix_graph.A1Sg_Ques,u'm')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ydü'), (self.suffix_graph.A2Sg_Ques,u'n')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ydü'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ydü'), (self.suffix_graph.A1Pl_Ques,u'k')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ydü'), (self.suffix_graph.A2Pl_Ques,u'nüz')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ydü'), (self.suffix_graph.A3Pl_Ques,u'ler')])
+
+        ##### Narr
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ymış'), (self.suffix_graph.A1Sg_Ques,u'ım')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ymış'), (self.suffix_graph.A2Sg_Ques,u'sın')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ymış'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ymış'), (self.suffix_graph.A1Pl_Ques,u'ız')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ymış'), (self.suffix_graph.A2Pl_Ques,u'sınız')])
+        self._add_token(stem_mii, [(self.suffix_graph.Past_Ques,u'ymış'), (self.suffix_graph.A3Pl_Ques,u'lar')])
+
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ymiş'), (self.suffix_graph.A1Sg_Ques,u'im')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ymiş'), (self.suffix_graph.A2Sg_Ques,u'sin')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ymiş'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ymiş'), (self.suffix_graph.A1Pl_Ques,u'iz')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ymiş'), (self.suffix_graph.A2Pl_Ques,u'siniz')])
+        self._add_token(stem_mi , [(self.suffix_graph.Past_Ques,u'ymiş'), (self.suffix_graph.A3Pl_Ques,u'ler')])
+
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ymuş'), (self.suffix_graph.A1Sg_Ques,u'um')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ymuş'), (self.suffix_graph.A2Sg_Ques,u'sun')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ymuş'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ymuş'), (self.suffix_graph.A1Pl_Ques,u'uz')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ymuş'), (self.suffix_graph.A2Pl_Ques,u'sunuz')])
+        self._add_token(stem_mu , [(self.suffix_graph.Past_Ques,u'ymuş'), (self.suffix_graph.A3Pl_Ques,u'lar')])
+
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A1Sg_Ques,u'üm')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A2Sg_Ques,u'sün')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A3Sg_Ques,u'')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A1Pl_Ques,u'üz')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A2Pl_Ques,u'sünüz')])
+        self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A3Pl_Ques,u'ler')])

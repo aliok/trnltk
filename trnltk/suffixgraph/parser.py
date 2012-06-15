@@ -7,18 +7,10 @@ from trnltk.suffixgraph.token import ParseToken
 logger = logging.getLogger('parser')
 
 class Parser:
-    def __init__(self, stems, suffix_graph, predefined_paths):
-        self.stems = stems
+    def __init__(self, stem_root_map, suffix_graph, predefined_paths):
+        self.stem_root_map =  stem_root_map
         self.suffix_graph = suffix_graph
         self.predefined_paths = predefined_paths or []
-        self.stem_map =  {}
-
-        for stem in stems:
-            key = stem.root
-            if not self.stem_map.has_key(key):
-                self.stem_map[key] = []
-
-            self.stem_map[key].append(stem)
 
 
     def parse(self, input):
@@ -72,8 +64,8 @@ class Parser:
         return candidates
 
     def _find_stems_for_partial_input(self, partial_input):
-        if self.stem_map.has_key(partial_input):
-            return self.stem_map[partial_input][:]
+        if self.stem_root_map.has_key(partial_input):
+            return self.stem_root_map[partial_input][:]
         else:
             return []
 

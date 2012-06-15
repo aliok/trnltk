@@ -6,7 +6,7 @@ from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator
+from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
@@ -16,16 +16,14 @@ class PredefinedPathsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(PredefinedPathsTest, cls).setUpClass()
-        cls.all_stems = []
+        all_stems = []
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            if di.primary_position in [
-                PrimaryPosition.NOUN, PrimaryPosition.VERB, PrimaryPosition.ADVERB,
-                PrimaryPosition.ADJECTIVE, PrimaryPosition.PRONOUN,
-                PrimaryPosition.DETERMINER, PrimaryPosition.INTERJECTION, PrimaryPosition.CONJUNCTION,
-                PrimaryPosition.NUMERAL, PrimaryPosition.PUNCTUATION]:
-                cls.all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(StemGenerator.generate(di))
+
+        stem_root_map_generator = StemRootMapGenerator()
+        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
 
         cls.token_map = {}
 
@@ -38,7 +36,7 @@ class PredefinedPathsTest(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-        self.predefined_paths = PredefinedPaths(self.all_stems, self.suffix_graph)
+        self.predefined_paths = PredefinedPaths(self.stem_root_map, self.suffix_graph)
 
     def tearDown(self):
         self.predefined_paths = None
@@ -122,6 +120,37 @@ class PredefinedPathsTest(unittest.TestCase):
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Gen(in[in])',
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Nom')
 
+    def test_should_have_paths_for_ques(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.predefined_paths._create_predefined_path_of_question_particles()
+
+        self.token_map = self.predefined_paths.token_map
+
+        QUES = PrimaryPosition.QUESTION
+
+        # last one ends with transition to derivation state
+        self.assert_defined_path(u'mı', QUES, None,
+            u'mı(mı)+Ques+Pres+A1sg(yım[yım])',
+            u'mı(mı)+Ques+Pres+A2sg(sın[sın])',
+            u'mı(mı)+Ques+Pres+A3sg',
+            u'mı(mı)+Ques+Pres+A1pl(yız[yız])',
+            u'mı(mı)+Ques+Pres+A2pl(sınız[sınız])',
+            u'mı(mı)+Ques+Pres+A3pl(lar[lar])',
+            u'mı(mı)+Ques+Past(ydı[ydı])+A1sg(m[m])',
+            u'mı(mı)+Ques+Past(ydı[ydı])+A2sg(n[n])',
+            u'mı(mı)+Ques+Past(ydı[ydı])+A3sg',
+            u'mı(mı)+Ques+Past(ydı[ydı])+A1pl(k[k])',
+            u'mı(mı)+Ques+Past(ydı[ydı])+A2pl(nız[nız])',
+            u'mı(mı)+Ques+Past(ydı[ydı])+A3pl(lar[lar])',
+            u'mı(mı)+Ques+Past(ymış[ymış])+A1sg(ım[ım])',
+            u'mı(mı)+Ques+Past(ymış[ymış])+A2sg(sın[sın])',
+            u'mı(mı)+Ques+Past(ymış[ymış])+A3sg',
+            u'mı(mı)+Ques+Past(ymış[ymış])+A1pl(ız[ız])',
+            u'mı(mı)+Ques+Past(ymış[ymış])+A2pl(sınız[sınız])',
+            u'mı(mı)+Ques+Past(ymış[ymış])+A3pl(lar[lar])')
+        
     def assert_defined_path(self, stem_root, primary_position, secondary_position, *args):
         assert_that(self.predefined_tokens(stem_root, primary_position, secondary_position), IsTokensMatches([a for a in args]))
 

@@ -5,7 +5,7 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator
+from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
@@ -16,17 +16,20 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithSimpleGraph, cls).setUpClass()
-        cls.all_stems = []
+        all_stems = []
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            cls.all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(StemGenerator.generate(di))
+
+        stem_root_map_generator = StemRootMapGenerator()
+        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
 
         suffix_graph = SuffixGraph()
-        predefined_paths = PredefinedPaths(cls.all_stems, suffix_graph)
+        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        cls.parser = Parser(cls.all_stems, suffix_graph, predefined_paths)
+        cls.parser = Parser(cls.stem_root_map, suffix_graph, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -119,7 +122,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'çevirmiş',          u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A3sg', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
 
-        self.parser.stem_map['el'] = filter(lambda stem : stem.dictionary_item.lemma=='elemek', self.parser.stem_map['el'])
+        self.parser.stem_root_map['el'] = filter(lambda stem : stem.dictionary_item.lemma=='elemek', self.parser.stem_root_map['el'])
 
         self.assert_parse_correct(u'elerim',            u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom')
         self.assert_parse_correct(u'elersin',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A2sg(sIn[sin])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A2sg(sIn[sin])')
@@ -889,6 +892,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
             u'bil(bilmek)+Verb+Neg(mA[me])+Aor(z[z])+Adj+Zero',
             u'bil(bilmek)+Verb+Neg(mA[me])+Aor(z[z])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom'
         )
+
     def test_should_parse_some_problematic_words(self):
         self.assert_parse_correct_for_verb(u'bitirelim',         u'bit(bitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Opt(A[e])+A1pl(lIm[lim])')
         self.assert_parse_correct_for_verb(u'bulmalıyım',        u'bul(bulmak)+Verb+Pos+Neces(mAlI![malı])+A1sg(yIm[yım])')
@@ -897,6 +901,14 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'baksana',           u'bak(bakmak)+Verb+Pos+Imp(sAnA[sana])+A2sg')
         self.assert_parse_correct_for_verb(u'gelsenize',         u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
         parser_logger.setLevel(logging.DEBUG)
+
+    def test_should_parse_question_particles(self):
+        self.assert_parse_correct_for_verb(u'mı',                u'mı(mı)+Ques+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'mü',                u'mü(mü)+Ques+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'müydük',            u'mü(mü)+Ques+Past(ydü[ydü])+A1pl(k[k])')
+        self.assert_parse_correct_for_verb(u'mıydılar',          u'mı(mı)+Ques+Past(ydı[ydı])+A3pl(lar[lar])')
+        self.assert_parse_correct_for_verb(u'mıyız',             u'mı(mı)+Ques+Pres+A1pl(yız[yız])')
+        self.assert_parse_correct_for_verb(u'miymişsiniz',       u'mi(mi)+Ques+Past(ymiş[ymiş])+A2pl(siniz[siniz])')
 
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))

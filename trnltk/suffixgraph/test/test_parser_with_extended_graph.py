@@ -6,7 +6,7 @@ from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryitem import PrimaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator
+from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
@@ -17,17 +17,21 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithExtendedGraph, cls).setUpClass()
-        cls.all_stems = []
+        all_stems = []
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            cls.all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(StemGenerator.generate(di))
+
+
+        stem_root_map_generator = StemRootMapGenerator()
+        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
 
         suffix_graph = ExtendedSuffixGraph()
-        predefined_paths = PredefinedPaths(cls.all_stems, suffix_graph)
+        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        cls.parser = Parser(cls.all_stems, suffix_graph, predefined_paths)
+        cls.parser = Parser(cls.stem_root_map, suffix_graph, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -39,11 +43,11 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         suffix_applier_logger.setLevel(logging.DEBUG)
 
         #remove some stems for keeping the tests simple!
-        self.parser.stem_map['elmas'] = []
-        self.parser.stem_map['bent'] = []
-        self.parser.stem_map['bend'] = []
-        self.parser.stem_map['oy'] = []
-        self.parser.stem_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_map['ben'])
+        self.parser.stem_root_map['elmas'] = []
+        self.parser.stem_root_map['bent'] = []
+        self.parser.stem_root_map['bend'] = []
+        self.parser.stem_root_map['oy'] = []
+        self.parser.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['ben'])
 
 
         self.assert_parse_correct_for_verb(u'elmayım',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yım])')
@@ -106,8 +110,8 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.parser.stem_map['elmas'] = []
-        self.parser.stem_map['on'] = []
+        self.parser.stem_root_map['elmas'] = []
+        self.parser.stem_root_map['on'] = []
 
         self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')

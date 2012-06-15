@@ -16090,7 +16090,7 @@ mezuniyet [A:NoVoicing]
 mezura
 mezür
 mezzosoprano
-mı [P:Part, Ques]
+mı [P:QuesPart]
 mıh
 mıhlamak
 mık [P:Adj, Dup]
@@ -16132,7 +16132,7 @@ mızmızlanmak
 mızrak
 mızrap
 mi
-mi [P:Part, Ques]
+mi [P:QuesPart]
 miat
 mibzer
 miço
@@ -16424,7 +16424,7 @@ Mozambik
 mozole
 möble
 mösyö
-mu [P:Part, Ques]
+mu [P:QuesPart]
 muaccel
 muaddel
 muadele
@@ -16763,7 +16763,7 @@ muzip
 muzlim
 muzmahil [A:Doubling]
 muztar
-mü [P:Part, Ques]
+mü [P:QuesPart]
 mübadele
 mübadil
 mübahase

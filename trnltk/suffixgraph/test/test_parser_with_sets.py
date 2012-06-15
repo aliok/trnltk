@@ -7,7 +7,7 @@ from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator
+from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
@@ -18,7 +18,6 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGr
 cases_to_skip = {
     u'+Cop+', u'+Cop"',
     u'+Part"',
-    u'+Ques+',
     u'_',
     u'PCNom',
     u'+Prop+',
@@ -46,17 +45,20 @@ class ParserTestWithSets(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithSets, cls).setUpClass()
-        cls.all_stems = []
+        all_stems = []
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            cls.all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
+            all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
+
+        stem_root_map_generator = StemRootMapGenerator()
+        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
 
         suffix_graph = ExtendedSuffixGraph()
-        predefined_paths = PredefinedPaths(cls.all_stems, suffix_graph)
+        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        cls.parser = Parser(cls.all_stems, suffix_graph, predefined_paths)
+        cls.parser = Parser(cls.stem_root_map, suffix_graph, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
