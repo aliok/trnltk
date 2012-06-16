@@ -4,6 +4,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+from trnltk.stem.dictionaryitem import PrimaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.parser import Parser, logger as parser_logger
@@ -49,7 +50,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'sokakla',          u'sokak(sokak)+Noun+A3sg+Pnon+Ins(+ylA[la])')
 
         self.assert_parse_correct(u'sokaklar',         u'sokak(sokak)+Noun+A3pl(lAr[lar])+Pnon+Nom')
-        self.assert_parse_correct(u'sokakları',        u'sokak(sokak)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'sokak(sokak)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'sokak(sokak)+Noun+A3pl(lAr[lar])+P3pl(I[ı])+Nom', u'sokak(sokak)+Noun+A3sg+P3pl(lArI[ları])+Nom')
+        self.assert_parse_correct(u'sokakları',        u'sokak(sokak)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'sokak(sokak)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'sokak(sokak)+Noun+A3pl(lAr[lar])+P3pl(I![ı])+Nom', u'sokak(sokak)+Noun+A3sg+P3pl(lArI![ları])+Nom')
         self.assert_parse_correct(u'sokaklara',        u'sokak(sokak)+Noun+A3pl(lAr[lar])+Pnon+Dat(+yA[a])')
         self.assert_parse_correct(u'sokaklarda',       u'sokak(sokak)+Noun+A3pl(lAr[lar])+Pnon+Loc(dA[da])')
         self.assert_parse_correct(u'sokaklardan',      u'sokak(sokak)+Noun+A3pl(lAr[lar])+Pnon+Abl(dAn[dan])')
@@ -434,38 +435,38 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'sandalyeleri',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+Pnon+Acc(+yI[i])',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Nom',
-            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Nom',
-            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Nom'
+            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I![i])+Nom',
+            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI![leri])+Nom'
         )   # TODO
         self.assert_parse_correct_for_verb(u'sandalyelerini',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Acc(+yI[i])',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Acc(nI[ni])',
-            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Acc(nI[ni])',
-            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Acc(nI[ni])'
+            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I![i])+Acc(nI[ni])',
+            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI![leri])+Acc(nI[ni])'
         )
         self.assert_parse_correct_for_verb(u'sandalyelerine',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Dat(+yA[e])',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Dat(nA[ne])',
-            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Dat(nA[ne])',
-            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Dat(nA[ne])'
+            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I![i])+Dat(nA[ne])',
+            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI![leri])+Dat(nA[ne])'
         )
         self.assert_parse_correct_for_verb(u'sandalyelerinde',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Loc(dA[de])',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Loc(ndA[nde])',
-            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Loc(ndA[nde])',
-            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Loc(ndA[nde])'
+            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I![i])+Loc(ndA[nde])',
+            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI![leri])+Loc(ndA[nde])'
         )
         self.assert_parse_correct_for_verb(u'sandalyelerinin',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Gen(+nIn[in])',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Gen(+nIn[nin])',
-            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Gen(+nIn[nin])',
-            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Gen(+nIn[nin])'
+            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I![i])+Gen(+nIn[nin])',
+            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI![leri])+Gen(+nIn[nin])'
 
         )
         self.assert_parse_correct_for_verb(u'sandalyeleriyle',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3sg(+sI[i])+Ins(+ylA[yle])',
-            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I[i])+Ins(+ylA[yle])',
-            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI[leri])+Ins(+ylA[yle])'
+            u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P3pl(I![i])+Ins(+ylA[yle])',
+            u'sandalye(sandalye)+Noun+A3sg+P3pl(lArI![leri])+Ins(+ylA[yle])'
         )
         self.assert_parse_correct_for_verb(u'sandalyelerinle',
             u'sandalye(sandalye)+Noun+A3pl(lAr[ler])+P2sg(+In[in])+Ins(+ylA[le])'
@@ -475,83 +476,93 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'aceleten',          u'aceleten(aceleten)+Adv')
 
     def test_should_parse_pronouns(self):
-        self.assert_parse_correct(u'ben',               u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom', u'ben(ben)+Noun+A3sg+Pnon+Nom')
+        # remove some stems to make the test simple
+        self.parser.stem_root_map['on'] = []
+        self.parser.stem_root_map['ona'] = []
+        self.parser.stem_root_map['bend'] = []
+        self.parser.stem_root_map['bun'] = []
+        self.parser.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['ben'])
+        self.parser.stem_root_map['ban'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['ban'])
+        self.parser.stem_root_map['san'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['san'])
+        self.parser.stem_root_map['biz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['biz'])
+
+        self.assert_parse_correct(u'ben',               u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom')
         self.assert_parse_correct(u'sen',               u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom')
         self.assert_parse_correct(u'o',                 u'o(o)+Det', u'o(o)+Pron+Pers+A3sg+Pnon+Nom', u'o(o)+Pron+Demons+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'biz',               u'biz(biz)+Pron+Pers+A1pl+Pnon+Nom')
         self.assert_parse_correct(u'siz',               u'siz(siz)+Pron+Pers+A2pl+Pnon+Nom')
-        self.assert_parse_correct(u'onlar',             u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom',  u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom')
+        self.assert_parse_correct(u'onlar',             u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom')
         self.assert_parse_correct(u'bizler',            u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Nom')
         self.assert_parse_correct(u'sizler',            u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Nom')
 
-        self.assert_parse_correct(u'beni',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Acc(i[i])', u'ben(ben)+Noun+A3sg+Pnon+Acc(+yI[i])', u'ben(ben)+Noun+A3sg+P3sg(+sI[i])+Nom')
+        self.assert_parse_correct(u'beni',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Acc(i[i])')
         self.assert_parse_correct(u'seni',              u'sen(sen)+Pron+Pers+A2sg+Pnon+Acc(i[i])')
-        self.assert_parse_correct(u'onu',               u'o(o)+Pron+Pers+A3sg+Pnon+Acc(nu[nu])', u'o(o)+Pron+Demons+A3sg+Pnon+Acc(nu[nu])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom')
+        self.assert_parse_correct(u'onu',               u'o(o)+Pron+Pers+A3sg+Pnon+Acc(nu[nu])', u'o(o)+Pron+Demons+A3sg+Pnon+Acc(nu[nu])')
         self.assert_parse_correct(u'bizi',              u'biz(biz)+Pron+Pers+A1pl+Pnon+Acc(i[i])')
         self.assert_parse_correct(u'sizi',              u'siz(siz)+Pron+Pers+A2pl+Pnon+Acc(i[i])')
-        self.assert_parse_correct(u'onları',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+P3pl(I[ı])+Nom')
+        self.assert_parse_correct(u'onları',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])')
         self.assert_parse_correct(u'bizleri',           u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Acc(i[i])')
         self.assert_parse_correct(u'sizleri',           u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Acc(i[i])')
 
-        self.assert_parse_correct(u'bana',              u'ban(ben)+Pron+Pers+A1sg+Pnon+Dat(a[a])', u'ban(banmak)+Verb+Pos+Opt(A[a])+A3sg', u'ban(ban)+Noun+A3sg+Pnon+Dat(+yA[a])')
-        self.assert_parse_correct(u'sana',              u'san(sen)+Pron+Pers+A2sg+Pnon+Dat(a[a])', u'san(sanmak)+Verb+Pos+Opt(A[a])+A3sg', u'san(san)+Noun+A3sg+Pnon+Dat(+yA[a])')
-        self.assert_parse_correct(u'ona',               u'o(o)+Pron+Pers+A3sg+Pnon+Dat(na[na])', u'o(o)+Pron+Demons+A3sg+Pnon+Dat(na[na])', u'on(onmak)+Verb+Pos+Opt(A[a])+A3sg', u'ona(onamak)+Verb+Pos+Imp+A2sg', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Dat(+yA[a])')
+        self.assert_parse_correct(u'bana',              u'ban(ben)+Pron+Pers+A1sg+Pnon+Dat(a[a])')
+        self.assert_parse_correct(u'sana',              u'san(sen)+Pron+Pers+A2sg+Pnon+Dat(a[a])')
+        self.assert_parse_correct(u'ona',               u'o(o)+Pron+Pers+A3sg+Pnon+Dat(na[na])', u'o(o)+Pron+Demons+A3sg+Pnon+Dat(na[na])')
         self.assert_parse_correct(u'bize',              u'biz(biz)+Pron+Pers+A1pl+Pnon+Dat(e[e])')
         self.assert_parse_correct(u'size',              u'siz(siz)+Pron+Pers+A2pl+Pnon+Dat(e[e])')
-        self.assert_parse_correct(u'onlara',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Dat(a[a])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Dat(a[a])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Dat(+yA[a])')
+        self.assert_parse_correct(u'onlara',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Dat(a[a])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Dat(a[a])')
         self.assert_parse_correct(u'bizlere',           u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Dat(e[e])')
         self.assert_parse_correct(u'sizlere',           u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Dat(e[e])')
 
-        self.assert_parse_correct(u'bende',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])', u'ben(ben)+Noun+A3sg+Pnon+Loc(dA[de])', u'bend(bent)+Noun+A3sg+Pnon+Dat(+yA[e])')
+        self.assert_parse_correct(u'bende',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])')
         self.assert_parse_correct(u'sende',             u'sen(sen)+Pron+Pers+A2sg+Pnon+Loc(de[de])')
-        self.assert_parse_correct(u'onda',              u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])', u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[da])')
+        self.assert_parse_correct(u'onda',              u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])', u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])')
         self.assert_parse_correct(u'bizde',             u'biz(biz)+Pron+Pers+A1pl+Pnon+Loc(de[de])')
         self.assert_parse_correct(u'sizde',             u'siz(siz)+Pron+Pers+A2pl+Pnon+Loc(de[de])')
-        self.assert_parse_correct(u'onlarda',           u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Loc(da[da])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Loc(da[da])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Loc(dA[da])')
+        self.assert_parse_correct(u'onlarda',           u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Loc(da[da])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Loc(da[da])')
         self.assert_parse_correct(u'bizlerde',          u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Loc(de[de])')
         self.assert_parse_correct(u'sizlerde',          u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Loc(de[de])')
 
-        self.assert_parse_correct(u'benden',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Abl(den[den])', u'ben(ben)+Noun+A3sg+Pnon+Abl(dAn[den])')
+        self.assert_parse_correct(u'benden',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Abl(den[den])')
         self.assert_parse_correct(u'senden',            u'sen(sen)+Pron+Pers+A2sg+Pnon+Abl(den[den])')
-        self.assert_parse_correct(u'ondan',             u'o(o)+Pron+Pers+A3sg+Pnon+Abl(ndan[ndan])', u'o(o)+Pron+Demons+A3sg+Pnon+Abl(ndan[ndan])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Abl(dAn[dan])')
+        self.assert_parse_correct(u'ondan',             u'o(o)+Pron+Pers+A3sg+Pnon+Abl(ndan[ndan])', u'o(o)+Pron+Demons+A3sg+Pnon+Abl(ndan[ndan])')
         self.assert_parse_correct(u'bizden',            u'biz(biz)+Pron+Pers+A1pl+Pnon+Abl(den[den])')
         self.assert_parse_correct(u'sizden',            u'siz(siz)+Pron+Pers+A2pl+Pnon+Abl(den[den])')
-        self.assert_parse_correct(u'onlardan',          u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Abl(dan[dan])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Abl(dan[dan])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Abl(dAn[dan])')
+        self.assert_parse_correct(u'onlardan',          u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Abl(dan[dan])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Abl(dan[dan])')
         self.assert_parse_correct(u'bizlerden',         u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Abl(den[den])')
         self.assert_parse_correct(u'sizlerden',         u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Abl(den[den])')
 
-        self.assert_parse_correct(u'benim',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])', u'ben(ben)+Noun+A3sg+P1sg(+Im[im])+Nom')
+        self.assert_parse_correct(u'benim',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])')
         self.assert_parse_correct(u'senin',             u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])')
-        self.assert_parse_correct(u'onun',              u'o(o)+Pron+Pers+A3sg+Pnon+Gen(nun[nun])', u'o(o)+Pron+Demons+A3sg+Pnon+Gen(nun[nun])', u'on(onmak)+Verb+Pos+Imp+A2pl(+yIn[un])', u'on(onmak)+Verb+Verb+Pass(+In[un])+Pos+Imp+A2sg', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Gen(+nIn[un])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+P2sg(+In[un])+Nom')
+        self.assert_parse_correct(u'onun',              u'o(o)+Pron+Pers+A3sg+Pnon+Gen(nun[nun])', u'o(o)+Pron+Demons+A3sg+Pnon+Gen(nun[nun])')
         self.assert_parse_correct(u'bizim',             u'biz(biz)+Pron+Pers+A1pl+Pnon+Gen(im[im])')
         self.assert_parse_correct(u'sizin',             u'siz(siz)+Pron+Pers+A2pl+Pnon+Gen(in[in])')
-        self.assert_parse_correct(u'onların',           u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Gen(ın[ın])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Gen(ın[ın])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Gen(+nIn[ın])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+P2sg(+In[ın])+Nom')
+        self.assert_parse_correct(u'onların',           u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Gen(ın[ın])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Gen(ın[ın])')
         self.assert_parse_correct(u'bizlerin',          u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])')
         self.assert_parse_correct(u'sizlerin',          u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Gen(in[in])')
 
-        self.assert_parse_correct(u'benimle',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])', u'ben(ben)+Noun+A3sg+P1sg(+Im[im])+Ins(+ylA[le])')
+        self.assert_parse_correct(u'benimle',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])')
         self.assert_parse_correct(u'seninle',           u'sen(sen)+Pron+Pers+A2sg+Pnon+Ins(inle[inle])')
-        self.assert_parse_correct(u'onunla',            u'o(o)+Pron+Pers+A3sg+Pnon+Ins(nunla[nunla])', u'o(o)+Pron+Demons+A3sg+Pnon+Ins(nunla[nunla])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+P2sg(+In[un])+Ins(+ylA[la])')
+        self.assert_parse_correct(u'onunla',            u'o(o)+Pron+Pers+A3sg+Pnon+Ins(nunla[nunla])', u'o(o)+Pron+Demons+A3sg+Pnon+Ins(nunla[nunla])')
         self.assert_parse_correct(u'bizimle',           u'biz(biz)+Pron+Pers+A1pl+Pnon+Ins(imle[imle])')
         self.assert_parse_correct(u'sizinle',           u'siz(siz)+Pron+Pers+A2pl+Pnon+Ins(inle[inle])')
-        self.assert_parse_correct(u'onlarla',           u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Ins(la[la])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Ins(la[la])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Ins(+ylA[la])')
+        self.assert_parse_correct(u'onlarla',           u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Ins(la[la])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Ins(la[la])')
         self.assert_parse_correct(u'bizlerle',          u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Ins(le[le])')
         self.assert_parse_correct(u'sizlerle',          u'siz(siz)+Pron+Pers+A2pl(ler[ler])+Pnon+Ins(le[le])')
 
-        self.assert_parse_correct(u'benle',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(le[le])', u'ben(ben)+Noun+A3sg+Pnon+Ins(+ylA[le])')
+        self.assert_parse_correct(u'benle',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(le[le])')
         self.assert_parse_correct(u'senle',             u'sen(sen)+Pron+Pers+A2sg+Pnon+Ins(le[le])')
-        self.assert_parse_correct(u'onla',              u'o(o)+Pron+Pers+A3sg+Pnon+Ins(nla[nla])', u'o(o)+Pron+Demons+A3sg+Pnon+Ins(nla[nla])', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Ins(+ylA[la])')
+        self.assert_parse_correct(u'onla',              u'o(o)+Pron+Pers+A3sg+Pnon+Ins(nla[nla])', u'o(o)+Pron+Demons+A3sg+Pnon+Ins(nla[nla])')
         self.assert_parse_correct(u'bizle',             u'biz(biz)+Pron+Pers+A1pl+Pnon+Ins(le[le])')
         self.assert_parse_correct(u'sizle',             u'siz(siz)+Pron+Pers+A2pl+Pnon+Ins(le[le])')
 
         self.assert_parse_correct(u'bu',                u'bu(bu)+Det', u'bu(bu)+Pron+Demons+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'şu',                u'şu(şu)+Pron+Demons+A3sg+Pnon+Nom', u'şu(şu)+Det')
-        self.assert_parse_correct(u'bunlar',            u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom', u'bun(bun)+Noun+A3pl(lAr[lar])+Pnon+Nom')
+        self.assert_parse_correct(u'bunlar',            u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom')
         self.assert_parse_correct(u'şunlar',            u'şu(şu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom')
 
-        self.assert_parse_correct(u'bunu',              u'bu(bu)+Pron+Demons+A3sg+Pnon+Acc(nu[nu])', u'bun(bun)+Noun+A3sg+Pnon+Acc(+yI[u])', u'bun(bun)+Noun+A3sg+P3sg(+sI[u])+Nom')
+        self.assert_parse_correct(u'bunu',              u'bu(bu)+Pron+Demons+A3sg+Pnon+Acc(nu[nu])')
         self.assert_parse_correct(u'şunu',              u'şu(şu)+Pron+Demons+A3sg+Pnon+Acc(nu[nu])')
-        self.assert_parse_correct(u'bunları',           u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])', u'bun(bun)+Noun+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'bun(bun)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'bun(bun)+Noun+A3pl(lAr[lar])+P3pl(I[ı])+Nom')
+        self.assert_parse_correct(u'bunları',           u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])')
         self.assert_parse_correct(u'şunları',           u'şu(şu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Acc(ı[ı])')
 
         self.assert_parse_correct(u'nere',              u'nere(nere)+Pron+Ques+A3sg+Pnon+Nom')
@@ -567,11 +578,11 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'neresi',            u'nere(nere)+Pron+Ques+A3sg+P3sg(+sI[si])+Nom')
         self.assert_parse_correct(u'neremiz',           u'nere(nere)+Pron+Ques+A3sg+P1pl(+ImIz[miz])+Nom')
         self.assert_parse_correct(u'nereniz',           u'nere(nere)+Pron+Ques+A3sg+P2pl(+InIz[niz])+Nom')
-        self.assert_parse_correct(u'nereleri',          u'nere(nere)+Pron+Ques+A3sg+P3pl(lArI[leri])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3pl(I[i])+Nom')
+        self.assert_parse_correct(u'nereleri',          u'nere(nere)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
 
         self.assert_parse_correct(u'nerenden',          u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Abl(dAn[den])')
         self.assert_parse_correct(u'kimimizle',         u'kim(kim)+Pron+Ques+A3sg+P1pl(+ImIz[imiz])+Ins(+ylA[le])', u'kimi(kimi)+Pron+A3sg+P1pl(+ImIz[miz])+Ins(+ylA[le])')
-        self.assert_parse_correct(u'kimleri',           u'kim(kim)+Pron+Ques+A3sg+P3pl(lArI[leri])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3pl(I[i])+Nom')
+        self.assert_parse_correct(u'kimleri',           u'kim(kim)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
         self.assert_parse_correct(u'kimlerimiz',        u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Nom')
         self.assert_parse_correct(u'kimlerimize',       u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Dat(+yA[e])')
         self.assert_parse_correct(u'kimlerimizin',      u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])')
@@ -755,8 +766,8 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'kalacaklar',        u'kal(kalmak)+Verb+Pos+Fut(+yAcAk[acak])+A3pl(lAr[lar])', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+Pnon+Nom')
         self.assert_parse_correct(u'kalmayacaklar',     u'kal(kalmak)+Verb+Neg(mA[ma])+Fut(+yAcAk[yacak])+A3pl(lAr[lar])', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+Pnon+Nom')
 
-        self.assert_parse_correct(u'kalacakları',       u'kal(kalmak)+Verb+Pos+Adj+FutPart(+yAcAk[acak])+P3pl(lArI[ları])', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+P3pl(I[ı])+Nom', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3sg+P3pl(lArI[ları])+Nom')
-        self.assert_parse_correct(u'kalmayacakları',    u'kal(kalmak)+Verb+Neg(mA[ma])+Adj+FutPart(+yAcAk[yacak])+P3pl(lArI[ları])', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+P3pl(I[ı])+Nom', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3sg+P3pl(lArI[ları])+Nom')
+        self.assert_parse_correct(u'kalacakları',       u'kal(kalmak)+Verb+Pos+Adj+FutPart(+yAcAk[acak])+P3pl(lArI![ları])', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+P3pl(I![ı])+Nom', u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3sg+P3pl(lArI![ları])+Nom')
+        self.assert_parse_correct(u'kalmayacakları',    u'kal(kalmak)+Verb+Neg(mA[ma])+Adj+FutPart(+yAcAk[yacak])+P3pl(lArI![ları])', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+Pnon+Acc(+yI[ı])', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+P3pl(I![ı])+Nom', u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3sg+P3pl(lArI![ları])+Nom')
 
         self.assert_parse_correct(u'kalacaklarımı',     u'kal(kalmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3pl(lAr[lar])+P1sg(+Im[ım])+Acc(+yI[ı])')
         self.assert_parse_correct(u'kalmayacaklarımı',  u'kal(kalmak)+Verb+Neg(mA[ma])+Noun+FutPart(+yAcAk[yacak])+A3pl(lAr[lar])+P1sg(+Im[ım])+Acc(+yI[ı])')
@@ -859,9 +870,6 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'hepinizle',          u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Ins(le[le])')
 
     def test_should_parse_pronoun_adj_to_noun_zero_transition(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct(u'maviye',             u'mavi(mavi)+Adj+Noun+Zero+A3sg+Pnon+Dat(+yA[ye])')
         self.assert_parse_correct(u'gencin',             u'genc(genç)+Adj+Noun+Zero+A3sg+Pnon+Gen(+nIn[in])',  u'genc(genç)+Adj+Noun+Zero+A3sg+P2sg(+In[in])+Nom', u'gen(gen)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[ci])+A3sg+P2sg(+In[n])+Nom')
 
@@ -902,6 +910,14 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'gelsenize',         u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
         parser_logger.setLevel(logging.DEBUG)
 
+        # remove some token to keep the test easier
+        # TODO: low priority
+#        self.parser.stem_root_map['ha'] = []
+#        self.parser.stem_root_map['hav'] = []
+#        self.parser.stem_root_map['havl'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NOUN, self.parser.stem_root_map['havl'])
+#        self.assert_parse_correct_for_verb(u'havli',             u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
+#        self.assert_parse_correct_for_verb(u'havliyle',          u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
+
     def test_should_parse_question_particles(self):
         self.assert_parse_correct_for_verb(u'mı',                u'mı(mı)+Ques+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'mü',                u'mü(mü)+Ques+Pres+A3sg')
@@ -909,6 +925,34 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'mıydılar',          u'mı(mı)+Ques+Past(ydı[ydı])+A3pl(lar[lar])')
         self.assert_parse_correct_for_verb(u'mıyız',             u'mı(mı)+Ques+Pres+A1pl(yız[yız])')
         self.assert_parse_correct_for_verb(u'miymişsiniz',       u'mi(mi)+Ques+Past(ymiş[ymiş])+A2pl(siniz[siniz])')
+
+    def test_should_parse_noun_compounds(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_correct_for_verb(u'zeytinyağı',        u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3sg(+sI[ı])+Nom')
+        self.assert_parse_correct_for_verb(u'zeytinyağına',      u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3sg(+sI[ı])+Dat(nA[na])')
+        self.assert_parse_correct_for_verb(u'zeytinyağlı',       u'zeytinyağ(zeytinyağı)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lı])', u'zeytinyağ(zeytinyağı)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lı])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'zeytinyağlıya',     u'zeytinyağ(zeytinyağı)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lı])+Noun+Zero+A3sg+Pnon+Dat(+yA[ya])')
+        self.assert_parse_correct_for_verb(u'zeytinyağları',     u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3pl(lArI![ları])+Nom')
+        self.assert_parse_correct_for_verb(u'zeytinyağlarını',   u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3pl(lArI![ları])+Acc(nI[nı])')
+
+        self.parser.stem_root_map[u'a'] = []
+        self.parser.stem_root_map[u'ak'] = []
+        self.parser.stem_root_map[u'akşam'] = []
+
+        self.assert_parse_correct_for_verb(u'akşamüstü',         u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3sg(+sI[ü])+Nom')
+        self.assert_parse_correct_for_verb(u'akşamüstleri',      u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3pl(lArI![leri])+Nom')
+        self.assert_parse_correct_for_verb(u'akşamüstüne',       u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3sg(+sI[ü])+Dat(nA[ne])')
+        self.assert_parse_correct_for_verb(u'akşamüstlü',        u'akşamüst(akşamüstü)+Noun+Time+A3sg+Pnon+Nom+Adj+With(lI[lü])', u'akşamüst(akşamüstü)+Noun+Time+A3sg+Pnon+Nom+Adj+With(lI[lü])+Noun+Zero+A3sg+Pnon+Nom')
+
+        #TODO:
+        #self.assert_parse_correct_for_verb(u'zeytinyağım',       xxxx)
+        #self.assert_parse_correct_for_verb(u'zeytinyağın',       xxxx)
+        #self.assert_parse_correct_for_verb(u'zeytinyağı',        xxxx)
+        #self.assert_parse_correct_for_verb(u'zeytinyağlarım',       xxxx)
+        #self.assert_parse_correct_for_verb(u'zeytinyağların',       xxxx)
+        #self.assert_parse_correct_for_verb(u'zeytinyağları',        xxxx)
 
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))

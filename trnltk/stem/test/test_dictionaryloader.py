@@ -36,7 +36,7 @@ class DictionaryLoaderTest(unittest.TestCase):
         assert_that(item, equal_to(DictionaryItem(u"abuk", u"abuk", PrimaryPosition.ADJECTIVE, SecondaryPosition.DUPLICATOR, [RootAttribute.NoVoicing, RootAttribute.NoSuffix])))
 
         item = DictionaryLoader._crate_dictionary_item_from_line(u'acemborusu [A:CompoundP3sg; R:acemboru]')
-        assert_that(item, equal_to(DictionaryItem(u"acemborusu", u"acemborusu", None, None, [RootAttribute.CompoundP3sg])))
+        assert_that(item, equal_to(DictionaryItem(u"acemborusu", u"acemboru", None, None, [RootAttribute.CompoundP3sg])))
 
         item = DictionaryLoader._crate_dictionary_item_from_line(u'acembuselik')
         assert_that(item, equal_to(DictionaryItem(u"acembuselik", u"acembuselik", None, None, None)))
@@ -76,6 +76,12 @@ class DictionaryLoaderTest(unittest.TestCase):
 
         item = DictionaryLoader._crate_dictionary_item_from_line(u'ürkmek [A:Causative_It]')
         assert_that(item, equal_to(DictionaryItem(u"ürkmek", u"ürkmek", None, None, [RootAttribute.Causative_It])))
+
+        item = DictionaryLoader._crate_dictionary_item_from_line(u'akşamsefası [A:CompoundP3sg; R:akşamsefa]')
+        assert_that(item, equal_to(DictionaryItem(u"akşamsefası", u"akşamsefa", None, None, [RootAttribute.CompoundP3sg])))
+
+        item = DictionaryLoader._crate_dictionary_item_from_line(u'akşamüstü [P:Noun, Time; A:CompoundP3sg; R:akşamüst]')
+        assert_that(item, equal_to(DictionaryItem(u"akşamüstü", u"akşamüst", PrimaryPosition.NOUN, SecondaryPosition.TIME, [RootAttribute.CompoundP3sg])))
 
     def test_should_not_set_position_and_lemma_if_position_is_set_already(self):
         item_org = DictionaryItem(u'elma', u'elma', PrimaryPosition.NOUN, None, None)
@@ -213,7 +219,7 @@ class DictionaryLoaderTest(unittest.TestCase):
         assert_that(dictionary_items, has_item(DictionaryItem(u'abes', u'abes', PrimaryPosition.ADVERB, None, None)))
         assert_that(dictionary_items, has_item(DictionaryItem(u'ablak', u'ablak', PrimaryPosition.ADJECTIVE, None, [RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'abuk', u'abuk', PrimaryPosition.ADJECTIVE, SecondaryPosition.DUPLICATOR, [RootAttribute.NoSuffix, RootAttribute.NoVoicing])))
-        assert_that(dictionary_items, has_item(DictionaryItem(u'acemborusu', u'acemborusu', PrimaryPosition.NOUN, None, [RootAttribute.CompoundP3sg, RootAttribute.NoVoicing])))
+        assert_that(dictionary_items, has_item(DictionaryItem(u'acemborusu', u'acemboru', PrimaryPosition.NOUN, None, [RootAttribute.CompoundP3sg, RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'acembuselik', u'acembuselik', PrimaryPosition.NOUN, None, [RootAttribute.Voicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'aciz', u'aciz', PrimaryPosition.NOUN, None, [RootAttribute.LastVowelDrop, RootAttribute.NoVoicing])))
         assert_that(dictionary_items, has_item(DictionaryItem(u'âciz', u'âciz', PrimaryPosition.ADJECTIVE, None, [RootAttribute.NoVoicing])))

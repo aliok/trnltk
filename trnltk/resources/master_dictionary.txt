@@ -8953,7 +8953,7 @@ gelincik
 gelincikgiller
 gelinfeneri [A:CompoundP3sg; R:gelinfener]
 gelinlik
-gelinparmağı [A:CompoundP3sg, Voicing; R:gelinparmak]
+gelinparmağı [P:Noun; A:CompoundP3sg, Voicing; R:gelinparmak]
 gelir
 gelişigüzel
 gelişim
@@ -9862,7 +9862,7 @@ hanımel [A:CompoundP3sg; R:hanımeli]
 hanımeligiller
 hanımgöbeği [A:CompoundP3sg, Voicing; R:hanımgöbek]
 hanımnine
-hanımparmağı [A:CompoundP3sg, Voicing; R:hanımparmak]
+hanımparmağı [P:Noun; A:CompoundP3sg, Voicing; R:hanımparmak]
 hani
 Hani
 hanigiller
@@ -22706,7 +22706,7 @@ tavşangiller
 tavşankanı [A:CompoundP3sg; R:tavşankan]
 tavşankulağı [A:CompoundP3sg, Voicing; R:tavşankulak]
 Tavşanlı
-tavşanmemesi [A:CompoundP3sg; R:]
+tavşanmemesi [A:CompoundP3sg; R:tavşanmeme]
 tavuk
 tavukgiller
 tavukgöğsü [A:CompoundP3sg, LastVowelDrop; R:tavukgöğüs]
@@ -24634,7 +24634,7 @@ vezin [A:LastVowelDrop]
 vezir
 veziriazam
 Vezirköprü
-vezirparmağı [A:CompoundP3sg, Voicing; R:vezirparmak]
+vezirparmağı [P:Noun; A:CompoundP3sg, Voicing; R:vezirparmak]
 vezne
 veznedar
 vıcık

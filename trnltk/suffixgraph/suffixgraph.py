@@ -20,6 +20,10 @@ class SuffixGraph():
         self.NOUN_NOM_DERIV = State("NOUN_NOM_DERIV", 'Noun', State.DERIV)
         self.NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", 'Noun', State.DERIV)
 
+        self.NOUN_COMPOUND_ROOT = State("NOUN_COMPOUND_ROOT", 'Noun', State.TRANSFER)
+        self.NOUN_COMPOUND_WITH_AGREEMENT = State("NOUN_COMPOUND_WITH_AGREEMENT", 'Noun', State.TRANSFER)
+        self.NOUN_COMPOUND_WITH_POSSESSION = State("NOUN_COMPOUND_WITH_POSSESSION", 'Noun', State.TRANSFER)
+
         self.VERB_ROOT = State("VERB_ROOT", 'Verb', State.TRANSFER)
         self.VERB_WITH_POLARITY = State("VERB_WITH_POLARITY", 'Verb', State.TRANSFER)
         self.VERB_WITH_TENSE = State("VERB_WITH_TENSE", 'Verb', State.TRANSFER)
@@ -71,6 +75,8 @@ class SuffixGraph():
             self.NOUN_ROOT, self.NOUN_WITH_AGREEMENT, self.NOUN_WITH_POSSESSION, self.NOUN_WITH_CASE, self.NOUN_TERMINAL,
             self.NOUN_TERMINAL_TRANSFER, self.NOUN_DERIV_WITH_CASE, self.NOUN_NOM_DERIV,
 
+            self.NOUN_COMPOUND_ROOT, self.NOUN_COMPOUND_WITH_AGREEMENT, self.NOUN_COMPOUND_WITH_POSSESSION,
+
             self.VERB_ROOT, self.VERB_WITH_POLARITY, self.VERB_WITH_TENSE, self.VERB_TERMINAL, self.VERB_TERMINAL_TRANSFER,
             self.VERB_PLAIN_DERIV, self.VERB_POLARITY_DERIV, self.VERB_TENSE_DERIV, self.VERB_TENSE_ADJ_DERIV,
 
@@ -99,7 +105,10 @@ class SuffixGraph():
 
     def get_default_stem_state(self, stem):
         if not stem.dictionary_item.primary_position or stem.dictionary_item.primary_position==PrimaryPosition.NOUN:
-            return self.NOUN_ROOT
+            if RootAttribute.CompoundP3sg in stem.dictionary_item.attributes:
+                return self.NOUN_COMPOUND_ROOT
+            else:
+                return self.NOUN_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.VERB:
             return self.VERB_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.ADVERB:
@@ -128,33 +137,33 @@ class SuffixGraph():
     def _add_suffixes(self):
 
         #############  Empty transitions
-        FreeTransitionSuffix("Noun_Free_Transition_1",       self.NOUN_WITH_CASE,              self.NOUN_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Noun_Free_Transition_2",       self.NOUN_TERMINAL_TRANSFER,      self.NOUN_TERMINAL)
-        FreeTransitionSuffix("Noun_Free_Transition_3",       self.NOUN_WITH_CASE,              self.NOUN_DERIV_WITH_CASE)
+        FreeTransitionSuffix("Noun_Free_Transition_1",          self.NOUN_WITH_CASE,               self.NOUN_TERMINAL_TRANSFER)
+        FreeTransitionSuffix("Noun_Free_Transition_2",          self.NOUN_TERMINAL_TRANSFER,       self.NOUN_TERMINAL)
+        FreeTransitionSuffix("Noun_Free_Transition_3",          self.NOUN_WITH_CASE,               self.NOUN_DERIV_WITH_CASE)
 
-        FreeTransitionSuffix("Verb_Free_Transition_1",       self.VERB_ROOT,                   self.VERB_PLAIN_DERIV)
-        FreeTransitionSuffix("Verb_Free_Transition_2",       self.VERB_WITH_POLARITY,          self.VERB_POLARITY_DERIV)
-        FreeTransitionSuffix("Verb_Free_Transition_3",       self.VERB_WITH_TENSE,             self.VERB_TENSE_DERIV)
-        FreeTransitionSuffix("Verb_Free_Transition_4",       self.VERB_TERMINAL_TRANSFER,      self.VERB_TERMINAL)
+        FreeTransitionSuffix("Verb_Free_Transition_1",          self.VERB_ROOT,                    self.VERB_PLAIN_DERIV)
+        FreeTransitionSuffix("Verb_Free_Transition_2",          self.VERB_WITH_POLARITY,           self.VERB_POLARITY_DERIV)
+        FreeTransitionSuffix("Verb_Free_Transition_3",          self.VERB_WITH_TENSE,              self.VERB_TENSE_DERIV)
+        FreeTransitionSuffix("Verb_Free_Transition_4",          self.VERB_TERMINAL_TRANSFER,       self.VERB_TERMINAL)
 
-        FreeTransitionSuffix("Adj_Free_Transition_1",        self.ADJECTIVE_ROOT,              self.ADJECTIVE_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Adj_Free_Transition_2",        self.ADJECTIVE_TERMINAL_TRANSFER, self.ADJECTIVE_TERMINAL)
-        FreeTransitionSuffix("Adj_Free_Transition_3",        self.ADJECTIVE_ROOT,              self.ADJECTIVE_DERIV)
+        FreeTransitionSuffix("Adj_Free_Transition_1",           self.ADJECTIVE_ROOT,               self.ADJECTIVE_TERMINAL_TRANSFER)
+        FreeTransitionSuffix("Adj_Free_Transition_2",           self.ADJECTIVE_TERMINAL_TRANSFER,  self.ADJECTIVE_TERMINAL)
+        FreeTransitionSuffix("Adj_Free_Transition_3",           self.ADJECTIVE_ROOT,               self.ADJECTIVE_DERIV)
 
-        FreeTransitionSuffix("Adv_Free_Transition_1",        self.ADVERB_ROOT,                 self.ADVERB_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Adv_Free_Transition_2",        self.ADVERB_TERMINAL_TRANSFER,    self.ADVERB_TERMINAL)
+        FreeTransitionSuffix("Adv_Free_Transition_1",           self.ADVERB_ROOT,                  self.ADVERB_TERMINAL_TRANSFER)
+        FreeTransitionSuffix("Adv_Free_Transition_2",           self.ADVERB_TERMINAL_TRANSFER,     self.ADVERB_TERMINAL)
 
-        FreeTransitionSuffix("Pronoun_Free_Transition_1",    self.PRONOUN_WITH_CASE,           self.PRONOUN_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Pronoun_Free_Transition_2",    self.PRONOUN_TERMINAL_TRANSFER,   self.PRONOUN_TERMINAL)
+        FreeTransitionSuffix("Pronoun_Free_Transition_1",       self.PRONOUN_WITH_CASE,            self.PRONOUN_TERMINAL_TRANSFER)
+        FreeTransitionSuffix("Pronoun_Free_Transition_2",       self.PRONOUN_TERMINAL_TRANSFER,    self.PRONOUN_TERMINAL)
 
-        FreeTransitionSuffix("Numeral_Free_Transition_1",    self.NUMERAL_ROOT,                self.NUMERAL_DERIV)
+        FreeTransitionSuffix("Numeral_Free_Transition_1",       self.NUMERAL_ROOT,                 self.NUMERAL_DERIV)
 
-        FreeTransitionSuffix("Question_Free_Transition_1",   self.QUESTION_WITH_AGREEMENT,     self.QUESTION_TERMINAL)
+        FreeTransitionSuffix("Question_Free_Transition_1",      self.QUESTION_WITH_AGREEMENT,      self.QUESTION_TERMINAL)
 
 
-        ZeroTransitionSuffix("Numeral_Zero_Transition",      self.NUMERAL_DERIV,               self.ADJECTIVE_ROOT)
-        ZeroTransitionSuffix("Adj_to_Noun_Zero_Transition",  self.ADJECTIVE_DERIV,             self.NOUN_ROOT)
-        ZeroTransitionSuffix("Verb_to_Adj_Zero_Transition",  self.VERB_TENSE_ADJ_DERIV,        self.ADJECTIVE_ROOT)
+        ZeroTransitionSuffix("Numeral_Zero_Transition",         self.NUMERAL_DERIV,                self.ADJECTIVE_ROOT)
+        ZeroTransitionSuffix("Adj_to_Noun_Zero_Transition",     self.ADJECTIVE_DERIV,              self.NOUN_ROOT)
+        ZeroTransitionSuffix("Verb_to_Adj_Zero_Transition",     self.VERB_TENSE_ADJ_DERIV,         self.ADJECTIVE_ROOT)
 
         #TODO: transition from numeral to adverb for case "birer birer geldiler?" hmm maybe duplication caused an adj->adv transition?
 
@@ -196,6 +205,13 @@ class SuffixGraph():
         self.With = Suffix("With")
         self.Without = Suffix("Without")
         self.Rel = Suffix("Rel")
+
+        ############# Noun Compound suffixes
+        self.A3Sg_Noun_Compound = Suffix("A3Sg_Noun_Compound", pretty_name="A3sg")
+        self.PNon_Noun_Compound = Suffix("Pnon_Noun_Compound", pretty_name="Pnon")
+        self.P3Sg_Noun_Compound = Suffix("P3Sg_Noun_Compound", pretty_name="P3sg")
+        self.P3Pl_Noun_Compound = Suffix("P3Pl_Noun_Compound", pretty_name="P3pl")
+        self.Nom_Noun_Compound_Deriv = Suffix("Nom_Noun_Compound_Deriv", pretty_name="Nom")
 
         ############# Verb agreements
         self.Verb_Agreements_Group = SuffixGroup('Verb_Agreements_Group')
@@ -338,6 +354,7 @@ class SuffixGraph():
         self._register_noun_to_noun_derivations()
         self._register_noun_to_verb_derivations()
         self._register_noun_to_adjective_derivations()
+        self._register_noun_compound_suffixes()
 
     def _register_verb_suffixes(self):
         self._register_verb_agreements()
@@ -392,11 +409,11 @@ class SuffixGraph():
         self.P2Pl_Noun.add_suffix_form("+InIz")
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P3Pl_Noun, self.NOUN_WITH_POSSESSION)
-        self.P3Pl_Noun.add_suffix_form("lArI")
-        self.P3Pl_Noun.add_suffix_form("I", comes_after(self.A3Pl_Noun))
+        self.P3Pl_Noun.add_suffix_form("lArI!")
+        self.P3Pl_Noun.add_suffix_form("I!", comes_after(self.A3Pl_Noun))
 
     def _register_noun_cases(self):
-        comes_after_P3 = comes_after(self.P3Sg_Noun) | comes_after(self.P3Pl_Noun)
+        comes_after_P3 = comes_after(self.P3Sg_Noun) | comes_after(self.P3Pl_Noun) | comes_after(self.P3Sg_Noun_Compound) | comes_after(self.P3Pl_Noun_Compound)
         doesnt_come_after_P3 = ~comes_after_P3
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Noun, self.NOUN_WITH_CASE)
@@ -447,6 +464,22 @@ class SuffixGraph():
 
         self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.Rel, self.ADJECTIVE_ROOT)
         self.Rel.add_suffix_form(u"ki")
+
+    def _register_noun_compound_suffixes(self):
+        self.NOUN_COMPOUND_ROOT.add_out_suffix(self.A3Sg_Noun_Compound, self.NOUN_COMPOUND_WITH_AGREEMENT)
+        self.A3Sg_Noun_Compound.add_suffix_form(u"")
+
+        self.NOUN_COMPOUND_WITH_AGREEMENT.add_out_suffix(self.P3Sg_Noun_Compound, self.NOUN_WITH_POSSESSION)
+        self.P3Sg_Noun_Compound.add_suffix_form(u"+sI")
+
+        self.NOUN_COMPOUND_WITH_AGREEMENT.add_out_suffix(self.P3Pl_Noun_Compound, self.NOUN_WITH_POSSESSION)
+        self.P3Pl_Noun_Compound.add_suffix_form(u"lArI!")
+
+        self.NOUN_COMPOUND_WITH_AGREEMENT.add_out_suffix(self.PNon_Noun_Compound, self.NOUN_COMPOUND_WITH_POSSESSION)
+        self.PNon_Noun_Compound.add_suffix_form(u"")
+
+        self.NOUN_COMPOUND_WITH_POSSESSION.add_out_suffix(self.Nom_Noun_Compound_Deriv, self.NOUN_NOM_DERIV)
+        self.Nom_Noun_Compound_Deriv.add_suffix_form(u"")
 
     def _register_verb_polarisations(self):
         self.VERB_ROOT.add_out_suffix(self.Negative, self.VERB_WITH_POLARITY)
@@ -648,7 +681,7 @@ class SuffixGraph():
         self.P2Pl_Adj.add_suffix_form("+InIz")
 
         self.ADJECTIVE_PART_WITHOUT_POSSESSION.add_out_suffix(self.P3Pl_Adj, self.ADJECTIVE_TERMINAL_TRANSFER)
-        self.P3Pl_Adj.add_suffix_form("lArI")
+        self.P3Pl_Adj.add_suffix_form("lArI!")
 
     def _register_pronoun_agreements(self):
         self.PRONOUN_ROOT.add_out_suffix(self.A1Sg_Pron, self.PRONOUN_WITH_AGREEMENT)
@@ -698,9 +731,9 @@ class SuffixGraph():
         #P2Pl_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
         self.PRONOUN_WITH_AGREEMENT.add_out_suffix(self.P3Pl_Pron, self.PRONOUN_WITH_POSSESSION)
-        self.P3Pl_Pron.add_suffix_form("lArI")
-        self.P3Pl_Pron.add_suffix_form("I", comes_after(self.A3Pl_Pron))
-        #P3Pl_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
+        self.P3Pl_Pron.add_suffix_form("lArI!")
+        self.P3Pl_Pron.add_suffix_form("I!", comes_after(self.A3Pl_Pron))
+        #P3Pl_Pron forms for "'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
     def _register_pronoun_cases(self):
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Pron, self.PRONOUN_WITH_CASE)

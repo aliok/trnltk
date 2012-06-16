@@ -64,13 +64,13 @@ class DictionaryLoader:
                     attributes = str_attributes.split(',')
                     attributes = [a.strip() for a in attributes]
                 elif str_meta_part.startswith('R:'):
-                    pass
+                    root = str_meta_part[len('R:'):]
                 elif str_meta_part.startswith('S:'):
                     pass
                 else:
                     raise Exception('Unable to parse line' + line)
 
-                ##todo: compound and S:rel_ki stuff is skipped
+                ##todo: S:rel_ki stuff is skipped
 
         return DictionaryItem(lemma, root, primary_position, secondary_position, attributes or None)
 
@@ -127,6 +127,15 @@ class DictionaryLoader:
                 dictionary_item.attributes.append(RootAttribute.NoVoicing)
 
             if RootAttribute.Voicing not in dictionary_item.attributes and RootAttribute.NoVoicing not in dictionary_item.attributes:
+                dictionary_item.attributes.append(RootAttribute.NoVoicing)
+
+        elif dictionary_item.primary_position==PrimaryPosition.NOUN and RootAttribute.CompoundP3sg in dictionary_item.attributes:
+            if RootAttribute.VoicingOpt in dictionary_item.attributes:
+                if RootAttribute.Voicing in dictionary_item.attributes:
+                    dictionary_item.attributes.remove(RootAttribute.Voicing)
+                if RootAttribute.NoVoicing in dictionary_item.attributes:
+                    dictionary_item.attributes.remove(RootAttribute.NoVoicing)
+            elif RootAttribute.Voicing not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.NoVoicing)
 
         elif dictionary_item.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.ADJECTIVE]:

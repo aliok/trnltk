@@ -96,6 +96,8 @@ class PredefinedPaths():
 
         self._create_predefined_path_of_question_particles()
 
+        self._create_predefined_path_of_ora()
+
     def _create_predefined_path_of_ben(self):
         stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
         stem_ban = self._find_stem(u'ban', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
@@ -524,5 +526,5 @@ class PredefinedPaths():
 
         # define predefined paths for "orda" and "ordan"
 
-        self._add_token(stem_or, [self.suffix_graph.A3Sg_Noun, (self.suffix_graph.Loc_Noun,'da')])
-        self._add_token(stem_or, [self.suffix_graph.A3Sg_Noun, (self.suffix_graph.Abl_Noun,'dan')])
+        self._add_token(stem_or, [self.suffix_graph.A3Sg_Noun, self.suffix_graph.Pnon_Noun, (self.suffix_graph.Loc_Noun,'da')])
+        self._add_token(stem_or, [self.suffix_graph.A3Sg_Noun, self.suffix_graph.Pnon_Noun, (self.suffix_graph.Abl_Noun,'dan')])

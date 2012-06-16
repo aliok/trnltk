@@ -17,13 +17,12 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGr
 #TODO
 cases_to_skip = {
     u'_',
-    u'PCNom',
     u'+Prop+',
+    u'Postp',
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
     u'birbiri+Pron',    #TODO: need to add pron acc form +nA. or revisit after taking care of noun compounds
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'â',
-    u'akşamüst',  # compounds!
     u'kadar',
     u'Postp',
     u'Aor+A3pl+Past"',    # yaparlardi
@@ -31,7 +30,7 @@ cases_to_skip = {
     u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "QuesPart"s : midirler
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
-    u'havil+',
+    u'havil+',            # becomes can havlIyla
     u'kimbilir+'
 }
 
@@ -99,6 +98,13 @@ class ParserTestWithSets(unittest.TestCase):
                     #TODO
                     parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
 
+                    parse_result = parse_result.replace('Postp+PCNom', 'Part')
+                    parse_result = parse_result.replace('Postp+PCDat', 'Postp')
+                    parse_result = parse_result.replace('Postp+PCAcc', 'Postp')
+                    parse_result = parse_result.replace('Postp+PCLoc', 'Postp')
+                    parse_result = parse_result.replace('Postp+PCAbl', 'Postp')
+                    parse_result = parse_result.replace('Postp+PCIns', 'Postp')
+                    parse_result = parse_result.replace('Postp+PCGen', 'Postp')
 
                     self.assert_parse_correct(word.lower(), index, parse_result)
 

@@ -42,8 +42,7 @@ class StemGenerator:
         RootAttribute.InverseHarmony,
         RootAttribute.Voicing,
         RootAttribute.VoicingOpt,
-        RootAttribute.StemChange,
-        RootAttribute.CompoundP3sg
+        RootAttribute.StemChange
     }
 
     @classmethod
@@ -61,9 +60,6 @@ class StemGenerator:
             special_stems = cls._handle_special_stems(dictionary_item)
             if special_stems:
                 return special_stems
-
-        if RootAttribute.CompoundP3sg in dictionary_item.attributes: ##TODO:
-            return cls._handle_p3sg_compounds(dictionary_item)
 
         modified_seq = dictionary_item.root
 
@@ -149,10 +145,6 @@ class StemGenerator:
             return [stem_or, stem_ora]
         else:
             raise Exception('Unhandled stem change : {} !'.format(dictionary_item))
-
-    @classmethod
-    def _handle_p3sg_compounds(cls, dictionary_item):
-        return []
 
     @classmethod
     def _has_vowel(cls, seq):
