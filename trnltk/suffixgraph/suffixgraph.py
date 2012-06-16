@@ -241,6 +241,7 @@ class SuffixGraph():
         ############ Modals
         self.Neces = Suffix("Neces")
         self.Opt = Suffix("Opt")
+        self.Desr = Suffix("Desr")
 
         ############ Verb to Noun derivations
         self.Inf = Suffix("Inf")
@@ -256,6 +257,7 @@ class SuffixGraph():
 
         ########### Verb to Adverb derivations
         self.AfterDoingSo = Suffix("AfterDoingSo")
+        self.WithoutHavingDoneSo = Suffix("WithoutHavingDoneSo")
         self.AsLongAs = Suffix("AsLongAs")
         self.ByDoingSo = Suffix("ByDoingSo")
         self.While = Suffix("While")
@@ -311,16 +313,16 @@ class SuffixGraph():
 
         ###########  Pronoun cases
         self.Pronoun_Case_Group = SuffixGroup('Pronoun_Case_Group')
-        self.Nom_Pron = Suffix("Nom", self.Pronoun_Case_Group)
+        self.Nom_Pron = Suffix("Nom_Pron", self.Pronoun_Case_Group, pretty_name="Nom")
         self.Nom_Pron_Deriv = Suffix("Nom_Pron_Deriv", self.Pronoun_Case_Group, pretty_name="Nom")
-        self.Acc_Pron = Suffix("Acc", self.Pronoun_Case_Group)
-        self.Dat_Pron = Suffix("Dat", self.Pronoun_Case_Group)
-        self.Loc_Pron = Suffix("Loc", self.Pronoun_Case_Group)
-        self.Abl_Pron = Suffix("Abl", self.Pronoun_Case_Group)
+        self.Acc_Pron = Suffix("Acc_Pron", self.Pronoun_Case_Group, pretty_name='Acc')
+        self.Dat_Pron = Suffix("Dat_Pron", self.Pronoun_Case_Group, pretty_name='Dat')
+        self.Loc_Pron = Suffix("Loc_Pron", self.Pronoun_Case_Group, pretty_name='Loc')
+        self.Abl_Pron = Suffix("Abl_Pron", self.Pronoun_Case_Group, pretty_name='Abl')
 
         ############# Pronoun case-likes
-        self.Gen_Pron = Suffix("Gen", self.Pronoun_Case_Group)
-        self.Ins_Pron = Suffix("Ins", self.Pronoun_Case_Group)
+        self.Gen_Pron = Suffix("Gen_Pron", self.Pronoun_Case_Group, pretty_name='Gen')
+        self.Ins_Pron = Suffix("Ins_Pron", self.Pronoun_Case_Group, pretty_name='Ins')
 
         ############# Pronoun to Adjective derivations
         self.Without_Pron = Suffix("Without_Pron", pretty_name="Without")
@@ -574,6 +576,9 @@ class SuffixGraph():
         self.Opt.add_suffix_form(u"yAy")
         self.Opt.add_suffix_form(u"yA", postcondition=followed_by_modal_followers)
 
+        self.VERB_WITH_POLARITY.add_out_suffix(self.Desr, self.VERB_WITH_TENSE)
+        self.Desr.add_suffix_form(u"sA")
+
     def _register_verb_to_verb_derivations(self):
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Able, self.VERB_ROOT)
         self.Able.add_suffix_form(u"+yAbil", postcondition=doesnt(followed_by(self.Negative)))
@@ -614,6 +619,10 @@ class SuffixGraph():
         self.VERB_POLARITY_DERIV.add_out_suffix(self.AfterDoingSo, self.ADVERB_ROOT)
         self.AfterDoingSo.add_suffix_form(u"+yIp")
 
+        self.VERB_POLARITY_DERIV.add_out_suffix(self.WithoutHavingDoneSo, self.ADVERB_ROOT)
+        self.WithoutHavingDoneSo.add_suffix_form(u"mAdAn")
+        self.WithoutHavingDoneSo.add_suffix_form(u"mAksIzIn")
+
         self.VERB_POLARITY_DERIV.add_out_suffix(self.AsLongAs, self.ADVERB_ROOT)
         self.AsLongAs.add_suffix_form(u"dIkçA")
 
@@ -628,7 +637,7 @@ class SuffixGraph():
 
     def _register_verb_to_adjective_derivations(self):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.PresPart, self.ADJECTIVE_ROOT)
-        self.PresPart.add_suffix_form(u'An')
+        self.PresPart.add_suffix_form(u'+yAn')
 
         self.VERB_POLARITY_DERIV.add_out_suffix(self.PastPart_Adj, self.ADJECTIVE_PART_WITHOUT_POSSESSION)
         self.PastPart_Adj.add_suffix_form(u'dIk')

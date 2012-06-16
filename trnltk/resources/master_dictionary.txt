@@ -2790,6 +2790,7 @@ baza
 bazal [P:Adj; A:InverseHarmony]
 bazalt [A:NoVoicing]
 bazen [P:Adv]
+bazan [P:Adv]
 bazı [P:Adj]
 bazı [P:Adv]
 bazidiyospor
@@ -3546,6 +3547,7 @@ boğumlamak
 boğuşmak
 bohça
 bohçalamak
+bohem
 bohem [P:Adj]
 bohriyum
 bok
@@ -3608,6 +3610,7 @@ borç [A:Voicing]
 Borçka
 borçlanmak
 borda
+bordel
 bordo
 bordo [P:Adj]
 bordomtırak [P:Adj]
@@ -4039,7 +4042,7 @@ büyüksemek
 büyülemek
 büyülteç
 büyültmek
-büyümek
+büyümek [A:Causative_t]
 büyüteç
 büz
 büzgü
@@ -5535,6 +5538,7 @@ damızlık
 damızlık [P:Adj]
 damla
 damla [P:Adj]
+damlacık
 damlalık
 damlamak
 damper
@@ -6924,7 +6928,7 @@ düşün
 düşünce
 düşündeş
 düşündürmek
-düşünmek
+düşünmek [A:Causative_dIr]
 düşüntülü [P:Adj]
 düşünür
 düşürmek
@@ -8903,6 +8907,7 @@ gecelik
 gecesefası
 gecesefasıgiller
 gecikmek
+geceyarısı [P:Noun, Time; A:CompoundP3sg; R:geceyarı]
 geç
 geç [P:Adj]
 geç [P:Adv]
@@ -10371,7 +10376,8 @@ hicret [A:NoVoicing]
 hicrî [P:Adj]
 hicvetmek [A:Voicing, Aorist_A]
 hicviye
-hiç [P:Adv]
+hiç [A:NoVoicing]
+hiç [P:Adv; A:NoVoicing]
 hiçbir [P:Det]
 hiçbiri [P:Pron]
 hiçlemek
@@ -11343,7 +11349,7 @@ insancıl
 insangiller
 insanî [P:Adj]
 insaniyet [A:NoVoicing]
-insanoğlu
+insanoğlu [A:CompoundP3sg, LastVowelDrop; R:insanoğul]
 insanüstü
 insektaryum
 insicam
@@ -12319,7 +12325,7 @@ kapaklanmak
 kapalı [P:Adj]
 kapama
 kapamaç
-kapamak
+kapamak [A:Causative_t]
 kapan
 kapanık
 kapaniçe
@@ -13062,7 +13068,8 @@ kenar
 kenarortay
 kendi [P:Pron, Reflex]
 kendigelen
-kendince
+kendince [P:Adv]
+kendiliğinden [P:Adv]
 kendir
 kendirgiller
 kendisince [P:Adv]
@@ -20301,7 +20308,6 @@ savlamak
 savlet [A:NoVoicing]
 savmak
 savruk
-savrulmak
 savsak
 savsaklamak
 savsamak
@@ -21216,6 +21222,7 @@ sonuçlamak
 sonuçlandırmak
 sonuçlanmak
 sonuçsuz
+sonunda [P:Adv]
 sonurgu
 sonurtu
 sop
@@ -21623,7 +21630,6 @@ sürahi
 sürç
 sürçmek
 sürçülisan
-sürdürmek
 süre
 süreç
 süreduran
@@ -21647,7 +21653,7 @@ sürgün
 sürmanşet [A:NoVoicing]
 sürme
 sürmedan
-sürmek
+sürmek [A:Causative_dIr]
 sürmelemek
 sürmeli
 sürmenaj
@@ -24099,6 +24105,7 @@ ulûm
 ulumak
 ulus
 Ulus
+ulusal [P:Adj]
 uluslararası
 ulussever
 uluşmak
@@ -24344,7 +24351,7 @@ uzviyet [A:NoVoicing]
 üsteğmen
 üstel
 üstelemek
-üstelik
+üstelik [P:Adv]
 üstenmek
 üstlenmek
 üstsubay
@@ -24491,6 +24498,7 @@ varit [A:Voicing, LastVowelDrop]
 variyet [A:NoVoicing]
 varlık
 varmak [A:Aorist_I]
+varolmak
 varoluş
 varoluşçu
 varoş
@@ -24882,6 +24890,7 @@ yallah [P:Interj]
 yalman
 yalnız [P:Conj]
 yalnız [P:Adj]
+yalnız [P:Adv]
 yalnızca [P:Adv]
 Yalova
 yalpa
@@ -25122,7 +25131,7 @@ yazgı
 yazı
 Yazıhan
 yazıhane
-yazık
+yazık [P:Adv]
 yazıklanmak
 yazılamak
 yazılım
@@ -25235,8 +25244,9 @@ Yerköy
 yerküre
 yerleşik [P:Adj]
 yerleşke
-yerleşmek
+yerleşmek [A:Causative_dIr]
 yerleşim
+yerleşmek
 yerli [P:Adj]
 yermek
 yeröte
@@ -25901,3 +25911,4 @@ züyuf
 : [P:Punc]
 ; [P:Punc]
 ... [P:Punc]
+- [P:Punc]
