@@ -21,7 +21,6 @@ cases_to_skip = {
     u'AsIf',
     u'SinceDoingSo',
     u'JustLike',
-    u'When',
     u'Noun+Ness',
 
     u'1+Num+Card',

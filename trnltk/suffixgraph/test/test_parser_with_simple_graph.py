@@ -873,6 +873,17 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'maviye',             u'mavi(mavi)+Adj+Noun+Zero+A3sg+Pnon+Dat(+yA[ye])')
         self.assert_parse_correct(u'gencin',             u'genc(genç)+Adj+Noun+Zero+A3sg+Pnon+Gen(+nIn[in])',  u'genc(genç)+Adj+Noun+Zero+A3sg+P2sg(+In[in])+Nom', u'gen(gen)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[ci])+A3sg+P2sg(+In[n])+Nom')
 
+    def test_should_parse_pronoun_verb_to_adv_derivations(self):
+        self.assert_parse_correct(u'yapınca',             u'yap(yapmak)+Verb+Pos+Adv+When(+yIncA[ınca])')
+        self.assert_parse_correct(u'yapmayınca',          u'yap(yapmak)+Verb+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
+        self.assert_parse_correct(u'çıkınca',             u'çık(çıkmak)+Verb+Pos+Adv+When(+yIncA[ınca])')
+        self.assert_parse_correct(u'çıkmayınca',          u'çık(çıkmak)+Verb+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
+        self.assert_parse_correct(u'yalayınca',           u'yala(yalamak)+Verb+Pos+Adv+When(+yIncA[yınca])')
+        self.assert_parse_correct(u'yalamayınca',         u'yala(yalamak)+Verb+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
+
+        self.assert_parse_correct(u'çıkarttırabilince',   u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Verb+Caus(t[t])+Verb+Caus(dIr[tır])+Verb+Able(+yAbil[abil])+Pos+Adv+When(+yIncA[ince])')
+        self.assert_parse_correct(u'yaptıramayınca',      u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
+
     def test_should_parse_pronoun_verb_to_adj_zero_transition(self):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)

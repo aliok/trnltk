@@ -261,6 +261,7 @@ class SuffixGraph():
         self.AsLongAs = Suffix("AsLongAs")
         self.ByDoingSo = Suffix("ByDoingSo")
         self.While = Suffix("While")
+        self.When = Suffix("When")
         self.AsIf = Suffix("AsIf")
 
         ########### Verb to Adjective derivations
@@ -628,6 +629,9 @@ class SuffixGraph():
 
         self.VERB_POLARITY_DERIV.add_out_suffix(self.ByDoingSo, self.ADVERB_ROOT)
         self.ByDoingSo.add_suffix_form(u"+yArAk")
+
+        self.VERB_POLARITY_DERIV.add_out_suffix(self.When, self.ADVERB_ROOT)
+        self.When.add_suffix_form(u"+yIncA")
 
         self.VERB_TENSE_DERIV.add_out_suffix(self.While, self.ADVERB_ROOT)
         self.While.add_suffix_form(u"ken")
