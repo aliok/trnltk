@@ -1443,10 +1443,12 @@ Ardahan
 ardak
 ardaklanmak
 Ardanuç
+ardarda [P:Adv]
 Ardeşen
 ardıç
 ardıl
 ardılmak
+ardından [P:Adv]
 ardışık [P:Adj]
 ardiye
 arduvaz
@@ -2071,8 +2073,7 @@ az [P:Adv]
 aza
 azade [P:Adj]
 azade [P:Adv]
-azalmak
-azaltmak
+azalmak [A:Causative_t]
 azamet [A:NoVoicing]
 azami [P:Adj]
 azap
@@ -3414,6 +3415,7 @@ birlik
 birlikte [P:Adv]
 birliktelik
 birsam
+birşey [P:Pron]
 birtakım [P:Adj]
 birun
 biryan
@@ -13189,7 +13191,7 @@ keşik
 keşiş
 keşişhane
 keşişleme
-keşke
+keşke [P:Adv]
 keşkek
 keşkül
 keşkülüfukara
@@ -16675,7 +16677,7 @@ musanna
 musannif
 musap
 musavver
-Musevî [A:NoQuote]
+Musevî [P:Adj; A:NoQuote]
 Mushaf
 musır [A:Doubling]
 musibet [A:NoVoicing]
@@ -20786,7 +20788,7 @@ sıkılmak
 sıkınmak
 sıkıntı
 sıkışık [P:Adj]
-sıkışmak
+sıkışmak [P:Causative_dIr]
 sıkıt [A:NoVoicing]
 sıkıyönetim
 sıkkın
@@ -20843,7 +20845,7 @@ Sırpça
 sırretmek [A:Voicing, Aorist_A]
 sırrolmak
 sırsıklam
-sırt
+sırt [A:NoVoicing]
 sırtarmak
 sırtıkara
 sırtlamak
@@ -21216,6 +21218,7 @@ sonlanmak
 sonlu
 sonra [P:Noun, Time; S:+Rel_ki]
 sonra [P:Adv, Time]
+sonradan [P:Adv, Time]
 sonsuz
 sonuç
 sonuçlamak
@@ -21420,6 +21423,7 @@ stor
 stratej
 strateji
 stratejik
+stratejist
 stratigrafi
 stratosfer
 stratus
@@ -22563,6 +22567,7 @@ taraftar
 tarak
 taraklamak
 Taraklı
+taralı [P:Adj]
 taramak
 taranga
 tarassut
@@ -24000,6 +24005,7 @@ türkuaz
 türkü
 türkülemek
 türlü [P:Adj]
+türlü [P:Adv]
 türüm
 türüz
 tütmek
@@ -25391,6 +25397,7 @@ yokuş [P:Adj]
 yol
 yolak
 yolcu
+yolculuk
 yoldaş
 yolkesen
 yollamak
@@ -25445,6 +25452,7 @@ yöntem
 yöre
 Yörük [A:NoQuote]
 yörünge
+yudum
 yudum [P:Adj]
 yudumlamak
 yuf
@@ -25635,7 +25643,7 @@ zarta
 zaruret [A:NoVoicing]
 zarurî [P:Adj]
 zat
-zaten
+zaten [P:Adv]
 zatıâlileri
 zatıâliniz
 zatî [P:Adj]
@@ -25910,5 +25918,6 @@ züyuf
 ? [P:Punc]
 : [P:Punc]
 ; [P:Punc]
+.. [P:Punc]
 ... [P:Punc]
 - [P:Punc]

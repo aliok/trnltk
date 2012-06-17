@@ -19,16 +19,33 @@ cases_to_skip = {
     u'Equ',
     u'FitFor',
     u'AsIf',
+    u'SinceDoingSo',
     u'JustLike',
+    u'When',
     u'Noun+Ness',
+
+    u'1+Num+Card',
+    u'70+Num+Card',
+    u'(1,"onlarca+Num+Card")(2,"Adj+Zero")',
+    u'(1,"y\xfczlerce+Num+Card")(2,"Adj+Zero")',
+
+    u'(1,"tek+Adj")',
 
     u'(1,"s\xfcr+Verb")(2,"Verb+Caus")(3,"Verb+Pass+Pos")(4,"Adj+PresPart")',
     u'(1,"yerle\u015f+Verb")(2,"Verb+Caus")(3,"Verb+Pass+Pos+Narr")(4,"Adj+Zero")',
 
+    u'(1,"azal+Verb")(2,"Verb+Caus+Pos+Prog1+Past+A3sg")',
     u'(1,"kapa+Verb")(2,"Verb+Caus")(3,"Verb+Pass+Pos+Narr")(4,"Adj+Zero")',
     u'(1,"d\xfc\u015f\xfcn+Verb")(2,"Verb+Caus")(3,"Verb+Caus+Pos+Prog1+Past+A3sg")',    #dusunduyordu <> dusundurtuyordu
+    u'1,"kork+Verb")(2,"Verb+Caus+Pos")',
+    u'(1,"\xe7\u0131k+Verb")(2,"Verb+Caus")',
+    u'(1,"s\u0131k\u0131\u015f+Verb")(2,"Verb+Caus")',
+
+    u'(1,"tak\u0131l+Verb+Pos+Aor+A3sg")',
 
     u'incecik+',        # Think about it!
+
+    u'bir\u015fey+Noun',        # Must be pron!
 
     u'_',
     u'+Prop+',
@@ -43,22 +60,62 @@ cases_to_skip = {
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'çoğu',
 
-    u'â',
+    u'+Num+Ord',         # in treebank, they're all x+Num+Ord
+    u'sadece+Adv',
+
+    u'â', u'î',
+    u'hala+Adv',
+    u'sanayi+Noun',
+    u'serin+Adv',
+
     u'kadar',
     u'tamam+Adv',         # Part or Adv?
+    u'(1,"de\u011fil+Conj")',
     u'Postp',
     u'Aor+A3pl+Past"',    # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
     u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "QuesPart"s : midirler
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
+    u'(1,"bo\u011ful+Verb+Pos")',
 
     u'vakit+',            # becomes vaktIn
     u'havil+',            # becomes can havlIyla
     u'(1,"savur+Verb")(2,"Verb+Pass+Pos")',         # savrul <> savrIl
+    u'(1,"kavur+Verb")(2,"Verb+Pass+Pos+Narr")(3,"Adj+Zero")', # kavrul <> kavrIl
 
     u'sonralar\u0131+Adv',      # aksamlari, geceleri, vs...
+    u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")',
+    u'hiçlik+Noun',
+    u'gençlik+Noun',
+    u'(1,"yok+Interj")',
+    u'yok+Adv',
+    u'bir\xe7ok+Det',
+    u'iğretileme',
+    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj',
+    u'insanca+Adj',
+    u'çarpıcı+Adj',
 
+    u'cd+Noun+',    # Gotta be uppercase and skipped? need to skip abbreviations
+
+    u'stoku+Noun+',      # Does optional voicing work? gotta create 2 stems like normal voicing case
+
+    u'(1,"yak\u0131n+Noun+A3sg+Pnon+Loc")(2,"Adj+Rel")',
+    u'(1,"tiryaki+Noun+A3sg+P3sg+Nom")(2,"Verb+Zero+Pres+A3sg+Cop")',       # change treebank!
+    u'(1,"sahi+Adv")',
+    u'yetkili+Noun',
+    u'ilgili+Noun',
+    u'(1,"ku\u015fkusuz+Adv")',
+    u'(1,"s\xf6zgelimi+Adv")',
+    u'(1,"mesela+Adv")',
+    u'(1,"siz+Pron+PersP+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
+
+    # TODO: check languages like Ingilizce, Almanca, Turkce vs...
+    u'(1,"ingilizce+Adj"',
+
+    # TODO: think about taralı, kapali, takili vs
+    # TODO: word tuerlue is used much different in various cases
+    u't\xfcrl\xfc',
 
     u'kimbilir+',
     u'(1,"anlat+Verb")(2,"Verb+Able+Neg")(3,"Adv+WithoutHavingDoneSo1")'        # very complicated!
@@ -105,9 +162,9 @@ class ParserTestWithSets(unittest.TestCase):
         self._test_should_parse_set("003")
 
     def test_should_parse_set_004(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_set("004", 1466)
+#        parser_logger.setLevel(logging.DEBUG)
+#        suffix_applier_logger.setLevel(logging.DEBUG)
+        self._test_should_parse_set("004")
 
     def _test_should_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))
