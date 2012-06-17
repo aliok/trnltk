@@ -19,7 +19,6 @@ cases_to_skip = {
     u'Equ',
     u'FitFor',
     u'AsIf',
-    u'SinceDoingSo',
     u'JustLike',
     u'Noun+Ness',
 

@@ -876,13 +876,23 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
     def test_should_parse_pronoun_verb_to_adv_derivations(self):
         self.assert_parse_correct(u'yapınca',             u'yap(yapmak)+Verb+Pos+Adv+When(+yIncA[ınca])')
         self.assert_parse_correct(u'yapmayınca',          u'yap(yapmak)+Verb+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
-        self.assert_parse_correct(u'çıkınca',             u'çık(çıkmak)+Verb+Pos+Adv+When(+yIncA[ınca])')
-        self.assert_parse_correct(u'çıkmayınca',          u'çık(çıkmak)+Verb+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
+        self.assert_parse_correct(u'dönünce',             u'dön(dönmek)+Verb+Pos+Adv+When(+yIncA[ünce])')
+        self.assert_parse_correct(u'dönmeyince',          u'dön(dönmek)+Verb+Neg(mA[me])+Adv+When(+yIncA[yince])')
         self.assert_parse_correct(u'yalayınca',           u'yala(yalamak)+Verb+Pos+Adv+When(+yIncA[yınca])')
         self.assert_parse_correct(u'yalamayınca',         u'yala(yalamak)+Verb+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
-
         self.assert_parse_correct(u'çıkarttırabilince',   u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Verb+Caus(t[t])+Verb+Caus(dIr[tır])+Verb+Able(+yAbil[abil])+Pos+Adv+When(+yIncA[ince])')
         self.assert_parse_correct(u'yaptıramayınca',      u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
+
+        self.parser.stem_root_map[u'dönel'] = []
+
+        self.assert_parse_correct(u'yapalı',              u'yap(yapmak)+Verb+Pos+Adv+SinceDoingSo(+yAlI![alı])')
+        self.assert_parse_correct(u'yapmayalı',           u'yap(yapmak)+Verb+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
+        self.assert_parse_correct(u'döneli',              u'dön(dönmek)+Verb+Pos+Adv+SinceDoingSo(+yAlI![eli])')
+        self.assert_parse_correct(u'dönmeyeli',           u'dön(dönmek)+Verb+Neg(mA[me])+Adv+SinceDoingSo(+yAlI![yeli])')
+        self.assert_parse_correct(u'yalayalı',            u'yala(yalamak)+Verb+Pos+Adv+SinceDoingSo(+yAlI![yalı])')
+        self.assert_parse_correct(u'yalamayalı',          u'yala(yalamak)+Verb+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
+        self.assert_parse_correct(u'çıkarttırabileli',    u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Verb+Caus(t[t])+Verb+Caus(dIr[tır])+Verb+Able(+yAbil[abil])+Pos+Adv+SinceDoingSo(+yAlI![eli])')
+        self.assert_parse_correct(u'yaptıramayalı',       u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
 
     def test_should_parse_pronoun_verb_to_adj_zero_transition(self):
         parser_logger.setLevel(logging.DEBUG)
