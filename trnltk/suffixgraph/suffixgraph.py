@@ -205,6 +205,7 @@ class SuffixGraph():
         self.With = Suffix("With")
         self.Without = Suffix("Without")
         self.Rel = Suffix("Rel")
+        self.JustLike_Noun = Suffix("JustLike_Noun", pretty_name='JustLike')
 
         ############# Noun Compound suffixes
         self.A3Sg_Noun_Compound = Suffix("A3Sg_Noun_Compound", pretty_name="A3sg")
@@ -274,6 +275,9 @@ class SuffixGraph():
         self.Aorist_to_Adj = Suffix("Aorist_to_Adj", pretty_name="Aor")
         self.Future_to_Adj = Suffix("Future_to_Adj", pretty_name="Fut")
         self.Narr_to_Adj = Suffix("Narr_to_Adj", pretty_name="Narr")
+
+        ########### Adjective to Adjective derivations
+        self.JustLike_Adj = Suffix("JustLike_Adj", pretty_name='JustLike')
 
         ########### Adjective to Adverb derivations
         self.Ly = Suffix("Ly")
@@ -371,6 +375,7 @@ class SuffixGraph():
         self._register_verb_to_adjective_derivations()
 
     def _register_adjective_suffixes(self):
+        self._register_adjective_to_adjective_derivations()
         self._register_adjective_to_adverb_derivations()
         self._register_adjective_to_noun_derivations()
         self._register_adjective_to_verb_derivations()
@@ -465,6 +470,9 @@ class SuffixGraph():
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.Without, self.ADJECTIVE_ROOT)
         self.Without.add_suffix_form(u"sIz")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.JustLike_Noun, self.ADJECTIVE_ROOT)
+        self.JustLike_Noun.add_suffix_form(u"+ImsI")
 
         self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.Rel, self.ADJECTIVE_ROOT)
         self.Rel.add_suffix_form(u"ki")
@@ -665,6 +673,10 @@ class SuffixGraph():
         self.VERB_WITH_POLARITY.add_out_suffix(self.Narr_to_Adj, self.VERB_TENSE_ADJ_DERIV)
         self.Narr_to_Adj.add_suffix_form(u"mIş")
         self.Narr_to_Adj.add_suffix_form(u"ymIş")
+
+    def _register_adjective_to_adjective_derivations(self):
+        self.ADJECTIVE_DERIV.add_out_suffix(self.JustLike_Adj, self.ADJECTIVE_ROOT)
+        self.JustLike_Adj.add_suffix_form(u"+ImsI")
 
     def _register_adjective_to_adverb_derivations(self):
         self.ADJECTIVE_DERIV.add_out_suffix(self.Ly, self.ADVERB_ROOT)

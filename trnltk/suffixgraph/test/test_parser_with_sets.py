@@ -19,7 +19,6 @@ cases_to_skip = {
     u'Equ',
     u'FitFor',
     u'AsIf',
-    u'JustLike',
     u'Noun+Ness',
 
     u'1+Num+Card',

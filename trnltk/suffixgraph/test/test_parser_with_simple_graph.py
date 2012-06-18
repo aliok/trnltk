@@ -67,6 +67,17 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'korucunun',        u'koru(koru)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[cu])+A3sg+Pnon+Gen(+nIn[nun])', u'koru(koru)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[cu])+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
         self.assert_parse_correct(u'korucuyla',        u'koru(koru)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[cu])+A3sg+Pnon+Ins(+ylA[yla])')
 
+    def test_should_parse_noun_to_adjective_derivations(self):
+        self.parser.stem_root_map['kut'] = []
+
+        self.assert_parse_correct(u'kutulu',           u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lu])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lu])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kutusuz',          u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kutumsu',          u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'telefonumsu',      u'telefon(telefon)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[umsu])', u'telefon(telefon)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[umsu])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'meleğimsi',        u'meleğ(melek)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])', u'meleğ(melek)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'masamınki',        u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[ın])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[ın])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'masanınki',        u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[nın])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[ın])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[nın])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[ın])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+
     def test_should_parse_noun_to_verb_derivations(self):
         #heyecanlan
         pass
@@ -893,6 +904,13 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'yalamayalı',          u'yala(yalamak)+Verb+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
         self.assert_parse_correct(u'çıkarttırabileli',    u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Verb+Caus(t[t])+Verb+Caus(dIr[tır])+Verb+Able(+yAbil[abil])+Pos+Adv+SinceDoingSo(+yAlI![eli])')
         self.assert_parse_correct(u'yaptıramayalı',       u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
+
+    def test_should_parse_pronoun_adj_to_adj_derivations(self):
+        self.parser.stem_root_map[u'koy'] = []
+
+        self.assert_parse_correct(u'kırmızımsı',          u'kırmızı(kırmızı)+Adj+Adj+JustLike(+ImsI[msı])', u'kırmızı(kırmızı)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msı])', u'kırmızı(kırmızı)+Adj+Adj+JustLike(+ImsI[msı])+Noun+Zero+A3sg+Pnon+Nom', u'kırmızı(kırmızı)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msı])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yeşilimsi',           u'yeşil(yeşil)+Adj+Adj+JustLike(+ImsI[imsi])', u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])', u'yeşil(yeşil)+Adj+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom', u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'koyumsu',             u'koyu(koyu)+Adj+Adj+JustLike(+ImsI[msu])', u'koyu(koyu)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])', u'koyu(koyu)+Adj+Adj+JustLike(+ImsI[msu])+Noun+Zero+A3sg+Pnon+Nom', u'koyu(koyu)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_pronoun_verb_to_adj_zero_transition(self):
         parser_logger.setLevel(logging.DEBUG)
