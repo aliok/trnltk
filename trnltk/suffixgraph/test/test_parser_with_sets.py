@@ -28,11 +28,6 @@ cases_to_skip = {
 
     u'(1,"tek+Adj")',
 
-    u'(1,"\xe7\u0131k+Verb")(2,"Verb+Caus")',
-    u'(1,"s\u0131k\u0131\u015f+Verb")(2,"Verb+Caus")',
-
-    u'(1,"tak\u0131l+Verb+Pos+Aor+A3sg")',
-
     u'incecik+',        # Think about it!
 
     u'bir\u015fey+Noun',        # Must be pron!

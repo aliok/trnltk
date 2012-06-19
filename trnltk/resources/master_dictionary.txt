@@ -20786,7 +20786,7 @@ sıkılmak
 sıkınmak
 sıkıntı
 sıkışık [P:Adj]
-sıkışmak [P:Causative_dIr]
+sıkışmak [A:Causative_dIr]
 sıkıt [A:NoVoicing]
 sıkıyönetim
 sıkkın
@@ -22386,6 +22386,7 @@ takdis
 takeometre
 takı
 takılgan
+takılmak
 takım
 takımada
 takımyıldız

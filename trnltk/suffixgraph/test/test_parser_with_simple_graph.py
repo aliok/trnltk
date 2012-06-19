@@ -1,4 +1,5 @@
 # coding=utf-8
+from copy import copy
 import logging
 import os
 import unittest
@@ -23,19 +24,20 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         for di in dictionary_items:
             all_stems.extend(StemGenerator.generate(di))
 
-        stem_root_map_generator = StemRootMapGenerator()
-        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
+        cls._org_stem_root_map = (StemRootMapGenerator()).generate(all_stems)
 
-        suffix_graph = SuffixGraph()
-        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
-        predefined_paths.create_predefined_paths()
-
-        cls.parser = Parser(cls.stem_root_map, suffix_graph, predefined_paths)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
+
+        suffix_graph = SuffixGraph()
+        cloned_stem_root_map = copy(self._org_stem_root_map)
+        predefined_paths = PredefinedPaths(cloned_stem_root_map, suffix_graph)
+        predefined_paths.create_predefined_paths()
+
+        self.parser = Parser(cloned_stem_root_map, suffix_graph, predefined_paths)
 
     def test_should_parse_noun_cases(self):
         self.assert_parse_correct(u'sokak',            u'sokak(sokak)+Noun+A3sg+Pnon+Nom')
@@ -68,7 +70,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'korucuyla',        u'koru(koru)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[cu])+A3sg+Pnon+Ins(+ylA[yla])')
 
     def test_should_parse_noun_to_adjective_derivations(self):
-        self.parser.stem_root_map['kut'] = []
+        self.parser.stem_root_map[u'kut'] = []
 
         self.assert_parse_correct(u'kutulu',           u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lu])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lu])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'kutusuz',          u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])+Noun+Zero+A3sg+Pnon+Nom')
@@ -134,7 +136,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'çevirmiş',          u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A3sg', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
 
-        self.parser.stem_root_map['el'] = filter(lambda stem : stem.dictionary_item.lemma=='elemek', self.parser.stem_root_map['el'])
+        self.parser.stem_root_map[u'el'] = filter(lambda stem : stem.dictionary_item.lemma==u'elemek', self.parser.stem_root_map[u'el'])
 
         self.assert_parse_correct(u'elerim',            u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom')
         self.assert_parse_correct(u'elersin',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A2sg(sIn[sin])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A2sg(sIn[sin])')
@@ -488,14 +490,14 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
 
     def test_should_parse_pronouns(self):
         # remove some stems to make the test simple
-        self.parser.stem_root_map['on'] = []
-        self.parser.stem_root_map['ona'] = []
-        self.parser.stem_root_map['bend'] = []
-        self.parser.stem_root_map['bun'] = []
-        self.parser.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['ben'])
-        self.parser.stem_root_map['ban'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['ban'])
-        self.parser.stem_root_map['san'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['san'])
-        self.parser.stem_root_map['biz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map['biz'])
+        self.parser.stem_root_map[u'on'] = []
+        self.parser.stem_root_map[u'ona'] = []
+        self.parser.stem_root_map[u'bend'] = []
+        self.parser.stem_root_map[u'bun'] = []
+        self.parser.stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map[u'ben'])
+        self.parser.stem_root_map[u'ban'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map[u'ban'])
+        self.parser.stem_root_map[u'san'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map[u'san'])
+        self.parser.stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.parser.stem_root_map[u'biz'])
 
         self.assert_parse_correct(u'ben',               u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom')
         self.assert_parse_correct(u'sen',               u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom')
@@ -721,7 +723,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'düşünüldü',       u'düşün(düşünmek)+Verb+Verb+Pass(+nIl[ül])+Pos+Past(dI[dü])+A3sg')
         self.assert_parse_correct_for_verb(u'silinecekti',     u'sil(silmek)+Verb+Verb+Pass(+In[in])+Pos+Fut(+yAcAk[ecek])+Past(dI[ti])+A3sg')
 
-        self.parser.stem_root_map['ye'] = []
+        self.parser.stem_root_map[u'ye'] = []
         self.assert_parse_correct_for_verb(u'yerleştirilmiş',  u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+A3sg', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_causatives(self):
@@ -741,6 +743,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'kapatılmış',        u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+A3sg', u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+Adj+Zero', u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct_for_verb(u'düşündürtüyordu',   u'düşün(düşünmek)+Verb+Verb+Caus(dIr[dür])+Verb+Caus(t[t])+Pos+Prog(Iyor[üyor])+Past(dI[du])+A3sg')
         self.assert_parse_correct_for_verb(u'korkutmamalı',      u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Neces(mAlI![malı])+A3sg', u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom+Adj+With(lI[lı])', u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom+Adj+With(lI[lı])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'sıkıştırıldığı',    u'sıkış(sıkışmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Adj+PastPart(dIk[dığ])+P3sg(+sI[ı])', u'sıkış(sıkışmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Noun+PastPart(dIk[dığ])+A3sg+Pnon+Acc(+yI[ı])', u'sıkış(sıkışmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Noun+PastPart(dIk[dığ])+A3sg+P3sg(+sI[ı])+Nom')
 
 
     def test_should_parse_double_causatives(self):
@@ -931,9 +934,6 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'koyumsu',             u'koyu(koyu)+Adj+Adj+JustLike(+ImsI[msu])', u'koyu(koyu)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])', u'koyu(koyu)+Adj+Adj+JustLike(+ImsI[msu])+Noun+Zero+A3sg+Pnon+Nom', u'koyu(koyu)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_pronoun_verb_to_adj_zero_transition(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct_for_verb(u'pişmiş',
             u'piş(pişmek)+Verb+Pos+Narr(mIş[miş])+A3sg',                                # yemek pismis.
             u'piş(pişmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero',                            # pismis asa su katilmaz
@@ -965,13 +965,12 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'yiyoruz',           u'y(yemek)+Verb+Pos+Prog(Iyor[iyor])+A1pl(+Iz[uz])')
         self.assert_parse_correct_for_verb(u'baksana',           u'bak(bakmak)+Verb+Pos+Imp(sAnA[sana])+A2sg')
         self.assert_parse_correct_for_verb(u'gelsenize',         u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
-        parser_logger.setLevel(logging.DEBUG)
 
         # remove some token to keep the test easier
         # TODO: low priority
-#        self.parser.stem_root_map['ha'] = []
-#        self.parser.stem_root_map['hav'] = []
-#        self.parser.stem_root_map['havl'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NOUN, self.parser.stem_root_map['havl'])
+#        self.parser.stem_root_map[u'ha'] = []
+#        self.parser.stem_root_map[u'hav'] = []
+#        self.parser.stem_root_map[u'havl'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NOUN, self.parser.stem_root_map[u'havl'])
 #        self.assert_parse_correct_for_verb(u'havli',             u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 #        self.assert_parse_correct_for_verb(u'havliyle',          u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 
@@ -984,9 +983,6 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'miymişsiniz',       u'mi(mi)+Ques+Past(ymiş[ymiş])+A2pl(siniz[siniz])')
 
     def test_should_parse_noun_compounds(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct_for_verb(u'zeytinyağı',        u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3sg(+sI[ı])+Nom')
         self.assert_parse_correct_for_verb(u'zeytinyağına',      u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3sg(+sI[ı])+Dat(nA[na])')
         self.assert_parse_correct_for_verb(u'zeytinyağlı',       u'zeytinyağ(zeytinyağı)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lı])', u'zeytinyağ(zeytinyağı)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lı])+Noun+Zero+A3sg+Pnon+Nom')
