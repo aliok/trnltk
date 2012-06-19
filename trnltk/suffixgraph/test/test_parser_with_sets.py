@@ -28,13 +28,6 @@ cases_to_skip = {
 
     u'(1,"tek+Adj")',
 
-    u'(1,"s\xfcr+Verb")(2,"Verb+Caus")(3,"Verb+Pass+Pos")(4,"Adj+PresPart")',
-    u'(1,"yerle\u015f+Verb")(2,"Verb+Caus")(3,"Verb+Pass+Pos+Narr")(4,"Adj+Zero")',
-
-    u'(1,"azal+Verb")(2,"Verb+Caus+Pos+Prog1+Past+A3sg")',
-    u'(1,"kapa+Verb")(2,"Verb+Caus")(3,"Verb+Pass+Pos+Narr")(4,"Adj+Zero")',
-    u'(1,"d\xfc\u015f\xfcn+Verb")(2,"Verb+Caus")(3,"Verb+Caus+Pos+Prog1+Past+A3sg")',    #dusunduyordu <> dusundurtuyordu
-    u'1,"kork+Verb")(2,"Verb+Caus+Pos")',
     u'(1,"\xe7\u0131k+Verb")(2,"Verb+Caus")',
     u'(1,"s\u0131k\u0131\u015f+Verb")(2,"Verb+Caus")',
 

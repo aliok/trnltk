@@ -205,6 +205,33 @@ class HasRootAttributes(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
+class DoesntHaveRootAttributes(SuffixFormCondition):
+    def __init__(self, root_attrs):
+        self._root_attrs = root_attrs
+
+    def matches(self, parse_token):
+        if not parse_token:
+            return False
+
+        transitions = parse_token.transitions
+        transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
+        transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
+        transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
+
+        if not transitions:
+            return True
+
+        if not parse_token.stem.dictionary_item.attributes:
+            return True
+
+        return not any(r in parse_token.stem.dictionary_item.attributes for r in self._root_attrs)
+
+    def __str__(self):
+        return u'doesnt_have_root_attributes({})'.format(self._root_attrs)
+
+    def __repr__(self):
+        return self.__str__()
+
 _false_condition = FalseCondition()
 
 def comes_after(suffix, form_str=None):
@@ -249,3 +276,9 @@ def has_root_attributes(root_attrs):
 
 def has_root_attribute(root_attr):
     return has_root_attributes([root_attr])
+
+def doesnt_have_root_attributes(root_attrs):
+    return DoesntHaveRootAttributes(root_attrs)
+
+def doesnt_have_root_attribute(root_attr):
+    return doesnt_have_root_attributes([root_attr])

@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 class SuffixGraph():
@@ -549,7 +549,7 @@ class SuffixGraph():
         self.A1Sg_Verb.add_suffix_form("yIm")   #"yap-makta-yım", gel-meli-yim
 
         self.VERB_WITH_TENSE.add_out_suffix(self.A2Sg_Verb, self.VERB_TERMINAL_TRANSFER)
-        self.A2Sg_Verb.add_suffix_form("n", doesnt_come_after_imperative)
+        self.A2Sg_Verb.add_suffix_form("n", doesnt_come_after_imperative & doesnt_come_after(self.Opt))
         self.A2Sg_Verb.add_suffix_form("sIn", doesnt_come_after_imperative)
         self.A2Sg_Verb.add_suffix_form("", comes_after_imperative)
 
@@ -559,9 +559,9 @@ class SuffixGraph():
 
         self.VERB_WITH_TENSE.add_out_suffix(self.A1Pl_Verb, self.VERB_TERMINAL_TRANSFER)
         self.A1Pl_Verb.add_suffix_form("+Iz", doesnt_come_after(self.Opt))
-        self.A1Pl_Verb.add_suffix_form("k",   doesnt_come_after(self.Opt))     # only for "gel-di-k"
+        self.A1Pl_Verb.add_suffix_form("k",   doesnt_come_after(self.Opt))   # only for "gel-di-k"
         self.A1Pl_Verb.add_suffix_form("yIz", doesnt_come_after(self.Opt))   # "yap-makta-yız" OR "gel-me-yiz"
-        self.A1Pl_Verb.add_suffix_form("lIm", comes_after(self.Opt))     # only for "gel-e-lim"
+        self.A1Pl_Verb.add_suffix_form("lIm", comes_after(self.Opt))         # only for "gel-e-lim"
 
         self.VERB_WITH_TENSE.add_out_suffix(self.A2Pl_Verb, self.VERB_TERMINAL_TRANSFER)
         self.A2Pl_Verb.add_suffix_form("", comes_after_imperative & doesnt_come_after_empty_imperative)
@@ -597,11 +597,11 @@ class SuffixGraph():
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Hastily, self.VERB_ROOT)
         self.Hastily.add_suffix_form(u"+yIver")
 
-        stem_doesnt_have_passive = ~has_root_attribute(RootAttribute.Passive_NotApplicable)
+        stem_can_have_passive = doesnt_have_root_attribute(RootAttribute.Passive_NotApplicable)
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
-        self.Pass.add_suffix_form(u"+In", stem_doesnt_have_passive)
-        self.Pass.add_suffix_form(u"+nIl", stem_doesnt_have_passive)
-        self.Pass.add_suffix_form(u"+InIl", stem_doesnt_have_passive)
+        self.Pass.add_suffix_form(u"+In", stem_can_have_passive & has_root_attribute(RootAttribute.Passive_In))
+        self.Pass.add_suffix_form(u"+nIl", stem_can_have_passive)
+        self.Pass.add_suffix_form(u"+InIl", stem_can_have_passive & has_root_attribute(RootAttribute.Passive_InIl))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)
         self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)))

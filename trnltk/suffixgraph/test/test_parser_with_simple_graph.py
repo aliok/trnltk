@@ -713,6 +713,17 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'söylememe',         u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(mA[me])+A3sg+Pnon+Nom', u'söyle(söylemek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+P1sg(+Im[m])+Dat(+yA[e])')
         self.assert_parse_correct(u'söylemeyiş',        u'söyle(söylemek)+Verb+Neg(mA[me])+Noun+Inf(+yIş[yiş])+A3sg+Pnon+Nom')
 
+    def test_should_parse_passives(self):
+        self.assert_parse_correct_for_verb(u'yazıldı',         u'yaz(yazmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Past(dI[dı])+A3sg')
+        self.assert_parse_correct_for_verb(u'yaptırıldı',      u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Past(dI[dı])+A3sg')
+        self.assert_parse_correct_for_verb(u'geliniyor',       u'gel(gelmek)+Verb+Verb+Pass(+In[in])+Pos+Prog(Iyor[iyor])+A3sg')
+        self.assert_parse_correct_for_verb(u'düşüldü',         u'düş(düşmek)+Verb+Verb+Pass(+nIl[ül])+Pos+Past(dI[dü])+A3sg')
+        self.assert_parse_correct_for_verb(u'düşünüldü',       u'düşün(düşünmek)+Verb+Verb+Pass(+nIl[ül])+Pos+Past(dI[dü])+A3sg')
+        self.assert_parse_correct_for_verb(u'silinecekti',     u'sil(silmek)+Verb+Verb+Pass(+In[in])+Pos+Fut(+yAcAk[ecek])+Past(dI[ti])+A3sg')
+
+        self.parser.stem_root_map['ye'] = []
+        self.assert_parse_correct_for_verb(u'yerleştirilmiş',  u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+A3sg', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+
     def test_should_parse_causatives(self):
         self.assert_parse_correct_for_verb(u'düzelttim',         u'düzel(düzelmek)+Verb+Verb+Caus(t[t])+Pos+Past(dI[ti])+A1sg(+Im[m])')
         self.assert_parse_correct_for_verb(u'çevirttim',         u'çevir(çevirmek)+Verb+Verb+Caus(t[t])+Pos+Past(dI[ti])+A1sg(+Im[m])')
@@ -724,6 +735,13 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'ettirdim',          u'et(etmek)+Verb+Verb+Caus(dIr[tir])+Pos+Past(dI[di])+A1sg(+Im[m])')
         self.assert_parse_correct_for_verb(u'yaptırdım',         u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Pos+Past(dI[dı])+A1sg(+Im[m])')
         self.assert_parse_correct_for_verb(u'doldurdum',         u'dol(dolmak)+Verb+Verb+Caus(dIr[dur])+Pos+Past(dI[du])+A1sg(+Im[m])')
+        self.assert_parse_correct_for_verb(u'azalttım',          u'azal(azalmak)+Verb+Verb+Caus(t[t])+Pos+Past(dI[tı])+A1sg(+Im[m])')
+        self.assert_parse_correct_for_verb(u'azaltıyordu',       u'azal(azalmak)+Verb+Verb+Caus(t[t])+Pos+Prog(Iyor[ıyor])+Past(dI[du])+A3sg')
+        self.assert_parse_correct_for_verb(u'sürdürülen',        u'sür(sürmek)+Verb+Verb+Caus(dIr[dür])+Verb+Pass(+nIl[ül])+Pos+Adj+PresPart(+yAn[en])', u'sür(sürmek)+Verb+Verb+Caus(dIr[dür])+Verb+Pass(+nIl[ül])+Pos+Adj+PresPart(+yAn[en])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'kapatılmış',        u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+A3sg', u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+Adj+Zero', u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'düşündürtüyordu',   u'düşün(düşünmek)+Verb+Verb+Caus(dIr[dür])+Verb+Caus(t[t])+Pos+Prog(Iyor[üyor])+Past(dI[du])+A3sg')
+        self.assert_parse_correct_for_verb(u'korkutmamalı',      u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Neces(mAlI![malı])+A3sg', u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom+Adj+With(lI[lı])', u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom+Adj+With(lI[lı])+Noun+Zero+A3sg+Pnon+Nom')
+
 
     def test_should_parse_double_causatives(self):
         self.assert_parse_correct_for_verb(u'düzelttirdim',      u'düzel(düzelmek)+Verb+Verb+Caus(t[t])+Verb+Caus(dIr[tir])+Pos+Past(dI[di])+A1sg(+Im[m])')

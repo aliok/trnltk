@@ -6929,7 +6929,6 @@ düşüm
 düşün
 düşünce
 düşündeş
-düşündürmek
 düşünmek [A:Causative_dIr]
 düşüntülü [P:Adj]
 düşünür
@@ -14024,12 +14023,11 @@ koridor
 korindon
 korkak
 korkalamak
-korkmak
+korkmak [A:Causative_It]
 korku
 korkunç [P:Adj]
 Korkut
 Korkuteli [P:Noun, Prop; A:NounConsInsert_n]
-korkutmak
 korlanmak
 korna
 kornea

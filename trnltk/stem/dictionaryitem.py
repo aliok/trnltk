@@ -47,6 +47,7 @@ class RootAttribute:
     Aorist_A = "Aorist_A"
     NonTransitive = "NonTransitive"
     Passive_In = "Passive_In"
+    Passive_InIl = "Passive_InIl"
     Passive_NotApplicable = "Passive_NotApplicable"
     CompoundP3sg = "CompoundP3sg"
     Compound = "Compound"
