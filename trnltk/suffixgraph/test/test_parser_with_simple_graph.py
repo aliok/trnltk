@@ -722,6 +722,10 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'düşüldü',         u'düş(düşmek)+Verb+Verb+Pass(+nIl[ül])+Pos+Past(dI[dü])+A3sg')
         self.assert_parse_correct_for_verb(u'düşünüldü',       u'düşün(düşünmek)+Verb+Verb+Pass(+nIl[ül])+Pos+Past(dI[dü])+A3sg')
         self.assert_parse_correct_for_verb(u'silinecekti',     u'sil(silmek)+Verb+Verb+Pass(+In[in])+Pos+Fut(+yAcAk[ecek])+Past(dI[ti])+A3sg')
+        self.assert_parse_correct_for_verb(u'dendi',           u'de(demek)+Verb+Verb+Pass(+In[n])+Pos+Past(dI[di])+A3sg')
+        self.assert_parse_correct_for_verb(u'denildi',         u'de(demek)+Verb+Verb+Pass(+InIl[nil])+Pos+Past(dI[di])+A3sg')
+        self.assert_parse_correct_for_verb(u'yendi',           u'yen(yenmek)+Verb+Pos+Past(dI[di])+A3sg', u'ye(yemek)+Verb+Verb+Pass(+In[n])+Pos+Past(dI[di])+A3sg')
+        self.assert_parse_correct_for_verb(u'yenildi',         u'ye(yemek)+Verb+Verb+Pass(+InIl[nil])+Pos+Past(dI[di])+A3sg', u'yen(yenmek)+Verb+Verb+Pass(+nIl[il])+Pos+Past(dI[di])+A3sg')
 
         self.parser.stem_root_map[u'ye'] = []
         self.assert_parse_correct_for_verb(u'yerleştirilmiş',  u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+A3sg', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')

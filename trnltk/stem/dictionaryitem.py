@@ -63,7 +63,7 @@ class RootAttribute:
 
     ALL = sorted({
         Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, StemChange, NounConsInsert, NounConsInsert_n,
-        NoQuote, Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, NonTransitive, Passive_In, Passive_NotApplicable,
+        NoQuote, Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, NonTransitive, Passive_In, Passive_InIl, Passive_NotApplicable,
         CompoundP3sg, Compound, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, Reflexive, Reciprocal, NoSuffix
     })
 

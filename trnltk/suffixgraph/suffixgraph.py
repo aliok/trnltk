@@ -598,9 +598,10 @@ class SuffixGraph():
         self.Hastily.add_suffix_form(u"+yIver")
 
         stem_can_have_passive = doesnt_have_root_attribute(RootAttribute.Passive_NotApplicable)
+        passive_Il = doesnt_have_root_attribute(RootAttribute.Passive_In) & doesnt_have_root_attribute(RootAttribute.Passive_InIl)
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
         self.Pass.add_suffix_form(u"+In", stem_can_have_passive & has_root_attribute(RootAttribute.Passive_In))
-        self.Pass.add_suffix_form(u"+nIl", stem_can_have_passive)
+        self.Pass.add_suffix_form(u"+nIl", stem_can_have_passive & passive_Il)
         self.Pass.add_suffix_form(u"+InIl", stem_can_have_passive & has_root_attribute(RootAttribute.Passive_InIl))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)

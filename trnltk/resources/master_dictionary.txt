@@ -5769,7 +5769,7 @@ değiştirgeç
 değişmez [P:Adj]
 değme
 değme [P:Adj]
-değmek [A:Passive_NotApplicable]
+değmek [A:Passive_In]
 değnek
 değnekçi
 değneklemek
@@ -5855,7 +5855,7 @@ dembedem [P:Adv]
 deme
 demeç
 demek [P:Adv]
-demek [A:StemChange]
+demek [A:StemChange, Passive_In, Passive_InIl]
 demet [A:NoVoicing]
 demetlemek
 demevi [P:Adj]
@@ -25200,7 +25200,7 @@ yeltenmek
 yelve
 yelyazar
 yem
-yemek [A:StemChange]
+yemek [A:StemChange, Passive_In, Passive_InIl]
 yemek [P:Noun]
 yemekhane
 Yemen

@@ -218,7 +218,7 @@ class DoesntHaveRootAttributes(SuffixFormCondition):
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
         transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
 
-        if not transitions:
+        if transitions:
             return True
 
         if not parse_token.stem.dictionary_item.attributes:
