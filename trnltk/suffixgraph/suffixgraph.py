@@ -1,5 +1,5 @@
 # coding=utf-8
-from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition
+from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, SecondaryPosition
 from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute
 from trnltk.suffixgraph.suffixgraphmodel import *
 
@@ -59,8 +59,11 @@ class SuffixGraph():
 
         self.CONJUNCTION_ROOT_TERMINAL = State("CONJUNCTION_ROOT_TERMINAL", "Conj", State.TERMINAL)
 
-        self.NUMERAL_ROOT = State("NUMERAL_ROOT", "Num", State.TRANSFER)
-        self.NUMERAL_DERIV = State("NUMERAL_DERIV", "Num", State.DERIV)
+        self.NUMERAL_CARDINAL_ROOT = State("NUMERAL_CARDINAL_ROOT", "Num", State.TRANSFER)
+        self.NUMERAL_CARDINAL_DERIV = State("NUMERAL_CARDINAL_DERIV", "Num", State.DERIV)
+
+        self.NUMERAL_ORDINAL_ROOT = State("NUMERAL_ORDINAL_ROOT", "Num", State.TRANSFER)
+        self.NUMERAL_ORDINAL_DERIV = State("NUMERAL_ORDINAL_DERIV", "Num", State.DERIV)
 
         self.QUESTION_ROOT = State("QUESTION_ROOT", "Ques", State.TRANSFER)
         self.QUESTION_WITH_TENSE = State("QUESTION_WITH_TENSE", "Ques", State.TRANSFER)
@@ -94,7 +97,8 @@ class SuffixGraph():
 
             self.CONJUNCTION_ROOT_TERMINAL,
 
-            self.NUMERAL_ROOT, self.NUMERAL_DERIV,
+            self.NUMERAL_CARDINAL_ROOT, self.NUMERAL_CARDINAL_DERIV,
+            self.NUMERAL_ORDINAL_ROOT, self.NUMERAL_ORDINAL_DERIV,
 
             self.QUESTION_ROOT, self.QUESTION_WITH_TENSE, self.QUESTION_WITH_AGREEMENT, self.QUESTION_TERMINAL,
 
@@ -123,8 +127,10 @@ class SuffixGraph():
             return self.INTERJECTION_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.CONJUNCTION:
             return self.CONJUNCTION_ROOT_TERMINAL
-        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL:
-            return self.NUMERAL_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
+            return self.NUMERAL_CARDINAL_ROOT
+        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.ORD:
+            return self.NUMERAL_ORDINAL_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:
             return self.PUNC_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.PARTICLE:
@@ -156,12 +162,14 @@ class SuffixGraph():
         FreeTransitionSuffix("Pronoun_Free_Transition_1",       self.PRONOUN_WITH_CASE,            self.PRONOUN_TERMINAL_TRANSFER)
         FreeTransitionSuffix("Pronoun_Free_Transition_2",       self.PRONOUN_TERMINAL_TRANSFER,    self.PRONOUN_TERMINAL)
 
-        FreeTransitionSuffix("Numeral_Free_Transition_1",       self.NUMERAL_ROOT,                 self.NUMERAL_DERIV)
+        FreeTransitionSuffix("Numeral_Free_Transition_1",       self.NUMERAL_CARDINAL_ROOT,        self.NUMERAL_CARDINAL_DERIV)
+        FreeTransitionSuffix("Numeral_Free_Transition_2",       self.NUMERAL_ORDINAL_ROOT,         self.NUMERAL_ORDINAL_DERIV)
 
         FreeTransitionSuffix("Question_Free_Transition_1",      self.QUESTION_WITH_AGREEMENT,      self.QUESTION_TERMINAL)
 
 
-        ZeroTransitionSuffix("Numeral_Zero_Transition",         self.NUMERAL_DERIV,                self.ADJECTIVE_ROOT)
+        ZeroTransitionSuffix("Numeral_Zero_Transition_1",       self.NUMERAL_CARDINAL_DERIV,       self.ADJECTIVE_ROOT)
+        ZeroTransitionSuffix("Numeral_Zero_Transition_2",       self.NUMERAL_ORDINAL_DERIV,        self.ADJECTIVE_ROOT)
         ZeroTransitionSuffix("Adj_to_Noun_Zero_Transition",     self.ADJECTIVE_DERIV,              self.NOUN_ROOT)
         ZeroTransitionSuffix("Verb_to_Adj_Zero_Transition",     self.VERB_TENSE_ADJ_DERIV,         self.ADJECTIVE_ROOT)
 

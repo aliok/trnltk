@@ -687,9 +687,74 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'söylemeyiniz',      u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yInIz[yiniz])')
         self.assert_parse_correct_for_verb(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
 
-    def test_should_parse_some_numerals(self):
-        self.assert_parse_correct(u'iki',               u'iki(iki)+Num+Card+Adj+Zero', u'iki(iki)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'sekiz',             u'sekiz(sekiz)+Num+Card+Adj+Zero', u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+    def test_should_parse_cardinal_numerals(self):
+        self.parser.stem_root_map[u'bir'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.parser.stem_root_map[u'bir'])
+        self.parser.stem_root_map[u'alt'] = []
+        self.parser.stem_root_map[u'ye'] = []
+        self.parser.stem_root_map[u'yet'] = []
+        self.parser.stem_root_map[u'on'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.parser.stem_root_map[u'on'])
+        self.parser.stem_root_map[u'kırk'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.parser.stem_root_map[u'kırk'])
+        self.parser.stem_root_map[u'el'] = []
+        self.parser.stem_root_map[u'sek'] = []
+        self.parser.stem_root_map[u'yüz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.parser.stem_root_map[u'yüz'])
+        self.parser.stem_root_map[u'bin'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.parser.stem_root_map[u'bin'])
+
+        self.assert_parse_correct(u'sıfır',                 u'sıfır(sıfır)+Num+Card+Adj+Zero', u'sıfır(sıfır)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'bir',                   u'bir(bir)+Num+Card+Adj+Zero', u'bir(bir)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'iki',                   u'iki(iki)+Num+Card+Adj+Zero', u'iki(iki)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'üç',                    u'üç(üç)+Num+Card+Adj+Zero', u'üç(üç)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'dört',                  u'dört(dört)+Num+Card+Adj+Zero', u'dört(dört)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'beş',                   u'beş(beş)+Num+Card+Adj+Zero', u'beş(beş)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'altı',                  u'altı(altı)+Num+Card+Adj+Zero', u'altı(altı)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yedi',                  u'yedi(yedi)+Num+Card+Adj+Zero', u'yedi(yedi)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'sekiz',                 u'sekiz(sekiz)+Num+Card+Adj+Zero', u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'dokuz',                 u'dokuz(dokuz)+Num+Card+Adj+Zero', u'dokuz(dokuz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'on',                    u'on(on)+Num+Card+Adj+Zero', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yirmi',                 u'yirmi(yirmi)+Num+Card+Adj+Zero', u'yirmi(yirmi)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'otuz',                  u'otuz(otuz)+Num+Card+Adj+Zero', u'otuz(otuz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kırk',                  u'kırk(kırk)+Num+Card+Adj+Zero', u'kırk(kırk)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'elli',                  u'elli(elli)+Num+Card+Adj+Zero', u'elli(elli)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'altmış',                u'altmış(altmış)+Num+Card+Adj+Zero', u'altmış(altmış)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yetmiş',                u'yetmiş(yetmiş)+Num+Card+Adj+Zero', u'yetmiş(yetmiş)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'seksen',                u'seksen(seksen)+Num+Card+Adj+Zero', u'seksen(seksen)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'doksan',                u'doksan(doksan)+Num+Card+Adj+Zero', u'doksan(doksan)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yüz',                   u'yüz(yüz)+Num+Card+Adj+Zero', u'yüz(yüz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'bin',                   u'bin(bin)+Num+Card+Adj+Zero', u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'milyon',                u'milyon(milyon)+Num+Card+Adj+Zero', u'milyon(milyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'milyar',                u'milyar(milyar)+Num+Card+Adj+Zero', u'milyar(milyar)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'trilyon',               u'trilyon(trilyon)+Num+Card+Adj+Zero', u'trilyon(trilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'katrilyon',             u'katrilyon(katrilyon)+Num+Card+Adj+Zero', u'katrilyon(katrilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kentilyon',             u'kentilyon(kentilyon)+Num+Card+Adj+Zero', u'kentilyon(kentilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+
+    def test_should_parse_ordinal_numerals(self):
+        self.parser.stem_root_map[u'altın'] = []
+
+        self.assert_parse_correct(u'sıfırıncı',        u'sıfırıncı(sıfırıncı)+Num+Ord+Adj+Zero', u'sıfırıncı(sıfırıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'birinci',          u'birinci(birinci)+Num+Ord+Adj+Zero', u'birinci(birinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'ikinci',           u'ikinci(ikinci)+Num+Ord+Adj+Zero', u'ikinci(ikinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'üçüncü',           u'üçüncü(üçüncü)+Num+Ord+Adj+Zero', u'üçüncü(üçüncü)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'dördüncü',         u'dördüncü(dördüncü)+Num+Ord+Adj+Zero', u'dördüncü(dördüncü)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'beşinci',          u'beşinci(beşinci)+Num+Ord+Adj+Zero', u'beşinci(beşinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'altıncı',          u'altıncı(altıncı)+Num+Ord+Adj+Zero', u'altıncı(altıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yedinci',          u'yedinci(yedinci)+Num+Ord+Adj+Zero', u'yedinci(yedinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'sekizinci',        u'sekizinci(sekizinci)+Num+Ord+Adj+Zero', u'sekizinci(sekizinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'dokuzuncu',        u'dokuzuncu(dokuzuncu)+Num+Ord+Adj+Zero', u'dokuzuncu(dokuzuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'onuncu',           u'onuncu(onuncu)+Num+Ord+Adj+Zero', u'onuncu(onuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yirminci',         u'yirminci(yirminci)+Num+Ord+Adj+Zero', u'yirminci(yirminci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'otuzuncu',         u'otuzuncu(otuzuncu)+Num+Ord+Adj+Zero', u'otuzuncu(otuzuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kırkıncı',         u'kırkıncı(kırkıncı)+Num+Ord+Adj+Zero', u'kırkıncı(kırkıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'ellinci',          u'ellinci(ellinci)+Num+Ord+Adj+Zero', u'ellinci(ellinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'altmışıncı',       u'altmışıncı(altmışıncı)+Num+Ord+Adj+Zero', u'altmışıncı(altmışıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yetmişinci',       u'yetmişinci(yetmişinci)+Num+Ord+Adj+Zero', u'yetmişinci(yetmişinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'sekseninci',       u'sekseninci(sekseninci)+Num+Ord+Adj+Zero', u'sekseninci(sekseninci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'doksanıncı',       u'doksanıncı(doksanıncı)+Num+Ord+Adj+Zero', u'doksanıncı(doksanıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yüzüncü',          u'yüzüncü(yüzüncü)+Num+Ord+Adj+Zero', u'yüzüncü(yüzüncü)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'bininci',          u'bininci(bininci)+Num+Ord+Adj+Zero', u'bininci(bininci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'milyonuncu',       u'milyonuncu(milyonuncu)+Num+Ord+Adj+Zero', u'milyonuncu(milyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'milyarıncı',       u'milyarıncı(milyarıncı)+Num+Ord+Adj+Zero', u'milyarıncı(milyarıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'trilyonuncu',      u'trilyonuncu(trilyonuncu)+Num+Ord+Adj+Zero', u'trilyonuncu(trilyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'katrilyonuncu',    u'katrilyonuncu(katrilyonuncu)+Num+Ord+Adj+Zero', u'katrilyonuncu(katrilyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kentilyonuncu',    u'kentilyonuncu(kentilyonuncu)+Num+Ord+Adj+Zero', u'kentilyonuncu(kentilyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_verb_to_noun_derivations(self):
         self.assert_parse_correct(u'yapmak',            u'yap(yapmak)+Verb+Pos+Noun+Inf(mAk[mak])+A3sg+Pnon+Nom')

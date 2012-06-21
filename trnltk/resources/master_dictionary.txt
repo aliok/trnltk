@@ -911,7 +911,6 @@ alternatif
 alternatif [P:Adj]
 alternatör
 altes
-altı
 altı [P:Num, Card]
 altıgen
 altıgen [P:Adj]
@@ -922,7 +921,7 @@ altılı
 altın
 altın [P:Adj]
 altınbaş
-altıncı
+altıncı [P:Num, Ord]
 Altındağ
 Altınekin
 altınoluk [A:Compound]
@@ -938,10 +937,9 @@ altışar [P:Adj]
 altız [P:Adj]
 altimetre
 altlamak
-altmış [P:Num]
-altmışaltı
+altmış [P:Num, Card]
 altmışar [P:Adj]
-altmışıncı [P:Adj]
+altmışıncı [P:Num, Ord]
 altmışlık [P:Adj]
 alto
 Altunhisar
@@ -3068,7 +3066,6 @@ bestekâr
 bestelemek
 bestenigâr
 beş [P:Num, Card]
-beş [P:Adj]
 beşamel
 beşaret [A:NoVoicing]
 beşbıyık
@@ -3085,7 +3082,7 @@ beşik
 Beşikdüzü [A:CompoundP3sg; R:Beşikdüz]
 beşikörtüsü
 Beşiktaş
-beşinci [P:Adj]
+beşinci [P:Num, Ord]
 Beşiri
 beşiz [P:Adj]
 beşkardeş
@@ -3357,6 +3354,7 @@ bingi
 Bingöl
 bini
 binici
+bininci [P:Num, Ord]
 binit [A:NoVoicing]
 binlerce
 binlik
@@ -3400,8 +3398,7 @@ birikmek
 birileri [P:Pron]
 birim
 birincasıf
-birinci
-birinci [P:Adj]
+birinci [P:Num, Ord]
 birincil
 birisi [P:Pron]
 birkaç [P:Adj]
@@ -6538,8 +6535,8 @@ doğurgu
 doğuştan [P:Adj]
 doğuştan [P:Adv]
 dok
-doksan
 doksan [P:Num, Card]
+doksanıncı [P:Num, Ord]
 doktor
 doktora
 doktrin
@@ -6555,11 +6552,11 @@ dokurcuk
 dokurcun
 dokunmak
 dokuz [P:Num, Card]
-dokuz
 dokuzgen
 dokuzlu
 dokuzlu [P:Adj]
 dokuztaş
+dokuzuncu [P:Num, Ord]
 dokuzuz [P:Adj]
 doküman
 dokümantasyon
@@ -6708,8 +6705,8 @@ dönüşüm
 dönüt [A:NoVoicing]
 döpiyes
 dördül
+dördüncü [P:Num, Ord]
 dört [P:Num, Card]
-dört
 dördüz [P:Adj]
 dörtcihar
 Dörtdivan
@@ -7357,6 +7354,7 @@ elli [P:Num, Card]
 ellik
 ellilik
 ellilik [P:Adj]
+ellinci [P:Num, Ord]
 elma
 elmabaş
 elmacık
@@ -11064,6 +11062,7 @@ ikebana
 iki [P:Num, Card]
 ikilem
 ikilemek
+ikinci [P:Num, Ord]
 ikincil
 ikindi
 ikindiüstü
@@ -12791,6 +12790,7 @@ katranköpüğü [A:CompoundP3sg, Voicing; R:katranköpük]
 katranlamak
 katre
 katrilyon [P:Num, Card]
+katrilyonuncu [P:Num, Ord]
 katsayı
 katur [P:Adj, Dup]
 katyon
@@ -13085,6 +13085,7 @@ kent
 kental [A:InverseHarmony]
 kentet [A:NoVoicing]
 kentilyon [P:Num, Card]
+kentilyonuncu [P:Num, Ord]
 Kenya
 kep
 kepaze [P:Adj]
@@ -13341,6 +13342,7 @@ kırkbudak
 kırkgeçit
 kırkı
 kırkım
+kırkıncı [P:Num, Ord]
 kırkıntı
 kırklamak
 Kırklareli [P:Noun, Prop; A:NounConsInsert_n]
@@ -16222,9 +16224,11 @@ milliyet [A:NoVoicing]
 milliyetperver
 milyar [P:Num, Card]
 milyarder [P:Adj]
+milyarıncı [P:Num, Ord]
 milyon [P:Num, Card]
 milyoner
 milyonlarca [P:Adj]
+milyonuncu [P:Num, Ord]
 mim
 mimar
 mimarbaşı [A:CompoundP3sg; R:mimarbaş]
@@ -17883,6 +17887,7 @@ ontojenez
 ontoloji
 onulmak
 onum
+onuncu [P:Num, Ord]
 onur
 onurlanmak
 oosfer
@@ -18063,6 +18068,7 @@ oturak
 oturmak
 oturum
 otuz [P:Num, Card]
+otuzuncu [P:Num, Ord]
 otyiyenler
 ova
 Ovacık
@@ -20424,6 +20430,7 @@ seki
 sekilemek
 sekiz [P:Num, Card]
 sekizgen
+sekizinci [P:Num, Ord]
 sekiziz [P:Adj]
 seklem
 sekmek
@@ -20436,6 +20443,7 @@ seks
 seksapel
 seksek
 seksen [P:Num, Card]
+sekseninci [P:Num, Ord]
 seksiyon
 seksolog
 seksoloji
@@ -20751,6 +20759,7 @@ sıdk
 sıfat [A:NoVoicing]
 sıfat-fiil
 sıfır [P:Num, Card]
+sıfırıncı [P:Num, Ord]
 sıfırlamak
 sığ [P:Adj]
 sığa
@@ -21201,8 +21210,6 @@ somurtmak
 somut [P:Adj; A:NoVoicing]
 somya
 son [P:Adj]
-#TODO
-son [P:Num]
 sonar
 sonat [A:NoVoicing]
 sonbahar
@@ -21223,6 +21230,7 @@ sonuçlamak
 sonuçlandırmak
 sonuçlanmak
 sonuçsuz
+sonuncu [P:Num, Ord]
 sonunda [P:Adv]
 sonurgu
 sonurtu
@@ -22901,8 +22909,7 @@ tehyiç
 tehzil
 tein
 teizm
-#TODO:
-tek [P:Num]
+tek [P:Adj]
 tekabül
 tekâlif
 tekâmül
@@ -23790,6 +23797,7 @@ trikotaj
 triloji
 trilyon [P:Num, Card]
 trilyoner
+trilyonuncu [P:Num, Ord]
 trinketa
 trio
 tripleks
@@ -24276,6 +24284,7 @@ uzviyet [A:NoVoicing]
 üçlemek
 üçtaş
 üçteker
+üçüncü [P:Num, Ord]
 üçüz [P:Adj]
 üdeba
 üfleç
@@ -25155,6 +25164,7 @@ yediemin
 yedigen
 Yedigir
 Yedikardeş
+yedinci [P:Num, Ord]
 Yedisu
 yediveren
 yediz [P:Adj]
@@ -25296,6 +25306,7 @@ yetkilemek
 yetkin
 yetmek
 yetmiş [P:Num, Card]
+yetmişinci [P:Num, Ord]
 yevmî
 yevmiye
 yeygi
@@ -25362,6 +25373,7 @@ yinelemek
 yirik
 yirmi [P:Num, Card]
 yirmigen
+yirminci [P:Num, Ord]
 yitik [P:Adj]
 yitim
 yitmek
@@ -25561,6 +25573,7 @@ yüznumara
 yüzsüz [P:Adj]
 yüzük
 yüzükoyun [P:Adj]
+yüzüncü [P:Num, Ord]
 yüzüstü [P:Adj]
 yüzyıl
 zaaf

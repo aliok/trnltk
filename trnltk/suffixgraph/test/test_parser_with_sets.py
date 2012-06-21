@@ -45,7 +45,6 @@ cases_to_skip = {
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'çoğu',
 
-    u'+Num+Ord',         # in treebank, they're all x+Num+Ord
     u'sadece+Adv',
 
     u'â', u'î',
@@ -231,6 +230,8 @@ class ParserTestWithSets(unittest.TestCase):
         if result.stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL:
             if result.stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
                 secondary_position_str = "Card"
+            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.ORD:
+                secondary_position_str = "Ord"
 
 
         if not groups:
