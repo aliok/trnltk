@@ -1,0 +1,20 @@
+* Gecisli fiiller X gecissiz fiilleri bulma(Caus ekinin oldurgan, ettirgen vs etkisini bulma)
+   hesaplamak: gecisli: neyi hesapladim?
+   aglamak: gecissiz: neyi agladim?
+
+   hesaplatmak : ettirgen oluyor, cunku Caus eki gecisli fiile gelmis
+   aglatmak : oldurgan oluyor, cunku Caus eki gecissiz fiile gelmis
+   hesaplattirmak: yine ettirgen
+   aglattirmak : ettirgen oluyor
+
+   * bitmek, bitirmek, bitirtmek : gecissiz, oldurgan, ettirgen
+   * almak, aldirmak, aldirtmak  : gecisli, ettirgen, ettirgen
+   * vs.
+
+   * bit-ir, dol-dur, duzel-t, urk-ut, cik-ar
+
+   * -t   : l,r ve sesli harften sonra geliyor: duzel-t, cevir-t, kapa-t
+   * -ir  : tek sesli kokten sonra, bit-ir
+   * -it  : tek sesli kokten sonra, urk-ut
+   * -ar  : tek sesli kokten sonra, cik-ar
+   * -dir : diger durumlarda (istisna : dol-dur)
