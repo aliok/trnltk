@@ -1,3 +1,4 @@
+import os
 from trnltk.suffixgraph.suffixgraph import *
 from trnltk.suffixgraph.extendedsuffixgraph import *
 
@@ -44,7 +45,7 @@ def generate_directed_graph(suffix_graph):
 
     return graph
 
-def write_graph_to_file(graph, file_path):
+def write_graph_to_file(graph, file_path, format='dot'):
     A=nx.to_agraph(graph)
 
     set_same_rank(['NOUN_ROOT', 'VERB_ROOT', 'PRONOUN_ROOT', 'NUMERAL_ROOT'], A, 'source')
@@ -54,7 +55,10 @@ def write_graph_to_file(graph, file_path):
     set_same_rank([node.name for node in filter(lambda node : node.name.endswith('COPULA'), A.nodes())], A)
     set_same_rank([node.name for node in filter(lambda node : node.name.endswith('TERMINAL'), A.nodes())], A, 'sink')
 
-    A.write(file_path)
+    A.layout(prog='dot')
+    A.draw(file_path, format)
+
+#    A.write(file_path)
 
 def set_same_rank(node_names, A, rank='same'):
     sub_graph = A.add_subgraph()
@@ -84,4 +88,4 @@ if __name__ == "__main__":
         sys.exit(2)
 
     di_graph = generate_directed_graph(suffix_graph)
-    write_graph_to_file(di_graph, output_file_path)
+    write_graph_to_file(di_graph, output_file_path, os.path.splitext(output_file_path)[1][1:])
