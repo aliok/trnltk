@@ -20,8 +20,8 @@ This project will try to provide a toolkit for computer linguistic work for Turk
 
 A finite state machine is used for parsing the words. Nodes with different states of words and edges as suffixes.
 
-As of June 2012, [this]{https://github.com/aliok/trnltk/raw/master/suffixGraphExtended_20120628.png} graph is used to parse words.
-That graph is drawn by [this script]{https://github.com/aliok/trnltk/bin/suffixgraphplotter.py} with the following command
+As of June 2012, [this](https://github.com/aliok/trnltk/raw/master/suffixGraphExtended_20120628.png) graph is used to parse words.
+That graph is drawn by [this script](https://github.com/aliok/trnltk/bin/suffixgraphplotter.py) with the following command
 
     suffixgraphplotter.py E /home/ali/Desktop/suffixGraphX.png
 
