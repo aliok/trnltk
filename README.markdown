@@ -36,7 +36,7 @@ I've inspected other other approaches and I saw that tracking the problems were 
 by defining what suffix can come after other suffix. But with that approach it is impossible to have an overview of the graph, since there would
 be thousands of nodes and edges.
 
-Phonetic rules and implementation is copied from open-source java library [Zemberek3]{http://code.google.com/p/zemberek3/}
+Phonetic rules and implementation is copied from open-source java library [Zemberek3](http://code.google.com/p/zemberek3/)
 
 ### How it is tested?
 
