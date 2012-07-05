@@ -232,6 +232,21 @@ class DoesntHaveRootAttributes(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
+class HasSecondaryPosition(SuffixFormCondition):
+    def __init__(self, secondary_position):
+            self._secondary_position = secondary_position
+
+    def matches(self, parse_token):
+        if not parse_token:
+            return False
+        return parse_token.stem.dictionary_item.secondary_position==self._secondary_position
+
+    def __str__(self):
+        return u'has_secondary_position({})'.format(self._secondary_position)
+
+    def __repr__(self):
+        return self.__str__()
+
 _false_condition = FalseCondition()
 
 def comes_after(suffix, form_str=None):
@@ -282,3 +297,6 @@ def doesnt_have_root_attributes(root_attrs):
 
 def doesnt_have_root_attribute(root_attr):
     return doesnt_have_root_attributes([root_attr])
+
+def has_secondary_position(secondary_position):
+    return HasSecondaryPosition(secondary_position)

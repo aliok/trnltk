@@ -18,3 +18,13 @@
    * -it  : tek sesli kokten sonra, urk-ut
    * -ar  : tek sesli kokten sonra, cik-ar
    * -dir : diger durumlarda (istisna : dol-dur)
+
+
+* -ce ekli bazi kelimeleri gectim:
+    * kendince, kendimce vs
+    * kanimca
+    * yeterince, geregince
+    * elverdigince, oldugunca, olabildigince
+    * uyarinca
+    * başkalarınca
+    * görece, sürece

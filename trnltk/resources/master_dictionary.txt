@@ -2949,7 +2949,6 @@ bemol
 ben
 ben [P:Pron, Pers; A:StemChange]
 benbenci [P:Adj]
-bence [P:Adv]
 benci [P:Adj]
 bencil [P:Adj]
 bencileyin [P:Adv]
@@ -3339,7 +3338,6 @@ bilumum [P:Adj]
 bilvasıta [P:Adv]
 bilye
 bilyon
-bin
 bin [P:Num, Card]
 bina
 binaen [P:Adv]
@@ -3356,10 +3354,9 @@ bini
 binici
 bininci [P:Num, Ord]
 binit [A:NoVoicing]
-binlerce
 binlik
 binnetice [P:Adv]
-binyıl
+binyıl [P:Noun, Time]
 biperva [P:Adj]
 biperva [P:Adv]
 binmek
@@ -3491,7 +3488,6 @@ biyotop [A:NoVoicing]
 biz [P:Pron, Pers]
 bizar [P:Adv]
 bizatihi [P:Adv]
-bizce [P:Adv]
 bizcileyin [P:Adv]
 bizimki [P:Pron]
 bizlengiç
@@ -3756,7 +3752,6 @@ börülce
 bösmek
 böyle [P:Adj]
 böyle [P:Adv]
-böylece [P:Adv]
 böylecene [P:Adv]
 #böylemesine
 Brahma
@@ -5455,7 +5450,7 @@ dair [P:Adj]
 daire
 dairevi
 dakik [P:Adj]
-dakika
+dakika [P:Noun, Time]
 dakikasında [P:Adv]
 daktilo
 daktilograf
@@ -5704,7 +5699,6 @@ defaten [P:Adv]
 defa
 defaatle [P:Adv]
 defakto [P:Adj]
-defalarca [P:Adv]
 defans
 defansif [P:Adj]
 defaten [P:Adv]
@@ -9289,7 +9283,7 @@ gönen
 Gönen
 gönenç
 gönenmek
-gönlünce
+gönlünce [P:Adv]
 gönül [A:LastVowelDrop]
 gönüldaş
 gönüllenmek
@@ -9696,7 +9690,7 @@ hafit
 hafiye
 hafniyum
 hafriyat [A:NoVoicing]
-hafta
+hafta [P:Noun, Time]
 hah [P:Interj]
 haham
 hahambaşı
@@ -16227,7 +16221,6 @@ milyarder [P:Adj]
 milyarıncı [P:Num, Ord]
 milyon [P:Num, Card]
 milyoner
-milyonlarca [P:Adj]
 milyonuncu [P:Num, Ord]
 mim
 mimar
@@ -17869,6 +17862,7 @@ onaylamak
 onbaşı
 onbiraylık
 onca [P:Adj]
+onca [P:Adv]
 Ondokuzmayıs
 ondüle
 onejit
@@ -17877,7 +17871,6 @@ ongun
 onikiparmak [P:Noun; A:Compound]
 oniks
 onkoloji
-onlarca [P:Adj]
 onmak
 onmaz
 onomastik
@@ -19825,6 +19818,7 @@ rüzgârlanmak
 saadet [A:NoVoicing]
 saadethane
 saat [A:InverseHarmony, NoVoicing]
+saat [P:Noun, Time; A:InverseHarmony, NoVoicing]
 saba
 sabah [P:Noun, Time; S:+Rel_ki]
 sabahlamak
@@ -20041,7 +20035,7 @@ Salihli
 salim
 salimen [P:Adj]
 salip
-salise
+salise [P:Noun, Time]
 salisen [P:Adv]
 salisilât [A:NoVoicing]
 salisilik
@@ -20114,7 +20108,7 @@ sangılamak
 sanı
 sanık
 sanidin
-saniye
+saniye [P:Noun, Time]
 sanki [P:Adv]
 sanmak [A:Aorist_I]
 sanrı
@@ -22193,6 +22187,8 @@ süzülmek
 şuh [P:Adj]
 Şuhut
 şukur [P:Adj, Dup]
+şunca [P:Adj]
+şunca [P:Adv]
 şuncacık [P:Adj]
 şungur [P:Adj, Dup]
 şupur [P:Adj, Dup]
@@ -25565,7 +25561,6 @@ yüzey
 yüzgeç
 yüzgöz
 yüzlemek
-yüzlerce
 yüzleşmek
 yüzlük
 yüzmek
@@ -25575,7 +25570,7 @@ yüzük
 yüzükoyun [P:Adj]
 yüzüncü [P:Num, Ord]
 yüzüstü [P:Adj]
-yüzyıl
+yüzyıl [P:Noun, Time]
 zaaf
 zabıt [A:LastVowelDrop]
 zabıt [A:Voicing, LastVowelDrop]

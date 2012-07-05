@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, SecondaryPosition
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute, has_secondary_position
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 class SuffixGraph():
@@ -18,6 +18,7 @@ class SuffixGraph():
         self.NOUN_TERMINAL_TRANSFER = State("NOUN_TERMINAL_TRANSFER", 'Noun', State.TRANSFER)
         self.NOUN_TERMINAL = State("NOUN_TERMINAL", 'Noun', State.TERMINAL)
         self.NOUN_NOM_DERIV = State("NOUN_NOM_DERIV", 'Noun', State.DERIV)
+        self.NOUN_POSSESSIVE_NOM_DERIV = State("NOUN_POSSESSIVE_NOM_DERIV", 'Noun', State.DERIV)
         self.NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", 'Noun', State.DERIV)
 
         self.NOUN_COMPOUND_ROOT = State("NOUN_COMPOUND_ROOT", 'Noun', State.TRANSFER)
@@ -76,7 +77,7 @@ class SuffixGraph():
 
         self.ALL_STATES = {
             self.NOUN_ROOT, self.NOUN_WITH_AGREEMENT, self.NOUN_WITH_POSSESSION, self.NOUN_WITH_CASE, self.NOUN_TERMINAL,
-            self.NOUN_TERMINAL_TRANSFER, self.NOUN_DERIV_WITH_CASE, self.NOUN_NOM_DERIV,
+            self.NOUN_TERMINAL_TRANSFER, self.NOUN_DERIV_WITH_CASE, self.NOUN_NOM_DERIV, self.NOUN_POSSESSIVE_NOM_DERIV,
 
             self.NOUN_COMPOUND_ROOT, self.NOUN_COMPOUND_WITH_AGREEMENT, self.NOUN_COMPOUND_WITH_POSSESSION,
 
@@ -194,6 +195,7 @@ class SuffixGraph():
         self.Noun_Cases_Group = SuffixGroup('Noun_Case_Group')
         self.Nom_Noun = Suffix("Nom_Noun", self.Noun_Cases_Group, "Nom")
         self.Nom_Noun_Deriv = Suffix("Nom_Deriv_Noun", self.Noun_Cases_Group, "Nom")
+        self.Nom_Noun_Possessive_Deriv = Suffix("Nom_Deriv_Possessive_Noun", self.Noun_Cases_Group, "Nom")
         self.Acc_Noun = Suffix("Acc_Noun", self.Noun_Cases_Group, "Acc")
         self.Dat_Noun = Suffix("Dat_Noun", self.Noun_Cases_Group, "Dat")
         self.Loc_Noun = Suffix("Loc_Noun", self.Noun_Cases_Group, "Loc")
@@ -214,6 +216,14 @@ class SuffixGraph():
         self.Without = Suffix("Without")
         self.Rel = Suffix("Rel")
         self.JustLike_Noun = Suffix("JustLike_Noun", pretty_name='JustLike')
+        self.Equ_Noun = Suffix("Equ_Noun", pretty_name='Equ')
+
+        ############ Noun to Adverb derivations
+        self.InTermsOf = Suffix("InTermsOf")
+        self.By_Pnon = Suffix("By_Pnon", pretty_name='By')
+        self.By_Possessive = Suffix("By_Possessive", pretty_name='By')
+        self.ManyOf = Suffix("ManyOf")
+        self.ForALotOfTime = Suffix("ForALotOfTime")
 
         ############# Noun Compound suffixes
         self.A3Sg_Noun_Compound = Suffix("A3Sg_Noun_Compound", pretty_name="A3sg")
@@ -286,6 +296,8 @@ class SuffixGraph():
 
         ########### Adjective to Adjective derivations
         self.JustLike_Adj = Suffix("JustLike_Adj", pretty_name='JustLike')
+        self.Equ_Adj = Suffix("Equ_Adj", pretty_name='Equ')
+        self.Quite = Suffix("Quite")
 
         ########### Adjective to Adverb derivations
         self.Ly = Suffix("Ly")
@@ -337,6 +349,7 @@ class SuffixGraph():
         ############# Pronoun case-likes
         self.Gen_Pron = Suffix("Gen_Pron", self.Pronoun_Case_Group, pretty_name='Gen')
         self.Ins_Pron = Suffix("Ins_Pron", self.Pronoun_Case_Group, pretty_name='Ins')
+        self.AccordingTo = Suffix("AccordingTo", self.Pronoun_Case_Group)
 
         ############# Pronoun to Adjective derivations
         self.Without_Pron = Suffix("Without_Pron", pretty_name="Without")
@@ -356,12 +369,16 @@ class SuffixGraph():
         self.A2Pl_Ques = Suffix("A2Pl_Ques", self.Question_Agreements_Group, 'A2pl')
         self.A3Pl_Ques = Suffix("A3Pl_Ques", self.Question_Agreements_Group, 'A3pl')
 
+        ########### Cardinal numbers to Adjective derivations
+        self.NumbersOf = Suffix("NumbersOf")
+
     def _register_suffixes(self):
         self._register_noun_suffixes()
         self._register_verb_suffixes()
         self._register_adjective_suffixes()
         self._register_pronoun_suffixes()
         self._register_question_suffixes()
+        self._register_numeral_suffixes()
 
     def _register_noun_suffixes(self):
         self._register_noun_agreements()
@@ -370,6 +387,7 @@ class SuffixGraph():
         self._register_noun_to_noun_derivations()
         self._register_noun_to_verb_derivations()
         self._register_noun_to_adjective_derivations()
+        self._register_noun_to_adverb_derivations()
         self._register_noun_compound_suffixes()
 
     def _register_verb_suffixes(self):
@@ -398,6 +416,10 @@ class SuffixGraph():
     def _register_question_suffixes(self):
         self._register_question_tenses()
         self._register_question_agreements()
+
+    def _register_numeral_suffixes(self):
+        self._register_cardinal_to_adjective_suffixes()
+
 
     def _register_noun_agreements(self):
         self.NOUN_ROOT.add_out_suffix(self.A3Sg_Noun, self.NOUN_WITH_AGREEMENT)
@@ -438,6 +460,9 @@ class SuffixGraph():
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Noun_Deriv, self.NOUN_NOM_DERIV)
         self.Nom_Noun_Deriv.add_suffix_form("", comes_after(self.Pnon_Noun))
+
+        self.NOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Noun_Possessive_Deriv, self.NOUN_POSSESSIVE_NOM_DERIV)
+        self.Nom_Noun_Possessive_Deriv.add_suffix_form("", doesnt_come_after(self.Pnon_Noun))
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Acc_Noun, self.NOUN_WITH_CASE)
         self.Acc_Noun.add_suffix_form(u"+yI", doesnt_come_after_P3)
@@ -482,8 +507,27 @@ class SuffixGraph():
         self.NOUN_NOM_DERIV.add_out_suffix(self.JustLike_Noun, self.ADJECTIVE_ROOT)
         self.JustLike_Noun.add_suffix_form(u"+ImsI")
 
+        self.NOUN_NOM_DERIV.add_out_suffix(self.Equ_Noun, self.ADJECTIVE_ROOT)
+        self.Equ_Noun.add_suffix_form(u"cA")
+
         self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.Rel, self.ADJECTIVE_ROOT)
         self.Rel.add_suffix_form(u"ki")
+
+    def _register_noun_to_adverb_derivations(self):
+        self.NOUN_NOM_DERIV.add_out_suffix(self.InTermsOf, self.ADVERB_ROOT)
+        self.InTermsOf.add_suffix_form(u"cA")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.By_Pnon, self.ADVERB_ROOT)
+        self.By_Pnon.add_suffix_form(u"cA")
+
+        self.NOUN_POSSESSIVE_NOM_DERIV.add_out_suffix(self.By_Possessive, self.ADVERB_ROOT)
+        self.By_Possessive.add_suffix_form(u"ncA")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.ManyOf, self.ADVERB_ROOT)
+        self.ManyOf.add_suffix_form(u"lArcA")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.ForALotOfTime, self.ADVERB_ROOT)
+        self.ForALotOfTime.add_suffix_form(u"lArcA", precondition=has_secondary_position(SecondaryPosition.TIME))
 
     def _register_noun_compound_suffixes(self):
         self.NOUN_COMPOUND_ROOT.add_out_suffix(self.A3Sg_Noun_Compound, self.NOUN_COMPOUND_WITH_AGREEMENT)
@@ -687,6 +731,12 @@ class SuffixGraph():
         self.ADJECTIVE_DERIV.add_out_suffix(self.JustLike_Adj, self.ADJECTIVE_ROOT)
         self.JustLike_Adj.add_suffix_form(u"+ImsI")
 
+        self.ADJECTIVE_DERIV.add_out_suffix(self.Equ_Adj, self.ADJECTIVE_ROOT)
+        self.Equ_Adj.add_suffix_form(u"cA")
+
+        self.ADJECTIVE_DERIV.add_out_suffix(self.Quite, self.ADJECTIVE_ROOT)
+        self.Quite.add_suffix_form(u"cA")
+
     def _register_adjective_to_adverb_derivations(self):
         self.ADJECTIVE_DERIV.add_out_suffix(self.Ly, self.ADVERB_ROOT)
         self.Ly.add_suffix_form(u"cA")
@@ -804,6 +854,9 @@ class SuffixGraph():
         self.Ins_Pron.add_suffix_form(u"+ylA")
         #Ins_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
+        self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.AccordingTo, self.PRONOUN_WITH_CASE)
+        #AccordingTo forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'hepsi' are predefined
+
     def _register_pronoun_to_adjective_suffixes(self):
         applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
 
@@ -829,3 +882,7 @@ class SuffixGraph():
         self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A1Pl_Ques, self.VERB_TERMINAL_TRANSFER)
         self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A2Pl_Ques, self.VERB_TERMINAL_TRANSFER)
         self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A3Pl_Ques, self.VERB_TERMINAL_TRANSFER)
+
+    def _register_cardinal_to_adjective_suffixes(self):
+        self.NUMERAL_CARDINAL_DERIV.add_out_suffix(self.NumbersOf, self.ADJECTIVE_ROOT)
+        self.NumbersOf.add_suffix_form(u"lArcA")

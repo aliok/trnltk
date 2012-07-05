@@ -61,6 +61,7 @@ class PredefinedPathsTest(unittest.TestCase):
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(le[le])',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])',
+            u'ben(ben)+Pron+Pers+A1sg+Pnon+AccordingTo(ce[ce])',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom')
 
         self.assert_defined_path(u'ban', PRON, PERS,
@@ -75,6 +76,7 @@ class PredefinedPathsTest(unittest.TestCase):
             u'sen(sen)+Pron+Pers+A2sg+Pnon+Ins(le[le])',
             u'sen(sen)+Pron+Pers+A2sg+Pnon+Ins(inle[inle])',
             u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])',
+            u'sen(sen)+Pron+Pers+A2sg+Pnon+AccordingTo(ce[ce])',
             u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom')
 
         self.assert_defined_path(u'san', PRON, PERS,
@@ -99,6 +101,7 @@ class PredefinedPathsTest(unittest.TestCase):
             u'hepsi(hepsi)+Pron+A3pl+P3pl+Abl(nden[nden])',
             u'hepsi(hepsi)+Pron+A3pl+P3pl+Ins(yle[yle])',
             u'hepsi(hepsi)+Pron+A3pl+P3pl+Gen(nin[nin])',
+            u'hepsi(hepsi)+Pron+A3pl+P3pl+AccordingTo(nce[nce])',
             u'hepsi(hepsi)+Pron+A3pl+P3pl+Nom')
 
         # last one ends with transition to derivation state
@@ -110,6 +113,7 @@ class PredefinedPathsTest(unittest.TestCase):
             u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Abl(den[den])',
             u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Ins(le[le])',
             u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Gen(in[in])',
+            u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+AccordingTo(ce[ce])',
             u'hep(hepsi)+Pron+A1pl+P1pl(imiz[imiz])+Nom',
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Nom',
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Acc(i[i])',
@@ -118,6 +122,7 @@ class PredefinedPathsTest(unittest.TestCase):
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Abl(den[den])',
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Ins(le[le])',
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Gen(in[in])',
+            u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+AccordingTo(ce[ce])',
             u'hep(hepsi)+Pron+A2pl+P2pl(iniz[iniz])+Nom')
 
     def test_should_have_paths_for_ques(self):
