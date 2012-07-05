@@ -19860,7 +19860,7 @@ sadakat [A:InverseHarmony]
 sadakor
 sadaret [A:NoVoicing]
 sade [P:Adj]
-sadece
+sadece [P:Adv]
 sadet
 sadeyağ
 sadık [P:Adj]

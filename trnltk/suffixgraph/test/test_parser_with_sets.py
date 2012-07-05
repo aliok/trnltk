@@ -16,15 +16,12 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGr
 
 #TODO
 cases_to_skip = {
-    u'Equ',
     u'FitFor',
     u'AsIf',
     u'Noun+Ness',
 
     u'1+Num+Card',
     u'70+Num+Card',
-    u'(1,"onlarca+Num+Card")(2,"Adj+Zero")',
-    u'(1,"y\xfczlerce+Num+Card")(2,"Adj+Zero")',
 
     u'(1,"tek+Adj")',
 
@@ -44,8 +41,6 @@ cases_to_skip = {
     u'birbiri+Pron',
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
     u'çoğu',
-
-    u'sadece+Adv',
 
     u'â', u'î',
     u'hala+Adv',
@@ -77,7 +72,6 @@ cases_to_skip = {
     u'bir\xe7ok+Det',
     u'iğretileme',
     u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj',
-    u'insanca+Adj',
     u'çarpıcı+Adj',
 
     u'cd+Noun+',    # Gotta be uppercase and skipped? need to skip abbreviations
