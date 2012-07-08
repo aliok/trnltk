@@ -157,7 +157,6 @@ açıölçer
 açıt [A:NoVoicing]
 açkı
 açkılamak
-açlık
 açma
 açmak
 açmaz
@@ -317,7 +316,6 @@ ağababa [P:Adj]
 ağababa [P:Interj]
 ağabey
 ağabey [P:Interj]
-ağabeylik
 ağaç
 ağaçdelen
 ağaçkakan
@@ -395,7 +393,6 @@ ahenk [A:InverseHarmony, NoVoicing]
 ahenktar [P:Adj]
 aheste [P:Adj]
 aheste [P:Adv]
-ahestelik
 ahfat
 ahır
 ahırlamak
@@ -772,7 +769,6 @@ aleksi
 alelâcayip
 alelâcele
 alelâde
-alelâdelik
 alelhesap [P:Adv]
 alelhusus [P:Adv]
 alelıtlak [P:Adv]
@@ -1625,7 +1621,6 @@ asal
 asalak
 asalak [P:Adj]
 asalaklaşma
-asalaklık
 asalet [A:NoVoicing]
 asaleten [P:Adv]
 asamble
@@ -1979,6 +1974,7 @@ aydınger
 aydınlanmak
 Aydınlar
 aydınlatmak
+aydınlık [P:Adj]
 aydınlıkölçer
 Aydıntepe
 ayet [A:NoVoicing]
@@ -2585,7 +2581,6 @@ başdümenci
 başeczacı
 başefendi
 başeksper
-başeksperlik
 başeser
 başeski
 başfiyat [A:NoVoicing]
@@ -2994,6 +2989,7 @@ beraat [A:InverseHarmony]
 beraatızimmet [A:NoVoicing]
 beraber [P:Adj]
 beraber [P:Adv]
+beraberlik
 berat [A:NoVoicing]
 berbat [P:Adj; A:NoVoicing]
 berber
@@ -3134,7 +3130,6 @@ beyefendi [P:Adj]
 beygir
 beyhude [P:Adj]
 beyhude [P:Adv]
-beyhudelik
 beyin [A:LastVowelDrop]
 beyincik
 beyinorağı
@@ -3186,7 +3181,6 @@ bıcırgan
 bıçak
 bıçakçı
 bıçaklamak
-bıçaklık
 bıçık
 bıçkı
 bıçkıhane
@@ -3754,6 +3748,7 @@ böyle [P:Adj]
 böyle [P:Adv]
 böylecene [P:Adv]
 #böylemesine
+böylelikle [P:Adv]
 Brahma
 Brahman
 Brahmanizm
@@ -4464,7 +4459,6 @@ civar [P:Adj]
 civciv
 civelek
 civelek [P:Adj]
-civeleklik
 ciyak [P:Adj, Dup]
 ciyaklamak
 Cizre
@@ -5325,7 +5319,6 @@ cüzzam
 çömmek
 çöp
 çöpçatan
-çöpçatanlık
 çöpçü
 çöplenmek
 çöplük
@@ -5600,9 +5593,7 @@ darılmak
 darlık
 darmadağın [P:Adj]
 darmadağınık [P:Adj]
-darmadağınıklık
 darmaduman [P:Adj]
-darmadumanlık
 darmstadtiyum
 darp [A:Voicing]
 darphane
@@ -5839,7 +5830,6 @@ delmek
 delta
 dem
 demagog
-demagogluk
 demagoji
 demagojik [P:Adj]
 dembedem [P:Adv]
@@ -6033,7 +6023,6 @@ derun
 deruni [P:Adj]
 derviş
 dervişane [P:Adv]
-dervişlik
 derya
 deryadil [P:Adj]
 derz
@@ -6045,7 +6034,6 @@ desilitre
 desimal
 desimetre
 desinatör
-desinatörlük
 desise
 desister
 deskriptif [P:Adj]
@@ -6239,7 +6227,6 @@ dikkatli [P:Adv]
 dikkuyruk
 diklemesine [P:Adv]
 diklenmek
-diklik
 dikme
 dikmek
 dikmen
@@ -6744,7 +6731,6 @@ drama
 dramatik [P:Adj]
 dramatize [P:Adj]
 dramaturg
-dramaturgluk
 dren
 drenaj
 dretnot [A:NoVoicing]
@@ -6763,7 +6749,6 @@ duble
 duble [P:Adj]
 dubleks [P:Adj]
 dublör
-dublörlük
 dubniyum
 dudak
 dudaksıl [P:Adj]
@@ -7637,7 +7622,6 @@ erik
 erika
 eriklik
 eril [P:Adj]
-erillik
 erim
 erimek
 eritmek
@@ -9527,7 +9511,6 @@ güncel
 güncel [P:Adj]
 güncellemek
 gündaş
-gündelik
 gündelik [P:Adj]
 gündem
 Gündoğmuş
@@ -12345,7 +12328,7 @@ kapitone
 kapitülâsyon
 kapkaç [A:NoVoicing]
 kapkara [P:Adj]
-kapkaranlık
+kapkaranlık [P:Adj]
 kaplam
 kaplama
 kaplamak
@@ -12464,7 +12447,6 @@ karamuk
 karamusal
 Karamürsel
 karanfil
-karanlık
 karanlık [P:Adj]
 karantina
 Karapınar
@@ -17733,7 +17715,7 @@ oda
 odabaşı
 odak
 odaklamak
-odalık
+odalık [P:Adj]
 odeon
 oditoryum
 odun
@@ -17810,6 +17792,7 @@ olasılık
 olay
 oldu [P:Part]
 oldubitti
+oldukça [P:Adv]
 oldurgan
 ole [P:Interj]
 olefin
@@ -19371,7 +19354,6 @@ radyasyon
 radyatör
 radyo
 radyoaktif
-radyoaktiflik
 radyoaktivite
 radyobiyoloji
 radyodifüzyon
@@ -19852,7 +19834,7 @@ saçkıran
 saçma [P:Adj]
 saçmak
 saçmalamak
-saçmalık [P:Adj]
+saçmalık
 saçula
 sadak
 sadaka
@@ -24243,6 +24225,7 @@ uzadıya [P:Adv]
 uzak [P:Adj]
 uzaklanmak
 uzaklaşmak
+uzaklık
 uzaksamak
 uzamak
 uzanım
