@@ -995,6 +995,24 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'çıkarttırabileli',    u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Verb+Caus(t[t])+Verb+Caus(dIr[tır])+Verb+Able(+yAbil[abil])+Pos+Adv+SinceDoingSo(+yAlI![eli])')
         self.assert_parse_correct(u'yaptıramayalı',       u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
 
+        self.assert_parse_correct(u'yaparcasına',
+            u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adv+AsIf(cAsInA[cas\u0131na])',
+            u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adj+Zero+Adj+Equ(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])',
+            u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adj+Zero+Adj+Quite(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])',
+            u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])')
+        self.assert_parse_correct(u'yaparmışçasına',      u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Narr(mI\u015f[m\u0131\u015f])+Adv+AsIf(cAsInA[\xe7as\u0131na])')
+        self.assert_parse_correct(u'yapmamışçasına',
+            u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mI\u015f[m\u0131\u015f])+Adv+AsIf(cAsInA[\xe7as\u0131na])',
+            u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mI\u015f[m\u0131\u015f])+Adj+Zero+Adj+Equ(cA[\xe7a])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])',
+            u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mI\u015f[m\u0131\u015f])+Adj+Zero+Adj+Quite(cA[\xe7a])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])',
+            u'yap(yapmak)+Verb+Neg(mA[ma])+Narr(mI\u015f[m\u0131\u015f])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[\xe7a])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])')
+        self.assert_parse_correct(u'yapacakmışçasına',    u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+Narr(mI\u015f[m\u0131\u015f])+Adv+AsIf(cAsInA[\xe7as\u0131na])')
+        self.assert_parse_correct(u'yaptıramazcasına',
+            u'yap(yapmak)+Verb+Verb+Caus(dIr[t\u0131r])+Verb+Able(+yA[a])+Neg(mA[ma])+Aor(z[z])+Adv+AsIf(cAsInA[cas\u0131na])',
+            u'yap(yapmak)+Verb+Verb+Caus(dIr[t\u0131r])+Verb+Able(+yA[a])+Neg(mA[ma])+Aor(z[z])+Adj+Zero+Adj+Equ(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])',
+            u'yap(yapmak)+Verb+Verb+Caus(dIr[t\u0131r])+Verb+Able(+yA[a])+Neg(mA[ma])+Aor(z[z])+Adj+Zero+Adj+Quite(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])',
+            u'yap(yapmak)+Verb+Verb+Caus(dIr[t\u0131r])+Verb+Able(+yA[a])+Neg(mA[ma])+Aor(z[z])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[s\u0131])+Dat(nA[na])')
+
     def test_should_parse_adj_to_adj_derivations(self):
         self.parser.stem_root_map[u'koy'] = []
 

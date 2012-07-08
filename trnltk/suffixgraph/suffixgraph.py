@@ -702,7 +702,7 @@ class SuffixGraph():
         self.While.add_suffix_form(u"ken")
 
         self.VERB_TENSE_DERIV.add_out_suffix(self.AsIf, self.ADVERB_ROOT)
-        self.AsIf.add_suffix_form(u"cAsInA")
+        self.AsIf.add_suffix_form(u"cAsInA", comes_after(self.Aorist) | comes_after(self.Progressive) | comes_after(self.Future) | comes_after(self.Narr))
 
     def _register_verb_to_adjective_derivations(self):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.PresPart, self.ADJECTIVE_ROOT)

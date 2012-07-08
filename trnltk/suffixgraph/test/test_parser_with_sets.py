@@ -17,7 +17,6 @@ from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGr
 #TODO
 cases_to_skip = {
     u'FitFor',
-    u'AsIf',
     u'Noun+Ness',
 
     u'1+Num+Card',
