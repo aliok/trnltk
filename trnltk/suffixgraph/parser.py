@@ -51,12 +51,12 @@ class Parser:
                     logger.debug('Found predefined tokens for stem candidate "%s" : %s', stem, predefined_tokens)
                     for predefined_token in predefined_tokens:
                         if input.startswith(predefined_token.so_far):
-                            logger.debug('Predefined token is applicable %s', predefined_token)
+                            logger.debug('Predefined token is is_suffix_form_applicable %s', predefined_token)
                             clone = predefined_token.clone()
                             clone.rest_str = input[len(predefined_token.so_far):]
                             candidates.append(clone)
                         else:
-                            logger.debug('Predefined token is not applicable, skipping %s', predefined_token)
+                            logger.debug('Predefined token is not is_suffix_form_applicable, skipping %s', predefined_token)
                 else:
                     predefined_token = ParseToken(stem, self.suffix_graph.get_default_stem_state(stem), input[len(partial_input):])
                     candidates.append(predefined_token)
@@ -105,7 +105,7 @@ class Parser:
 
         from_state = token.get_last_state()
         state_applicable_suffixes = self.get_applicable_suffixes_of_state_for_token(from_state, token)
-        logger.debug('  Found applicable suffixes for token from state %s: %s', from_state, state_applicable_suffixes)
+        logger.debug('  Found is_suffix_form_applicable suffixes for token from state %s: %s', from_state, state_applicable_suffixes)
 
         for (suffix, to_state) in state_applicable_suffixes:
             logger.debug('   Going to try suffix %s to state %s', suffix, to_state)
@@ -117,7 +117,7 @@ class Parser:
         return new_candidates
 
     def get_applicable_suffixes_of_state_for_token(self, from_state, token):
-        logger.debug('  Finding applicable suffixes for token from state %s: %s', from_state, token)
+        logger.debug('  Finding is_suffix_form_applicable suffixes for token from state %s: %s', from_state, token)
         logger.debug('   Found outputs %s', from_state.outputs)
 
         # filter out suffixes which are already added since last derivation

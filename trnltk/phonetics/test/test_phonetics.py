@@ -3,7 +3,7 @@ import unittest
 from trnltk.stem.dictionaryitem import RootAttribute
 from trnltk.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
-ac = Phonetics.applicable
+ac = Phonetics.is_suffix_form_applicable
 ap = Phonetics.apply
 
 es = Phonetics.expectations_satisfied

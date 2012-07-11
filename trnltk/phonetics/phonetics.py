@@ -2,8 +2,6 @@
 from trnltk.phonetics.alphabet import TurkishAlphabet
 from trnltk.stem.dictionaryitem import RootAttribute
 
-__author__ = 'ali'
-
 class PhoneticExpectation:
     VowelStart = 'VowelStart'
     ConsonantStart = 'ConsonantStart'
@@ -28,7 +26,7 @@ class PhoneticAttributes:
 
 class Phonetics:
     @classmethod
-    def applicable(cls, word, form_str):
+    def is_suffix_form_applicable(cls, word, form_str):
         if not form_str or not form_str.strip():
             return True
 
@@ -51,7 +49,7 @@ class Phonetics:
                 #+iyor, +ar, +im
                 if PhoneticAttributes.LastLetterVowel in phonetic_attributes:
                     # ata, dana
-                    return cls.applicable(word, form_str[2:])
+                    return cls.is_suffix_form_applicable(word, form_str[2:])
                 else:
                     # yap, kitap
                     return True
@@ -63,7 +61,7 @@ class Phonetics:
                     return True
                 else:
                     # yap, kitap
-                    return cls.applicable(word, form_str[2:])
+                    return cls.is_suffix_form_applicable(word, form_str[2:])
 
         else:
             if first_form_letter.vowel:
@@ -125,7 +123,7 @@ class Phonetics:
                 if PhoneticAttributes.LastLetterVowel not in phonetic_attributes:
                     return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
                 else:
-                    raise Exception('Form "{}" should not be applicable for word "{}"'.format(form_str, word))
+                    raise Exception('Form "{}" should not be is_suffix_form_applicable for word "{}"'.format(form_str, word))
 
             else:
                 return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)

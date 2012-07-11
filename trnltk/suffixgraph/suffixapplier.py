@@ -78,8 +78,8 @@ def transition_allowed_for_suffix_form(token, suffix_form):
         logger.debug('      Suffix form "%s" does not satisfy phonetic expectations %s, skipping.', suffix_form.form, token.current_phonetic_expectations)
         return False
 
-    if not Phonetics.applicable(token.so_far, suffix_form.form):
-        logger.debug('      Suffix form "%s" is not phonetically applicable to "%s", skipping.', suffix_form.form, token.so_far)
+    if not Phonetics.is_suffix_form_applicable(token.so_far, suffix_form.form):
+        logger.debug('      Suffix form "%s" is not phonetically is_suffix_form_applicable to "%s", skipping.', suffix_form.form, token.so_far)
         return False
 
     return True
