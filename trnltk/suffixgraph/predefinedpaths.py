@@ -17,7 +17,7 @@ class PredefinedPaths():
                 if stem.dictionary_item.primary_position == primary_position and stem.dictionary_item.secondary_position == secondary_position:
                     return stem
 
-        raise Exception(u'Unable to find stem {}+{}+{}'.format(stem_str, primary_position, secondary_position))
+        raise Exception(u'Unable to find _stem {}+{}+{}'.format(stem_str, primary_position, secondary_position))
 
 
     def _add_transition(self, token, suffix_form_application_str, suffix, to_state, whole_word):
@@ -49,7 +49,7 @@ class PredefinedPaths():
                 suffix = path_edge
                 suffix_form_application_str = u''
 
-            path_result = token.so_far + suffix_form_application_str
+            path_result = token.get_so_far() + suffix_form_application_str
             to_state = self._find_to_state(token.get_last_state(), suffix)
 
             token = self._add_transition(token, suffix_form_application_str, suffix, to_state, path_result)

@@ -103,3 +103,7 @@ class DictionaryItem:
                        self.secondary_position,
                        tuple(sorted(self.attributes))))
         return result
+
+class DynamicDictionaryItem(DictionaryItem):
+    def __init__(self, lemma, root, primary_position, secondary_position, attributes):
+        DictionaryItem.__init__(self, lemma, root, primary_position, secondary_position, attributes)

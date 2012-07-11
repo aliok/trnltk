@@ -1,6 +1,7 @@
 import copy
+from trnltk.numbers.digitconverter import DigitsToNumberConverter
 from trnltk.phonetics.alphabet import TurkishAlphabet
-from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition
+from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, DynamicDictionaryItem, SecondaryPosition
 from trnltk.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
 class Stem:
@@ -33,6 +34,14 @@ class Stem:
             self.dictionary_item,
             copy.copy(self.phonetic_expectations) if self.phonetic_expectations else None,
             copy.copy(self.phonetic_attributes) if self.phonetic_attributes else None)
+
+class NumeralStem(Stem):
+    def __init__(self, numeral):
+        root = numeral
+        dictionary_item = DynamicDictionaryItem(numeral, numeral, PrimaryPosition.NUMERAL, SecondaryPosition.CARD, None)
+        phonetic_expectations = None
+        phonetic_attributes = Phonetics.calculate_phonetic_attributes(DigitsToNumberConverter.convert_digits_to_words(numeral))
+        Stem.__init__(self, root, dictionary_item, phonetic_expectations, phonetic_attributes)
 
 class StemGenerator:
     _modifiers = {
@@ -144,7 +153,7 @@ class StemGenerator:
             stem_ora = Stem(u'ora', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ora'))
             return [stem_or, stem_ora]
         else:
-            raise Exception('Unhandled stem change : {} !'.format(dictionary_item))
+            raise Exception('Unhandled _stem change : {} !'.format(dictionary_item))
 
     @classmethod
     def _has_vowel(cls, seq):

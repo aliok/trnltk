@@ -196,7 +196,7 @@ class ParserTestWithSets(unittest.TestCase):
     def _parse_token_to_parse_set_str(cls, result):
         groups = []
         current_group = []
-        for transition in result.transitions:
+        for transition in result.get_transitions():
             if transition.from_state.type==State.DERIV:
                 groups.append(current_group)
                 current_group = [transition.to_state.pretty_name]
@@ -208,53 +208,53 @@ class ParserTestWithSets(unittest.TestCase):
 
         groups.append(current_group)
 
-        root = result.stem.dictionary_item.root
+        root = result.get_stem().dictionary_item.root
 
         secondary_position_str = None
 
         ##TODO:
-        if result.stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN:
-            if result.stem.dictionary_item.secondary_position==SecondaryPosition.PERSONAL:
+        if result.get_stem().dictionary_item.primary_position==PrimaryPosition.PRONOUN:
+            if result.get_stem().dictionary_item.secondary_position==SecondaryPosition.PERSONAL:
                 secondary_position_str = "PersP"
-            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.DEMONSTRATIVE:
+            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.DEMONSTRATIVE:
                 secondary_position_str = "DemonsP"
-            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.QUESTION:
+            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.QUESTION:
                 secondary_position_str = "QuesP"
-            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.REFLEXIVE:
+            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.REFLEXIVE:
                 secondary_position_str = "ReflexP"
 
-        if result.stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL:
-            if result.stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
+        if result.get_stem().dictionary_item.primary_position==PrimaryPosition.NUMERAL:
+            if result.get_stem().dictionary_item.secondary_position==SecondaryPosition.CARD:
                 secondary_position_str = "Card"
-            elif result.stem.dictionary_item.secondary_position==SecondaryPosition.ORD:
+            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.ORD:
                 secondary_position_str = "Ord"
 
 
         if not groups:
             if not secondary_position_str:
-                return u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
+                return u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
             else:
-                return u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str)
+                return u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
 
 
 
         return_value = None
 
         if not secondary_position_str:
-            return_value = u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
+            return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
         else:
-            return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str)
+            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
 
         if not groups[0]:
             if not secondary_position_str:
-                return_value = u'({},"{}+{}")'.format(1, root, result.stem_state.pretty_name)
+                return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
             else:
-                return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str)
+                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
         else:
             if not secondary_position_str:
-                return_value = u'({},"{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, u'+'.join(groups[0]))
+                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, u'+'.join(groups[0]))
             else:
-                return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.stem_state.pretty_name, secondary_position_str, u'+'.join(groups[0]))
+                return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str, u'+'.join(groups[0]))
 
 
         for i in range(1, len(groups)):

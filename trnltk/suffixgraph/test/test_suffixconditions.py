@@ -140,8 +140,8 @@ class SuffixConditionsTest(unittest.TestCase):
         stem = Mock()
         dictionary_item = Mock()
 
-        parse_token.stem = stem
-        parse_token.transitions = []
+        parse_token.get_stem.return_value = stem
+        parse_token.get_transitions.return_value = []
         stem.dictionary_item = dictionary_item
         dictionary_item.attributes = attrs
 

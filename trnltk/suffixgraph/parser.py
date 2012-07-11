@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import re
 from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
 from trnltk.suffixgraph.suffixapplier import *
 from trnltk.suffixgraph.token import ParseToken
@@ -17,7 +18,13 @@ class WordStemFinder:
             return []
 
 class NumeralStemFinder:
+    NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
+
     def find_stem_for_partial_input(self, partial_input):
+        for regex in self.NUMBER_REGEXES:
+            if regex.match(partial_input):
+                return [NumeralStem(partial_input)]
+
         return []
 
 class Parser:
@@ -37,7 +44,7 @@ class Parser:
             for c in candidates:
                 logger.debug('\t %s', c)
 
-        logger.debug('Applying required transitions to stem candidates')
+        logger.debug('Applying required _transitions to _stem candidates')
         candidates = self._apply_required_transitions_to_stem_candidates(candidates, input)
 
         results = []
@@ -55,25 +62,25 @@ class Parser:
             dictionary_stems = self._find_stems_for_partial_input(partial_input)
 
             if logger.isEnabledFor(logging.DEBUG):
-                logger.debug('Found %d stem candidates for partial input "%s":', len(dictionary_stems), partial_input)
+                logger.debug('Found %d _stem candidates for partial input "%s":', len(dictionary_stems), partial_input)
                 for stem in dictionary_stems:
                     logger.debug('\t %s', stem)
 
             for stem in dictionary_stems:
                 if self._predefined_paths.has_paths(stem):
                     predefined_tokens = self._predefined_paths.get_paths(stem)
-                    logger.debug('Found predefined tokens for stem candidate "%s" : %s', stem, predefined_tokens)
+                    logger.debug('Found predefined tokens for _stem candidate "%s" : %s', stem, predefined_tokens)
                     for predefined_token in predefined_tokens:
-                        if input.startswith(predefined_token.so_far):
+                        if input.startswith(predefined_token.get_so_far()):
                             logger.debug('Predefined token is is_suffix_form_applicable %s', predefined_token)
                             clone = predefined_token.clone()
-                            clone.rest_str = input[len(predefined_token.so_far):]
+                            clone._remaining = input[len(predefined_token.get_so_far()):]
                             candidates.append(clone)
                         else:
                             logger.debug('Predefined token is not is_suffix_form_applicable, skipping %s', predefined_token)
                 else:
-                    predefined_token = ParseToken(stem, self._suffix_graph.get_default_stem_state(stem), input[len(partial_input):])
-                    candidates.append(predefined_token)
+                    token = ParseToken(stem, self._suffix_graph.get_default_stem_state(stem), input[len(partial_input):])
+                    candidates.append(token)
 
         return candidates
 
@@ -96,13 +103,13 @@ class Parser:
             tokens_for_candidate = self._traverse_candidate(token, word)
             for token_for_candidate in tokens_for_candidate:
                 if token_for_candidate.get_last_state().type==State.TERMINAL:
-                    if not token_for_candidate.rest_str:
+                    if not token_for_candidate.get_remaining():
                         results.append(token_for_candidate)
                         logger.debug("Found a terminal result --------------------->")
                         logger.debug(token_for_candidate)
                         logger.debug(token_for_candidate.to_pretty_str())
                     else:
-                        logger.debug("Found a terminal parseToken, but there is still something to parse. Remaining:%s ParseToken:%s", token_for_candidate.rest_str, token_for_candidate)
+                        logger.debug("Found a terminal parseToken, but there is still something to parse. Remaining:%s ParseToken:%s", token_for_candidate.get_remaining(), token_for_candidate)
                 else:
                     new_candidates.append(token_for_candidate)
 
@@ -147,8 +154,8 @@ class Parser:
     def _apply_required_transitions_to_stem_candidates(self, candidates, word):
         new_candidates = []
         for candidate in candidates:
-            if candidate.stem.dictionary_item.primary_position==PrimaryPosition.VERB:
-                if RootAttribute.ProgressiveVowelDrop in candidate.stem.dictionary_item.attributes and len(candidate.stem.root)==len(candidate.stem.dictionary_item.root)-1:
+            if candidate.get_stem().dictionary_item.primary_position==PrimaryPosition.VERB:
+                if RootAttribute.ProgressiveVowelDrop in candidate.get_stem().dictionary_item.attributes and len(candidate.get_stem().root)==len(candidate.get_stem().dictionary_item.root)-1:
                     # apply Positive + Progressive 'Iyor'
                     Positive = self._suffix_graph.Positive
                     Progressive = self._suffix_graph.Progressive

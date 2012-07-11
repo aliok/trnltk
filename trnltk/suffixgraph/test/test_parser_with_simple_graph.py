@@ -1202,7 +1202,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         # TODO: low priority
 #        self.cloned_stem_root_map[u'ha'] = []
 #        self.cloned_stem_root_map[u'hav'] = []
-#        self.cloned_stem_root_map[u'havl'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NOUN, self.cloned_stem_root_map[u'havl'])
+#        self.cloned_stem_root_map[u'havl'] = filter(lambda _stem : _stem.dictionary_item.primary_position==PrimaryPosition.NOUN, self.cloned_stem_root_map[u'havl'])
 #        self.assert_parse_correct_for_verb(u'havli',             u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 #        self.assert_parse_correct_for_verb(u'havliyle',          u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 

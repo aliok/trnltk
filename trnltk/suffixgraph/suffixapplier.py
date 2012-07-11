@@ -35,25 +35,25 @@ def transition_allowed_for_suffix(token, suffix):
     return True
 
 def try_suffix_form(token, suffix_form, to_state, word):
-    current_state = token.get_last_state()
+    state_before_suffix_form_application = token.get_last_state()
 
     if not transition_allowed_for_suffix_form(token, suffix_form):
         return None
 
-    applied_str = Phonetics.apply(token.so_far, suffix_form.form, token.get_attributes())
+    applied_str = Phonetics.apply(token.get_so_far(), suffix_form.form, token.get_attributes())
     if Phonetics.application_matches(word, applied_str, to_state.name!='VERB_ROOT'):
-        applied_suffix_form = word[len(token.so_far):len(applied_str)]
+        applied_suffix_form = word[len(token.get_so_far()):len(applied_str)]
         logger.debug('      Word "%s" starts with applied str "%s" (%s), adding to current token', word, applied_str, applied_suffix_form)
         clone = token.clone()
         clone.add_transition(SuffixFormApplication(suffix_form, applied_suffix_form), to_state)
-        clone.so_far = applied_str
-        clone.rest_str = word[len(applied_str):]
+        clone._so_far = applied_str
+        clone._remaining = word[len(applied_str):]
 
-        if token.transitions and token.transitions[-1].suffix_form_application.suffix_form.postcondition and not token.transitions[-1].suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
-            logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.transitions[-1].suffix_form_application.suffix_form.postcondition, clone.transitions[-1].to_pretty_str())
+        if token.has_transitions() and token.get_last_transition().suffix_form_application.suffix_form.postcondition and not token.get_last_transition().suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
+            logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.get_last_transition().suffix_form_application.suffix_form.postcondition, clone.get_last_transition().to_pretty_str())
             return None
 
-        if token.transitions and current_state.type==State.DERIV:
+        if token.has_transitions() and state_before_suffix_form_application.type==State.DERIV:
             logger.debug('      Suffix is derivative, checking the post derivation conditions of suffixes from previous derivation.')
             for transition in token.get_transitions_from_derivation_suffix():
                 application_suffix_form = transition.suffix_form_application.suffix_form
@@ -74,12 +74,12 @@ def transition_allowed_for_suffix_form(token, suffix_form):
         logger.debug('      Precondition "%s" of suffix form "%s" is not satisfied with transitions %s, skipping.', suffix_form.form, suffix_form.precondition, token)
         return False
 
-    if suffix_form.form and not Phonetics.expectations_satisfied(token.current_phonetic_expectations, suffix_form.form):
-        logger.debug('      Suffix form "%s" does not satisfy phonetic expectations %s, skipping.', suffix_form.form, token.current_phonetic_expectations)
+    if suffix_form.form and not Phonetics.expectations_satisfied(token.get_phonetic_expectations(), suffix_form.form):
+        logger.debug('      Suffix form "%s" does not satisfy phonetic expectations %s, skipping.', suffix_form.form, token.get_phonetic_expectations())
         return False
 
-    if not Phonetics.is_suffix_form_applicable(token.so_far, suffix_form.form):
-        logger.debug('      Suffix form "%s" is not phonetically is_suffix_form_applicable to "%s", skipping.', suffix_form.form, token.so_far)
+    if not Phonetics.is_suffix_form_applicable(token.get_so_far(), suffix_form.form):
+        logger.debug('      Suffix form "%s" is not phonetically is_suffix_form_applicable to "%s", skipping.', suffix_form.form, token.get_so_far())
         return False
 
     return True

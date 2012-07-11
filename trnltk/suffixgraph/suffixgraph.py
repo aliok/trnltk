@@ -139,11 +139,11 @@ class SuffixGraph():
         elif stem.dictionary_item.primary_position==PrimaryPosition.QUESTION:
             return self.QUESTION_ROOT
         else:
-            raise Exception("No stem state found for stem {} !".format(stem))
+            raise Exception("No _stem state found for _stem {} !".format(stem))
 
     def _add_suffixes(self):
 
-        #############  Empty transitions
+        #############  Empty _transitions
         FreeTransitionSuffix("Noun_Free_Transition_1",          self.NOUN_WITH_CASE,               self.NOUN_TERMINAL_TRANSFER)
         FreeTransitionSuffix("Noun_Free_Transition_2",          self.NOUN_TERMINAL_TRANSFER,       self.NOUN_TERMINAL)
         FreeTransitionSuffix("Noun_Free_Transition_3",          self.NOUN_WITH_CASE,               self.NOUN_DERIV_WITH_CASE)

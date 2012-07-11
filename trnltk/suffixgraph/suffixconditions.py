@@ -161,7 +161,7 @@ class AppliesToStem(Specification):
     def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
-        return parse_token.stem.root==self._stem_str
+        return parse_token.get_stem().root==self._stem_str
 
     def __str__(self):
         return u'applies_to_stem({})'.format(self._stem_str)
@@ -176,13 +176,13 @@ class LastSuffixGoesToState(Specification):
         self._state_type = state_type
 
     def is_satisfied_by(self, parse_token):
-        if not parse_token or not parse_token.transitions:
+        if not parse_token or not parse_token.has_transitions():
             return False
 
-        if not parse_token.transitions[-1]:
+        if not parse_token.get_last_transition():
             return False
 
-        return parse_token.transitions[-1].to_state.type==self._state_type
+        return parse_token.get_last_transition().to_state.type==self._state_type
 
     def __str__(self):
         return u'suffix_goes_to({})'.format(self._state_type)
@@ -200,7 +200,7 @@ class HasRootAttributes(Specification):
         if not parse_token:
             return False
 
-        transitions = parse_token.transitions
+        transitions = parse_token.get_transitions()
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
         transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
@@ -208,10 +208,10 @@ class HasRootAttributes(Specification):
         if transitions:
             return True
 
-        if not parse_token.stem.dictionary_item.attributes:
+        if not parse_token.get_stem().dictionary_item.attributes:
             return False
 
-        return all(r in parse_token.stem.dictionary_item.attributes for r in self._root_attrs)
+        return all(r in parse_token.get_stem().dictionary_item.attributes for r in self._root_attrs)
 
     def __str__(self):
         return u'has_root_attributes({})'.format(self._root_attrs)
@@ -228,7 +228,7 @@ class DoesntHaveRootAttributes(Specification):
         if not parse_token:
             return False
 
-        transitions = parse_token.transitions
+        transitions = parse_token.get_transitions()
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
         transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
@@ -236,10 +236,10 @@ class DoesntHaveRootAttributes(Specification):
         if transitions:
             return True
 
-        if not parse_token.stem.dictionary_item.attributes:
+        if not parse_token.get_stem().dictionary_item.attributes:
             return True
 
-        return not any(r in parse_token.stem.dictionary_item.attributes for r in self._root_attrs)
+        return not any(r in parse_token.get_stem().dictionary_item.attributes for r in self._root_attrs)
 
     def __str__(self):
         return u'doesnt_have_root_attributes({})'.format(self._root_attrs)
@@ -255,7 +255,7 @@ class RootHasSecondaryPosition(Specification):
     def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
-        return parse_token.stem.dictionary_item.secondary_position==self._secondary_position
+        return parse_token.get_stem().dictionary_item.secondary_position==self._secondary_position
 
     def __str__(self):
         return u'root_has_secondary_position({})'.format(self._secondary_position)
