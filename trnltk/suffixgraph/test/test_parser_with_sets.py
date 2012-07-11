@@ -9,7 +9,7 @@ from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.suffixgraph.parser import Parser, logger as parser_logger
+from trnltk.suffixgraph.parser import Parser, logger as parser_logger, NumeralStemFinder, WordStemFinder
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGraph
@@ -116,7 +116,10 @@ class ParserTestWithSets(unittest.TestCase):
         predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        cls.parser = Parser(cls.stem_root_map, suffix_graph, predefined_paths)
+        word_stem_finder = WordStemFinder(cls.stem_root_map)
+        numeral_stem_finder = NumeralStemFinder()
+
+        cls.parser = Parser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
