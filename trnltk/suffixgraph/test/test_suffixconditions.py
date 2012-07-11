@@ -126,7 +126,7 @@ class SuffixConditionsTest(unittest.TestCase):
         mock.get_transitions_since_derivation_suffix.return_value=transitions
         mock.get_suffixes_since_derivation_suffix.return_value=suffixes
 
-        assert_that(condition.matches(mock), equal_to(val))
+        assert_that(condition.is_satisfied_by(mock), equal_to(val))
 
 
     def assert_root_attr_matches(self, condition, attrs):
@@ -147,7 +147,7 @@ class SuffixConditionsTest(unittest.TestCase):
 
         parse_token.get_suffixes_since_derivation_suffix.return_value=[]
 
-        assert_that(condition.matches(parse_token), equal_to(val))
+        assert_that(condition.is_satisfied_by(parse_token), equal_to(val))
 
 if __name__ == '__main__':
     unittest.main()

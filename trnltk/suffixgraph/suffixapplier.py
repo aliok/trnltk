@@ -49,7 +49,7 @@ def try_suffix_form(token, suffix_form, to_state, word):
         clone.so_far = applied_str
         clone.rest_str = word[len(applied_str):]
 
-        if token.transitions and token.transitions[-1].suffix_form_application.suffix_form.postcondition and not token.transitions[-1].suffix_form_application.suffix_form.postcondition.matches(clone):
+        if token.transitions and token.transitions[-1].suffix_form_application.suffix_form.postcondition and not token.transitions[-1].suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
             logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.transitions[-1].suffix_form_application.suffix_form.postcondition, clone.transitions[-1].to_pretty_str())
             return None
 
@@ -58,7 +58,7 @@ def try_suffix_form(token, suffix_form, to_state, word):
             for transition in token.get_transitions_from_derivation_suffix():
                 application_suffix_form = transition.suffix_form_application.suffix_form
                 if application_suffix_form.post_derivation_condition:
-                    matches = application_suffix_form.post_derivation_condition.matches(clone)
+                    matches = application_suffix_form.post_derivation_condition.is_satisfied_by(clone)
                     if not matches:
                         logger.debug('      Post derivation condition "%s" of suffix "%s" is not satisfied, skipping.', application_suffix_form.post_derivation_condition, application_suffix_form.suffix)
                         return None
@@ -70,7 +70,7 @@ def try_suffix_form(token, suffix_form, to_state, word):
         return None
 
 def transition_allowed_for_suffix_form(token, suffix_form):
-    if suffix_form.precondition and not suffix_form.precondition.matches(token):
+    if suffix_form.precondition and not suffix_form.precondition.is_satisfied_by(token):
         logger.debug('      Precondition "%s" of suffix form "%s" is not satisfied with transitions %s, skipping.', suffix_form.form, suffix_form.precondition, token)
         return False
 

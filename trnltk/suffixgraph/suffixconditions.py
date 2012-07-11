@@ -1,17 +1,19 @@
 from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix, ZeroTransitionSuffix
 
-class SuffixFormCondition:
-    def matches(self, parse_token):
+# http://en.wikipedia.org/wiki/Specification_pattern
+
+class Specification:
+    def is_satisfied_by(self, obj):
         raise NotImplementedError( "Should have implemented this" )
 
     def __or__(self, other):
-        return Or([self,other])
+        return OrSpecification([self,other])
 
     def __and__(self, other):
-        return And([self, other])
+        return AndSpecification([self, other])
 
     def __invert__(self):
-        return Invert(self)
+        return NotSpecification(self)
 
     def __str__(self):
         raise NotImplementedError( "Should have implemented this" )
@@ -19,55 +21,55 @@ class SuffixFormCondition:
     def __repr__(self):
         raise NotImplementedError( "Should have implemented this" )
 
-class And(SuffixFormCondition):
+class AndSpecification(Specification):
     def __init__(self, conditions):
-        self._conditions = conditions
+        self._specifications = conditions
 
-    def matches(self, parse_token):
-        for condition in self._conditions:
-            if not condition.matches(parse_token):
+    def is_satisfied_by(self, obj):
+        for condition in self._specifications:
+            if not condition.is_satisfied_by(obj):
                 return False
 
         return True
 
     def __str__(self):
-        return u' & '.join(repr(c) for c in self._conditions)
+        return u' & '.join(repr(c) for c in self._specifications)
 
     def __repr__(self):
         return self.__str__()
 
-class Or(SuffixFormCondition):
+class OrSpecification(Specification):
     def __init__(self, conditions):
-        self._conditions = conditions
+        self._specifications = conditions
 
-    def matches(self, parse_token):
-        for condition in self._conditions:
-            if condition.matches(parse_token):
+    def is_satisfied_by(self, obj):
+        for condition in self._specifications:
+            if condition.is_satisfied_by(obj):
                 return True
 
         return False
 
     def __str__(self):
-        return u' | '.join(repr(c) for c in self._conditions)
+        return u' | '.join(repr(c) for c in self._specifications)
 
     def __repr__(self):
         return self.__str__()
 
-class Invert(SuffixFormCondition):
+class NotSpecification(Specification):
     def __init__(self, condition):
-        self._condition = condition
+        self._wrapped = condition
 
-    def matches(self, parse_token):
-        return not self._condition.matches(parse_token)
+    def is_satisfied_by(self, obj):
+        return not self._wrapped.is_satisfied_by(obj)
 
     def __str__(self):
-        return u'~{}'.format(repr(self._condition))
+        return u'~{}'.format(repr(self._wrapped))
 
     def __repr__(self):
         return self.__str__()
 
-class FalseCondition(SuffixFormCondition):
-    def matches(self, parse_token):
+class AlwaysFalseSpecification(Specification):
+    def is_satisfied_by(self, obj):
         return False
 
     def __str__(self):
@@ -76,8 +78,8 @@ class FalseCondition(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class TrueCondition(SuffixFormCondition):
-    def matches(self, parse_token):
+class AlwaysTrueSpecification(Specification):
+    def is_satisfied_by(self, obj):
         return True
 
     def __str__(self):
@@ -86,12 +88,12 @@ class TrueCondition(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class HasOne(SuffixFormCondition):
+class HasOne(Specification):
     def __init__(self, _suffix, _form_str=None):
         self._suffix = _suffix
         self._form_str = _form_str
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
         since_derivation_suffix = parse_token.get_suffixes_since_derivation_suffix()
@@ -117,12 +119,12 @@ class HasOne(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class HasLastDerivation(SuffixFormCondition):
+class HasLastDerivation(Specification):
     def __init__(self, _suffix, _form_str=None):
         self._suffix = _suffix
         self._form_str = _form_str
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
         last_derivation_transition = parse_token.get_last_derivation_transition()
@@ -144,11 +146,11 @@ class HasLastDerivation(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class AppliesToStem(SuffixFormCondition):
+class AppliesToStem(Specification):
     def __init__(self, stem_str):
         self._stem_str = stem_str
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
         return parse_token.stem.root==self._stem_str
@@ -159,11 +161,11 @@ class AppliesToStem(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class SuffixGoesTo(SuffixFormCondition):
+class SuffixGoesTo(Specification):
     def __init__(self, state_type):
         self._state_type = state_type
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token or not parse_token.transitions:
             return False
 
@@ -178,11 +180,11 @@ class SuffixGoesTo(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class HasRootAttributes(SuffixFormCondition):
+class HasRootAttributes(Specification):
     def __init__(self, root_attrs):
         self._root_attrs = root_attrs
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
 
@@ -205,11 +207,11 @@ class HasRootAttributes(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class DoesntHaveRootAttributes(SuffixFormCondition):
+class DoesntHaveRootAttributes(Specification):
     def __init__(self, root_attrs):
         self._root_attrs = root_attrs
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
 
@@ -232,11 +234,11 @@ class DoesntHaveRootAttributes(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-class HasSecondaryPosition(SuffixFormCondition):
+class HasSecondaryPosition(Specification):
     def __init__(self, secondary_position):
             self._secondary_position = secondary_position
 
-    def matches(self, parse_token):
+    def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
         return parse_token.stem.dictionary_item.secondary_position==self._secondary_position
@@ -247,7 +249,7 @@ class HasSecondaryPosition(SuffixFormCondition):
     def __repr__(self):
         return self.__str__()
 
-_false_condition = FalseCondition()
+_false_condition = AlwaysFalseSpecification()
 
 def comes_after(suffix, form_str=None):
     return HasOne(suffix, form_str)
