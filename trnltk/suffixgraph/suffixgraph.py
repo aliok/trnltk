@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, SecondaryPosition
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix, that_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute, has_secondary_position
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute, root_has_secondary_position
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 class SuffixGraph():
@@ -527,7 +527,7 @@ class SuffixGraph():
         self.ManyOf.add_suffix_form(u"lArcA")
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.ForALotOfTime, self.ADVERB_ROOT)
-        self.ForALotOfTime.add_suffix_form(u"lArcA", precondition=has_secondary_position(SecondaryPosition.TIME))
+        self.ForALotOfTime.add_suffix_form(u"lArcA", precondition=root_has_secondary_position(SecondaryPosition.TIME))
 
     def _register_noun_compound_suffixes(self):
         self.NOUN_COMPOUND_ROOT.add_out_suffix(self.A3Sg_Noun_Compound, self.NOUN_COMPOUND_WITH_AGREEMENT)
@@ -547,7 +547,7 @@ class SuffixGraph():
 
     def _register_verb_polarisations(self):
         self.VERB_ROOT.add_out_suffix(self.Negative, self.VERB_WITH_POLARITY)
-        self.Negative.add_suffix_form(u"m", postcondition=doesnt(followed_by_suffix(that_goes_to(State.DERIV))))
+        self.Negative.add_suffix_form(u"m", postcondition=doesnt(followed_by_suffix_goes_to(State.DERIV)))
         self.Negative.add_suffix_form(u"mA")
 
         self.VERB_ROOT.add_out_suffix(self.Positive, self.VERB_WITH_POLARITY)

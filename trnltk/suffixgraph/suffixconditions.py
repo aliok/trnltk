@@ -22,12 +22,12 @@ class Specification:
         raise NotImplementedError( "Should have implemented this" )
 
 class AndSpecification(Specification):
-    def __init__(self, conditions):
-        self._specifications = conditions
+    def __init__(self, specifications):
+        self._specifications = specifications
 
     def is_satisfied_by(self, obj):
-        for condition in self._specifications:
-            if not condition.is_satisfied_by(obj):
+        for specification in self._specifications:
+            if not specification.is_satisfied_by(obj):
                 return False
 
         return True
@@ -39,12 +39,12 @@ class AndSpecification(Specification):
         return self.__str__()
 
 class OrSpecification(Specification):
-    def __init__(self, conditions):
-        self._specifications = conditions
+    def __init__(self, specifications):
+        self._specifications = specifications
 
     def is_satisfied_by(self, obj):
-        for condition in self._specifications:
-            if condition.is_satisfied_by(obj):
+        for specification in self._specifications:
+            if specification.is_satisfied_by(obj):
                 return True
 
         return False
@@ -56,8 +56,8 @@ class OrSpecification(Specification):
         return self.__str__()
 
 class NotSpecification(Specification):
-    def __init__(self, condition):
-        self._wrapped = condition
+    def __init__(self, specification):
+        self._wrapped = specification
 
     def is_satisfied_by(self, obj):
         return not self._wrapped.is_satisfied_by(obj)
@@ -88,7 +88,10 @@ class AlwaysTrueSpecification(Specification):
     def __repr__(self):
         return self.__str__()
 
-class HasOne(Specification):
+
+
+
+class HasSuffixFormSinceLastDerivation(Specification):
     def __init__(self, _suffix, _form_str=None):
         self._suffix = _suffix
         self._form_str = _form_str
@@ -96,8 +99,9 @@ class HasOne(Specification):
     def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
-        since_derivation_suffix = parse_token.get_suffixes_since_derivation_suffix()
-        if not since_derivation_suffix:
+
+        suffixes_since_derivation_suffix = parse_token.get_suffixes_since_derivation_suffix()
+        if not suffixes_since_derivation_suffix:
             return False
 
         if self._form_str is not None:
@@ -108,18 +112,19 @@ class HasOne(Specification):
             else:
                 return False
         else:
-            return self._suffix in since_derivation_suffix
+            return self._suffix in suffixes_since_derivation_suffix
 
     def __str__(self):
         if self._form_str is not None:
-            return u'has_one({}[{}])'.format(self._suffix, self._form_str)
+            return u'has_suffix_form_since_last_deriv({}[{}])'.format(self._suffix, self._form_str)
         else:
-            return u'has_one({})'.format(self._suffix)
+            return u'has_suffix_since_last_deriv({})'.format(self._suffix)
 
     def __repr__(self):
         return self.__str__()
 
-class HasLastDerivation(Specification):
+
+class HasSuffixFormAsLastDerivation(Specification):
     def __init__(self, _suffix, _form_str=None):
         self._suffix = _suffix
         self._form_str = _form_str
@@ -127,6 +132,7 @@ class HasLastDerivation(Specification):
     def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
+
         last_derivation_transition = parse_token.get_last_derivation_transition()
         if not last_derivation_transition:
             return False
@@ -139,12 +145,14 @@ class HasLastDerivation(Specification):
 
     def __str__(self):
         if self._form_str:
-            return u'has_last_derivation({}[{}])'.format(self._suffix, self._form_str)
+            return u'has_suffix_form_as_last_deriv({}[{}])'.format(self._suffix, self._form_str)
         else:
-            return u'has_last_derivation({})'.format(self._suffix)
+            return u'has_suffix_as_last_deriv({})'.format(self._suffix)
 
     def __repr__(self):
         return self.__str__()
+
+
 
 class AppliesToStem(Specification):
     def __init__(self, stem_str):
@@ -161,7 +169,9 @@ class AppliesToStem(Specification):
     def __repr__(self):
         return self.__str__()
 
-class SuffixGoesTo(Specification):
+
+
+class LastSuffixGoesToState(Specification):
     def __init__(self, state_type):
         self._state_type = state_type
 
@@ -179,6 +189,8 @@ class SuffixGoesTo(Specification):
 
     def __repr__(self):
         return self.__str__()
+
+
 
 class HasRootAttributes(Specification):
     def __init__(self, root_attrs):
@@ -207,6 +219,7 @@ class HasRootAttributes(Specification):
     def __repr__(self):
         return self.__str__()
 
+
 class DoesntHaveRootAttributes(Specification):
     def __init__(self, root_attrs):
         self._root_attrs = root_attrs
@@ -234,7 +247,8 @@ class DoesntHaveRootAttributes(Specification):
     def __repr__(self):
         return self.__str__()
 
-class HasSecondaryPosition(Specification):
+
+class RootHasSecondaryPosition(Specification):
     def __init__(self, secondary_position):
             self._secondary_position = secondary_position
 
@@ -244,21 +258,21 @@ class HasSecondaryPosition(Specification):
         return parse_token.stem.dictionary_item.secondary_position==self._secondary_position
 
     def __str__(self):
-        return u'has_secondary_position({})'.format(self._secondary_position)
+        return u'root_has_secondary_position({})'.format(self._secondary_position)
 
     def __repr__(self):
         return self.__str__()
 
-_false_condition = AlwaysFalseSpecification()
 
-def comes_after(suffix, form_str=None):
-    return HasOne(suffix, form_str)
-
-def comes_after_derivation(suffix, form_str=None):
-    return HasLastDerivation(suffix, form_str)
-
+########### preconditions
 def doesnt(condition):
     return ~condition
+
+def comes_after(suffix, form_str=None):
+    return HasSuffixFormSinceLastDerivation(suffix, form_str)
+
+def comes_after_derivation(suffix, form_str=None):
+    return HasSuffixFormAsLastDerivation(suffix, form_str)
 
 def doesnt_come_after(suffix, form_str=None):
     return doesnt(comes_after(suffix, form_str))
@@ -266,27 +280,11 @@ def doesnt_come_after(suffix, form_str=None):
 def doesnt_come_after_derivation(suffix, form_str=None):
     return doesnt(comes_after_derivation(suffix, form_str))
 
-def followed_by(suffix, form_str=None):
-    return HasOne(suffix, form_str)
-
-def followed_by_one_from_group(suffix_group):
-    condition = _false_condition
-    for suffix in suffix_group.suffixes:
-        condition = condition | followed_by(suffix)
-
-    return condition
-
-def followed_by_derivation(suffix, form_str=None):
-    return HasLastDerivation(suffix, form_str)
-
-def followed_by_suffix(condition):
-    return condition
-
-def that_goes_to(state_type):
-    return SuffixGoesTo(state_type)
-
 def applies_to_stem(stem_str):
     return AppliesToStem(stem_str)
+
+def root_has_secondary_position(secondary_position):
+    return RootHasSecondaryPosition(secondary_position)
 
 def has_root_attributes(root_attrs):
     return HasRootAttributes(root_attrs)
@@ -300,5 +298,20 @@ def doesnt_have_root_attributes(root_attrs):
 def doesnt_have_root_attribute(root_attr):
     return doesnt_have_root_attributes([root_attr])
 
-def has_secondary_position(secondary_position):
-    return HasSecondaryPosition(secondary_position)
+########### postconditions
+def followed_by(suffix, form_str=None):
+    return HasSuffixFormSinceLastDerivation(suffix, form_str)
+
+def followed_by_one_from_group(suffix_group):
+    condition = AlwaysFalseSpecification()
+
+    for suffix in suffix_group.suffixes:
+        condition = condition | followed_by(suffix)
+
+    return condition
+
+def followed_by_derivation(suffix, form_str=None):
+    return HasSuffixFormAsLastDerivation(suffix, form_str)
+
+def followed_by_suffix_goes_to(state_type):
+    return LastSuffixGoesToState(state_type)
