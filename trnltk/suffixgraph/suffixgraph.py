@@ -3,7 +3,7 @@ from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, Secondary
 from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute, root_has_secondary_position
 from trnltk.suffixgraph.suffixgraphmodel import *
 
-class SuffixGraph():
+class SuffixGraph(object):
 
     def __init__(self):
         self._add_states()

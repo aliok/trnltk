@@ -1,7 +1,7 @@
 # coding=utf-8
 import re
 
-class DigitsToNumberConverter:
+class DigitsToNumberConverter(object):
     COMMA_NAME = u'virgül'
     MINUS_NAME = u'eksi'
 

@@ -1,12 +1,12 @@
 from trnltk.stem.dictionaryitem import RootAttribute
 from trnltk.suffixgraph.suffixgraphmodel import State, FreeTransitionSuffix
 
-class SuffixFormApplication:
+class SuffixFormApplication(object):
     def __init__(self, suffix_form, applied_suffix_form):
         self.suffix_form = suffix_form
         self.applied_suffix_form = applied_suffix_form
 
-class Transition:
+class Transition(object):
     def __init__(self, from_state, suffix_form_application, to_state):
         self.from_state = from_state
         self.suffix_form_application = suffix_form_application
@@ -32,7 +32,7 @@ class Transition:
 
         return returnVal
 
-class ParseToken:
+class ParseToken(object):
     def __init__(self, _stem, _stem_state, _remaining):
         self._stem = _stem
         self._stem_state = _stem_state

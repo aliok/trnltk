@@ -7,7 +7,7 @@ from trnltk.suffixgraph.token import ParseToken
 
 logger = logging.getLogger('parser')
 
-class WordStemFinder:
+class WordStemFinder(object):
     def __init__(self, stem_root_map):
         self.stem_root_map = stem_root_map
 
@@ -17,7 +17,7 @@ class WordStemFinder:
         else:
             return []
 
-class NumeralStemFinder:
+class NumeralStemFinder(object):
     NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
 
     def find_stem_for_partial_input(self, partial_input):
@@ -27,7 +27,7 @@ class NumeralStemFinder:
 
         return []
 
-class Parser:
+class Parser(object):
     def __init__(self, suffix_graph, predefined_paths, stem_finders):
         self._suffix_graph = suffix_graph
         self._predefined_paths = predefined_paths or []

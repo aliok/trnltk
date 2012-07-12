@@ -2,11 +2,11 @@
 from trnltk.phonetics.alphabet import TurkishAlphabet
 from trnltk.stem.dictionaryitem import RootAttribute
 
-class PhoneticExpectation:
+class PhoneticExpectation(object):
     VowelStart = 'VowelStart'
     ConsonantStart = 'ConsonantStart'
 
-class PhoneticAttributes:
+class PhoneticAttributes(object):
     LastLetterVowel = "LastLetterVowel"
     LastLetterConsonant = "LastLetterConsonant"
 
@@ -24,7 +24,7 @@ class PhoneticAttributes:
 
     HasNoVowel = "HasNoVowel"
 
-class Phonetics:
+class Phonetics(object):
     @classmethod
     def is_suffix_form_applicable(cls, word, form_str):
         if not form_str or not form_str.strip():

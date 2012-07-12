@@ -1,6 +1,6 @@
 # coding=utf-8
 
-class TurkishLetter:
+class TurkishLetter(object):
     def __init__(self, char_value, upper_case_char_value, alphabetic_index, vowel=False, frontal=False, rounded=False, voiceless=False,
                  stop_consonant=False, in_ascii=True, foreign=False, english_equivalent_char=None):
         self.char_value = char_value
@@ -35,7 +35,7 @@ class TurkishLetter:
     def __hash__(self):
         return hash((self.char_value, self.upper_case_char_value))
 
-class TurkishAlphabet:
+class TurkishAlphabet(object):
     L_a = TurkishLetter(u'a', u'A', 1, vowel=True)
     L_b = TurkishLetter(u'b', u'B', 2)
     L_c = TurkishLetter(u'c', u'C', 3)

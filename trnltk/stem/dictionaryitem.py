@@ -1,4 +1,4 @@
-class PrimaryPosition:
+class PrimaryPosition(object):
     NOUN = "Noun"
     ADJECTIVE = "Adj"
     ADVERB = "Adv"
@@ -14,7 +14,7 @@ class PrimaryPosition:
 
     ALL = sorted({NOUN, ADJECTIVE, ADVERB, CONJUNCTION, INTERJECTION, VERB, PRONOUN, NUMERAL, DETERMINER, PARTICLE, QUESTION, PUNCTUATION})
 
-class SecondaryPosition:
+class SecondaryPosition(object):
     DUPLICATOR = "Dup"
     POST_POSITIVE = "Postp"
     QUESTION = "Ques"
@@ -31,7 +31,7 @@ class SecondaryPosition:
 
 #    NONE = "None"
 
-class RootAttribute:
+class RootAttribute(object):
     Voicing = "Voicing"
     VoicingOpt = "VoicingOpt"
     NoVoicing = "NoVoicing"
@@ -72,7 +72,7 @@ class RootAttribute:
         Causative_t, Causative_Ir, Causative_It, Causative_Ar, Causative_dIr
     })
 
-class DictionaryItem:
+class DictionaryItem(object):
     #TODO: make this and similar classes immutable
     def __init__(self, lemma, root, primary_position, secondary_position, attributes):
         self.lemma = lemma

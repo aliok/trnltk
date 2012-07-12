@@ -4,7 +4,7 @@ from trnltk.stem.dictionaryitem import DictionaryItem, PrimaryPosition, Secondar
 
 __author__ = 'ali'
 
-class DictionaryLoader:
+class DictionaryLoader(object):
 
     @classmethod
     def load_from_file(cls, file_path):

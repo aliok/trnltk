@@ -4,7 +4,7 @@ from trnltk.phonetics.alphabet import TurkishAlphabet
 from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, DynamicDictionaryItem, SecondaryPosition
 from trnltk.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
-class Stem:
+class Stem(object):
     def __init__(self, root, dictionary_item, phonetic_expectations, phonetic_attributes):
         self.root = root
         self.dictionary_item = dictionary_item
@@ -41,9 +41,9 @@ class NumeralStem(Stem):
         dictionary_item = DynamicDictionaryItem(numeral, numeral, PrimaryPosition.NUMERAL, SecondaryPosition.CARD, None)
         phonetic_expectations = None
         phonetic_attributes = Phonetics.calculate_phonetic_attributes(DigitsToNumberConverter.convert_digits_to_words(numeral))
-        Stem.__init__(self, root, dictionary_item, phonetic_expectations, phonetic_attributes)
+        super(NumeralStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
 
-class StemGenerator:
+class StemGenerator(object):
     _modifiers = {
         RootAttribute.Doubling,
         RootAttribute.LastVowelDrop,
@@ -164,7 +164,7 @@ class StemGenerator:
         return False
 
 
-class CircumflexConvertingStemGenerator:
+class CircumflexConvertingStemGenerator(object):
     Circumflex_Letters_Map = {
         TurkishAlphabet.L_ac.char_value : TurkishAlphabet.L_a.char_value,
         TurkishAlphabet.L_ic.char_value : TurkishAlphabet.L_i.char_value,
@@ -196,7 +196,7 @@ class CircumflexConvertingStemGenerator:
 
         return stems
 
-class StemRootMapGenerator:
+class StemRootMapGenerator(object):
     def generate(self, all_stems):
         stem_root_map = {}
         for stem in all_stems:

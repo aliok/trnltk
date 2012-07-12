@@ -4,7 +4,7 @@ from trnltk.suffixgraph.suffixapplier import *
 from trnltk.suffixgraph.token import *
 from trnltk.suffixgraph.suffixgraph import *
 
-class PredefinedPaths():
+class PredefinedPaths(object):
     def __init__(self, stem_root_map, suffix_graph):
         self._stem_root_map = stem_root_map
         self.suffix_graph = suffix_graph

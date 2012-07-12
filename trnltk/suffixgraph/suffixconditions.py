@@ -2,7 +2,7 @@ from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix, ZeroTransi
 
 # http://en.wikipedia.org/wiki/Specification_pattern
 
-class Specification:
+class Specification(object):
     def is_satisfied_by(self, obj):
         raise NotImplementedError( "Should have implemented this" )
 

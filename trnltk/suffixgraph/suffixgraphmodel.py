@@ -1,5 +1,5 @@
 # coding=utf-8
-class State:
+class State(object):
     TERMINAL = "TERMINAL"
     TRANSFER = "TRANSFER"
     DERIV = "DERIVATIONAL"
@@ -19,7 +19,7 @@ class State:
     def __repr__(self):
         return repr(self.name)
 
-class SuffixGroup:
+class SuffixGroup(object):
     def __init__(self, name):
         self.name = name
         self.suffixes = []
@@ -30,7 +30,7 @@ class SuffixGroup:
     def __repr__(self):
         return repr(self.name)
 
-class Suffix:
+class Suffix(object):
     def __init__(self, name, group=None, pretty_name=None, allow_repetition=False):
         self.name = name
         self.suffix_forms = []
@@ -76,17 +76,17 @@ class Suffix:
 
 class FreeTransitionSuffix(Suffix):
     def __init__(self, name, from_state, to_state):
-        Suffix.__init__(self, name)
+        super(FreeTransitionSuffix, self).__init__(name)
         self.add_suffix_form("")
         from_state.add_out_suffix(self, to_state)
 
 class ZeroTransitionSuffix(Suffix):
     def __init__(self, name, from_state, to_state, pretty_name="Zero"):
-        Suffix.__init__(self, name, None, pretty_name)
+        super(ZeroTransitionSuffix, self).__init__(name, None, pretty_name)
         self.add_suffix_form("")
         from_state.add_out_suffix(self, to_state)
 
-class SuffixForm:
+class SuffixForm(object):
     def __init__(self, form, precondition=None, postcondition=None, post_derivation_condition=None):
         self.form = form
         self.suffix = None
