@@ -103,14 +103,7 @@ class Phonetics(object):
                     return cls.apply(word, phonetic_attributes, form_str[2:], root_attributes)
 
         else:
-            if first_form_letter.vowel:
-                if PhoneticAttributes.LastLetterVowel not in phonetic_attributes:
-                    return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
-                else:
-                    raise Exception(u'Form "{}" should not be applicable for word "{}"'.format(form_str, word))
-
-            else:
-                return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
+            return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
 
     @classmethod
     def _handle_phonetics(cls, word, phonetic_attributes, form_str, root_attributes=None):
