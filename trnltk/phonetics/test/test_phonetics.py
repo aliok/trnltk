@@ -4,13 +4,19 @@ from trnltk.stem.dictionaryitem import RootAttribute
 from trnltk.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
 ac = Phonetics.is_suffix_form_applicable
-ap = Phonetics.apply
+def ap(word, form_str, root_attributes=None):
+    phonetic_attributes = Phonetics.calculate_phonetic_attributes(word, root_attributes)
+    word, application = Phonetics.apply(word, phonetic_attributes, form_str, root_attributes)
+    return word + application
+
+def apnv(word, form_str):
+    return ap(word, form_str, [RootAttribute.NoVoicing])
 
 es = Phonetics.expectations_satisfied
 V = PhoneticExpectation.VowelStart
 C = PhoneticExpectation.ConsonantStart
 
-cpa = Phonetics.calculate_phonetic_attributes
+cpa = Phonetics.calculate_phonetic_attributes_of_plain_sequence
 
 am = Phonetics.application_matches
 
@@ -124,9 +130,6 @@ class PhoneticExpectationsTest(unittest.TestCase):
         self.assertEqual(ap(u'bul', u'mAlI!'), u'bulmalı')
 
     def test_should_apply_suffixes_with_attributes(self):
-        def apnv(word, form_str):
-            return Phonetics.apply(word, form_str, [RootAttribute.NoVoicing])
-
         self.assertEqual(apnv(u'yap', u'+yAcAk'), u'yapacak')
         self.assertEqual(apnv(u'yap', u'+Iyor'), u'yapıyor')
         self.assertEqual(apnv(u'yap', u'+Ar'), u'yapar')

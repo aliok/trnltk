@@ -40,7 +40,7 @@ class NumeralStem(Stem):
         root = numeral
         dictionary_item = DynamicDictionaryItem(numeral, numeral, PrimaryPosition.NUMERAL, SecondaryPosition.CARD, None)
         phonetic_expectations = None
-        phonetic_attributes = Phonetics.calculate_phonetic_attributes(DigitsToNumberConverter.convert_digits_to_words(numeral))
+        phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(DigitsToNumberConverter.convert_digits_to_words(numeral))
         super(NumeralStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
 
 class StemGenerator(object):
@@ -59,7 +59,7 @@ class StemGenerator(object):
         if any(x in dictionary_item.attributes for x in StemGenerator._modifiers):
             return StemGenerator._generate_modified_root_nodes(dictionary_item)
         else:
-            phonetic_attributes = Phonetics.calculate_phonetic_attributes(dictionary_item.root)
+            phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(dictionary_item.root)
             stem = Stem(dictionary_item.root, dictionary_item, None, phonetic_attributes)
             return [stem]
 
@@ -72,8 +72,8 @@ class StemGenerator(object):
 
         modified_seq = dictionary_item.root
 
-        original_attributes = Phonetics.calculate_phonetic_attributes(dictionary_item.root)
-        modified_attributes = Phonetics.calculate_phonetic_attributes(dictionary_item.root)
+        original_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(dictionary_item.root)
+        modified_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(dictionary_item.root)
         original_phonetic_expectations = set()
         modified_phonetic_expectations = set()
 
@@ -112,7 +112,7 @@ class StemGenerator(object):
         if RootAttribute.ProgressiveVowelDrop in dictionary_item.attributes:
             modified_seq = modified_seq[:-1]
             if StemGenerator._has_vowel(modified_seq):
-                modified_attributes = Phonetics.calculate_phonetic_attributes(modified_seq)
+                modified_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(modified_seq)
             modified_phonetic_expectations.add(PhoneticExpectation.VowelStart)
 
 
@@ -133,24 +133,24 @@ class StemGenerator(object):
 
         ##TODO: de-ye
         if dictionary_item.lemma==u'ben':
-            stem_ben = Stem(u'ben', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ben'))
-            stem_ban = Stem(u'ban', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ban'))
+            stem_ben = Stem(u'ben', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
+            stem_ban = Stem(u'ban', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
             return [stem_ben, stem_ban]
         elif dictionary_item.lemma==u'sen':
-            stem_sen = Stem(u'sen', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ben'))
-            stem_san = Stem(u'san', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ban'))
+            stem_sen = Stem(u'sen', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
+            stem_san = Stem(u'san', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
             return [stem_sen, stem_san]
         elif dictionary_item.lemma==u'demek':
             return None
         elif dictionary_item.lemma==u'yemek':
             return None
         elif dictionary_item.lemma==u'hepsi':
-            stem_hep = Stem(u'hep', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'hep'))
-            stem_hepsi = Stem(u'hepsi', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'hepsi'))
+            stem_hep = Stem(u'hep', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hep'))
+            stem_hepsi = Stem(u'hepsi', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hepsi'))
             return [stem_hep, stem_hepsi]
         elif dictionary_item.lemma==u'ora':
-            stem_or = Stem(u'or', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'or'))
-            stem_ora = Stem(u'ora', dictionary_item, [], Phonetics.calculate_phonetic_attributes(u'ora'))
+            stem_or = Stem(u'or', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'or'))
+            stem_ora = Stem(u'ora', dictionary_item, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ora'))
             return [stem_or, stem_ora]
         else:
             raise Exception('Unhandled _stem change : {} !'.format(dictionary_item))

@@ -36,7 +36,7 @@ class Phonetics(object):
         word = word.strip()
         form_str = form_str.strip()
 
-        phonetic_attributes = cls.calculate_phonetic_attributes(word)
+        phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word)
 
         # ci, dik, +yacak, +iyor, +ar, +yi, +im, +yla
 
@@ -70,28 +70,12 @@ class Phonetics(object):
                 return True
 
     @classmethod
-    def apply(cls, word, form_str, root_attributes=None):
+    def apply(cls, word, phonetic_attributes, form_str, root_attributes=None):
         if not form_str or not form_str.strip():
-            return word
+            return word, u''
 
         if not word or not word.strip():
-            return None
-
-        phonetic_attributes = None
-
-        if word==u'd' or word==u'y':  #verbs demek, yemek
-            phonetic_attributes = cls.calculate_phonetic_attributes(word + u'e')
-            phonetic_attributes.remove(PhoneticAttributes.LastLetterVowel)
-        else:
-            phonetic_attributes = cls.calculate_phonetic_attributes(word)
-            if root_attributes and RootAttribute.InverseHarmony in root_attributes:
-                if PhoneticAttributes.LastVowelBack in phonetic_attributes:
-                    phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
-                    phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
-
-                elif PhoneticAttributes.LastVowelFrontal in phonetic_attributes:
-                    phonetic_attributes.remove(PhoneticAttributes.LastVowelFrontal)
-                    phonetic_attributes.add(PhoneticAttributes.LastVowelBack)
+            return None, None
 
         # ci, dik, +yacak, +iyor, +ar, +yi, +im, +yla
 
@@ -104,7 +88,7 @@ class Phonetics(object):
                 #+iyor, +ar, +im
                 if PhoneticAttributes.LastLetterVowel in phonetic_attributes:
                     # ata, dana
-                    return cls.apply(word, form_str[2:], root_attributes)
+                    return cls.apply(word, phonetic_attributes, form_str[2:], root_attributes)
                 else:
                     # yap, kitap
                     return cls._handle_phonetics(word, phonetic_attributes, form_str[1:], root_attributes)
@@ -116,7 +100,7 @@ class Phonetics(object):
                     return cls._handle_phonetics(word, phonetic_attributes, form_str[1:], root_attributes)
                 else:
                     # yap, kitap
-                    return cls.apply(word, form_str[2:], root_attributes)
+                    return cls.apply(word, phonetic_attributes, form_str[2:], root_attributes)
 
         else:
             if first_form_letter.vowel:
@@ -131,6 +115,7 @@ class Phonetics(object):
     @classmethod
     def _handle_phonetics(cls, word, phonetic_attributes, form_str, root_attributes=None):
         root_attributes = root_attributes or []
+        phonetic_attributes = phonetic_attributes or []
 
         first_letter_of_form = TurkishAlphabet.get_letter_for_char(form_str[0])
 
@@ -142,7 +127,7 @@ class Phonetics(object):
         if PhoneticAttributes.LastLetterVoiceless in phonetic_attributes and TurkishAlphabet.devoice(first_letter_of_form):
             form_str = TurkishAlphabet.devoice(first_letter_of_form).char_value + form_str[1:]
 
-        applied = word
+        applied = u''
 
         for i in range(len(form_str)):
             c = form_str[i]
@@ -178,7 +163,7 @@ class Phonetics(object):
             else:
                 applied = applied + c
 
-        return applied
+        return word, applied
 
     @classmethod
     def expectations_satisfied(cls, phonetic_expectations, form_str):
@@ -220,9 +205,28 @@ class Phonetics(object):
         else:
             raise Exception('Unknown phonetic_expectation', phonetic_expectation)
 
+    @classmethod
+    def calculate_phonetic_attributes(cls, word, root_attributes):
+        phonetic_attributes = None
+
+        if word==u'd' or word==u'y':  #verbs demek, yemek
+            phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word + u'e')
+            phonetic_attributes.remove(PhoneticAttributes.LastLetterVowel)
+        else:
+            phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word)
+            if root_attributes and RootAttribute.InverseHarmony in root_attributes:
+                if PhoneticAttributes.LastVowelBack in phonetic_attributes:
+                    phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
+                    phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
+
+                elif PhoneticAttributes.LastVowelFrontal in phonetic_attributes:
+                    phonetic_attributes.remove(PhoneticAttributes.LastVowelFrontal)
+                    phonetic_attributes.add(PhoneticAttributes.LastVowelBack)
+
+        return phonetic_attributes
 
     @classmethod
-    def calculate_phonetic_attributes(cls, seq):
+    def calculate_phonetic_attributes_of_plain_sequence(cls, seq):
         attrs = []
 
         last_vowel = cls._get_last_vowel(seq)
