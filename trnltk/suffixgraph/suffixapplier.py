@@ -43,7 +43,7 @@ def try_suffix_form(token, suffix_form, to_state, word):
     so_far = token.get_so_far()
     token_root_attributes = token.get_attributes()
 
-    token_phonetic_attributes = Phonetics.calculate_phonetic_attributes(so_far, token_root_attributes)
+    token_phonetic_attributes = token.get_phonetic_attributes()
 
     modified_word, applied_suffix_form = Phonetics.apply(so_far, token_phonetic_attributes, suffix_form.form, token_root_attributes)
     applied_str =  modified_word + applied_suffix_form
@@ -85,7 +85,7 @@ def transition_allowed_for_suffix_form(token, suffix_form):
         return False
 
     if not Phonetics.is_suffix_form_applicable(token.get_so_far(), suffix_form.form):
-        logger.debug('      Suffix form "%s" is not phonetically is_suffix_form_applicable to "%s", skipping.', suffix_form.form, token.get_so_far())
+        logger.debug('      Suffix form "%s" is not phonetically applicable to "%s", skipping.', suffix_form.form, token.get_so_far())
         return False
 
     return True

@@ -1,4 +1,6 @@
+from trnltk.phonetics.phonetics import Phonetics
 from trnltk.stem.dictionaryitem import RootAttribute
+from trnltk.stem.stemgenerator import NumeralStem
 from trnltk.suffixgraph.suffixgraphmodel import State, FreeTransitionSuffix
 
 class SuffixFormApplication(object):
@@ -24,7 +26,7 @@ class Transition(object):
         if self.from_state.type==State.DERIV:
             returnVal = self.to_state.pretty_name + '+'
 
-        if self.suffix_form_application.applied_suffix_form:
+        if self.suffix_form_application.applied_suffix_form and self.suffix_form_application.applied_suffix_form.isalnum():
             returnVal += u'{}({}[{}])'.format(self.suffix_form_application.suffix_form.suffix.pretty_name,
                 self.suffix_form_application.suffix_form.form, self.suffix_form_application.applied_suffix_form)
         else:
@@ -114,6 +116,17 @@ class ParseToken(object):
         else:
             return self._stem.dictionary_item.attributes
 
+    def get_phonetic_attributes(self):
+        if self.has_transitions():
+            suffix_so_far = self.get_so_far()[len(self._stem.root):]
+            if not suffix_so_far or suffix_so_far.isspace() or not suffix_so_far.isalnum():
+                return self._stem.phonetic_attributes
+            else:
+                return Phonetics.calculate_phonetic_attributes(self.get_so_far(), self.get_attributes())
+        else:
+            return self._stem.phonetic_attributes
+
+
     def add_transition(self, suffix_form_application, to_state):
         last_state = self.get_last_state()
         self._transitions.append(Transition(last_state, suffix_form_application, to_state))
@@ -166,3 +179,10 @@ class ParseToken(object):
 
     def get_transitions(self):
         return self._transitions
+
+
+class NumeralParseToken(ParseToken):
+    def __init__(self, stem, stem_state, remaining):
+        if not isinstance(stem, NumeralStem):
+            raise Exception("NumeralParseToken can be initialized with a NumeralStem. " + stem)
+        super(NumeralParseToken, self).__init__(stem, stem_state, remaining)

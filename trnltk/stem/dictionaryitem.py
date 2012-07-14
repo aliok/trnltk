@@ -26,6 +26,7 @@ class SecondaryPosition(object):
 
     CARD = "Card"
     ORD = "Ord"
+    DIGITS = "Digits"
 
     ALL = sorted({DUPLICATOR, POST_POSITIVE, QUESTION, DEMONSTRATIVE, REFLEXIVE, PERSONAL, TIME, PROPER_NOUN, CARD, ORD})
 

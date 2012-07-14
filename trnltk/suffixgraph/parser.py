@@ -2,6 +2,7 @@
 import logging
 import re
 from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
+from trnltk.stem.stemgenerator import NumeralStem
 from trnltk.suffixgraph.suffixapplier import *
 from trnltk.suffixgraph.token import ParseToken
 
@@ -44,7 +45,7 @@ class Parser(object):
             for c in candidates:
                 logger.debug('\t %s', c)
 
-        logger.debug('Applying required _transitions to _stem candidates')
+        logger.debug('Applying required _transitions to stem candidates')
         candidates = self._apply_required_transitions_to_stem_candidates(candidates, input)
 
         results = []
@@ -62,22 +63,22 @@ class Parser(object):
             dictionary_stems = self._find_stems_for_partial_input(partial_input)
 
             if logger.isEnabledFor(logging.DEBUG):
-                logger.debug('Found %d _stem candidates for partial input "%s":', len(dictionary_stems), partial_input)
+                logger.debug('Found %d stem candidates for partial input "%s":', len(dictionary_stems), partial_input)
                 for stem in dictionary_stems:
                     logger.debug('\t %s', stem)
 
             for stem in dictionary_stems:
                 if self._predefined_paths.has_paths(stem):
                     predefined_tokens = self._predefined_paths.get_paths(stem)
-                    logger.debug('Found predefined tokens for _stem candidate "%s" : %s', stem, predefined_tokens)
+                    logger.debug('Found predefined tokens for stem candidate "%s" : %s', stem, predefined_tokens)
                     for predefined_token in predefined_tokens:
                         if input.startswith(predefined_token.get_so_far()):
-                            logger.debug('Predefined token is is_suffix_form_applicable %s', predefined_token)
+                            logger.debug('Predefined token is applicable %s', predefined_token)
                             clone = predefined_token.clone()
                             clone._remaining = input[len(predefined_token.get_so_far()):]
                             candidates.append(clone)
                         else:
-                            logger.debug('Predefined token is not is_suffix_form_applicable, skipping %s', predefined_token)
+                            logger.debug('Predefined token is not applicable, skipping %s', predefined_token)
                 else:
                     token = ParseToken(stem, self._suffix_graph.get_default_stem_state(stem), input[len(partial_input):])
                     candidates.append(token)
@@ -126,7 +127,7 @@ class Parser(object):
 
         from_state = token.get_last_state()
         state_applicable_suffixes = self.get_applicable_suffixes_of_state_for_token(from_state, token)
-        logger.debug('  Found is_suffix_form_applicable suffixes for token from state %s: %s', from_state, state_applicable_suffixes)
+        logger.debug('  Found applicable suffixes for token from state %s: %s', from_state, state_applicable_suffixes)
 
         for (suffix, to_state) in state_applicable_suffixes:
             logger.debug('   Going to try suffix %s to state %s', suffix, to_state)
@@ -138,7 +139,7 @@ class Parser(object):
         return new_candidates
 
     def get_applicable_suffixes_of_state_for_token(self, from_state, token):
-        logger.debug('  Finding is_suffix_form_applicable suffixes for token from state %s: %s', from_state, token)
+        logger.debug('  Finding applicable suffixes for token from state %s: %s', from_state, token)
         logger.debug('   Found outputs %s', from_state.outputs)
 
         # filter out suffixes which are already added since last derivation

@@ -38,7 +38,7 @@ class Stem(object):
 class NumeralStem(Stem):
     def __init__(self, numeral):
         root = numeral
-        dictionary_item = DynamicDictionaryItem(numeral, numeral, PrimaryPosition.NUMERAL, SecondaryPosition.CARD, None)
+        dictionary_item = DynamicDictionaryItem(numeral, numeral, PrimaryPosition.NUMERAL, SecondaryPosition.DIGITS, None)
         phonetic_expectations = None
         phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(DigitsToNumberConverter.convert_digits_to_words(numeral))
         super(NumeralStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)

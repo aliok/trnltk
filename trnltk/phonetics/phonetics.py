@@ -107,7 +107,7 @@ class Phonetics(object):
                 if PhoneticAttributes.LastLetterVowel not in phonetic_attributes:
                     return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
                 else:
-                    raise Exception('Form "{}" should not be is_suffix_form_applicable for word "{}"'.format(form_str, word))
+                    raise Exception(u'Form "{}" should not be applicable for word "{}"'.format(form_str, word))
 
             else:
                 return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
@@ -121,7 +121,9 @@ class Phonetics(object):
 
         # first apply voicing if possible
         if RootAttribute.NoVoicing not in root_attributes and PhoneticAttributes.LastLetterVoicelessStop in phonetic_attributes and first_letter_of_form.vowel:
-            word = word[:-1] + TurkishAlphabet.voice(TurkishAlphabet.get_letter_for_char(word[-1])).char_value
+            voiced_letter = TurkishAlphabet.voice(TurkishAlphabet.get_letter_for_char(word[-1]))
+            if voiced_letter:
+                word = word[:-1] + voiced_letter.char_value
 
         # then try devoicing
         if PhoneticAttributes.LastLetterVoiceless in phonetic_attributes and TurkishAlphabet.devoice(first_letter_of_form):

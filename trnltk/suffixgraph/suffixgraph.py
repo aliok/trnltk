@@ -63,6 +63,8 @@ class SuffixGraph(object):
         self.NUMERAL_CARDINAL_ROOT = State("NUMERAL_CARDINAL_ROOT", "Num", State.TRANSFER)
         self.NUMERAL_CARDINAL_DERIV = State("NUMERAL_CARDINAL_DERIV", "Num", State.DERIV)
 
+        self.NUMERAL_DIGIT_CARDINAL_ROOT = State("NUMERAL_DIGIT_CARDINAL_ROOT", "Num", State.TRANSFER)
+
         self.NUMERAL_ORDINAL_ROOT = State("NUMERAL_ORDINAL_ROOT", "Num", State.TRANSFER)
         self.NUMERAL_ORDINAL_DERIV = State("NUMERAL_ORDINAL_DERIV", "Num", State.DERIV)
 
@@ -99,6 +101,7 @@ class SuffixGraph(object):
             self.CONJUNCTION_ROOT_TERMINAL,
 
             self.NUMERAL_CARDINAL_ROOT, self.NUMERAL_CARDINAL_DERIV,
+            self.NUMERAL_DIGIT_CARDINAL_ROOT,
             self.NUMERAL_ORDINAL_ROOT, self.NUMERAL_ORDINAL_DERIV,
 
             self.QUESTION_ROOT, self.QUESTION_WITH_TENSE, self.QUESTION_WITH_AGREEMENT, self.QUESTION_TERMINAL,
@@ -128,6 +131,8 @@ class SuffixGraph(object):
             return self.INTERJECTION_ROOT_TERMINAL
         elif stem.dictionary_item.primary_position==PrimaryPosition.CONJUNCTION:
             return self.CONJUNCTION_ROOT_TERMINAL
+        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.DIGITS:
+            return self.NUMERAL_DIGIT_CARDINAL_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
             return self.NUMERAL_CARDINAL_ROOT
         elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.ORD:
@@ -168,6 +173,7 @@ class SuffixGraph(object):
 
         FreeTransitionSuffix("Question_Free_Transition_1",      self.QUESTION_WITH_AGREEMENT,      self.QUESTION_TERMINAL)
 
+        FreeTransitionSuffix("Digits_Free_Transition_1",        self.NUMERAL_DIGIT_CARDINAL_ROOT,  self.NUMERAL_CARDINAL_DERIV)
 
         ZeroTransitionSuffix("Numeral_Zero_Transition_1",       self.NUMERAL_CARDINAL_DERIV,       self.ADJECTIVE_ROOT)
         ZeroTransitionSuffix("Numeral_Zero_Transition_2",       self.NUMERAL_ORDINAL_DERIV,        self.ADJECTIVE_ROOT)
@@ -372,6 +378,9 @@ class SuffixGraph(object):
         ########### Cardinal numbers to Adjective derivations
         self.NumbersOf = Suffix("NumbersOf")
 
+        ########### Cardinal digits suffixes
+        self.Apos_Digit = Suffix("Apos")
+
     def _register_suffixes(self):
         self._register_noun_suffixes()
         self._register_verb_suffixes()
@@ -419,7 +428,7 @@ class SuffixGraph(object):
 
     def _register_numeral_suffixes(self):
         self._register_cardinal_to_adjective_suffixes()
-
+        self._register_digits_suffixes()
 
     def _register_noun_agreements(self):
         self.NOUN_ROOT.add_out_suffix(self.A3Sg_Noun, self.NOUN_WITH_AGREEMENT)
@@ -886,3 +895,7 @@ class SuffixGraph(object):
     def _register_cardinal_to_adjective_suffixes(self):
         self.NUMERAL_CARDINAL_DERIV.add_out_suffix(self.NumbersOf, self.ADJECTIVE_ROOT)
         self.NumbersOf.add_suffix_form(u"lArcA")
+
+    def _register_digits_suffixes(self):
+        self.NUMERAL_DIGIT_CARDINAL_ROOT.add_out_suffix(self.Apos_Digit, self.NUMERAL_CARDINAL_DERIV)
+        self.Apos_Digit.add_suffix_form(u"'")
