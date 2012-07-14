@@ -39,7 +39,6 @@ cases_to_skip = {
     u'hi\xe7biri',
     u'birbiri+Pron',
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
-    u'çoğu',
 
     u'â', u'î',
     u'hala+Adv',
