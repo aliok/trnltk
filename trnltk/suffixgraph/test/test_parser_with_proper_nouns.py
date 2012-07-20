@@ -45,7 +45,7 @@ class ParserTestWithProperNouns(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-    def test_should_parse_other_positions_to_verbs_zero_transition(self):
+    def test_should_parse_proper_nouns(self):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
@@ -53,6 +53,13 @@ class ParserTestWithProperNouns(unittest.TestCase):
         self.assert_parse_correct(u"ABD",            u"ABD(ABD)+Noun+Prop+A3sg+Pnon+Nom")
         self.assert_parse_correct(u"Ahmet",          u"Ahmet(Ahmet)+Noun+Prop+A3sg+Pnon+Nom")
         self.assert_parse_correct(u"Ali'ye",         u"Ali(Ali)+Noun+Prop+A3sg+Pnon+Acc")       ## TODO: not supported yet.
+
+    def test_should_parse_abbreviations(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_correct(u"AB",            u"AB(AB)+Noun+Prop+A3sg+Pnon+Nom")
+        self.assert_parse_correct(u"AB'ye",            u"AB(AB)+Noun+Prop+A3sg+Pnon+Acc")       ## TODO: not supported yet!
 
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
