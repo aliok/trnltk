@@ -4979,7 +4979,6 @@ cüzzam
 çöpçatan
 çöpçü
 çöplenmek
-çöplük
 çör [P:Noun, Dup; A:NoSuffix]
 çördek
 çörek
@@ -23389,7 +23388,6 @@ yağmalamak
 yağmur
 yağmurcun
 yağmurlamak
-yağmurluk
 yağmurölçer
 yağölçer
 yağrın
@@ -24038,7 +24036,6 @@ yüğrük
 yük
 yüklem
 yüklemek
-yüklük
 yüksek [P:Adj]
 yükselmek
 yükselteç
