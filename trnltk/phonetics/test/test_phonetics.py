@@ -123,8 +123,8 @@ class PhoneticExpectationsTest(unittest.TestCase):
         self.assertEqual(ap(u'ata', u'+yAcAk'), u'atayacak')
         self.assertEqual(ap(u'ata', u'dIk'), u'atadık')
         self.assertEqual(ap(u'ata', u'm'), u'atam')
-        self.assertEqual(ap(u'ata', u'+IyOr'), u'atayor')   ## TODO: should be atıyor actually. to be handled later
         self.assertEqual(ap(u'ata', u'+Ar'), u'atar')
+        self.assertEqual(ap(u'at', u'+IyOr', [RootAttribute.NoVoicing]), u'atıyor')
 
         self.assertEqual(ap(u'bul', u'mAlI'), u'bulmalu')
         self.assertEqual(ap(u'bul', u'mAlI!'), u'bulmalı')

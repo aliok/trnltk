@@ -74,7 +74,7 @@ class StemGeneratorTest(unittest.TestCase):
         assert_that(generated_stems, has_item(Stem(u"hac", dictionary_item, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLNotVless, LVU})))
         assert_that(generated_stems, has_item(Stem(u"hacc", dictionary_item, {PhoneticExpectation.VowelStart}, {LVB, LLC, LLNotVless, LVU})))
 
-        dictionary_item = DictionaryItem(u"ret", u"ret", PrimaryPosition.NOUN, None, [RootAttribute.Voicing, RootAttribute.Doubling])   ##todo: write a test to make sure the order is Voicing then Doubling!
+        dictionary_item = DictionaryItem(u"ret", u"ret", PrimaryPosition.NOUN, None, [RootAttribute.Voicing, RootAttribute.Doubling])
         generated_stems = StemGenerator.generate(dictionary_item)
         assert_that(generated_stems, has_length(2))
         assert_that(generated_stems, has_item(Stem(u"ret", dictionary_item, {PhoneticExpectation.ConsonantStart}, {LVF, LLC, LLVless, LLVlessStop, LVU})))
