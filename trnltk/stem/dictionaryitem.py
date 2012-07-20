@@ -23,6 +23,7 @@ class SecondaryPosition(object):
     PERSONAL = "Pers"
     TIME = "Time"
     PROPER_NOUN = "Prop"
+    ABBREVIATION = "Abbr"
 
     CARD = "Card"
     ORD = "Ord"

@@ -43,6 +43,29 @@ class NumeralStem(Stem):
         phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(DigitsToNumberConverter.convert_digits_to_words(numeral))
         super(NumeralStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
 
+class AbbreviationStem(Stem):
+    def __init__(self, abbr):
+        root = abbr
+        dictionary_item = DynamicDictionaryItem(abbr, abbr, PrimaryPosition.NOUN, SecondaryPosition.ABBREVIATION, None)
+        phonetic_attributes = None
+
+        last_letter = TurkishAlphabet.get_letter_for_char(abbr[-1])
+        if last_letter.vowel:
+            phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(abbr)
+        else:
+            phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(abbr + u'E')
+
+        phonetic_expectations = None
+        super(AbbreviationStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
+
+class ProperNounStem(Stem):
+    def __init__(self, noun):
+        root = noun
+        dictionary_item = DynamicDictionaryItem(noun, noun, PrimaryPosition.NOUN, SecondaryPosition.PROPER_NOUN, None)
+        phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(noun)
+        phonetic_expectations = None
+        super(ProperNounStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
+
 class StemGenerator(object):
     _modifiers = {
         RootAttribute.Doubling,

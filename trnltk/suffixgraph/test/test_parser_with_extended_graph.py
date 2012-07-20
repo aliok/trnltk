@@ -8,7 +8,8 @@ from trnltk.stem.dictionaryitem import PrimaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.suffixgraph.parser import Parser, logger as parser_logger, WordStemFinder, NumeralStemFinder
+from trnltk.suffixgraph.parser import Parser, logger as parser_logger
+from trnltk.suffixgraph.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 
@@ -33,8 +34,11 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
 
         word_stem_finder = WordStemFinder(cls.stem_root_map)
         numeral_stem_finder = NumeralStemFinder()
+        proper_noun_from_apostrophe_stem_finder = ProperNounFromApostropheStemFinder()
+        proper_noun_without_apostrophe_stem_finder = ProperNounWithoutApostropheStemFinder()
 
-        cls.parser = Parser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
+        cls.parser = Parser(suffix_graph, predefined_paths,
+            [word_stem_finder, numeral_stem_finder, proper_noun_from_apostrophe_stem_finder, proper_noun_without_apostrophe_stem_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -88,7 +92,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'elmamızmışsınız',    u'elma(elma)+Noun+A3sg+P1pl(+ImIz[mız])+Nom+Verb+Zero+Narr(+ymIş[mış])+A2pl(sInIz[sınız])')
         self.assert_parse_correct_for_verb(u'elmalarınızsalar',   u'elma(elma)+Noun+A3pl(lAr[lar])+P2pl(+InIz[ınız])+Nom+Verb+Zero+Cond(+ysA[sa])+A3pl(lAr[lar])')
 
-        self.assert_parse_correct_for_verb(u'iyiyim',             u'iyi(iyi)+Adj+Verb+Zero+Pres+A1sg(+yIm[yim])', u'iyi(iyi)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yim])')
+        self.assert_parse_correct_for_verb(u'iyiyim',             u'iyi(iyi)+Adj+Verb+Zero+Pres+A1sg(+yIm[yim])', u'iyi(iyi)+Adv+Verb+Zero+Pres+A1sg(+yIm[yim])', u'iyi(iyi)+Adj+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yim])')
         self.assert_parse_correct_for_verb(u'küçüğümüzdeyseler',  u'küçüğ(küçük)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[ümüz])+Loc(dA[de])+Verb+Zero+Cond(+ysA[yse])+A3pl(lAr[ler])')
         self.assert_parse_correct_for_verb(u'küçüklerimizindiler',u'küçük(küçük)+Adj+Noun+Zero+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])+Verb+Zero+Past(+ydI[di])+A3pl(lAr[ler])')
         self.assert_parse_correct_for_verb(u'küçüğüm',

@@ -1,32 +1,10 @@
 # coding=utf-8
 import logging
-import re
 from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
-from trnltk.stem.stemgenerator import NumeralStem
 from trnltk.suffixgraph.suffixapplier import *
 from trnltk.suffixgraph.token import ParseToken
 
 logger = logging.getLogger('parser')
-
-class WordStemFinder(object):
-    def __init__(self, stem_root_map):
-        self.stem_root_map = stem_root_map
-
-    def find_stem_for_partial_input(self, partial_input):
-        if self.stem_root_map.has_key(partial_input):
-            return self.stem_root_map[partial_input][:]
-        else:
-            return []
-
-class NumeralStemFinder(object):
-    NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
-
-    def find_stem_for_partial_input(self, partial_input):
-        for regex in self.NUMBER_REGEXES:
-            if regex.match(partial_input):
-                return [NumeralStem(partial_input)]
-
-        return []
 
 class Parser(object):
     def __init__(self, suffix_graph, predefined_paths, stem_finders):
