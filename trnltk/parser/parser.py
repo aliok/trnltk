@@ -1,8 +1,8 @@
 # coding=utf-8
 import logging
 from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
-from trnltk.suffixgraph.suffixapplier import *
-from trnltk.suffixgraph.token import ParseToken
+from trnltk.parser.suffixapplier import *
+from trnltk.parser.token import ParseToken
 
 logger = logging.getLogger('parser')
 

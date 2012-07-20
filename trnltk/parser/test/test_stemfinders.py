@@ -4,7 +4,7 @@ from hamcrest.core.assert_that import *
 from hamcrest.core.core.isequal import equal_to
 from hamcrest.library.object.haslength import has_length
 from trnltk.stem.dictionaryitem import SecondaryPosition
-from trnltk.suffixgraph.stemfinder import NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
+from trnltk.parser.stemfinder import NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
 
 class NumeralStemFinderTest(unittest.TestCase):
 

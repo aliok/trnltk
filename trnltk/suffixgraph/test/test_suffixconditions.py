@@ -3,11 +3,11 @@ import unittest
 from hamcrest import *
 from mock import Mock
 from trnltk.stem.dictionaryitem import RootAttribute
-from trnltk.suffixgraph.parser import SuffixFormApplication
+from trnltk.parser.parser import SuffixFormApplication
 from trnltk.suffixgraph.suffixconditions import comes_after, has_root_attributes
 from trnltk.suffixgraph.suffixgraph import Suffix
 from trnltk.suffixgraph.suffixgraphmodel import SuffixForm
-from trnltk.suffixgraph.token import Transition
+from trnltk.parser.token import Transition
 
 class SuffixConditionsTest(unittest.TestCase):
 

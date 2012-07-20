@@ -1,6 +1,6 @@
 import logging
 from trnltk.phonetics.phonetics import Phonetics
-from trnltk.suffixgraph.token import SuffixFormApplication
+from trnltk.parser.token import SuffixFormApplication
 from trnltk.suffixgraph.suffixgraphmodel import State
 
 logger = logging.getLogger('suffixapplier')

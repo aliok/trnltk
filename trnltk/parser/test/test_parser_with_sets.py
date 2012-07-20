@@ -9,11 +9,11 @@ from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.suffixgraph.parser import Parser, logger as parser_logger
-from trnltk.suffixgraph.stemfinder import WordStemFinder, NumeralStemFinder
-from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
+from trnltk.parser.parser import Parser, logger as parser_logger
+from trnltk.parser.stemfinder import WordStemFinder, NumeralStemFinder
+from trnltk.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGraph
+from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
 
 #TODO
 cases_to_skip = {

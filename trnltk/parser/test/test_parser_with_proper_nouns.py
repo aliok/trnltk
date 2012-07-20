@@ -4,13 +4,12 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.stem.dictionaryitem import PrimaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.suffixgraph.parser import Parser, logger as parser_logger
-from trnltk.suffixgraph.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
-from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
+from trnltk.parser.parser import Parser, logger as parser_logger
+from trnltk.parser.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
+from trnltk.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 
 class ParserTestWithProperNouns(unittest.TestCase):

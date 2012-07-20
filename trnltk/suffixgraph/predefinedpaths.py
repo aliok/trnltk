@@ -1,7 +1,7 @@
 # coding=utf-8
 from trnltk.stem.dictionaryitem import SecondaryPosition, PrimaryPosition
-from trnltk.suffixgraph.suffixapplier import *
-from trnltk.suffixgraph.token import *
+from trnltk.parser.suffixapplier import *
+from trnltk.parser.token import *
 from trnltk.suffixgraph.suffixgraph import *
 
 class PredefinedPaths(object):
