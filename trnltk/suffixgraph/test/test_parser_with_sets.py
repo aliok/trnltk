@@ -9,7 +9,8 @@ from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.suffixgraph.parser import Parser, logger as parser_logger, NumeralStemFinder, WordStemFinder
+from trnltk.suffixgraph.parser import Parser, logger as parser_logger
+from trnltk.suffixgraph.stemfinder import WordStemFinder, NumeralStemFinder
 from trnltk.suffixgraph.suffixapplier import logger as suffix_applier_logger
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix, SuffixGraph
@@ -30,8 +31,12 @@ cases_to_skip = {
 
     u'_',
     u'+Prop+',
+    u'+Abbr+',
+
     u'Postp',
     u'kimi+Pron',  # TODO: check how "bazi" is on the set
+    u'baz\u0131+Pron',
+    u'biri+Pron',
 
     #TODO: need to add pron acc form +nA. same for : biri, kimi, cogu, coklari vs....
     u'üzer+',
@@ -43,7 +48,10 @@ cases_to_skip = {
     u'â', u'î',
     u'hala+Adv',
     u'sanayi+Noun',
-    u'serin+Adv',
+    u'serin+Adv', u"rahat+Adv", u'yeterince+Adv', u'ilk+Adv',       # big thing? using adjectives as adverbs?
+
+    u'(1,"de+Verb+Pos")(2,"Adv+ByDoingSo")',        # diyerek, yiyerek
+    u'de+Verb+Pos+Fut+Past+A1pl',                   # diyecek, yiyecek,
 
     u'kadar',
     u'tamam+Adv',         # Part or Adv?
@@ -62,39 +70,62 @@ cases_to_skip = {
     u'(1,"kavur+Verb")(2,"Verb+Pass+Pos+Narr")(3,"Adj+Zero")', # kavrul <> kavrIl
 
     u'sonralar\u0131+Adv',      # aksamlari, geceleri, vs...
-    u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")',
-    u'hiçlik+Noun',
-    u'gençlik+Noun',
+    u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
+    u'hiçlik+Noun', u'gençlik+Noun', u'ayr\u0131l\u0131k+Noun', u'arac\u0131l\u0131k',
     u'(1,"yok+Interj")',
     u'yok+Adv',
     u'bir\xe7ok+Det',
     u'iğretileme',
-    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj',
-    u'çarpıcı+Adj',
+    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel',
+    u'çarpıcı+Adj', u'matematikçi+Noun+',   u'itici+',
 
-    u'cd+Noun+',    # Gotta be uppercase and skipped? need to skip abbreviations
+    u'ikibin+Num',  # sacmalik!
+
+    u'+Related', u'kavramsal', u'nesnel+Adj',
+    u'+NotState',
 
     u'stoku+Noun+',      # Does optional voicing work? gotta create 2 stems like normal voicing case
 
     u'(1,"yak\u0131n+Noun+A3sg+Pnon+Loc")(2,"Adj+Rel")',
-    u'(1,"tiryaki+Noun+A3sg+P3sg+Nom")(2,"Verb+Zero+Pres+A3sg+Cop")',       # change treebank!
-    u'(1,"sahi+Adv")',
-    u'yetkili+Noun',
-    u'ilgili+Noun',
-    u'(1,"ku\u015fkusuz+Adv")',
-    u'(1,"s\xf6zgelimi+Adv")',
-    u'(1,"mesela+Adv")',
+    u'yakın+Noun',
+    u'yetkili+Noun', u'ilgili+Noun', u'köylü+Noun',
+    u'(1,"ku\u015fkusuz+Adv")', u'(1,"s\xf6zgelimi+Adv")', u'(1,"mesela+Adv")', u'kimbilir+', u'(1,"sahi+Adv")', u'aslında+Adv', # "örneğin" var, ama o Conj
     u'(1,"siz+Pron+PersP+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
     u'(1,"ingilizce+Adj"',
 
+    u'tümü+Pron',
+
+    u'yeni+Adv',        # yeni yeni alismisti
+
     # TODO: think about taralı, kapali, takili vs
     # TODO: word tuerlue is used much different in various cases
     u't\xfcrl\xfc',
 
-    u'kimbilir+',
+    u'b\xfct\xfcn\xfcyle+Adv', # tamamiyle, etc.
+
+    u'kestirim+Noun', u'(1,"kazanımlar+Noun+A3sg+Pnon+Abl")',       # yapim, cizim, etc.
+    u'nesi+Noun',
+    u'dokun+Verb")(2,"Verb+Caus',
+    u'kop+Verb")(2,"Verb+Caus',     # kopar
+    u'(1,"sık+Verb")(2,"Verb+Recip")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr+A3sg+Cop")',
+    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr")(5,"Adj+Zero")',
+    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos")(5,"Noun+Inf2+A3sg+P3sg+Nom")',
+    u'(1,"doğ+Verb")(2,"Verb+Caus+Pos+Narr+A3sg+Cop")',
+    u'(1,"hız+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus+Pos")(4,"Noun+Inf2+A3sg+Pnon+Nom")',
+    u'ahali+Noun',
+    u'tıpkı+Noun',
+    u'salt+Adv',
+    u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
+    u'gittik\xe7e+Adv',
+    u'(1,"barış+Verb+Pos")(2,"Noun+Inf1+A3sg+Pnon+Loc")',
+
+    u'Noun+Agt',
+    u'(1,"ön+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")', u'(1,"art+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")',
+
     u'(1,"anlat+Verb")(2,"Verb+Able+Neg")(3,"Adv+WithoutHavingDoneSo1")'        # very complicated!
+
 }
 
 class ParserTestWithSets(unittest.TestCase):
@@ -144,6 +175,11 @@ class ParserTestWithSets(unittest.TestCase):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_set("004")
+
+    def test_should_parse_set_005(self):
+    #        parser_logger.setLevel(logging.DEBUG)
+    #        suffix_applier_logger.setLevel(logging.DEBUG)
+        self._test_should_parse_set("005")
 
     def _test_should_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))
@@ -227,6 +263,8 @@ class ParserTestWithSets(unittest.TestCase):
                 secondary_position_str = "Card"
             elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.ORD:
                 secondary_position_str = "Ord"
+            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.DIGITS:
+                secondary_position_str = "Digits"
 
 
         if not groups:
@@ -264,6 +302,10 @@ class ParserTestWithSets(unittest.TestCase):
         if any(c in CircumflexConvertingStemGenerator.Circumflex_Chars for c in return_value):
             for (cir, pla) in CircumflexConvertingStemGenerator.Circumflex_Letters_Map.iteritems():
                 return_value = return_value.replace(cir, pla)
+
+        ##TODO:
+        if u'+Apos' in return_value:
+            return_value = return_value.replace(u'+Apos', u'')
 
         return return_value
 
