@@ -48,10 +48,10 @@ def try_suffix_form(token, suffix_form, to_state, word):
     modified_word, applied_suffix_form = Phonetics.apply(so_far, token_phonetic_attributes, suffix_form.form, token_root_attributes)
     applied_str =  modified_word + applied_suffix_form
     if Phonetics.application_matches(word, applied_str, to_state.name!='VERB_ROOT'):
-        actual_suffix_form = word[len(so_far):len(applied_str)]
-        logger.debug('      Word "%s" starts with applied str "%s" (%s), adding to current token', word, applied_str, actual_suffix_form)
+        actual_suffix_form_str = word[len(so_far):len(applied_str)]
+        logger.debug('      Word "%s" starts with applied str "%s" (%s), adding to current token', word, applied_str, actual_suffix_form_str)
         clone = token.clone()
-        clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form), to_state)
+        clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form_str), to_state)
         clone._so_far = applied_str
         clone._remaining = word[len(applied_str):]
 
