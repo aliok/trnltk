@@ -52,8 +52,6 @@ def try_suffix_form(token, suffix_form, to_state, word):
         logger.debug('      Word "%s" starts with applied str "%s" (%s), adding to current token', word, applied_str, actual_suffix_form_str)
         clone = token.clone()
         clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form_str), to_state)
-        clone._so_far = applied_str
-        clone._remaining = word[len(applied_str):]
 
         if token.has_transitions() and token.get_last_transition().suffix_form_application.suffix_form.postcondition and not token.get_last_transition().suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
             logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.get_last_transition().suffix_form_application.suffix_form.postcondition, clone.get_last_transition().to_pretty_str())

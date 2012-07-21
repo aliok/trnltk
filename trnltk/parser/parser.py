@@ -53,7 +53,7 @@ class Parser(object):
                         if input.startswith(predefined_token.get_so_far()):
                             logger.debug('Predefined token is applicable %s', predefined_token)
                             clone = predefined_token.clone()
-                            clone._remaining = input[len(predefined_token.get_so_far()):]
+                            clone.set_remaining(input[len(predefined_token.get_so_far()):])
                             candidates.append(clone)
                         else:
                             logger.debug('Predefined token is not applicable, skipping %s', predefined_token)

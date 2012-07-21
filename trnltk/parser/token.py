@@ -130,6 +130,8 @@ class ParseToken(object):
     def add_transition(self, suffix_form_application, to_state):
         last_state = self.get_last_state()
         self._transitions.append(Transition(last_state, suffix_form_application, to_state))
+        self._so_far += suffix_form_application.applied_suffix_form
+        self._remaining = self._remaining[len(suffix_form_application.applied_suffix_form):]
 
         if suffix_form_application.suffix_form.form:
             self._phonetic_expectations = []
@@ -179,6 +181,9 @@ class ParseToken(object):
 
     def get_transitions(self):
         return self._transitions
+
+    def set_remaining(self, remaining):
+        self._remaining = remaining
 
 
 class NumeralParseToken(ParseToken):
