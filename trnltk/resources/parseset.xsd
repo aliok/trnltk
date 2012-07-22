@@ -8,8 +8,13 @@
 
     <xs:complexType name="SentenceType">
         <xs:sequence>
-            <xs:element name="word" type="WordType" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="word" type="WordType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="unparsable_word" type="UnparsableWordType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="UnparsableWordType">
+        <xs:attribute name="str" type="xs:string" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="WordType">
