@@ -104,7 +104,7 @@ class TransitionGeneratorTest(unittest.TestCase):
             u'Parse result to pick {} does not exist in parse resolutions : {}'.format(parse_result_to_pick, [r.to_pretty_str() for r in resolutions]))
 
         generated_transitions = self.transition_generator.generate_transitions(word_to_parse, picked_parse_token)
-        generated_transitions_strs = [(generated_transition.transition_str, generated_transition.parse_token.to_pretty_str()) for generated_transition in
+        generated_transitions_strs = [(generated_transition.get_so_far(), generated_transition.to_pretty_str()) for generated_transition in
                                                                                                                               generated_transitions]
         generated_transitions_strs = list(set(generated_transitions_strs))
         generated_transitions_strs = sorted(generated_transitions_strs, cmp=lambda x, y: cmp(len(x[1]), len(y[1])))
