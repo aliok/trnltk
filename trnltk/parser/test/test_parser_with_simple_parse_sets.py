@@ -128,11 +128,11 @@ cases_to_skip = {
 
 }
 
-class ParserTestWithSets(unittest.TestCase):
+class ParserTestWithSimpleParseSets(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(ParserTestWithSets, cls).setUpClass()
+        super(ParserTestWithSimpleParseSets, cls).setUpClass()
         all_stems = []
 
         dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
@@ -156,33 +156,33 @@ class ParserTestWithSets(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-    def test_should_parse_set_001(self):
+    def test_should_parse_simple_parse_set_001(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_set("001")
+        self._test_should_parse_simple_parse_set("001")
 
-    def test_should_parse_set_002(self):
+    def test_should_parse_simple_parse_set_002(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_set("002")
+        self._test_should_parse_simple_parse_set("002")
 
-    def test_should_parse_set_003(self):
+    def test_should_parse_simple_parse_set_003(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_set("003")
+        self._test_should_parse_simple_parse_set("003")
 
-    def test_should_parse_set_004(self):
+    def test_should_parse_simple_parse_set_004(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_set("004")
+        self._test_should_parse_simple_parse_set("004")
 
-    def test_should_parse_set_005(self):
+    def test_should_parse_simple_parse_set_005(self):
     #        parser_logger.setLevel(logging.DEBUG)
     #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_set("005")
+        self._test_should_parse_simple_parse_set("005")
 
-    def _test_should_parse_set(self, set_number, start_index=0):
-        path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.txt'.format(set_number))
+    def _test_should_parse_simple_parse_set(self, set_number, start_index=0):
+        path = os.path.join(os.path.dirname(__file__), '../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
         with codecs.open(path, 'r', 'utf-8') as parse_set_file:
             index = 0
             for line in parse_set_file:
