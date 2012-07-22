@@ -1,0 +1,2 @@
+To generate xml bindings for the schema:
+pyxbgen --schema-location parseset.xsd --module xmlbindings

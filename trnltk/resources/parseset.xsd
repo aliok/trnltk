@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://trnltk.org/parseset"
+           xmlns="http://trnltk.org/parseset"
+           elementFormDefault="qualified">
+
+    <xs:element name="sentence" type="SentenceType"/>
+
+    <xs:complexType name="SentenceType">
+        <xs:sequence>
+            <xs:element name="word" type="WordType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="WordType">
+        <xs:sequence>
+            <xs:element name="stem" type="StemType" maxOccurs="1" minOccurs="1" />
+            <xs:element name="suffixes" minOccurs="1" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="suffix" type="SuffixType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="str" type="xs:string" use="required"/>
+        <xs:attribute name="parse_result" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="StemType">
+        <xs:attribute name="root" type="xs:string" use="required"/>
+        <xs:attribute name="lemma" type="xs:string" use="required"/>
+        <xs:attribute name="primary_position" type="PrimaryPositionType" use="required"/>
+        <xs:attribute name="secondary_position" type="SecondaryPositionType"/>
+    </xs:complexType>
+
+    <xs:complexType name="SuffixType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="form" type="xs:string" use="required"/>
+        <xs:attribute name="application" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="PrimaryPositionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Noun"/>
+            <xs:enumeration value="Adj"/>
+            <xs:enumeration value="Adv"/>
+            <xs:enumeration value="Conj"/>
+            <xs:enumeration value="Interj"/>
+            <xs:enumeration value="Verb"/>
+            <xs:enumeration value="Pron"/>
+            <xs:enumeration value="Num"/>
+            <xs:enumeration value="Det"/>
+            <xs:enumeration value="Part"/>
+            <xs:enumeration value="QuesPart"/>
+            <xs:enumeration value="Punc"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SecondaryPositionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Dup"/>
+            <xs:enumeration value="Postp"/>
+            <xs:enumeration value="Ques"/>
+            <xs:enumeration value="Demons"/>
+            <xs:enumeration value="Reflex"/>
+            <xs:enumeration value="Pers"/>
+            <xs:enumeration value="Time"/>
+            <xs:enumeration value="Prop"/>
+            <xs:enumeration value="Abbr"/>
+            <xs:enumeration value="Card"/>
+            <xs:enumeration value="Ord"/>
+            <xs:enumeration value="Digits"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
