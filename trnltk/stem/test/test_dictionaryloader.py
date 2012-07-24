@@ -83,6 +83,9 @@ class DictionaryLoaderTest(unittest.TestCase):
         item = DictionaryLoader._crate_dictionary_item_from_line(u'akşamüstü [P:Noun, Time; A:CompoundP3sg; R:akşamüst]')
         assert_that(item, equal_to(DictionaryItem(u"akşamüstü", u"akşamüst", PrimaryPosition.NOUN, SecondaryPosition.TIME, [RootAttribute.CompoundP3sg])))
 
+        item = DictionaryLoader._crate_dictionary_item_from_line(u'mi [P:Ques]')
+        assert_that(item, equal_to(DictionaryItem(u"mi", u"mi", PrimaryPosition.QUESTION, None, None)))
+
     def test_should_not_set_position_and_lemma_if_position_is_set_already(self):
         item_org = DictionaryItem(u'elma', u'elma', PrimaryPosition.NOUN, None, None)
         item_clone = item_org.clone()

@@ -24,8 +24,12 @@ class ParseSetCreator(object):
                 suffix_pretty_name = transition.suffix_form_application.suffix_form.suffix.pretty_name
                 suffix_form = transition.suffix_form_application.suffix_form.form
                 suffix_application = transition.suffix_form_application.applied_suffix_form
-                suffix = SuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application)
-                word.suffixes.append(suffix)
+                if transition.is_derivational():
+                    suffix = DerivationalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, transition.to_state.primary_position)
+                    word.suffixes.append(suffix)
+                else:
+                    suffix = InflectionalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application)
+                    word.suffixes.append(suffix)
         return word
 
     def create_sentence_binding_from_tokens(self, tokens):

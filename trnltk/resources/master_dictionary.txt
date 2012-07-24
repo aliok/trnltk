@@ -4928,7 +4928,7 @@ cüzzam
 çolak [P:Adj]
 çolpa [P:Adj]
 Çolpan
-çoluk [P:Dup]
+çoluk [P:Noun, Dup]
 çomak [P:Noun]
 çomaklamak
 çomar
@@ -4942,7 +4942,7 @@ cüzzam
 çorba
 çorlu [P:Adj]
 Çorlu
-çorman [P:Dup]
+çorman [P:Noun, Dup]
 Çoruh
 Çorum
 çotanak
@@ -5022,12 +5022,12 @@ cüzzam
 çulsuz [P:Adj]
 çultar
 Çumra
-çungul [P:Dup]
-çungur [P:Dup]
+çungul [P:Noun, Dup]
+çungur [P:Noun, Dup]
 çupra
 çurçur
 çurçur [P:Adj]
-çurpuk [P:Dup]
+çurpuk [P:Noun, Dup]
 çuşka
 çutur [P:Adj, Dup]
 çuval
@@ -15062,7 +15062,7 @@ mezuniyet [A:NoVoicing]
 mezura
 mezür
 mezzosoprano
-mı [P:QuesPart]
+mı [P:Ques]
 mıh
 mıhlamak
 mık [P:Adj, Dup]
@@ -15103,7 +15103,7 @@ mızmızlanmak
 mızrak
 mızrap
 mi
-mi [P:QuesPart]
+mi [P:Ques]
 miat
 mibzer
 miço
@@ -15380,7 +15380,7 @@ mozak
 mozole
 möble
 mösyö
-mu [P:QuesPart]
+mu [P:Ques]
 muaccel
 muaddel
 muadele
@@ -15704,7 +15704,7 @@ muzip
 muzlim
 muzmahil [A:Doubling]
 muztar
-mü [P:QuesPart]
+mü [P:Ques]
 mübadele
 mübadil
 mübahase

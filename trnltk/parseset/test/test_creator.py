@@ -1,4 +1,5 @@
 # coding=utf-8
+from difflib import context_diff
 import os
 import unittest
 from hamcrest.core.assert_that import assert_that
@@ -39,35 +40,47 @@ class ParseSetCreatorTest(unittest.TestCase):
         tokens.append(self._get_word_token_tuple(u'elmadan'))
         tokens.append(self._get_word_token_tuple(u'abcabcabc'))
         tokens.append(self._get_word_token_tuple(u'buyurmam'))
+        tokens.append(self._get_word_token_tuple(u'yetiştirdik'))
 
         sentence = self.parseset_creator.create_sentence_binding_from_tokens(tokens)
 
-        expected = '''
+        expected = u'''
 <sentence>
 	<unparsable_word str="blablabla"/>
 	<word parse_result="elma(elma)+Noun+A3sg+Pnon+Abl(dAn[dan])" str="elmadan">
 		<stem lemma="elma" primary_position="Noun" root="elma" secondary_position=""/>
 		<suffixes>
-			<suffix application="" form="" name="A3Sg_Noun"/>
-			<suffix application="" form="" name="Pnon_Noun"/>
-			<suffix application="dan" form="dAn" name="Abl_Noun"/>
-			<suffix application="" form="" name="Noun_Free_Transition_1"/>
-			<suffix application="" form="" name="Noun_Free_Transition_2"/>
+			<inflectionalSuffix application="" form="" id="A3Sg_Noun" name="A3sg"/>
+			<inflectionalSuffix application="" form="" id="Pnon_Noun" name="Pnon"/>
+			<inflectionalSuffix application="dan" form="dAn" id="Abl_Noun" name="Abl"/>
 		</suffixes>
 	</word>
 	<unparsable_word str="abcabcabc"/>
 	<word parse_result="buyur(buyurmak)+Verb+Neg(mA[ma])+Aor+A1sg(+Im[m])" str="buyurmam">
 		<stem lemma="buyurmak" primary_position="Verb" root="buyur" secondary_position=""/>
 		<suffixes>
-			<suffix application="ma" form="mA" name="Neg"/>
-			<suffix application="" form="" name="Aor"/>
-			<suffix application="m" form="+Im" name="A1Sg_Verb"/>
-			<suffix application="" form="" name="Verb_Free_Transition_4"/>
+			<inflectionalSuffix application="ma" form="mA" id="Neg" name="Neg"/>
+			<inflectionalSuffix application="" form="" id="Aor" name="Aor"/>
+			<inflectionalSuffix application="m" form="+Im" id="A1Sg_Verb" name="A1sg"/>
+		</suffixes>
+	</word>
+	<word parse_result="yetiş(yetişmek)+Verb+Verb+Caus(dIr[tir])+Pos+Past(dI[di])+A1pl(k[k])" str="yetiştirdik">
+		<stem lemma="yetişmek" primary_position="Verb" root="yetiş" secondary_position=""/>
+		<suffixes>
+			<derivationalSuffix application="tir" form="dIr" id="Caus" name="Caus" to="Verb"/>
+			<inflectionalSuffix application="" form="" id="Pos" name="Pos"/>
+			<inflectionalSuffix application="di" form="dI" id="Past" name="Past"/>
+			<inflectionalSuffix application="k" form="k" id="A1Pl_Verb" name="A1pl"/>
 		</suffixes>
 	</word>
 </sentence>
 '''
         expected = expected.strip()
+        actual = sentence.to_dom().toprettyxml().strip()
+
+        if expected!=actual:
+            for line in context_diff(expected.split('\n'), actual.split('\n'), "expected", "actual"):
+                print line
 
         assert_that(expected, equal_to(sentence.to_dom().toprettyxml().strip()))
 

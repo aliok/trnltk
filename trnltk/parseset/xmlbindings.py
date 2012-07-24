@@ -96,6 +96,38 @@ class SuffixBinding (Binding):
         return suffix_node
 
 
+class InflectionalSuffixBinding(SuffixBinding):
+    def __init__(self, id, name, form, application):
+        super(InflectionalSuffixBinding, self).__init__(id, name, form, application)
+
+    @classmethod
+    def build(cls, suffix_binding):
+        suffix_binding = super(InflectionalSuffixBinding, cls).build(suffix_binding)
+        return InflectionalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application)
+
+    def to_dom(self):
+        node = super(InflectionalSuffixBinding, self).to_dom()
+        node.tagName = "inflectionalSuffix"
+        return node
+
+class DerivationalSuffixBinding(SuffixBinding):
+    def __init__(self, id, name, form, application, to):
+        super(DerivationalSuffixBinding, self).__init__(id, name, form, application)
+        self.to = to
+
+    @classmethod
+    def build(cls, node):
+        suffix_binding = super(DerivationalSuffixBinding, cls).build(node)
+        to = node.getAttribute("to")
+        return DerivationalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, to)
+
+    def to_dom(self):
+        node = super(DerivationalSuffixBinding, self).to_dom()
+        node.tagName = "derivationalSuffix"
+        node.setAttribute("to", self.to)
+        return node
+
+
 class UnparsableWordBinding (Binding):
     def __init__(self, str):
         self.str = str

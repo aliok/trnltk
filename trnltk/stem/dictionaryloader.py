@@ -89,12 +89,6 @@ class DictionaryLoader(object):
             else:
                 dictionary_item.primary_position = PrimaryPosition.NOUN
 
-        else:
-            if not dictionary_item.secondary_position and dictionary_item.primary_position in SecondaryPosition.ALL:
-                dictionary_item.secondary_position = dictionary_item.primary_position
-                dictionary_item.primary_position = PrimaryPosition.NOUN
-
-
     @classmethod
     def _infer_morphemic_attributes(cls, dictionary_item):
         item_root = dictionary_item.root

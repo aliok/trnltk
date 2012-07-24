@@ -16,15 +16,15 @@ class ExtendedSuffixGraph(SuffixGraph):
     def _add_states(self):
         SuffixGraph._add_states(self)
 
-        self.NOUN_COPULA = State("NOUN_COPULA", 'Noun', State.DERIV)
-        self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", 'Noun', State.DERIV)
-        self.ADVERB_COPULA = State("ADVERB_COPULA", 'Noun', State.DERIV)
-        self.PRONOUN_COPULA = State("PRONOUN_COPULA", 'Noun', State.DERIV)
-        self.VERB_DEGIL_ROOT = State("VERB_DEGIL_ROOT", 'Verb', State.TRANSFER)
+        self.NOUN_COPULA = State("NOUN_COPULA", State.DERIV, PrimaryPosition.NOUN)
+        self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", State.DERIV, PrimaryPosition.ADJECTIVE)
+        self.ADVERB_COPULA = State("ADVERB_COPULA", State.DERIV, PrimaryPosition.ADVERB)
+        self.PRONOUN_COPULA = State("PRONOUN_COPULA", State.DERIV, PrimaryPosition.PRONOUN)
+        self.VERB_DEGIL_ROOT = State("VERB_DEGIL_ROOT", State.TRANSFER, PrimaryPosition.VERB)
 
-        self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", 'Verb', State.TRANSFER)
-        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", 'Verb', State.DERIV)
-        self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", 'Verb', State.TRANSFER)
+        self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", State.TRANSFER, PrimaryPosition.VERB)
+        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", State.DERIV, PrimaryPosition.VERB)
+        self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", State.TRANSFER, PrimaryPosition.VERB)
 
         self.ALL_STATES |= {
             self.NOUN_COPULA, self.ADJECTIVE_COPULA, self.ADVERB_COPULA, self.PRONOUN_COPULA, self.VERB_DEGIL_ROOT,

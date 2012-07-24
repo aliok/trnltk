@@ -4,9 +4,10 @@ class State(object):
     TRANSFER = "TRANSFER"
     DERIV = "DERIVATIONAL"
 
-    def __init__(self, name, pretty_name, type):
+    def __init__(self, name, type, primary_position):
         self.name = name
-        self.pretty_name = pretty_name
+        self.pretty_name = primary_position     ##TODO: get rid of this!
+        self.primary_position = primary_position
         self.outputs = [] #(suffix, out_state) tuples
         self.type = type
 

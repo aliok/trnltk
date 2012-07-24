@@ -9,7 +9,7 @@ class PrimaryPosition(object):
     NUMERAL = "Num"
     DETERMINER = "Det"
     PARTICLE = "Part"
-    QUESTION = "QuesPart"
+    QUESTION = "Ques"
     PUNCTUATION = "Punc"
 
     ALL = sorted({NOUN, ADJECTIVE, ADVERB, CONJUNCTION, INTERJECTION, VERB, PRONOUN, NUMERAL, DETERMINER, PARTICLE, QUESTION, PUNCTUATION})

@@ -23,7 +23,8 @@
             <xs:element name="suffixes" minOccurs="1" maxOccurs="1">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="suffix" type="SuffixType" maxOccurs="unbounded"/>
+                        <xs:element name="inflectionalSuffix" type="InflectionalSuffixType" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="derivationalSuffix" type="DerivationalSuffixType" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -39,13 +40,29 @@
         <xs:attribute name="secondary_position" type="SecondaryPositionType"/>
     </xs:complexType>
 
-    <xs:complexType name="SuffixType">
+    <xs:complexType name="DerivationalSuffixType" xml:base="SuffixType">
+        <xs:complexContent>
+            <xs:extension base="SuffixType">
+                <xs:attribute name="to" type="PrimaryPositionType" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="InflectionalSuffixType">
+        <xs:complexContent>
+            <xs:extension base="SuffixType">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SuffixType" abstract="true">
         <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="form" type="xs:string" use="required"/>
         <xs:attribute name="application" type="xs:string" use="required"/>
     </xs:complexType>
 
+    <!--TODO rename PrimaryPosition to SnyacticCategory in all files! -->
     <xs:simpleType name="PrimaryPositionType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="Noun"/>
@@ -58,7 +75,7 @@
             <xs:enumeration value="Num"/>
             <xs:enumeration value="Det"/>
             <xs:enumeration value="Part"/>
-            <xs:enumeration value="QuesPart"/>
+            <xs:enumeration value="Ques"/>
             <xs:enumeration value="Punc"/>
         </xs:restriction>
     </xs:simpleType>
