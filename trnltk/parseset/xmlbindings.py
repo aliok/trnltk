@@ -72,21 +72,24 @@ class WordBinding (Binding):
 
 
 class SuffixBinding (Binding):
-    def __init__(self, name, form, application):
+    def __init__(self, id, name, form, application):
+        self.id = id
         self.name = name
         self.form = form
         self.application = application
 
     @classmethod
     def build(cls, node):
+        id = node.getAttribute("id")
         name = node.getAttribute("name")
         form = node.getAttribute("form")
         application = node.getAttribute("application")
 
-        return SuffixBinding(name, form, application)
+        return SuffixBinding(id, name, form, application)
 
     def to_dom(self):
         suffix_node = Element("suffix", namespaceURI=NAMESPACE)
+        suffix_node.setAttribute("id", self.id)
         suffix_node.setAttribute("name", self.name)
         suffix_node.setAttribute("form", self.form)
         suffix_node.setAttribute("application", self.application)

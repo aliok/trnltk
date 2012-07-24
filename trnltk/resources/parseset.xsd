@@ -40,6 +40,7 @@
     </xs:complexType>
 
     <xs:complexType name="SuffixType">
+        <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="form" type="xs:string" use="required"/>
         <xs:attribute name="application" type="xs:string" use="required"/>
