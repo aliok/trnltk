@@ -9,7 +9,7 @@ logger = logging.getLogger('parser')
 class Parser(object):
     def __init__(self, suffix_graph, predefined_paths, stem_finders):
         self._suffix_graph = suffix_graph
-        self._predefined_paths = predefined_paths or []
+        self._predefined_paths = predefined_paths
         self._stem_finders = stem_finders
 
 
@@ -46,7 +46,7 @@ class Parser(object):
                     logger.debug('\t %s', stem)
 
             for stem in dictionary_stems:
-                if self._predefined_paths.has_paths(stem):
+                if self._predefined_paths and self._predefined_paths.has_paths(stem):
                     predefined_tokens = self._predefined_paths.get_paths(stem)
                     logger.debug('Found predefined tokens for stem candidate "%s" : %s', stem, predefined_tokens)
                     for predefined_token in predefined_tokens:

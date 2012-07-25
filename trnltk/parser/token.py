@@ -21,6 +21,7 @@ class Transition(object):
     def __repr__(self):
         return repr(self.__str__())
 
+    #TODO: get rid of the usages : use formatter.format_transition
     def to_pretty_str(self):
         returnVal = u''
         if self.from_state.type==State.DERIV:
@@ -155,7 +156,7 @@ class ParseToken(object):
     def __repr__(self):
         return self.__str__()
 
-    def to_pretty_str(self):
+    def to_pretty_str(self):    #TODO: migrate usages of this to formatter
         returnValue = u'{}({})+{}'.format(self._stem.root, self._stem.dictionary_item.lemma, self._stem_state.pretty_name)
         if self._stem.dictionary_item.secondary_position:
             returnValue += u'+{}'.format(self._stem.dictionary_item.secondary_position)

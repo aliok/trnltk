@@ -2,14 +2,57 @@ from trnltk.stem.dictionaryitem import PrimaryPosition, SecondaryPosition
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator
 from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
 
-def format_parse_token_as_parseset_format(result):
+def format_parse_token_for_parseset(result):
     """
-    @return kitap+Noun+A3sg+Pnon+Acc for word 'kitaba'
+    @return kitap+Noun+A3sg+Pnon+Dat for word 'kitaba'
+    """
+    returnValue = u'{}+{}'.format(result.get_stem().dictionary_item.root, result.get_stem_state().pretty_name)
+    if result.get_stem().dictionary_item.secondary_position:
+        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_position)
+
+    if result.has_transitions():
+        non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
+        if non_free_transitions:
+            returnValue = returnValue + u'+' + u'+'.join([format_transition(t, False) for t in non_free_transitions])
+
+    return returnValue
+
+def format_parse_token_for_tests(result):
+    """
+    @return kitab(kitap)+Noun+A3sg+Pnon+Dat(+yA[a]) for word 'kitaba'
+    """
+    returnValue = u'{}({})+{}'.format(result.get_stem().root, result.get_stem().dictionary_item.lemma, result.get_stem_state().pretty_name)
+    if result.get_stem().dictionary_item.secondary_position:
+        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_position)
+
+    if result.has_transitions():
+        non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
+        if non_free_transitions:
+            returnValue = returnValue + u'+' + u'+'.join([format_transition(t, True) for t in non_free_transitions])
+
+    return returnValue
+
+def format_transition(transition, includeForm=True):
+    returnVal = u''
+    if transition.is_derivational():
+        returnVal = transition.to_state.pretty_name + '+'
+
+    if includeForm and transition.suffix_form_application.applied_suffix_form and transition.suffix_form_application.applied_suffix_form.isalnum():
+        returnVal += u'{}({}[{}])'.format(transition.suffix_form_application.suffix_form.suffix.pretty_name,
+            transition.suffix_form_application.suffix_form.form, transition.suffix_form_application.applied_suffix_form)
+    else:
+        returnVal += u'{}'.format(transition.suffix_form_application.suffix_form.suffix.pretty_name)
+
+    return returnVal
+
+def format_parse_token_for_simple_parseset(result):
+    """
+    @return (1,"kitap+Noun+A3sg+Pnon+Dat") for word 'kitaba'
     """
     root = result.get_stem().dictionary_item.root
     secondary_position_str = result.get_stem().dictionary_item.secondary_position
 
-#    ##TODO: skip some secondary positions for now...
+    #    ##TODO: skip some secondary positions for now...
     if result.get_stem().dictionary_item.primary_position == PrimaryPosition.NOUN:
         if result.get_stem().dictionary_item.secondary_position == SecondaryPosition.TIME:
             secondary_position_str = None

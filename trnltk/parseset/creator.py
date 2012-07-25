@@ -1,3 +1,4 @@
+from trnltk.parser import formatter
 from trnltk.parseset.xmlbindings import *
 from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
 
@@ -12,7 +13,7 @@ class ParseSetCreator(object):
         stem = StemBinding(root, lemma, primary_position, secondary_position)
 
         word_str = token.get_so_far()
-        parse_result = token.to_pretty_str()
+        parse_result = formatter.format_parse_token_for_parseset(token)
         word = WordBinding(word_str, parse_result, stem)
 
         if token.get_transitions():

@@ -5,6 +5,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+from trnltk.parser import formatter
 from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
@@ -59,7 +60,7 @@ cases_to_skip = {
     u'Postp',
     u'Aor+A3pl+Past"',    # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
-    u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "QuesPart"s : midirler
+    u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
     u'(1,"bo\u011ful+Verb+Pos")',
@@ -90,7 +91,7 @@ cases_to_skip = {
     u'yakın+Noun',
     u'yetkili+Noun', u'ilgili+Noun', u'köylü+Noun',
     u'(1,"ku\u015fkusuz+Adv")', u'(1,"s\xf6zgelimi+Adv")', u'(1,"mesela+Adv")', u'kimbilir+', u'(1,"sahi+Adv")', u'aslında+Adv', # "örneğin" var, ama o Conj
-    u'(1,"siz+Pron+PersP+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
+    u'(1,"siz+Pron+Pers+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
     u'(1,"ingilizce+Adj"',
@@ -119,6 +120,7 @@ cases_to_skip = {
     u'salt+Adv',
     u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
     u'gittik\xe7e+Adv',
+    u'donan+Verb',
     u'(1,"barış+Verb+Pos")(2,"Noun+Inf1+A3sg+Pnon+Loc")',
 
     u'Noun+Agt',
@@ -225,89 +227,7 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 
     def parse_result(self, word):
-        return [self._parse_token_to_parse_set_str(r) for r in (self.parser.parse(word))]
-
-    @classmethod
-    def _parse_token_to_parse_set_str(cls, result):
-        groups = []
-        current_group = []
-        for transition in result.get_transitions():
-            if transition.from_state.type==State.DERIV:
-                groups.append(current_group)
-                current_group = [transition.to_state.pretty_name]
-            else:
-                pass
-
-            if not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix):
-                current_group.append(transition.suffix_form_application.suffix_form.suffix.pretty_name)
-
-        groups.append(current_group)
-
-        root = result.get_stem().dictionary_item.root
-
-        secondary_position_str = None
-
-        ##TODO:
-        if result.get_stem().dictionary_item.primary_position==PrimaryPosition.PRONOUN:
-            if result.get_stem().dictionary_item.secondary_position==SecondaryPosition.PERSONAL:
-                secondary_position_str = "PersP"
-            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.DEMONSTRATIVE:
-                secondary_position_str = "DemonsP"
-            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.QUESTION:
-                secondary_position_str = "QuesP"
-            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.REFLEXIVE:
-                secondary_position_str = "ReflexP"
-
-        if result.get_stem().dictionary_item.primary_position==PrimaryPosition.NUMERAL:
-            if result.get_stem().dictionary_item.secondary_position==SecondaryPosition.CARD:
-                secondary_position_str = "Card"
-            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.ORD:
-                secondary_position_str = "Ord"
-            elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.DIGITS:
-                secondary_position_str = "Digits"
-
-
-        if not groups:
-            if not secondary_position_str:
-                return u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
-            else:
-                return u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
-
-
-
-        return_value = None
-
-        if not secondary_position_str:
-            return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
-        else:
-            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
-
-        if not groups[0]:
-            if not secondary_position_str:
-                return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
-            else:
-                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
-        else:
-            if not secondary_position_str:
-                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, u'+'.join(groups[0]))
-            else:
-                return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str, u'+'.join(groups[0]))
-
-
-        for i in range(1, len(groups)):
-            group = groups[i]
-            return_value += u'({},"{}")'.format(i+1, u'+'.join(group))
-
-        ##TODO:
-        if any(c in CircumflexConvertingStemGenerator.Circumflex_Chars for c in return_value):
-            for (cir, pla) in CircumflexConvertingStemGenerator.Circumflex_Letters_Map.iteritems():
-                return_value = return_value.replace(cir, pla)
-
-        ##TODO:
-        if u'+Apos' in return_value:
-            return_value = return_value.replace(u'+Apos', u'')
-
-        return return_value
+        return [formatter.format_parse_token_for_simple_parseset(r) for r in (self.parser.parse(word))]
 
 class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):
