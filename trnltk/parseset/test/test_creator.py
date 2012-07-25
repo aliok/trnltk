@@ -37,7 +37,7 @@ class ParseSetCreatorTest(unittest.TestCase):
     def test_should_create_sentence_binding_from_tokens(self):
         tokens = []
         tokens.append(self._get_word_token_tuple(u'blablabla'))
-        tokens.append(self._get_word_token_tuple(u'elmadan'))
+        tokens.append(self._get_word_token_tuple(u'kitaba'))
         tokens.append(self._get_word_token_tuple(u'abcabcabc'))
         tokens.append(self._get_word_token_tuple(u'buyurmam'))
         tokens.append(self._get_word_token_tuple(u'yetiştirdik'))
@@ -47,16 +47,16 @@ class ParseSetCreatorTest(unittest.TestCase):
         expected = u'''
 <sentence>
 	<unparsable_word str="blablabla"/>
-	<word parse_result="elma(elma)+Noun+A3sg+Pnon+Abl(dAn[dan])" str="elmadan">
-		<stem lemma="elma" primary_position="Noun" root="elma" secondary_position=""/>
+	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba">
+		<stem lemma="kitap" primary_position="Noun" root="kitab" secondary_position=""/>
 		<suffixes>
 			<inflectionalSuffix application="" form="" id="A3Sg_Noun" name="A3sg"/>
 			<inflectionalSuffix application="" form="" id="Pnon_Noun" name="Pnon"/>
-			<inflectionalSuffix application="dan" form="dAn" id="Abl_Noun" name="Abl"/>
+			<inflectionalSuffix application="a" form="+yA" id="Dat_Noun" name="Dat"/>
 		</suffixes>
 	</word>
 	<unparsable_word str="abcabcabc"/>
-	<word parse_result="buyur(buyurmak)+Verb+Neg(mA[ma])+Aor+A1sg(+Im[m])" str="buyurmam">
+	<word parse_result="buyur+Verb+Neg+Aor+A1sg" str="buyurmam">
 		<stem lemma="buyurmak" primary_position="Verb" root="buyur" secondary_position=""/>
 		<suffixes>
 			<inflectionalSuffix application="ma" form="mA" id="Neg" name="Neg"/>
@@ -64,7 +64,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 			<inflectionalSuffix application="m" form="+Im" id="A1Sg_Verb" name="A1sg"/>
 		</suffixes>
 	</word>
-	<word parse_result="yetiş(yetişmek)+Verb+Verb+Caus(dIr[tir])+Pos+Past(dI[di])+A1pl(k[k])" str="yetiştirdik">
+	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" str="yetiştirdik">
 		<stem lemma="yetişmek" primary_position="Verb" root="yetiş" secondary_position=""/>
 		<suffixes>
 			<derivationalSuffix application="tir" form="dIr" id="Caus" name="Caus" to="Verb"/>

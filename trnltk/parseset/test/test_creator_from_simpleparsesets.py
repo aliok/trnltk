@@ -105,13 +105,13 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
         ##TODO:
         if result.get_stem().dictionary_item.primary_position==PrimaryPosition.PRONOUN:
             if result.get_stem().dictionary_item.secondary_position==SecondaryPosition.PERSONAL:
-                secondary_position_str = "PersP"
+                secondary_position_str = "Pers"
             elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.DEMONSTRATIVE:
-                secondary_position_str = "DemonsP"
+                secondary_position_str = "Demons"
             elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.QUESTION:
-                secondary_position_str = "QuesP"
+                secondary_position_str = "Ques"
             elif result.get_stem().dictionary_item.secondary_position==SecondaryPosition.REFLEXIVE:
-                secondary_position_str = "ReflexP"
+                secondary_position_str = "Reflex"
 
         if result.get_stem().dictionary_item.primary_position==PrimaryPosition.NUMERAL:
             if result.get_stem().dictionary_item.secondary_position==SecondaryPosition.CARD:
