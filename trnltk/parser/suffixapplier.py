@@ -1,4 +1,5 @@
 import logging
+from trnltk.parser import formatter
 from trnltk.phonetics.phonetics import Phonetics
 from trnltk.parser.token import SuffixFormApplication
 from trnltk.suffixgraph.suffixgraphmodel import State
@@ -54,7 +55,7 @@ def try_suffix_form(token, suffix_form, to_state, word):
         clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form_str), to_state)
 
         if token.has_transitions() and token.get_last_transition().suffix_form_application.suffix_form.postcondition and not token.get_last_transition().suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
-            logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.get_last_transition().suffix_form_application.suffix_form.postcondition, clone.get_last_transition().to_pretty_str())
+            logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.get_last_transition().suffix_form_application.suffix_form.postcondition, formatter.format_transition(clone.get_last_transition()))
             return None
 
         if token.has_transitions() and state_before_suffix_form_application.type==State.DERIV:

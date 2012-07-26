@@ -3,6 +3,7 @@ import logging
 import os
 import unittest
 from hamcrest import *
+from trnltk.parser import formatter
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
@@ -96,15 +97,15 @@ class TransitionGeneratorTest(unittest.TestCase):
 
         resolutions = self.parser.parse(word_to_parse)
         for resolution in resolutions:
-            if resolution.to_pretty_str() == parse_result_to_pick:
+            if formatter.format_parse_token_for_tests(resolution) == parse_result_to_pick:
                 picked_parse_token = resolution
                 break
 
         assert_that(picked_parse_token, not_none(),
-            u'Parse result to pick {} does not exist in parse resolutions : {}'.format(parse_result_to_pick, [r.to_pretty_str() for r in resolutions]))
+            u'Parse result to pick {} does not exist in parse resolutions : {}'.format(parse_result_to_pick, [formatter.format_parse_token_for_tests(r) for r in resolutions]))
 
         generated_transitions = self.transition_generator.generate_transitions(word_to_parse, picked_parse_token)
-        generated_transitions_strs = [(generated_transition.get_so_far(), generated_transition.to_pretty_str()) for generated_transition in
+        generated_transitions_strs = [(generated_transition.get_so_far(), formatter.format_parse_token_for_tests(generated_transition)) for generated_transition in
                                                                                                                               generated_transitions]
         generated_transitions_strs = list(set(generated_transitions_strs))
         generated_transitions_strs = sorted(generated_transitions_strs, cmp=lambda x, y: cmp(len(x[1]), len(y[1])))

@@ -4,6 +4,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+from trnltk.parser import formatter
 from trnltk.stem.dictionaryitem import PrimaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
@@ -194,7 +195,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatchesIgnoreVerbPresA3Sg([a for a in args]))
 
     def parse_result(self, word):
-        return [r.to_pretty_str() for r in (self.parser.parse(word))]
+        return [formatter.format_parse_token_for_tests(r) for r in (self.parser.parse(word))]
 
 class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):

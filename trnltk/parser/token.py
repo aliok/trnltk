@@ -1,7 +1,7 @@
 from trnltk.phonetics.phonetics import Phonetics
 from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition
 from trnltk.stem.stemgenerator import NumeralStem
-from trnltk.suffixgraph.suffixgraphmodel import State, FreeTransitionSuffix
+from trnltk.suffixgraph.suffixgraphmodel import State
 
 class SuffixFormApplication(object):
     def __init__(self, suffix_form, applied_suffix_form):
@@ -20,20 +20,6 @@ class Transition(object):
 
     def __repr__(self):
         return repr(self.__str__())
-
-    #TODO: get rid of the usages : use formatter.format_transition
-    def to_pretty_str(self):
-        returnVal = u''
-        if self.from_state.type==State.DERIV:
-            returnVal = self.to_state.pretty_name + '+'
-
-        if self.suffix_form_application.applied_suffix_form and self.suffix_form_application.applied_suffix_form.isalnum():
-            returnVal += u'{}({}[{}])'.format(self.suffix_form_application.suffix_form.suffix.pretty_name,
-                self.suffix_form_application.suffix_form.form, self.suffix_form_application.applied_suffix_form)
-        else:
-            returnVal += u'{}'.format(self.suffix_form_application.suffix_form.suffix.pretty_name)
-
-        return returnVal
 
     def is_derivational(self):
         return self.from_state.type==State.DERIV
@@ -155,18 +141,6 @@ class ParseToken(object):
 
     def __repr__(self):
         return self.__str__()
-
-    def to_pretty_str(self):    #TODO: migrate usages of this to formatter
-        returnValue = u'{}({})+{}'.format(self._stem.root, self._stem.dictionary_item.lemma, self._stem_state.pretty_name)
-        if self._stem.dictionary_item.secondary_position:
-            returnValue += u'+{}'.format(self._stem.dictionary_item.secondary_position)
-
-        if self._transitions:
-            non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), self._transitions)
-            if non_free_transitions:
-                returnValue = returnValue + u'+' + u'+'.join([t.to_pretty_str() for t in non_free_transitions])
-
-        return returnValue
 
     def get_stem(self):
         return self._stem

@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+from trnltk.parser import formatter
 from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
 from trnltk.parser.suffixapplier import *
 from trnltk.parser.token import ParseToken
@@ -86,7 +87,7 @@ class Parser(object):
                         results.append(token_for_candidate)
                         logger.debug("Found a terminal result --------------------->")
                         logger.debug(token_for_candidate)
-                        logger.debug(token_for_candidate.to_pretty_str())
+                        logger.debug(formatter.format_parse_token_for_tests(token_for_candidate))
                     else:
                         logger.debug("Found a terminal parseToken, but there is still something to parse. Remaining:%s ParseToken:%s", token_for_candidate.get_remaining(), token_for_candidate)
                 else:

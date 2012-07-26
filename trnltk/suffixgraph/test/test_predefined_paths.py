@@ -4,6 +4,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+from trnltk.parser import formatter
 from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
@@ -165,7 +166,7 @@ class PredefinedPathsTest(unittest.TestCase):
             if stem.root==stem_root and stem.dictionary_item.primary_position==primary_position and stem.dictionary_item.secondary_position==secondary_position:
                 predefined_tokens.extend(self.token_map[stem])
 
-        return [r.to_pretty_str() for r in predefined_tokens]
+        return [formatter.format_parse_token_for_tests(r) for r in predefined_tokens]
 
 
 class IsTokensMatches(BaseMatcher):
