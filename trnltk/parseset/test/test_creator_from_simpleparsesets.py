@@ -43,14 +43,32 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
     def test_should_create_parseset_001(self):
         self._create_parseset_n("001")
 
+    def test_should_create_parseset_002(self):
+        self._create_parseset_n("002")
+
+    def test_should_create_parseset_003(self):
+        self._create_parseset_n("003")
+
+    def test_should_create_parseset_004(self):
+        self._create_parseset_n("004")
+
+    def test_should_create_parseset_005(self):
+        self._create_parseset_n("005")
+
+#    def test_should_create_parseset_999(self):
+#        self._create_parseset_n("999")
+
     def _create_parseset_n(self, set_number):
         source_file_path = os.path.join(os.path.dirname(__file__), '../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
         destination_file_path = os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.xml'.format(set_number))
 
+        line_index = 0
         sentences = []
         with codecs.open(source_file_path, mode='r', encoding='utf-8') as src:
             entries_for_sentence = []
             for line in src:
+                print u'Processing line {}'.format(line_index)
+                line_index +=1
                 if not line:
                     continue
                 elif line.startswith(END_OF_SENTENCE_MARKER):
