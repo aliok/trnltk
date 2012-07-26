@@ -69,7 +69,10 @@
         <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="form" type="xs:string" use="required"/>
+        <xs:attribute name="original" type="xs:string" use="required"/>
         <xs:attribute name="application" type="xs:string" use="required"/>
+        <xs:attribute name="word" type="xs:string" use="required"/>
+        <xs:attribute name="matched_part" type="xs:string" use="required"/>
     </xs:complexType>
 
     <!--TODO rename PrimaryPosition to SnyacticCategory in all files! -->

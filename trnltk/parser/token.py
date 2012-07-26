@@ -4,9 +4,10 @@ from trnltk.stem.stemgenerator import NumeralStem
 from trnltk.suffixgraph.suffixgraphmodel import State
 
 class SuffixFormApplication(object):
-    def __init__(self, suffix_form, applied_suffix_form):
+    def __init__(self, suffix_form, applied_suffix_form, fitting_suffix_form):
         self.suffix_form = suffix_form
         self.applied_suffix_form = applied_suffix_form
+        self.fitting_suffix_form = fitting_suffix_form
 
 class Transition(object):
     def __init__(self, from_state, suffix_form_application, to_state):

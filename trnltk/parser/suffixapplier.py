@@ -50,9 +50,10 @@ def try_suffix_form(token, suffix_form, to_state, word):
     applied_str =  modified_word + applied_suffix_form
     if Phonetics.application_matches(word, applied_str, to_state.name!='VERB_ROOT'):
         actual_suffix_form_str = word[len(so_far):len(applied_str)]
+        fitting_suffix_form = applied_suffix_form
         logger.debug('      Word "%s" starts with applied str "%s" (%s), adding to current token', word, applied_str, actual_suffix_form_str)
         clone = token.clone()
-        clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form_str), to_state)
+        clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form_str, fitting_suffix_form), to_state)
 
         if token.has_transitions() and token.get_last_transition().suffix_form_application.suffix_form.postcondition and not token.get_last_transition().suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
             logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', token.get_last_transition().suffix_form_application.suffix_form.postcondition, formatter.format_transition(clone.get_last_transition()))
