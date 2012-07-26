@@ -574,7 +574,7 @@
 		<word parse_result="oğul+Noun+A3sg+P1sg+Nom" str="oğlum">
 			<stem lemma="oğul" primary_position="Noun" root="oğl"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="oğl" name="A3sg" original="" word="oğl"/>
+				<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="oğul" name="A3sg" original="" word="oğl"/>
 				<inflectionalSuffix application="um" form="+Im" id="P1sg_Noun" matched_part="oğlum" name="P1sg" original="um" word="oğlum"/>
 				<inflectionalSuffix application="" form="" id="Nom_Noun" matched_part="oğlum" name="Nom" original="" word="oğlum"/>
 			</suffixes>
@@ -640,7 +640,7 @@
 		<word parse_result="tutsak+Noun+A3sg+P1sg+Nom" str="tutsağım">
 			<stem lemma="tutsak" primary_position="Noun" root="tutsağ"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="tutsağ" name="A3sg" original="" word="tutsağ"/>
+				<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="tutsak" name="A3sg" original="" word="tutsağ"/>
 				<inflectionalSuffix application="ım" form="+Im" id="P1sg_Noun" matched_part="tutsağım" name="P1sg" original="ım" word="tutsağım"/>
 				<inflectionalSuffix application="" form="" id="Nom_Noun" matched_part="tutsağım" name="Nom" original="" word="tutsağım"/>
 			</suffixes>
@@ -908,7 +908,7 @@
 		<word parse_result="git+Verb+Pos+Adj+PresPart" str="giden">
 			<stem lemma="gitmek" primary_position="Verb" root="gid"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="Pos" matched_part="gid" name="Pos" original="" word="gid"/>
+				<inflectionalSuffix application="" form="" id="Pos" matched_part="git" name="Pos" original="" word="gid"/>
 				<derivationalSuffix application="en" form="+yAn" id="PresPart" matched_part="giden" name="PresPart" original="en" to="Adj" word="giden"/>
 			</suffixes>
 		</word>
@@ -938,8 +938,8 @@
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Dat" str="bana">
 			<stem lemma="ben" primary_position="Pron" root="ban" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="A1Sg_Pron" matched_part="ban" name="A1sg" original="" word="ban"/>
-				<inflectionalSuffix application="" form="" id="Pnon_Pron" matched_part="ban" name="Pnon" original="" word="ban"/>
+				<inflectionalSuffix application="" form="" id="A1Sg_Pron" matched_part="ben" name="A1sg" original="" word="ban"/>
+				<inflectionalSuffix application="" form="" id="Pnon_Pron" matched_part="ben" name="Pnon" original="" word="ban"/>
 				<inflectionalSuffix application="a" form="a" id="Dat_Pron" matched_part="bana" name="Dat" original="a" word="bana"/>
 			</suffixes>
 		</word>
@@ -969,7 +969,7 @@
 		<word parse_result="git+Verb+Pos+Fut+A1sg" str="gideceğim">
 			<stem lemma="gitmek" primary_position="Verb" root="gid"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="Pos" matched_part="gid" name="Pos" original="" word="gid"/>
+				<inflectionalSuffix application="" form="" id="Pos" matched_part="git" name="Pos" original="" word="gid"/>
 				<inflectionalSuffix application="eceğ" form="+yAcAk" id="Fut" matched_part="gidecek" name="Fut" original="ecek" word="gideceğ"/>
 				<inflectionalSuffix application="im" form="+Im" id="A1Sg_Verb" matched_part="gideceğim" name="A1sg" original="im" word="gideceğim"/>
 			</suffixes>
@@ -1285,8 +1285,8 @@
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Dat" str="bana">
 			<stem lemma="ben" primary_position="Pron" root="ban" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="A1Sg_Pron" matched_part="ban" name="A1sg" original="" word="ban"/>
-				<inflectionalSuffix application="" form="" id="Pnon_Pron" matched_part="ban" name="Pnon" original="" word="ban"/>
+				<inflectionalSuffix application="" form="" id="A1Sg_Pron" matched_part="ben" name="A1sg" original="" word="ban"/>
+				<inflectionalSuffix application="" form="" id="Pnon_Pron" matched_part="ben" name="Pnon" original="" word="ban"/>
 				<inflectionalSuffix application="a" form="a" id="Dat_Pron" matched_part="bana" name="Dat" original="a" word="bana"/>
 			</suffixes>
 		</word>
@@ -1447,8 +1447,8 @@
 		<word parse_result="sokak+Noun+A3sg+Pnon+Dat" str="sokağa">
 			<stem lemma="sokak" primary_position="Noun" root="sokağ"/>
 			<suffixes>
-				<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="sokağ" name="A3sg" original="" word="sokağ"/>
-				<inflectionalSuffix application="" form="" id="Pnon_Noun" matched_part="sokağ" name="Pnon" original="" word="sokağ"/>
+				<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="sokak" name="A3sg" original="" word="sokağ"/>
+				<inflectionalSuffix application="" form="" id="Pnon_Noun" matched_part="sokak" name="Pnon" original="" word="sokağ"/>
 				<inflectionalSuffix application="a" form="+yA" id="Dat_Noun" matched_part="sokağa" name="Dat" original="a" word="sokağa"/>
 			</suffixes>
 		</word>

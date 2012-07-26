@@ -116,7 +116,7 @@ class SuffixConditionsTest(unittest.TestCase):
                 suffix_form_str =  suffix_form_tuple[1] if len(suffix_form_tuple)==2 else None
                 suffix_form = SuffixForm(suffix_form_str)
                 suffix_form.suffix = suffix
-                transitions.append(Transition(None, SuffixFormApplication(suffix_form, None), None))
+                transitions.append(Transition(None, SuffixFormApplication(suffix_form, None, None), None))
 
                 suffixes.append(suffix)
             else:

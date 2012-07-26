@@ -50,27 +50,27 @@ class ParseSetCreatorTest(unittest.TestCase):
 	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba">
 		<stem lemma="kitap" primary_position="Noun" root="kitab"/>
 		<suffixes>
-			<inflectionalSuffix application="" form="" id="A3Sg_Noun" name="A3sg"/>
-			<inflectionalSuffix application="" form="" id="Pnon_Noun" name="Pnon"/>
-			<inflectionalSuffix application="a" form="+yA" id="Dat_Noun" name="Dat"/>
+			<inflectionalSuffix application="" form="" id="A3Sg_Noun" matched_part="kitap" name="A3sg" original="" word="kitab"/>
+			<inflectionalSuffix application="" form="" id="Pnon_Noun" matched_part="kitap" name="Pnon" original="" word="kitab"/>
+			<inflectionalSuffix application="a" form="+yA" id="Dat_Noun" matched_part="kitaba" name="Dat" original="a" word="kitaba"/>
 		</suffixes>
 	</word>
 	<unparsable_word str="abcabcabc"/>
 	<word parse_result="buyur+Verb+Neg+Aor+A1sg" str="buyurmam">
 		<stem lemma="buyurmak" primary_position="Verb" root="buyur"/>
 		<suffixes>
-			<inflectionalSuffix application="ma" form="mA" id="Neg" name="Neg"/>
-			<inflectionalSuffix application="" form="" id="Aor" name="Aor"/>
-			<inflectionalSuffix application="m" form="+Im" id="A1Sg_Verb" name="A1sg"/>
+			<inflectionalSuffix application="ma" form="mA" id="Neg" matched_part="buyurma" name="Neg" original="ma" word="buyurma"/>
+			<inflectionalSuffix application="" form="" id="Aor" matched_part="buyurma" name="Aor" original="" word="buyurma"/>
+			<inflectionalSuffix application="m" form="+Im" id="A1Sg_Verb" matched_part="buyurmam" name="A1sg" original="m" word="buyurmam"/>
 		</suffixes>
 	</word>
 	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" str="yetiştirdik">
 		<stem lemma="yetişmek" primary_position="Verb" root="yetiş"/>
 		<suffixes>
-			<derivationalSuffix application="tir" form="dIr" id="Caus" name="Caus" to="Verb"/>
-			<inflectionalSuffix application="" form="" id="Pos" name="Pos"/>
-			<inflectionalSuffix application="di" form="dI" id="Past" name="Past"/>
-			<inflectionalSuffix application="k" form="k" id="A1Pl_Verb" name="A1pl"/>
+			<derivationalSuffix application="tir" form="dIr" id="Caus" matched_part="yetiştir" name="Caus" original="tir" to="Verb" word="yetiştir"/>
+			<inflectionalSuffix application="" form="" id="Pos" matched_part="yetiştir" name="Pos" original="" word="yetiştir"/>
+			<inflectionalSuffix application="di" form="dI" id="Past" matched_part="yetiştirdi" name="Past" original="di" word="yetiştirdi"/>
+			<inflectionalSuffix application="k" form="k" id="A1Pl_Verb" matched_part="yetiştirdik" name="A1pl" original="k" word="yetiştirdik"/>
 		</suffixes>
 	</word>
 </sentence>
