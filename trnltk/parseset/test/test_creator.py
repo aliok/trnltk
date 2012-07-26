@@ -48,7 +48,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 <sentence>
 	<unparsable_word str="blablabla"/>
 	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba">
-		<stem lemma="kitap" primary_position="Noun" root="kitab" secondary_position=""/>
+		<stem lemma="kitap" primary_position="Noun" root="kitab"/>
 		<suffixes>
 			<inflectionalSuffix application="" form="" id="A3Sg_Noun" name="A3sg"/>
 			<inflectionalSuffix application="" form="" id="Pnon_Noun" name="Pnon"/>
@@ -57,7 +57,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 	</word>
 	<unparsable_word str="abcabcabc"/>
 	<word parse_result="buyur+Verb+Neg+Aor+A1sg" str="buyurmam">
-		<stem lemma="buyurmak" primary_position="Verb" root="buyur" secondary_position=""/>
+		<stem lemma="buyurmak" primary_position="Verb" root="buyur"/>
 		<suffixes>
 			<inflectionalSuffix application="ma" form="mA" id="Neg" name="Neg"/>
 			<inflectionalSuffix application="" form="" id="Aor" name="Aor"/>
@@ -65,7 +65,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 		</suffixes>
 	</word>
 	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" str="yetiştirdik">
-		<stem lemma="yetişmek" primary_position="Verb" root="yetiş" secondary_position=""/>
+		<stem lemma="yetişmek" primary_position="Verb" root="yetiş"/>
 		<suffixes>
 			<derivationalSuffix application="tir" form="dIr" id="Caus" name="Caus" to="Verb"/>
 			<inflectionalSuffix application="" form="" id="Pos" name="Pos"/>

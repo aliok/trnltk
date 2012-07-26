@@ -10,6 +10,28 @@ class Binding(object):
     def to_dom(self):
         raise NotImplementedError()
 
+class ParseSetBinding(Binding):
+    def __init__(self):
+        self.sentences = []
+
+    @classmethod
+    def build(cls, node):
+        binding = ParseSetBinding()
+        for child_node in node.childNodes:
+            if child_node.tagName=='sentence':
+                binding.sentences.append(SentenceBinding.build(child_node))
+            else:
+                raise Exception("Unknown tag type : " + child_node.tagName)
+
+        return binding
+
+    def to_dom(self):
+        parseset_node = Element("parseset", namespaceURI=NAMESPACE)
+        for sentence in self.sentences:
+            parseset_node.appendChild(sentence.to_dom())
+
+        return parseset_node
+
 class SentenceBinding (Binding):
     def __init__(self):
         self.words = []
@@ -163,5 +185,6 @@ class StemBinding (Binding):
         stem_node.setAttribute("root", self.root)
         stem_node.setAttribute("lemma", self.lemma)
         stem_node.setAttribute("primary_position", self.primary_position)
-        stem_node.setAttribute("secondary_position", self.secondary_position)
+        if self.secondary_position:
+            stem_node.setAttribute("secondary_position", self.secondary_position)
         return stem_node
