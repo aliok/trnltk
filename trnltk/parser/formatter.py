@@ -37,9 +37,9 @@ def format_transition(transition, includeForm=True):
     if transition.is_derivational():
         returnVal = transition.to_state.pretty_name + '+'
 
-    if includeForm and transition.suffix_form_application.applied_suffix_form and transition.suffix_form_application.applied_suffix_form.isalnum():
+    if includeForm and transition.suffix_form_application.actual_suffix_form and transition.suffix_form_application.actual_suffix_form.isalnum():
         returnVal += u'{}({}[{}])'.format(transition.suffix_form_application.suffix_form.suffix.pretty_name,
-            transition.suffix_form_application.suffix_form.form, transition.suffix_form_application.applied_suffix_form)
+            transition.suffix_form_application.suffix_form.form, transition.suffix_form_application.actual_suffix_form)
     else:
         returnVal += u'{}'.format(transition.suffix_form_application.suffix_form.suffix.pretty_name)
 

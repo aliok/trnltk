@@ -94,12 +94,12 @@ class WordBinding (Binding):
 
 
 class SuffixBinding (Binding):
-    def __init__(self, id, name, form, original, application, word, matched_part):
+    def __init__(self, id, name, form, original, actual, word, matched_part):
         self.id = id
         self.name = name
         self.form = form
         self.original = original
-        self.application = application
+        self.actual = actual
         self.word = word
         self.matched_part = matched_part
 
@@ -109,11 +109,11 @@ class SuffixBinding (Binding):
         name = node.getAttribute("name")
         form = node.getAttribute("form")
         original = node.getAttribute("original")
-        application = node.getAttribute("application")
+        actual = node.getAttribute("actual")
         word = node.getAttribute("word")
         matched_part = node.getAttribute("matched_part")
 
-        return SuffixBinding(id, name, form, original, application, word, matched_part)
+        return SuffixBinding(id, name, form, original, actual, word, matched_part)
 
     def to_dom(self):
         suffix_node = Element("suffix", namespaceURI=NAMESPACE)
@@ -121,7 +121,7 @@ class SuffixBinding (Binding):
         suffix_node.setAttribute("name", self.name)
         suffix_node.setAttribute("form", self.form)
         suffix_node.setAttribute("original", self.original)
-        suffix_node.setAttribute("application", self.application)
+        suffix_node.setAttribute("actual", self.actual)
         suffix_node.setAttribute("word", self.word)
         suffix_node.setAttribute("matched_part", self.matched_part)
         return suffix_node

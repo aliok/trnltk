@@ -203,7 +203,7 @@ class HasRootAttributes(Specification):
         transitions = parse_token.get_transitions()
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
-        transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
+        transitions = filter(lambda transition : transition.suffix_form_application.actual_suffix_form, transitions)
 
         if transitions:
             return True
@@ -231,7 +231,7 @@ class DoesntHaveRootAttributes(Specification):
         transitions = parse_token.get_transitions()
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
-        transitions = filter(lambda transition : transition.suffix_form_application.applied_suffix_form, transitions)
+        transitions = filter(lambda transition : transition.suffix_form_application.actual_suffix_form, transitions)
 
         if transitions:
             return True

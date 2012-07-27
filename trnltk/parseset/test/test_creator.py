@@ -41,6 +41,7 @@ class ParseSetCreatorTest(unittest.TestCase):
         tokens.append(self._get_word_token_tuple(u'abcabcabc'))
         tokens.append(self._get_word_token_tuple(u'buyurmam'))
         tokens.append(self._get_word_token_tuple(u'yetiştirdik'))
+        tokens.append(self._get_word_token_tuple(u'kıvrandığın'))
 
         sentence = self.parseset_creator.create_sentence_binding_from_tokens(tokens)
 
@@ -71,6 +72,14 @@ class ParseSetCreatorTest(unittest.TestCase):
 			<inflectionalSuffix application="" form="" id="Pos" matched_part="yetiştir" name="Pos" original="" word="yetiştir"/>
 			<inflectionalSuffix application="di" form="dI" id="Past" matched_part="yetiştirdi" name="Past" original="di" word="yetiştirdi"/>
 			<inflectionalSuffix application="k" form="k" id="A1Pl_Verb" matched_part="yetiştirdik" name="A1pl" original="k" word="yetiştirdik"/>
+		</suffixes>
+	</word>
+	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="kıvrandığın">
+		<stem lemma="kıvranmak" primary_position="Verb" root="kıvran"/>
+		<suffixes>
+			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" word="kıvran"/>
+			<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_word="kıvrandığ" name="PastPart" to="Adj" word="kıvrandık"/>
+			<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_word="kıvrandığın" name="P2sg" word="kıvrandığın"/>
 		</suffixes>
 	</word>
 </sentence>

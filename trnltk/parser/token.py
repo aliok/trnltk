@@ -4,9 +4,9 @@ from trnltk.stem.stemgenerator import NumeralStem
 from trnltk.suffixgraph.suffixgraphmodel import State
 
 class SuffixFormApplication(object):
-    def __init__(self, suffix_form, applied_suffix_form, fitting_suffix_form):
+    def __init__(self, suffix_form, actual_suffix_form, fitting_suffix_form):
         self.suffix_form = suffix_form
-        self.applied_suffix_form = applied_suffix_form
+        self.actual_suffix_form = actual_suffix_form
         self.fitting_suffix_form = fitting_suffix_form
 
 class Transition(object):
@@ -17,7 +17,7 @@ class Transition(object):
 
     def __str__(self):
         return u'{}:{}({}->{})=>{}'.format(self.from_state, self.suffix_form_application.suffix_form.suffix.name,
-            self.suffix_form_application.suffix_form.form, self.suffix_form_application.applied_suffix_form, self.to_state)
+            self.suffix_form_application.suffix_form.form, self.suffix_form_application.actual_suffix_form, self.to_state)
 
     def __repr__(self):
         return repr(self.__str__())
@@ -97,10 +97,10 @@ class ParseToken(object):
         return [s.group for s in self.get_suffixes_since_derivation_suffix()]
 
     def get_attributes(self):
-        if self._transitions and any(t.suffix_form_application.applied_suffix_form for t in self._transitions):
+        if self._transitions and any(t.suffix_form_application.actual_suffix_form for t in self._transitions):
             #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
             if self.get_last_state().primary_position==PrimaryPosition.VERB and (
-                self.get_last_state().type==State.DERIV or not self._transitions[-1].suffix_form_application.applied_suffix_form):
+                self.get_last_state().type==State.DERIV or not self._transitions[-1].suffix_form_application.actual_suffix_form):
                 return [RootAttribute.NoVoicing]
             else:
                 return None
@@ -121,8 +121,8 @@ class ParseToken(object):
     def add_transition(self, suffix_form_application, to_state):
         last_state = self.get_last_state()
         self._transitions.append(Transition(last_state, suffix_form_application, to_state))
-        self._so_far += suffix_form_application.applied_suffix_form
-        self._remaining = self._remaining[len(suffix_form_application.applied_suffix_form):]
+        self._so_far += suffix_form_application.actual_suffix_form
+        self._remaining = self._remaining[len(suffix_form_application.actual_suffix_form):]
 
         if suffix_form_application.suffix_form.form:
             self._phonetic_expectations = []
