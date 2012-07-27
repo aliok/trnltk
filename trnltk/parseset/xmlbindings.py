@@ -94,14 +94,14 @@ class WordBinding (Binding):
 
 
 class SuffixBinding (Binding):
-    def __init__(self, id, name, form, application, actual, matched_word, matched_part):
+    def __init__(self, id, name, form, application, actual, word, matched_word):
         self.id = id
         self.name = name
         self.form = form
         self.application = application
         self.actual = actual
+        self.word = word
         self.matched_word = matched_word
-        self.matched_part = matched_part
 
     @classmethod
     def build(cls, node):
@@ -110,10 +110,10 @@ class SuffixBinding (Binding):
         form = node.getAttribute("form")
         application = node.getAttribute("application")
         actual = node.getAttribute("actual")
+        word = node.getAttribute("word")
         matched_word = node.getAttribute("matched_word")
-        matched_part = node.getAttribute("matched_part")
 
-        return SuffixBinding(id, name, form, application, actual, matched_word, matched_part)
+        return SuffixBinding(id, name, form, application, actual, word, matched_word)
 
     def to_dom(self):
         suffix_node = Element("suffix", namespaceURI=NAMESPACE)
@@ -122,19 +122,19 @@ class SuffixBinding (Binding):
         suffix_node.setAttribute("form", self.form)
         suffix_node.setAttribute("application", self.application)
         suffix_node.setAttribute("actual", self.actual)
+        suffix_node.setAttribute("word", self.word)
         suffix_node.setAttribute("matched_word", self.matched_word)
-        suffix_node.setAttribute("matched_part", self.matched_part)
         return suffix_node
 
 
 class InflectionalSuffixBinding(SuffixBinding):
-    def __init__(self, id, name, form, application, actual, matched_word, matched_part):
-        super(InflectionalSuffixBinding, self).__init__(id, name, form, application, actual, matched_word, matched_part)
+    def __init__(self, id, name, form, application, actual, word, matched_word):
+        super(InflectionalSuffixBinding, self).__init__(id, name, form, application, actual, word, matched_word)
 
     @classmethod
     def build(cls, suffix_binding):
         suffix_binding = super(InflectionalSuffixBinding, cls).build(suffix_binding)
-        return InflectionalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, suffix_binding.matched_word, suffix_binding.matched_part)
+        return InflectionalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, suffix_binding.word, suffix_binding.matched_word)
 
     def to_dom(self):
         node = super(InflectionalSuffixBinding, self).to_dom()
@@ -142,15 +142,15 @@ class InflectionalSuffixBinding(SuffixBinding):
         return node
 
 class DerivationalSuffixBinding(SuffixBinding):
-    def __init__(self, id, name, form, application, actual, to, matched_word, matched_part):
-        super(DerivationalSuffixBinding, self).__init__(id, name, form, application, actual, matched_word, matched_part)
+    def __init__(self, id, name, form, application, actual, to, word, matched_word):
+        super(DerivationalSuffixBinding, self).__init__(id, name, form, application, actual, word, matched_word)
         self.to = to
 
     @classmethod
     def build(cls, node):
         suffix_binding = super(DerivationalSuffixBinding, cls).build(node)
         to = node.getAttribute("to")
-        return DerivationalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, to, suffix_binding.matched_word, suffix_binding.matched_part)
+        return DerivationalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, to, suffix_binding.word, suffix_binding.matched_word)
 
     def to_dom(self):
         node = super(DerivationalSuffixBinding, self).to_dom()

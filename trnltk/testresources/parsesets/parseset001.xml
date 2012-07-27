@@ -8,14 +8,14 @@
 		<word parse_result="şark+Noun+A3sg+Pnon+Nom+Adj+With+Noun+Zero+A3sg+Pnon+Nom" str="şarklı">
 			<stem lemma="şark" primary_position="Noun" root="şark"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="şark" matched_word="şark" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="şark" matched_word="şark" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_part="şark" matched_word="şark" name="Nom"/>
-				<derivationalSuffix actual="lı" application="lı" form="lI" id="With" matched_part="şarklı" matched_word="şarklı" name="With" to="Adj"/>
-				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_part="şarklı" matched_word="şarklı" name="Zero" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="şarklı" matched_word="şarklı" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="şarklı" matched_word="şarklı" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="şarklı" matched_word="şarklı" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="şark" name="A3sg" word="şark"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="şark" name="Pnon" word="şark"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="şark" name="Nom" word="şark"/>
+				<derivationalSuffix actual="lı" application="lı" form="lI" id="With" matched_word="şarklı" name="With" to="Adj" word="şarklı"/>
+				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_word="şarklı" name="Zero" to="Noun" word="şarklı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="şarklı" name="A3sg" word="şarklı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="şarklı" name="Pnon" word="şarklı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="şarklı" name="Nom" word="şarklı"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="değil"/>
@@ -27,14 +27,14 @@
 		<word parse_result="Milas+Noun+Prop+A3sg+Pnon+Nom+Adj+With+Noun+Zero+A3sg+Pnon+Nom" str="Milaslı">
 			<stem lemma="Milas" primary_position="Noun" root="Milas" secondary_position="Prop"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Milas" matched_word="Milas" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Milas" matched_word="Milas" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_part="Milas" matched_word="Milas" name="Nom"/>
-				<derivationalSuffix actual="lı" application="lı" form="lI" id="With" matched_part="Milaslı" matched_word="Milaslı" name="With" to="Adj"/>
-				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_part="Milaslı" matched_word="Milaslı" name="Zero" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Milaslı" matched_word="Milaslı" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Milaslı" matched_word="Milaslı" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="Milaslı" matched_word="Milaslı" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Milas" name="A3sg" word="Milas"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Milas" name="Pnon" word="Milas"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="Milas" name="Nom" word="Milas"/>
+				<derivationalSuffix actual="lı" application="lı" form="lI" id="With" matched_word="Milaslı" name="With" to="Adj" word="Milaslı"/>
+				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_word="Milaslı" name="Zero" to="Noun" word="Milaslı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Milaslı" name="A3sg" word="Milaslı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Milaslı" name="Pnon" word="Milaslı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Milaslı" name="Nom" word="Milaslı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -46,9 +46,9 @@
 		<word parse_result="kır+Noun+A3sg+Pnon+Nom" str="kır">
 			<stem lemma="kır" primary_position="Noun" root="kır"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kır" matched_word="kır" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="kır" matched_word="kır" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="kır" matched_word="kır" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kır" name="A3sg" word="kır"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kır" name="Pnon" word="kır"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kır" name="Nom" word="kır"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -60,10 +60,10 @@
 		<word parse_result="tara+Verb+Verb+Pass+Pos+Narr+A3sg" str="taranmış">
 			<stem lemma="taramak" primary_position="Verb" root="tara"/>
 			<suffixes>
-				<derivationalSuffix actual="n" application="n" form="+In" id="Pass" matched_part="taran" matched_word="taran" name="Pass" to="Verb"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="taran" matched_word="taran" name="Pos"/>
-				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_part="taranmış" matched_word="taranmış" name="Narr"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="taranmış" matched_word="taranmış" name="A3sg"/>
+				<derivationalSuffix actual="n" application="n" form="+In" id="Pass" matched_word="taran" name="Pass" to="Verb" word="taran"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="taran" name="Pos" word="taran"/>
+				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_word="taranmış" name="Narr" word="taranmış"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="taranmış" name="A3sg" word="taranmış"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -75,10 +75,10 @@
 		<word parse_result="bul+Verb+Pos+Aor+Cond+A2pl" str="bulursanız">
 			<stem lemma="bulmak" primary_position="Verb" root="bul"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bul" matched_word="bul" name="Pos"/>
-				<inflectionalSuffix actual="ur" application="ur" form="+Ir" id="Aor" matched_part="bulur" matched_word="bulur" name="Aor"/>
-				<inflectionalSuffix actual="sa" application="sa" form="+ysA" id="Cond" matched_part="bulursa" matched_word="bulursa" name="Cond"/>
-				<inflectionalSuffix actual="nız" application="nız" form="nIz" id="A2Pl_Verb" matched_part="bulursanız" matched_word="bulursanız" name="A2pl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bul" name="Pos" word="bul"/>
+				<inflectionalSuffix actual="ur" application="ur" form="+Ir" id="Aor" matched_word="bulur" name="Aor" word="bulur"/>
+				<inflectionalSuffix actual="sa" application="sa" form="+ysA" id="Cond" matched_word="bulursa" name="Cond" word="bulursa"/>
+				<inflectionalSuffix actual="nız" application="nız" form="nIz" id="A2Pl_Verb" matched_word="bulursanız" name="A2pl" word="bulursanız"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -90,25 +90,25 @@
 		<word parse_result="numara+Noun+A3sg+Pnon+Dat" str="numaraya">
 			<stem lemma="numara" primary_position="Noun" root="numara"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="numara" matched_word="numara" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="numara" matched_word="numara" name="Pnon"/>
-				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Noun" matched_part="numaraya" matched_word="numaraya" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="numara" name="A3sg" word="numara"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="numara" name="Pnon" word="numara"/>
+				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Noun" matched_word="numaraya" name="Dat" word="numaraya"/>
 			</suffixes>
 		</word>
 		<word parse_result="haber+Noun+A3sg+Pnon+Nom" str="haber">
 			<stem lemma="haber" primary_position="Noun" root="haber"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="haber" matched_word="haber" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="haber" matched_word="haber" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="haber" matched_word="haber" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="haber" name="A3sg" word="haber"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="haber" name="Pnon" word="haber"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="haber" name="Nom" word="haber"/>
 			</suffixes>
 		</word>
 		<word parse_result="ver+Verb+Pos+Aor+A2pl" str="verirsiniz">
 			<stem lemma="vermek" primary_position="Verb" root="ver"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="ver" matched_word="ver" name="Pos"/>
-				<inflectionalSuffix actual="ir" application="ir" form="+Ir" id="Aor" matched_part="verir" matched_word="verir" name="Aor"/>
-				<inflectionalSuffix actual="siniz" application="siniz" form="sInIz" id="A2Pl_Verb" matched_part="verirsiniz" matched_word="verirsiniz" name="A2pl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="ver" name="Pos" word="ver"/>
+				<inflectionalSuffix actual="ir" application="ir" form="+Ir" id="Aor" matched_word="verir" name="Aor" word="verir"/>
+				<inflectionalSuffix actual="siniz" application="siniz" form="sInIz" id="A2Pl_Verb" matched_word="verirsiniz" name="A2pl" word="verirsiniz"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -117,9 +117,9 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -131,17 +131,17 @@
 		<word parse_result="numara+Noun+A3sg+P3sg+Acc" str="numarasını">
 			<stem lemma="numara" primary_position="Noun" root="numara"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="numara" matched_word="numara" name="A3sg"/>
-				<inflectionalSuffix actual="sı" application="sı" form="+sI" id="P3sg_Noun" matched_part="numarası" matched_word="numarası" name="P3sg"/>
-				<inflectionalSuffix actual="nı" application="nı" form="nI" id="Acc_Noun" matched_part="numarasını" matched_word="numarasını" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="numara" name="A3sg" word="numara"/>
+				<inflectionalSuffix actual="sı" application="sı" form="+sI" id="P3sg_Noun" matched_word="numarası" name="P3sg" word="numarası"/>
+				<inflectionalSuffix actual="nı" application="nı" form="nI" id="Acc_Noun" matched_word="numarasını" name="Acc" word="numarasını"/>
 			</suffixes>
 		</word>
 		<word parse_result="söyle+Verb+Pos+Past+A3sg" str="söyledi">
 			<stem lemma="söylemek" primary_position="Verb" root="söyle"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="söyle" matched_word="söyle" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="söyledi" matched_word="söyledi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="söyledi" matched_word="söyledi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="söyle" name="Pos" word="söyle"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="söyledi" name="Past" word="söyledi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="söyledi" name="A3sg" word="söyledi"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -153,10 +153,10 @@
 		<word parse_result="genç+Adj+Noun+Zero+A3sg+Pnon+Abl" str="gençten">
 			<stem lemma="genç" primary_position="Adj" root="genç"/>
 			<suffixes>
-				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_part="genç" matched_word="genç" name="Zero" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="genç" matched_word="genç" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="genç" matched_word="genç" name="Pnon"/>
-				<inflectionalSuffix actual="ten" application="ten" form="dAn" id="Abl_Noun" matched_part="gençten" matched_word="gençten" name="Abl"/>
+				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_word="genç" name="Zero" to="Noun" word="genç"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="genç" name="A3sg" word="genç"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="genç" name="Pnon" word="genç"/>
+				<inflectionalSuffix actual="ten" application="ten" form="dAn" id="Abl_Noun" matched_word="gençten" name="Abl" word="gençten"/>
 			</suffixes>
 		</word>
 		<word parse_result="bir+Det" str="bir">
@@ -165,17 +165,17 @@
 		<word parse_result="erkek+Noun+A3sg+Pnon+Nom" str="erkek">
 			<stem lemma="erkek" primary_position="Noun" root="erkek"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="erkek" matched_word="erkek" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="erkek" matched_word="erkek" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="erkek" matched_word="erkek" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="erkek" name="A3sg" word="erkek"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="erkek" name="Pnon" word="erkek"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="erkek" name="Nom" word="erkek"/>
 			</suffixes>
 		</word>
 		<word parse_result="gir+Verb+Pos+Past+A3sg" str="girdi">
 			<stem lemma="girmek" primary_position="Verb" root="gir"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="gir" matched_word="gir" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="girdi" matched_word="girdi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="girdi" matched_word="girdi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gir" name="Pos" word="gir"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="girdi" name="Past" word="girdi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="girdi" name="A3sg" word="girdi"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -193,41 +193,41 @@
 		<word parse_result="kenar+Noun+A3sg+P3sg+Loc+Adj+Rel" str="kenarındaki">
 			<stem lemma="kenar" primary_position="Noun" root="kenar"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kenar" matched_word="kenar" name="A3sg"/>
-				<inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3sg_Noun" matched_part="kenarı" matched_word="kenarı" name="P3sg"/>
-				<inflectionalSuffix actual="nda" application="nda" form="ndA" id="Loc_Noun" matched_part="kenarında" matched_word="kenarında" name="Loc"/>
-				<derivationalSuffix actual="ki" application="ki" form="ki" id="Rel" matched_part="kenarındaki" matched_word="kenarındaki" name="Rel" to="Adj"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kenar" name="A3sg" word="kenar"/>
+				<inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3sg_Noun" matched_word="kenarı" name="P3sg" word="kenarı"/>
+				<inflectionalSuffix actual="nda" application="nda" form="ndA" id="Loc_Noun" matched_word="kenarında" name="Loc" word="kenarında"/>
+				<derivationalSuffix actual="ki" application="ki" form="ki" id="Rel" matched_word="kenarındaki" name="Rel" to="Adj" word="kenarındaki"/>
 			</suffixes>
 		</word>
 		<word parse_result="duvar+Noun+A3sg+Pnon+Dat" str="duvara">
 			<stem lemma="duvar" primary_position="Noun" root="duvar"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="duvar" matched_word="duvar" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="duvar" matched_word="duvar" name="Pnon"/>
-				<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_part="duvara" matched_word="duvara" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="duvar" name="A3sg" word="duvar"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="duvar" name="Pnon" word="duvar"/>
+				<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_word="duvara" name="Dat" word="duvara"/>
 			</suffixes>
 		</word>
 		<word parse_result="dayan+Verb+Pos+Adv+AfterDoingSo" str="dayanıp">
 			<stem lemma="dayanmak" primary_position="Verb" root="dayan"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="dayan" matched_word="dayan" name="Pos"/>
-				<derivationalSuffix actual="ıp" application="ıp" form="+yIp" id="AfterDoingSo" matched_part="dayanıp" matched_word="dayanıp" name="AfterDoingSo" to="Adv"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="dayan" name="Pos" word="dayan"/>
+				<derivationalSuffix actual="ıp" application="ıp" form="+yIp" id="AfterDoingSo" matched_word="dayanıp" name="AfterDoingSo" to="Adv" word="dayanıp"/>
 			</suffixes>
 		</word>
 		<word parse_result="biz+Pron+Pers+A1pl+Pnon+Dat" str="bize">
 			<stem lemma="biz" primary_position="Pron" root="biz" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Pl_Pron" matched_part="biz" matched_word="biz" name="A1pl"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="biz" matched_word="biz" name="Pnon"/>
-				<inflectionalSuffix actual="e" application="e" form="e" id="Dat_Pron" matched_part="bize" matched_word="bize" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Pl_Pron" matched_word="biz" name="A1pl" word="biz"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="biz" name="Pnon" word="biz"/>
+				<inflectionalSuffix actual="e" application="e" form="e" id="Dat_Pron" matched_word="bize" name="Dat" word="bize"/>
 			</suffixes>
 		</word>
 		<word parse_result="bak+Verb+Pos+Past+A3sg" str="baktı">
 			<stem lemma="bakmak" primary_position="Verb" root="bak"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bak" matched_word="bak" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="baktı" matched_word="baktı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="baktı" matched_word="baktı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bak" name="Pos" word="bak"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="baktı" name="Past" word="baktı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="baktı" name="A3sg" word="baktı"/>
 			</suffixes>
 		</word>
 		<word parse_result="bir+Det" str="bir">
@@ -236,9 +236,9 @@
 		<word parse_result="an+Noun+Time+A3sg+Pnon+Nom" str="an">
 			<stem lemma="an" primary_position="Noun" root="an" secondary_position="Time"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="an" matched_word="an" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="an" matched_word="an" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="an" matched_word="an" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="an" name="A3sg" word="an"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="an" name="Pnon" word="an"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="an" name="Nom" word="an"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -250,9 +250,9 @@
 		<word parse_result="körük+Noun+A3sg+Pnon+Nom" str="körük">
 			<stem lemma="körük" primary_position="Noun" root="körük"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="körük" matched_word="körük" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="körük" matched_word="körük" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="körük" matched_word="körük" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="körük" name="A3sg" word="körük"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="körük" name="Pnon" word="körük"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="körük" name="Nom" word="körük"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="gibi"/>
@@ -266,24 +266,24 @@
 		<word parse_result="saç+Noun+A3pl+P3sg+Nom" str="saçları">
 			<stem lemma="saç" primary_position="Noun" root="saç"/>
 			<suffixes>
-				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_part="saçlar" matched_word="saçlar" name="A3pl"/>
-				<inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3sg_Noun" matched_part="saçları" matched_word="saçları" name="P3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="saçları" matched_word="saçları" name="Nom"/>
+				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_word="saçlar" name="A3pl" word="saçlar"/>
+				<inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3sg_Noun" matched_word="saçları" name="P3sg" word="saçları"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="saçları" name="Nom" word="saçları"/>
 			</suffixes>
 		</word>
 		<word parse_result="hafif+Adj+Adv+Ly" str="hafifçe">
 			<stem lemma="hafif" primary_position="Adj" root="hafif"/>
 			<suffixes>
-				<derivationalSuffix actual="çe" application="çe" form="cA" id="Ly" matched_part="hafifçe" matched_word="hafifçe" name="Ly" to="Adv"/>
+				<derivationalSuffix actual="çe" application="çe" form="cA" id="Ly" matched_word="hafifçe" name="Ly" to="Adv" word="hafifçe"/>
 			</suffixes>
 		</word>
 		<word parse_result="karış+Verb+Pos+Narr+Past+A3sg" str="karışmıştı">
 			<stem lemma="karışmak" primary_position="Verb" root="karış"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="karış" matched_word="karış" name="Pos"/>
-				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_part="karışmış" matched_word="karışmış" name="Narr"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="karışmıştı" matched_word="karışmıştı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="karışmıştı" matched_word="karışmıştı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="karış" name="Pos" word="karış"/>
+				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_word="karışmış" name="Narr" word="karışmış"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="karışmıştı" name="Past" word="karışmıştı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="karışmıştı" name="A3sg" word="karışmıştı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -298,17 +298,17 @@
 		<word parse_result="şey+Noun+A3sg+Pnon+Nom" str="şey">
 			<stem lemma="şey" primary_position="Noun" root="şey"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="şey" matched_word="şey" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="şey" matched_word="şey" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="şey" matched_word="şey" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="şey" name="A3sg" word="şey"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="şey" name="Pnon" word="şey"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="şey" name="Nom" word="şey"/>
 			</suffixes>
 		</word>
 		<word parse_result="söyle+Verb+Neg+Past+A1sg" str="söylemedim">
 			<stem lemma="söylemek" primary_position="Verb" root="söyle"/>
 			<suffixes>
-				<inflectionalSuffix actual="me" application="me" form="mA" id="Neg" matched_part="söyleme" matched_word="söyleme" name="Neg"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="söylemedi" matched_word="söylemedi" name="Past"/>
-				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_part="söylemedim" matched_word="söylemedim" name="A1sg"/>
+				<inflectionalSuffix actual="me" application="me" form="mA" id="Neg" matched_word="söyleme" name="Neg" word="söyleme"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="söylemedi" name="Past" word="söylemedi"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="söylemedim" name="A1sg" word="söylemedim"/>
 			</suffixes>
 		</word>
 		<word parse_result="ki+Conj" str="ki">
@@ -317,17 +317,17 @@
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Nom" str="ben">
 			<stem lemma="ben" primary_position="Pron" root="ben" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_part="ben" matched_word="ben" name="A1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="ben" matched_word="ben" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_part="ben" matched_word="ben" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_word="ben" name="A1sg" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ben" name="Pnon" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="ben" name="Nom" word="ben"/>
 			</suffixes>
 		</word>
 		<word parse_result="siz+Pron+Pers+A2pl+Pnon+Dat" str="sizlere">
 			<stem lemma="siz" primary_position="Pron" root="siz" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="ler" application="ler" form="ler" id="A2Pl_Pron" matched_part="sizler" matched_word="sizler" name="A2pl"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="sizler" matched_word="sizler" name="Pnon"/>
-				<inflectionalSuffix actual="e" application="e" form="e" id="Dat_Pron" matched_part="sizlere" matched_word="sizlere" name="Dat"/>
+				<inflectionalSuffix actual="ler" application="ler" form="ler" id="A2Pl_Pron" matched_word="sizler" name="A2pl" word="sizler"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="sizler" name="Pnon" word="sizler"/>
+				<inflectionalSuffix actual="e" application="e" form="e" id="Dat_Pron" matched_word="sizlere" name="Dat" word="sizlere"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -339,18 +339,18 @@
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Abl" str="ondan">
 			<stem lemma="o" primary_position="Pron" root="o" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_part="o" matched_word="o" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="o" matched_word="o" name="Pnon"/>
-				<inflectionalSuffix actual="ndan" application="ndan" form="ndan" id="Abl_Pron" matched_part="ondan" matched_word="ondan" name="Abl"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="o" name="A3sg" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="o" name="Pnon" word="o"/>
+				<inflectionalSuffix actual="ndan" application="ndan" form="ndan" id="Abl_Pron" matched_word="ondan" name="Abl" word="ondan"/>
 			</suffixes>
 		</word>
 		<word parse_result="bahset+Verb+Verb+Able+Pos+Past+A1sg" str="bahsedebildim">
 			<stem lemma="bahsetmek" primary_position="Verb" root="bahsed"/>
 			<suffixes>
-				<derivationalSuffix actual="ebil" application="ebil" form="+yAbil" id="Able" matched_part="bahsedebil" matched_word="bahsedebil" name="Able" to="Verb"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bahsedebil" matched_word="bahsedebil" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="bahsedebildi" matched_word="bahsedebildi" name="Past"/>
-				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_part="bahsedebildim" matched_word="bahsedebildim" name="A1sg"/>
+				<derivationalSuffix actual="ebil" application="ebil" form="+yAbil" id="Able" matched_word="bahsedebil" name="Able" to="Verb" word="bahsedebil"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bahsedebil" name="Pos" word="bahsedebil"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="bahsedebildi" name="Past" word="bahsedebildi"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="bahsedebildim" name="A1sg" word="bahsedebildim"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -362,11 +362,11 @@
 		<word parse_result="yaşa+Verb+Pos+Noun+PastPart+A3pl+P1sg+Abl" str="yaşadıklarımdan">
 			<stem lemma="yaşamak" primary_position="Verb" root="yaşa"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="yaşa" matched_word="yaşa" name="Pos"/>
-				<derivationalSuffix actual="dık" application="dık" form="dIk" id="PastPart_Noun" matched_part="yaşadık" matched_word="yaşadık" name="PastPart" to="Noun"/>
-				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_part="yaşadıklar" matched_word="yaşadıklar" name="A3pl"/>
-				<inflectionalSuffix actual="ım" application="ım" form="+Im" id="P1sg_Noun" matched_part="yaşadıklarım" matched_word="yaşadıklarım" name="P1sg"/>
-				<inflectionalSuffix actual="dan" application="dan" form="dAn" id="Abl_Noun" matched_part="yaşadıklarımdan" matched_word="yaşadıklarımdan" name="Abl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yaşa" name="Pos" word="yaşa"/>
+				<derivationalSuffix actual="dık" application="dık" form="dIk" id="PastPart_Noun" matched_word="yaşadık" name="PastPart" to="Noun" word="yaşadık"/>
+				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_word="yaşadıklar" name="A3pl" word="yaşadıklar"/>
+				<inflectionalSuffix actual="ım" application="ım" form="+Im" id="P1sg_Noun" matched_word="yaşadıklarım" name="P1sg" word="yaşadıklarım"/>
+				<inflectionalSuffix actual="dan" application="dan" form="dAn" id="Abl_Noun" matched_word="yaşadıklarımdan" name="Abl" word="yaşadıklarımdan"/>
 			</suffixes>
 		</word>
 		<word parse_result="...+Punc" str="...">
@@ -378,10 +378,10 @@
 		<word parse_result="önem+Noun+A3sg+Pnon+Nom+Adj+With" str="önemli">
 			<stem lemma="önem" primary_position="Noun" root="önem"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="önem" matched_word="önem" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="önem" matched_word="önem" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_part="önem" matched_word="önem" name="Nom"/>
-				<derivationalSuffix actual="li" application="li" form="lI" id="With" matched_part="önemli" matched_word="önemli" name="With" to="Adj"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="önem" name="A3sg" word="önem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="önem" name="Pnon" word="önem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="önem" name="Nom" word="önem"/>
+				<derivationalSuffix actual="li" application="li" form="lI" id="With" matched_word="önemli" name="With" to="Adj" word="önemli"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="değil"/>
@@ -397,33 +397,33 @@
 		<word parse_result="pençe+Noun+A3sg+P3sg+Loc" str="pençesinde">
 			<stem lemma="pençe" primary_position="Noun" root="pençe"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="pençe" matched_word="pençe" name="A3sg"/>
-				<inflectionalSuffix actual="si" application="si" form="+sI" id="P3sg_Noun" matched_part="pençesi" matched_word="pençesi" name="P3sg"/>
-				<inflectionalSuffix actual="nde" application="nde" form="ndA" id="Loc_Noun" matched_part="pençesinde" matched_word="pençesinde" name="Loc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="pençe" name="A3sg" word="pençe"/>
+				<inflectionalSuffix actual="si" application="si" form="+sI" id="P3sg_Noun" matched_word="pençesi" name="P3sg" word="pençesi"/>
+				<inflectionalSuffix actual="nde" application="nde" form="ndA" id="Loc_Noun" matched_word="pençesinde" name="Loc" word="pençesinde"/>
 			</suffixes>
 		</word>
 		<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="kıvrandığın">
 			<stem lemma="kıvranmak" primary_position="Verb" root="kıvran"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="kıvran" matched_word="kıvran" name="Pos"/>
-				<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_part="kıvrandık" matched_word="kıvrandığ" name="PastPart" to="Adj"/>
-				<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_part="kıvrandığın" matched_word="kıvrandığın" name="P2sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" word="kıvran"/>
+				<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_word="kıvrandığ" name="PastPart" to="Adj" word="kıvrandık"/>
+				<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_word="kıvrandığın" name="P2sg" word="kıvrandığın"/>
 			</suffixes>
 		</word>
 		<word parse_result="tutku+Noun+A3sg+Pnon+Acc" str="tutkuyu">
 			<stem lemma="tutku" primary_position="Noun" root="tutku"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="tutku" matched_word="tutku" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="tutku" matched_word="tutku" name="Pnon"/>
-				<inflectionalSuffix actual="yu" application="yu" form="+yI" id="Acc_Noun" matched_part="tutkuyu" matched_word="tutkuyu" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="tutku" name="A3sg" word="tutku"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="tutku" name="Pnon" word="tutku"/>
+				<inflectionalSuffix actual="yu" application="yu" form="+yI" id="Acc_Noun" matched_word="tutkuyu" name="Acc" word="tutkuyu"/>
 			</suffixes>
 		</word>
 		<word parse_result="anlat+Verb+Pos+Past+A2sg" str="anlattın">
 			<stem lemma="anlatmak" primary_position="Verb" root="anlat"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="anlat" matched_word="anlat" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="anlattı" matched_word="anlattı" name="Past"/>
-				<inflectionalSuffix actual="n" application="n" form="n" id="A2Sg_Verb" matched_part="anlattın" matched_word="anlattın" name="A2sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="anlat" name="Pos" word="anlat"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="anlattı" name="Past" word="anlattı"/>
+				<inflectionalSuffix actual="n" application="n" form="n" id="A2Sg_Verb" matched_word="anlattın" name="A2sg" word="anlattın"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -434,18 +434,18 @@
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" str="Kerem">
 			<stem lemma="Kerem" primary_position="Noun" root="Kerem" secondary_position="Prop"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Kerem" matched_word="Kerem" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Kerem" matched_word="Kerem" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="Kerem" matched_word="Kerem" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem" name="A3sg" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem" name="Pnon" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Kerem" name="Nom" word="Kerem"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="bir_an"/>
 		<word parse_result="dur+Verb+Pos+Past+A3sg" str="durdu">
 			<stem lemma="durmak" primary_position="Verb" root="dur"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="dur" matched_word="dur" name="Pos"/>
-				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_part="durdu" matched_word="durdu" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="durdu" matched_word="durdu" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="dur" name="Pos" word="dur"/>
+				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_word="durdu" name="Past" word="durdu"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="durdu" name="A3sg" word="durdu"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -464,9 +464,9 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -485,18 +485,18 @@
 		<word parse_result="zaman+Noun+Time+A3sg+Pnon+Nom" str="zaman">
 			<stem lemma="zaman" primary_position="Noun" root="zaman" secondary_position="Time"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="zaman" matched_word="zaman" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="zaman" matched_word="zaman" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="zaman" matched_word="zaman" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="zaman" name="A3sg" word="zaman"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="zaman" name="Pnon" word="zaman"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="zaman" name="Nom" word="zaman"/>
 			</suffixes>
 		</word>
 		<word parse_result="kurtul+Verb+Verb+Able+Neg+Fut+A3sg" str="kurtulamayacak">
 			<stem lemma="kurtulmak" primary_position="Verb" root="kurtul"/>
 			<suffixes>
-				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_part="kurtula" matched_word="kurtula" name="Able" to="Verb"/>
-				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_part="kurtulama" matched_word="kurtulama" name="Neg"/>
-				<inflectionalSuffix actual="yacak" application="yacak" form="+yAcAk" id="Fut" matched_part="kurtulamayacak" matched_word="kurtulamayacak" name="Fut"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="kurtulamayacak" matched_word="kurtulamayacak" name="A3sg"/>
+				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_word="kurtula" name="Able" to="Verb" word="kurtula"/>
+				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="kurtulama" name="Neg" word="kurtulama"/>
+				<inflectionalSuffix actual="yacak" application="yacak" form="+yAcAk" id="Fut" matched_word="kurtulamayacak" name="Fut" word="kurtulamayacak"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="kurtulamayacak" name="A3sg" word="kurtulamayacak"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -508,10 +508,10 @@
 		<word parse_result="ol+Verb+Verb+Able+Neg+Fut+A3sg" str="olamayacak">
 			<stem lemma="olmak" primary_position="Verb" root="ol"/>
 			<suffixes>
-				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_part="ola" matched_word="ola" name="Able" to="Verb"/>
-				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_part="olama" matched_word="olama" name="Neg"/>
-				<inflectionalSuffix actual="yacak" application="yacak" form="+yAcAk" id="Fut" matched_part="olamayacak" matched_word="olamayacak" name="Fut"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="olamayacak" matched_word="olamayacak" name="A3sg"/>
+				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_word="ola" name="Able" to="Verb" word="ola"/>
+				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="olama" name="Neg" word="olama"/>
+				<inflectionalSuffix actual="yacak" application="yacak" form="+yAcAk" id="Fut" matched_word="olamayacak" name="Fut" word="olamayacak"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="olamayacak" name="A3sg" word="olamayacak"/>
 			</suffixes>
 		</word>
 		<word parse_result="bir+Det" str="bir">
@@ -521,9 +521,9 @@
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Nom" str="ben">
 			<stem lemma="ben" primary_position="Pron" root="ben" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_part="ben" matched_word="ben" name="A1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="ben" matched_word="ben" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_part="ben" matched_word="ben" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_word="ben" name="A1sg" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ben" name="Pnon" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="ben" name="Nom" word="ben"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -535,9 +535,9 @@
 		<word parse_result="kor+Noun+A3sg+Pnon+Nom" str="kor">
 			<stem lemma="kor" primary_position="Noun" root="kor"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kor" matched_word="kor" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="kor" matched_word="kor" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="kor" matched_word="kor" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kor" name="A3sg" word="kor"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kor" name="Pnon" word="kor"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kor" name="Nom" word="kor"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="gibi"/>
@@ -551,10 +551,10 @@
 		<word parse_result="kalk+Verb+Pos+Narr+Past+A3sg" str="kalkmıştı">
 			<stem lemma="kalkmak" primary_position="Verb" root="kalk"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="kalk" matched_word="kalk" name="Pos"/>
-				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_part="kalkmış" matched_word="kalkmış" name="Narr"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="kalkmıştı" matched_word="kalkmıştı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="kalkmıştı" matched_word="kalkmıştı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kalk" name="Pos" word="kalk"/>
+				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_word="kalkmış" name="Narr" word="kalkmış"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="kalkmıştı" name="Past" word="kalkmıştı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="kalkmıştı" name="A3sg" word="kalkmıştı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -567,16 +567,16 @@
 		<word parse_result="mu+Ques+Pres+A2sg" str="musun">
 			<stem lemma="mu" primary_position="Ques" root="mu"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_part="mu" matched_word="mu" name="Pres"/>
-				<inflectionalSuffix actual="sun" application="sun" form="sun" id="A2Sg_Ques" matched_part="musun" matched_word="musun" name="A2sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" word="mu"/>
+				<inflectionalSuffix actual="sun" application="sun" form="sun" id="A2Sg_Ques" matched_word="musun" name="A2sg" word="musun"/>
 			</suffixes>
 		</word>
 		<word parse_result="oğul+Noun+A3sg+P1sg+Nom" str="oğlum">
 			<stem lemma="oğul" primary_position="Noun" root="oğl"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="oğul" matched_word="oğl" name="A3sg"/>
-				<inflectionalSuffix actual="um" application="um" form="+Im" id="P1sg_Noun" matched_part="oğlum" matched_word="oğlum" name="P1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="oğlum" matched_word="oğlum" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="oğl" name="A3sg" word="oğul"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="P1sg_Noun" matched_word="oğlum" name="P1sg" word="oğlum"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="oğlum" name="Nom" word="oğlum"/>
 			</suffixes>
 		</word>
 		<word parse_result="?+Punc" str="?">
@@ -586,17 +586,17 @@
 		<word parse_result="sor+Verb+Pos+Past+A3sg" str="sordu">
 			<stem lemma="sormak" primary_position="Verb" root="sor"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="sor" matched_word="sor" name="Pos"/>
-				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_part="sordu" matched_word="sordu" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="sordu" matched_word="sordu" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="sor" name="Pos" word="sor"/>
+				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_word="sordu" name="Past" word="sordu"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="sordu" name="A3sg" word="sordu"/>
 			</suffixes>
 		</word>
 		<word parse_result="Şakir+Noun+Prop+A3sg+Pnon+Nom" str="Şakir">
 			<stem lemma="Şakir" primary_position="Noun" root="Şakir" secondary_position="Prop"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Şakir" matched_word="Şakir" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Şakir" matched_word="Şakir" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="Şakir" matched_word="Şakir" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Şakir" name="A3sg" word="Şakir"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Şakir" name="Pnon" word="Şakir"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Şakir" name="Nom" word="Şakir"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -611,17 +611,17 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" str="Kerem">
 			<stem lemma="Kerem" primary_position="Noun" root="Kerem" secondary_position="Prop"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Kerem" matched_word="Kerem" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Kerem" matched_word="Kerem" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="Kerem" matched_word="Kerem" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem" name="A3sg" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem" name="Pnon" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Kerem" name="Nom" word="Kerem"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -640,17 +640,17 @@
 		<word parse_result="tutsak+Noun+A3sg+P1sg+Nom" str="tutsağım">
 			<stem lemma="tutsak" primary_position="Noun" root="tutsağ"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="tutsak" matched_word="tutsağ" name="A3sg"/>
-				<inflectionalSuffix actual="ım" application="ım" form="+Im" id="P1sg_Noun" matched_part="tutsağım" matched_word="tutsağım" name="P1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="tutsağım" matched_word="tutsağım" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="tutsağ" name="A3sg" word="tutsak"/>
+				<inflectionalSuffix actual="ım" application="ım" form="+Im" id="P1sg_Noun" matched_word="tutsağım" name="P1sg" word="tutsağım"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="tutsağım" name="Nom" word="tutsağım"/>
 			</suffixes>
 		</word>
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Nom" str="ben">
 			<stem lemma="ben" primary_position="Pron" root="ben" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_part="ben" matched_word="ben" name="A1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="ben" matched_word="ben" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_part="ben" matched_word="ben" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_word="ben" name="A1sg" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ben" name="Pnon" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="ben" name="Nom" word="ben"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -673,9 +673,9 @@
 		<word parse_result="bak+Verb+Pos+Imp+A2pl" str="bakın">
 			<stem lemma="bakmak" primary_position="Verb" root="bak"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bak" matched_word="bak" name="Pos"/>
-				<inflectionalSuffix actual="" application="" form="" id="Imp" matched_part="bak" matched_word="bak" name="Imp"/>
-				<inflectionalSuffix actual="ın" application="ın" form="+yIn" id="A2Pl_Verb" matched_part="bakın" matched_word="bakın" name="A2pl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bak" name="Pos" word="bak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Imp" matched_word="bak" name="Imp" word="bak"/>
+				<inflectionalSuffix actual="ın" application="ın" form="+yIn" id="A2Pl_Verb" matched_word="bakın" name="A2pl" word="bakın"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -694,41 +694,41 @@
 		<word parse_result="söyle+Verb+Pos+Aor+Adv+While" str="söylerken">
 			<stem lemma="söylemek" primary_position="Verb" root="söyle"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="söyle" matched_word="söyle" name="Pos"/>
-				<inflectionalSuffix actual="r" application="r" form="+Ir" id="Aor" matched_part="söyler" matched_word="söyler" name="Aor"/>
-				<derivationalSuffix actual="ken" application="ken" form="ken" id="While" matched_part="söylerken" matched_word="söylerken" name="While" to="Adv"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="söyle" name="Pos" word="söyle"/>
+				<inflectionalSuffix actual="r" application="r" form="+Ir" id="Aor" matched_word="söyler" name="Aor" word="söyler"/>
+				<derivationalSuffix actual="ken" application="ken" form="ken" id="While" matched_word="söylerken" name="While" to="Adv" word="söylerken"/>
 			</suffixes>
 		</word>
 		<word parse_result="iki+Num+Card+Adj+Zero" str="iki">
 			<stem lemma="iki" primary_position="Num" root="iki" secondary_position="Card"/>
 			<suffixes>
-				<derivationalSuffix actual="" application="" form="" id="Numeral_Zero_Transition_1" matched_part="iki" matched_word="iki" name="Zero" to="Adj"/>
+				<derivationalSuffix actual="" application="" form="" id="Numeral_Zero_Transition_1" matched_word="iki" name="Zero" to="Adj" word="iki"/>
 			</suffixes>
 		</word>
 		<word parse_result="adım+Noun+A3sg+Pnon+Loc" str="adımda">
 			<stem lemma="adım" primary_position="Noun" root="adım"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="adım" matched_word="adım" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="adım" matched_word="adım" name="Pnon"/>
-				<inflectionalSuffix actual="da" application="da" form="dA" id="Loc_Noun" matched_part="adımda" matched_word="adımda" name="Loc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="adım" name="A3sg" word="adım"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="adım" name="Pnon" word="adım"/>
+				<inflectionalSuffix actual="da" application="da" form="dA" id="Loc_Noun" matched_word="adımda" name="Loc" word="adımda"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="Ömür_Uzatma_Kıraathanesi'nin"/>
 		<word parse_result="kapı+Noun+A3sg+P3sg+Dat" str="kapısına">
 			<stem lemma="kapı" primary_position="Noun" root="kapı"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kapı" matched_word="kapı" name="A3sg"/>
-				<inflectionalSuffix actual="sı" application="sı" form="+sI" id="P3sg_Noun" matched_part="kapısı" matched_word="kapısı" name="P3sg"/>
-				<inflectionalSuffix actual="na" application="na" form="nA" id="Dat_Noun" matched_part="kapısına" matched_word="kapısına" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kapı" name="A3sg" word="kapı"/>
+				<inflectionalSuffix actual="sı" application="sı" form="+sI" id="P3sg_Noun" matched_word="kapısı" name="P3sg" word="kapısı"/>
+				<inflectionalSuffix actual="na" application="na" form="nA" id="Dat_Noun" matched_word="kapısına" name="Dat" word="kapısına"/>
 			</suffixes>
 		</word>
 		<word parse_result="var+Verb+Pos+Narr+Past+A3sg" str="varmıştı">
 			<stem lemma="varmak" primary_position="Verb" root="var"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="var" matched_word="var" name="Pos"/>
-				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_part="varmış" matched_word="varmış" name="Narr"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="varmıştı" matched_word="varmıştı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="varmıştı" matched_word="varmıştı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="var" name="Pos" word="var"/>
+				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_word="varmış" name="Narr" word="varmış"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="varmıştı" name="Past" word="varmıştı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="varmıştı" name="A3sg" word="varmıştı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -740,9 +740,9 @@
 		<word parse_result="aç+Verb+Pos+Past+A3sg" str="açtı">
 			<stem lemma="açmak" primary_position="Verb" root="aç"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="aç" matched_word="aç" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="açtı" matched_word="açtı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="açtı" matched_word="açtı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="aç" name="Pos" word="aç"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="açtı" name="Past" word="açtı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="açtı" name="A3sg" word="açtı"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -751,24 +751,24 @@
 		<word parse_result="dön+Verb+Pos+Adv+AfterDoingSo" str="dönüp">
 			<stem lemma="dönmek" primary_position="Verb" root="dön"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="dön" matched_word="dön" name="Pos"/>
-				<derivationalSuffix actual="üp" application="üp" form="+yIp" id="AfterDoingSo" matched_part="dönüp" matched_word="dönüp" name="AfterDoingSo" to="Adv"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="dön" name="Pos" word="dön"/>
+				<derivationalSuffix actual="üp" application="üp" form="+yIp" id="AfterDoingSo" matched_word="dönüp" name="AfterDoingSo" to="Adv" word="dönüp"/>
 			</suffixes>
 		</word>
 		<word parse_result="biz+Pron+Pers+A1pl+Pnon+Dat" str="bize">
 			<stem lemma="biz" primary_position="Pron" root="biz" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Pl_Pron" matched_part="biz" matched_word="biz" name="A1pl"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="biz" matched_word="biz" name="Pnon"/>
-				<inflectionalSuffix actual="e" application="e" form="e" id="Dat_Pron" matched_part="bize" matched_word="bize" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Pl_Pron" matched_word="biz" name="A1pl" word="biz"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="biz" name="Pnon" word="biz"/>
+				<inflectionalSuffix actual="e" application="e" form="e" id="Dat_Pron" matched_word="bize" name="Dat" word="bize"/>
 			</suffixes>
 		</word>
 		<word parse_result="bak+Verb+Pos+Past+A3sg" str="baktı">
 			<stem lemma="bakmak" primary_position="Verb" root="bak"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bak" matched_word="bak" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="baktı" matched_word="baktı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="baktı" matched_word="baktı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bak" name="Pos" word="bak"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="baktı" name="Past" word="baktı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="baktı" name="A3sg" word="baktı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -783,9 +783,9 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -797,8 +797,8 @@
 		<word parse_result="kaybol+Verb+Pos+Adv+AfterDoingSo" str="kaybolup">
 			<stem lemma="kaybolmak" primary_position="Verb" root="kaybol"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="kaybol" matched_word="kaybol" name="Pos"/>
-				<derivationalSuffix actual="up" application="up" form="+yIp" id="AfterDoingSo" matched_part="kaybolup" matched_word="kaybolup" name="AfterDoingSo" to="Adv"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kaybol" name="Pos" word="kaybol"/>
+				<derivationalSuffix actual="up" application="up" form="+yIp" id="AfterDoingSo" matched_word="kaybolup" name="AfterDoingSo" to="Adv" word="kaybolup"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="gidiverdi"/>
@@ -811,8 +811,8 @@
 		<word parse_result="mi+Ques+Pres+A3sg" str="mi">
 			<stem lemma="mi" primary_position="Ques" root="mi"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_part="mi" matched_word="mi" name="Pres"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Ques" matched_part="mi" matched_word="mi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" word="mi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Ques" matched_word="mi" name="A3sg" word="mi"/>
 			</suffixes>
 		</word>
 		<word parse_result="?+Punc" str="?">
@@ -822,9 +822,9 @@
 		<word parse_result="sor+Verb+Pos+Past+A3sg" str="sordu">
 			<stem lemma="sormak" primary_position="Verb" root="sor"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="sor" matched_word="sor" name="Pos"/>
-				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_part="sordu" matched_word="sordu" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="sordu" matched_word="sordu" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="sor" name="Pos" word="sor"/>
+				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_word="sordu" name="Past" word="sordu"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="sordu" name="A3sg" word="sordu"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -836,9 +836,9 @@
 		<word parse_result="fırla+Verb+Pos+Past+A1sg" str="fırladım">
 			<stem lemma="fırlamak" primary_position="Verb" root="fırla"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="fırla" matched_word="fırla" name="Pos"/>
-				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_part="fırladı" matched_word="fırladı" name="Past"/>
-				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_part="fırladım" matched_word="fırladım" name="A1sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="fırla" name="Pos" word="fırla"/>
+				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_word="fırladı" name="Past" word="fırladı"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="fırladım" name="A1sg" word="fırladım"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -847,41 +847,41 @@
 		<word parse_result="kapı+Noun+A3sg+Pnon+Acc" str="kapıyı">
 			<stem lemma="kapı" primary_position="Noun" root="kapı"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kapı" matched_word="kapı" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="kapı" matched_word="kapı" name="Pnon"/>
-				<inflectionalSuffix actual="yı" application="yı" form="+yI" id="Acc_Noun" matched_part="kapıyı" matched_word="kapıyı" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kapı" name="A3sg" word="kapı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kapı" name="Pnon" word="kapı"/>
+				<inflectionalSuffix actual="yı" application="yı" form="+yI" id="Acc_Noun" matched_word="kapıyı" name="Acc" word="kapıyı"/>
 			</suffixes>
 		</word>
 		<word parse_result="hız+Noun+A3sg+Pnon+Ins" str="hızla">
 			<stem lemma="hız" primary_position="Noun" root="hız"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="hız" matched_word="hız" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="hız" matched_word="hız" name="Pnon"/>
-				<inflectionalSuffix actual="la" application="la" form="+ylA" id="Ins_Noun" matched_part="hızla" matched_word="hızla" name="Ins"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="hız" name="A3sg" word="hız"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="hız" name="Pnon" word="hız"/>
+				<inflectionalSuffix actual="la" application="la" form="+ylA" id="Ins_Noun" matched_word="hızla" name="Ins" word="hızla"/>
 			</suffixes>
 		</word>
 		<word parse_result="aç+Verb+Pos+Adv+AfterDoingSo" str="açıp">
 			<stem lemma="açmak" primary_position="Verb" root="aç"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="aç" matched_word="aç" name="Pos"/>
-				<derivationalSuffix actual="ıp" application="ıp" form="+yIp" id="AfterDoingSo" matched_part="açıp" matched_word="açıp" name="AfterDoingSo" to="Adv"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="aç" name="Pos" word="aç"/>
+				<derivationalSuffix actual="ıp" application="ıp" form="+yIp" id="AfterDoingSo" matched_word="açıp" name="AfterDoingSo" to="Adv" word="açıp"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="Ömür_Uzatma_Kıraathanesi'nden"/>
 		<word parse_result="dışarı+Noun+A3sg+Pnon+Dat" str="dışarıya">
 			<stem lemma="dışarı" primary_position="Noun" root="dışarı"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="dışarı" matched_word="dışarı" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="dışarı" matched_word="dışarı" name="Pnon"/>
-				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Noun" matched_part="dışarıya" matched_word="dışarıya" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="dışarı" name="A3sg" word="dışarı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="dışarı" name="Pnon" word="dışarı"/>
+				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Noun" matched_word="dışarıya" name="Dat" word="dışarıya"/>
 			</suffixes>
 		</word>
 		<word parse_result="çık+Verb+Pos+Past+A1sg" str="çıktım">
 			<stem lemma="çıkmak" primary_position="Verb" root="çık"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="çık" matched_word="çık" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="çıktı" matched_word="çıktı" name="Past"/>
-				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_part="çıktım" matched_word="çıktım" name="A1sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="çık" name="Pos" word="çık"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="çıktı" name="Past" word="çıktı"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="çıktım" name="A1sg" word="çıktım"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -893,32 +893,32 @@
 		<word parse_result="yol+Noun+A3pl+Pnon+Loc" str="yollarda">
 			<stem lemma="yol" primary_position="Noun" root="yol"/>
 			<suffixes>
-				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_part="yollar" matched_word="yollar" name="A3pl"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="yollar" matched_word="yollar" name="Pnon"/>
-				<inflectionalSuffix actual="da" application="da" form="dA" id="Loc_Noun" matched_part="yollarda" matched_word="yollarda" name="Loc"/>
+				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_word="yollar" name="A3pl" word="yollar"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="yollar" name="Pnon" word="yollar"/>
+				<inflectionalSuffix actual="da" application="da" form="dA" id="Loc_Noun" matched_word="yollarda" name="Loc" word="yollarda"/>
 			</suffixes>
 		</word>
 		<word parse_result="koş+Verb+Pos+Adv+ByDoingSo" str="koşarak">
 			<stem lemma="koşmak" primary_position="Verb" root="koş"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="koş" matched_word="koş" name="Pos"/>
-				<derivationalSuffix actual="arak" application="arak" form="+yArAk" id="ByDoingSo" matched_part="koşarak" matched_word="koşarak" name="ByDoingSo" to="Adv"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="koş" name="Pos" word="koş"/>
+				<derivationalSuffix actual="arak" application="arak" form="+yArAk" id="ByDoingSo" matched_word="koşarak" name="ByDoingSo" to="Adv" word="koşarak"/>
 			</suffixes>
 		</word>
 		<word parse_result="git+Verb+Pos+Adj+PresPart" str="giden">
 			<stem lemma="gitmek" primary_position="Verb" root="gid"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="git" matched_word="gid" name="Pos"/>
-				<derivationalSuffix actual="en" application="en" form="+yAn" id="PresPart" matched_part="giden" matched_word="giden" name="PresPart" to="Adj"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gid" name="Pos" word="git"/>
+				<derivationalSuffix actual="en" application="en" form="+yAn" id="PresPart" matched_word="giden" name="PresPart" to="Adj" word="giden"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="Kerem'i"/>
 		<word parse_result="yakala+Verb+Pos+Past+A1sg" str="yakaladım">
 			<stem lemma="yakalamak" primary_position="Verb" root="yakala"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="yakala" matched_word="yakala" name="Pos"/>
-				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_part="yakaladı" matched_word="yakaladı" name="Past"/>
-				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_part="yakaladım" matched_word="yakaladım" name="A1sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yakala" name="Pos" word="yakala"/>
+				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_word="yakaladı" name="Past" word="yakaladı"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="yakaladım" name="A1sg" word="yakaladım"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -930,17 +930,17 @@
 		<word parse_result="bak+Verb+Pos+Past+A3sg" str="baktı">
 			<stem lemma="bakmak" primary_position="Verb" root="bak"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bak" matched_word="bak" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="baktı" matched_word="baktı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="baktı" matched_word="baktı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bak" name="Pos" word="bak"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="baktı" name="Past" word="baktı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="baktı" name="A3sg" word="baktı"/>
 			</suffixes>
 		</word>
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Dat" str="bana">
 			<stem lemma="ben" primary_position="Pron" root="ban" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_part="ben" matched_word="ban" name="A1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="ben" matched_word="ban" name="Pnon"/>
-				<inflectionalSuffix actual="a" application="a" form="a" id="Dat_Pron" matched_part="bana" matched_word="bana" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_word="ban" name="A1sg" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ban" name="Pnon" word="ben"/>
+				<inflectionalSuffix actual="a" application="a" form="a" id="Dat_Pron" matched_word="bana" name="Dat" word="bana"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -952,9 +952,9 @@
 		<word parse_result="gel+Verb+Pos+Past+A2pl" str="geldiniz">
 			<stem lemma="gelmek" primary_position="Verb" root="gel"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="gel" matched_word="gel" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="geldi" matched_word="geldi" name="Past"/>
-				<inflectionalSuffix actual="niz" application="niz" form="nIz" id="A2Pl_Verb" matched_part="geldiniz" matched_word="geldiniz" name="A2pl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gel" name="Pos" word="gel"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="geldi" name="Past" word="geldi"/>
+				<inflectionalSuffix actual="niz" application="niz" form="nIz" id="A2Pl_Verb" matched_word="geldiniz" name="A2pl" word="geldiniz"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -969,9 +969,9 @@
 		<word parse_result="git+Verb+Pos+Fut+A1sg" str="gideceğim">
 			<stem lemma="gitmek" primary_position="Verb" root="gid"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="git" matched_word="gid" name="Pos"/>
-				<inflectionalSuffix actual="eceğ" application="ecek" form="+yAcAk" id="Fut" matched_part="gidecek" matched_word="gideceğ" name="Fut"/>
-				<inflectionalSuffix actual="im" application="im" form="+Im" id="A1Sg_Verb" matched_part="gideceğim" matched_word="gideceğim" name="A1sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gid" name="Pos" word="git"/>
+				<inflectionalSuffix actual="eceğ" application="ecek" form="+yAcAk" id="Fut" matched_word="gideceğ" name="Fut" word="gidecek"/>
+				<inflectionalSuffix actual="im" application="im" form="+Im" id="A1Sg_Verb" matched_word="gideceğim" name="A1sg" word="gideceğim"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -983,19 +983,19 @@
 		<word parse_result="git+Verb+Pos+Noun+PastPart+A3sg+P1sg+Acc" str="gittiğimi">
 			<stem lemma="gitmek" primary_position="Verb" root="git"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="git" matched_word="git" name="Pos"/>
-				<derivationalSuffix actual="tiğ" application="tik" form="dIk" id="PastPart_Noun" matched_part="gittik" matched_word="gittiğ" name="PastPart" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="gittiğ" matched_word="gittiğ" name="A3sg"/>
-				<inflectionalSuffix actual="im" application="im" form="+Im" id="P1sg_Noun" matched_part="gittiğim" matched_word="gittiğim" name="P1sg"/>
-				<inflectionalSuffix actual="i" application="i" form="+yI" id="Acc_Noun" matched_part="gittiğimi" matched_word="gittiğimi" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="git" name="Pos" word="git"/>
+				<derivationalSuffix actual="tiğ" application="tik" form="dIk" id="PastPart_Noun" matched_word="gittiğ" name="PastPart" to="Noun" word="gittik"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="gittiğ" name="A3sg" word="gittiğ"/>
+				<inflectionalSuffix actual="im" application="im" form="+Im" id="P1sg_Noun" matched_word="gittiğim" name="P1sg" word="gittiğim"/>
+				<inflectionalSuffix actual="i" application="i" form="+yI" id="Acc_Noun" matched_word="gittiğimi" name="Acc" word="gittiğimi"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="biliyor"/>
 		<word parse_result="mu+Ques+Pres+A2pl" str="musunuz">
 			<stem lemma="mu" primary_position="Ques" root="mu"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_part="mu" matched_word="mu" name="Pres"/>
-				<inflectionalSuffix actual="sunuz" application="sunuz" form="sunuz" id="A2Pl_Ques" matched_part="musunuz" matched_word="musunuz" name="A2pl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" word="mu"/>
+				<inflectionalSuffix actual="sunuz" application="sunuz" form="sunuz" id="A2Pl_Ques" matched_word="musunuz" name="A2pl" word="musunuz"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1023,22 +1023,22 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result="çare+Noun+A3sg+Pnon+Nom+Adj+Without+Noun+Ness+A3sg+Pnon+Ins" str="çaresizlikle">
 			<stem lemma="çare" primary_position="Noun" root="çare"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="çare" matched_word="çare" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="çare" matched_word="çare" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_part="çare" matched_word="çare" name="Nom"/>
-				<derivationalSuffix actual="siz" application="siz" form="sIz" id="Without" matched_part="çaresiz" matched_word="çaresiz" name="Without" to="Adj"/>
-				<derivationalSuffix actual="lik" application="lik" form="lIk" id="Ness" matched_part="çaresizlik" matched_word="çaresizlik" name="Ness" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="çaresizlik" matched_word="çaresizlik" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="çaresizlik" matched_word="çaresizlik" name="Pnon"/>
-				<inflectionalSuffix actual="le" application="le" form="+ylA" id="Ins_Noun" matched_part="çaresizlikle" matched_word="çaresizlikle" name="Ins"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="çare" name="A3sg" word="çare"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="çare" name="Pnon" word="çare"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="çare" name="Nom" word="çare"/>
+				<derivationalSuffix actual="siz" application="siz" form="sIz" id="Without" matched_word="çaresiz" name="Without" to="Adj" word="çaresiz"/>
+				<derivationalSuffix actual="lik" application="lik" form="lIk" id="Ness" matched_word="çaresizlik" name="Ness" to="Noun" word="çaresizlik"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="çaresizlik" name="A3sg" word="çaresizlik"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="çaresizlik" name="Pnon" word="çaresizlik"/>
+				<inflectionalSuffix actual="le" application="le" form="+ylA" id="Ins_Noun" matched_word="çaresizlikle" name="Ins" word="çaresizlikle"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1050,9 +1050,9 @@
 		<word parse_result="yol+Noun+A3sg+Pnon+Acc" str="yolu">
 			<stem lemma="yol" primary_position="Noun" root="yol"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="yol" matched_word="yol" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="yol" matched_word="yol" name="Pnon"/>
-				<inflectionalSuffix actual="u" application="u" form="+yI" id="Acc_Noun" matched_part="yolu" matched_word="yolu" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="yol" name="A3sg" word="yol"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="yol" name="Pnon" word="yol"/>
+				<inflectionalSuffix actual="u" application="u" form="+yI" id="Acc_Noun" matched_word="yolu" name="Acc" word="yolu"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="bilmiyorum"/>
@@ -1076,18 +1076,18 @@
 		<word parse_result="bul+Verb+Verb+Able+Neg+Fut+A1sg" str="bulamayacağım">
 			<stem lemma="bulmak" primary_position="Verb" root="bul"/>
 			<suffixes>
-				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_part="bula" matched_word="bula" name="Able" to="Verb"/>
-				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_part="bulama" matched_word="bulama" name="Neg"/>
-				<inflectionalSuffix actual="yacağ" application="yacak" form="+yAcAk" id="Fut" matched_part="bulamayacak" matched_word="bulamayacağ" name="Fut"/>
-				<inflectionalSuffix actual="ım" application="ım" form="+Im" id="A1Sg_Verb" matched_part="bulamayacağım" matched_word="bulamayacağım" name="A1sg"/>
+				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_word="bula" name="Able" to="Verb" word="bula"/>
+				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="bulama" name="Neg" word="bulama"/>
+				<inflectionalSuffix actual="yacağ" application="yacak" form="+yAcAk" id="Fut" matched_word="bulamayacağ" name="Fut" word="bulamayacak"/>
+				<inflectionalSuffix actual="ım" application="ım" form="+Im" id="A1Sg_Verb" matched_word="bulamayacağım" name="A1sg" word="bulamayacağım"/>
 			</suffixes>
 		</word>
 		<word parse_result="ora+Noun+A3sg+Pnon+Acc" str="orayı">
 			<stem lemma="ora" primary_position="Noun" root="ora"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="ora" matched_word="ora" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="ora" matched_word="ora" name="Pnon"/>
-				<inflectionalSuffix actual="yı" application="yı" form="+yI" id="Acc_Noun" matched_part="orayı" matched_word="orayı" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="ora" name="A3sg" word="ora"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="ora" name="Pnon" word="ora"/>
+				<inflectionalSuffix actual="yı" application="yı" form="+yI" id="Acc_Noun" matched_word="orayı" name="Acc" word="orayı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1099,11 +1099,11 @@
 		<word parse_result="iki+Num+Card+Adj+Zero+Noun+Zero+A3sg+P1pl+Nom" str="ikimiz">
 			<stem lemma="iki" primary_position="Num" root="iki" secondary_position="Card"/>
 			<suffixes>
-				<derivationalSuffix actual="" application="" form="" id="Numeral_Zero_Transition_1" matched_part="iki" matched_word="iki" name="Zero" to="Adj"/>
-				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_part="iki" matched_word="iki" name="Zero" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="iki" matched_word="iki" name="A3sg"/>
-				<inflectionalSuffix actual="miz" application="miz" form="+ImIz" id="P1pl_Noun" matched_part="ikimiz" matched_word="ikimiz" name="P1pl"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="ikimiz" matched_word="ikimiz" name="Nom"/>
+				<derivationalSuffix actual="" application="" form="" id="Numeral_Zero_Transition_1" matched_word="iki" name="Zero" to="Adj" word="iki"/>
+				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_word="iki" name="Zero" to="Noun" word="iki"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="iki" name="A3sg" word="iki"/>
+				<inflectionalSuffix actual="miz" application="miz" form="+ImIz" id="P1pl_Noun" matched_word="ikimiz" name="P1pl" word="ikimiz"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="ikimiz" name="Nom" word="ikimiz"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="yan_yana"/>
@@ -1111,17 +1111,17 @@
 		<word parse_result="gece+Noun+Time+A3sg+Pnon+Gen" str="gecenin">
 			<stem lemma="gece" primary_position="Noun" root="gece" secondary_position="Time"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="gece" matched_word="gece" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="gece" matched_word="gece" name="Pnon"/>
-				<inflectionalSuffix actual="nin" application="nin" form="+nIn" id="Gen_Noun" matched_part="gecenin" matched_word="gecenin" name="Gen"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="gece" name="A3sg" word="gece"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="gece" name="Pnon" word="gece"/>
+				<inflectionalSuffix actual="nin" application="nin" form="+nIn" id="Gen_Noun" matched_word="gecenin" name="Gen" word="gecenin"/>
 			</suffixes>
 		</word>
 		<word parse_result="iç+Noun+A3sg+P3sg+Loc" str="içinde">
 			<stem lemma="iç" primary_position="Noun" root="iç"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="iç" matched_word="iç" name="A3sg"/>
-				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3sg_Noun" matched_part="içi" matched_word="içi" name="P3sg"/>
-				<inflectionalSuffix actual="nde" application="nde" form="ndA" id="Loc_Noun" matched_part="içinde" matched_word="içinde" name="Loc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="iç" name="A3sg" word="iç"/>
+				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3sg_Noun" matched_word="içi" name="P3sg" word="içi"/>
+				<inflectionalSuffix actual="nde" application="nde" form="ndA" id="Loc_Noun" matched_word="içinde" name="Loc" word="içinde"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="ilerliyorduk"/>
@@ -1137,17 +1137,17 @@
 		<word parse_result="kadın+Noun+A3sg+Pnon+Nom" str="kadın">
 			<stem lemma="kadın" primary_position="Noun" root="kadın"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kadın" matched_word="kadın" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="kadın" matched_word="kadın" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="kadın" matched_word="kadın" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kadın" name="A3sg" word="kadın"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kadın" name="Pnon" word="kadın"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kadın" name="Nom" word="kadın"/>
 			</suffixes>
 		</word>
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Nom" str="o">
 			<stem lemma="o" primary_position="Pron" root="o" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_part="o" matched_word="o" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="o" matched_word="o" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_part="o" matched_word="o" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="o" name="A3sg" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="o" name="Pnon" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="o" name="Nom" word="o"/>
 			</suffixes>
 		</word>
 		<word parse_result="?+Punc" str="?">
@@ -1157,9 +1157,9 @@
 		<word parse_result="sor+Verb+Pos+Past+A1sg" str="sordum">
 			<stem lemma="sormak" primary_position="Verb" root="sor"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="sor" matched_word="sor" name="Pos"/>
-				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_part="sordu" matched_word="sordu" name="Past"/>
-				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_part="sordum" matched_word="sordum" name="A1sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="sor" name="Pos" word="sor"/>
+				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_word="sordu" name="Past" word="sordu"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="sordum" name="A1sg" word="sordum"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1181,9 +1181,9 @@
 		<word parse_result="bura+Noun+A3sg+P3sg+Nom" str="burası">
 			<stem lemma="bura" primary_position="Noun" root="bura"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="bura" matched_word="bura" name="A3sg"/>
-				<inflectionalSuffix actual="sı" application="sı" form="+sI" id="P3sg_Noun" matched_part="burası" matched_word="burası" name="P3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="burası" matched_word="burası" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="bura" name="A3sg" word="bura"/>
+				<inflectionalSuffix actual="sı" application="sı" form="+sI" id="P3sg_Noun" matched_word="burası" name="P3sg" word="burası"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="burası" name="Nom" word="burası"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1198,17 +1198,17 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result="Hacı_Murat+Noun+Prop+A3sg+Pnon+Nom" str="Hacı_Murat">
 			<stem lemma="Hacı_Murat" primary_position="Noun" root="Hacı_Murat" secondary_position="Prop"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Hacı_Murat" matched_word="Hacı_Murat" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Hacı_Murat" matched_word="Hacı_Murat" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="Hacı_Murat" matched_word="Hacı_Murat" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Hacı_Murat" name="A3sg" word="Hacı_Murat"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Hacı_Murat" name="Pnon" word="Hacı_Murat"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Hacı_Murat" name="Nom" word="Hacı_Murat"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1220,8 +1220,8 @@
 		<word parse_result="mu+Ques+Pres+A2sg" str="musun">
 			<stem lemma="mu" primary_position="Ques" root="mu"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_part="mu" matched_word="mu" name="Pres"/>
-				<inflectionalSuffix actual="sun" application="sun" form="sun" id="A2Sg_Ques" matched_part="musun" matched_word="musun" name="A2sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" word="mu"/>
+				<inflectionalSuffix actual="sun" application="sun" form="sun" id="A2Sg_Ques" matched_word="musun" name="A2sg" word="musun"/>
 			</suffixes>
 		</word>
 		<word parse_result="?+Punc" str="?">
@@ -1239,27 +1239,27 @@
 		<word parse_result="kadın+Noun+A3sg+Pnon+Nom" str="kadın">
 			<stem lemma="kadın" primary_position="Noun" root="kadın"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kadın" matched_word="kadın" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="kadın" matched_word="kadın" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="kadın" matched_word="kadın" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kadın" name="A3sg" word="kadın"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kadın" name="Pnon" word="kadın"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kadın" name="Nom" word="kadın"/>
 			</suffixes>
 		</word>
 		<word parse_result="ol+Verb+Pos+Noun+PastPart+A3sg+P3sg+Acc" str="olduğunu">
 			<stem lemma="olmak" primary_position="Verb" root="ol"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="ol" matched_word="ol" name="Pos"/>
-				<derivationalSuffix actual="duğ" application="duk" form="dIk" id="PastPart_Noun" matched_part="olduk" matched_word="olduğ" name="PastPart" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="olduğ" matched_word="olduğ" name="A3sg"/>
-				<inflectionalSuffix actual="u" application="u" form="+sI" id="P3sg_Noun" matched_part="olduğu" matched_word="olduğu" name="P3sg"/>
-				<inflectionalSuffix actual="nu" application="nu" form="nI" id="Acc_Noun" matched_part="olduğunu" matched_word="olduğunu" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="ol" name="Pos" word="ol"/>
+				<derivationalSuffix actual="duğ" application="duk" form="dIk" id="PastPart_Noun" matched_word="olduğ" name="PastPart" to="Noun" word="olduk"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="olduğ" name="A3sg" word="olduğ"/>
+				<inflectionalSuffix actual="u" application="u" form="+sI" id="P3sg_Noun" matched_word="olduğu" name="P3sg" word="olduğu"/>
+				<inflectionalSuffix actual="nu" application="nu" form="nI" id="Acc_Noun" matched_word="olduğunu" name="Acc" word="olduğunu"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="bilmiyor"/>
 		<word parse_result="mu+Ques+Pres+A2sg" str="musun">
 			<stem lemma="mu" primary_position="Ques" root="mu"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_part="mu" matched_word="mu" name="Pres"/>
-				<inflectionalSuffix actual="sun" application="sun" form="sun" id="A2Sg_Ques" matched_part="musun" matched_word="musun" name="A2sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" word="mu"/>
+				<inflectionalSuffix actual="sun" application="sun" form="sun" id="A2Sg_Ques" matched_word="musun" name="A2sg" word="musun"/>
 			</suffixes>
 		</word>
 		<word parse_result="?+Punc" str="?">
@@ -1277,25 +1277,25 @@
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" str="Kerem">
 			<stem lemma="Kerem" primary_position="Noun" root="Kerem" secondary_position="Prop"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="Kerem" matched_word="Kerem" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="Kerem" matched_word="Kerem" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="Kerem" matched_word="Kerem" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem" name="A3sg" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem" name="Pnon" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Kerem" name="Nom" word="Kerem"/>
 			</suffixes>
 		</word>
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Dat" str="bana">
 			<stem lemma="ben" primary_position="Pron" root="ban" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_part="ben" matched_word="ban" name="A1sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="ben" matched_word="ban" name="Pnon"/>
-				<inflectionalSuffix actual="a" application="a" form="a" id="Dat_Pron" matched_part="bana" matched_word="bana" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_word="ban" name="A1sg" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ban" name="Pnon" word="ben"/>
+				<inflectionalSuffix actual="a" application="a" form="a" id="Dat_Pron" matched_word="bana" name="Dat" word="bana"/>
 			</suffixes>
 		</word>
 		<word parse_result="bak+Verb+Pos+Past+A3sg" str="baktı">
 			<stem lemma="bakmak" primary_position="Verb" root="bak"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bak" matched_word="bak" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="baktı" matched_word="baktı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="baktı" matched_word="baktı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bak" name="Pos" word="bak"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="baktı" name="Past" word="baktı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="baktı" name="A3sg" word="baktı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1314,19 +1314,19 @@
 		<word parse_result="kadın+Noun+A3sg+Pnon+Nom" str="kadın">
 			<stem lemma="kadın" primary_position="Noun" root="kadın"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="kadın" matched_word="kadın" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="kadın" matched_word="kadın" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="kadın" matched_word="kadın" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kadın" name="A3sg" word="kadın"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kadın" name="Pnon" word="kadın"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kadın" name="Nom" word="kadın"/>
 			</suffixes>
 		</word>
 		<word parse_result="ol+Verb+Pos+Noun+PastPart+A3sg+P3sg+Acc" str="olduğunu">
 			<stem lemma="olmak" primary_position="Verb" root="ol"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="ol" matched_word="ol" name="Pos"/>
-				<derivationalSuffix actual="duğ" application="duk" form="dIk" id="PastPart_Noun" matched_part="olduk" matched_word="olduğ" name="PastPart" to="Noun"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="olduğ" matched_word="olduğ" name="A3sg"/>
-				<inflectionalSuffix actual="u" application="u" form="+sI" id="P3sg_Noun" matched_part="olduğu" matched_word="olduğu" name="P3sg"/>
-				<inflectionalSuffix actual="nu" application="nu" form="nI" id="Acc_Noun" matched_part="olduğunu" matched_word="olduğunu" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="ol" name="Pos" word="ol"/>
+				<derivationalSuffix actual="duğ" application="duk" form="dIk" id="PastPart_Noun" matched_word="olduğ" name="PastPart" to="Noun" word="olduk"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="olduğ" name="A3sg" word="olduğ"/>
+				<inflectionalSuffix actual="u" application="u" form="+sI" id="P3sg_Noun" matched_word="olduğu" name="P3sg" word="olduğu"/>
+				<inflectionalSuffix actual="nu" application="nu" form="nI" id="Acc_Noun" matched_word="olduğunu" name="Acc" word="olduğunu"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -1335,9 +1335,9 @@
 		<word parse_result="de+Verb+Pos+Past+A3sg" str="dedi">
 			<stem lemma="demek" primary_position="Verb" root="de"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="de" matched_word="de" name="Pos"/>
-				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_part="dedi" matched_word="dedi" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="dedi" matched_word="dedi" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" word="de"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" word="dedi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" word="dedi"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1349,18 +1349,18 @@
 		<word parse_result="tanı+Verb+Verb+Able+Neg+Past+A1pl" str="tanıyamadık">
 			<stem lemma="tanımak" primary_position="Verb" root="tanı"/>
 			<suffixes>
-				<derivationalSuffix actual="ya" application="ya" form="+yA" id="Able" matched_part="tanıya" matched_word="tanıya" name="Able" to="Verb"/>
-				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_part="tanıyama" matched_word="tanıyama" name="Neg"/>
-				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_part="tanıyamadı" matched_word="tanıyamadı" name="Past"/>
-				<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_part="tanıyamadık" matched_word="tanıyamadık" name="A1pl"/>
+				<derivationalSuffix actual="ya" application="ya" form="+yA" id="Able" matched_word="tanıya" name="Able" to="Verb" word="tanıya"/>
+				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="tanıyama" name="Neg" word="tanıyama"/>
+				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_word="tanıyamadı" name="Past" word="tanıyamadı"/>
+				<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="tanıyamadık" name="A1pl" word="tanıyamadık"/>
 			</suffixes>
 		</word>
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Acc" str="onu">
 			<stem lemma="o" primary_position="Pron" root="o" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_part="o" matched_word="o" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="o" matched_word="o" name="Pnon"/>
-				<inflectionalSuffix actual="nu" application="nu" form="nu" id="Acc_Pron" matched_part="onu" matched_word="onu" name="Acc"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="o" name="A3sg" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="o" name="Pnon" word="o"/>
+				<inflectionalSuffix actual="nu" application="nu" form="nu" id="Acc_Pron" matched_word="onu" name="Acc" word="onu"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1372,19 +1372,19 @@
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Gen" str="onun">
 			<stem lemma="o" primary_position="Pron" root="o" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_part="o" matched_word="o" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="o" matched_word="o" name="Pnon"/>
-				<inflectionalSuffix actual="nun" application="nun" form="nun" id="Gen_Pron" matched_part="onun" matched_word="onun" name="Gen"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="o" name="A3sg" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="o" name="Pnon" word="o"/>
+				<inflectionalSuffix actual="nun" application="nun" form="nun" id="Gen_Pron" matched_word="onun" name="Gen" word="onun"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="bir_an"/>
 		<word parse_result="görün+Verb+Verb+Able+Pos+Adj+FutPart+P3sg" str="görünebileceği">
 			<stem lemma="görünmek" primary_position="Verb" root="görün"/>
 			<suffixes>
-				<derivationalSuffix actual="ebil" application="ebil" form="+yAbil" id="Able" matched_part="görünebil" matched_word="görünebil" name="Able" to="Verb"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="görünebil" matched_word="görünebil" name="Pos"/>
-				<derivationalSuffix actual="eceğ" application="ecek" form="+yAcAk" id="FutPart_Adj" matched_part="görünebilecek" matched_word="görünebileceğ" name="FutPart" to="Adj"/>
-				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3Sg_Adj" matched_part="görünebileceği" matched_word="görünebileceği" name="P3sg"/>
+				<derivationalSuffix actual="ebil" application="ebil" form="+yAbil" id="Able" matched_word="görünebil" name="Able" to="Verb" word="görünebil"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="görünebil" name="Pos" word="görünebil"/>
+				<derivationalSuffix actual="eceğ" application="ecek" form="+yAcAk" id="FutPart_Adj" matched_word="görünebileceğ" name="FutPart" to="Adj" word="görünebilecek"/>
+				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3Sg_Adj" matched_word="görünebileceği" name="P3sg" word="görünebileceği"/>
 			</suffixes>
 		</word>
 		<word parse_result="bir+Det" str="bir">
@@ -1393,9 +1393,9 @@
 		<word parse_result="yer+Noun+A3sg+Pnon+Abl" str="yerden">
 			<stem lemma="yer" primary_position="Noun" root="yer"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="yer" matched_word="yer" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="yer" matched_word="yer" name="Pnon"/>
-				<inflectionalSuffix actual="den" application="den" form="dAn" id="Abl_Noun" matched_part="yerden" matched_word="yerden" name="Abl"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="yer" name="A3sg" word="yer"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="yer" name="Pnon" word="yer"/>
+				<inflectionalSuffix actual="den" application="den" form="dAn" id="Abl_Noun" matched_word="yerden" name="Abl" word="yerden"/>
 			</suffixes>
 		</word>
 		<word parse_result="ayrı+Adj" str="ayrı">
@@ -1422,17 +1422,17 @@
 		<word parse_result="yol+Noun+A3sg+Pnon+Nom" str="yol">
 			<stem lemma="yol" primary_position="Noun" root="yol"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="yol" matched_word="yol" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="yol" matched_word="yol" name="Pnon"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_part="yol" matched_word="yol" name="Nom"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="yol" name="A3sg" word="yol"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="yol" name="Pnon" word="yol"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="yol" name="Nom" word="yol"/>
 			</suffixes>
 		</word>
 		<word parse_result="bit+Verb+Pos+Narr+A3sg" str="bitmiş">
 			<stem lemma="bitmek" primary_position="Verb" root="bit"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="bit" matched_word="bit" name="Pos"/>
-				<inflectionalSuffix actual="miş" application="miş" form="mIş" id="Narr" matched_part="bitmiş" matched_word="bitmiş" name="Narr"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="bitmiş" matched_word="bitmiş" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bit" name="Pos" word="bit"/>
+				<inflectionalSuffix actual="miş" application="miş" form="mIş" id="Narr" matched_word="bitmiş" name="Narr" word="bitmiş"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="bitmiş" name="A3sg" word="bitmiş"/>
 			</suffixes>
 		</word>
 		<word parse_result=",+Punc" str=",">
@@ -1447,19 +1447,19 @@
 		<word parse_result="sokak+Noun+A3sg+Pnon+Dat" str="sokağa">
 			<stem lemma="sokak" primary_position="Noun" root="sokağ"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_part="sokak" matched_word="sokağ" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_part="sokak" matched_word="sokağ" name="Pnon"/>
-				<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_part="sokağa" matched_word="sokağa" name="Dat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sokağ" name="A3sg" word="sokak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sokağ" name="Pnon" word="sokak"/>
+				<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_word="sokağa" name="Dat" word="sokağa"/>
 			</suffixes>
 		</word>
 		<word parse_result="aç+Verb+Verb+Pass+Pos+Narr+Past+A3sg" str="açılmıştı">
 			<stem lemma="açmak" primary_position="Verb" root="aç"/>
 			<suffixes>
-				<derivationalSuffix actual="ıl" application="ıl" form="+nIl" id="Pass" matched_part="açıl" matched_word="açıl" name="Pass" to="Verb"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="açıl" matched_word="açıl" name="Pos"/>
-				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_part="açılmış" matched_word="açılmış" name="Narr"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="açılmıştı" matched_word="açılmıştı" name="Past"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_part="açılmıştı" matched_word="açılmıştı" name="A3sg"/>
+				<derivationalSuffix actual="ıl" application="ıl" form="+nIl" id="Pass" matched_word="açıl" name="Pass" to="Verb" word="açıl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="açıl" name="Pos" word="açıl"/>
+				<inflectionalSuffix actual="mış" application="mış" form="mIş" id="Narr" matched_word="açılmış" name="Narr" word="açılmış"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="açılmıştı" name="Past" word="açılmıştı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="açılmıştı" name="A3sg" word="açılmıştı"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1471,9 +1471,9 @@
 		<word parse_result="sap+Verb+Pos+Past+A1pl" str="saptık">
 			<stem lemma="sapmak" primary_position="Verb" root="sap"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_part="sap" matched_word="sap" name="Pos"/>
-				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_part="saptı" matched_word="saptı" name="Past"/>
-				<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_part="saptık" matched_word="saptık" name="A1pl"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="sap" name="Pos" word="sap"/>
+				<inflectionalSuffix actual="tı" application="tı" form="dI" id="Past" matched_word="saptı" name="Past" word="saptı"/>
+				<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="saptık" name="A1pl" word="saptık"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
@@ -1485,16 +1485,16 @@
 		<word parse_result="mı+Ques+Pres+A3sg" str="mı">
 			<stem lemma="mı" primary_position="Ques" root="mı"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_part="mı" matched_word="mı" name="Pres"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Ques" matched_part="mı" matched_word="mı" name="A3sg"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" word="mı"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Ques" matched_word="mı" name="A3sg" word="mı"/>
 			</suffixes>
 		</word>
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Ins" str="onunla">
 			<stem lemma="o" primary_position="Pron" root="o" secondary_position="Pers"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_part="o" matched_word="o" name="A3sg"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_part="o" matched_word="o" name="Pnon"/>
-				<inflectionalSuffix actual="nunla" application="nunla" form="nunla" id="Ins_Pron" matched_part="onunla" matched_word="onunla" name="Ins"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="o" name="A3sg" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="o" name="Pnon" word="o"/>
+				<inflectionalSuffix actual="nunla" application="nunla" form="nunla" id="Ins_Pron" matched_word="onunla" name="Ins" word="onunla"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str=".">
