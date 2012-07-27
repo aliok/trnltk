@@ -71,7 +71,7 @@
         <xs:attribute name="form" type="xs:string" use="required"/>
         <xs:attribute name="application" type="xs:string" use="required"/>
         <xs:attribute name="actual" type="xs:string" use="required"/>
-        <xs:attribute name="word" type="xs:string" use="required"/>
+        <xs:attribute name="matched_word" type="xs:string" use="required"/>
         <xs:attribute name="matched_part" type="xs:string" use="required"/>
     </xs:complexType>
 
