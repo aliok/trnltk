@@ -1,4 +1,4 @@
-from xml.dom.minidom import Element
+from xml.dom.minidom import Element, Text
 
 NAMESPACE = "http://trnltk.org/parseset"
 
@@ -17,11 +17,8 @@ class ParseSetBinding(Binding):
     @classmethod
     def build(cls, node):
         binding = ParseSetBinding()
-        for child_node in node.childNodes:
-            if child_node.tagName=='sentence':
-                binding.sentences.append(SentenceBinding.build(child_node))
-            else:
-                raise Exception("Unknown tag type : " + child_node.tagName)
+        for sentence_node in node.getElementsByTagName("sentence"):
+            binding.sentences.append(SentenceBinding.build(sentence_node))
 
         return binding
 
@@ -40,10 +37,13 @@ class SentenceBinding (Binding):
     def build(cls, node):
         binding = SentenceBinding()
         for child_node in node.childNodes:
+            if isinstance(child_node, Text):
+                continue
+
             if child_node.tagName=='word':
                 binding.words.append(WordBinding.build(child_node))
             elif child_node.tagName=='unparsable_word':
-                binding.words.append(UnparsableWordBinding(child_node))
+                binding.words.append(UnparsableWordBinding.build(child_node))
             else:
                 raise Exception("Unknown tag type : " + child_node.tagName)
 
@@ -74,6 +74,9 @@ class WordBinding (Binding):
         if suffixes_nodes and suffixes_nodes[0]:
             suffixes_node = suffixes_nodes[0]
             for suffix_node in suffixes_node.childNodes:
+                if isinstance(suffix_node, Text):
+                    continue
+
                 suffixes.append(SuffixBinding.build(suffix_node))
 
         return WordBinding(str, parse_result, stem, suffixes)
@@ -174,9 +177,10 @@ class UnparsableWordBinding (Binding):
         return unparsable_word_node
 
 class StemBinding (Binding):
-    def __init__(self, root, lemma, primary_position, secondary_position=None):
+    def __init__(self, root, lemma, lemma_root, primary_position, secondary_position=None):
         self.root = root
         self.lemma = lemma
+        self.lemma_root = lemma_root
         self.primary_position = primary_position
         self.secondary_position = secondary_position
 
@@ -184,15 +188,17 @@ class StemBinding (Binding):
     def build(cls, node):
         root = node.getAttribute("root")
         lemma = node.getAttribute("lemma")
+        lemma_root = node.getAttribute("lemma_root")
         primary_position = node.getAttribute("primary_position")
         secondary_position = node.getAttribute("secondary_position")
 
-        return StemBinding(root, lemma, primary_position, secondary_position)
+        return StemBinding(root, lemma, lemma_root, primary_position, secondary_position)
 
     def to_dom(self):
         stem_node = Element("stem", namespaceURI=NAMESPACE)
         stem_node.setAttribute("root", self.root)
         stem_node.setAttribute("lemma", self.lemma)
+        stem_node.setAttribute("lemma_root", self.lemma_root)
         stem_node.setAttribute("primary_position", self.primary_position)
         if self.secondary_position:
             stem_node.setAttribute("secondary_position", self.secondary_position)

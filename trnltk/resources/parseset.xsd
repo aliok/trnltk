@@ -46,6 +46,7 @@
     <xs:complexType name="StemType">
         <xs:attribute name="root" type="xs:string" use="required"/>
         <xs:attribute name="lemma" type="xs:string" use="required"/>
+        <xs:attribute name="lemma_root" type="xs:string" use="required"/>
         <xs:attribute name="primary_position" type="PrimaryPositionType" use="required"/>
         <xs:attribute name="secondary_position" type="SecondaryPositionType"/>
     </xs:complexType>
