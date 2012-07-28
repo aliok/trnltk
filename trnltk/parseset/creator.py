@@ -9,22 +9,22 @@ class ParseSetCreator(object):
         root = token.get_stem().root
         lemma = token.get_stem().dictionary_item.lemma
         lemma_root = token.get_stem().dictionary_item.root
-        stem_primary_position = token.get_stem().dictionary_item.primary_position
-        stem_secondary_position = token.get_stem().dictionary_item.secondary_position
-        stem = StemBinding(root, lemma, lemma_root, stem_primary_position, stem_secondary_position)
+        stem_syntactic_category = token.get_stem().dictionary_item.syntactic_category
+        stem_secondary_syntactic_category = token.get_stem().dictionary_item.secondary_syntactic_category
+        stem = StemBinding(root, lemma, lemma_root, stem_syntactic_category, stem_secondary_syntactic_category)
 
-        word_primary_position = stem_primary_position
-        word_secondary_position = stem_secondary_position
+        word_syntactic_category = stem_syntactic_category
+        word_secondary_syntactic_category = stem_secondary_syntactic_category
 
         if token.has_transitions():
             last_derivation_transition = token.get_last_derivation_transition()
             if last_derivation_transition:
-                word_primary_position = last_derivation_transition.to_state.primary_position
-                word_secondary_position = None
+                word_syntactic_category = last_derivation_transition.to_state.syntactic_category
+                word_secondary_syntactic_category = None
 
         word_str = token.get_so_far()
         parse_result = formatter.format_parse_token_for_parseset(token)
-        word = WordBinding(word_str, parse_result, stem, word_primary_position, word_secondary_position)
+        word = WordBinding(word_str, parse_result, stem, word_syntactic_category, word_secondary_syntactic_category)
 
         if token.get_transitions():
             so_far = root
@@ -44,7 +44,7 @@ class ParseSetCreator(object):
                     word_with_suffix_application = so_far + suffix_application
                 so_far += suffix_actual_application
                 if transition.is_derivational():
-                    suffix = DerivationalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, transition.to_state.primary_position, word_with_suffix_application, so_far)
+                    suffix = DerivationalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, transition.to_state.syntactic_category, word_with_suffix_application, so_far)
                     word.suffixes.append(suffix)
                 else:
                     suffix = InflectionalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, word_with_suffix_application, so_far)

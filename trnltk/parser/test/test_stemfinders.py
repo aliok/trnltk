@@ -3,7 +3,7 @@ import unittest
 from hamcrest.core.assert_that import *
 from hamcrest.core.core.isequal import equal_to
 from hamcrest.library.object.haslength import has_length
-from trnltk.stem.dictionaryitem import SecondaryPosition
+from trnltk.stem.dictionaryitem import SecondarySyntacticCategory
 from trnltk.parser.stemfinder import NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
 
 class NumeralStemFinderTest(unittest.TestCase):
@@ -41,27 +41,27 @@ class ProperNounFromApostropheStemFinderTest(unittest.TestCase):
     def test_should_recognize_abbreviations(self):
         stems = self.stem_finder.find_stem_for_partial_input(u"TR'")
         assert_that(stems[0].root, equal_to(u'TR'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.ABBREVIATION))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"MB'")
         assert_that(stems[0].root, equal_to(u'MB'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.ABBREVIATION))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"POL'")
         assert_that(stems[0].root, equal_to(u'POL'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.ABBREVIATION))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"KAFA1500'")
         assert_that(stems[0].root, equal_to(u'KAFA1500'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.ABBREVIATION))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"1500KAFA'")
         assert_that(stems[0].root, equal_to(u'1500KAFA'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.ABBREVIATION))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"İŞÇĞÜÖ'")
         assert_that(stems[0].root, equal_to(u'İŞÇĞÜÖ'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.ABBREVIATION))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"123'")
         assert_that(stems, has_length(0))
@@ -70,43 +70,43 @@ class ProperNounFromApostropheStemFinderTest(unittest.TestCase):
     def test_should_recognize_proper_nouns(self):
         stems = self.stem_finder.find_stem_for_partial_input(u"Ahmet'")
         assert_that(stems[0].root, equal_to(u'Ahmet'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Mehmed'")
         assert_that(stems[0].root, equal_to(u'Mehmed'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"A123a'")
         assert_that(stems[0].root, equal_to(u'A123a'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"AvA'")
         assert_that(stems[0].root, equal_to(u'AvA'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"AAxxAA'")
         assert_that(stems[0].root, equal_to(u'AAxxAA'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"İstanbul'")
         assert_that(stems[0].root, equal_to(u'İstanbul'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Çanakkale'")
         assert_that(stems[0].root, equal_to(u'Çanakkale'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Ömer'")
         assert_that(stems[0].root, equal_to(u'Ömer'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Şaban'")
         assert_that(stems[0].root, equal_to(u'Şaban'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Ümmühan'")
         assert_that(stems[0].root, equal_to(u'Ümmühan'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"aaa'")
         assert_that(stems, has_length(0))
@@ -131,19 +131,19 @@ class ProperNounWithoutApostropheStemFinderTest(unittest.TestCase):
     def test_should_recognize_proper_nouns(self):
         stems = self.stem_finder.find_stem_for_partial_input(u"A")
         assert_that(stems[0].root, equal_to(u'A'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Al")
         assert_that(stems[0].root, equal_to(u'Al'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Ali")
         assert_that(stems[0].root, equal_to(u'Ali'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"Ali8")
         assert_that(stems[0].root, equal_to(u'Ali8'))
-        assert_that(stems[0].dictionary_item.secondary_position, equal_to(SecondaryPosition.PROPER_NOUN))
+        assert_that(stems[0].dictionary_item.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
         stems = self.stem_finder.find_stem_for_partial_input(u"a")
         assert_that(stems, has_length(0))

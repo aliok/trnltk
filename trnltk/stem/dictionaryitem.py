@@ -1,4 +1,4 @@
-class PrimaryPosition(object):
+class SyntacticCategory(object):
     NOUN = "Noun"
     ADJECTIVE = "Adj"
     ADVERB = "Adv"
@@ -14,7 +14,7 @@ class PrimaryPosition(object):
 
     ALL = sorted({NOUN, ADJECTIVE, ADVERB, CONJUNCTION, INTERJECTION, VERB, PRONOUN, NUMERAL, DETERMINER, PARTICLE, QUESTION, PUNCTUATION})
 
-class SecondaryPosition(object):
+class SecondarySyntacticCategory(object):
     DUPLICATOR = "Dup"
     POST_POSITIVE = "Postp"
     QUESTION = "Ques"
@@ -76,18 +76,18 @@ class RootAttribute(object):
 
 class DictionaryItem(object):
     #TODO: make this and similar classes immutable
-    def __init__(self, lemma, root, primary_position, secondary_position, attributes):
+    def __init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes):
         self.lemma = lemma
         self.root = root
-        self.primary_position = primary_position
-        self.secondary_position = secondary_position
+        self.syntactic_category = syntactic_category
+        self.secondary_syntactic_category = secondary_syntactic_category
         self.attributes = attributes if attributes else []
 
     def clone(self):
-        return DictionaryItem(self.lemma, self.root, self.primary_position, self.secondary_position, self.attributes[:])
+        return DictionaryItem(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category, self.attributes[:])
 
     def __str__(self):
-        return u'{}({})+{}+{} R_ATTR:{}'.format(repr(self.lemma), repr(self.root), self.primary_position, self.secondary_position, self.attributes)
+        return u'{}({})+{}+{} R_ATTR:{}'.format(repr(self.lemma), repr(self.root), self.syntactic_category, self.secondary_syntactic_category, self.attributes)
 
     def __repr__(self):
         return self.__str__()
@@ -95,17 +95,17 @@ class DictionaryItem(object):
     def __eq__(self, other):
         if not other:
             return False
-        return self.lemma == other.lemma and self.root == other.root and self.primary_position == other.primary_position\
-               and self.secondary_position == other.secondary_position and self.attributes == other.attributes
+        return self.lemma == other.lemma and self.root == other.root and self.syntactic_category == other.syntactic_category\
+               and self.secondary_syntactic_category == other.secondary_syntactic_category and self.attributes == other.attributes
 
     def __hash__(self):
         result = hash((self.lemma,
                        self.root,
-                       self.primary_position,
-                       self.secondary_position,
+                       self.syntactic_category,
+                       self.secondary_syntactic_category,
                        tuple(sorted(self.attributes))))
         return result
 
 class DynamicDictionaryItem(DictionaryItem):
-    def __init__(self, lemma, root, primary_position, secondary_position, attributes):
-        DictionaryItem.__init__(self, lemma, root, primary_position, secondary_position, attributes)
+    def __init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes):
+        DictionaryItem.__init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes)

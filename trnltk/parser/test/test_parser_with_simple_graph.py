@@ -6,7 +6,7 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.parser import formatter
-from trnltk.stem.dictionaryitem import PrimaryPosition
+from trnltk.stem.dictionaryitem import SyntacticCategory
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.parser.parser import Parser, logger as parser_logger
@@ -499,10 +499,10 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.cloned_stem_root_map[u'ona'] = []
         self.cloned_stem_root_map[u'bend'] = []
         self.cloned_stem_root_map[u'bun'] = []
-        self.cloned_stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.cloned_stem_root_map[u'ben'])
-        self.cloned_stem_root_map[u'ban'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.cloned_stem_root_map[u'ban'])
-        self.cloned_stem_root_map[u'san'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.cloned_stem_root_map[u'san'])
-        self.cloned_stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.cloned_stem_root_map[u'biz'])
+        self.cloned_stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'ben'])
+        self.cloned_stem_root_map[u'ban'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'ban'])
+        self.cloned_stem_root_map[u'san'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'san'])
+        self.cloned_stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'biz'])
 
         self.assert_parse_correct(u'ben',               u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom')
         self.assert_parse_correct(u'sen',               u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom')
@@ -693,16 +693,16 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
 
     def test_should_parse_cardinal_numerals(self):
-        self.cloned_stem_root_map[u'bir'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.cloned_stem_root_map[u'bir'])
+        self.cloned_stem_root_map[u'bir'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'bir'])
         self.cloned_stem_root_map[u'alt'] = []
         self.cloned_stem_root_map[u'ye'] = []
         self.cloned_stem_root_map[u'yet'] = []
-        self.cloned_stem_root_map[u'on'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.cloned_stem_root_map[u'on'])
-        self.cloned_stem_root_map[u'kırk'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.cloned_stem_root_map[u'kırk'])
+        self.cloned_stem_root_map[u'on'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'on'])
+        self.cloned_stem_root_map[u'kırk'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'kırk'])
         self.cloned_stem_root_map[u'el'] = []
         self.cloned_stem_root_map[u'sek'] = []
-        self.cloned_stem_root_map[u'yüz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.cloned_stem_root_map[u'yüz'])
-        self.cloned_stem_root_map[u'bin'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL, self.cloned_stem_root_map[u'bin'])
+        self.cloned_stem_root_map[u'yüz'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'yüz'])
+        self.cloned_stem_root_map[u'bin'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'bin'])
 
         self.assert_parse_correct(u'sıfır',                 u'sıfır(sıfır)+Num+Card+Adj+Zero', u'sıfır(sıfır)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'bir',                   u'bir(bir)+Num+Card+Adj+Zero', u'bir(bir)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
@@ -1147,8 +1147,8 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
             u'organ(organ)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom+Adv+By(ncA[nca])', 
             u'organ(organ)+Noun+A3pl(lAr[lar])+P3pl(I![ı])+Nom+Adv+By(ncA[nca])')
 
-        self.cloned_stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.cloned_stem_root_map[u'ben'])
-        self.cloned_stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.cloned_stem_root_map[u'biz'])
+        self.cloned_stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'ben'])
+        self.cloned_stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'biz'])
         self.cloned_stem_root_map[u'on'] = []
         self.cloned_stem_root_map[u'onca'] = []
         self.assert_parse_correct(u'bence',         u'ben(ben)+Pron+Pers+A1sg+Pnon+AccordingTo(ce[ce])')
@@ -1204,7 +1204,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         # TODO: low priority
 #        self.cloned_stem_root_map[u'ha'] = []
 #        self.cloned_stem_root_map[u'hav'] = []
-#        self.cloned_stem_root_map[u'havl'] = filter(lambda _stem : _stem.dictionary_item.primary_position==PrimaryPosition.NOUN, self.cloned_stem_root_map[u'havl'])
+#        self.cloned_stem_root_map[u'havl'] = filter(lambda _stem : _stem.dictionary_item.syntactic_category==SyntacticCategory.NOUN, self.cloned_stem_root_map[u'havl'])
 #        self.assert_parse_correct_for_verb(u'havli',             u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 #        self.assert_parse_correct_for_verb(u'havliyle',          u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 

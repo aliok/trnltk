@@ -1,5 +1,5 @@
 from trnltk.phonetics.phonetics import Phonetics
-from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition
+from trnltk.stem.dictionaryitem import RootAttribute, SyntacticCategory
 from trnltk.stem.stemgenerator import NumeralStem
 from trnltk.suffixgraph.suffixgraphmodel import State
 
@@ -99,7 +99,7 @@ class ParseToken(object):
     def get_attributes(self):
         if self._transitions and any(t.suffix_form_application.actual_suffix_form for t in self._transitions):
             #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
-            if self.get_last_state().primary_position==PrimaryPosition.VERB and (
+            if self.get_last_state().syntactic_category==SyntacticCategory.VERB and (
                 self.get_last_state().type==State.DERIV or not self._transitions[-1].suffix_form_application.actual_suffix_form):
                 return [RootAttribute.NoVoicing]
             else:

@@ -1,5 +1,5 @@
 # coding=utf-8
-from trnltk.stem.dictionaryitem import SecondaryPosition, PrimaryPosition
+from trnltk.stem.dictionaryitem import SecondarySyntacticCategory, SyntacticCategory
 from trnltk.parser.suffixapplier import *
 from trnltk.parser.token import *
 from trnltk.suffixgraph.suffixgraph import *
@@ -10,14 +10,14 @@ class PredefinedPaths(object):
         self.suffix_graph = suffix_graph
         self.token_map = {}
 
-    def _find_stem(self, stem_str, primary_position, secondary_position):
+    def _find_stem(self, stem_str, syntactic_category, secondary_syntactic_category):
         if self._stem_root_map.has_key(stem_str):
             stems_for_stem_str = self._stem_root_map[stem_str]
             for stem in stems_for_stem_str:
-                if stem.dictionary_item.primary_position == primary_position and stem.dictionary_item.secondary_position == secondary_position:
+                if stem.dictionary_item.syntactic_category == syntactic_category and stem.dictionary_item.secondary_syntactic_category == secondary_syntactic_category:
                     return stem
 
-        raise Exception(u'Unable to find _stem {}+{}+{}'.format(stem_str, primary_position, secondary_position))
+        raise Exception(u'Unable to find _stem {}+{}+{}'.format(stem_str, syntactic_category, secondary_syntactic_category))
 
 
     def _add_transition(self, token, suffix_form_application_str, suffix, to_state, whole_word):
@@ -99,8 +99,8 @@ class PredefinedPaths(object):
         self._create_predefined_path_of_ora()
 
     def _create_predefined_path_of_ben(self):
-        stem_ben = self._find_stem(u'ben', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
-        stem_ban = self._find_stem(u'ban', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
+        stem_ben = self._find_stem(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
+        stem_ban = self._find_stem(u'ban', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
 
         self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron,    u'i')])
@@ -115,8 +115,8 @@ class PredefinedPaths(object):
         self._add_token(stem_ben, [self.suffix_graph.A1Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_sen(self):
-        stem_sen = self._find_stem(u'sen', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
-        stem_san = self._find_stem(u'san', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
+        stem_sen = self._find_stem(u'sen', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
+        stem_san = self._find_stem(u'san', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
 
         self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron,    u'i')])
@@ -131,7 +131,7 @@ class PredefinedPaths(object):
         self._add_token(stem_sen, [self.suffix_graph.A2Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_o_pron_pers(self):
-        stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
+        stem_o = self._find_stem(u'o', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
 
         self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron,    u'nu')])
@@ -146,7 +146,7 @@ class PredefinedPaths(object):
         self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_biz(self):
-        stem_biz = self._find_stem(u'biz', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
+        stem_biz = self._find_stem(u'biz', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
 
         self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_biz, [self.suffix_graph.A1Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron,    u'i')])
@@ -172,7 +172,7 @@ class PredefinedPaths(object):
         self._add_token(stem_biz, [(self.suffix_graph.A1Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_siz(self):
-        stem_siz = self._find_stem(u'siz', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
+        stem_siz = self._find_stem(u'siz', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
 
         self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_siz, [self.suffix_graph.A2Pl_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron,    u'i')])
@@ -198,7 +198,7 @@ class PredefinedPaths(object):
         self._add_token(stem_siz, [(self.suffix_graph.A2Pl_Pron, u'ler'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_onlar_pron_pers(self):
-        stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.PERSONAL)
+        stem_o = self._find_stem(u'o', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
 
         self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron,    u'ı')])
@@ -212,7 +212,7 @@ class PredefinedPaths(object):
         self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_bu_pron_demons(self):
-        stem_bu = self._find_stem(u'bu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
+        stem_bu = self._find_stem(u'bu', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.DEMONSTRATIVE)
 
         self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
@@ -226,7 +226,7 @@ class PredefinedPaths(object):
         self._add_token(stem_bu, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_su_pron_demons(self):
-        stem_su = self._find_stem(u'şu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
+        stem_su = self._find_stem(u'şu', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.DEMONSTRATIVE)
 
         self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron])
         self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
@@ -240,7 +240,7 @@ class PredefinedPaths(object):
         self._add_token(stem_su, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron,  self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_o_pron_demons(self):
-        stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
+        stem_o = self._find_stem(u'o', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.DEMONSTRATIVE)
 
         self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
         self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'nu')])
@@ -254,7 +254,7 @@ class PredefinedPaths(object):
         self._add_token(stem_o, [self.suffix_graph.A3Sg_Pron, self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_bunlar_pron_demons(self):
-        stem_bu = self._find_stem(u'bu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
+        stem_bu = self._find_stem(u'bu', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.DEMONSTRATIVE)
 
         self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
         self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
@@ -267,7 +267,7 @@ class PredefinedPaths(object):
         self._add_token(stem_bu, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_sunlar_pron_demons(self):
-        stem_su = self._find_stem(u'şu', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
+        stem_su = self._find_stem(u'şu', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.DEMONSTRATIVE)
 
         self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
         self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
@@ -280,7 +280,7 @@ class PredefinedPaths(object):
         self._add_token(stem_su, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_onlar_pron_demons(self):
-        stem_o = self._find_stem(u'o', PrimaryPosition.PRONOUN, SecondaryPosition.DEMONSTRATIVE)
+        stem_o = self._find_stem(u'o', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.DEMONSTRATIVE)
 
         self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron])
         self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, (self.suffix_graph.Acc_Pron, u'ı')])
@@ -293,7 +293,7 @@ class PredefinedPaths(object):
         self._add_token(stem_o, [(self.suffix_graph.A3Pl_Pron, 'nlar'), self.suffix_graph.Pnon_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_kendi(self):
-        stem_kendi = self._find_stem(u'kendi', PrimaryPosition.PRONOUN, SecondaryPosition.REFLEXIVE)
+        stem_kendi = self._find_stem(u'kendi', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.REFLEXIVE)
 
         ##### A1Sg
         self._add_token(stem_kendi, [self.suffix_graph.A1Sg_Pron, (self.suffix_graph.P1Sg_Pron,'m'), self.suffix_graph.Nom_Pron])
@@ -393,8 +393,8 @@ class PredefinedPaths(object):
         self._add_token(stem_kendi, [(self.suffix_graph.A3Pl_Pron,'leri'), self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_hepsi(self):
-        stem_hep = self._find_stem(u'hep', PrimaryPosition.PRONOUN, None)
-        stem_hepsi = self._find_stem(u'hepsi', PrimaryPosition.PRONOUN, None)
+        stem_hep = self._find_stem(u'hep', SyntacticCategory.PRONOUN, None)
+        stem_hepsi = self._find_stem(u'hepsi', SyntacticCategory.PRONOUN, None)
 
         ##### No A1Sg
 
@@ -440,10 +440,10 @@ class PredefinedPaths(object):
         self._add_token(stem_hepsi, [self.suffix_graph.A3Pl_Pron, self.suffix_graph.P3Pl_Pron, self.suffix_graph.Nom_Pron_Deriv])
 
     def _create_predefined_path_of_question_particles(self):
-        stem_mii = self._find_stem(u'mı', PrimaryPosition.QUESTION, None)
-        stem_mi  = self._find_stem(u'mi', PrimaryPosition.QUESTION, None)
-        stem_mu  = self._find_stem(u'mu', PrimaryPosition.QUESTION, None)
-        stem_muu = self._find_stem(u'mü', PrimaryPosition.QUESTION, None)
+        stem_mii = self._find_stem(u'mı', SyntacticCategory.QUESTION, None)
+        stem_mi  = self._find_stem(u'mi', SyntacticCategory.QUESTION, None)
+        stem_mu  = self._find_stem(u'mu', SyntacticCategory.QUESTION, None)
+        stem_muu = self._find_stem(u'mü', SyntacticCategory.QUESTION, None)
 
         ##### Pres
         self._add_token(stem_mii, [self.suffix_graph.Pres_Ques, (self.suffix_graph.A1Sg_Ques,u'yım')])
@@ -533,7 +533,7 @@ class PredefinedPaths(object):
         self._add_token(stem_muu, [(self.suffix_graph.Past_Ques,u'ymüş'), (self.suffix_graph.A3Pl_Ques,u'ler')])
 
     def _create_predefined_path_of_ora(self):
-        stem_or = self._find_stem(u'or', PrimaryPosition.NOUN, None)
+        stem_or = self._find_stem(u'or', SyntacticCategory.NOUN, None)
 
         # define predefined paths for "orda" and "ordan"
 

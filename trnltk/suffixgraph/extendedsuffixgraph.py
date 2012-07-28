@@ -1,5 +1,5 @@
 # coding=utf-8
-from trnltk.stem.dictionaryitem import PrimaryPosition
+from trnltk.stem.dictionaryitem import SyntacticCategory
 from trnltk.suffixgraph.suffixconditions import comes_after, doesnt_come_after
 from trnltk.suffixgraph.suffixgraph import SuffixGraph
 from trnltk.suffixgraph.suffixgraphmodel import *
@@ -16,15 +16,15 @@ class ExtendedSuffixGraph(SuffixGraph):
     def _add_states(self):
         SuffixGraph._add_states(self)
 
-        self.NOUN_COPULA = State("NOUN_COPULA", State.DERIV, PrimaryPosition.NOUN)
-        self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", State.DERIV, PrimaryPosition.ADJECTIVE)
-        self.ADVERB_COPULA = State("ADVERB_COPULA", State.DERIV, PrimaryPosition.ADVERB)
-        self.PRONOUN_COPULA = State("PRONOUN_COPULA", State.DERIV, PrimaryPosition.PRONOUN)
-        self.VERB_DEGIL_ROOT = State("VERB_DEGIL_ROOT", State.TRANSFER, PrimaryPosition.VERB)
+        self.NOUN_COPULA = State("NOUN_COPULA", State.DERIV, SyntacticCategory.NOUN)
+        self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", State.DERIV, SyntacticCategory.ADJECTIVE)
+        self.ADVERB_COPULA = State("ADVERB_COPULA", State.DERIV, SyntacticCategory.ADVERB)
+        self.PRONOUN_COPULA = State("PRONOUN_COPULA", State.DERIV, SyntacticCategory.PRONOUN)
+        self.VERB_DEGIL_ROOT = State("VERB_DEGIL_ROOT", State.TRANSFER, SyntacticCategory.VERB)
 
-        self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", State.TRANSFER, PrimaryPosition.VERB)
-        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", State.DERIV, PrimaryPosition.VERB)
-        self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", State.TRANSFER, PrimaryPosition.VERB)
+        self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", State.TRANSFER, SyntacticCategory.VERB)
+        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", State.DERIV, SyntacticCategory.VERB)
+        self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", State.TRANSFER, SyntacticCategory.VERB)
 
         self.ALL_STATES |= {
             self.NOUN_COPULA, self.ADJECTIVE_COPULA, self.ADVERB_COPULA, self.PRONOUN_COPULA, self.VERB_DEGIL_ROOT,
@@ -32,7 +32,7 @@ class ExtendedSuffixGraph(SuffixGraph):
         }
 
     def get_default_stem_state(self, stem):
-        if stem.dictionary_item.primary_position==PrimaryPosition.VERB and stem.root==u'değil':
+        if stem.dictionary_item.syntactic_category==SyntacticCategory.VERB and stem.root==u'değil':
             return self.VERB_DEGIL_ROOT
         else:
             return SuffixGraph.get_default_stem_state(self, stem)
@@ -79,7 +79,7 @@ class ExtendedSuffixGraph(SuffixGraph):
 
         self._register_copula_tenses()
         self._register_copula_agreements()
-        self._register_copula_tenses_to_other_positions()
+        self._register_copula_tenses_to_other_categories()
         self._register_verb_explicit_copula()
 
     def _register_copula_tenses(self):
@@ -120,7 +120,7 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.VERB_COPULA_WITH_TENSE.add_out_suffix(self.A3Pl_Cop, self.VERB_TERMINAL_TRANSFER)
         self.A3Pl_Cop.add_suffix_form("lAr")    # (onlar) elma-lar(dir), (onlar) armut-lar(dir), elma-ymis-lar, elma-ydi-lar, elma-ysa-lar
 
-    def _register_copula_tenses_to_other_positions(self):
+    def _register_copula_tenses_to_other_categories(self):
         self.VERB_COPULA_WITHOUT_TENSE_DERIV.add_out_suffix(self.While_Cop, self.ADVERB_ROOT)
         self.While_Cop.add_suffix_form("+yken")
 

@@ -6,7 +6,7 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.parser import formatter
-from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
+from trnltk.stem.dictionaryitem import  SyntacticCategory, SecondarySyntacticCategory
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph

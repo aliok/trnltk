@@ -1,4 +1,4 @@
-from trnltk.stem.dictionaryitem import PrimaryPosition, SecondaryPosition
+from trnltk.stem.dictionaryitem import SyntacticCategory, SecondarySyntacticCategory
 from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator
 from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
 
@@ -7,8 +7,8 @@ def format_parse_token_for_parseset(result):
     @return kitap+Noun+A3sg+Pnon+Dat for word 'kitaba'
     """
     returnValue = u'{}+{}'.format(result.get_stem().dictionary_item.root, result.get_stem_state().pretty_name)
-    if result.get_stem().dictionary_item.secondary_position:
-        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_position)
+    if result.get_stem().dictionary_item.secondary_syntactic_category:
+        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_syntactic_category)
 
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
@@ -22,8 +22,8 @@ def format_parse_token_for_tests(result):
     @return kitab(kitap)+Noun+A3sg+Pnon+Dat(+yA[a]) for word 'kitaba'
     """
     returnValue = u'{}({})+{}'.format(result.get_stem().root, result.get_stem().dictionary_item.lemma, result.get_stem_state().pretty_name)
-    if result.get_stem().dictionary_item.secondary_position:
-        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_position)
+    if result.get_stem().dictionary_item.secondary_syntactic_category:
+        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_syntactic_category)
 
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
@@ -50,20 +50,20 @@ def format_parse_token_for_simple_parseset(result):
     @return (1,"kitap+Noun+A3sg+Pnon+Dat") for word 'kitaba'
     """
     root = result.get_stem().dictionary_item.root
-    secondary_position_str = result.get_stem().dictionary_item.secondary_position
+    secondary_syntactic_category_str = result.get_stem().dictionary_item.secondary_syntactic_category
 
-    #    ##TODO: skip some secondary positions for now...
-    if result.get_stem().dictionary_item.primary_position == PrimaryPosition.NOUN:
-        if result.get_stem().dictionary_item.secondary_position == SecondaryPosition.TIME:
-            secondary_position_str = None
-    elif result.get_stem().dictionary_item.primary_position == PrimaryPosition.ADVERB:
-        if result.get_stem().dictionary_item.secondary_position == SecondaryPosition.QUESTION:
-            secondary_position_str = None
-        elif result.get_stem().dictionary_item.secondary_position == SecondaryPosition.TIME:
-            secondary_position_str = None
-    elif result.get_stem().dictionary_item.primary_position == PrimaryPosition.ADJECTIVE:
-        if result.get_stem().dictionary_item.secondary_position == SecondaryPosition.QUESTION:
-            secondary_position_str = None
+    #    ##TODO: skip some secondary categories for now...
+    if result.get_stem().dictionary_item.syntactic_category == SyntacticCategory.NOUN:
+        if result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+            secondary_syntactic_category_str = None
+    elif result.get_stem().dictionary_item.syntactic_category == SyntacticCategory.ADVERB:
+        if result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
+            secondary_syntactic_category_str = None
+        elif result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+            secondary_syntactic_category_str = None
+    elif result.get_stem().dictionary_item.syntactic_category == SyntacticCategory.ADJECTIVE:
+        if result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
+            secondary_syntactic_category_str = None
 
     groups = []
     current_group = []
@@ -82,28 +82,28 @@ def format_parse_token_for_simple_parseset(result):
     groups.append(current_group)
 
     if not groups:
-        if not secondary_position_str:
+        if not secondary_syntactic_category_str:
             return u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
         else:
-            return u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
+            return u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
 
     return_value = None
 
-    if not secondary_position_str:
+    if not secondary_syntactic_category_str:
         return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
     else:
-        return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
+        return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
 
     if not groups[0]:
-        if not secondary_position_str:
+        if not secondary_syntactic_category_str:
             return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
         else:
-            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str)
+            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
     else:
-        if not secondary_position_str:
+        if not secondary_syntactic_category_str:
             return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, u'+'.join(groups[0]))
         else:
-            return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_position_str, u'+'.join(groups[0]))
+            return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str, u'+'.join(groups[0]))
 
     for i in range(1, len(groups)):
         group = groups[i]

@@ -4,10 +4,10 @@ class State(object):
     TRANSFER = "TRANSFER"
     DERIV = "DERIVATIONAL"
 
-    def __init__(self, name, type, primary_position):
+    def __init__(self, name, type, syntactic_category):
         self.name = name
-        self.pretty_name = primary_position     ##TODO: get rid of this!
-        self.primary_position = primary_position
+        self.pretty_name = syntactic_category     ##TODO: get rid of this!
+        self.syntactic_category = syntactic_category
         self.outputs = [] #(suffix, out_state) tuples
         self.type = type
 

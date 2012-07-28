@@ -1,6 +1,6 @@
 import codecs
 from trnltk.phonetics.alphabet import TurkishAlphabet
-from trnltk.stem.dictionaryitem import DictionaryItem, PrimaryPosition, SecondaryPosition, RootAttribute
+from trnltk.stem.dictionaryitem import DictionaryItem, SyntacticCategory, SecondarySyntacticCategory, RootAttribute
 
 __author__ = 'ali'
 
@@ -26,7 +26,7 @@ class DictionaryLoader(object):
 
             try:
                 dictionary_item = cls._crate_dictionary_item_from_line(line)
-                cls._set_position_and_lemma(dictionary_item)
+                cls._set_category_and_lemma(dictionary_item)
                 cls._infer_morphemic_attributes(dictionary_item)
                 if dictionary_item.attributes:
                     dictionary_item.attributes = sorted(list(set(dictionary_item.attributes)))
@@ -39,8 +39,8 @@ class DictionaryLoader(object):
 
     @classmethod
     def _crate_dictionary_item_from_line(cls, line):
-        primary_position = None
-        secondary_position = None
+        syntactic_category = None
+        secondary_syntactic_category = None
         attributes = []
 
         (str_root, str_meta) = line.split('[') if '[' in line else (line, None)
@@ -56,9 +56,9 @@ class DictionaryLoader(object):
             for str_meta_part in str_metas:
                 str_meta_part = str_meta_part.strip()
                 if str_meta_part.startswith('P:'):
-                    (primary_position, secondary_position) = str_meta_part[len('P:'):].split(',') if ',' in str_meta_part else (str_meta_part[len('P:'):], None)
-                    primary_position = primary_position.strip() if primary_position else None
-                    secondary_position = secondary_position.strip() if secondary_position else None
+                    (syntactic_category, secondary_syntactic_category) = str_meta_part[len('P:'):].split(',') if ',' in str_meta_part else (str_meta_part[len('P:'):], None)
+                    syntactic_category = syntactic_category.strip() if syntactic_category else None
+                    secondary_syntactic_category = secondary_syntactic_category.strip() if secondary_syntactic_category else None
                 elif str_meta_part.startswith('A:'):
                     str_attributes = str_meta_part[len('A:'):]
                     attributes = str_attributes.split(',')
@@ -72,22 +72,22 @@ class DictionaryLoader(object):
 
                 ##todo: S:rel_ki stuff is skipped
 
-        return DictionaryItem(lemma, root, primary_position, secondary_position, attributes or None)
+        return DictionaryItem(lemma, root, syntactic_category, secondary_syntactic_category, attributes or None)
 
     @classmethod
-    def _set_position_and_lemma(cls, dictionary_item):
+    def _set_category_and_lemma(cls, dictionary_item):
         item_root = dictionary_item.root
 
         if item_root[0].isupper():
-            dictionary_item.primary_position = PrimaryPosition.NOUN
-            dictionary_item.secondary_position = SecondaryPosition.PROPER_NOUN
+            dictionary_item.syntactic_category = SyntacticCategory.NOUN
+            dictionary_item.secondary_syntactic_category = SecondarySyntacticCategory.PROPER_NOUN
 
-        elif not dictionary_item.primary_position and not dictionary_item.secondary_position:
+        elif not dictionary_item.syntactic_category and not dictionary_item.secondary_syntactic_category:
             if item_root.endswith(u'mak') or item_root.endswith(u'mek'):
-                dictionary_item.primary_position = PrimaryPosition.VERB
+                dictionary_item.syntactic_category = SyntacticCategory.VERB
                 dictionary_item.root = item_root[:-3]
             else:
-                dictionary_item.primary_position = PrimaryPosition.NOUN
+                dictionary_item.syntactic_category = SyntacticCategory.NOUN
 
     @classmethod
     def _infer_morphemic_attributes(cls, dictionary_item):
@@ -95,7 +95,7 @@ class DictionaryLoader(object):
         root_vowel_count = cls._vowel_count(item_root)
         last_letter = TurkishAlphabet.get_letter_for_char(item_root[-1])
 
-        if dictionary_item.primary_position==PrimaryPosition.VERB:
+        if dictionary_item.syntactic_category==SyntacticCategory.VERB:
             if last_letter.vowel and RootAttribute.Passive_NotApplicable not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.ProgressiveVowelDrop)
                 dictionary_item.attributes.append(RootAttribute.Passive_In)
@@ -123,7 +123,7 @@ class DictionaryLoader(object):
             if RootAttribute.Voicing not in dictionary_item.attributes and RootAttribute.NoVoicing not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.NoVoicing)
 
-        elif dictionary_item.primary_position==PrimaryPosition.NOUN and RootAttribute.CompoundP3sg in dictionary_item.attributes:
+        elif dictionary_item.syntactic_category==SyntacticCategory.NOUN and RootAttribute.CompoundP3sg in dictionary_item.attributes:
             if RootAttribute.VoicingOpt in dictionary_item.attributes:
                 if RootAttribute.Voicing in dictionary_item.attributes:
                     dictionary_item.attributes.remove(RootAttribute.Voicing)
@@ -132,7 +132,7 @@ class DictionaryLoader(object):
             elif RootAttribute.Voicing not in dictionary_item.attributes:
                 dictionary_item.attributes.append(RootAttribute.NoVoicing)
 
-        elif dictionary_item.primary_position in [PrimaryPosition.NOUN, PrimaryPosition.ADJECTIVE]:
+        elif dictionary_item.syntactic_category in [SyntacticCategory.NOUN, SyntacticCategory.ADJECTIVE]:
             if RootAttribute.VoicingOpt in dictionary_item.attributes:
                 if RootAttribute.Voicing in dictionary_item.attributes:
                     dictionary_item.attributes.remove(RootAttribute.Voicing)

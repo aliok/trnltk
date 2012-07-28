@@ -5,7 +5,7 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.parser import formatter
-from trnltk.stem.dictionaryitem import PrimaryPosition
+from trnltk.stem.dictionaryitem import SyntacticCategory
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
@@ -46,7 +46,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-    def test_should_parse_other_positions_to_verbs_zero_transition(self):
+    def test_should_parse_other_categories_to_verbs_zero_transition(self):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
@@ -55,7 +55,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         self.stem_root_map['bent'] = []
         self.stem_root_map['bend'] = []
         self.stem_root_map['oy'] = []
-        self.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.stem_root_map['ben'])
+        self.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.stem_root_map['ben'])
 
 
         self.assert_parse_correct_for_verb(u'elmayım',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yım])')
@@ -167,7 +167,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         # remove some stems to keep tests simple
         self.stem_root_map['on'] = []
         self.stem_root_map['gelecek'] = []
-        self.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN, self.stem_root_map['ben'])
+        self.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.stem_root_map['ben'])
 
         self.assert_parse_correct_for_verb(u'elmadır',             u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dır])')
         self.assert_parse_correct_for_verb(u'müdürdür',            u'müdür(müdür)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dür])')

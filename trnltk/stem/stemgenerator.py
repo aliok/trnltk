@@ -1,7 +1,7 @@
 import copy
 from trnltk.numbers.digitconverter import DigitsToNumberConverter
 from trnltk.phonetics.alphabet import TurkishAlphabet
-from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, DynamicDictionaryItem, SecondaryPosition
+from trnltk.stem.dictionaryitem import RootAttribute, SyntacticCategory, DynamicDictionaryItem, SecondarySyntacticCategory
 from trnltk.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
 class Stem(object):
@@ -38,7 +38,7 @@ class Stem(object):
 class NumeralStem(Stem):
     def __init__(self, numeral):
         root = numeral
-        dictionary_item = DynamicDictionaryItem(numeral, numeral, PrimaryPosition.NUMERAL, SecondaryPosition.DIGITS, None)
+        dictionary_item = DynamicDictionaryItem(numeral, numeral, SyntacticCategory.NUMERAL, SecondarySyntacticCategory.DIGITS, None)
         phonetic_expectations = None
         phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(DigitsToNumberConverter.convert_digits_to_words(numeral))
         super(NumeralStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
@@ -46,7 +46,7 @@ class NumeralStem(Stem):
 class AbbreviationStem(Stem):
     def __init__(self, abbr):
         root = abbr
-        dictionary_item = DynamicDictionaryItem(abbr, abbr, PrimaryPosition.NOUN, SecondaryPosition.ABBREVIATION, None)
+        dictionary_item = DynamicDictionaryItem(abbr, abbr, SyntacticCategory.NOUN, SecondarySyntacticCategory.ABBREVIATION, None)
         phonetic_attributes = None
 
         last_letter = TurkishAlphabet.get_letter_for_char(abbr[-1])
@@ -61,7 +61,7 @@ class AbbreviationStem(Stem):
 class ProperNounStem(Stem):
     def __init__(self, noun):
         root = noun
-        dictionary_item = DynamicDictionaryItem(noun, noun, PrimaryPosition.NOUN, SecondaryPosition.PROPER_NOUN, None)
+        dictionary_item = DynamicDictionaryItem(noun, noun, SyntacticCategory.NOUN, SecondarySyntacticCategory.PROPER_NOUN, None)
         phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(noun)
         phonetic_expectations = None
         super(ProperNounStem, self).__init__(root, dictionary_item, phonetic_expectations, phonetic_attributes)
@@ -120,7 +120,7 @@ class StemGenerator(object):
 
         if RootAttribute.LastVowelDrop in dictionary_item.attributes:
             modified_seq = modified_seq[:-2] + modified_seq[-1]
-            if dictionary_item.primary_position!=PrimaryPosition.VERB:
+            if dictionary_item.syntactic_category!=SyntacticCategory.VERB:
                 original_phonetic_expectations.add(PhoneticExpectation.ConsonantStart)
             modified_phonetic_expectations.add(PhoneticExpectation.VowelStart)
 

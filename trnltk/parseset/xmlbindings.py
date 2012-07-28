@@ -57,20 +57,20 @@ class SentenceBinding (Binding):
         return sentence_node
 
 class WordBinding (Binding):
-    def __init__(self, str, parse_result, stem, primary_position, secondary_position=None, suffixes=None):
+    def __init__(self, str, parse_result, stem, syntactic_category, secondary_syntactic_category=None, suffixes=None):
         self.str = str
         self.parse_result = parse_result
         self.stem = stem
-        self.primary_position = primary_position
-        self.secondary_position = secondary_position
+        self.syntactic_category = syntactic_category
+        self.secondary_syntactic_category = secondary_syntactic_category
         self.suffixes = suffixes or []
 
     @classmethod
     def build(cls, node):
         str = node.getAttribute("str")
         parse_result = node.getAttribute("parse_result")
-        primary_position = node.getAttribute("primary_position")
-        secondary_position = node.getAttribute("secondary_position")
+        syntactic_category = node.getAttribute("syntactic_category")
+        secondary_syntactic_category = node.getAttribute("secondary_syntactic_category")
         stem = StemBinding.build(node.getElementsByTagName("stem")[0])
         suffixes = []
 
@@ -83,15 +83,15 @@ class WordBinding (Binding):
 
                 suffixes.append(SuffixBinding.build(suffix_node))
 
-        return WordBinding(str, parse_result, stem, primary_position, secondary_position, suffixes)
+        return WordBinding(str, parse_result, stem, syntactic_category, secondary_syntactic_category, suffixes)
 
     def to_dom(self):
         word_node = Element("word", namespaceURI=NAMESPACE)
         word_node.setAttribute("str", self.str)
         word_node.setAttribute("parse_result", self.parse_result)
-        word_node.setAttribute("primary_position", self.primary_position)
-        if self.secondary_position:
-            word_node.setAttribute("secondary_position", self.secondary_position)
+        word_node.setAttribute("syntactic_category", self.syntactic_category)
+        if self.secondary_syntactic_category:
+            word_node.setAttribute("secondary_syntactic_category", self.secondary_syntactic_category)
 
         word_node.appendChild(self.stem.to_dom())
 
@@ -185,29 +185,29 @@ class UnparsableWordBinding (Binding):
         return unparsable_word_node
 
 class StemBinding (Binding):
-    def __init__(self, root, lemma, lemma_root, primary_position, secondary_position=None):
+    def __init__(self, root, lemma, lemma_root, syntactic_category, secondary_syntactic_category=None):
         self.root = root
         self.lemma = lemma
         self.lemma_root = lemma_root
-        self.primary_position = primary_position
-        self.secondary_position = secondary_position
+        self.syntactic_category = syntactic_category
+        self.secondary_syntactic_category = secondary_syntactic_category
 
     @classmethod
     def build(cls, node):
         root = node.getAttribute("root")
         lemma = node.getAttribute("lemma")
         lemma_root = node.getAttribute("lemma_root")
-        primary_position = node.getAttribute("primary_position")
-        secondary_position = node.getAttribute("secondary_position")
+        syntactic_category = node.getAttribute("syntactic_category")
+        secondary_syntactic_category = node.getAttribute("secondary_syntactic_category")
 
-        return StemBinding(root, lemma, lemma_root, primary_position, secondary_position)
+        return StemBinding(root, lemma, lemma_root, syntactic_category, secondary_syntactic_category)
 
     def to_dom(self):
         stem_node = Element("stem", namespaceURI=NAMESPACE)
         stem_node.setAttribute("root", self.root)
         stem_node.setAttribute("lemma", self.lemma)
         stem_node.setAttribute("lemma_root", self.lemma_root)
-        stem_node.setAttribute("primary_position", self.primary_position)
-        if self.secondary_position:
-            stem_node.setAttribute("secondary_position", self.secondary_position)
+        stem_node.setAttribute("syntactic_category", self.syntactic_category)
+        if self.secondary_syntactic_category:
+            stem_node.setAttribute("secondary_syntactic_category", self.secondary_syntactic_category)
         return stem_node

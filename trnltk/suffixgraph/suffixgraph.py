@@ -1,6 +1,6 @@
 # coding=utf-8
-from trnltk.stem.dictionaryitem import RootAttribute, PrimaryPosition, SecondaryPosition
-from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute, root_has_secondary_position
+from trnltk.stem.dictionaryitem import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
+from trnltk.suffixgraph.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attributes, doesnt_have_root_attribute, root_has_secondary_syntactic_category
 from trnltk.suffixgraph.suffixgraphmodel import *
 
 class SuffixGraph(object):
@@ -11,71 +11,71 @@ class SuffixGraph(object):
         self._register_suffixes()
 
     def _add_states(self):
-        self.NOUN_ROOT = State("NOUN_ROOT", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_WITH_AGREEMENT = State("NOUN_WITH_AGREEMENT", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_WITH_POSSESSION = State("NOUN_WITH_POSSESSION", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_WITH_CASE = State("NOUN_WITH_CASE", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_TERMINAL_TRANSFER = State("NOUN_TERMINAL_TRANSFER", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_TERMINAL = State("NOUN_TERMINAL", State.TERMINAL, PrimaryPosition.NOUN)
-        self.NOUN_NOM_DERIV = State("NOUN_NOM_DERIV", State.DERIV, PrimaryPosition.NOUN)
-        self.NOUN_POSSESSIVE_NOM_DERIV = State("NOUN_POSSESSIVE_NOM_DERIV", State.DERIV, PrimaryPosition.NOUN)
-        self.NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", State.DERIV, PrimaryPosition.NOUN)
+        self.NOUN_ROOT = State("NOUN_ROOT", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_WITH_AGREEMENT = State("NOUN_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_WITH_POSSESSION = State("NOUN_WITH_POSSESSION", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_WITH_CASE = State("NOUN_WITH_CASE", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_TERMINAL_TRANSFER = State("NOUN_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_TERMINAL = State("NOUN_TERMINAL", State.TERMINAL, SyntacticCategory.NOUN)
+        self.NOUN_NOM_DERIV = State("NOUN_NOM_DERIV", State.DERIV, SyntacticCategory.NOUN)
+        self.NOUN_POSSESSIVE_NOM_DERIV = State("NOUN_POSSESSIVE_NOM_DERIV", State.DERIV, SyntacticCategory.NOUN)
+        self.NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", State.DERIV, SyntacticCategory.NOUN)
 
-        self.NOUN_COMPOUND_ROOT = State("NOUN_COMPOUND_ROOT", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_COMPOUND_WITH_AGREEMENT = State("NOUN_COMPOUND_WITH_AGREEMENT", State.TRANSFER, PrimaryPosition.NOUN)
-        self.NOUN_COMPOUND_WITH_POSSESSION = State("NOUN_COMPOUND_WITH_POSSESSION", State.TRANSFER, PrimaryPosition.NOUN)
+        self.NOUN_COMPOUND_ROOT = State("NOUN_COMPOUND_ROOT", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_COMPOUND_WITH_AGREEMENT = State("NOUN_COMPOUND_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.NOUN)
+        self.NOUN_COMPOUND_WITH_POSSESSION = State("NOUN_COMPOUND_WITH_POSSESSION", State.TRANSFER, SyntacticCategory.NOUN)
 
-        self.VERB_ROOT = State("VERB_ROOT", State.TRANSFER, PrimaryPosition.VERB)
-        self.VERB_WITH_POLARITY = State("VERB_WITH_POLARITY", State.TRANSFER, PrimaryPosition.VERB)
-        self.VERB_WITH_TENSE = State("VERB_WITH_TENSE", State.TRANSFER, PrimaryPosition.VERB)
-        self.VERB_TERMINAL = State("VERB_TERMINAL", State.TERMINAL, PrimaryPosition.VERB)
-        self.VERB_TERMINAL_TRANSFER = State("VERB_TERMINAL_TRANSFER", State.TRANSFER, PrimaryPosition.VERB)
-        self.VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", State.DERIV, PrimaryPosition.VERB)
-        self.VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", State.DERIV, PrimaryPosition.VERB)
-        self.VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", State.DERIV, PrimaryPosition.VERB)
-        self.VERB_TENSE_ADJ_DERIV = State("VERB_TENSE_ADJ_DERIV", State.DERIV, PrimaryPosition.VERB)
+        self.VERB_ROOT = State("VERB_ROOT", State.TRANSFER, SyntacticCategory.VERB)
+        self.VERB_WITH_POLARITY = State("VERB_WITH_POLARITY", State.TRANSFER, SyntacticCategory.VERB)
+        self.VERB_WITH_TENSE = State("VERB_WITH_TENSE", State.TRANSFER, SyntacticCategory.VERB)
+        self.VERB_TERMINAL = State("VERB_TERMINAL", State.TERMINAL, SyntacticCategory.VERB)
+        self.VERB_TERMINAL_TRANSFER = State("VERB_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.VERB)
+        self.VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", State.DERIV, SyntacticCategory.VERB)
+        self.VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", State.DERIV, SyntacticCategory.VERB)
+        self.VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", State.DERIV, SyntacticCategory.VERB)
+        self.VERB_TENSE_ADJ_DERIV = State("VERB_TENSE_ADJ_DERIV", State.DERIV, SyntacticCategory.VERB)
 
-        self.ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", State.TRANSFER, PrimaryPosition.ADJECTIVE)
-        self.ADJECTIVE_PART_WITHOUT_POSSESSION = State("ADJECTIVE_PART_WITHOUT_POSSESSION", State.TRANSFER, PrimaryPosition.ADJECTIVE)
-        self.ADJECTIVE_TERMINAL = State("ADJECTIVE_TERMINAL", State.TERMINAL, PrimaryPosition.ADJECTIVE)
-        self.ADJECTIVE_TERMINAL_TRANSFER = State("ADJECTIVE_TERMINAL_TRANSFER", State.TRANSFER, PrimaryPosition.ADJECTIVE)
-        self.ADJECTIVE_DERIV = State("ADJECTIVE_DERIV", State.DERIV, PrimaryPosition.ADJECTIVE)
+        self.ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", State.TRANSFER, SyntacticCategory.ADJECTIVE)
+        self.ADJECTIVE_PART_WITHOUT_POSSESSION = State("ADJECTIVE_PART_WITHOUT_POSSESSION", State.TRANSFER, SyntacticCategory.ADJECTIVE)
+        self.ADJECTIVE_TERMINAL = State("ADJECTIVE_TERMINAL", State.TERMINAL, SyntacticCategory.ADJECTIVE)
+        self.ADJECTIVE_TERMINAL_TRANSFER = State("ADJECTIVE_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.ADJECTIVE)
+        self.ADJECTIVE_DERIV = State("ADJECTIVE_DERIV", State.DERIV, SyntacticCategory.ADJECTIVE)
 
-        self.ADVERB_ROOT = State("ADVERB_ROOT", State.TRANSFER, PrimaryPosition.ADVERB)
-        self.ADVERB_TERMINAL = State("ADVERB_TERMINAL", State.TERMINAL, PrimaryPosition.ADVERB)
-        self.ADVERB_TERMINAL_TRANSFER = State("ADVERB_TERMINAL_TRANSFER", State.TRANSFER, PrimaryPosition.ADVERB)
-        self.ADVERB_DERIV = State("ADVERB_DERIV", State.DERIV, PrimaryPosition.ADVERB)
+        self.ADVERB_ROOT = State("ADVERB_ROOT", State.TRANSFER, SyntacticCategory.ADVERB)
+        self.ADVERB_TERMINAL = State("ADVERB_TERMINAL", State.TERMINAL, SyntacticCategory.ADVERB)
+        self.ADVERB_TERMINAL_TRANSFER = State("ADVERB_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.ADVERB)
+        self.ADVERB_DERIV = State("ADVERB_DERIV", State.DERIV, SyntacticCategory.ADVERB)
 
-        self.PRONOUN_ROOT = State("PRONOUN_ROOT", State.TRANSFER, PrimaryPosition.PRONOUN)
-        self.PRONOUN_WITH_AGREEMENT = State("PRONOUN_WITH_AGREEMENT", State.TRANSFER, PrimaryPosition.PRONOUN)
-        self.PRONOUN_WITH_POSSESSION = State("PRONOUN_WITH_POSSESSION", State.TRANSFER, PrimaryPosition.PRONOUN)
-        self.PRONOUN_WITH_CASE = State("PRONOUN_WITH_CASE", State.TRANSFER, PrimaryPosition.PRONOUN)
-        self.PRONOUN_NOM_DERIV = State("PRONOUN_NOM_DERIV", State.DERIV, PrimaryPosition.PRONOUN)
-        self.PRONOUN_TERMINAL = State("PRONOUN_TERMINAL", State.TERMINAL, PrimaryPosition.PRONOUN)
-        self.PRONOUN_TERMINAL_TRANSFER = State("PRONOUN_TERMINAL_TRANSFER", State.TRANSFER, PrimaryPosition.PRONOUN)
+        self.PRONOUN_ROOT = State("PRONOUN_ROOT", State.TRANSFER, SyntacticCategory.PRONOUN)
+        self.PRONOUN_WITH_AGREEMENT = State("PRONOUN_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.PRONOUN)
+        self.PRONOUN_WITH_POSSESSION = State("PRONOUN_WITH_POSSESSION", State.TRANSFER, SyntacticCategory.PRONOUN)
+        self.PRONOUN_WITH_CASE = State("PRONOUN_WITH_CASE", State.TRANSFER, SyntacticCategory.PRONOUN)
+        self.PRONOUN_NOM_DERIV = State("PRONOUN_NOM_DERIV", State.DERIV, SyntacticCategory.PRONOUN)
+        self.PRONOUN_TERMINAL = State("PRONOUN_TERMINAL", State.TERMINAL, SyntacticCategory.PRONOUN)
+        self.PRONOUN_TERMINAL_TRANSFER = State("PRONOUN_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.PRONOUN)
 
-        self.DETERMINER_ROOT_TERMINAL = State("DETERMINER_ROOT_TERMINAL", State.TERMINAL, PrimaryPosition.DETERMINER)
+        self.DETERMINER_ROOT_TERMINAL = State("DETERMINER_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.DETERMINER)
 
-        self.INTERJECTION_ROOT_TERMINAL = State("INTERJECTION_ROOT_TERMINAL", State.TERMINAL, PrimaryPosition.INTERJECTION)
+        self.INTERJECTION_ROOT_TERMINAL = State("INTERJECTION_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.INTERJECTION)
 
-        self.CONJUNCTION_ROOT_TERMINAL = State("CONJUNCTION_ROOT_TERMINAL", State.TERMINAL, PrimaryPosition.CONJUNCTION)
+        self.CONJUNCTION_ROOT_TERMINAL = State("CONJUNCTION_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.CONJUNCTION)
 
-        self.NUMERAL_CARDINAL_ROOT = State("NUMERAL_CARDINAL_ROOT", State.TRANSFER, PrimaryPosition.NUMERAL)
-        self.NUMERAL_CARDINAL_DERIV = State("NUMERAL_CARDINAL_DERIV", State.DERIV, PrimaryPosition.NUMERAL)
+        self.NUMERAL_CARDINAL_ROOT = State("NUMERAL_CARDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
+        self.NUMERAL_CARDINAL_DERIV = State("NUMERAL_CARDINAL_DERIV", State.DERIV, SyntacticCategory.NUMERAL)
 
-        self.NUMERAL_DIGIT_CARDINAL_ROOT = State("NUMERAL_DIGIT_CARDINAL_ROOT", State.TRANSFER, PrimaryPosition.NUMERAL)
+        self.NUMERAL_DIGIT_CARDINAL_ROOT = State("NUMERAL_DIGIT_CARDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
 
-        self.NUMERAL_ORDINAL_ROOT = State("NUMERAL_ORDINAL_ROOT", State.TRANSFER, PrimaryPosition.NUMERAL)
-        self.NUMERAL_ORDINAL_DERIV = State("NUMERAL_ORDINAL_DERIV", State.DERIV, PrimaryPosition.NUMERAL)
+        self.NUMERAL_ORDINAL_ROOT = State("NUMERAL_ORDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
+        self.NUMERAL_ORDINAL_DERIV = State("NUMERAL_ORDINAL_DERIV", State.DERIV, SyntacticCategory.NUMERAL)
 
-        self.QUESTION_ROOT = State("QUESTION_ROOT", State.TRANSFER, PrimaryPosition.QUESTION)
-        self.QUESTION_WITH_TENSE = State("QUESTION_WITH_TENSE", State.TRANSFER, PrimaryPosition.QUESTION)
-        self.QUESTION_WITH_AGREEMENT = State("QUESTION_WITH_AGREEMENT", State.TRANSFER, PrimaryPosition.QUESTION)
-        self.QUESTION_TERMINAL = State("QUESTION_TERMINAL", State.TERMINAL, PrimaryPosition.QUESTION)
+        self.QUESTION_ROOT = State("QUESTION_ROOT", State.TRANSFER, SyntacticCategory.QUESTION)
+        self.QUESTION_WITH_TENSE = State("QUESTION_WITH_TENSE", State.TRANSFER, SyntacticCategory.QUESTION)
+        self.QUESTION_WITH_AGREEMENT = State("QUESTION_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.QUESTION)
+        self.QUESTION_TERMINAL = State("QUESTION_TERMINAL", State.TERMINAL, SyntacticCategory.QUESTION)
 
-        self.PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", State.TERMINAL, PrimaryPosition.PUNCTUATION)
+        self.PUNC_ROOT_TERMINAL = State("PUNC_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.PUNCTUATION)
 
-        self.PART_ROOT_TERMINAL = State("PART_ROOT_TERMINAL", State.TERMINAL, PrimaryPosition.PARTICLE)
+        self.PART_ROOT_TERMINAL = State("PART_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.PARTICLE)
 
         self.ALL_STATES = {
             self.NOUN_ROOT, self.NOUN_WITH_AGREEMENT, self.NOUN_WITH_POSSESSION, self.NOUN_WITH_CASE, self.NOUN_TERMINAL,
@@ -112,36 +112,36 @@ class SuffixGraph(object):
         }
 
     def get_default_stem_state(self, stem):
-        if not stem.dictionary_item.primary_position or stem.dictionary_item.primary_position==PrimaryPosition.NOUN:
+        if not stem.dictionary_item.syntactic_category or stem.dictionary_item.syntactic_category==SyntacticCategory.NOUN:
             if RootAttribute.CompoundP3sg in stem.dictionary_item.attributes:
                 return self.NOUN_COMPOUND_ROOT
             else:
                 return self.NOUN_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.VERB:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.VERB:
             return self.VERB_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.ADVERB:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.ADVERB:
             return self.ADVERB_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.ADJECTIVE:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.ADJECTIVE:
             return self.ADJECTIVE_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.PRONOUN:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN:
             return self.PRONOUN_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.DETERMINER:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.DETERMINER:
             return self.DETERMINER_ROOT_TERMINAL
-        elif stem.dictionary_item.primary_position==PrimaryPosition.INTERJECTION:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.INTERJECTION:
             return self.INTERJECTION_ROOT_TERMINAL
-        elif stem.dictionary_item.primary_position==PrimaryPosition.CONJUNCTION:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.CONJUNCTION:
             return self.CONJUNCTION_ROOT_TERMINAL
-        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.DIGITS:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL and stem.dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
             return self.NUMERAL_DIGIT_CARDINAL_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.CARD:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL and stem.dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
             return self.NUMERAL_CARDINAL_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.NUMERAL and stem.dictionary_item.secondary_position==SecondaryPosition.ORD:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL and stem.dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
             return self.NUMERAL_ORDINAL_ROOT
-        elif stem.dictionary_item.primary_position==PrimaryPosition.PUNCTUATION:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.PUNCTUATION:
             return self.PUNC_ROOT_TERMINAL
-        elif stem.dictionary_item.primary_position==PrimaryPosition.PARTICLE:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.PARTICLE:
             return self.PART_ROOT_TERMINAL
-        elif stem.dictionary_item.primary_position==PrimaryPosition.QUESTION:
+        elif stem.dictionary_item.syntactic_category==SyntacticCategory.QUESTION:
             return self.QUESTION_ROOT
         else:
             raise Exception("No _stem state found for _stem {} !".format(stem))
@@ -536,7 +536,7 @@ class SuffixGraph(object):
         self.ManyOf.add_suffix_form(u"lArcA")
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.ForALotOfTime, self.ADVERB_ROOT)
-        self.ForALotOfTime.add_suffix_form(u"lArcA", precondition=root_has_secondary_position(SecondaryPosition.TIME))
+        self.ForALotOfTime.add_suffix_form(u"lArcA", precondition=root_has_secondary_syntactic_category(SecondarySyntacticCategory.TIME))
 
     def _register_noun_compound_suffixes(self):
         self.NOUN_COMPOUND_ROOT.add_out_suffix(self.A3Sg_Noun_Compound, self.NOUN_COMPOUND_WITH_AGREEMENT)

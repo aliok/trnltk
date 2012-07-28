@@ -1,7 +1,7 @@
 # coding=utf-8
 import logging
 from trnltk.parser import formatter
-from trnltk.stem.dictionaryitem import  PrimaryPosition, RootAttribute
+from trnltk.stem.dictionaryitem import  SyntacticCategory, RootAttribute
 from trnltk.parser.suffixapplier import *
 from trnltk.parser.token import ParseToken
 
@@ -134,7 +134,7 @@ class Parser(object):
     def _apply_required_transitions_to_stem_candidates(self, candidates, word):
         new_candidates = []
         for candidate in candidates:
-            if candidate.get_stem().dictionary_item.primary_position==PrimaryPosition.VERB:
+            if candidate.get_stem().dictionary_item.syntactic_category==SyntacticCategory.VERB:
                 if RootAttribute.ProgressiveVowelDrop in candidate.get_stem().dictionary_item.attributes and len(candidate.get_stem().root)==len(candidate.get_stem().dictionary_item.root)-1:
                     # apply Positive + Progressive 'Iyor'
                     Positive = self._suffix_graph.Positive

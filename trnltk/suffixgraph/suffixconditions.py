@@ -248,17 +248,17 @@ class DoesntHaveRootAttributes(Specification):
         return self.__str__()
 
 
-class RootHasSecondaryPosition(Specification):
-    def __init__(self, secondary_position):
-            self._secondary_position = secondary_position
+class RootHasSecondarySyntacticCategory(Specification):
+    def __init__(self, secondary_syntactic_category):
+            self._secondary_syntactic_category = secondary_syntactic_category
 
     def is_satisfied_by(self, parse_token):
         if not parse_token:
             return False
-        return parse_token.get_stem().dictionary_item.secondary_position==self._secondary_position
+        return parse_token.get_stem().dictionary_item.secondary_syntactic_category==self._secondary_syntactic_category
 
     def __str__(self):
-        return u'root_has_secondary_position({})'.format(self._secondary_position)
+        return u'root_has_secondary_syntactic_category({})'.format(self._secondary_syntactic_category)
 
     def __repr__(self):
         return self.__str__()
@@ -283,8 +283,8 @@ def doesnt_come_after_derivation(suffix, form_str=None):
 def applies_to_stem(stem_str):
     return AppliesToStem(stem_str)
 
-def root_has_secondary_position(secondary_position):
-    return RootHasSecondaryPosition(secondary_position)
+def root_has_secondary_syntactic_category(secondary_syntactic_category):
+    return RootHasSecondarySyntacticCategory(secondary_syntactic_category)
 
 def has_root_attributes(root_attrs):
     return HasRootAttributes(root_attrs)

@@ -5,7 +5,7 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.parser import formatter
-from trnltk.stem.dictionaryitem import  PrimaryPosition, SecondaryPosition
+from trnltk.stem.dictionaryitem import  SyntacticCategory, SecondarySyntacticCategory
 from trnltk.stem.dictionaryloader import DictionaryLoader
 from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
 from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
@@ -50,8 +50,8 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.token_map = self.predefined_paths.token_map
 
-        PRON = PrimaryPosition.PRONOUN
-        PERS = SecondaryPosition.PERSONAL
+        PRON = SyntacticCategory.PRONOUN
+        PERS = SecondarySyntacticCategory.PERSONAL
 
         # last one ends with transition to derivation state
         self.assert_defined_path(u'ben', PRON, PERS,
@@ -91,7 +91,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.token_map = self.predefined_paths.token_map
 
-        PRON = PrimaryPosition.PRONOUN
+        PRON = SyntacticCategory.PRONOUN
 
         # last one ends with transition to derivation state
         self.assert_defined_path(u'hepsi', PRON, None,
@@ -134,7 +134,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.token_map = self.predefined_paths.token_map
 
-        QUES = PrimaryPosition.QUESTION
+        QUES = SyntacticCategory.QUESTION
 
         # last one ends with transition to derivation state
         self.assert_defined_path(u'mı', QUES, None,
@@ -157,13 +157,13 @@ class PredefinedPathsTest(unittest.TestCase):
             u'mı(mı)+Ques+Past(ymış[ymış])+A2pl(sınız[sınız])',
             u'mı(mı)+Ques+Past(ymış[ymış])+A3pl(lar[lar])')
         
-    def assert_defined_path(self, stem_root, primary_position, secondary_position, *args):
-        assert_that(self.predefined_tokens(stem_root, primary_position, secondary_position), IsTokensMatches([a for a in args]))
+    def assert_defined_path(self, stem_root, syntactic_category, secondary_syntactic_category, *args):
+        assert_that(self.predefined_tokens(stem_root, syntactic_category, secondary_syntactic_category), IsTokensMatches([a for a in args]))
 
-    def predefined_tokens(self, stem_root, primary_position, secondary_position):
+    def predefined_tokens(self, stem_root, syntactic_category, secondary_syntactic_category):
         predefined_tokens = []
         for stem in self.token_map.keys():
-            if stem.root==stem_root and stem.dictionary_item.primary_position==primary_position and stem.dictionary_item.secondary_position==secondary_position:
+            if stem.root==stem_root and stem.dictionary_item.syntactic_category==syntactic_category and stem.dictionary_item.secondary_syntactic_category==secondary_syntactic_category:
                 predefined_tokens.extend(self.token_map[stem])
 
         return [formatter.format_parse_token_for_tests(r) for r in predefined_tokens]
