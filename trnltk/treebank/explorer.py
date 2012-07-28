@@ -25,11 +25,70 @@ def concordance_transition_full_word(transition_full_word, syntactic_category=No
     pass
 
 
-# similar
+class ConcordanceIndex(object):
+    def offsets(self, sth):
+        raise NotImplementedError()
 
-def print_concordance(full_words, offsets, width=75, lines=25):
+class CompleteWordConcordanceIndex(ConcordanceIndex):
+    def __init__(self, word_list):
+        self._offsets = defaultdict(list)
+
+        for index, word in enumerate(word_list):
+            self._offsets[word.str].append(index)
+
+    def offsets(self, word):
+        return self._offsets[word]
+
+
+class StemConcordanceIndex(ConcordanceIndex):
+    def __init__(self, word_list):
+        self._offsets = defaultdict(list)
+
+        for index, word in enumerate(word_list):
+            if hasattr(word, "stem"):
+                self._offsets[word.stem.root].append(index)
+
+    def offsets(self, stem):
+        return self._offsets[stem]
+
+class DictionaryItemConcordanceIndex(ConcordanceIndex):
+    def __init__(self, word_list):
+        self._offsets = defaultdict(list)
+
+        for index, word in enumerate(word_list):
+            if hasattr(word, "stem"):
+                self._offsets[word.stem.lemma_root].append(index)
+
+    def offsets(self, lemma_root):
+        return self._offsets[lemma_root]
+
+class TransitionWordConcordanceIndex(ConcordanceIndex):
+    def __init__(self, word_list):
+        self._offsets = defaultdict(list)
+
+        for index, word in enumerate(word_list):
+            if hasattr(word, "suffixes") and word.suffixes:
+                for suffix in word.suffixes:
+                    self._offsets[suffix.word].append(index)
+
+    def offsets(self, word):
+        return self._offsets[word]
+
+class TransitionMatchedWordConcordanceIndex(ConcordanceIndex):
+    def __init__(self, word_list):
+        self._offsets = defaultdict(list)
+
+        for index, word in enumerate(word_list):
+            if hasattr(word, "suffixes") and word.suffixes:
+                for suffix in word.suffixes:
+                    self._offsets[suffix.matched_word].append(index)
+
+    def offsets(self, word):
+        return self._offsets[word]
+
+def print_concordance(word_list, offsets, width=75, lines=25):
     if offsets:
-        half_width = (width - len(full_words[offsets[0]]) - 2) / 2
+        half_width = (width - len(word_list[offsets[0]].str) - 2) / 2
         context = width/4 # approx number of words of context
 
         lines = min(lines, len(offsets))
@@ -38,9 +97,9 @@ def print_concordance(full_words, offsets, width=75, lines=25):
             if lines <= 0:
                 break
             left = (' ' * half_width +
-                    ' '.join(full_words[i-context:i]))
-            right = ' '.join(full_words[i+1:i+context])
-            word = full_words[i]
+                    ' '.join([word.str for word in word_list[i-context:i]]))
+            right = ' '.join([word.str for word in word_list[i+1:i+context]])
+            word = word_list[i].str
             left = left[-half_width:]
             right = right[:half_width]
             sum = left + u' ' + word + u' ' + right
@@ -51,129 +110,37 @@ def print_concordance(full_words, offsets, width=75, lines=25):
         print "No matches"
 
 
-class FullWordConcordanceIndex(object):
-    def __init__(self, full_words):
-        self._full_words = full_words
-        self._offsets = defaultdict(list)
-
-        for index, full_word in enumerate(full_words):
-            self._offsets[full_word].append(index)
-
-    def offsets(self, word):
-        return self._offsets[word]
-
-
-class StemConcordanceIndex(object):
-    def __init__(self, word_stem_tuples):
-        self._full_words = [full_word for (full_word, stem) in word_stem_tuples]
-        self._offsets = defaultdict(list)
-
-        for index, (full_word, stem) in enumerate(word_stem_tuples):
-            if stem:
-                self._offsets[stem].append(index)
-
-    def offsets(self, word):
-        return self._offsets[word]
-
-
-class DictionaryItemConcordanceIndex(object):
-    def __init__(self, word_lemma_root_tuples):
-        self._full_words = [full_word for (full_word, lemma_root) in word_lemma_root_tuples]
-        self._offsets = defaultdict(list)
-
-        for index, (full_word, lemma_root) in enumerate(word_lemma_root_tuples):
-            if lemma_root:
-                self._offsets[lemma_root].append(index)
-
-    def offsets(self, word):
-        return self._offsets[word]
-
-class TransitionWordConcordanceIndex(object):
-    def __init__(self, word_transition_list_tuples):
-        self._full_words = [full_word for (full_word, transition_list) in word_transition_list_tuples]
-        self._offsets = defaultdict(list)
-
-        for index, (full_word, transition_list) in enumerate(word_transition_list_tuples):
-            if transition_list:
-                for transition in transition_list:
-                    self._offsets[transition].append(index)
-
-    def offsets(self, word):
-        return self._offsets[word]
-
-class TransitionMatchedWordConcordanceIndex(object):
-    def __init__(self, word_transition_list_tuples):
-        self._full_words = [full_word for (full_word, transition_list) in word_transition_list_tuples]
-        self._offsets = defaultdict(list)
-
-        for index, (full_word, transition_list) in enumerate(word_transition_list_tuples):
-            if transition_list:
-                for transition in transition_list:
-                    self._offsets[transition].append(index)
-
-    def offsets(self, word):
-        return self._offsets[word]
-
-
 def doit():
     dom = parse(os.path.join(os.path.dirname(__file__), '../testresources/parsesets/parseset005.xml'))
     parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
-    full_words = []
+    word_list = []
     for sentence in parseset.sentences:
-        for word in sentence.words:
-            full_words.append(word.str)
+        word_list.extend(sentence.words)
 
-    word_stem_tuples = []
-    for sentence in parseset.sentences:
-        for word in sentence.words:
-            word_stem_tuples.append((word.str, word.stem.root if hasattr(word, "stem") else None))
+    to_search = u"git"
 
-    word_lemma_root_tuples = []
-    for sentence in parseset.sentences:
-        for word in sentence.words:
-            word_lemma_root_tuples.append((word.str, word.stem.lemma_root if hasattr(word, "stem") else None))
-
-    word_transition_list_tuples = []
-    for sentence in parseset.sentences:
-        for word in sentence.words:
-            transitions_for_word = set()
-            if hasattr(word, "suffixes"):
-                for suffix in word.suffixes:
-                    transitions_for_word.add(suffix.word)
-            word_transition_list_tuples.append((word, sorted(list(transitions_for_word))))
-
-    word_matched_transition_list_tuples = []
-    for sentence in parseset.sentences:
-        for word in sentence.words:
-            transitions_for_word = set()
-            if hasattr(word, "suffixes"):
-                for suffix in word.suffixes:
-                    transitions_for_word.add(suffix.matched_word)
-            word_matched_transition_list_tuples.append((word, sorted(list(transitions_for_word))))
-
-    to_search = u"yap"
-
-    print len(full_words)
-    idx = FullWordConcordanceIndex(full_words)
-    print_concordance(full_words, idx.offsets(to_search))
+    idx = CompleteWordConcordanceIndex(word_list)
+    print_concordance(word_list, idx.offsets(to_search))
     print "\n\n"
 
-    idx = StemConcordanceIndex(word_stem_tuples)
-    print_concordance(full_words, idx.offsets(to_search))
+    idx = StemConcordanceIndex(word_list)
+    print_concordance(word_list, idx.offsets(to_search))
     print "\n\n"
 
-    idx = DictionaryItemConcordanceIndex(word_lemma_root_tuples)
-    print_concordance(full_words, idx.offsets(to_search))
+    idx = DictionaryItemConcordanceIndex(word_list)
+    print_concordance(word_list, idx.offsets(to_search))
     print "\n\n"
 
-    idx = TransitionWordConcordanceIndex(word_transition_list_tuples)
-    print_concordance(full_words, idx.offsets(to_search))
+    idx = TransitionWordConcordanceIndex(word_list)
+    print_concordance(word_list, idx.offsets(to_search))
     print "\n\n"
 
-    idx = TransitionMatchedWordConcordanceIndex(word_matched_transition_list_tuples)
-    print_concordance(full_words, idx.offsets(to_search))
+    idx = TransitionMatchedWordConcordanceIndex(word_list)
+    print_concordance(word_list, idx.offsets(to_search))
     print "\n\n"
 
+
+# similar
 
 if __name__ == '__main__':
     doit()
