@@ -57,16 +57,20 @@ class SentenceBinding (Binding):
         return sentence_node
 
 class WordBinding (Binding):
-    def __init__(self, str, parse_result, stem, suffixes=None):
+    def __init__(self, str, parse_result, stem, primary_position, secondary_position=None, suffixes=None):
         self.str = str
         self.parse_result = parse_result
         self.stem = stem
+        self.primary_position = primary_position
+        self.secondary_position = secondary_position
         self.suffixes = suffixes or []
 
     @classmethod
     def build(cls, node):
         str = node.getAttribute("str")
         parse_result = node.getAttribute("parse_result")
+        primary_position = node.getAttribute("primary_position")
+        secondary_position = node.getAttribute("secondary_position")
         stem = StemBinding.build(node.getElementsByTagName("stem")[0])
         suffixes = []
 
@@ -79,12 +83,16 @@ class WordBinding (Binding):
 
                 suffixes.append(SuffixBinding.build(suffix_node))
 
-        return WordBinding(str, parse_result, stem, suffixes)
+        return WordBinding(str, parse_result, stem, primary_position, secondary_position, suffixes)
 
     def to_dom(self):
         word_node = Element("word", namespaceURI=NAMESPACE)
         word_node.setAttribute("str", self.str)
         word_node.setAttribute("parse_result", self.parse_result)
+        word_node.setAttribute("primary_position", self.primary_position)
+        if self.secondary_position:
+            word_node.setAttribute("secondary_position", self.secondary_position)
+
         word_node.appendChild(self.stem.to_dom())
 
         if self.suffixes:

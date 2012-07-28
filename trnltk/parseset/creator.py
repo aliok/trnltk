@@ -9,13 +9,22 @@ class ParseSetCreator(object):
         root = token.get_stem().root
         lemma = token.get_stem().dictionary_item.lemma
         lemma_root = token.get_stem().dictionary_item.root
-        primary_position = token.get_stem().dictionary_item.primary_position
-        secondary_position = token.get_stem().dictionary_item.secondary_position
-        stem = StemBinding(root, lemma, lemma_root, primary_position, secondary_position)
+        stem_primary_position = token.get_stem().dictionary_item.primary_position
+        stem_secondary_position = token.get_stem().dictionary_item.secondary_position
+        stem = StemBinding(root, lemma, lemma_root, stem_primary_position, stem_secondary_position)
+
+        word_primary_position = stem_primary_position
+        word_secondary_position = stem_secondary_position
+
+        if token.has_transitions():
+            last_derivation_transition = token.get_last_derivation_transition()
+            if last_derivation_transition:
+                word_primary_position = last_derivation_transition.to_state.primary_position
+                word_secondary_position = None
 
         word_str = token.get_so_far()
         parse_result = formatter.format_parse_token_for_parseset(token)
-        word = WordBinding(word_str, parse_result, stem)
+        word = WordBinding(word_str, parse_result, stem, word_primary_position, word_secondary_position)
 
         if token.get_transitions():
             so_far = root

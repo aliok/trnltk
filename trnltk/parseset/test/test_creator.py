@@ -42,14 +42,16 @@ class ParseSetCreatorTest(unittest.TestCase):
         tokens.append(self._get_word_token_tuple(u'buyurmam'))
         tokens.append(self._get_word_token_tuple(u'yetiştirdik'))
         tokens.append(self._get_word_token_tuple(u'kıvrandığın'))
+        tokens.append(self._get_word_token_tuple(u'sabahçı'))
+        tokens.append(self._get_word_token_tuple(u'sabah'))
 
         sentence = self.parseset_creator.create_sentence_binding_from_tokens(tokens)
 
         expected = u'''
 <sentence>
 	<unparsable_word str="blablabla"/>
-	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba">
-		<stem lemma="kitap" primary_position="Noun" root="kitab"/>
+	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" primary_position="Noun" str="kitaba">
+		<stem lemma="kitap" lemma_root="kitap" primary_position="Noun" root="kitab"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kitab" name="A3sg" word="kitap"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kitab" name="Pnon" word="kitap"/>
@@ -57,16 +59,16 @@ class ParseSetCreatorTest(unittest.TestCase):
 		</suffixes>
 	</word>
 	<unparsable_word str="abcabcabc"/>
-	<word parse_result="buyur+Verb+Neg+Aor+A1sg" str="buyurmam">
-		<stem lemma="buyurmak" primary_position="Verb" root="buyur"/>
+	<word parse_result="buyur+Verb+Neg+Aor+A1sg" primary_position="Verb" str="buyurmam">
+		<stem lemma="buyurmak" lemma_root="buyur" primary_position="Verb" root="buyur"/>
 		<suffixes>
 			<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="buyurma" name="Neg" word="buyurma"/>
 			<inflectionalSuffix actual="" application="" form="" id="Aor" matched_word="buyurma" name="Aor" word="buyurma"/>
 			<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="buyurmam" name="A1sg" word="buyurmam"/>
 		</suffixes>
 	</word>
-	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" str="yetiştirdik">
-		<stem lemma="yetişmek" primary_position="Verb" root="yetiş"/>
+	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" primary_position="Verb" str="yetiştirdik">
+		<stem lemma="yetişmek" lemma_root="yetiş" primary_position="Verb" root="yetiş"/>
 		<suffixes>
 			<derivationalSuffix actual="tir" application="tir" form="dIr" id="Caus" matched_word="yetiştir" name="Caus" to="Verb" word="yetiştir"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yetiştir" name="Pos" word="yetiştir"/>
@@ -74,12 +76,32 @@ class ParseSetCreatorTest(unittest.TestCase):
 			<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="yetiştirdik" name="A1pl" word="yetiştirdik"/>
 		</suffixes>
 	</word>
-	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="kıvrandığın">
-		<stem lemma="kıvranmak" primary_position="Verb" root="kıvran"/>
+	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" primary_position="Adj" str="kıvrandığın">
+		<stem lemma="kıvranmak" lemma_root="kıvran" primary_position="Verb" root="kıvran"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" word="kıvran"/>
 			<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_word="kıvrandığ" name="PastPart" to="Adj" word="kıvrandık"/>
 			<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_word="kıvrandığın" name="P2sg" word="kıvrandığın"/>
+		</suffixes>
+	</word>
+	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom+Noun+Agt+A3sg+Pnon+Nom" primary_position="Noun" str="sabahçı">
+		<stem lemma="sabah" lemma_root="sabah" primary_position="Noun" root="sabah" secondary_position="Time"/>
+		<suffixes>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="sabah" name="Nom" word="sabah"/>
+			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun" matched_word="sabahçı" name="Agt" to="Noun" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabahçı" name="A3sg" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabahçı" name="Pnon" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabahçı" name="Nom" word="sabahçı"/>
+		</suffixes>
+	</word>
+	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom" primary_position="Noun" secondary_position="Time" str="sabah">
+		<stem lemma="sabah" lemma_root="sabah" primary_position="Noun" root="sabah" secondary_position="Time"/>
+		<suffixes>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabah" name="Nom" word="sabah"/>
 		</suffixes>
 	</word>
 </sentence>
