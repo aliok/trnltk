@@ -41,22 +41,21 @@
         </xs:sequence>
         <xs:attribute name="str" type="xs:string" use="required"/>
         <xs:attribute name="parse_result" type="xs:string" use="required"/>
-        <xs:attribute name="primary_position" type="PrimaryPositionType" use="required"/>
-        <xs:attribute name="secondary_position" type="SecondaryPositionType"/>
+        <xs:attribute name="syntactic_category" type="SyntacticCategoryType" use="required"/>
+        <xs:attribute name="secondary_syntactic_category" type="SecondarySyntacticCategoryType"/>
     </xs:complexType>
 
     <xs:complexType name="StemType">
         <xs:attribute name="root" type="xs:string" use="required"/>
         <xs:attribute name="lemma" type="xs:string" use="required"/>
         <xs:attribute name="lemma_root" type="xs:string" use="required"/>
-        <xs:attribute name="primary_position" type="PrimaryPositionType" use="required"/>
-        <xs:attribute name="secondary_position" type="SecondaryPositionType"/>
+        <xs:attribute name="syntactic_category" type="SyntacticCategoryType" use="required"/>
+        <xs:attribute name="secondary_syntactic_category" type="SecondarySyntacticCategoryType"/>
     </xs:complexType>
 
     <xs:complexType name="DerivationalSuffixType" xml:base="SuffixType">
         <xs:complexContent>
             <xs:extension base="SuffixType">
-                <xs:attribute name="to" type="PrimaryPositionType" use="required"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -76,10 +75,10 @@
         <xs:attribute name="actual" type="xs:string" use="required"/>
         <xs:attribute name="matched_word" type="xs:string" use="required"/>
         <xs:attribute name="word" type="xs:string" use="required"/>
+        <xs:attribute name="to_syntactic_category" type="SyntacticCategoryType" use="required"/>
     </xs:complexType>
 
-    <!--TODO rename PrimaryPosition to SnyacticCategory in all files! -->
-    <xs:simpleType name="PrimaryPositionType">
+    <xs:simpleType name="SyntacticCategoryType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="Noun"/>
             <xs:enumeration value="Adj"/>
@@ -96,7 +95,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="SecondaryPositionType">
+    <xs:simpleType name="SecondarySyntacticCategoryType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="Dup"/>
             <xs:enumeration value="Postp"/>

@@ -44,10 +44,10 @@ class ParseSetCreator(object):
                     word_with_suffix_application = so_far + suffix_application
                 so_far += suffix_actual_application
                 if transition.is_derivational():
-                    suffix = DerivationalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, transition.to_state.syntactic_category, word_with_suffix_application, so_far)
+                    suffix = DerivationalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, word_with_suffix_application, so_far, transition.to_state.syntactic_category)
                     word.suffixes.append(suffix)
                 else:
-                    suffix = InflectionalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, word_with_suffix_application, so_far)
+                    suffix = InflectionalSuffixBinding(suffix_name, suffix_pretty_name, suffix_form, suffix_application, suffix_actual_application, word_with_suffix_application, so_far, transition.to_state.syntactic_category)
                     word.suffixes.append(suffix)
         return word
 

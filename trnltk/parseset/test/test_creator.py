@@ -50,58 +50,58 @@ class ParseSetCreatorTest(unittest.TestCase):
         expected = u'''
 <sentence>
 	<unparsable_word str="blablabla"/>
-	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" syntactic_category="Noun" str="kitaba">
-		<stem lemma="kitap" lemma_root="kitap" syntactic_category="Noun" root="kitab"/>
+	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba" syntactic_category="Noun">
+		<stem lemma="kitap" lemma_root="kitap" root="kitab" syntactic_category="Noun"/>
 		<suffixes>
-			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kitab" name="A3sg" word="kitap"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kitab" name="Pnon" word="kitap"/>
-			<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_word="kitaba" name="Dat" word="kitaba"/>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kitab" name="A3sg" to_syntactic_category="Noun" word="kitap"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kitab" name="Pnon" to_syntactic_category="Noun" word="kitap"/>
+			<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_word="kitaba" name="Dat" to_syntactic_category="Noun" word="kitaba"/>
 		</suffixes>
 	</word>
 	<unparsable_word str="abcabcabc"/>
-	<word parse_result="buyur+Verb+Neg+Aor+A1sg" syntactic_category="Verb" str="buyurmam">
-		<stem lemma="buyurmak" lemma_root="buyur" syntactic_category="Verb" root="buyur"/>
+	<word parse_result="buyur+Verb+Neg+Aor+A1sg" str="buyurmam" syntactic_category="Verb">
+		<stem lemma="buyurmak" lemma_root="buyur" root="buyur" syntactic_category="Verb"/>
 		<suffixes>
-			<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="buyurma" name="Neg" word="buyurma"/>
-			<inflectionalSuffix actual="" application="" form="" id="Aor" matched_word="buyurma" name="Aor" word="buyurma"/>
-			<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="buyurmam" name="A1sg" word="buyurmam"/>
+			<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="buyurma" name="Neg" to_syntactic_category="Verb" word="buyurma"/>
+			<inflectionalSuffix actual="" application="" form="" id="Aor" matched_word="buyurma" name="Aor" to_syntactic_category="Verb" word="buyurma"/>
+			<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="buyurmam" name="A1sg" to_syntactic_category="Verb" word="buyurmam"/>
 		</suffixes>
 	</word>
-	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" syntactic_category="Verb" str="yetiştirdik">
-		<stem lemma="yetişmek" lemma_root="yetiş" syntactic_category="Verb" root="yetiş"/>
+	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" str="yetiştirdik" syntactic_category="Verb">
+		<stem lemma="yetişmek" lemma_root="yetiş" root="yetiş" syntactic_category="Verb"/>
 		<suffixes>
-			<derivationalSuffix actual="tir" application="tir" form="dIr" id="Caus" matched_word="yetiştir" name="Caus" to="Verb" word="yetiştir"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yetiştir" name="Pos" word="yetiştir"/>
-			<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="yetiştirdi" name="Past" word="yetiştirdi"/>
-			<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="yetiştirdik" name="A1pl" word="yetiştirdik"/>
+			<derivationalSuffix actual="tir" application="tir" form="dIr" id="Caus" matched_word="yetiştir" name="Caus" to_syntactic_category="Verb" word="yetiştir"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yetiştir" name="Pos" to_syntactic_category="Verb" word="yetiştir"/>
+			<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="yetiştirdi" name="Past" to_syntactic_category="Verb" word="yetiştirdi"/>
+			<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="yetiştirdik" name="A1pl" to_syntactic_category="Verb" word="yetiştirdik"/>
 		</suffixes>
 	</word>
-	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" syntactic_category="Adj" str="kıvrandığın">
-		<stem lemma="kıvranmak" lemma_root="kıvran" syntactic_category="Verb" root="kıvran"/>
+	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="kıvrandığın" syntactic_category="Adj">
+		<stem lemma="kıvranmak" lemma_root="kıvran" root="kıvran" syntactic_category="Verb"/>
 		<suffixes>
-			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" word="kıvran"/>
-			<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_word="kıvrandığ" name="PastPart" to="Adj" word="kıvrandık"/>
-			<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_word="kıvrandığın" name="P2sg" word="kıvrandığın"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" to_syntactic_category="Verb" word="kıvran"/>
+			<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_word="kıvrandığ" name="PastPart" to_syntactic_category="Adj" word="kıvrandık"/>
+			<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_word="kıvrandığın" name="P2sg" to_syntactic_category="Adj" word="kıvrandığın"/>
 		</suffixes>
 	</word>
-	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom+Noun+Agt+A3sg+Pnon+Nom" syntactic_category="Noun" str="sabahçı">
-		<stem lemma="sabah" lemma_root="sabah" syntactic_category="Noun" root="sabah" secondary_syntactic_category="Time"/>
+	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom+Noun+Agt+A3sg+Pnon+Nom" str="sabahçı" syntactic_category="Noun">
+		<stem lemma="sabah" lemma_root="sabah" root="sabah" secondary_syntactic_category="Time" syntactic_category="Noun"/>
 		<suffixes>
-			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" word="sabah"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" word="sabah"/>
-			<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="sabah" name="Nom" word="sabah"/>
-			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun" matched_word="sabahçı" name="Agt" to="Noun" word="sabahçı"/>
-			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabahçı" name="A3sg" word="sabahçı"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabahçı" name="Pnon" word="sabahçı"/>
-			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabahçı" name="Nom" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="sabah" name="Nom" to_syntactic_category="Noun" word="sabah"/>
+			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun" matched_word="sabahçı" name="Agt" to_syntactic_category="Noun" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabahçı" name="A3sg" to_syntactic_category="Noun" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabahçı" name="Pnon" to_syntactic_category="Noun" word="sabahçı"/>
+			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabahçı" name="Nom" to_syntactic_category="Noun" word="sabahçı"/>
 		</suffixes>
 	</word>
-	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom" syntactic_category="Noun" secondary_syntactic_category="Time" str="sabah">
-		<stem lemma="sabah" lemma_root="sabah" syntactic_category="Noun" root="sabah" secondary_syntactic_category="Time"/>
+	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun">
+		<stem lemma="sabah" lemma_root="sabah" root="sabah" secondary_syntactic_category="Time" syntactic_category="Noun"/>
 		<suffixes>
-			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" word="sabah"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" word="sabah"/>
-			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabah" name="Nom" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>
+			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabah" name="Nom" to_syntactic_category="Noun" word="sabah"/>
 		</suffixes>
 	</word>
 </sentence>

@@ -37,7 +37,7 @@ class SentenceBinding (Binding):
     def build(cls, node):
         binding = SentenceBinding()
         for child_node in node.childNodes:
-            if isinstance(child_node, Text):
+            if not isinstance(child_node, Element):
                 continue
 
             if child_node.tagName=='word':
@@ -81,7 +81,12 @@ class WordBinding (Binding):
                 if isinstance(suffix_node, Text):
                     continue
 
-                suffixes.append(SuffixBinding.build(suffix_node))
+                if suffix_node.tagName=='inflectionalSuffix':
+                    suffixes.append(InflectionalSuffixBinding.build(suffix_node))
+                elif suffix_node.tagName=='derivationalSuffix':
+                    suffixes.append(DerivationalSuffixBinding.build(suffix_node))
+                else:
+                    raise Exception("Unknown suffix type : " + suffix_node.tagName)
 
         return WordBinding(str, parse_result, stem, syntactic_category, secondary_syntactic_category, suffixes)
 
@@ -105,7 +110,7 @@ class WordBinding (Binding):
 
 
 class SuffixBinding (Binding):
-    def __init__(self, id, name, form, application, actual, word, matched_word):
+    def __init__(self, id, name, form, application, actual, word, matched_word, to_syntactic_category):
         self.id = id
         self.name = name
         self.form = form
@@ -113,6 +118,7 @@ class SuffixBinding (Binding):
         self.actual = actual
         self.word = word
         self.matched_word = matched_word
+        self.to_syntactic_category = to_syntactic_category
 
     @classmethod
     def build(cls, node):
@@ -123,8 +129,9 @@ class SuffixBinding (Binding):
         actual = node.getAttribute("actual")
         word = node.getAttribute("word")
         matched_word = node.getAttribute("matched_word")
+        to_syntactic_category = node.getAttribute("to_syntactic_category")
 
-        return SuffixBinding(id, name, form, application, actual, word, matched_word)
+        return SuffixBinding(id, name, form, application, actual, word, matched_word, to_syntactic_category)
 
     def to_dom(self):
         suffix_node = Element("suffix", namespaceURI=NAMESPACE)
@@ -135,17 +142,18 @@ class SuffixBinding (Binding):
         suffix_node.setAttribute("actual", self.actual)
         suffix_node.setAttribute("word", self.word)
         suffix_node.setAttribute("matched_word", self.matched_word)
+        suffix_node.setAttribute("to_syntactic_category", self.to_syntactic_category)
         return suffix_node
 
 
 class InflectionalSuffixBinding(SuffixBinding):
-    def __init__(self, id, name, form, application, actual, word, matched_word):
-        super(InflectionalSuffixBinding, self).__init__(id, name, form, application, actual, word, matched_word)
+    def __init__(self, id, name, form, application, actual, word, matched_word, to_syntactic_category):
+        super(InflectionalSuffixBinding, self).__init__(id, name, form, application, actual, word, matched_word, to_syntactic_category)
 
     @classmethod
-    def build(cls, suffix_binding):
-        suffix_binding = super(InflectionalSuffixBinding, cls).build(suffix_binding)
-        return InflectionalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, suffix_binding.word, suffix_binding.matched_word)
+    def build(cls, node):
+        suffix_binding = super(InflectionalSuffixBinding, cls).build(node)
+        return InflectionalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, suffix_binding.word, suffix_binding.matched_word, suffix_binding.to_syntactic_category)
 
     def to_dom(self):
         node = super(InflectionalSuffixBinding, self).to_dom()
@@ -153,20 +161,17 @@ class InflectionalSuffixBinding(SuffixBinding):
         return node
 
 class DerivationalSuffixBinding(SuffixBinding):
-    def __init__(self, id, name, form, application, actual, to, word, matched_word):
-        super(DerivationalSuffixBinding, self).__init__(id, name, form, application, actual, word, matched_word)
-        self.to = to
+    def __init__(self, id, name, form, application, actual, word, matched_word, to_syntactic_category):
+        super(DerivationalSuffixBinding, self).__init__(id, name, form, application, actual, word, matched_word, to_syntactic_category)
 
     @classmethod
     def build(cls, node):
         suffix_binding = super(DerivationalSuffixBinding, cls).build(node)
-        to = node.getAttribute("to")
-        return DerivationalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, to, suffix_binding.word, suffix_binding.matched_word)
+        return DerivationalSuffixBinding(suffix_binding.id, suffix_binding.name, suffix_binding.form, suffix_binding.application, suffix_binding.actual, suffix_binding.word, suffix_binding.matched_word, suffix_binding.to_syntactic_category)
 
     def to_dom(self):
         node = super(DerivationalSuffixBinding, self).to_dom()
         node.tagName = "derivationalSuffix"
-        node.setAttribute("to", self.to)
         return node
 
 
