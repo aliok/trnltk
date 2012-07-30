@@ -8,6 +8,8 @@ This project will try to provide a toolkit for computer linguistic work for Turk
 3. A playground with a data set that provides
        * Concordance for words
        * Concordance for stems
+       * Concordance for "dictionary" words
+       * Concordance for transition words
        * Statistics for words, stems and suffixes
        * ...
 4. A context sensitive parser that uses N-Grams for determining the correct parse result among several results
