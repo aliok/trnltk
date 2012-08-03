@@ -1,19 +1,19 @@
-from trnltk.morphology.contextfree.parser.token import ParseToken
+from trnltk.morphology.model.morpheme import MorphemeContainer
 
 class TransitionGenerator(object):
 
     def __init__(self, parser):
         self._parser = parser
 
-    def generate_transitions(self, full_word, parse_token):
+    def generate_transitions(self, full_word, morpheme_container):
         result = []
 
-        transition_token = ParseToken(parse_token.get_stem(), parse_token.get_stem_state(), full_word)
-        result.append(transition_token)
+        transition_morpheme_container = MorphemeContainer(morpheme_container.get_root(), morpheme_container.get_root_state(), full_word)
+        result.append(transition_morpheme_container)
 
-        for transition in parse_token.get_transitions():
-            transition_token = transition_token.clone()
-            transition_token.add_transition(transition.suffix_form_application, transition.to_state)
-            result.append(transition_token)
+        for transition in morpheme_container.get_transitions():
+            transition_morpheme_container = transition_morpheme_container.clone()
+            transition_morpheme_container.add_transition(transition.suffix_form_application, transition.to_state)
+            result.append(transition_morpheme_container)
 
         return result

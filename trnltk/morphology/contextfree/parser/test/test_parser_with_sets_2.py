@@ -4,12 +4,12 @@
 #import os
 #import unittest
 #from hamcrest.core.base_matcher import BaseMatcher
-#from trnltk.stem.dictionaryitem import  SyntacticCategory, SecondarySyntacticCategory
-#from trnltk.stem.dictionaryloader import LexiconLoader
-#from trnltk.stem.stemgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
+#from trnltk.root.lexeme import  SyntacticCategory, SecondarySyntacticCategory
+#from trnltk.root.dictionaryloader import LexiconLoader
+#from trnltk.root.rootgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
 #from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
 #from trnltk.parser.parser import Parser, logger as parser_logger
-#from trnltk.parser.stemfinder import WordLexemeFinder, NumeralLexemeFinder
+#from trnltk.parser.rootfinder import WordLexemeFinder, NumeralLexemeFinder
 #from trnltk.parser.suffixapplier import logger as suffix_applier_logger
 #from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 #from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
@@ -87,7 +87,7 @@
 #    u'+Related', u'kavramsal', u'nesnel+Adj',
 #    u'+NotState',
 #
-#    u'stoku+Noun+',      # Does optional voicing work? gotta create 2 stems like normal voicing case
+#    u'stoku+Noun+',      # Does optional voicing work? gotta create 2 roots like normal voicing case
 #
 #    u'(1,"yak\u0131n+Noun+A3sg+Pnon+Loc")(2,"Adj+Rel")',
 #    u'yakın+Noun',
@@ -113,8 +113,8 @@
 #    u'dokun+Verb")(2,"Verb+Caus',
 #    u'kop+Verb")(2,"Verb+Caus',     # kopar
 #    u'(1,"sık+Verb")(2,"Verb+Recip")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr+A3sg+Cop")',
-#    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr")(5,"Adj+Zero")',
-#    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos")(5,"Noun+Inf2+A3sg+P3sg+Nom")',
+#    u'(1,"siroot+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr")(5,"Adj+Zero")',
+#    u'(1,"siroot+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos")(5,"Noun+Inf2+A3sg+P3sg+Nom")',
 #    u'(1,"doğ+Verb")(2,"Verb+Caus+Pos+Narr+A3sg+Cop")',
 #    u'(1,"hız+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus+Pos")(4,"Noun+Inf2+A3sg+Pnon+Nom")',
 #    u'ahali+Noun',
@@ -136,23 +136,23 @@
 #    @classmethod
 #    def setUpClass(cls):
 #        super(ParserTestWithSimpleParseSets, cls).setUpClass()
-#        all_stems = []
+#        all_roots = []
 #
-#        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-#        for di in dictionary_items:
-#            all_stems.extend(CircumflexConvertingRootGenerator.generate(di))
+#        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+#        for di in lexemes:
+#            all_roots.extend(CircumflexConvertingRootGenerator.generate(di))
 #
-#        stem_root_map_generator = RootMapGenerator()
-#        cls.lexeme_map = stem_root_map_generator.generate(all_stems)
+#        root_root_map_generator = RootMapGenerator()
+#        cls.lexeme_map = root_root_map_generator.generate(all_roots)
 #
-#        suffix_graph = ExtendedSuffixGraph()
-#        predefined_paths = PredefinedPaths(cls.lexeme_map, suffix_graph)
+#        _suffix_graph = ExtendedSuffixGraph()
+#        predefined_paths = PredefinedPaths(cls.lexeme_map, _suffix_graph)
 #        predefined_paths.create_predefined_paths()
 #
-#        word_stem_finder = WordLexemeFinder(cls.lexeme_map)
-#        numeral_stem_finder = NumeralLexemeFinder()
+#        word_root_finder = WordLexemeFinder(cls.lexeme_map)
+#        numeral_root_finder = NumeralLexemeFinder()
 #
-#        cls.parser = Parser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
+#        cls.parser = Parser(_suffix_graph, predefined_paths, [word_root_finder, numeral_rootfinder])
 #
 #    def setUp(self):
 #        logging.basicConfig(level=logging.INFO)
@@ -254,14 +254,14 @@
 #        #assert_that(parse_result, matches, u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 #
 #    def parse_result(self, word):
-#        return [self._parse_token_to_parse_set_str(r) for r in (self.parser.parse(word))]
+#        return [self._parse_morpheme_container_to_parse_set_str(r) for r in (self.parser.parse(word))]
 #
 #    @classmethod
-#    def _parse_token_to_parse_set_str(cls, result):
+#    def _parse_morpheme_container_to_parse_set_str(cls, result):
 #        groups = []
 #        current_group = []
 #        for transition in result.get_transitions():
-#            if transition.from_state.type==State.DERIV:
+#            if transition.from_state.type==State.DERIVATIONAL:
 #                groups.append(current_group)
 #                current_group = [transition.to_state.pretty_name]
 #            else:
@@ -272,55 +272,55 @@
 #
 #        groups.append(current_group)
 #
-#        root = result.get_stem().lexeme.root
+#        root = result.get_root().lexeme.root
 #
 #        secondary_syntactic_category_str = None
 #
 #        ##TODO:
-#        if result.get_stem().lexeme.syntactic_category==SyntacticCategory.PRONOUN:
-#            if result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.PERSONAL:
+#        if result.get_root().lexeme.syntactic_category==SyntacticCategory.PRONOUN:
+#            if result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.PERSONAL:
 #                secondary_syntactic_category_str = "Pers"
-#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DEMONSTRATIVE:
+#            elif result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DEMONSTRATIVE:
 #                secondary_syntactic_category_str = "Demons"
-#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.QUESTION:
+#            elif result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.QUESTION:
 #                secondary_syntactic_category_str = "Ques"
-#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.REFLEXIVE:
+#            elif result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.REFLEXIVE:
 #                secondary_syntactic_category_str = "Reflex"
 #
-#        if result.get_stem().lexeme.syntactic_category==SyntacticCategory.NUMERAL:
-#            if result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
+#        if result.get_root().lexeme.syntactic_category==SyntacticCategory.NUMERAL:
+#            if result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
 #                secondary_syntactic_category_str = "Card"
-#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
+#            elif result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
 #                secondary_syntactic_category_str = "Ord"
-#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
+#            elif result.get_root().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
 #                secondary_syntactic_category_str = "Digits"
 #
 #
 #        if not groups:
 #            if not secondary_syntactic_category_str:
-#                return u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
+#                return u'({},"{}+{}")'.format(1, root, result.get_root_state().pretty_name)
 #            else:
-#                return u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
+#                return u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str)
 #
 #
 #
 #        return_value = None
 #
 #        if not secondary_syntactic_category_str:
-#            return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
+#            return_value = u'({},"{}+{}")'.format(1, root, result.get_root_state().pretty_name)
 #        else:
-#            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
+#            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str)
 #
 #        if not groups[0]:
 #            if not secondary_syntactic_category_str:
-#                return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
+#                return_value = u'({},"{}+{}")'.format(1, root, result.get_root_state().pretty_name)
 #            else:
-#                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
+#                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str)
 #        else:
 #            if not secondary_syntactic_category_str:
-#                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, u'+'.join(groups[0]))
+#                return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, u'+'.join(groups[0]))
 #            else:
-#                return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str, u'+'.join(groups[0]))
+#                return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str, u'+'.join(groups[0]))
 #
 #
 #        for i in range(1, len(groups)):

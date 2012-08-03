@@ -4,9 +4,9 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
-from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
+from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
@@ -18,27 +18,27 @@ class ParserTestWithProperNouns(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithProperNouns, cls).setUpClass()
-        all_stems = []
+        all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
-            all_stems.extend(RootGenerator.generate(di))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
+            all_roots.extend(RootGenerator.generate(di))
 
 
-        stem_root_map_generator = RootMapGenerator()
-        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
+        root_map_generator = RootMapGenerator()
+        cls.root_map = root_map_generator.generate(all_roots)
 
         suffix_graph = ExtendedSuffixGraph()
-        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
+        predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordLexemeFinder(cls.stem_root_map)
-        numeral_stem_finder = NumeralLexemeFinder()
-        proper_noun_from_apostrophe_stem_finder = ProperNounFromApostropheLexemeFinder()
-        proper_noun_without_apostrophe_stem_finder = ProperNounWithoutApostropheLexemeFinder()
+        word_lexeme_finder = WordLexemeFinder(cls.root_map)
+        numeral_lexeme_finder = NumeralLexemeFinder()
+        proper_noun_from_apostrophe_lexeme_finder = ProperNounFromApostropheLexemeFinder()
+        proper_noun_without_apostrophe_lexeme_finder = ProperNounWithoutApostropheLexemeFinder()
 
         cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_stem_finder, numeral_stem_finder, proper_noun_from_apostrophe_stem_finder, proper_noun_without_apostrophe_stem_finder])
+            [word_lexeme_finder, numeral_lexeme_finder, proper_noun_from_apostrophe_lexeme_finder, proper_noun_without_apostrophe_lexeme_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -68,7 +68,7 @@ class ParserTestWithProperNouns(unittest.TestCase):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatchesIgnoreVerbPresA3Sg([a for a in args]))
 
     def parse_result(self, word):
-        return [formatter.format_parse_token_for_tests(r) for r in (self.parser.parse(word))]
+        return [formatter.format_morpheme_container_for_tests(r) for r in (self.parser.parse(word))]
 
 class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):

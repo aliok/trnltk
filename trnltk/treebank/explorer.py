@@ -26,7 +26,7 @@ class CompleteWordConcordanceIndex(ConcordanceIndex):
 
         return self._offsets.get(*args)
 
-class StemConcordanceIndex(ConcordanceIndex):
+class RootConcordanceIndex(ConcordanceIndex):
     def __init__(self, word_list):
         self._offsets = HierarchicalIndex(3)
 
@@ -34,7 +34,7 @@ class StemConcordanceIndex(ConcordanceIndex):
             if isinstance(word, UnparsableWordBinding):
                 continue
 
-            self._offsets.insert(index, word.stem.root, word.stem.syntactic_category, word.stem.secondary_syntactic_category)
+            self._offsets.insert(index, word.root.str, word.root.syntactic_category, word.root.secondary_syntactic_category)
 
 
     def offsets(self, word_str, syntactic_category=None, secondary_syntactic_category=None):
@@ -55,7 +55,7 @@ class DictionaryItemConcordanceIndex(ConcordanceIndex):
             if isinstance(word, UnparsableWordBinding):
                 continue
 
-            self._offsets.insert(index, word.stem.lemma_root, word.stem.syntactic_category, word.stem.secondary_syntactic_category)
+            self._offsets.insert(index, word.root.lemma_root, word.root.syntactic_category, word.root.secondary_syntactic_category)
 
     def offsets(self, word_str, syntactic_category=None, secondary_syntactic_category=None):
         assert word_str is not None
@@ -75,8 +75,7 @@ class TransitionWordConcordanceIndex(ConcordanceIndex):
             if isinstance(word, UnparsableWordBinding):
                 continue
 
-            syntactic_category = word.stem.syntactic_category
-            secondary_syntactic_category = word.stem.secondary_syntactic_category
+            secondary_syntactic_category = word.root.secondary_syntactic_category
             for suffix in word.suffixes:
                 syntactic_category = suffix.to_syntactic_category
                 if isinstance(suffix, DerivationalSuffixBinding):
@@ -102,8 +101,8 @@ class TransitionMatchedWordConcordanceIndex(ConcordanceIndex):
             if isinstance(word, UnparsableWordBinding):
                 continue
 
-            syntactic_category = word.stem.syntactic_category
-            secondary_syntactic_category = word.stem.secondary_syntactic_category
+            syntactic_category = word.root.syntactic_category
+            secondary_syntactic_category = word.root.secondary_syntactic_category
             for suffix in word.suffixes:
                 syntactic_category = suffix.to_syntactic_category
                 if isinstance(suffix, DerivationalSuffixBinding):

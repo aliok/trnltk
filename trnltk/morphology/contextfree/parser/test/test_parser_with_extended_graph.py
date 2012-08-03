@@ -4,10 +4,10 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory
-from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
-from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.model import formatter
+from trnltk.morphology.model.lexeme import SyntacticCategory
+from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
+from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
@@ -19,27 +19,27 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithExtendedGraph, cls).setUpClass()
-        all_stems = []
+        all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
-            all_stems.extend(RootGenerator.generate(di))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
+            all_roots.extend(RootGenerator.generate(di))
 
 
-        stem_root_map_generator = RootMapGenerator()
-        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
+        root_map_generator = RootMapGenerator()
+        cls.root_map = root_map_generator.generate(all_roots)
 
         suffix_graph = ExtendedSuffixGraph()
-        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
+        predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordLexemeFinder(cls.stem_root_map)
-        numeral_stem_finder = NumeralLexemeFinder()
-        proper_noun_from_apostrophe_stem_finder = ProperNounFromApostropheLexemeFinder()
-        proper_noun_without_apostrophe_stem_finder = ProperNounWithoutApostropheLexemeFinder()
+        word_lexeme_finder = WordLexemeFinder(cls.root_map)
+        numeral_lexeme_finder = NumeralLexemeFinder()
+        proper_noun_from_apostrophe_lexeme_finder = ProperNounFromApostropheLexemeFinder()
+        proper_noun_without_apostrophe_lexeme_finder = ProperNounWithoutApostropheLexemeFinder()
 
         cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_stem_finder, numeral_stem_finder, proper_noun_from_apostrophe_stem_finder, proper_noun_without_apostrophe_stem_finder])
+            [word_lexeme_finder, numeral_lexeme_finder, proper_noun_from_apostrophe_lexeme_finder, proper_noun_without_apostrophe_lexeme_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -50,12 +50,12 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        #remove some stems for keeping the tests simple!
-        self.stem_root_map['elmas'] = []
-        self.stem_root_map['bent'] = []
-        self.stem_root_map['bend'] = []
-        self.stem_root_map['oy'] = []
-        self.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.stem_root_map['ben'])
+        #remove some roots for keeping the tests simple!
+        self.root_map['elmas'] = []
+        self.root_map['bent'] = []
+        self.root_map['bend'] = []
+        self.root_map['oy'] = []
+        self.root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.root_map['ben'])
 
 
         self.assert_parse_correct_for_verb(u'elmayım',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yım])')
@@ -134,8 +134,8 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.stem_root_map['elmas'] = []
-        self.stem_root_map['on'] = []
+        self.root_map['elmas'] = []
+        self.root_map['on'] = []
 
         self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
@@ -164,10 +164,10 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        # remove some stems to keep tests simple
-        self.stem_root_map['on'] = []
-        self.stem_root_map['gelecek'] = []
-        self.stem_root_map['ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.stem_root_map['ben'])
+        # remove some roots to keep tests simple
+        self.root_map['on'] = []
+        self.root_map['gelecek'] = []
+        self.root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.root_map['ben'])
 
         self.assert_parse_correct_for_verb(u'elmadır',             u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dır])')
         self.assert_parse_correct_for_verb(u'müdürdür',            u'müdür(müdür)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dür])')
@@ -195,7 +195,7 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatchesIgnoreVerbPresA3Sg([a for a in args]))
 
     def parse_result(self, word):
-        return [formatter.format_parse_token_for_tests(r) for r in (self.parser.parse(word))]
+        return [formatter.format_morpheme_container_for_tests(r) for r in (self.parser.parse(word))]
 
 class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):

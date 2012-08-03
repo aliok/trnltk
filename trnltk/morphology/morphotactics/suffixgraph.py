@@ -1,7 +1,7 @@
 # coding=utf-8
-from trnltk.morphology.lexiconmodel.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_stem, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category
-from trnltk.morphology.morphotactics.suffixgraphmodel import *
+from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category
+from trnltk.morphology.model.morpheme import *
 
 class SuffixGraph(object):
 
@@ -17,9 +17,9 @@ class SuffixGraph(object):
         self.NOUN_WITH_CASE = State("NOUN_WITH_CASE", State.TRANSFER, SyntacticCategory.NOUN)
         self.NOUN_TERMINAL_TRANSFER = State("NOUN_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.NOUN)
         self.NOUN_TERMINAL = State("NOUN_TERMINAL", State.TERMINAL, SyntacticCategory.NOUN)
-        self.NOUN_NOM_DERIV = State("NOUN_NOM_DERIV", State.DERIV, SyntacticCategory.NOUN)
-        self.NOUN_POSSESSIVE_NOM_DERIV = State("NOUN_POSSESSIVE_NOM_DERIV", State.DERIV, SyntacticCategory.NOUN)
-        self.NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", State.DERIV, SyntacticCategory.NOUN)
+        self.NOUN_NOM_DERIV = State("NOUN_NOM_DERIV", State.DERIVATIONAL, SyntacticCategory.NOUN)
+        self.NOUN_POSSESSIVE_NOM_DERIV = State("NOUN_POSSESSIVE_NOM_DERIV", State.DERIVATIONAL, SyntacticCategory.NOUN)
+        self.NOUN_DERIV_WITH_CASE = State("NOUN_DERIV_WITH_CASE", State.DERIVATIONAL, SyntacticCategory.NOUN)
 
         self.NOUN_COMPOUND_ROOT = State("NOUN_COMPOUND_ROOT", State.TRANSFER, SyntacticCategory.NOUN)
         self.NOUN_COMPOUND_WITH_AGREEMENT = State("NOUN_COMPOUND_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.NOUN)
@@ -30,27 +30,27 @@ class SuffixGraph(object):
         self.VERB_WITH_TENSE = State("VERB_WITH_TENSE", State.TRANSFER, SyntacticCategory.VERB)
         self.VERB_TERMINAL = State("VERB_TERMINAL", State.TERMINAL, SyntacticCategory.VERB)
         self.VERB_TERMINAL_TRANSFER = State("VERB_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.VERB)
-        self.VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", State.DERIV, SyntacticCategory.VERB)
-        self.VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", State.DERIV, SyntacticCategory.VERB)
-        self.VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", State.DERIV, SyntacticCategory.VERB)
-        self.VERB_TENSE_ADJ_DERIV = State("VERB_TENSE_ADJ_DERIV", State.DERIV, SyntacticCategory.VERB)
+        self.VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
+        self.VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
+        self.VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
+        self.VERB_TENSE_ADJ_DERIV = State("VERB_TENSE_ADJ_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
 
         self.ADJECTIVE_ROOT = State("ADJECTIVE_ROOT", State.TRANSFER, SyntacticCategory.ADJECTIVE)
         self.ADJECTIVE_PART_WITHOUT_POSSESSION = State("ADJECTIVE_PART_WITHOUT_POSSESSION", State.TRANSFER, SyntacticCategory.ADJECTIVE)
         self.ADJECTIVE_TERMINAL = State("ADJECTIVE_TERMINAL", State.TERMINAL, SyntacticCategory.ADJECTIVE)
         self.ADJECTIVE_TERMINAL_TRANSFER = State("ADJECTIVE_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.ADJECTIVE)
-        self.ADJECTIVE_DERIV = State("ADJECTIVE_DERIV", State.DERIV, SyntacticCategory.ADJECTIVE)
+        self.ADJECTIVE_DERIV = State("ADJECTIVE_DERIV", State.DERIVATIONAL, SyntacticCategory.ADJECTIVE)
 
         self.ADVERB_ROOT = State("ADVERB_ROOT", State.TRANSFER, SyntacticCategory.ADVERB)
         self.ADVERB_TERMINAL = State("ADVERB_TERMINAL", State.TERMINAL, SyntacticCategory.ADVERB)
         self.ADVERB_TERMINAL_TRANSFER = State("ADVERB_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.ADVERB)
-        self.ADVERB_DERIV = State("ADVERB_DERIV", State.DERIV, SyntacticCategory.ADVERB)
+        self.ADVERB_DERIV = State("ADVERB_DERIV", State.DERIVATIONAL, SyntacticCategory.ADVERB)
 
         self.PRONOUN_ROOT = State("PRONOUN_ROOT", State.TRANSFER, SyntacticCategory.PRONOUN)
         self.PRONOUN_WITH_AGREEMENT = State("PRONOUN_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.PRONOUN)
         self.PRONOUN_WITH_POSSESSION = State("PRONOUN_WITH_POSSESSION", State.TRANSFER, SyntacticCategory.PRONOUN)
         self.PRONOUN_WITH_CASE = State("PRONOUN_WITH_CASE", State.TRANSFER, SyntacticCategory.PRONOUN)
-        self.PRONOUN_NOM_DERIV = State("PRONOUN_NOM_DERIV", State.DERIV, SyntacticCategory.PRONOUN)
+        self.PRONOUN_NOM_DERIV = State("PRONOUN_NOM_DERIV", State.DERIVATIONAL, SyntacticCategory.PRONOUN)
         self.PRONOUN_TERMINAL = State("PRONOUN_TERMINAL", State.TERMINAL, SyntacticCategory.PRONOUN)
         self.PRONOUN_TERMINAL_TRANSFER = State("PRONOUN_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.PRONOUN)
 
@@ -61,12 +61,12 @@ class SuffixGraph(object):
         self.CONJUNCTION_ROOT_TERMINAL = State("CONJUNCTION_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.CONJUNCTION)
 
         self.NUMERAL_CARDINAL_ROOT = State("NUMERAL_CARDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
-        self.NUMERAL_CARDINAL_DERIV = State("NUMERAL_CARDINAL_DERIV", State.DERIV, SyntacticCategory.NUMERAL)
+        self.NUMERAL_CARDINAL_DERIV = State("NUMERAL_CARDINAL_DERIV", State.DERIVATIONAL, SyntacticCategory.NUMERAL)
 
         self.NUMERAL_DIGIT_CARDINAL_ROOT = State("NUMERAL_DIGIT_CARDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
 
         self.NUMERAL_ORDINAL_ROOT = State("NUMERAL_ORDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
-        self.NUMERAL_ORDINAL_DERIV = State("NUMERAL_ORDINAL_DERIV", State.DERIV, SyntacticCategory.NUMERAL)
+        self.NUMERAL_ORDINAL_DERIV = State("NUMERAL_ORDINAL_DERIV", State.DERIVATIONAL, SyntacticCategory.NUMERAL)
 
         self.QUESTION_ROOT = State("QUESTION_ROOT", State.TRANSFER, SyntacticCategory.QUESTION)
         self.QUESTION_WITH_TENSE = State("QUESTION_WITH_TENSE", State.TRANSFER, SyntacticCategory.QUESTION)
@@ -111,74 +111,74 @@ class SuffixGraph(object):
             self.PART_ROOT_TERMINAL
         }
 
-    def get_default_stem_state(self, stem):
-        if not stem.dictionary_item.syntactic_category or stem.dictionary_item.syntactic_category==SyntacticCategory.NOUN:
-            if RootAttribute.CompoundP3sg in stem.dictionary_item.attributes:
+    def get_default_root_state(self, root):
+        if not root.lexeme.syntactic_category or root.dictionary_item.syntactic_category==SyntacticCategory.NOUN:
+            if RootAttribute.CompoundP3sg in root.dictionary_item.attributes:
                 return self.NOUN_COMPOUND_ROOT
             else:
                 return self.NOUN_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.VERB:
+        elif root.lexeme.syntactic_category==SyntacticCategory.VERB:
             return self.VERB_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.ADVERB:
+        elif root.lexeme.syntactic_category==SyntacticCategory.ADVERB:
             return self.ADVERB_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.ADJECTIVE:
+        elif root.lexeme.syntactic_category==SyntacticCategory.ADJECTIVE:
             return self.ADJECTIVE_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN:
+        elif root.lexeme.syntactic_category==SyntacticCategory.PRONOUN:
             return self.PRONOUN_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.DETERMINER:
+        elif root.lexeme.syntactic_category==SyntacticCategory.DETERMINER:
             return self.DETERMINER_ROOT_TERMINAL
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.INTERJECTION:
+        elif root.lexeme.syntactic_category==SyntacticCategory.INTERJECTION:
             return self.INTERJECTION_ROOT_TERMINAL
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.CONJUNCTION:
+        elif root.lexeme.syntactic_category==SyntacticCategory.CONJUNCTION:
             return self.CONJUNCTION_ROOT_TERMINAL
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL and stem.dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
+        elif root.lexeme.syntactic_category==SyntacticCategory.NUMERAL and root.lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
             return self.NUMERAL_DIGIT_CARDINAL_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL and stem.dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
+        elif root.lexeme.syntactic_category==SyntacticCategory.NUMERAL and root.lexeme.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
             return self.NUMERAL_CARDINAL_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL and stem.dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
+        elif root.lexeme.syntactic_category==SyntacticCategory.NUMERAL and root.lexeme.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
             return self.NUMERAL_ORDINAL_ROOT
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.PUNCTUATION:
+        elif root.lexeme.syntactic_category==SyntacticCategory.PUNCTUATION:
             return self.PUNC_ROOT_TERMINAL
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.PARTICLE:
+        elif root.lexeme.syntactic_category==SyntacticCategory.PARTICLE:
             return self.PART_ROOT_TERMINAL
-        elif stem.dictionary_item.syntactic_category==SyntacticCategory.QUESTION:
+        elif root.lexeme.syntactic_category==SyntacticCategory.QUESTION:
             return self.QUESTION_ROOT
         else:
-            raise Exception("No _stem state found for _stem {} !".format(stem))
+            raise Exception("No _root state found for root {} !".format(root))
 
     def _add_suffixes(self):
 
         #############  Empty _transitions
-        FreeTransitionSuffix("Noun_Free_Transition_1",          self.NOUN_WITH_CASE,               self.NOUN_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Noun_Free_Transition_2",          self.NOUN_TERMINAL_TRANSFER,       self.NOUN_TERMINAL)
-        FreeTransitionSuffix("Noun_Free_Transition_3",          self.NOUN_WITH_CASE,               self.NOUN_DERIV_WITH_CASE)
+        self.NOUN_WITH_CASE               .add_out_suffix(FreeTransitionSuffix("Noun_Free_Transition_1"     ), self.NOUN_TERMINAL_TRANSFER)
+        self.NOUN_TERMINAL_TRANSFER       .add_out_suffix(FreeTransitionSuffix("Noun_Free_Transition_2"     ), self.NOUN_TERMINAL)
+        self.NOUN_WITH_CASE               .add_out_suffix(FreeTransitionSuffix("Noun_Free_Transition_3"     ), self.NOUN_DERIV_WITH_CASE)
 
-        FreeTransitionSuffix("Verb_Free_Transition_1",          self.VERB_ROOT,                    self.VERB_PLAIN_DERIV)
-        FreeTransitionSuffix("Verb_Free_Transition_2",          self.VERB_WITH_POLARITY,           self.VERB_POLARITY_DERIV)
-        FreeTransitionSuffix("Verb_Free_Transition_3",          self.VERB_WITH_TENSE,              self.VERB_TENSE_DERIV)
-        FreeTransitionSuffix("Verb_Free_Transition_4",          self.VERB_TERMINAL_TRANSFER,       self.VERB_TERMINAL)
+        self.VERB_ROOT                    .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_1"     ), self.VERB_PLAIN_DERIV)
+        self.VERB_WITH_POLARITY           .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_2"     ), self.VERB_POLARITY_DERIV)
+        self.VERB_WITH_TENSE              .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_3"     ), self.VERB_TENSE_DERIV)
+        self.VERB_TERMINAL_TRANSFER       .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_4"     ), self.VERB_TERMINAL)
 
-        FreeTransitionSuffix("Adj_Free_Transition_1",           self.ADJECTIVE_ROOT,               self.ADJECTIVE_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Adj_Free_Transition_2",           self.ADJECTIVE_TERMINAL_TRANSFER,  self.ADJECTIVE_TERMINAL)
-        FreeTransitionSuffix("Adj_Free_Transition_3",           self.ADJECTIVE_ROOT,               self.ADJECTIVE_DERIV)
+        self.ADJECTIVE_ROOT               .add_out_suffix(FreeTransitionSuffix("Adj_Free_Transition_1"      ), self.ADJECTIVE_TERMINAL_TRANSFER)
+        self.ADJECTIVE_TERMINAL_TRANSFER  .add_out_suffix(FreeTransitionSuffix("Adj_Free_Transition_2"      ), self.ADJECTIVE_TERMINAL)
+        self.ADJECTIVE_ROOT               .add_out_suffix(FreeTransitionSuffix("Adj_Free_Transition_3"      ), self.ADJECTIVE_DERIV)
 
-        FreeTransitionSuffix("Adv_Free_Transition_1",           self.ADVERB_ROOT,                  self.ADVERB_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Adv_Free_Transition_2",           self.ADVERB_TERMINAL_TRANSFER,     self.ADVERB_TERMINAL)
+        self.ADVERB_ROOT                  .add_out_suffix(FreeTransitionSuffix("Adv_Free_Transition_1"      ), self.ADVERB_TERMINAL_TRANSFER)
+        self.ADVERB_TERMINAL_TRANSFER     .add_out_suffix(FreeTransitionSuffix("Adv_Free_Transition_2"      ), self.ADVERB_TERMINAL)
 
-        FreeTransitionSuffix("Pronoun_Free_Transition_1",       self.PRONOUN_WITH_CASE,            self.PRONOUN_TERMINAL_TRANSFER)
-        FreeTransitionSuffix("Pronoun_Free_Transition_2",       self.PRONOUN_TERMINAL_TRANSFER,    self.PRONOUN_TERMINAL)
+        self.PRONOUN_WITH_CASE            .add_out_suffix(FreeTransitionSuffix("Pronoun_Free_Transition_1"  ), self.PRONOUN_TERMINAL_TRANSFER)
+        self.PRONOUN_TERMINAL_TRANSFER    .add_out_suffix(FreeTransitionSuffix("Pronoun_Free_Transition_2"  ), self.PRONOUN_TERMINAL)
 
-        FreeTransitionSuffix("Numeral_Free_Transition_1",       self.NUMERAL_CARDINAL_ROOT,        self.NUMERAL_CARDINAL_DERIV)
-        FreeTransitionSuffix("Numeral_Free_Transition_2",       self.NUMERAL_ORDINAL_ROOT,         self.NUMERAL_ORDINAL_DERIV)
+        self.NUMERAL_CARDINAL_ROOT        .add_out_suffix(FreeTransitionSuffix("Numeral_Free_Transition_1"  ), self.NUMERAL_CARDINAL_DERIV)
+        self.NUMERAL_ORDINAL_ROOT         .add_out_suffix(FreeTransitionSuffix("Numeral_Free_Transition_2"  ), self.NUMERAL_ORDINAL_DERIV)
 
-        FreeTransitionSuffix("Question_Free_Transition_1",      self.QUESTION_WITH_AGREEMENT,      self.QUESTION_TERMINAL)
+        self.QUESTION_WITH_AGREEMENT      .add_out_suffix(FreeTransitionSuffix("Question_Free_Transition_1" ), self.QUESTION_TERMINAL)
 
-        FreeTransitionSuffix("Digits_Free_Transition_1",        self.NUMERAL_DIGIT_CARDINAL_ROOT,  self.NUMERAL_CARDINAL_DERIV)
+        self.NUMERAL_DIGIT_CARDINAL_ROOT  .add_out_suffix(FreeTransitionSuffix("Digits_Free_Transition_1"   ), self.NUMERAL_CARDINAL_DERIV)
 
-        ZeroTransitionSuffix("Numeral_Zero_Transition_1",       self.NUMERAL_CARDINAL_DERIV,       self.ADJECTIVE_ROOT)
-        ZeroTransitionSuffix("Numeral_Zero_Transition_2",       self.NUMERAL_ORDINAL_DERIV,        self.ADJECTIVE_ROOT)
-        ZeroTransitionSuffix("Adj_to_Noun_Zero_Transition",     self.ADJECTIVE_DERIV,              self.NOUN_ROOT)
-        ZeroTransitionSuffix("Verb_to_Adj_Zero_Transition",     self.VERB_TENSE_ADJ_DERIV,         self.ADJECTIVE_ROOT)
+        self.NUMERAL_CARDINAL_DERIV       .add_out_suffix(ZeroTransitionSuffix("Numeral_Zero_Transition_1"  ), self.ADJECTIVE_ROOT)
+        self.NUMERAL_ORDINAL_DERIV        .add_out_suffix(ZeroTransitionSuffix("Numeral_Zero_Transition_2"  ), self.ADJECTIVE_ROOT)
+        self.ADJECTIVE_DERIV              .add_out_suffix(ZeroTransitionSuffix("Adj_to_Noun_Zero_Transition"), self.NOUN_ROOT)
+        self.VERB_TENSE_ADJ_DERIV         .add_out_suffix(ZeroTransitionSuffix("Verb_to_Adj_Zero_Transition"), self.ADJECTIVE_ROOT)
 
         #TODO: transition from numeral to adverb for case "birer birer geldiler?" hmm maybe duplication caused an adj->adv transition?
 
@@ -556,7 +556,7 @@ class SuffixGraph(object):
 
     def _register_verb_polarisations(self):
         self.VERB_ROOT.add_out_suffix(self.Negative, self.VERB_WITH_POLARITY)
-        self.Negative.add_suffix_form(u"m", postcondition=doesnt(followed_by_suffix_goes_to(State.DERIV)))
+        self.Negative.add_suffix_form(u"m", postcondition=doesnt(followed_by_suffix_goes_to(State.DERIVATIONAL)))
         self.Negative.add_suffix_form(u"mA")
 
         self.VERB_ROOT.add_out_suffix(self.Positive, self.VERB_WITH_POLARITY)
@@ -658,12 +658,12 @@ class SuffixGraph(object):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Hastily, self.VERB_ROOT)
         self.Hastily.add_suffix_form(u"+yIver")
 
-        stem_can_have_passive = doesnt_have_root_attribute(RootAttribute.Passive_NotApplicable)
+        root_can_have_passive = doesnt_have_root_attribute(RootAttribute.Passive_NotApplicable)
         passive_Il = doesnt_have_root_attribute(RootAttribute.Passive_In) & doesnt_have_root_attribute(RootAttribute.Passive_InIl)
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
-        self.Pass.add_suffix_form(u"+In", stem_can_have_passive & has_root_attribute(RootAttribute.Passive_In))
-        self.Pass.add_suffix_form(u"+nIl", stem_can_have_passive & passive_Il)
-        self.Pass.add_suffix_form(u"+InIl", stem_can_have_passive & has_root_attribute(RootAttribute.Passive_InIl))
+        self.Pass.add_suffix_form(u"+In", root_can_have_passive & has_root_attribute(RootAttribute.Passive_In))
+        self.Pass.add_suffix_form(u"+nIl", root_can_have_passive & passive_Il)
+        self.Pass.add_suffix_form(u"+InIl", root_can_have_passive & has_root_attribute(RootAttribute.Passive_InIl))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)
         self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)))
@@ -867,7 +867,7 @@ class SuffixGraph(object):
         #AccordingTo forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'hepsi' are predefined
 
     def _register_pronoun_to_adjective_suffixes(self):
-        applies_to_bu_su_o = applies_to_stem('o') | applies_to_stem('bu') | applies_to_stem(u'şu')
+        applies_to_bu_su_o = applies_to_root('o') | applies_to_root('bu') | applies_to_root(u'şu')
 
         comes_after_A3Sg_pnon = comes_after(self.A3Sg_Pron) & comes_after(self.Pnon_Pron)
 

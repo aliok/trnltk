@@ -2,14 +2,14 @@
 import codecs
 import os
 import unittest
-from trnltk.morphology.contextfree.parser import formatter
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
+from trnltk.morphology.model import formatter
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
 from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
-from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
+from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 
@@ -20,25 +20,25 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
     def setUp(self):
         self.parseset_creator = ParseSetCreator()
 
-        all_stems = []
+        all_roots = []
 
         dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            all_stems.extend(RootGenerator.generate(di))
+            all_roots.extend(RootGenerator.generate(di))
 
-        stem_root_map = (RootMapGenerator()).generate(all_stems)
+        root_map = (RootMapGenerator()).generate(all_roots)
 
         suffix_graph = SuffixGraph()
-        predefined_paths = PredefinedPaths(stem_root_map, suffix_graph)
+        predefined_paths = PredefinedPaths(root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordLexemeFinder(stem_root_map)
-        numeral_stem_finder = NumeralLexemeFinder()
-        proper_noun_from_apostrophe_stem_finder = ProperNounFromApostropheLexemeFinder()
-        proper_noun_without_apostrophe_stem_finder = ProperNounWithoutApostropheLexemeFinder()
+        word_lexeme_finder = WordLexemeFinder(root_map)
+        numeral_lexeme_finder = NumeralLexemeFinder()
+        proper_noun_from_apostrophe_lexeme_finder = ProperNounFromApostropheLexemeFinder()
+        proper_noun_without_apostrophe_lexeme_finder = ProperNounWithoutApostropheLexemeFinder()
 
         self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_stem_finder, numeral_stem_finder, proper_noun_from_apostrophe_stem_finder, proper_noun_without_apostrophe_stem_finder])
+            [word_lexeme_finder, numeral_lexeme_finder, proper_noun_from_apostrophe_lexeme_finder, proper_noun_without_apostrophe_lexeme_finder])
 
     def test_should_create_parseset_001(self):
         self._create_parseset_n("001")
@@ -72,7 +72,7 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
                 if not line:
                     continue
                 elif line.startswith(END_OF_SENTENCE_MARKER):
-                    sentence_binding = self.parseset_creator.create_sentence_binding_from_tokens(entries_for_sentence)
+                    sentence_binding = self.parseset_creator.create_sentence_binding_from_morpheme_containers(entries_for_sentence)
                     sentences.append(sentence_binding)
                     entries_for_sentence = []
                 elif line.startswith("#"):
@@ -97,7 +97,7 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
     def _find_parse_result_matching_simple_parseset(self, word_part, parse_result_part):
         parse_results = self.parser.parse(word_part)
         for parse_result in parse_results:
-            if parse_result_part== formatter.format_parse_token_for_simple_parseset(parse_result):
+            if parse_result_part== formatter.format_morpheme_container_for_simple_parseset(parse_result):
                 return parse_result
 
         return None

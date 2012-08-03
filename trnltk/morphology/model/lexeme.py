@@ -40,7 +40,7 @@ class RootAttribute(object):
     InverseHarmony = "InverseHarmony"
     LastVowelDrop = "LastVowelDrop"
     Doubling = "Doubling"
-    StemChange = "StemChange"
+    RootChange = "RootChange"
     NounConsInsert = "NounConsInsert"
     NounConsInsert_n = "NounConsInsert_n"
     NoQuote = "NoQuote"
@@ -65,7 +65,7 @@ class RootAttribute(object):
     Causative_dIr = "Causative_dIr"
 
     ALL = sorted({
-        Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, StemChange, NounConsInsert, NounConsInsert_n,
+        Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, RootChange, NounConsInsert, NounConsInsert_n,
         NoQuote, Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, NonTransitive, Passive_In, Passive_InIl, Passive_NotApplicable,
         CompoundP3sg, Compound, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, Reflexive, Reciprocal, NoSuffix
     })

@@ -1,9 +1,9 @@
 # coding=utf-8
 import logging
-from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.lexiconmodel.lexeme import  SyntacticCategory, RootAttribute
+from trnltk.morphology.model import formatter
+from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
 from trnltk.morphology.contextfree.parser.suffixapplier import *
-from trnltk.morphology.contextfree.parser.token import ParseToken
+from trnltk.morphology.model.morpheme import MorphemeContainer
 
 logger = logging.getLogger('parser')
 
@@ -17,10 +17,10 @@ class ContextFreeMorphologicalParser(object):
     def parse(self, input):
         logger.debug('\n\n-------------Parsing word "%s"', input)
 
-        candidates = self._find_initial_parse_tokens(input)
+        candidates = self._find_initial_parse_morpheme_containers(input)
 
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug('Found %d candidate tokens :', len(candidates))
+            logger.debug('Found %d candidate morpheme containers :', len(candidates))
             for c in candidates:
                 logger.debug('\t %s', c)
 
@@ -30,10 +30,10 @@ class ContextFreeMorphologicalParser(object):
         results = []
         new_candidates = self._traverse_candidates(candidates, results, input)
         if new_candidates:
-            raise Exception('There are still parse tokens to traverse, but traversing is finished : {}'.format(new_candidates))
+            raise Exception('There are still parse morpheme containers to traverse, but traversing is finished : {}'.format(new_candidates))
         return results
 
-    def _find_initial_parse_tokens(self, input):
+    def _find_initial_parse_morpheme_containers(self, input):
         candidates = []
 
         for i in range(1, len(input) + 1):
@@ -48,19 +48,19 @@ class ContextFreeMorphologicalParser(object):
 
             for lexeme in dictionary_lexemes:
                 if self._predefined_paths and self._predefined_paths.has_paths(lexeme):
-                    predefined_tokens = self._predefined_paths.get_paths(lexeme)
-                    logger.debug('Found predefined tokens for lexeme candidate "%s" : %s', lexeme, predefined_tokens)
-                    for predefined_token in predefined_tokens:
-                        if input.startswith(predefined_token.get_so_far()):
-                            logger.debug('Predefined token is applicable %s', predefined_token)
-                            clone = predefined_token.clone()
-                            clone.set_remaining(input[len(predefined_token.get_so_far()):])
+                    predefined_morpheme_containers = self._predefined_paths.get_paths(lexeme)
+                    logger.debug('Found predefined morpheme containers for lexeme candidate "%s" : %s', lexeme, predefined_morpheme_containers)
+                    for predefined_morpheme_container in predefined_morpheme_containers:
+                        if input.startswith(predefined_morpheme_container.get_surface_so_far()):
+                            logger.debug('Predefined morpheme_container is applicable %s', predefined_morpheme_container)
+                            clone = predefined_morpheme_container.clone()
+                            clone.set_remaining_surface(input[len(predefined_morpheme_container.get_surface_so_far()):])
                             candidates.append(clone)
                         else:
-                            logger.debug('Predefined token is not applicable, skipping %s', predefined_token)
+                            logger.debug('Predefined morpheme container is not applicable, skipping %s', predefined_morpheme_container)
                 else:
-                    token = ParseToken(lexeme, self._suffix_graph.get_default_lexeme_state(lexeme), input[len(partial_input):])
-                    candidates.append(token)
+                    morpheme_container = MorphemeContainer(lexeme, self._suffix_graph.get_default_lexeme_state(lexeme), input[len(partial_input):])
+                    candidates.append(morpheme_container)
 
         return candidates
 
@@ -77,56 +77,56 @@ class ContextFreeMorphologicalParser(object):
                 logger.debug('\t%s', c)
 
         new_candidates = []
-        for token in candidates:
-            logger.debug(' Traversing candidate: %s', token)
+        for morpheme_container in candidates:
+            logger.debug(' Traversing candidate: %s', morpheme_container)
 
-            tokens_for_candidate = self._traverse_candidate(token, word)
-            for token_for_candidate in tokens_for_candidate:
-                if token_for_candidate.get_last_state().type==State.TERMINAL:
-                    if not token_for_candidate.get_remaining():
-                        results.append(token_for_candidate)
+            morpheme_containers_for_candidate = self._traverse_candidate(morpheme_container, word)
+            for morpheme_container_for_candidate in morpheme_containers_for_candidate:
+                if morpheme_container_for_candidate.get_last_state().type==State.TERMINAL:
+                    if not morpheme_container_for_candidate.get_remaining_surface():
+                        results.append(morpheme_container_for_candidate)
                         logger.debug("Found a terminal result --------------------->")
-                        logger.debug(token_for_candidate)
-                        logger.debug(formatter.format_parse_token_for_tests(token_for_candidate))
+                        logger.debug(morpheme_container_for_candidate)
+                        logger.debug(formatter.format_morpheme_container_for_tests(morpheme_container_for_candidate))
                     else:
-                        logger.debug("Found a terminal parseToken, but there is still something to parse. Remaining:%s ParseToken:%s", token_for_candidate.get_remaining(), token_for_candidate)
+                        logger.debug("Found a morpheme container with terminal state, but there is still something to parse. Remaining:%s MorphemeContainer:%s", morpheme_container_for_candidate.get_remaining_surface(), morpheme_container_for_candidate)
                 else:
-                    new_candidates.append(token_for_candidate)
+                    new_candidates.append(morpheme_container_for_candidate)
 
         if new_candidates:
             new_candidates = self._traverse_candidates(new_candidates, results, word)
 
         return new_candidates
 
-    def _traverse_candidate(self, token, word):
-        if token.get_last_state().type==State.TERMINAL:
-            return [token]
+    def _traverse_candidate(self, morpheme_container, word):
+        if morpheme_container.get_last_state().type==State.TERMINAL:
+            return [morpheme_container]
 
         new_candidates = []
 
-        from_state = token.get_last_state()
-        state_applicable_suffixes = self.get_applicable_suffixes_of_state_for_token(from_state, token)
-        logger.debug('  Found applicable suffixes for token from state %s: %s', from_state, state_applicable_suffixes)
+        from_state = morpheme_container.get_last_state()
+        state_applicable_suffixes = self.get_applicable_suffixes_of_state_for_morpheme_container(from_state, morpheme_container)
+        logger.debug('  Found applicable suffixes for morpheme_container from state %s: %s', from_state, state_applicable_suffixes)
 
         for (suffix, to_state) in state_applicable_suffixes:
             logger.debug('   Going to try suffix %s to state %s', suffix, to_state)
 
-            new_tokens_for_suffix = try_suffix(token, suffix, to_state, word)
-            if new_tokens_for_suffix:
-                new_candidates.extend(new_tokens_for_suffix)
+            new_morpheme_containers_for_suffix = try_suffix(morpheme_container, suffix, to_state, word)
+            if new_morpheme_containers_for_suffix:
+                new_candidates.extend(new_morpheme_containers_for_suffix)
 
         return new_candidates
 
-    def get_applicable_suffixes_of_state_for_token(self, from_state, token):
-        logger.debug('  Finding applicable suffixes for token from state %s: %s', from_state, token)
+    def get_applicable_suffixes_of_state_for_morpheme_container(self, from_state, morpheme_container):
+        logger.debug('  Finding applicable suffixes for morpheme_container from state %s: %s', from_state, morpheme_container)
         logger.debug('   Found outputs %s', from_state.outputs)
 
         # filter out suffixes which are already added since last derivation
-        state_applicable_suffixes = filter(lambda t: t[0] not in token.get_suffixes_since_derivation_suffix(), from_state.outputs)
-        logger.debug('   Filtered out the applied suffixes since last derivation %s : %s', token.get_suffixes_since_derivation_suffix(),  state_applicable_suffixes)
+        state_applicable_suffixes = filter(lambda t: t[0] not in morpheme_container.get_suffixes_since_derivation_suffix(), from_state.outputs)
+        logger.debug('   Filtered out the applied suffixes since last derivation %s : %s', morpheme_container.get_suffixes_since_derivation_suffix(),  state_applicable_suffixes)
 
         # filter out suffixes if one of the suffixes of whose group is already added since last derivation
-        state_applicable_suffixes = filter(lambda t: True if not t[0].group else t[0].group not in token.get_suffix_groups_since_last_derivation(), state_applicable_suffixes)
+        state_applicable_suffixes = filter(lambda t: True if not t[0].group else t[0].group not in morpheme_container.get_suffix_groups_since_last_derivation(), state_applicable_suffixes)
         logger.debug('   Filtered out the suffixes that has one applied in their groups: %s', state_applicable_suffixes)
 
         return state_applicable_suffixes
@@ -134,8 +134,8 @@ class ContextFreeMorphologicalParser(object):
     def _apply_required_transitions_to_lexeme_candidates(self, candidates, word):
         new_candidates = []
         for candidate in candidates:
-            if candidate.get_lexeme().dictionary_item.syntactic_category==SyntacticCategory.VERB:
-                if RootAttribute.ProgressiveVowelDrop in candidate.get_lexeme().dictionary_item.attributes and len(candidate.get_lexeme().root)==len(candidate.get_lexeme().dictionary_item.root)-1:
+            if candidate.get_root().lexeme.syntactic_category==SyntacticCategory.VERB:
+                if RootAttribute.ProgressiveVowelDrop in candidate.get_root().lexeme.attributes and len(candidate.get_root().str)==len(candidate.get_root().lexeme.root)-1:
                     # apply Positive + Progressive 'Iyor'
                     Positive = self._suffix_graph.Positive
                     Progressive = self._suffix_graph.Progressive

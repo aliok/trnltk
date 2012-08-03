@@ -1,7 +1,7 @@
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.lexiconmodel.lexeme import RootAttribute, SyntacticCategory
+from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
-from trnltk.morphology.lexiconmodel.root import Root
+from trnltk.morphology.model.root import Root
 
 class RootGenerator(object):
     _modifiers = {
@@ -11,7 +11,7 @@ class RootGenerator(object):
         RootAttribute.InverseHarmony,
         RootAttribute.Voicing,
         RootAttribute.VoicingOpt,
-        RootAttribute.StemChange
+        RootAttribute.RootChange
     }
 
     @classmethod
@@ -25,7 +25,7 @@ class RootGenerator(object):
 
     @classmethod
     def _generate_modified_root_nodes(cls, lexeme):
-        if RootAttribute.StemChange in lexeme.attributes:
+        if RootAttribute.RootChange in lexeme.attributes:
             special_roots = cls._handle_special_roots(lexeme)
             if special_roots:
                 return special_roots
@@ -89,7 +89,7 @@ class RootGenerator(object):
 
     @classmethod
     def _handle_special_roots(cls, lexeme):
-        lexeme.attributes.remove(RootAttribute.StemChange)
+        lexeme.attributes.remove(RootAttribute.RootChange)
 
         ##TODO: de-ye
         if lexeme.lemma==u'ben':
@@ -113,7 +113,7 @@ class RootGenerator(object):
             root_ora = Root(u'ora', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ora'))
             return [root_or, root_ora]
         else:
-            raise Exception('Unhandled stem change : {} !'.format(lexeme))
+            raise Exception('Unhandled root change : {} !'.format(lexeme))
 
     @classmethod
     def _has_vowel(cls, seq):

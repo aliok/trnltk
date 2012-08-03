@@ -27,7 +27,7 @@
 
     <xs:complexType name="WordType">
         <xs:sequence>
-            <xs:element name="stem" type="StemType" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="stem" type="RootType" maxOccurs="1" minOccurs="1"/>
             <xs:element name="suffixes" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
                     <xs:sequence>
@@ -45,8 +45,8 @@
         <xs:attribute name="secondary_syntactic_category" type="SecondarySyntacticCategoryType"/>
     </xs:complexType>
 
-    <xs:complexType name="StemType">
-        <xs:attribute name="root" type="xs:string" use="required"/>
+    <xs:complexType name="RootType">
+        <xs:attribute name="str" type="xs:string" use="required"/>
         <xs:attribute name="lemma" type="xs:string" use="required"/>
         <xs:attribute name="lemma_root" type="xs:string" use="required"/>
         <xs:attribute name="syntactic_category" type="SyntacticCategoryType" use="required"/>

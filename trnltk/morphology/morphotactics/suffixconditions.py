@@ -1,4 +1,4 @@
-from trnltk.morphology.morphotactics.suffixgraphmodel import FreeTransitionSuffix, ZeroTransitionSuffix
+from trnltk.morphology.model.morpheme import FreeTransitionSuffix, ZeroTransitionSuffix
 
 # http://en.wikipedia.org/wiki/Specification_pattern
 
@@ -96,16 +96,16 @@ class HasSuffixFormSinceLastDerivation(Specification):
         self._suffix = _suffix
         self._form_str = _form_str
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token:
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container:
             return False
 
-        suffixes_since_derivation_suffix = parse_token.get_suffixes_since_derivation_suffix()
+        suffixes_since_derivation_suffix = morpheme_container.get_suffixes_since_derivation_suffix()
         if not suffixes_since_derivation_suffix:
             return False
 
         if self._form_str is not None:
-            transitions_since_derivation_suffix = parse_token.get_transitions_since_derivation_suffix()
+            transitions_since_derivation_suffix = morpheme_container.get_transitions_since_derivation_suffix()
             if any([transition.suffix_form_application.suffix_form.suffix==self._suffix and transition.suffix_form_application.suffix_form.form==self._form_str
                         for transition in transitions_since_derivation_suffix]):
                 return True
@@ -129,11 +129,11 @@ class HasSuffixFormAsLastDerivation(Specification):
         self._suffix = _suffix
         self._form_str = _form_str
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token:
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container:
             return False
 
-        last_derivation_transition = parse_token.get_last_derivation_transition()
+        last_derivation_transition = morpheme_container.get_last_derivation_transition()
         if not last_derivation_transition:
             return False
 
@@ -154,17 +154,17 @@ class HasSuffixFormAsLastDerivation(Specification):
 
 
 
-class AppliesToStem(Specification):
-    def __init__(self, stem_str):
-        self._stem_str = stem_str
+class AppliesToRoot(Specification):
+    def __init__(self, root_str):
+        self._root_str = root_str
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token:
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container:
             return False
-        return parse_token.get_stem().root==self._stem_str
+        return morpheme_container.get_root().root==self._root_str
 
     def __str__(self):
-        return u'applies_to_stem({})'.format(self._stem_str)
+        return u'applies_to_root({})'.format(self._root_str)
 
     def __repr__(self):
         return self.__str__()
@@ -175,14 +175,14 @@ class LastSuffixGoesToState(Specification):
     def __init__(self, state_type):
         self._state_type = state_type
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token or not parse_token.has_transitions():
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container or not morpheme_container.has_transitions():
             return False
 
-        if not parse_token.get_last_transition():
+        if not morpheme_container.get_last_transition():
             return False
 
-        return parse_token.get_last_transition().to_state.type==self._state_type
+        return morpheme_container.get_last_transition().to_state.type==self._state_type
 
     def __str__(self):
         return u'suffix_goes_to({})'.format(self._state_type)
@@ -196,11 +196,11 @@ class HasRootAttributes(Specification):
     def __init__(self, root_attrs):
         self._root_attrs = root_attrs
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token:
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container:
             return False
 
-        transitions = parse_token.get_transitions()
+        transitions = morpheme_container.get_transitions()
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
         transitions = filter(lambda transition : transition.suffix_form_application.actual_suffix_form, transitions)
@@ -208,10 +208,10 @@ class HasRootAttributes(Specification):
         if transitions:
             return True
 
-        if not parse_token.get_stem().dictionary_item.attributes:
+        if not morpheme_container.get_root().dictionary_item.attributes:
             return False
 
-        return all(r in parse_token.get_stem().dictionary_item.attributes for r in self._root_attrs)
+        return all(r in morpheme_container.get_root().dictionary_item.attributes for r in self._root_attrs)
 
     def __str__(self):
         return u'has_root_attributes({})'.format(self._root_attrs)
@@ -224,11 +224,11 @@ class DoesntHaveRootAttributes(Specification):
     def __init__(self, root_attrs):
         self._root_attrs = root_attrs
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token:
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container:
             return False
 
-        transitions = parse_token.get_transitions()
+        transitions = morpheme_container.get_transitions()
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), transitions)
         transitions = filter(lambda transition : not isinstance(transition.suffix_form_application.suffix_form.suffix, ZeroTransitionSuffix), transitions)
         transitions = filter(lambda transition : transition.suffix_form_application.actual_suffix_form, transitions)
@@ -236,10 +236,10 @@ class DoesntHaveRootAttributes(Specification):
         if transitions:
             return True
 
-        if not parse_token.get_stem().dictionary_item.attributes:
+        if not morpheme_container.get_root().dictionary_item.attributes:
             return True
 
-        return not any(r in parse_token.get_stem().dictionary_item.attributes for r in self._root_attrs)
+        return not any(r in morpheme_container.get_root().dictionary_item.attributes for r in self._root_attrs)
 
     def __str__(self):
         return u'doesnt_have_root_attributes({})'.format(self._root_attrs)
@@ -252,10 +252,10 @@ class RootHasSecondarySyntacticCategory(Specification):
     def __init__(self, secondary_syntactic_category):
             self._secondary_syntactic_category = secondary_syntactic_category
 
-    def is_satisfied_by(self, parse_token):
-        if not parse_token:
+    def is_satisfied_by(self, morpheme_container):
+        if not morpheme_container:
             return False
-        return parse_token.get_stem().dictionary_item.secondary_syntactic_category==self._secondary_syntactic_category
+        return morpheme_container.get_root().dictionary_item.secondary_syntactic_category==self._secondary_syntactic_category
 
     def __str__(self):
         return u'root_has_secondary_syntactic_category({})'.format(self._secondary_syntactic_category)
@@ -280,8 +280,8 @@ def doesnt_come_after(suffix, form_str=None):
 def doesnt_come_after_derivation(suffix, form_str=None):
     return doesnt(comes_after_derivation(suffix, form_str))
 
-def applies_to_stem(stem_str):
-    return AppliesToStem(stem_str)
+def applies_to_root(root_str):
+    return AppliesToRoot(root_str)
 
 def root_has_secondary_syntactic_category(secondary_syntactic_category):
     return RootHasSecondarySyntacticCategory(secondary_syntactic_category)

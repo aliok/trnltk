@@ -1,5 +1,5 @@
 import itertools
-from trnltk.morphology.contextfree.parser import formatter
+from trnltk.morphology.model import formatter
 
 class StatisticalParseResult(object):
     def __init__(self):
@@ -7,7 +7,7 @@ class StatisticalParseResult(object):
         self.parse_results = dict()
 
     def add_parse_result(self, context_free_parse_result, offsets):
-        parse_result_str = formatter.format_parse_token_for_parseset(context_free_parse_result)
+        parse_result_str = formatter.format_morpheme_container_for_parseset(context_free_parse_result)
         self.parse_results[parse_result_str] = context_free_parse_result
         self.parse_result_occurrences[parse_result_str] = offsets
 

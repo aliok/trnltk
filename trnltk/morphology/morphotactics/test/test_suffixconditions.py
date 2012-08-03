@@ -2,12 +2,11 @@
 import unittest
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.lexiconmodel.lexeme import RootAttribute
+from trnltk.morphology.model.lexeme import RootAttribute
 from trnltk.morphology.contextfree.parser.parser import SuffixFormApplication
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, has_root_attributes
 from trnltk.morphology.morphotactics.suffixgraph import Suffix
-from trnltk.morphology.morphotactics.suffixgraphmodel import SuffixForm
-from trnltk.morphology.contextfree.parser.token import Transition
+from trnltk.morphology.model.morpheme import SuffixForm
 
 class SuffixConditionsTest(unittest.TestCase):
 
@@ -136,18 +135,18 @@ class SuffixConditionsTest(unittest.TestCase):
         self.do_assert_root_attr_matches(condition, attrs, False)
 
     def do_assert_root_attr_matches(self, condition, attrs, val):
-        parse_token = Mock()
-        stem = Mock()
+        morpheme_container = Mock()
+        root = Mock()
         dictionary_item = Mock()
 
-        parse_token.get_stem.return_value = stem
-        parse_token.get_transitions.return_value = []
-        stem.dictionary_item = dictionary_item
+        morpheme_container.get_root.return_value = root
+        morpheme_container.get_transitions.return_value = []
+        root.dictionary_item = dictionary_item
         dictionary_item.attributes = attrs
 
-        parse_token.get_suffixes_since_derivation_suffix.return_value=[]
+        morpheme_container.get_suffixes_since_derivation_suffix.return_value=[]
 
-        assert_that(condition.is_satisfied_by(parse_token), equal_to(val))
+        assert_that(condition.is_satisfied_by(morpheme_container), equal_to(val))
 
 if __name__ == '__main__':
     unittest.main()

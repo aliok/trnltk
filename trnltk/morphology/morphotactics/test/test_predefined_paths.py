@@ -4,10 +4,10 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.lexiconmodel.lexeme import  SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
-from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.model import formatter
+from trnltk.morphology.model.lexeme import  SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
+from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.contextfree.parser.parser import  logger as parser_logger
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
@@ -17,16 +17,16 @@ class PredefinedPathsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(PredefinedPathsTest, cls).setUpClass()
-        all_stems = []
+        all_roots = []
 
         dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            all_stems.extend(RootGenerator.generate(di))
+            all_roots.extend(RootGenerator.generate(di))
 
-        stem_root_map_generator = RootMapGenerator()
-        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
+        root_map_generator = RootMapGenerator()
+        cls.root_map = root_map_generator.generate(all_roots)
 
-        cls.token_map = {}
+        cls.morpheme_container_map = {}
 
         cls.suffix_graph = SuffixGraph()
 
@@ -37,18 +37,18 @@ class PredefinedPathsTest(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-        self.predefined_paths = PredefinedPaths(self.stem_root_map, self.suffix_graph)
+        self.predefined_paths = PredefinedPaths(self.root_map, self.suffix_graph)
 
     def tearDown(self):
         self.predefined_paths = None
-        self.token_map = {}
+        self.morpheme_container_map = {}
 
 
     def test_should_have_paths_for_personal_pronouns(self):
         self.predefined_paths._create_predefined_path_of_ben()
         self.predefined_paths._create_predefined_path_of_sen()
 
-        self.token_map = self.predefined_paths.token_map
+        self.morpheme_container_map = self.predefined_paths.morpheme_container_map
 
         PRON = SyntacticCategory.PRONOUN
         PERS = SecondarySyntacticCategory.PERSONAL
@@ -89,7 +89,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.predefined_paths._create_predefined_path_of_hepsi()
 
-        self.token_map = self.predefined_paths.token_map
+        self.morpheme_container_map = self.predefined_paths.morpheme_container_map
 
         PRON = SyntacticCategory.PRONOUN
 
@@ -132,7 +132,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.predefined_paths._create_predefined_path_of_question_particles()
 
-        self.token_map = self.predefined_paths.token_map
+        self.morpheme_container_map = self.predefined_paths.morpheme_container_map
 
         QUES = SyntacticCategory.QUESTION
 
@@ -157,19 +157,19 @@ class PredefinedPathsTest(unittest.TestCase):
             u'mı(mı)+Ques+Past(ymış[ymış])+A2pl(sınız[sınız])',
             u'mı(mı)+Ques+Past(ymış[ymış])+A3pl(lar[lar])')
         
-    def assert_defined_path(self, stem_root, syntactic_category, secondary_syntactic_category, *args):
-        assert_that(self.predefined_tokens(stem_root, syntactic_category, secondary_syntactic_category), IsTokensMatches([a for a in args]))
+    def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
+        assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))
 
-    def predefined_tokens(self, stem_root, syntactic_category, secondary_syntactic_category):
-        predefined_tokens = []
-        for stem in self.token_map.keys():
-            if stem.root==stem_root and stem.dictionary_item.syntactic_category==syntactic_category and stem.dictionary_item.secondary_syntactic_category==secondary_syntactic_category:
-                predefined_tokens.extend(self.token_map[stem])
+    def predefined_morpheme_containers(self, root, syntactic_category, secondary_syntactic_category):
+        predefined_morpheme_containers = []
+        for root in self.morpheme_container_map.keys():
+            if root.root==root and root.dictionary_item.syntactic_category==syntactic_category and root.dictionary_item.secondary_syntactic_category==secondary_syntactic_category:
+                predefined_morpheme_containers.extend(self.morpheme_container_map[root])
 
-        return [formatter.format_parse_token_for_tests(r) for r in predefined_tokens]
+        return [formatter.format_morpheme_container_for_tests(r) for r in predefined_morpheme_containers]
 
 
-class IsTokensMatches(BaseMatcher):
+class AreMorphemeContainersMatch(BaseMatcher):
     def __init__(self, expected_results):
         self.expected_results = expected_results
 

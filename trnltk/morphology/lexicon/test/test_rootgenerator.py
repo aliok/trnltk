@@ -2,8 +2,8 @@
 import unittest
 from hamcrest import *
 from trnltk.morphology.phonetics.phonetics import PhoneticAttributes, PhoneticExpectation
-from trnltk.morphology.lexiconmodel.lexeme import Lexeme, SyntacticCategory, RootAttribute
-from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, Root, CircumflexConvertingRootGenerator
+from trnltk.morphology.model.lexeme import Lexeme, SyntacticCategory, RootAttribute
+from trnltk.morphology.lexicon.rootgenerator import RootGenerator, Root, CircumflexConvertingRootGenerator
 
 LLV = PhoneticAttributes.LastLetterVowel
 LLC = PhoneticAttributes.LastLetterConsonant

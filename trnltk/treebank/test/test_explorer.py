@@ -4,7 +4,7 @@ import unittest
 from xml.dom.minidom import parse
 from hamcrest import *
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.treebank.explorer import CompleteWordConcordanceIndex, StemConcordanceIndex, DictionaryItemConcordanceIndex, TransitionWordConcordanceIndex, TransitionMatchedWordConcordanceIndex
+from trnltk.treebank.explorer import CompleteWordConcordanceIndex, RootConcordanceIndex, DictionaryItemConcordanceIndex, TransitionWordConcordanceIndex, TransitionMatchedWordConcordanceIndex
 
 class ExplorerTest(unittest.TestCase):
 
@@ -35,7 +35,7 @@ class ExplorerTest(unittest.TestCase):
             word_list.extend(sentence.words)
 
         self._validate_complete_word_concordance_indexes(word_list)
-        self._validate_stem_concordance_indexes(word_list)
+        self._validate_root_concordance_indexes(word_list)
         self._validate_dictionary_item_concordance_indexes(word_list)
         self._validate_transition_word_concordance_indexes(word_list)
         self._validate_transition_matched_word_concordance_indexes(word_list)
@@ -65,29 +65,29 @@ class ExplorerTest(unittest.TestCase):
                                      and word.secondary_syntactic_category==secondary_syntactic_category
                                      for word in words]))
 
-    def _validate_stem_concordance_indexes(self, word_list):
-        idx = StemConcordanceIndex(word_list)
+    def _validate_root_concordance_indexes(self, word_list):
+        idx = RootConcordanceIndex(word_list)
 
-        for stem in idx._offsets._indices.iterkeys():
-            offsets = idx.offsets(stem)
+        for root_str in idx._offsets._indices.iterkeys():
+            offsets = idx.offsets(root_str)
             words = [word_list[offset] for offset in offsets]
-            assert_that(all([word.stem.root==stem for word in words]))
+            assert_that(all([word.root.str==root_str for word in words]))
 
-        for stem in idx._offsets._indices.iterkeys():
-            for syntactic_category in idx._offsets._indices[stem].iterkeys():
+        for root_str in idx._offsets._indices.iterkeys():
+            for syntactic_category in idx._offsets._indices[root_str].iterkeys():
 
-                offsets = idx.offsets(stem, syntactic_category)
+                offsets = idx.offsets(root_str, syntactic_category)
                 words = [word_list[offset] for offset in offsets]
-                assert_that(all([word.stem.root==stem and word.stem.syntactic_category==syntactic_category for word in words]))
+                assert_that(all([word.root.str==root_str and word.root.syntactic_category==syntactic_category for word in words]))
 
-        for stem in idx._offsets._indices.iterkeys():
-            for syntactic_category in idx._offsets._indices[stem].iterkeys():
-                for secondary_syntactic_category in idx._offsets._indices[stem][syntactic_category].iterkeys():
+        for root_str in idx._offsets._indices.iterkeys():
+            for syntactic_category in idx._offsets._indices[root_str].iterkeys():
+                for secondary_syntactic_category in idx._offsets._indices[root_str][syntactic_category].iterkeys():
 
-                    offsets = idx.offsets(stem, syntactic_category, secondary_syntactic_category)
+                    offsets = idx.offsets(root_str, syntactic_category, secondary_syntactic_category)
                     words = [word_list[offset] for offset in offsets]
-                    assert_that(all([word.stem.root==stem and word.stem.syntactic_category==syntactic_category
-                                     and word.stem.secondary_syntactic_category==secondary_syntactic_category
+                    assert_that(all([word.root.str==root_str and word.root.syntactic_category==syntactic_category
+                                     and word.root.secondary_syntactic_category==secondary_syntactic_category
                                      for word in words]))
 
     def _validate_dictionary_item_concordance_indexes(self, word_list):
@@ -96,14 +96,14 @@ class ExplorerTest(unittest.TestCase):
         for lemma_root in idx._offsets._indices.iterkeys():
             offsets = idx.offsets(lemma_root)
             words = [word_list[offset] for offset in offsets]
-            assert_that(all([word.stem.lemma_root==lemma_root for word in words]))
+            assert_that(all([word.root.lemma_root==lemma_root for word in words]))
 
         for lemma_root in idx._offsets._indices.iterkeys():
             for syntactic_category in idx._offsets._indices[lemma_root].iterkeys():
 
                 offsets = idx.offsets(lemma_root, syntactic_category)
                 words = [word_list[offset] for offset in offsets]
-                assert_that(all([word.stem.lemma_root==lemma_root and word.stem.syntactic_category==syntactic_category for word in words]))
+                assert_that(all([word.root.lemma_root==lemma_root and word.root.syntactic_category==syntactic_category for word in words]))
 
         for lemma_root in idx._offsets._indices.iterkeys():
             for syntactic_category in idx._offsets._indices[lemma_root].iterkeys():
@@ -111,8 +111,8 @@ class ExplorerTest(unittest.TestCase):
 
                     offsets = idx.offsets(lemma_root, syntactic_category, secondary_syntactic_category)
                     words = [word_list[offset] for offset in offsets]
-                    assert_that(all([word.stem.lemma_root==lemma_root and word.stem.syntactic_category==syntactic_category
-                                     and word.stem.secondary_syntactic_category==secondary_syntactic_category
+                    assert_that(all([word.root.lemma_root==lemma_root and word.root.syntactic_category==syntactic_category
+                                     and word.root.secondary_syntactic_category==secondary_syntactic_category
                                      for word in words]))
 
     def _validate_transition_word_concordance_indexes(self, word_list):

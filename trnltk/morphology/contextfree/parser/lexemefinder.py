@@ -1,5 +1,5 @@
 import re
-from trnltk.morphology.lexiconmodel.root import NumeralRoot, AbbreviationRoot, ProperNounRoot
+from trnltk.morphology.model.root import NumeralRoot, AbbreviationRoot, ProperNounRoot
 
 class LexemeFinder(object):
     def find_lexeme_for_partial_input(self, partial_input):

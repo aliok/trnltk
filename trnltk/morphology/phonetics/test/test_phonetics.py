@@ -1,6 +1,6 @@
 # coding=utf-8
 import unittest
-from trnltk.morphology.lexiconmodel.lexeme import RootAttribute
+from trnltk.morphology.model.lexeme import RootAttribute
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
 ac = Phonetics.is_suffix_form_applicable

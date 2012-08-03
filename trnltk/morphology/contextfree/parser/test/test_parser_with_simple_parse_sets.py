@@ -5,9 +5,9 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
-from trnltk.morphology.lexiconmodel.rootgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
+from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
+from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
+from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder
@@ -83,7 +83,7 @@ cases_to_skip = {
     u'+Related', u'kavramsal', u'nesnel+Adj',
     u'+NotState',
 
-    u'stoku+Noun+',      # Does optional voicing work? gotta create 2 stems like normal voicing case
+    u'stoku+Noun+',      # Does optional voicing work? gotta create 2 roots like normal voicing case
 
     u'(1,"yak\u0131n+Noun+A3sg+Pnon+Loc")(2,"Adj+Rel")',
     u'yakın+Noun',
@@ -133,23 +133,23 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithSimpleParseSets, cls).setUpClass()
-        all_stems = []
+        all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
-            all_stems.extend(CircumflexConvertingRootGenerator.generate(di))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
+            all_roots.extend(CircumflexConvertingRootGenerator.generate(di))
 
-        stem_root_map_generator = RootMapGenerator()
-        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
+        root_map_generator = RootMapGenerator()
+        cls.root_map = root_map_generator.generate(all_roots)
 
         suffix_graph = ExtendedSuffixGraph()
-        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
+        predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordLexemeFinder(cls.stem_root_map)
-        numeral_stem_finder = NumeralLexemeFinder()
+        word_lexeme_finder = WordLexemeFinder(cls.root_map)
+        numeral_lexeme_finder = NumeralLexemeFinder()
 
-        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
+        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_lexeme_finder, numeral_lexeme_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -225,7 +225,7 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 
     def parse_result(self, word):
-        return [formatter.format_parse_token_for_simple_parseset(r) for r in (self.parser.parse(word))]
+        return [formatter.format_morpheme_container_for_simple_parseset(r) for r in (self.parser.parse(word))]
 
 class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):

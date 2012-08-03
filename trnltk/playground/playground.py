@@ -8,7 +8,7 @@ def concordance_full_word(full_word, syntactic_category=None, secondary_syntacti
     pass
 
 # kitabimi, kitab -> true
-def concordance_stem(stem, syntactic_category=None, secondary_syntactic_category=None):
+def concordance_root(root, syntactic_category=None, secondary_syntactic_category=None):
     pass
 
 # kitabimi, kitap -> true

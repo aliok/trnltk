@@ -4,8 +4,8 @@ import unittest
 from xml.dom.minidom import parse
 from hamcrest import *
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory, SecondarySyntacticCategory
-from trnltk.treebank.explorer import CompleteWordConcordanceIndex, StemConcordanceIndex, DictionaryItemConcordanceIndex, TransitionWordConcordanceIndex, TransitionMatchedWordConcordanceIndex
+from trnltk.morphology.model.lexeme import SyntacticCategory, SecondarySyntacticCategory
+from trnltk.treebank.explorer import CompleteWordConcordanceIndex, RootConcordanceIndex, DictionaryItemConcordanceIndex, TransitionWordConcordanceIndex, TransitionMatchedWordConcordanceIndex
 
 class ExplorerTestWithSampleParseSet(unittest.TestCase):
     @classmethod
@@ -47,8 +47,8 @@ class ExplorerTestWithSampleParseSet(unittest.TestCase):
         assert_that(idx.offsets(u"gideceğim", SyntacticCategory.NOUN), equal_to([11]))
 
 
-    def test_should_find_stem_concordance(self):
-        idx = StemConcordanceIndex(self.word_list)
+    def test_should_find_root_concordance(self):
+        idx = RootConcordanceIndex(self.word_list)
 
         assert_that(idx.offsets(u'something'), equal_to([]))
 

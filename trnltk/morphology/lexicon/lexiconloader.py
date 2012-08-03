@@ -1,8 +1,6 @@
 import codecs
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.lexiconmodel.lexeme import Lexeme, SyntacticCategory, SecondarySyntacticCategory, RootAttribute
-
-__author__ = 'ali'
+from trnltk.morphology.model.lexeme import Lexeme, SyntacticCategory, SecondarySyntacticCategory, RootAttribute
 
 class LexiconLoader(object):
 

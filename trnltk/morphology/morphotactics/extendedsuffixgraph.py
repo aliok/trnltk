@@ -1,8 +1,9 @@
 # coding=utf-8
-from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory
+from trnltk.morphology.model.graphmodel import State
+from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, doesnt_come_after
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
-from trnltk.morphology.morphotactics.suffixgraphmodel import *
+from trnltk.morphology.model.morpheme import *
 
 class ExtendedSuffixGraph(SuffixGraph):
 
@@ -16,14 +17,14 @@ class ExtendedSuffixGraph(SuffixGraph):
     def _add_states(self):
         SuffixGraph._add_states(self)
 
-        self.NOUN_COPULA = State("NOUN_COPULA", State.DERIV, SyntacticCategory.NOUN)
-        self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", State.DERIV, SyntacticCategory.ADJECTIVE)
-        self.ADVERB_COPULA = State("ADVERB_COPULA", State.DERIV, SyntacticCategory.ADVERB)
-        self.PRONOUN_COPULA = State("PRONOUN_COPULA", State.DERIV, SyntacticCategory.PRONOUN)
+        self.NOUN_COPULA = State("NOUN_COPULA", State.DERIVATIONAL, SyntacticCategory.NOUN)
+        self.ADJECTIVE_COPULA = State("ADJECTIVE_COPULA", State.DERIVATIONAL, SyntacticCategory.ADJECTIVE)
+        self.ADVERB_COPULA = State("ADVERB_COPULA", State.DERIVATIONAL, SyntacticCategory.ADVERB)
+        self.PRONOUN_COPULA = State("PRONOUN_COPULA", State.DERIVATIONAL, SyntacticCategory.PRONOUN)
         self.VERB_DEGIL_ROOT = State("VERB_DEGIL_ROOT", State.TRANSFER, SyntacticCategory.VERB)
 
         self.VERB_COPULA_WITHOUT_TENSE = State("VERB_COPULA_WITHOUT_TENSE", State.TRANSFER, SyntacticCategory.VERB)
-        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", State.DERIV, SyntacticCategory.VERB)
+        self.VERB_COPULA_WITHOUT_TENSE_DERIV = State("VERB_COPULA_WITHOUT_TENSE_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
         self.VERB_COPULA_WITH_TENSE = State("VERB_COPULA_WITH_TENSE", State.TRANSFER, SyntacticCategory.VERB)
 
         self.ALL_STATES |= {
@@ -31,11 +32,11 @@ class ExtendedSuffixGraph(SuffixGraph):
             self.VERB_COPULA_WITHOUT_TENSE, self.VERB_COPULA_WITHOUT_TENSE_DERIV, self.VERB_COPULA_WITH_TENSE
         }
 
-    def get_default_stem_state(self, stem):
-        if stem.dictionary_item.syntactic_category==SyntacticCategory.VERB and stem.root==u'değil':
+    def get_default_root_state(self, root):
+        if root.lexeme.syntactic_category==SyntacticCategory.VERB and root.root==u'değil':
             return self.VERB_DEGIL_ROOT
         else:
-            return SuffixGraph.get_default_stem_state(self, stem)
+            return SuffixGraph.get_default_root_state(self, root)
 
 
     def _add_suffixes(self):

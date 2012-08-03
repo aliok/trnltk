@@ -2,7 +2,7 @@ import copy
 from trnltk.morphology.numbers.digitconverter import DigitsToNumberConverter
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.morphology.phonetics.phonetics import Phonetics
-from trnltk.morphology.lexiconmodel.lexeme import DynamicLexeme, SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.model.lexeme import DynamicLexeme, SyntacticCategory, SecondarySyntacticCategory
 
 class Root(object):
     def __init__(self, root, lexeme, phonetic_expectations, phonetic_attributes):

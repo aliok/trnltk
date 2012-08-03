@@ -2709,7 +2709,7 @@ bembeyaz [P:Adj]
 bembeyaz [P:Adv]
 bemol
 ben
-ben [P:Pron, Pers; A:StemChange]
+ben [P:Pron, Pers; A:RootChange]
 benbenci [P:Adj]
 benci [P:Adj]
 bencil [P:Adj]
@@ -5469,7 +5469,7 @@ dembedem [P:Adv]
 deme
 demeç
 demek [P:Adv]
-demek [A:StemChange, Passive_In, Passive_InIl]
+demek [A:RootChange, Passive_In, Passive_InIl]
 demet [A:NoVoicing]
 demetlemek
 demevi [P:Adj]
@@ -9553,7 +9553,7 @@ hep [P:Adv, Time]
 hepatit [A:NoVoicing]
 hepatoloji
 hepçil
-hepsi [P:Pron; A:StemChange, NoVoicing]
+hepsi [P:Pron; A:RootChange, NoVoicing]
 hepten
 hepyek [A:NoVoicing]
 her [P:Det]
@@ -16795,7 +16795,7 @@ optimist [A:NoVoicing]
 optimizm
 optimum
 opus
-ora [A:StemChange]
+ora [A:RootChange]
 orak
 oral
 oramiral [A:InverseHarmony]
@@ -19278,7 +19278,7 @@ sempatizan
 sempozyum
 semptom
 semt
-sen [P:Pron, Pers;A:StemChange]
+sen [P:Pron, Pers;A:RootChange]
 sena
 senarist [A:NoVoicing]
 senaryo
@@ -23745,7 +23745,7 @@ yeltenmek
 yelve
 yelyazar
 yem
-yemek [A:StemChange, Passive_In, Passive_InIl]
+yemek [A:RootChange, Passive_In, Passive_InIl]
 yemek [P:Noun]
 yemekhane
 yemeni

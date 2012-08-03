@@ -5,10 +5,10 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory
-from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
-from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.model import formatter
+from trnltk.morphology.model.lexeme import SyntacticCategory
+from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
+from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
@@ -20,13 +20,13 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithSimpleGraph, cls).setUpClass()
-        all_stems = []
+        all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
-            all_stems.extend(RootGenerator.generate(di))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
+            all_roots.extend(RootGenerator.generate(di))
 
-        cls._org_stem_root_map = (RootMapGenerator()).generate(all_stems)
+        cls._org_root_map = (RootMapGenerator()).generate(all_roots)
 
 
     def setUp(self):
@@ -35,14 +35,14 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         suffix_applier_logger.setLevel(logging.INFO)
 
         suffix_graph = SuffixGraph()
-        self.cloned_stem_root_map = copy(self._org_stem_root_map)
-        predefined_paths = PredefinedPaths(self.cloned_stem_root_map, suffix_graph)
+        self.cloned_root_map = copy(self._org_root_map)
+        predefined_paths = PredefinedPaths(self.cloned_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordLexemeFinder(self.cloned_stem_root_map)
-        numeral_stem_finder = NumeralLexemeFinder()
+        word_lexeme_finder = WordLexemeFinder(self.cloned_root_map)
+        numeral_lexeme_finder = NumeralLexemeFinder()
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_lexeme_finder, numeral_lexeme_finder])
 
     def test_should_parse_noun_cases(self):
         self.assert_parse_correct(u'sokak',            u'sokak(sokak)+Noun+A3sg+Pnon+Nom')
@@ -75,7 +75,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'korucuyla',        u'koru(koru)+Noun+A3sg+Pnon+Nom+Noun+Agt(cI[cu])+A3sg+Pnon+Ins(+ylA[yla])')
 
     def test_should_parse_noun_to_adjective_derivations(self):
-        self.cloned_stem_root_map[u'kut'] = []
+        self.cloned_root_map[u'kut'] = []
 
         self.assert_parse_correct(u'kutulu',           u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lu])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+With(lI[lu])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'kutusuz',          u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[suz])+Noun+Zero+A3sg+Pnon+Nom')
@@ -141,7 +141,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'çevirmiş',          u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+A3sg', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero', u'çevir(çevirmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
 
-        self.cloned_stem_root_map[u'el'] = filter(lambda stem : stem.dictionary_item.lemma==u'elemek', self.cloned_stem_root_map[u'el'])
+        self.cloned_root_map[u'el'] = filter(lambda root : root.lexeme.lemma==u'elemek', self.cloned_root_map[u'el'])
 
         self.assert_parse_correct(u'elerim',            u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A1sg(+Im[im])', u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom')
         self.assert_parse_correct(u'elersin',           u'ele(elemek)+Verb+Pos+Aor(+Ir[r])+A2sg(sIn[sin])', u'ele(elemek)+Verb+Pos+Aor(+Ar[r])+A2sg(sIn[sin])')
@@ -494,15 +494,15 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'aceleten',          u'aceleten(aceleten)+Adv')
 
     def test_should_parse_pronouns(self):
-        # remove some stems to make the test simple
-        self.cloned_stem_root_map[u'on'] = []
-        self.cloned_stem_root_map[u'ona'] = []
-        self.cloned_stem_root_map[u'bend'] = []
-        self.cloned_stem_root_map[u'bun'] = []
-        self.cloned_stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'ben'])
-        self.cloned_stem_root_map[u'ban'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'ban'])
-        self.cloned_stem_root_map[u'san'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'san'])
-        self.cloned_stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'biz'])
+        # remove some roots to make the test simple
+        self.cloned_root_map[u'on'] = []
+        self.cloned_root_map[u'ona'] = []
+        self.cloned_root_map[u'bend'] = []
+        self.cloned_root_map[u'bun'] = []
+        self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
+        self.cloned_root_map[u'ban'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ban'])
+        self.cloned_root_map[u'san'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'san'])
+        self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
 
         self.assert_parse_correct(u'ben',               u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom')
         self.assert_parse_correct(u'sen',               u'sen(sen)+Pron+Pers+A2sg+Pnon+Nom')
@@ -693,16 +693,16 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
 
     def test_should_parse_cardinal_numerals(self):
-        self.cloned_stem_root_map[u'bir'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'bir'])
-        self.cloned_stem_root_map[u'alt'] = []
-        self.cloned_stem_root_map[u'ye'] = []
-        self.cloned_stem_root_map[u'yet'] = []
-        self.cloned_stem_root_map[u'on'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'on'])
-        self.cloned_stem_root_map[u'kırk'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'kırk'])
-        self.cloned_stem_root_map[u'el'] = []
-        self.cloned_stem_root_map[u'sek'] = []
-        self.cloned_stem_root_map[u'yüz'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'yüz'])
-        self.cloned_stem_root_map[u'bin'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_stem_root_map[u'bin'])
+        self.cloned_root_map[u'bir'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'bir'])
+        self.cloned_root_map[u'alt'] = []
+        self.cloned_root_map[u'ye'] = []
+        self.cloned_root_map[u'yet'] = []
+        self.cloned_root_map[u'on'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'on'])
+        self.cloned_root_map[u'kırk'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'kırk'])
+        self.cloned_root_map[u'el'] = []
+        self.cloned_root_map[u'sek'] = []
+        self.cloned_root_map[u'yüz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'yüz'])
+        self.cloned_root_map[u'bin'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'bin'])
 
         self.assert_parse_correct(u'sıfır',                 u'sıfır(sıfır)+Num+Card+Adj+Zero', u'sıfır(sıfır)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'bir',                   u'bir(bir)+Num+Card+Adj+Zero', u'bir(bir)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
@@ -732,7 +732,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'kentilyon',             u'kentilyon(kentilyon)+Num+Card+Adj+Zero', u'kentilyon(kentilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_ordinal_numerals(self):
-        self.cloned_stem_root_map[u'altın'] = []
+        self.cloned_root_map[u'altın'] = []
 
         self.assert_parse_correct(u'sıfırıncı',        u'sıfırıncı(sıfırıncı)+Num+Ord+Adj+Zero', u'sıfırıncı(sıfırıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'birinci',          u'birinci(birinci)+Num+Ord+Adj+Zero', u'birinci(birinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
@@ -797,7 +797,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'yendi',           u'yen(yenmek)+Verb+Pos+Past(dI[di])+A3sg', u'ye(yemek)+Verb+Verb+Pass(+In[n])+Pos+Past(dI[di])+A3sg')
         self.assert_parse_correct_for_verb(u'yenildi',         u'ye(yemek)+Verb+Verb+Pass(+InIl[nil])+Pos+Past(dI[di])+A3sg', u'yen(yenmek)+Verb+Verb+Pass(+nIl[il])+Pos+Past(dI[di])+A3sg')
 
-        self.cloned_stem_root_map[u'ye'] = []
+        self.cloned_root_map[u'ye'] = []
         self.assert_parse_correct_for_verb(u'yerleştirilmiş',  u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+A3sg', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero', u'yerleş(yerleşmek)+Verb+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_causatives(self):
@@ -989,7 +989,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct(u'çıkarttırabilince',   u'çık(çıkmak)+Verb+Verb+Caus(Ar[ar])+Verb+Caus(t[t])+Verb+Caus(dIr[tır])+Verb+Able(+yAbil[abil])+Pos+Adv+When(+yIncA[ince])')
         self.assert_parse_correct(u'yaptıramayınca',      u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Adv+When(+yIncA[yınca])')
 
-        self.cloned_stem_root_map[u'dönel'] = []
+        self.cloned_root_map[u'dönel'] = []
 
         self.assert_parse_correct(u'yapalı',              u'yap(yapmak)+Verb+Pos+Adv+SinceDoingSo(+yAlI![alı])')
         self.assert_parse_correct(u'yapmayalı',           u'yap(yapmak)+Verb+Neg(mA[ma])+Adv+SinceDoingSo(+yAlI![yalı])')
@@ -1019,7 +1019,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
             u'yap(yapmak)+Verb+Verb+Caus(dIr[tır])+Verb+Able(+yA[a])+Neg(mA[ma])+Aor(z[z])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[ca])+Noun+Zero+A3sg+P3sg(+sI[sı])+Dat(nA[na])')
 
     def test_should_parse_adj_to_adj_derivations(self):
-        self.cloned_stem_root_map[u'koy'] = []
+        self.cloned_root_map[u'koy'] = []
 
         self.assert_parse_correct(u'kırmızımsı',          u'kırmızı(kırmızı)+Adj+Adj+JustLike(+ImsI[msı])', u'kırmızı(kırmızı)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msı])', u'kırmızı(kırmızı)+Adj+Adj+JustLike(+ImsI[msı])+Noun+Zero+A3sg+Pnon+Nom', u'kırmızı(kırmızı)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msı])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'yeşilimsi',           u'yeşil(yeşil)+Adj+Adj+JustLike(+ImsI[imsi])', u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])', u'yeşil(yeşil)+Adj+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom', u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom')
@@ -1050,7 +1050,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
             u'deli(deli)+Adj+Adj+Quite(cA[ce])+Noun+Zero+A3sg+Pnon+Nom',
             u'deli(deli)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[ce])+Noun+Zero+A3sg+Pnon+Nom')
 
-        self.cloned_stem_root_map[u'babac'] = []
+        self.cloned_root_map[u'babac'] = []
         self.assert_parse_correct(u'babaca',
             u'baba(baba)+Adj+Adj+Equ(cA[ca])',
             u'baba(baba)+Adj+Adj+Quite(cA[ca])',
@@ -1147,10 +1147,10 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
             u'organ(organ)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Nom+Adv+By(ncA[nca])', 
             u'organ(organ)+Noun+A3pl(lAr[lar])+P3pl(I![ı])+Nom+Adv+By(ncA[nca])')
 
-        self.cloned_stem_root_map[u'ben'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'ben'])
-        self.cloned_stem_root_map[u'biz'] = filter(lambda stem : stem.dictionary_item.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_stem_root_map[u'biz'])
-        self.cloned_stem_root_map[u'on'] = []
-        self.cloned_stem_root_map[u'onca'] = []
+        self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
+        self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
+        self.cloned_root_map[u'on'] = []
+        self.cloned_root_map[u'onca'] = []
         self.assert_parse_correct(u'bence',         u'ben(ben)+Pron+Pers+A1sg+Pnon+AccordingTo(ce[ce])')
         self.assert_parse_correct(u'sence',         u'sen(sen)+Pron+Pers+A2sg+Pnon+AccordingTo(ce[ce])')
         self.assert_parse_correct(u'onca',          u'o(o)+Pron+Pers+A3sg+Pnon+AccordingTo(nca[nca])')
@@ -1200,11 +1200,11 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'baksana',           u'bak(bakmak)+Verb+Pos+Imp(sAnA[sana])+A2sg')
         self.assert_parse_correct_for_verb(u'gelsenize',         u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 
-        # remove some token to keep the test easier
+        # remove some morpheme containers to keep the test easier
         # TODO: low priority
-#        self.cloned_stem_root_map[u'ha'] = []
-#        self.cloned_stem_root_map[u'hav'] = []
-#        self.cloned_stem_root_map[u'havl'] = filter(lambda _stem : _stem.lexeme.syntactic_category==SyntacticCategory.NOUN, self.cloned_stem_root_map[u'havl'])
+#        self.cloned_root_map[u'ha'] = []
+#        self.cloned_root_map[u'hav'] = []
+#        self.cloned_root_map[u'havl'] = filter(lambda _root : _root.lexeme.syntactic_category==SyntacticCategory.NOUN, self.cloned_root_map[u'havl'])
 #        self.assert_parse_correct_for_verb(u'havli',             u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 #        self.assert_parse_correct_for_verb(u'havliyle',          u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 
@@ -1224,9 +1224,9 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'zeytinyağları',     u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3pl(lArI![ları])+Nom')
         self.assert_parse_correct_for_verb(u'zeytinyağlarını',   u'zeytinyağ(zeytinyağı)+Noun+A3sg+P3pl(lArI![ları])+Acc(nI[nı])')
 
-        self.cloned_stem_root_map[u'a'] = []
-        self.cloned_stem_root_map[u'ak'] = []
-        self.cloned_stem_root_map[u'akşam'] = []
+        self.cloned_root_map[u'a'] = []
+        self.cloned_root_map[u'ak'] = []
+        self.cloned_root_map[u'akşam'] = []
 
         self.assert_parse_correct_for_verb(u'akşamüstü',         u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3sg(+sI[ü])+Nom')
         self.assert_parse_correct_for_verb(u'akşamüstleri',      u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3pl(lArI![leri])+Nom')
@@ -1530,7 +1530,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatchesIgnoreVerbPresA3Sg([a for a in args]))
 
     def parse_result(self, word):
-        return [formatter.format_parse_token_for_tests(r) for r in (self.parser.parse(word))]
+        return [formatter.format_morpheme_container_for_tests(r) for r in (self.parser.parse(word))]
 
 class IsParseResultMatches(BaseMatcher):
     def __init__(self, expected_results):

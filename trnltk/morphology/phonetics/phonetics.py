@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.lexiconmodel.lexeme import RootAttribute
+from trnltk.morphology.model.lexeme import RootAttribute
 
 class PhoneticExpectation(object):
     VowelStart = 'VowelStart'

@@ -1,14 +1,14 @@
-from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.lexiconmodel.rootgenerator import CircumflexConvertingRootGenerator
-from trnltk.morphology.morphotactics.suffixgraphmodel import FreeTransitionSuffix
+from trnltk.morphology.model.lexeme import SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGenerator
+from trnltk.morphology.model.morpheme import FreeTransitionSuffix
 
-def format_parse_token_for_parseset(result):
+def format_morpheme_container_for_parseset(result):
     """
     @return kitap+Noun+A3sg+Pnon+Dat for word 'kitaba'
     """
-    returnValue = u'{}+{}'.format(result.get_stem().dictionary_item.root, result.get_stem_state().pretty_name)
-    if result.get_stem().dictionary_item.secondary_syntactic_category:
-        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_syntactic_category)
+    returnValue = u'{}+{}'.format(result.get_root().dictionary_item.root, result.get_root_state().pretty_name)
+    if result.get_root().dictionary_item.secondary_syntactic_category:
+        returnValue += u'+{}'.format(result.get_root().dictionary_item.secondary_syntactic_category)
 
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
@@ -17,13 +17,13 @@ def format_parse_token_for_parseset(result):
 
     return returnValue
 
-def format_parse_token_for_tests(result):
+def format_morpheme_container_for_tests(result):
     """
     @return kitab(kitap)+Noun+A3sg+Pnon+Dat(+yA[a]) for word 'kitaba'
     """
-    returnValue = u'{}({})+{}'.format(result.get_stem().root, result.get_stem().dictionary_item.lemma, result.get_stem_state().pretty_name)
-    if result.get_stem().dictionary_item.secondary_syntactic_category:
-        returnValue += u'+{}'.format(result.get_stem().dictionary_item.secondary_syntactic_category)
+    returnValue = u'{}({})+{}'.format(result.get_root().root, result.get_root().dictionary_item.lemma, result.get_root_state().pretty_name)
+    if result.get_root().dictionary_item.secondary_syntactic_category:
+        returnValue += u'+{}'.format(result.get_root().dictionary_item.secondary_syntactic_category)
 
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
@@ -45,24 +45,24 @@ def format_transition(transition, includeForm=True):
 
     return returnVal
 
-def format_parse_token_for_simple_parseset(result):
+def format_morpheme_container_for_simple_parseset(result):
     """
     @return (1,"kitap+Noun+A3sg+Pnon+Dat") for word 'kitaba'
     """
-    root = result.get_stem().dictionary_item.root
-    secondary_syntactic_category_str = result.get_stem().dictionary_item.secondary_syntactic_category
+    root = result.get_root().dictionary_item.root
+    secondary_syntactic_category_str = result.get_root().dictionary_item.secondary_syntactic_category
 
     #    ##TODO: skip some secondary categories for now...
-    if result.get_stem().dictionary_item.syntactic_category == SyntacticCategory.NOUN:
-        if result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+    if result.get_root().dictionary_item.syntactic_category == SyntacticCategory.NOUN:
+        if result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
             secondary_syntactic_category_str = None
-    elif result.get_stem().dictionary_item.syntactic_category == SyntacticCategory.ADVERB:
-        if result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
+    elif result.get_root().dictionary_item.syntactic_category == SyntacticCategory.ADVERB:
+        if result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
             secondary_syntactic_category_str = None
-        elif result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+        elif result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
             secondary_syntactic_category_str = None
-    elif result.get_stem().dictionary_item.syntactic_category == SyntacticCategory.ADJECTIVE:
-        if result.get_stem().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
+    elif result.get_root().dictionary_item.syntactic_category == SyntacticCategory.ADJECTIVE:
+        if result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
             secondary_syntactic_category_str = None
 
     groups = []
@@ -83,27 +83,27 @@ def format_parse_token_for_simple_parseset(result):
 
     if not groups:
         if not secondary_syntactic_category_str:
-            return u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
+            return u'({},"{}+{}")'.format(1, root, result.get_root_state().pretty_name)
         else:
-            return u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
+            return u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str)
 
     return_value = None
 
     if not secondary_syntactic_category_str:
-        return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
+        return_value = u'({},"{}+{}")'.format(1, root, result.get_root_state().pretty_name)
     else:
-        return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
+        return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str)
 
     if not groups[0]:
         if not secondary_syntactic_category_str:
-            return_value = u'({},"{}+{}")'.format(1, root, result.get_stem_state().pretty_name)
+            return_value = u'({},"{}+{}")'.format(1, root, result.get_root_state().pretty_name)
         else:
-            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str)
+            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str)
     else:
         if not secondary_syntactic_category_str:
-            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, u'+'.join(groups[0]))
+            return_value = u'({},"{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, u'+'.join(groups[0]))
         else:
-            return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_stem_state().pretty_name, secondary_syntactic_category_str, u'+'.join(groups[0]))
+            return_value = u'({},"{}+{}+{}+{}")'.format(1, root, result.get_root_state().pretty_name, secondary_syntactic_category_str, u'+'.join(groups[0]))
 
     for i in range(1, len(groups)):
         group = groups[i]

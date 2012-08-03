@@ -19,7 +19,7 @@ def generate_directed_graph(suffix_graph):
         if state.name in graph:
             if state.type==State.TERMINAL:
                 graph.node[state.name]['shape'] = 'doubleoctagon'
-            elif state.type==State.DERIV:
+            elif state.type==State.DERIVATIONAL:
                 graph.node[state.name]['shape'] = 'house'
 
         colormap = dict()

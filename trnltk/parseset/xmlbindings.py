@@ -57,10 +57,10 @@ class SentenceBinding (Binding):
         return sentence_node
 
 class WordBinding (Binding):
-    def __init__(self, str, parse_result, stem, syntactic_category, secondary_syntactic_category=None, suffixes=None):
+    def __init__(self, str, parse_result, root, syntactic_category, secondary_syntactic_category=None, suffixes=None):
         self.str = str
         self.parse_result = parse_result
-        self.stem = stem
+        self.str = root
         self.syntactic_category = syntactic_category
         self.secondary_syntactic_category = secondary_syntactic_category
         self.suffixes = suffixes or []
@@ -71,7 +71,7 @@ class WordBinding (Binding):
         parse_result = node.getAttribute("parse_result")
         syntactic_category = node.getAttribute("syntactic_category")
         secondary_syntactic_category = node.getAttribute("secondary_syntactic_category")
-        stem = StemBinding.build(node.getElementsByTagName("stem")[0])
+        root = RootBinding.build(node.getElementsByTagName("root")[0])
         suffixes = []
 
         suffixes_nodes = node.getElementsByTagName("suffixes")
@@ -88,7 +88,7 @@ class WordBinding (Binding):
                 else:
                     raise Exception("Unknown suffix type : " + suffix_node.tagName)
 
-        return WordBinding(str, parse_result, stem, syntactic_category, secondary_syntactic_category, suffixes)
+        return WordBinding(str, parse_result, root, syntactic_category, secondary_syntactic_category, suffixes)
 
     def to_dom(self):
         word_node = Element("word", namespaceURI=NAMESPACE)
@@ -98,7 +98,7 @@ class WordBinding (Binding):
         if self.secondary_syntactic_category:
             word_node.setAttribute("secondary_syntactic_category", self.secondary_syntactic_category)
 
-        word_node.appendChild(self.stem.to_dom())
+        word_node.appendChild(self.str.to_dom())
 
         if self.suffixes:
             suffixes_node = Element("suffixes", namespaceURI=NAMESPACE)
@@ -189,9 +189,9 @@ class UnparsableWordBinding (Binding):
         unparsable_word_node.setAttribute("str", self.str)
         return unparsable_word_node
 
-class StemBinding (Binding):
+class RootBinding (Binding):
     def __init__(self, root, lemma, lemma_root, syntactic_category, secondary_syntactic_category=None):
-        self.root = root
+        self.str = root
         self.lemma = lemma
         self.lemma_root = lemma_root
         self.syntactic_category = syntactic_category
@@ -205,14 +205,14 @@ class StemBinding (Binding):
         syntactic_category = node.getAttribute("syntactic_category")
         secondary_syntactic_category = node.getAttribute("secondary_syntactic_category")
 
-        return StemBinding(root, lemma, lemma_root, syntactic_category, secondary_syntactic_category)
+        return RootBinding(root, lemma, lemma_root, syntactic_category, secondary_syntactic_category)
 
     def to_dom(self):
-        stem_node = Element("stem", namespaceURI=NAMESPACE)
-        stem_node.setAttribute("root", self.root)
-        stem_node.setAttribute("lemma", self.lemma)
-        stem_node.setAttribute("lemma_root", self.lemma_root)
-        stem_node.setAttribute("syntactic_category", self.syntactic_category)
+        root_node = Element("root", namespaceURI=NAMESPACE)
+        root_node.setAttribute("root", self.str)
+        root_node.setAttribute("lemma", self.lemma)
+        root_node.setAttribute("lemma_root", self.lemma_root)
+        root_node.setAttribute("syntactic_category", self.syntactic_category)
         if self.secondary_syntactic_category:
-            stem_node.setAttribute("secondary_syntactic_category", self.secondary_syntactic_category)
-        return stem_node
+            root_node.setAttribute("secondary_syntactic_category", self.secondary_syntactic_category)
+        return root_node
