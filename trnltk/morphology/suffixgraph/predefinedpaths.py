@@ -1,7 +1,7 @@
 # coding=utf-8
-from trnltk.morphology.stem.dictionaryitem import SecondarySyntacticCategory, SyntacticCategory
-from trnltk.morphology.parser.suffixapplier import *
-from trnltk.morphology.parser.token import *
+from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
+from trnltk.morphology.contextfree.parser.suffixapplier import *
+from trnltk.morphology.contextfree.parser.token import *
 from trnltk.morphology.suffixgraph.suffixgraph import *
 
 class PredefinedPaths(object):

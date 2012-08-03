@@ -5,11 +5,11 @@
 #import unittest
 #from hamcrest.core.base_matcher import BaseMatcher
 #from trnltk.stem.dictionaryitem import  SyntacticCategory, SecondarySyntacticCategory
-#from trnltk.stem.dictionaryloader import DictionaryLoader
-#from trnltk.stem.stemgenerator import CircumflexConvertingStemGenerator, StemRootMapGenerator
+#from trnltk.stem.dictionaryloader import LexiconLoader
+#from trnltk.stem.stemgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
 #from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
 #from trnltk.parser.parser import Parser, logger as parser_logger
-#from trnltk.parser.stemfinder import WordStemFinder, NumeralStemFinder
+#from trnltk.parser.stemfinder import WordLexemeFinder, NumeralLexemeFinder
 #from trnltk.parser.suffixapplier import logger as suffix_applier_logger
 #from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
 #from trnltk.suffixgraph.suffixgraph import State, FreeTransitionSuffix
@@ -138,19 +138,19 @@
 #        super(ParserTestWithSimpleParseSets, cls).setUpClass()
 #        all_stems = []
 #
-#        dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+#        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
 #        for di in dictionary_items:
-#            all_stems.extend(CircumflexConvertingStemGenerator.generate(di))
+#            all_stems.extend(CircumflexConvertingRootGenerator.generate(di))
 #
-#        stem_root_map_generator = StemRootMapGenerator()
-#        cls.stem_root_map = stem_root_map_generator.generate(all_stems)
+#        stem_root_map_generator = RootMapGenerator()
+#        cls.lexeme_map = stem_root_map_generator.generate(all_stems)
 #
 #        suffix_graph = ExtendedSuffixGraph()
-#        predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
+#        predefined_paths = PredefinedPaths(cls.lexeme_map, suffix_graph)
 #        predefined_paths.create_predefined_paths()
 #
-#        word_stem_finder = WordStemFinder(cls.stem_root_map)
-#        numeral_stem_finder = NumeralStemFinder()
+#        word_stem_finder = WordLexemeFinder(cls.lexeme_map)
+#        numeral_stem_finder = NumeralLexemeFinder()
 #
 #        cls.parser = Parser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
 #
@@ -272,27 +272,27 @@
 #
 #        groups.append(current_group)
 #
-#        root = result.get_stem().dictionary_item.root
+#        root = result.get_stem().lexeme.root
 #
 #        secondary_syntactic_category_str = None
 #
 #        ##TODO:
-#        if result.get_stem().dictionary_item.syntactic_category==SyntacticCategory.PRONOUN:
-#            if result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.PERSONAL:
+#        if result.get_stem().lexeme.syntactic_category==SyntacticCategory.PRONOUN:
+#            if result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.PERSONAL:
 #                secondary_syntactic_category_str = "Pers"
-#            elif result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.DEMONSTRATIVE:
+#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DEMONSTRATIVE:
 #                secondary_syntactic_category_str = "Demons"
-#            elif result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.QUESTION:
+#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.QUESTION:
 #                secondary_syntactic_category_str = "Ques"
-#            elif result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.REFLEXIVE:
+#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.REFLEXIVE:
 #                secondary_syntactic_category_str = "Reflex"
 #
-#        if result.get_stem().dictionary_item.syntactic_category==SyntacticCategory.NUMERAL:
-#            if result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
+#        if result.get_stem().lexeme.syntactic_category==SyntacticCategory.NUMERAL:
+#            if result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
 #                secondary_syntactic_category_str = "Card"
-#            elif result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
+#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
 #                secondary_syntactic_category_str = "Ord"
-#            elif result.get_stem().dictionary_item.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
+#            elif result.get_stem().lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
 #                secondary_syntactic_category_str = "Digits"
 #
 #
@@ -328,8 +328,8 @@
 #            return_value += u'({},"{}")'.format(i+1, u'+'.join(group))
 #
 #        ##TODO:
-#        if any(c in CircumflexConvertingStemGenerator.Circumflex_Chars for c in return_value):
-#            for (cir, pla) in CircumflexConvertingStemGenerator.Circumflex_Letters_Map.iteritems():
+#        if any(c in CircumflexConvertingRootGenerator.Circumflex_Chars for c in return_value):
+#            for (cir, pla) in CircumflexConvertingRootGenerator.Circumflex_Letters_Map.iteritems():
 #                return_value = return_value.replace(cir, pla)
 #
 #        return return_value

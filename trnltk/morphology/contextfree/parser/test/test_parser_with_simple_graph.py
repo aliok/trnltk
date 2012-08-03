@@ -5,13 +5,13 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.parser import formatter
-from trnltk.morphology.stem.dictionaryitem import SyntacticCategory
-from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
-from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
-from trnltk.morphology.parser.parser import Parser, logger as parser_logger
-from trnltk.morphology.parser.stemfinder import NumeralStemFinder, WordStemFinder
-from trnltk.morphology.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextfree.parser import formatter
+from trnltk.morphology.model.lexeme import SyntacticCategory
+from trnltk.morphology.model.lexiconloader import LexiconLoader
+from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder
+from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 
@@ -22,11 +22,11 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         super(ParserTestWithSimpleGraph, cls).setUpClass()
         all_stems = []
 
-        dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(RootGenerator.generate(di))
 
-        cls._org_stem_root_map = (StemRootMapGenerator()).generate(all_stems)
+        cls._org_stem_root_map = (RootMapGenerator()).generate(all_stems)
 
 
     def setUp(self):
@@ -39,10 +39,10 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         predefined_paths = PredefinedPaths(self.cloned_stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordStemFinder(self.cloned_stem_root_map)
-        numeral_stem_finder = NumeralStemFinder()
+        word_stem_finder = WordLexemeFinder(self.cloned_stem_root_map)
+        numeral_stem_finder = NumeralLexemeFinder()
 
-        self.parser = Parser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
 
     def test_should_parse_noun_cases(self):
         self.assert_parse_correct(u'sokak',            u'sokak(sokak)+Noun+A3sg+Pnon+Nom')
@@ -1204,7 +1204,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         # TODO: low priority
 #        self.cloned_stem_root_map[u'ha'] = []
 #        self.cloned_stem_root_map[u'hav'] = []
-#        self.cloned_stem_root_map[u'havl'] = filter(lambda _stem : _stem.dictionary_item.syntactic_category==SyntacticCategory.NOUN, self.cloned_stem_root_map[u'havl'])
+#        self.cloned_stem_root_map[u'havl'] = filter(lambda _stem : _stem.lexeme.syntactic_category==SyntacticCategory.NOUN, self.cloned_stem_root_map[u'havl'])
 #        self.assert_parse_correct_for_verb(u'havli',             u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 #        self.assert_parse_correct_for_verb(u'havliyle',          u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
 

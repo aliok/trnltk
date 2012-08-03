@@ -2,12 +2,12 @@
 import unittest
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.stem.dictionaryitem import RootAttribute
-from trnltk.morphology.parser.parser import SuffixFormApplication
+from trnltk.morphology.model.lexeme import RootAttribute
+from trnltk.morphology.contextfree.parser.parser import SuffixFormApplication
 from trnltk.morphology.suffixgraph.suffixconditions import comes_after, has_root_attributes
 from trnltk.morphology.suffixgraph.suffixgraph import Suffix
 from trnltk.morphology.suffixgraph.suffixgraphmodel import SuffixForm
-from trnltk.morphology.parser.token import Transition
+from trnltk.morphology.contextfree.parser.token import Transition
 
 class SuffixConditionsTest(unittest.TestCase):
 

@@ -2,12 +2,12 @@
 import logging
 import unittest
 from hamcrest import *
-from trnltk.morphology.parser import formatter
-from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
-from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
-from trnltk.morphology.parser.parser import Parser, logger as parser_logger
-from trnltk.morphology.parser.stemfinder import  WordStemFinder
-from trnltk.morphology.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextfree.parser import formatter
+from trnltk.morphology.model.lexiconloader import LexiconLoader
+from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextfree.parser.lexemefinder import  WordLexemeFinder
+from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 
 class FormatterTest(unittest.TestCase):
@@ -18,11 +18,11 @@ class FormatterTest(unittest.TestCase):
         all_stems = []
 
         dictionary_content = ["kitap", "yapmak"]
-        dictionary_items = DictionaryLoader.load_from_lines(dictionary_content)
+        dictionary_items = LexiconLoader.load_from_lines(dictionary_content)
         for di in dictionary_items:
-            all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(RootGenerator.generate(di))
 
-        cls.stem_root_map = (StemRootMapGenerator()).generate(all_stems)
+        cls.stem_root_map = (RootMapGenerator()).generate(all_stems)
 
 
     def setUp(self):
@@ -32,9 +32,9 @@ class FormatterTest(unittest.TestCase):
 
         suffix_graph = SuffixGraph()
 
-        word_stem_finder = WordStemFinder(self.stem_root_map)
+        word_stem_finder = WordLexemeFinder(self.stem_root_map)
 
-        self.parser = Parser(suffix_graph, None, [word_stem_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, None, [word_stem_finder])
 
     def test_should_format_for_simple_parseset(self):
         parse_result = self.parser.parse(u'kitaba')[0]

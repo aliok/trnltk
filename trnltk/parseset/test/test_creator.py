@@ -4,11 +4,11 @@ import os
 import unittest
 from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
-from trnltk.morphology.parser.parser import Parser
+from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.parser.stemfinder import NumeralStemFinder, WordStemFinder
-from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
-from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder
+from trnltk.morphology.model.lexiconloader import LexiconLoader
+from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 
@@ -19,20 +19,20 @@ class ParseSetCreatorTest(unittest.TestCase):
 
         all_stems = []
 
-        dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(RootGenerator.generate(di))
 
-        stem_root_map = (StemRootMapGenerator()).generate(all_stems)
+        stem_root_map = (RootMapGenerator()).generate(all_stems)
 
         suffix_graph = SuffixGraph()
         predefined_paths = PredefinedPaths(stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordStemFinder(stem_root_map)
-        numeral_stem_finder = NumeralStemFinder()
+        word_stem_finder = WordLexemeFinder(stem_root_map)
+        numeral_stem_finder = NumeralLexemeFinder()
 
-        self.parser = Parser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_stem_finder, numeral_stem_finder])
 
     def test_should_create_sentence_binding_from_tokens(self):
         tokens = []

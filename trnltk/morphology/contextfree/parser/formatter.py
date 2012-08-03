@@ -1,5 +1,5 @@
-from trnltk.morphology.stem.dictionaryitem import SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.stem.stemgenerator import CircumflexConvertingStemGenerator
+from trnltk.morphology.model.lexeme import SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.model.rootgenerator import CircumflexConvertingRootGenerator
 from trnltk.morphology.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
 
 def format_parse_token_for_parseset(result):
@@ -110,8 +110,8 @@ def format_parse_token_for_simple_parseset(result):
         return_value += u'({},"{}")'.format(i + 1, u'+'.join(group))
 
     ##TODO:
-    if any(c in CircumflexConvertingStemGenerator.Circumflex_Chars for c in return_value):
-        for (cir, pla) in CircumflexConvertingStemGenerator.Circumflex_Letters_Map.iteritems():
+    if any(c in CircumflexConvertingRootGenerator.Circumflex_Chars for c in return_value):
+        for (cir, pla) in CircumflexConvertingRootGenerator.Circumflex_Letters_Map.iteritems():
             return_value = return_value.replace(cir, pla)
 
     ##TODO:

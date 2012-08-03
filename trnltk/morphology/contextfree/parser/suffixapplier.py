@@ -1,7 +1,7 @@
 import logging
-from trnltk.morphology.parser import formatter
+from trnltk.morphology.contextfree.parser import formatter
 from trnltk.morphology.phonetics.phonetics import Phonetics
-from trnltk.morphology.parser.token import SuffixFormApplication
+from trnltk.morphology.contextfree.parser.token import SuffixFormApplication
 from trnltk.morphology.suffixgraph.suffixgraphmodel import State
 
 logger = logging.getLogger('suffixapplier')

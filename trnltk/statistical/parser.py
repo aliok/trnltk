@@ -1,5 +1,5 @@
 import itertools
-from trnltk.morphology.parser import formatter
+from trnltk.morphology.contextfree.parser import formatter
 
 class StatisticalParseResult(object):
     def __init__(self):

@@ -1,5 +1,5 @@
 # coding=utf-8
-from trnltk.morphology.stem.dictionaryitem import SyntacticCategory
+from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.suffixgraph.suffixconditions import comes_after, doesnt_come_after
 from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 from trnltk.morphology.suffixgraph.suffixgraphmodel import *

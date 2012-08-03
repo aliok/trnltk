@@ -1,13 +1,13 @@
 # coding=utf-8
 import logging
-from trnltk.morphology.parser import formatter
-from trnltk.morphology.stem.dictionaryitem import  SyntacticCategory, RootAttribute
-from trnltk.morphology.parser.suffixapplier import *
-from trnltk.morphology.parser.token import ParseToken
+from trnltk.morphology.contextfree.parser import formatter
+from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
+from trnltk.morphology.contextfree.parser.suffixapplier import *
+from trnltk.morphology.contextfree.parser.token import ParseToken
 
 logger = logging.getLogger('parser')
 
-class Parser(object):
+class ContextFreeMorphologicalParser(object):
     def __init__(self, suffix_graph, predefined_paths, stem_finders):
         self._suffix_graph = suffix_graph
         self._predefined_paths = predefined_paths
@@ -67,7 +67,7 @@ class Parser(object):
     def _find_stems_for_partial_input(self, partial_input):
         stems = []
         for stem_finder in self._stem_finders:
-            stems.extend(stem_finder.find_stem_for_partial_input(partial_input))
+            stems.extend(stem_finder.find_lexeme_for_partial_input(partial_input))
         return stems
 
     def _traverse_candidates(self, candidates, results, word):

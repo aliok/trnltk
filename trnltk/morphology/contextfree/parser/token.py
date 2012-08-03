@@ -1,6 +1,6 @@
 from trnltk.morphology.phonetics.phonetics import Phonetics
-from trnltk.morphology.stem.dictionaryitem import RootAttribute, SyntacticCategory
-from trnltk.morphology.stem.stemgenerator import NumeralStem
+from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
+from trnltk.morphology.model.rootgenerator import NumeralRoot
 from trnltk.morphology.suffixgraph.suffixgraphmodel import State
 
 class SuffixFormApplication(object):
@@ -167,6 +167,6 @@ class ParseToken(object):
 
 class NumeralParseToken(ParseToken):
     def __init__(self, stem, stem_state, remaining):
-        if not isinstance(stem, NumeralStem):
-            raise Exception("NumeralParseToken can be initialized with a NumeralStem. " + stem)
+        if not isinstance(stem, NumeralRoot):
+            raise Exception("NumeralParseToken can be initialized with a NumeralRoot. " + stem)
         super(NumeralParseToken, self).__init__(stem, stem_state, remaining)

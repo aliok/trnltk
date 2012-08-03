@@ -55,7 +55,7 @@
         <unparsable_word str="something"/>
 
         <!--index 06-->
-        <!--Stem 'git' with verb 'gitmek'-->
+        <!--Root 'git' with verb 'gitmek'-->
         <word parse_result="git(git)+Verb+Pos+Past+A1sg" str="gittim" syntactic_category="Verb">
             <stem lemma="gitmek" lemma_root="git" root="git" syntactic_category="Verb"/>
             <suffixes>
@@ -66,7 +66,7 @@
         </word>
 
         <!--index 07-->
-        <!--Stem 'gid' with verb 'gitmek'-->
+        <!--Root 'gid' with verb 'gitmek'-->
         <word parse_result="gid(git)+Verb+Pos+Aor+A1sg" str="giderim" syntactic_category="Verb">
             <stem lemma="gitmek" lemma_root="git" root="gid" syntactic_category="Verb"/>
             <suffixes>

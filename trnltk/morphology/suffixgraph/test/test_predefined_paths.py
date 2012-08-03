@@ -4,13 +4,13 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.parser import formatter
-from trnltk.morphology.stem.dictionaryitem import  SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
-from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.contextfree.parser import formatter
+from trnltk.morphology.model.lexeme import  SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.model.lexiconloader import LexiconLoader
+from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.morphology.parser.parser import  logger as parser_logger
-from trnltk.morphology.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextfree.parser.parser import  logger as parser_logger
+from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 
 class PredefinedPathsTest(unittest.TestCase):
@@ -19,11 +19,11 @@ class PredefinedPathsTest(unittest.TestCase):
         super(PredefinedPathsTest, cls).setUpClass()
         all_stems = []
 
-        dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(RootGenerator.generate(di))
 
-        stem_root_map_generator = StemRootMapGenerator()
+        stem_root_map_generator = RootMapGenerator()
         cls.stem_root_map = stem_root_map_generator.generate(all_stems)
 
         cls.token_map = {}

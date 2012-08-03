@@ -74,7 +74,7 @@ class RootAttribute(object):
         Causative_t, Causative_Ir, Causative_It, Causative_Ar, Causative_dIr
     })
 
-class DictionaryItem(object):
+class Lexeme(object):
     #TODO: make this and similar classes immutable
     def __init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes):
         self.lemma = lemma
@@ -84,7 +84,7 @@ class DictionaryItem(object):
         self.attributes = attributes if attributes else []
 
     def clone(self):
-        return DictionaryItem(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category, self.attributes[:])
+        return Lexeme(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category, self.attributes[:])
 
     def __str__(self):
         return u'{}({})+{}+{} R_ATTR:{}'.format(repr(self.lemma), repr(self.root), self.syntactic_category, self.secondary_syntactic_category, self.attributes)
@@ -106,6 +106,6 @@ class DictionaryItem(object):
                        tuple(sorted(self.attributes))))
         return result
 
-class DynamicDictionaryItem(DictionaryItem):
+class DynamicLexeme(Lexeme):
     def __init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes):
-        DictionaryItem.__init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes)
+        Lexeme.__init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes)

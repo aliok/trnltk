@@ -1,4 +1,4 @@
-from trnltk.morphology.parser.token import ParseToken
+from trnltk.morphology.contextfree.parser.token import ParseToken
 
 class TransitionGenerator(object):
 

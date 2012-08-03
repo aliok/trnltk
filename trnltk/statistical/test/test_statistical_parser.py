@@ -4,11 +4,11 @@ import unittest
 from xml.dom.minidom import parse
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistical.parser import StatisticalParser
-from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
-from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.model.lexiconloader import LexiconLoader
+from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.morphology.parser.parser import Parser
-from trnltk.morphology.parser.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
+from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
+from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
 from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.treebank.explorer import CompleteWordConcordanceIndex
 
@@ -19,24 +19,24 @@ class StatisticalParserTest(unittest.TestCase):
         super(StatisticalParserTest, cls).setUpClass()
         all_stems = []
 
-        dictionary_items = DictionaryLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
         for di in dictionary_items:
-            all_stems.extend(StemGenerator.generate(di))
+            all_stems.extend(RootGenerator.generate(di))
 
 
-        stem_root_map_generator = StemRootMapGenerator()
+        stem_root_map_generator = RootMapGenerator()
         cls.stem_root_map = stem_root_map_generator.generate(all_stems)
 
         suffix_graph = ExtendedSuffixGraph()
         predefined_paths = PredefinedPaths(cls.stem_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_stem_finder = WordStemFinder(cls.stem_root_map)
-        numeral_stem_finder = NumeralStemFinder()
-        proper_noun_from_apostrophe_stem_finder = ProperNounFromApostropheStemFinder()
-        proper_noun_without_apostrophe_stem_finder = ProperNounWithoutApostropheStemFinder()
+        word_stem_finder = WordLexemeFinder(cls.stem_root_map)
+        numeral_stem_finder = NumeralLexemeFinder()
+        proper_noun_from_apostrophe_stem_finder = ProperNounFromApostropheLexemeFinder()
+        proper_noun_without_apostrophe_stem_finder = ProperNounWithoutApostropheLexemeFinder()
 
-        context_free_parser = Parser(suffix_graph, predefined_paths,
+        context_free_parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
             [word_stem_finder, numeral_stem_finder, proper_noun_from_apostrophe_stem_finder, proper_noun_without_apostrophe_stem_finder])
 
         parseset_index = "001"

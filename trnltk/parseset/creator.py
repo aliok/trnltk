@@ -1,4 +1,4 @@
-from trnltk.morphology.parser import formatter
+from trnltk.morphology.contextfree.parser import formatter
 from trnltk.parseset.xmlbindings import *
 from trnltk.morphology.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
 

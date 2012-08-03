@@ -1,43 +1,47 @@
 import re
-from trnltk.morphology.stem.stemgenerator import NumeralStem, AbbreviationStem, ProperNounStem
+from trnltk.morphology.model.rootgenerator import NumeralRoot, AbbreviationRoot, ProperNounRoot
 
-class WordStemFinder(object):
+class LexemeFinder(object):
+    def find_lexeme_for_partial_input(self, partial_input):
+        raise NotImplementedError()
+
+class WordLexemeFinder(LexemeFinder):
     def __init__(self, stem_root_map):
-        self.stem_root_map = stem_root_map
+        self.lexeme_map = stem_root_map
 
-    def find_stem_for_partial_input(self, partial_input):
-        if self.stem_root_map.has_key(partial_input):
-            return self.stem_root_map[partial_input][:]
+    def find_lexeme_for_partial_input(self, partial_input):
+        if self.lexeme_map.has_key(partial_input):
+            return self.lexeme_map[partial_input][:]
         else:
             return []
 
-class NumeralStemFinder(object):
+class NumeralLexemeFinder(LexemeFinder):
     NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
 
-    def find_stem_for_partial_input(self, partial_input):
+    def find_lexeme_for_partial_input(self, partial_input):
         for regex in self.NUMBER_REGEXES:
             if regex.match(partial_input):
-                return [NumeralStem(partial_input)]
+                return [NumeralRoot(partial_input)]
 
         return []
 
-class ProperNounFromApostropheStemFinder(object):
+class ProperNounFromApostropheLexemeFinder(LexemeFinder):
     APOSTROPHE = u"'"
 
-    def find_stem_for_partial_input(self, partial_input):
+    def find_lexeme_for_partial_input(self, partial_input):
         if partial_input.endswith(self.APOSTROPHE):
             proper_noun_candidate = partial_input[:-1]
             if proper_noun_candidate.isupper():
-                return [AbbreviationStem(partial_input[:-1])]
+                return [AbbreviationRoot(partial_input[:-1])]
             elif proper_noun_candidate[0].isupper():
-                return [ProperNounStem(partial_input[:-1])]
+                return [ProperNounRoot(partial_input[:-1])]
 
         return []
 
-class ProperNounWithoutApostropheStemFinder(object):
+class ProperNounWithoutApostropheLexemeFinder(LexemeFinder):
     APOSTROPHE = u"'"
 
-    def find_stem_for_partial_input(self, partial_input):
+    def find_lexeme_for_partial_input(self, partial_input):
         if not partial_input[0].isalpha() or not partial_input[0].isupper() or self.APOSTROPHE in partial_input:
             return []
 
@@ -49,7 +53,7 @@ class ProperNounWithoutApostropheStemFinder(object):
         # 2: P3sg doesn't apply to these words: onun Kusadasi, onun Eminonu
         # 3. Possessions are applied to 'root' : benim Kusadam etc. SKIP this case!
 
-        return [ProperNounStem(partial_input)]
+        return [ProperNounRoot(partial_input)]
 
 
 
