@@ -1,17 +1,17 @@
 # coding=utf-8
 import logging
 from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
+from trnltk.morphology.lexiconmodel.lexeme import  SyntacticCategory, RootAttribute
 from trnltk.morphology.contextfree.parser.suffixapplier import *
 from trnltk.morphology.contextfree.parser.token import ParseToken
 
 logger = logging.getLogger('parser')
 
 class ContextFreeMorphologicalParser(object):
-    def __init__(self, suffix_graph, predefined_paths, stem_finders):
+    def __init__(self, suffix_graph, predefined_paths, lexeme_finders):
         self._suffix_graph = suffix_graph
         self._predefined_paths = predefined_paths
-        self._stem_finders = stem_finders
+        self._lexeme_finders = lexeme_finders
 
 
     def parse(self, input):
@@ -24,8 +24,8 @@ class ContextFreeMorphologicalParser(object):
             for c in candidates:
                 logger.debug('\t %s', c)
 
-        logger.debug('Applying required _transitions to stem candidates')
-        candidates = self._apply_required_transitions_to_stem_candidates(candidates, input)
+        logger.debug('Applying required _transitions to lexeme candidates')
+        candidates = self._apply_required_transitions_to_lexeme_candidates(candidates, input)
 
         results = []
         new_candidates = self._traverse_candidates(candidates, results, input)
@@ -39,17 +39,17 @@ class ContextFreeMorphologicalParser(object):
         for i in range(1, len(input) + 1):
             partial_input = input[:i]
 
-            dictionary_stems = self._find_stems_for_partial_input(partial_input)
+            dictionary_lexemes = self._find_lexemes_for_partial_input(partial_input)
 
             if logger.isEnabledFor(logging.DEBUG):
-                logger.debug('Found %d stem candidates for partial input "%s":', len(dictionary_stems), partial_input)
-                for stem in dictionary_stems:
-                    logger.debug('\t %s', stem)
+                logger.debug('Found %d lexeme candidates for partial input "%s":', len(dictionary_lexemes), partial_input)
+                for lexeme in dictionary_lexemes:
+                    logger.debug('\t %s', lexeme)
 
-            for stem in dictionary_stems:
-                if self._predefined_paths and self._predefined_paths.has_paths(stem):
-                    predefined_tokens = self._predefined_paths.get_paths(stem)
-                    logger.debug('Found predefined tokens for stem candidate "%s" : %s', stem, predefined_tokens)
+            for lexeme in dictionary_lexemes:
+                if self._predefined_paths and self._predefined_paths.has_paths(lexeme):
+                    predefined_tokens = self._predefined_paths.get_paths(lexeme)
+                    logger.debug('Found predefined tokens for lexeme candidate "%s" : %s', lexeme, predefined_tokens)
                     for predefined_token in predefined_tokens:
                         if input.startswith(predefined_token.get_so_far()):
                             logger.debug('Predefined token is applicable %s', predefined_token)
@@ -59,16 +59,16 @@ class ContextFreeMorphologicalParser(object):
                         else:
                             logger.debug('Predefined token is not applicable, skipping %s', predefined_token)
                 else:
-                    token = ParseToken(stem, self._suffix_graph.get_default_stem_state(stem), input[len(partial_input):])
+                    token = ParseToken(lexeme, self._suffix_graph.get_default_lexeme_state(lexeme), input[len(partial_input):])
                     candidates.append(token)
 
         return candidates
 
-    def _find_stems_for_partial_input(self, partial_input):
-        stems = []
-        for stem_finder in self._stem_finders:
-            stems.extend(stem_finder.find_lexeme_for_partial_input(partial_input))
-        return stems
+    def _find_lexemes_for_partial_input(self, partial_input):
+        lexemes = []
+        for lexeme_finder in self._lexeme_finders:
+            lexemes.extend(lexeme_finder.find_lexeme_for_partial_input(partial_input))
+        return lexemes
 
     def _traverse_candidates(self, candidates, results, word):
         if logger.isEnabledFor(logging.DEBUG):
@@ -131,11 +131,11 @@ class ContextFreeMorphologicalParser(object):
 
         return state_applicable_suffixes
 
-    def _apply_required_transitions_to_stem_candidates(self, candidates, word):
+    def _apply_required_transitions_to_lexeme_candidates(self, candidates, word):
         new_candidates = []
         for candidate in candidates:
-            if candidate.get_stem().dictionary_item.syntactic_category==SyntacticCategory.VERB:
-                if RootAttribute.ProgressiveVowelDrop in candidate.get_stem().dictionary_item.attributes and len(candidate.get_stem().root)==len(candidate.get_stem().dictionary_item.root)-1:
+            if candidate.get_lexeme().dictionary_item.syntactic_category==SyntacticCategory.VERB:
+                if RootAttribute.ProgressiveVowelDrop in candidate.get_lexeme().dictionary_item.attributes and len(candidate.get_lexeme().root)==len(candidate.get_lexeme().dictionary_item.root)-1:
                     # apply Positive + Progressive 'Iyor'
                     Positive = self._suffix_graph.Positive
                     Progressive = self._suffix_graph.Progressive

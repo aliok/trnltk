@@ -1,6 +1,6 @@
 import os
-from trnltk.morphology.suffixgraph.suffixgraph import *
-from trnltk.morphology.suffixgraph.extendedsuffixgraph import *
+from trnltk.morphology.morphotactics.suffixgraph import *
+from trnltk.morphology.morphotactics.extendedsuffixgraph import *
 
 
 import networkx as nx

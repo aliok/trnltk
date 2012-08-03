@@ -1,4 +1,4 @@
-from trnltk.morphology.suffixgraph.suffixgraphmodel import FreeTransitionSuffix, ZeroTransitionSuffix
+from trnltk.morphology.morphotactics.suffixgraphmodel import FreeTransitionSuffix, ZeroTransitionSuffix
 
 # http://en.wikipedia.org/wiki/Specification_pattern
 

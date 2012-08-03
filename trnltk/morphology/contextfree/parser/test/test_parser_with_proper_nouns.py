@@ -5,13 +5,13 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.model.lexiconloader import LexiconLoader
-from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
 class ParserTestWithProperNouns(unittest.TestCase):
 

@@ -8,10 +8,10 @@ from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
 from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.morphology.model.lexiconloader import LexiconLoader
-from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
+from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 
 END_OF_SENTENCE_MARKER = '#END#OF#SENTENCE#'
 

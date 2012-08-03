@@ -5,13 +5,13 @@ import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.model.lexeme import  SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.model.lexiconloader import LexiconLoader
-from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.lexiconmodel.lexeme import  SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.contextfree.parser.parser import  logger as parser_logger
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 
 class PredefinedPathsTest(unittest.TestCase):
     @classmethod

@@ -1,8 +1,8 @@
 # coding=utf-8
-from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
+from trnltk.morphology.lexiconmodel.lexeme import SecondarySyntacticCategory, SyntacticCategory
 from trnltk.morphology.contextfree.parser.suffixapplier import *
 from trnltk.morphology.contextfree.parser.token import *
-from trnltk.morphology.suffixgraph.suffixgraph import *
+from trnltk.morphology.morphotactics.suffixgraph import *
 
 class PredefinedPaths(object):
     def __init__(self, stem_root_map, suffix_graph):
@@ -64,11 +64,11 @@ class PredefinedPaths(object):
 
         self.token_map[stem].append(token)
 
-    def has_paths(self, stem):
+    def has_paths(self, lexeme):
         if not self.token_map:
             raise Exception(u"Predefined paths are not yet created. Maybe you forgot to run 'create_predefined_paths' ?")
 
-        return self.token_map.has_key(stem)
+        return self.token_map.has_key(lexeme)
 
     def get_paths(self, stem):
         if not self.token_map:

@@ -1,6 +1,6 @@
-from trnltk.morphology.model.lexeme import SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.model.rootgenerator import CircumflexConvertingRootGenerator
-from trnltk.morphology.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
+from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.lexiconmodel.rootgenerator import CircumflexConvertingRootGenerator
+from trnltk.morphology.morphotactics.suffixgraphmodel import FreeTransitionSuffix
 
 def format_parse_token_for_parseset(result):
     """

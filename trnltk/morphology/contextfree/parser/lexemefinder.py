@@ -1,13 +1,13 @@
 import re
-from trnltk.morphology.model.rootgenerator import NumeralRoot, AbbreviationRoot, ProperNounRoot
+from trnltk.morphology.lexiconmodel.root import NumeralRoot, AbbreviationRoot, ProperNounRoot
 
 class LexemeFinder(object):
     def find_lexeme_for_partial_input(self, partial_input):
         raise NotImplementedError()
 
 class WordLexemeFinder(LexemeFinder):
-    def __init__(self, stem_root_map):
-        self.lexeme_map = stem_root_map
+    def __init__(self, lexeme_map):
+        self.lexeme_map = lexeme_map
 
     def find_lexeme_for_partial_input(self, partial_input):
         if self.lexeme_map.has_key(partial_input):

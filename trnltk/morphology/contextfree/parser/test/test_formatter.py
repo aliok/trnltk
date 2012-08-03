@@ -3,12 +3,12 @@ import logging
 import unittest
 from hamcrest import *
 from trnltk.morphology.contextfree.parser import formatter
-from trnltk.morphology.model.lexiconloader import LexiconLoader
-from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextfree.parser.lexemefinder import  WordLexemeFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 
 class FormatterTest(unittest.TestCase):
 

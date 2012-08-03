@@ -7,10 +7,10 @@ from hamcrest.core.core.isequal import equal_to
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.parseset.creator import ParseSetCreator
 from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder
-from trnltk.morphology.model.lexiconloader import LexiconLoader
-from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
+from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 
 class ParseSetCreatorTest(unittest.TestCase):
 

@@ -1,7 +1,7 @@
 from trnltk.morphology.phonetics.phonetics import Phonetics
-from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
-from trnltk.morphology.model.rootgenerator import NumeralRoot
-from trnltk.morphology.suffixgraph.suffixgraphmodel import State
+from trnltk.morphology.lexiconmodel.lexeme import RootAttribute, SyntacticCategory
+from trnltk.morphology.lexiconmodel.rootgenerator import NumeralRoot
+from trnltk.morphology.morphotactics.suffixgraphmodel import State
 
 class SuffixFormApplication(object):
     def __init__(self, suffix_form, actual_suffix_form, fitting_suffix_form):

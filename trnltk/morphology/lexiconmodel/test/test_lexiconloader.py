@@ -2,8 +2,8 @@
 import os
 import unittest
 from hamcrest import *
-from trnltk.morphology.model.lexeme import Lexeme, SyntacticCategory, RootAttribute, SecondarySyntacticCategory
-from trnltk.morphology.model.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.lexeme import Lexeme, SyntacticCategory, RootAttribute, SecondarySyntacticCategory
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
 
 class LexiconLoaderTest(unittest.TestCase):
     def test_should_create_lexeme_from_line(self):

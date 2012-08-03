@@ -1,7 +1,7 @@
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
+from trnltk.morphology.lexiconmodel.lexeme import RootAttribute, SyntacticCategory
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
-from trnltk.morphology.model.root import Root
+from trnltk.morphology.lexiconmodel.root import Root
 
 class RootGenerator(object):
     _modifiers = {

@@ -4,12 +4,12 @@ import unittest
 from xml.dom.minidom import parse
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistical.parser import StatisticalParser
-from trnltk.morphology.model.lexiconloader import LexiconLoader
-from trnltk.morphology.model.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
+from trnltk.morphology.lexiconmodel.lexiconloader import LexiconLoader
+from trnltk.morphology.lexiconmodel.rootgenerator import RootGenerator, RootMapGenerator
+from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
-from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.treebank.explorer import CompleteWordConcordanceIndex
 
 class StatisticalParserTest(unittest.TestCase):

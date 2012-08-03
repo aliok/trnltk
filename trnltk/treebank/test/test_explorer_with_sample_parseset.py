@@ -4,7 +4,7 @@ import unittest
 from xml.dom.minidom import parse
 from hamcrest import *
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.morphology.model.lexeme import SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.lexiconmodel.lexeme import SyntacticCategory, SecondarySyntacticCategory
 from trnltk.treebank.explorer import CompleteWordConcordanceIndex, StemConcordanceIndex, DictionaryItemConcordanceIndex, TransitionWordConcordanceIndex, TransitionMatchedWordConcordanceIndex
 
 class ExplorerTestWithSampleParseSet(unittest.TestCase):
