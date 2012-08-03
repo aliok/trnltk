@@ -1,21 +1,15 @@
 # coding=utf-8
-import logging
 import os
 import unittest
 from xml.dom.minidom import parse
-from hamcrest import *
-from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.parser import formatter
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistical.parser import StatisticalParser
-from trnltk.stem.dictionaryitem import SyntacticCategory
-from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
-from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.parser.parser import Parser, logger as parser_logger
-from trnltk.parser.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
-from trnltk.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
+from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
+from trnltk.morphology.parser.parser import Parser
+from trnltk.morphology.parser.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
+from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.treebank.explorer import CompleteWordConcordanceIndex
 
 class StatisticalParserTest(unittest.TestCase):

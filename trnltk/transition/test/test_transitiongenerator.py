@@ -3,14 +3,14 @@ import logging
 import os
 import unittest
 from hamcrest import *
-from trnltk.parser import formatter
-from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
-from trnltk.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
-from trnltk.parser.parser import Parser, logger as parser_logger
-from trnltk.parser.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
-from trnltk.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.parser import formatter
+from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
+from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.suffixgraph.extendedsuffixgraph import ExtendedSuffixGraph
+from trnltk.morphology.parser.parser import Parser, logger as parser_logger
+from trnltk.morphology.parser.stemfinder import WordStemFinder, NumeralStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
+from trnltk.morphology.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
 from trnltk.transition.transitiongenerator import TransitionGenerator
 
 class TransitionGeneratorTest(unittest.TestCase):

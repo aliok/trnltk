@@ -4,13 +4,13 @@ import os
 import unittest
 from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
-from trnltk.parser.parser import Parser
+from trnltk.morphology.parser.parser import Parser
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.parser.stemfinder import NumeralStemFinder, WordStemFinder
-from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
-from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.suffixgraph.suffixgraph import SuffixGraph
+from trnltk.morphology.parser.stemfinder import NumeralStemFinder, WordStemFinder
+from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
+from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 
 class ParseSetCreatorTest(unittest.TestCase):
 

@@ -2,16 +2,16 @@
 import codecs
 import os
 import unittest
-from trnltk.parser import formatter
-from trnltk.parser.parser import Parser
+from trnltk.morphology.parser import formatter
+from trnltk.morphology.parser.parser import Parser
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.parser.stemfinder import NumeralStemFinder, WordStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
+from trnltk.morphology.parser.stemfinder import NumeralStemFinder, WordStemFinder, ProperNounFromApostropheStemFinder, ProperNounWithoutApostropheStemFinder
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.stem.dictionaryloader import DictionaryLoader
-from trnltk.stem.stemgenerator import StemGenerator, StemRootMapGenerator
-from trnltk.suffixgraph.predefinedpaths import PredefinedPaths
-from trnltk.suffixgraph.suffixgraph import SuffixGraph
+from trnltk.morphology.stem.dictionaryloader import DictionaryLoader
+from trnltk.morphology.stem.stemgenerator import StemGenerator, StemRootMapGenerator
+from trnltk.morphology.suffixgraph.predefinedpaths import PredefinedPaths
+from trnltk.morphology.suffixgraph.suffixgraph import SuffixGraph
 
 END_OF_SENTENCE_MARKER = '#END#OF#SENTENCE#'
 
@@ -97,7 +97,7 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
     def _find_parse_result_matching_simple_parseset(self, word_part, parse_result_part):
         parse_results = self.parser.parse(word_part)
         for parse_result in parse_results:
-            if parse_result_part==formatter.format_parse_token_for_simple_parseset(parse_result):
+            if parse_result_part== formatter.format_parse_token_for_simple_parseset(parse_result):
                 return parse_result
 
         return None

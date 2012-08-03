@@ -1,6 +1,6 @@
-from trnltk.parser import formatter
+from trnltk.morphology.parser import formatter
 from trnltk.parseset.xmlbindings import *
-from trnltk.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
+from trnltk.morphology.suffixgraph.suffixgraphmodel import FreeTransitionSuffix
 
 class ParseSetCreator(object):
     def create_word_binding_from_token(self, word_str, token):
