@@ -34,7 +34,7 @@ Some terms used in documentation and code
 
 **morphotactics** : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
 
-**ortographics** : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
+**ortographics** : Rules of phonetics. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
 
 ### for "yüzücülere":
 surface : yüzücülere
