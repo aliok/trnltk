@@ -6,35 +6,35 @@ This project will try to provide a toolkit for computer linguistic work for Turk
 Some terms used in documentation and code
 -----------------------------------------
 
-surface: Full word including the root and suffixes
+**surface**: Full word including the root and suffixes
 
-root : The root of a word. Root atomic part.
+**root** : The root of a word. Root atomic part.
 
-derivation : Deriving a new wo
+**derivation** : Deriving a new wo
 
-inflection : Conjugating a word with a person agreement / possession / tense etc.
+**inflection** : Conjugating a word with a person agreement / possession / tense etc.
 
-suffix form : Form of a suffix. For example, suffix 'Progressive' has 2 suffix forms; '-iyor' and '-makta'
+**suffix form** : Form of a suffix. For example, suffix 'Progressive' has 2 suffix forms; '-iyor' and '-makta'
 
-stem : Root + derivations. Doesn't include the inflections
+**stem** : Root + derivations. Doesn't include the inflections
 
-syntactic category : Verb, Noun, Adjective etc.
+**syntactic category** : Verb, Noun, Adjective etc.
 
-inflectional suffix : A suffix that doesn't change stem nor the syntactic category of a surface
+**inflectional suffix** : A suffix that doesn't change stem nor the syntactic category of a surface
 
-derivational suffix : A suffix that changes the stem and might change the syntactic category of a surface
+**derivational suffix** : A suffix that changes the stem and might change the syntactic category of a surface
 
-morpheme : Elements of a surface; stem and suffixes
+**morpheme** : Elements of a surface; stem and suffixes
 
-lemma : The root text that can be found in a dictionary
+**lemma** : The root text that can be found in a dictionary
 
-lexeme : Lemma + Syntactic category of the lemma
+**lexeme** : Lemma + Syntactic category of the lemma
 
-morphology : How a surface is constructed and how can it be extracted to morphemes
+**morphology** : How a surface is constructed and how can it be extracted to morphemes
 
-morphotactics : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
+**morphotactics** : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
 
-ortographics : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
+**ortographics** : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
 
 ### for "yüzücülere":
 surface : yüzücülere
