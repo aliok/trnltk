@@ -19,7 +19,11 @@ morpheme : Elements of a surface; stem and suffixes
 lemma : The root text that can be found in a dictionary
 lexeme : Lemma + Syntactic category of the lemma
 
-for "yüzücülere":
+morphology : How a surface is constructed and how can it be extracted to morphemes
+morphotactics : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
+ortographics : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
+
+### for "yüzücülere":
 surface : yüzücülere
 root : yüz
 stem : yüzücü
@@ -37,7 +41,7 @@ morphemes:
 lemma : yüz
 lexeme : yüz + Verb
 
-for 'kitaba':
+### for 'kitaba':
 surface : kitaba
 root : kitab
 stem : kitab (or kitap, doesn't matter)
@@ -50,11 +54,6 @@ morphemes:
  * inflectional suffix 'Dativ' with form '-a'
 lemma : kitap
 lexeme : kitap + Noun
-
-
-morphology : How a surface is constructed and how can it be extracted to morphemes
-morphotactics : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
-ortographics : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
 
 
 Plan
