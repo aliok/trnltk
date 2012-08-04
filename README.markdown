@@ -7,52 +7,82 @@ Some terms used in documentation and code
 -----------------------------------------
 
 surface: Full word including the root and suffixes
+
 root : The root of a word. Root atomic part.
+
 derivation : Deriving a new wo
+
 inflection : Conjugating a word with a person agreement / possession / tense etc.
+
 suffix form : Form of a suffix. For example, suffix 'Progressive' has 2 suffix forms; '-iyor' and '-makta'
+
 stem : Root + derivations. Doesn't include the inflections
+
 syntactic category : Verb, Noun, Adjective etc.
+
 inflectional suffix : A suffix that doesn't change stem nor the syntactic category of a surface
+
 derivational suffix : A suffix that changes the stem and might change the syntactic category of a surface
+
 morpheme : Elements of a surface; stem and suffixes
+
 lemma : The root text that can be found in a dictionary
+
 lexeme : Lemma + Syntactic category of the lemma
 
 morphology : How a surface is constructed and how can it be extracted to morphemes
+
 morphotactics : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
+
 ortographics : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
 
 ### for "yüzücülere":
 surface : yüzücülere
+
 root : yüz
+
 stem : yüzücü
+
 syntactic category of root : Verb
+
 syntactic category of surface : Noun
+
 suffixes and suffix forms:
  * derivational suffix 'Agentive' with form '-cü'
  * inflectional suffix '3rd person plural agreement' with form '-ler'
  * inflectional suffix 'Dativ' with form '-e'
+
 morphemes:
  * root 'yüz'
  * derivational suffix 'Agentive' with form '-cü'
  * inflectional suffix '3rd person plural agreement' with form '-ler'
  * inflectional suffix 'Dativ' with form '-e'
+
 lemma : yüz
+
 lexeme : yüz + Verb
 
 ### for 'kitaba':
+
 surface : kitaba
+
 root : kitab
+
 stem : kitab (or kitap, doesn't matter)
+
 syntactic category of root : Noun
+
 syntactic category of surface : Noun
+
 suffixes and suffix forms:
  * inflectional suffix 'Dativ' with form '-a'
+
 morphemes:
  * root 'kitab'
  * inflectional suffix 'Dativ' with form '-a'
+
 lemma : kitap
+
 lexeme : kitap + Noun
 
 
