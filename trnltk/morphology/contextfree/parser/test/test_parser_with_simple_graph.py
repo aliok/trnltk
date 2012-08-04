@@ -10,7 +10,7 @@ from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder
+from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
@@ -22,7 +22,7 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         super(ParserTestWithSimpleGraph, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
@@ -39,10 +39,10 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         predefined_paths = PredefinedPaths(self.cloned_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_lexeme_finder = WordLexemeFinder(self.cloned_root_map)
-        numeral_lexeme_finder = NumeralLexemeFinder()
+        word_root_finder = WordRootFinder(self.cloned_root_map)
+        numeral_root_finder = NumeralRootFinder()
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_lexeme_finder, numeral_lexeme_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
 
     def test_should_parse_noun_cases(self):
         self.assert_parse_correct(u'sokak',            u'sokak(sokak)+Noun+A3sg+Pnon+Nom')

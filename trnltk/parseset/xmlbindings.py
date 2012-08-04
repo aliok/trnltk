@@ -60,7 +60,7 @@ class WordBinding (Binding):
     def __init__(self, str, parse_result, root, syntactic_category, secondary_syntactic_category=None, suffixes=None):
         self.str = str
         self.parse_result = parse_result
-        self.str = root
+        self.root = root
         self.syntactic_category = syntactic_category
         self.secondary_syntactic_category = secondary_syntactic_category
         self.suffixes = suffixes or []
@@ -98,7 +98,7 @@ class WordBinding (Binding):
         if self.secondary_syntactic_category:
             word_node.setAttribute("secondary_syntactic_category", self.secondary_syntactic_category)
 
-        word_node.appendChild(self.str.to_dom())
+        word_node.appendChild(self.root.to_dom())
 
         if self.suffixes:
             suffixes_node = Element("suffixes", namespaceURI=NAMESPACE)
@@ -199,17 +199,17 @@ class RootBinding (Binding):
 
     @classmethod
     def build(cls, node):
-        root = node.getAttribute("root")
+        str = node.getAttribute("str")
         lemma = node.getAttribute("lemma")
         lemma_root = node.getAttribute("lemma_root")
         syntactic_category = node.getAttribute("syntactic_category")
         secondary_syntactic_category = node.getAttribute("secondary_syntactic_category")
 
-        return RootBinding(root, lemma, lemma_root, syntactic_category, secondary_syntactic_category)
+        return RootBinding(str, lemma, lemma_root, syntactic_category, secondary_syntactic_category)
 
     def to_dom(self):
         root_node = Element("root", namespaceURI=NAMESPACE)
-        root_node.setAttribute("root", self.str)
+        root_node.setAttribute("str", self.str)
         root_node.setAttribute("lemma", self.lemma)
         root_node.setAttribute("lemma_root", self.lemma_root)
         root_node.setAttribute("syntactic_category", self.syntactic_category)

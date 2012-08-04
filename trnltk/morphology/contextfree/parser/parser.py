@@ -8,10 +8,10 @@ from trnltk.morphology.model.morpheme import MorphemeContainer
 logger = logging.getLogger('parser')
 
 class ContextFreeMorphologicalParser(object):
-    def __init__(self, suffix_graph, predefined_paths, lexeme_finders):
+    def __init__(self, suffix_graph, predefined_paths, root_finders):
         self._suffix_graph = suffix_graph
         self._predefined_paths = predefined_paths
-        self._lexeme_finders = lexeme_finders
+        self._root_finders = root_finders
 
 
     def parse(self, input):
@@ -39,17 +39,17 @@ class ContextFreeMorphologicalParser(object):
         for i in range(1, len(input) + 1):
             partial_input = input[:i]
 
-            dictionary_lexemes = self._find_lexemes_for_partial_input(partial_input)
+            roots_from_lexicon = self._find_roots_for_partial_input(partial_input)
 
             if logger.isEnabledFor(logging.DEBUG):
-                logger.debug('Found %d lexeme candidates for partial input "%s":', len(dictionary_lexemes), partial_input)
-                for lexeme in dictionary_lexemes:
-                    logger.debug('\t %s', lexeme)
+                logger.debug('Found %d root candidates for partial input "%s":', len(roots_from_lexicon), partial_input)
+                for root in roots_from_lexicon:
+                    logger.debug('\t %s', root)
 
-            for lexeme in dictionary_lexemes:
-                if self._predefined_paths and self._predefined_paths.has_paths(lexeme):
-                    predefined_morpheme_containers = self._predefined_paths.get_paths(lexeme)
-                    logger.debug('Found predefined morpheme containers for lexeme candidate "%s" : %s', lexeme, predefined_morpheme_containers)
+            for root in roots_from_lexicon:
+                if self._predefined_paths and self._predefined_paths.has_paths(root):
+                    predefined_morpheme_containers = self._predefined_paths.get_paths(root)
+                    logger.debug('Found predefined morpheme containers for root candidate "%s" : %s', root, predefined_morpheme_containers)
                     for predefined_morpheme_container in predefined_morpheme_containers:
                         if input.startswith(predefined_morpheme_container.get_surface_so_far()):
                             logger.debug('Predefined morpheme_container is applicable %s', predefined_morpheme_container)
@@ -59,16 +59,16 @@ class ContextFreeMorphologicalParser(object):
                         else:
                             logger.debug('Predefined morpheme container is not applicable, skipping %s', predefined_morpheme_container)
                 else:
-                    morpheme_container = MorphemeContainer(lexeme, self._suffix_graph.get_default_lexeme_state(lexeme), input[len(partial_input):])
+                    morpheme_container = MorphemeContainer(root, self._suffix_graph.get_default_root_state(root), input[len(partial_input):])
                     candidates.append(morpheme_container)
 
         return candidates
 
-    def _find_lexemes_for_partial_input(self, partial_input):
-        lexemes = []
-        for lexeme_finder in self._lexeme_finders:
-            lexemes.extend(lexeme_finder.find_lexeme_for_partial_input(partial_input))
-        return lexemes
+    def _find_roots_for_partial_input(self, partial_input):
+        roots = []
+        for root_finder in self._root_finders:
+            roots.extend(root_finder.find_roots_for_partial_input(partial_input))
+        return roots
 
     def _traverse_candidates(self, candidates, results, word):
         if logger.isEnabledFor(logging.DEBUG):

@@ -6,9 +6,9 @@ def format_morpheme_container_for_parseset(result):
     """
     @return kitap+Noun+A3sg+Pnon+Dat for word 'kitaba'
     """
-    returnValue = u'{}+{}'.format(result.get_root().dictionary_item.root, result.get_root_state().pretty_name)
-    if result.get_root().dictionary_item.secondary_syntactic_category:
-        returnValue += u'+{}'.format(result.get_root().dictionary_item.secondary_syntactic_category)
+    returnValue = u'{}+{}'.format(result.get_root().lexeme.root, result.get_root_state().pretty_name)
+    if result.get_root().lexeme.secondary_syntactic_category:
+        returnValue += u'+{}'.format(result.get_root().lexeme.secondary_syntactic_category)
 
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
@@ -21,9 +21,9 @@ def format_morpheme_container_for_tests(result):
     """
     @return kitab(kitap)+Noun+A3sg+Pnon+Dat(+yA[a]) for word 'kitaba'
     """
-    returnValue = u'{}({})+{}'.format(result.get_root().root, result.get_root().dictionary_item.lemma, result.get_root_state().pretty_name)
-    if result.get_root().dictionary_item.secondary_syntactic_category:
-        returnValue += u'+{}'.format(result.get_root().dictionary_item.secondary_syntactic_category)
+    returnValue = u'{}({})+{}'.format(result.get_root().str, result.get_root().lexeme.lemma, result.get_root_state().pretty_name)
+    if result.get_root().lexeme.secondary_syntactic_category:
+        returnValue += u'+{}'.format(result.get_root().lexeme.secondary_syntactic_category)
 
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
@@ -49,20 +49,20 @@ def format_morpheme_container_for_simple_parseset(result):
     """
     @return (1,"kitap+Noun+A3sg+Pnon+Dat") for word 'kitaba'
     """
-    root = result.get_root().dictionary_item.root
-    secondary_syntactic_category_str = result.get_root().dictionary_item.secondary_syntactic_category
+    root = result.get_root().lexeme.root
+    secondary_syntactic_category_str = result.get_root().lexeme.secondary_syntactic_category
 
     #    ##TODO: skip some secondary categories for now...
-    if result.get_root().dictionary_item.syntactic_category == SyntacticCategory.NOUN:
-        if result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+    if result.get_root().lexeme.syntactic_category == SyntacticCategory.NOUN:
+        if result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
             secondary_syntactic_category_str = None
-    elif result.get_root().dictionary_item.syntactic_category == SyntacticCategory.ADVERB:
-        if result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
+    elif result.get_root().lexeme.syntactic_category == SyntacticCategory.ADVERB:
+        if result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
             secondary_syntactic_category_str = None
-        elif result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+        elif result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
             secondary_syntactic_category_str = None
-    elif result.get_root().dictionary_item.syntactic_category == SyntacticCategory.ADJECTIVE:
-        if result.get_root().dictionary_item.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
+    elif result.get_root().lexeme.syntactic_category == SyntacticCategory.ADJECTIVE:
+        if result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
             secondary_syntactic_category_str = None
 
     groups = []

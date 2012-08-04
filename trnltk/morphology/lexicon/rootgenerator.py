@@ -145,11 +145,11 @@ class CircumflexConvertingRootGenerator(object):
         if any(c in lexeme.root for c in cls.Circumflex_Chars):
             for root in roots_with_circumflexes:
                 root_without_circumflex = root._clone()
-                root = root.str
+                root_str = root.str
                 for (circumflex_char, converted_char) in cls.Circumflex_Letters_Map.iteritems():
-                    root = root.replace(circumflex_char, converted_char)
+                    root_str = root_str.replace(circumflex_char, converted_char)
 
-                root_without_circumflex.root = root
+                root_without_circumflex.str = root_str
 
                 roots.append(root_without_circumflex)
 
@@ -160,7 +160,7 @@ class RootMapGenerator(object):
     def generate(self, all_roots):
         root_map = {}
         for root in all_roots:
-            key = root.root
+            key = root.str
             if not root_map.has_key(key):
                 root_map[key] = []
 

@@ -5,7 +5,7 @@ from hamcrest import *
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.lexemefinder import  WordLexemeFinder
+from trnltk.morphology.contextfree.parser.rootfinder import  WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
@@ -32,9 +32,9 @@ class FormatterTest(unittest.TestCase):
 
         suffix_graph = SuffixGraph()
 
-        word_lexeme_finder = WordLexemeFinder(self.root_map)
+        word_root_finder = WordRootFinder(self.root_map)
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, None, [word_lexeme_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, None, [word_root_finder])
 
     def test_should_format_for_simple_parseset(self):
         parse_result = self.parser.parse(u'kitaba')[0]

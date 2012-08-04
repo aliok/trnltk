@@ -6,7 +6,7 @@ from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder
+from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -19,8 +19,8 @@ class ParseSetCreatorTest(unittest.TestCase):
 
         all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
         root_map = (RootMapGenerator()).generate(all_roots)
@@ -29,10 +29,10 @@ class ParseSetCreatorTest(unittest.TestCase):
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_lexeme_finder = WordLexemeFinder(root_map)
-        numeral_lexeme_finder = NumeralLexemeFinder()
+        word_root_finder = WordRootFinder(root_map)
+        numeral_root_finder = NumeralRootFinder()
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_lexeme_finder, numeral_lexeme_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
 
     def test_should_create_sentence_binding_from_morpheme_containers(self):
         morpheme_containers = []
@@ -51,7 +51,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 <sentence>
 	<unparsable_word str="blablabla"/>
 	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba" syntactic_category="Noun">
-		<root lemma="kitap" lemma_root="kitap" root="kitab" syntactic_category="Noun"/>
+		<root lemma="kitap" lemma_root="kitap" str="kitab" syntactic_category="Noun"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kitab" name="A3sg" to_syntactic_category="Noun" word="kitap"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kitab" name="Pnon" to_syntactic_category="Noun" word="kitap"/>
@@ -60,7 +60,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 	</word>
 	<unparsable_word str="abcabcabc"/>
 	<word parse_result="buyur+Verb+Neg+Aor+A1sg" str="buyurmam" syntactic_category="Verb">
-		<root lemma="buyurmak" lemma_root="buyur" root="buyur" syntactic_category="Verb"/>
+		<root lemma="buyurmak" lemma_root="buyur" str="buyur" syntactic_category="Verb"/>
 		<suffixes>
 			<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="buyurma" name="Neg" to_syntactic_category="Verb" word="buyurma"/>
 			<inflectionalSuffix actual="" application="" form="" id="Aor" matched_word="buyurma" name="Aor" to_syntactic_category="Verb" word="buyurma"/>
@@ -68,7 +68,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 		</suffixes>
 	</word>
 	<word parse_result="yetiş+Verb+Verb+Caus+Pos+Past+A1pl" str="yetiştirdik" syntactic_category="Verb">
-		<root lemma="yetişmek" lemma_root="yetiş" root="yetiş" syntactic_category="Verb"/>
+		<root lemma="yetişmek" lemma_root="yetiş" str="yetiş" syntactic_category="Verb"/>
 		<suffixes>
 			<derivationalSuffix actual="tir" application="tir" form="dIr" id="Caus" matched_word="yetiştir" name="Caus" to_syntactic_category="Verb" word="yetiştir"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yetiştir" name="Pos" to_syntactic_category="Verb" word="yetiştir"/>
@@ -77,7 +77,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 		</suffixes>
 	</word>
 	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="kıvrandığın" syntactic_category="Adj">
-		<root lemma="kıvranmak" lemma_root="kıvran" root="kıvran" syntactic_category="Verb"/>
+		<root lemma="kıvranmak" lemma_root="kıvran" str="kıvran" syntactic_category="Verb"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" to_syntactic_category="Verb" word="kıvran"/>
 			<derivationalSuffix actual="dığ" application="dık" form="dIk" id="PastPart_Adj" matched_word="kıvrandığ" name="PastPart" to_syntactic_category="Adj" word="kıvrandık"/>
@@ -85,7 +85,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 		</suffixes>
 	</word>
 	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom+Noun+Agt+A3sg+Pnon+Nom" str="sabahçı" syntactic_category="Noun">
-		<root lemma="sabah" lemma_root="sabah" root="sabah" secondary_syntactic_category="Time" syntactic_category="Noun"/>
+		<root lemma="sabah" lemma_root="sabah" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>
@@ -97,7 +97,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 		</suffixes>
 	</word>
 	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun">
-		<root lemma="sabah" lemma_root="sabah" root="sabah" secondary_syntactic_category="Time" syntactic_category="Noun"/>
+		<root lemma="sabah" lemma_root="sabah" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>

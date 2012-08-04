@@ -10,7 +10,7 @@ from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGene
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder
+from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, NumeralRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
@@ -135,7 +135,7 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
         super(ParserTestWithSimpleParseSets, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(CircumflexConvertingRootGenerator.generate(di))
 
@@ -146,10 +146,10 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
         predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_lexeme_finder = WordLexemeFinder(cls.root_map)
-        numeral_lexeme_finder = NumeralLexemeFinder()
+        word_root_finder = WordRootFinder(cls.root_map)
+        numeral_root_finder = NumeralRootFinder()
 
-        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_lexeme_finder, numeral_lexeme_finder])
+        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -182,7 +182,7 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
         self._test_should_parse_simple_parse_set("005")
 
     def _test_should_parse_simple_parse_set(self, set_number, start_index=0):
-        path = os.path.join(os.path.dirname(__file__), '../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
+        path = os.path.join(os.path.dirname(__file__), '../../../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
         with codecs.open(path, 'r', 'utf-8') as parse_set_file:
             index = 0
             for line in parse_set_file:

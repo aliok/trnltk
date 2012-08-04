@@ -62,7 +62,7 @@ class ExplorerTestWithSampleParseSet(unittest.TestCase):
         assert_that(idx.offsets(u"gid"), equal_to([7, 8, 9, 10, 11]))
         assert_that(idx.offsets(u"gid", SyntacticCategory.VERB), equal_to([7, 8, 9, 10, 11]))
 
-    def test_should_find_dictionary_item_concordance(self):
+    def test_should_find_lemma_concordance(self):
         idx = DictionaryItemConcordanceIndex(self.word_list)
 
         assert_that(idx.offsets(u'something'), equal_to([]))

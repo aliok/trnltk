@@ -8,7 +8,7 @@ from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenera
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.lexemefinder import WordLexemeFinder, NumeralLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
+from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, NumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.transition.transitiongenerator import TransitionGenerator
@@ -19,8 +19,8 @@ class TransitionGeneratorTest(unittest.TestCase):
         super(TransitionGeneratorTest, cls).setUpClass()
         all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
         root_map_generator = RootMapGenerator()
@@ -30,13 +30,13 @@ class TransitionGeneratorTest(unittest.TestCase):
         predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_lexeme_finder = WordLexemeFinder(cls.root_map)
-        numeral_lexeme_finder = NumeralLexemeFinder()
-        proper_noun_from_apostrophe_lexeme_finder = ProperNounFromApostropheLexemeFinder()
-        proper_noun_without_apostrophe_lexeme_finder = ProperNounWithoutApostropheLexemeFinder()
+        word_root_finder = WordRootFinder(cls.root_map)
+        numeral_root_finder = NumeralRootFinder()
+        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
+        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
         cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_lexeme_finder, numeral_lexeme_finder, proper_noun_from_apostrophe_lexeme_finder, proper_noun_without_apostrophe_lexeme_finder])
+            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
         cls.transition_generator = TransitionGenerator(cls.parser)
 

@@ -161,7 +161,7 @@ class AppliesToRoot(Specification):
     def is_satisfied_by(self, morpheme_container):
         if not morpheme_container:
             return False
-        return morpheme_container.get_root().root==self._root_str
+        return morpheme_container.get_root().str==self._root_str
 
     def __str__(self):
         return u'applies_to_root({})'.format(self._root_str)
@@ -208,10 +208,10 @@ class HasRootAttributes(Specification):
         if transitions:
             return True
 
-        if not morpheme_container.get_root().dictionary_item.attributes:
+        if not morpheme_container.get_root().lexeme.attributes:
             return False
 
-        return all(r in morpheme_container.get_root().dictionary_item.attributes for r in self._root_attrs)
+        return all(r in morpheme_container.get_root().lexeme.attributes for r in self._root_attrs)
 
     def __str__(self):
         return u'has_root_attributes({})'.format(self._root_attrs)
@@ -236,10 +236,10 @@ class DoesntHaveRootAttributes(Specification):
         if transitions:
             return True
 
-        if not morpheme_container.get_root().dictionary_item.attributes:
+        if not morpheme_container.get_root().lexeme.attributes:
             return True
 
-        return not any(r in morpheme_container.get_root().dictionary_item.attributes for r in self._root_attrs)
+        return not any(r in morpheme_container.get_root().lexeme.attributes for r in self._root_attrs)
 
     def __str__(self):
         return u'doesnt_have_root_attributes({})'.format(self._root_attrs)
@@ -255,7 +255,7 @@ class RootHasSecondarySyntacticCategory(Specification):
     def is_satisfied_by(self, morpheme_container):
         if not morpheme_container:
             return False
-        return morpheme_container.get_root().dictionary_item.secondary_syntactic_category==self._secondary_syntactic_category
+        return morpheme_container.get_root().lexeme.secondary_syntactic_category==self._secondary_syntactic_category
 
     def __str__(self):
         return u'root_has_secondary_syntactic_category({})'.format(self._secondary_syntactic_category)

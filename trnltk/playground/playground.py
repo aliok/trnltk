@@ -12,7 +12,7 @@ def concordance_root(root, syntactic_category=None, secondary_syntactic_category
     pass
 
 # kitabimi, kitap -> true
-def concordance_dictionary_item(dictionary_item, syntactic_category=None, secondary_syntactic_category=None):
+def concordance_lemma(lemma, syntactic_category=None, secondary_syntactic_category=None):
     pass
 
 # yapacagimi, yapacak -> true

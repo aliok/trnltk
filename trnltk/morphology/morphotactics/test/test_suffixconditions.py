@@ -6,7 +6,7 @@ from trnltk.morphology.model.lexeme import RootAttribute
 from trnltk.morphology.contextfree.parser.parser import SuffixFormApplication
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, has_root_attributes
 from trnltk.morphology.morphotactics.suffixgraph import Suffix
-from trnltk.morphology.model.morpheme import SuffixForm
+from trnltk.morphology.model.morpheme import SuffixForm, Transition
 
 class SuffixConditionsTest(unittest.TestCase):
 
@@ -137,12 +137,12 @@ class SuffixConditionsTest(unittest.TestCase):
     def do_assert_root_attr_matches(self, condition, attrs, val):
         morpheme_container = Mock()
         root = Mock()
-        dictionary_item = Mock()
+        lexeme = Mock()
 
         morpheme_container.get_root.return_value = root
         morpheme_container.get_transitions.return_value = []
-        root.dictionary_item = dictionary_item
-        dictionary_item.attributes = attrs
+        root.lexeme = lexeme
+        lexeme.attributes = attrs
 
         morpheme_container.get_suffixes_since_derivation_suffix.return_value=[]
 

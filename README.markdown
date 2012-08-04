@@ -1,28 +1,85 @@
 Turkish Natural Language Toolkit
 ================================
 
-This project will try to provide a toolkit for computer linguistic work for Turkish. Here is the plan:
+This project will try to provide a toolkit for computer linguistic work for Turkish.
 
-1. [In Progress] A context free word parser to extract roots and suffixes from the words
-2. A context free word generator that can generate words from roots and suffixes by choosing the correct suffix form
+Some terms used in documentation and code
+-----------------------------------------
+
+surface: Full word including the root and suffixes
+root : The root of a word. Root atomic part.
+derivation : Deriving a new wo
+inflection : Conjugating a word with a person agreement / possession / tense etc.
+suffix form : Form of a suffix. For example, suffix 'Progressive' has 2 suffix forms; '-iyor' and '-makta'
+stem : Root + derivations. Doesn't include the inflections
+syntactic category : Verb, Noun, Adjective etc.
+inflectional suffix : A suffix that doesn't change stem nor the syntactic category of a surface
+derivational suffix : A suffix that changes the stem and might change the syntactic category of a surface
+morpheme : Elements of a surface; stem and suffixes
+lemma : The root text that can be found in a dictionary
+lexeme : Lemma + Syntactic category of the lemma
+
+for "yüzücülere":
+surface : yüzücülere
+root : yüz
+stem : yüzücü
+syntactic category of root : Verb
+syntactic category of surface : Noun
+suffixes and suffix forms:
+ * derivational suffix 'Agentive' with form '-cü'
+ * inflectional suffix '3rd person plural agreement' with form '-ler'
+ * inflectional suffix 'Dativ' with form '-e'
+morphemes:
+ * root 'yüz'
+ * derivational suffix 'Agentive' with form '-cü'
+ * inflectional suffix '3rd person plural agreement' with form '-ler'
+ * inflectional suffix 'Dativ' with form '-e'
+lemma : yüz
+lexeme : yüz + Verb
+
+for 'kitaba':
+surface : kitaba
+root : kitab
+stem : kitab (or kitap, doesn't matter)
+syntactic category of root : Noun
+syntactic category of surface : Noun
+suffixes and suffix forms:
+ * inflectional suffix 'Dativ' with form '-a'
+morphemes:
+ * root 'kitab'
+ * inflectional suffix 'Dativ' with form '-a'
+lemma : kitap
+lexeme : kitap + Noun
+
+
+morphology : How a surface is constructed and how can it be extracted to morphemes
+morphotactics : Rules when can a suffix can be applied. For example "Progressive suffix can only be applied to a Verb, and it can't be applied to a surface which has Progressive suffix already"
+ortographics : Rules of phonetis. For example the rules for voicing (kitap+a --> kitaba), devoicing (kitap+cı --> kitapçı), vowel drop (omuz+u --> omzu), etc.
+
+
+Plan
+-----------------------
+
+1. [In Progress] A context free morphological parser to extract roots and suffixes out of surfaces
+2. A context free morphological generator that can generate surfaces from roots and suffixes by choosing the correct suffix form
 3. A playground with a data set that provides
-       * Concordance for words
-       * Concordance for stems
-       * Concordance for "dictionary" words
+       * Concordance for surfaces
+       * Concordance for roots
+       * Concordance for lexemes
        * Concordance for transition words
-       * Statistics for words, stems and suffixes
+       * Statistics for words, roots and suffixes
        * ...
-4. A context sensitive parser that uses N-Grams for determining the correct parse result among several results
-5. A context sensitive generator that uses N-Grams for determining the correct suffix form among several forms
+4. A context dependent morphological parser that uses N-Grams for determining the correct parse result among several results
+5. A context dependent morphological generator that uses N-Grams for determining the correct suffix form among several forms
 6. A rule based and statistical lexical category determining tool for sentences
 
 
-1. Context Free Parser
--------------------
+1. Context Free Morphological Parser
+------------------------------------
 
-A finite state machine is used for parsing the words. Nodes with different states of words and edges as suffixes.
+A finite state machine is used for parsing surfaces. Nodes with different states of words and edges as suffixes.
 
-As of June 2012, [this](https://github.com/aliok/trnltk/raw/master/suffixGraphExtended_20120628.png) graph is used to parse words.
+As of June 2012, [this](https://github.com/aliok/trnltk/raw/master/suffixGraphExtended_20120628.png) graph is used to parse surfaces.
 That graph is drawn by [this script](https://github.com/aliok/trnltk/bin/suffixgraphplotter.py) with the following command
 
     suffixgraphplotter.py E /home/ali/Desktop/suffixGraphX.png

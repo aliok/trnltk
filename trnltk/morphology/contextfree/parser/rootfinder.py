@@ -1,34 +1,34 @@
 import re
 from trnltk.morphology.model.root import NumeralRoot, AbbreviationRoot, ProperNounRoot
 
-class LexemeFinder(object):
-    def find_lexeme_for_partial_input(self, partial_input):
+class RootFinder(object):
+    def find_roots_for_partial_input(self, partial_input):
         raise NotImplementedError()
 
-class WordLexemeFinder(LexemeFinder):
+class WordRootFinder(RootFinder):
     def __init__(self, lexeme_map):
         self.lexeme_map = lexeme_map
 
-    def find_lexeme_for_partial_input(self, partial_input):
+    def find_roots_for_partial_input(self, partial_input):
         if self.lexeme_map.has_key(partial_input):
             return self.lexeme_map[partial_input][:]
         else:
             return []
 
-class NumeralLexemeFinder(LexemeFinder):
+class NumeralRootFinder(RootFinder):
     NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
 
-    def find_lexeme_for_partial_input(self, partial_input):
+    def find_roots_for_partial_input(self, partial_input):
         for regex in self.NUMBER_REGEXES:
             if regex.match(partial_input):
                 return [NumeralRoot(partial_input)]
 
         return []
 
-class ProperNounFromApostropheLexemeFinder(LexemeFinder):
+class ProperNounFromApostropheRootFinder(RootFinder):
     APOSTROPHE = u"'"
 
-    def find_lexeme_for_partial_input(self, partial_input):
+    def find_roots_for_partial_input(self, partial_input):
         if partial_input.endswith(self.APOSTROPHE):
             proper_noun_candidate = partial_input[:-1]
             if proper_noun_candidate.isupper():
@@ -38,10 +38,10 @@ class ProperNounFromApostropheLexemeFinder(LexemeFinder):
 
         return []
 
-class ProperNounWithoutApostropheLexemeFinder(LexemeFinder):
+class ProperNounWithoutApostropheRootFinder(RootFinder):
     APOSTROPHE = u"'"
 
-    def find_lexeme_for_partial_input(self, partial_input):
+    def find_roots_for_partial_input(self, partial_input):
         if not partial_input[0].isalpha() or not partial_input[0].isupper() or self.APOSTROPHE in partial_input:
             return []
 

@@ -27,7 +27,7 @@
 
     <xs:complexType name="WordType">
         <xs:sequence>
-            <xs:element name="stem" type="RootType" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="root" type="RootType" maxOccurs="1" minOccurs="1"/>
             <xs:element name="suffixes" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
                     <xs:sequence>

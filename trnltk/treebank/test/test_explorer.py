@@ -36,7 +36,7 @@ class ExplorerTest(unittest.TestCase):
 
         self._validate_complete_word_concordance_indexes(word_list)
         self._validate_root_concordance_indexes(word_list)
-        self._validate_dictionary_item_concordance_indexes(word_list)
+        self._validate_lemma_concordance_indexes(word_list)
         self._validate_transition_word_concordance_indexes(word_list)
         self._validate_transition_matched_word_concordance_indexes(word_list)
 
@@ -90,7 +90,7 @@ class ExplorerTest(unittest.TestCase):
                                      and word.root.secondary_syntactic_category==secondary_syntactic_category
                                      for word in words]))
 
-    def _validate_dictionary_item_concordance_indexes(self, word_list):
+    def _validate_lemma_concordance_indexes(self, word_list):
         idx = DictionaryItemConcordanceIndex(word_list)
 
         for lemma_root in idx._offsets._indices.iterkeys():

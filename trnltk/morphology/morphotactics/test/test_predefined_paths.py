@@ -19,8 +19,8 @@ class PredefinedPathsTest(unittest.TestCase):
         super(PredefinedPathsTest, cls).setUpClass()
         all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../resources/master_dictionary.txt'))
+        for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
         root_map_generator = RootMapGenerator()
@@ -48,7 +48,7 @@ class PredefinedPathsTest(unittest.TestCase):
         self.predefined_paths._create_predefined_path_of_ben()
         self.predefined_paths._create_predefined_path_of_sen()
 
-        self.morpheme_container_map = self.predefined_paths.morpheme_container_map
+        self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
         PRON = SyntacticCategory.PRONOUN
         PERS = SecondarySyntacticCategory.PERSONAL
@@ -89,7 +89,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.predefined_paths._create_predefined_path_of_hepsi()
 
-        self.morpheme_container_map = self.predefined_paths.morpheme_container_map
+        self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
         PRON = SyntacticCategory.PRONOUN
 
@@ -132,7 +132,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.predefined_paths._create_predefined_path_of_question_particles()
 
-        self.morpheme_container_map = self.predefined_paths.morpheme_container_map
+        self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
         QUES = SyntacticCategory.QUESTION
 
@@ -160,10 +160,10 @@ class PredefinedPathsTest(unittest.TestCase):
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))
 
-    def predefined_morpheme_containers(self, root, syntactic_category, secondary_syntactic_category):
+    def predefined_morpheme_containers(self, root_str, syntactic_category, secondary_syntactic_category):
         predefined_morpheme_containers = []
         for root in self.morpheme_container_map.keys():
-            if root.root==root and root.dictionary_item.syntactic_category==syntactic_category and root.dictionary_item.secondary_syntactic_category==secondary_syntactic_category:
+            if root.str==root_str and root.lexeme.syntactic_category==syntactic_category and root.lexeme.secondary_syntactic_category==secondary_syntactic_category:
                 predefined_morpheme_containers.extend(self.morpheme_container_map[root])
 
         return [formatter.format_morpheme_container_for_tests(r) for r in predefined_morpheme_containers]

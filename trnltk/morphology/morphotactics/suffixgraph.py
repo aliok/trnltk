@@ -1,4 +1,5 @@
 # coding=utf-8
+from trnltk.morphology.model.graphmodel import State
 from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category
 from trnltk.morphology.model.morpheme import *
@@ -112,8 +113,8 @@ class SuffixGraph(object):
         }
 
     def get_default_root_state(self, root):
-        if not root.lexeme.syntactic_category or root.dictionary_item.syntactic_category==SyntacticCategory.NOUN:
-            if RootAttribute.CompoundP3sg in root.dictionary_item.attributes:
+        if not root.lexeme.syntactic_category or root.lexeme.syntactic_category==SyntacticCategory.NOUN:
+            if RootAttribute.CompoundP3sg in root.lexeme.attributes:
                 return self.NOUN_COMPOUND_ROOT
             else:
                 return self.NOUN_ROOT

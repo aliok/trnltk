@@ -33,7 +33,7 @@ class ExtendedSuffixGraph(SuffixGraph):
         }
 
     def get_default_root_state(self, root):
-        if root.lexeme.syntactic_category==SyntacticCategory.VERB and root.root==u'değil':
+        if root.lexeme.syntactic_category==SyntacticCategory.VERB and root.str==u'değil':
             return self.VERB_DEGIL_ROOT
         else:
             return SuffixGraph.get_default_root_state(self, root)
@@ -42,17 +42,17 @@ class ExtendedSuffixGraph(SuffixGraph):
     def _add_suffixes(self):
         SuffixGraph._add_suffixes(self)
 
-        FreeTransitionSuffix("Noun_Cop_Free_Transition",         self.NOUN_TERMINAL_TRANSFER,      self.NOUN_COPULA)
-        FreeTransitionSuffix("Adjective_Cop_Free_Transition",    self.ADJECTIVE_TERMINAL_TRANSFER, self.ADJECTIVE_COPULA)
-        FreeTransitionSuffix("Adverb_Cop_Free_Transition",       self.ADVERB_TERMINAL_TRANSFER,    self.ADVERB_COPULA)
-        FreeTransitionSuffix("Pronoun_Cop_Free_Transition",      self.PRONOUN_TERMINAL_TRANSFER,   self.PRONOUN_COPULA)
-        FreeTransitionSuffix("Verb_Degil_Free_Transition",       self.VERB_DEGIL_ROOT,             self.VERB_COPULA_WITHOUT_TENSE)
-        FreeTransitionSuffix("Copula_Deriv_Free_Transition",     self.VERB_COPULA_WITHOUT_TENSE,   self.VERB_COPULA_WITHOUT_TENSE_DERIV)
+        self.NOUN_TERMINAL_TRANSFER     .add_out_suffix(FreeTransitionSuffix("Noun_Cop_Free_Transition"     ), self.NOUN_COPULA)
+        self.ADJECTIVE_TERMINAL_TRANSFER.add_out_suffix(FreeTransitionSuffix("Adjective_Cop_Free_Transition"), self.ADJECTIVE_COPULA)
+        self.ADVERB_TERMINAL_TRANSFER   .add_out_suffix(FreeTransitionSuffix("Adverb_Cop_Free_Transition"   ), self.ADVERB_COPULA)
+        self.PRONOUN_TERMINAL_TRANSFER  .add_out_suffix(FreeTransitionSuffix("Pronoun_Cop_Free_Transition"  ), self.PRONOUN_COPULA)
+        self.VERB_DEGIL_ROOT            .add_out_suffix(FreeTransitionSuffix("Verb_Degil_Free_Transition"   ), self.VERB_COPULA_WITHOUT_TENSE)
+        self.VERB_COPULA_WITHOUT_TENSE  .add_out_suffix(FreeTransitionSuffix("Copula_Deriv_Free_Transition" ), self.VERB_COPULA_WITHOUT_TENSE_DERIV)
 
-        ZeroTransitionSuffix("Noun_Copula_Zero_Transition",      self.NOUN_COPULA,        self.VERB_COPULA_WITHOUT_TENSE)
-        ZeroTransitionSuffix("Adjective_Copula_Zero_Transition", self.ADJECTIVE_COPULA,   self.VERB_COPULA_WITHOUT_TENSE)
-        ZeroTransitionSuffix("Adverb_Copula_Zero_Transition",    self.ADVERB_COPULA,      self.VERB_COPULA_WITHOUT_TENSE)
-        ZeroTransitionSuffix("Pronoun_Copula_Zero_Transition",   self.PRONOUN_COPULA,     self.VERB_COPULA_WITHOUT_TENSE)
+        self.NOUN_COPULA      .add_out_suffix(ZeroTransitionSuffix("Noun_Copula_Zero_Transition"     ),   self.VERB_COPULA_WITHOUT_TENSE)
+        self.ADJECTIVE_COPULA .add_out_suffix(ZeroTransitionSuffix("Adjective_Copula_Zero_Transition"),   self.VERB_COPULA_WITHOUT_TENSE)
+        self.ADVERB_COPULA    .add_out_suffix(ZeroTransitionSuffix("Adverb_Copula_Zero_Transition"   ),   self.VERB_COPULA_WITHOUT_TENSE)
+        self.PRONOUN_COPULA   .add_out_suffix(ZeroTransitionSuffix("Pronoun_Copula_Zero_Transition"  ),   self.VERB_COPULA_WITHOUT_TENSE)
 
         ############# Copula tenses
         self.Pres_Cop = Suffix("Pres_Cop", pretty_name="Pres")

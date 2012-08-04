@@ -1,3 +1,4 @@
+from trnltk.morphology.model.graphmodel import State
 from trnltk.morphology.model.root import NumeralRoot
 from trnltk.morphology.phonetics.phonetics import Phonetics
 from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
@@ -178,7 +179,7 @@ class MorphemeContainer(object):
 
     def get_phonetic_attributes(self):
         if self.has_transitions():
-            suffix_so_far = self.get_surface_so_far()[len(self._root.root):]
+            suffix_so_far = self.get_surface_so_far()[len(self._root.str):]
             if not suffix_so_far or suffix_so_far.isspace() or not suffix_so_far.isalnum():
                 return self._root.phonetic_attributes
             else:

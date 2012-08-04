@@ -6,7 +6,7 @@ from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphological
 from trnltk.morphology.model import formatter
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.lexemefinder import NumeralLexemeFinder, WordLexemeFinder, ProperNounFromApostropheLexemeFinder, ProperNounWithoutApostropheLexemeFinder
+from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
@@ -22,8 +22,8 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
 
         all_roots = []
 
-        dictionary_items = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
-        for di in dictionary_items:
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
         root_map = (RootMapGenerator()).generate(all_roots)
@@ -32,13 +32,13 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
-        word_lexeme_finder = WordLexemeFinder(root_map)
-        numeral_lexeme_finder = NumeralLexemeFinder()
-        proper_noun_from_apostrophe_lexeme_finder = ProperNounFromApostropheLexemeFinder()
-        proper_noun_without_apostrophe_lexeme_finder = ProperNounWithoutApostropheLexemeFinder()
+        word_root_finder = WordRootFinder(root_map)
+        numeral_root_finder = NumeralRootFinder()
+        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
+        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
         self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_lexeme_finder, numeral_lexeme_finder, proper_noun_from_apostrophe_lexeme_finder, proper_noun_without_apostrophe_lexeme_finder])
+            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def test_should_create_parseset_001(self):
         self._create_parseset_n("001")

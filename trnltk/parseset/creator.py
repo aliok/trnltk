@@ -6,12 +6,12 @@ class ParseSetCreator(object):
     def create_word_binding_from_morpheme_container(self, word_str, morpheme_container):
         assert word_str == morpheme_container.get_surface_so_far()
 
-        root = morpheme_container.get_root().root
-        lemma = morpheme_container.get_root().dictionary_item.lemma
-        lemma_root = morpheme_container.get_root().dictionary_item.root
-        root_syntactic_category = morpheme_container.get_root().dictionary_item.syntactic_category
-        root_secondary_syntactic_category = morpheme_container.get_root().dictionary_item.secondary_syntactic_category
-        root = RootBinding(root, lemma, lemma_root, root_syntactic_category, root_secondary_syntactic_category)
+        root_str = morpheme_container.get_root().str
+        lemma = morpheme_container.get_root().lexeme.lemma
+        lemma_root = morpheme_container.get_root().lexeme.root
+        root_syntactic_category = morpheme_container.get_root().lexeme.syntactic_category
+        root_secondary_syntactic_category = morpheme_container.get_root().lexeme.secondary_syntactic_category
+        root = RootBinding(root_str, lemma, lemma_root, root_syntactic_category, root_secondary_syntactic_category)
 
         word_syntactic_category = root_syntactic_category
         word_secondary_syntactic_category = root_secondary_syntactic_category
@@ -27,7 +27,7 @@ class ParseSetCreator(object):
         word = WordBinding(word_str, parse_result, root, word_syntactic_category, word_secondary_syntactic_category)
 
         if morpheme_container.get_transitions():
-            so_far = root
+            so_far = root_str
             for transition in morpheme_container.get_transitions():
                 if isinstance(transition.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix):
                     continue
@@ -38,8 +38,8 @@ class ParseSetCreator(object):
                 suffix_application = transition.suffix_form_application.fitting_suffix_form
                 suffix_actual_application = transition.suffix_form_application.actual_suffix_form
                 word_with_suffix_application = None
-                if (so_far + suffix_actual_application)==root:
-                    word_with_suffix_application = morpheme_container.get_root().dictionary_item.root + suffix_application
+                if (so_far + suffix_actual_application)==root_str:
+                    word_with_suffix_application = morpheme_container.get_root().lexeme.root + suffix_application
                 else:
                     word_with_suffix_application = so_far + suffix_application
                 so_far += suffix_actual_application
