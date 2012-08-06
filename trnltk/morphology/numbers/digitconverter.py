@@ -80,10 +80,22 @@ class DigitsToNumberConverter(object):
 
     @classmethod
     def convert_digits_to_words(cls, digits):
+        """
+        Converts a number in digits to string representation.
+
+            >>> convert_digits_to_words('1234,0245123')
+            u'bin iki yüz otuz dört virgül sıfır iki yüz kırk beş bin yüz yirmi üç'
+            >>> convert_digits_to_words('-1.234,0245123')
+            u'eksi bin iki yüz otuz dört virgül sıfır iki yüz kırk beş bin yüz yirmi üç'
+
+        @type digits: str or unicode
+        @rtype: unicode
+        @raise: Exception if P{digits} is not a valid Turkish number
+        """
         if not digits:
             return None
 
-        digits = str(digits)
+        digits = unicode(digits)
         digits = digits.replace(cls.GROUPING_SEPARATOR, '')
 
         if not cls.TURKISH_NUMBER_REGEX.match(digits):

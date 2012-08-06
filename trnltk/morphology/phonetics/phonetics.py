@@ -6,6 +6,7 @@ class PhoneticExpectation(object):
     VowelStart = 'VowelStart'
     ConsonantStart = 'ConsonantStart'
 
+
 class PhoneticAttributes(object):
     LastLetterVowel = "LastLetterVowel"
     LastLetterConsonant = "LastLetterConsonant"
@@ -24,9 +25,16 @@ class PhoneticAttributes(object):
 
     HasNoVowel = "HasNoVowel"
 
+
 class Phonetics(object):
     @classmethod
     def is_suffix_form_applicable(cls, word, form_str):
+        """
+        Calculates the phonetics of the word and a suffix for and determines if the suffix form is applicable.
+        @type word: unicode or None
+        @type form_str: unicode or None
+        @rtype: bool
+        """
         if not form_str or not form_str.strip():
             return True
 
@@ -71,6 +79,19 @@ class Phonetics(object):
 
     @classmethod
     def apply(cls, word, phonetic_attributes, form_str, root_attributes=None):
+        """
+        Applies a suffix form to a word, considering the phonetics and root attributes given.
+        @param word: Surface
+        @type word: unicode
+        @param phonetic_attributes: Provided phonetics of the surface
+        @type phonetic_attributes: list
+        @param form_str: Suffix form
+        @type form_str: unicode
+        @param root_attributes: Provided root attributes of the root of surface
+        @type root_attributes: list
+        @return: Tuple (word, applied suffix form)
+        @rtype: tuple
+        """
         if not form_str or not form_str.strip():
             return word, u''
 
@@ -126,30 +147,30 @@ class Phonetics(object):
 
         for i in range(len(form_str)):
             c = form_str[i]
-            next_c = form_str[i+1] if i+1<len(form_str) else None
+            next_c = form_str[i + 1] if i + 1 < len(form_str) else None
 
-            if c=='!':
+            if c == '!':
                 continue
 
             letter = TurkishAlphabet.get_letter_for_char(c)
-            if letter.vowel and letter.upper_case_char_value==c:
-                if c==u'A':
+            if letter.vowel and letter.upper_case_char_value == c:
+                if c == u'A':
                     if PhoneticAttributes.LastVowelBack in phonetic_attributes:
                         applied += u'a'
                     else:
                         applied += u'e'
-                elif c==u'I':
+                elif c == u'I':
                     if PhoneticAttributes.LastVowelBack in phonetic_attributes:
-                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes or next_c=='!':
+                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes or next_c == '!':
                             applied += u'ı'
                         else:
                             applied += u'u'
                     else:
-                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes or next_c=='!':
+                        if PhoneticAttributes.LastVowelUnrounded in phonetic_attributes or next_c == '!':
                             applied += u'i'
                         else:
                             applied += u'ü'
-                elif c==u'O':
+                elif c == u'O':
                     if PhoneticAttributes.LastVowelBack in phonetic_attributes:
                         applied += u'o'
                     else:
@@ -162,6 +183,12 @@ class Phonetics(object):
 
     @classmethod
     def expectations_satisfied(cls, phonetic_expectations, form_str):
+        """
+        Checks if a list of phonetic expectations are satisfied with the given suffix form string.
+        @type phonetic_expectations: list
+        @type form_str: unicode
+        @rtype: bool
+        """
         if not phonetic_expectations:
             return True
 
@@ -202,9 +229,15 @@ class Phonetics(object):
 
     @classmethod
     def calculate_phonetic_attributes(cls, word, root_attributes):
-        phonetic_attributes = None
+        """
+        Calculates the phonetic attributes of a word, considering the root attributes of it.
+        @type word: unicode
+        @type root_attributes: list
+        @rtype: set
+        """
 
-        if word==u'd' or word==u'y':  #verbs demek, yemek
+        phonetic_attributes = None
+        if word == u'd' or word == u'y':  #verbs demek, yemek
             phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word + u'e')
             phonetic_attributes.remove(PhoneticAttributes.LastLetterVowel)
         else:
@@ -222,6 +255,11 @@ class Phonetics(object):
 
     @classmethod
     def calculate_phonetic_attributes_of_plain_sequence(cls, seq):
+        """
+        Calculates the phonetic attributes of a word, without the root attributes of it.
+        @type seq: unicode
+        @rtype: set
+        """
         attrs = []
 
         last_vowel = cls._get_last_vowel(seq)
@@ -260,16 +298,36 @@ class Phonetics(object):
 
     @classmethod
     def application_matches(cls, word, applied_str, voicing_allowed):
-        if not applied_str or len(applied_str)>len(word):
+        """
+        Checks if a suffix applied word is matched by a surface.
+
+            >>> application_matches('armudunu', 'armut', True)
+            True
+            >>> application_matches('armudunu', 'armut', False)
+            False
+            >>> application_matches('armudunu', 'armudu', True)
+            True
+            >>> application_matches('armudunu', 'armudu', False)
+            True
+
+        @param word: The full word (surface)
+        @param applied_str: Suffix applied part of the word
+        @param voicing_allowed: If voicing should be considered or ignored
+        @type word: unicode
+        @type applied_str: unicode
+        @type voicing_allowed: bool
+        @rtype: L{bool}
+        """
+        if not applied_str or len(applied_str) > len(word):
             return False
 
-        elif word==applied_str or word.startswith(applied_str):
+        elif word == applied_str or word.startswith(applied_str):
             return True
 
         if  voicing_allowed and word.startswith(applied_str[:-1]):
             last_letter_of_application = TurkishAlphabet.get_letter_for_char(applied_str[-1])
-            last_letter_of_word_part = TurkishAlphabet.get_letter_for_char(word[len(applied_str)-1])
-            return TurkishAlphabet.voice(last_letter_of_application)==last_letter_of_word_part
+            last_letter_of_word_part = TurkishAlphabet.get_letter_for_char(word[len(applied_str) - 1])
+            return TurkishAlphabet.voice(last_letter_of_application) == last_letter_of_word_part
 
         else:
             return False

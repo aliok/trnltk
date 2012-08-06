@@ -113,6 +113,11 @@ class SuffixGraph(object):
         }
 
     def get_default_root_state(self, root):
+        """
+        Return the initial state for root based on primary and secondary syntactic category of it.
+        @type root: Root
+        @rtype: State
+        """
         if not root.lexeme.syntactic_category or root.lexeme.syntactic_category==SyntacticCategory.NOUN:
             if RootAttribute.CompoundP3sg in root.lexeme.attributes:
                 return self.NOUN_COMPOUND_ROOT

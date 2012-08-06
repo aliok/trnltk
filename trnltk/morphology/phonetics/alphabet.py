@@ -3,6 +3,19 @@
 class TurkishLetter(object):
     def __init__(self, char_value, upper_case_char_value, alphabetic_index, vowel=False, frontal=False, rounded=False, voiceless=False,
                  stop_consonant=False, in_ascii=True, foreign=False, english_equivalent_char=None):
+        """
+        @type char_value: unicode
+        @type upper_case_char_value: unicode
+        @type alphabetic_index: int
+        @type vowel: bool
+        @type frontal: bool
+        @type rounded: bool
+        @type voiceless: bool
+        @type stop_consonant: bool
+        @type in_ascii: unicode
+        @type foreign: bool
+        @type english_equivalent_char: unicode
+        """
         self.char_value = char_value
         self.upper_case_char_value = upper_case_char_value
         self.alphabetic_index = alphabetic_index
@@ -15,9 +28,9 @@ class TurkishLetter(object):
         self.foreign = foreign
         self.english_equivalent_char = english_equivalent_char if english_equivalent_char else char_value
 
-        self.check_consistency()
+        self._check_consistency()
 
-    def check_consistency(self):
+    def _check_consistency(self):
         if ((self.voiceless or self.stop_consonant) and self.vowel) or (
             not self.vowel and (self.frontal or self.rounded)):
             raise Exception("Letter seems to have both vowel and Consonant attributes")
@@ -88,6 +101,10 @@ class TurkishAlphabet(object):
 
     @classmethod
     def get_letter_for_char(cls, char):
+        """
+        @type char: str or unicode
+        @rtype: TurkishLetter
+        """
         if TurkishAlphabet.Lower_Case_Letter_Map.has_key(char):
             return TurkishAlphabet.Lower_Case_Letter_Map[char]
 
@@ -98,6 +115,10 @@ class TurkishAlphabet(object):
 
     @classmethod
     def voice(cls, letter):
+        """
+        @type letter: TurkishLetter
+        @rtype: TurkishLetter
+        """
         if TurkishAlphabet.Voicing_Map.has_key(letter):
             return TurkishAlphabet.Voicing_Map[letter]
         else:
@@ -105,13 +126,17 @@ class TurkishAlphabet(object):
 
     @classmethod
     def devoice(cls, letter):
+        """
+        @type letter: TurkishLetter
+        @rtype: TurkishLetter
+        """
         if TurkishAlphabet.Devoicing_Map.has_key(letter):
             return TurkishAlphabet.Devoicing_Map[letter]
         else:
             return None
 
     @classmethod
-    def initialize(cls):
+    def _initialize(cls):
         if not TurkishAlphabet.Lower_Case_Letter_Map or not TurkishAlphabet.Upper_Case_Letter_Map:
             TurkishAlphabet.Lower_Case_Letter_Map = {}
             TurkishAlphabet.Upper_Case_Letter_Map = {}
@@ -121,4 +146,4 @@ class TurkishAlphabet(object):
                 TurkishAlphabet.Upper_Case_Letter_Map[letter.upper_case_char_value] = letter
 
 
-TurkishAlphabet.initialize()
+TurkishAlphabet._initialize()

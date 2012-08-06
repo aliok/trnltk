@@ -6,6 +6,12 @@ from trnltk.morphology.model.lexeme import DynamicLexeme, SyntacticCategory, Sec
 
 class Root(object):
     def __init__(self, root, lexeme, phonetic_expectations, phonetic_attributes):
+        """
+        @type root: unicode
+        @type lexeme: Lexeme
+        @type phonetic_expectations: list
+        @type phonetic_attributes: list
+        """
         self.str = root
         self.lexeme = lexeme
         self.phonetic_expectations = phonetic_expectations if phonetic_attributes else []

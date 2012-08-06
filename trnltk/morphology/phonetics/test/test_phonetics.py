@@ -142,55 +142,55 @@ class PhoneticExpectationsTest(unittest.TestCase):
 
     def test_should_satisfy_no_expectations(self):
         self.assertTrue(es([], None))
-        self.assertTrue(es([], ''))
-        self.assertTrue(es([], 'xxxx'))
+        self.assertTrue(es([], u''))
+        self.assertTrue(es([], u'xxxx'))
 
     def test_should_not_satisfy_expectations_with_no_form(self):
         self.assertFalse(es([C], None))
-        self.assertFalse(es([V], ''))
-        self.assertFalse(es([C, V], ' '))
+        self.assertFalse(es([V], u''))
+        self.assertFalse(es([C, V], u' '))
 
     def test_should_satisfy_vowel_starts(self):
-        self.assertTrue(es([V], "ir"))
-        self.assertTrue(es([V], "Ir"))
-        self.assertTrue(es([V], "Aa"))
-        self.assertTrue(es([V], "aa"))
-        self.assertTrue(es([V], "+Aa"))
-        self.assertTrue(es([V], "+ia"))
-        self.assertTrue(es([V], "+inda"))
-        self.assertTrue(es([V], "+nIn"))
-        self.assertTrue(es([V], "+na"))
-        self.assertTrue(es([V], "+ya"))
+        self.assertTrue(es([V], u"ir"))
+        self.assertTrue(es([V], u"Ir"))
+        self.assertTrue(es([V], u"Aa"))
+        self.assertTrue(es([V], u"aa"))
+        self.assertTrue(es([V], u"+Aa"))
+        self.assertTrue(es([V], u"+ia"))
+        self.assertTrue(es([V], u"+inda"))
+        self.assertTrue(es([V], u"+nIn"))
+        self.assertTrue(es([V], u"+na"))
+        self.assertTrue(es([V], u"+ya"))
 
 
     def test_should_not_satisfy_vowel_starts(self):
-        self.assertFalse(es([V], "lir"))
-        self.assertFalse(es([V], "lIr"))
-        self.assertFalse(es([V], "dA"))
-        self.assertFalse(es([V], "da"))
-        self.assertFalse(es([V], "+nda"))
+        self.assertFalse(es([V], u"lir"))
+        self.assertFalse(es([V], u"lIr"))
+        self.assertFalse(es([V], u"dA"))
+        self.assertFalse(es([V], u"da"))
+        self.assertFalse(es([V], u"+nda"))
 
     def test_should_satisfy_consonant_starts(self):
-        self.assertTrue(es([C], "da"))
-        self.assertTrue(es([C], "nda"))
-        self.assertTrue(es([C], "+ar"))
-        self.assertTrue(es([C], "+Ar"))
-        self.assertTrue(es([C], "+ir"))
-        self.assertTrue(es([C], "+Ir"))
-        self.assertTrue(es([C], "+nda"))
-        self.assertTrue(es([C], "+nin"))
-        self.assertTrue(es([C], "+nIn"))
+        self.assertTrue(es([C], u"da"))
+        self.assertTrue(es([C], u"nda"))
+        self.assertTrue(es([C], u"+ar"))
+        self.assertTrue(es([C], u"+Ar"))
+        self.assertTrue(es([C], u"+ir"))
+        self.assertTrue(es([C], u"+Ir"))
+        self.assertTrue(es([C], u"+nda"))
+        self.assertTrue(es([C], u"+nin"))
+        self.assertTrue(es([C], u"+nIn"))
 
     def test_should_not_satisfy_consonant_starts(self):
-        self.assertFalse(es([C], "a"))
-        self.assertFalse(es([C], "aa"))
-        self.assertFalse(es([C], "A"))
-        self.assertFalse(es([C], "Aa"))
-        self.assertFalse(es([C], "ada"))
-        self.assertFalse(es([C], "Ada"))
-        self.assertFalse(es([C], "+aa"))
-        self.assertFalse(es([C], "+Aa"))
-        self.assertFalse(es([C], "+aa"))
+        self.assertFalse(es([C], u"a"))
+        self.assertFalse(es([C], u"aa"))
+        self.assertFalse(es([C], u"A"))
+        self.assertFalse(es([C], u"Aa"))
+        self.assertFalse(es([C], u"ada"))
+        self.assertFalse(es([C], u"Ada"))
+        self.assertFalse(es([C], u"+aa"))
+        self.assertFalse(es([C], u"+Aa"))
+        self.assertFalse(es([C], u"+aa"))
 
     def test_should_calculate_phonetic_attrs(self):
         LLV = PhoneticAttributes.LastLetterVowel
@@ -205,14 +205,14 @@ class PhoneticExpectationsTest(unittest.TestCase):
         LLVlessStop = PhoneticAttributes.LastLetterVoicelessStop
         LLNotVless =  PhoneticAttributes.LastLetterNotVoiceless
 
-        self.assertEqual({LLV, LVU, LVF, LLNotVless}, cpa("e"))
-        self.assertEqual({LLC, LVU, LVF, LLNotVless}, cpa("el"))
-        self.assertEqual({LLC, LVU, LVF, LLVless, LLVlessStop}, cpa("ek"))
-        self.assertEqual({LLC, LVU, LVF, LLVless}, cpa("eh"))
-        self.assertEqual({LLC, LVU, LVF, LLNotVless}, cpa("elm"))
-        self.assertEqual({LLC, LVU, LVF, LLVless, LLVlessStop}, cpa("elk"))
-        self.assertEqual({LLV, LVU, LVB, LLNotVless}, cpa("elma"))
-        self.assertEqual({LLV, LVR, LVB, LLNotVless}, cpa("elmo"))
+        self.assertEqual({LLV, LVU, LVF, LLNotVless}, cpa(u"e"))
+        self.assertEqual({LLC, LVU, LVF, LLNotVless}, cpa(u"el"))
+        self.assertEqual({LLC, LVU, LVF, LLVless, LLVlessStop}, cpa(u"ek"))
+        self.assertEqual({LLC, LVU, LVF, LLVless}, cpa(u"eh"))
+        self.assertEqual({LLC, LVU, LVF, LLNotVless}, cpa(u"elm"))
+        self.assertEqual({LLC, LVU, LVF, LLVless, LLVlessStop}, cpa(u"elk"))
+        self.assertEqual({LLV, LVU, LVB, LLNotVless}, cpa(u"elma"))
+        self.assertEqual({LLV, LVR, LVB, LLNotVless}, cpa(u"elmo"))
 
     def test_should_match_application(self):
         self.assertTrue(am(u'elma', u'elma', True))

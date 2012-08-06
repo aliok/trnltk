@@ -6,6 +6,12 @@ from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
 # coding=utf-8
 class Suffix(object):
     def __init__(self, name, group=None, pretty_name=None, allow_repetition=False):
+        """
+        @type name: str or unicode
+        @type group: SuffixGroup or None
+        @type pretty_name: str or unicode or None
+        @type allow_repetition: bool
+        """
         self.name = name
         self.suffix_forms = []
         self.group = None
@@ -17,6 +23,12 @@ class Suffix(object):
             group.suffixes.append(self)
 
     def add_suffix_form(self, suffix_form, precondition=None, postcondition=None, post_derivation_condition=None):
+        """
+        @type suffix_form: SuffixForm or str or unicode
+        @type precondition: Specification or None
+        @type postcondition: Specification or None
+        @type post_derivation_condition: Specification or None
+        """
         form = None
         if type(suffix_form) is str or type(suffix_form) is unicode:
             form = SuffixForm(suffix_form, precondition, postcondition, post_derivation_condition)
@@ -29,6 +41,10 @@ class Suffix(object):
         self.suffix_forms.append(form)
 
     def get_suffix_form(self, suffix_form_str):
+        """
+        @type suffix_form_str: str or unicode
+        @rtype: SuffixForm
+        """
         result = None
         for suffix_form in self.suffix_forms:
             if suffix_form.form==suffix_form_str:
@@ -60,6 +76,12 @@ class ZeroTransitionSuffix(Suffix):
 
 class SuffixForm(object):
     def __init__(self, form, precondition=None, postcondition=None, post_derivation_condition=None):
+        """
+        @type form: str or unicode
+        @type precondition: Specification or None
+        @type postcondition: Specification or None
+        @type post_derivation_condition: Specification or None
+        """
         self.form = form
         self.suffix = None
         self.precondition = precondition
@@ -75,12 +97,22 @@ class SuffixForm(object):
 
 class SuffixFormApplication(object):
     def __init__(self, suffix_form, actual_suffix_form, fitting_suffix_form):
+        """
+        @type suffix_form: SuffixForm
+        @type actual_suffix_form: str or unicode
+        @type fitting_suffix_form: str or unicode
+        """
         self.suffix_form = suffix_form
         self.actual_suffix_form = actual_suffix_form
         self.fitting_suffix_form = fitting_suffix_form
 
 class Transition(object):
     def __init__(self, from_state, suffix_form_application, to_state):
+        """
+        @type from_state: State
+        @type suffix_form_application: SuffixFormApplication
+        @type to_state: State
+        """
         self.from_state = from_state
         self.suffix_form_application = suffix_form_application
         self.to_state = to_state
@@ -96,13 +128,18 @@ class Transition(object):
         return self.from_state.type==State.DERIVATIONAL
 
 class MorphemeContainer(object):
-    def __init__(self, _root, _root_state, _remaining_surface):
-        self._root = _root
-        self._root_state = _root_state
-        self._surface_so_far = _root.str
-        self._remaining_surface = _remaining_surface
+    def __init__(self, root, root_state, remaining_surface):
+        """
+        @type root: Root
+        @type root_state: State
+        @type remaining_surface: str or unicode
+        """
+        self._root = root
+        self._root_state = root_state
+        self._surface_so_far = root.str
+        self._remaining_surface = remaining_surface
         self._transitions = []
-        self._phonetic_expectations = _root.phonetic_expectations
+        self._phonetic_expectations = root.phonetic_expectations
 
     def clone(self):
         clone = MorphemeContainer(self._root, self._root_state, self._remaining_surface)
