@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<parseset xmlns="http://trnltk.org/parseset">
+    <sentence>
+        <!--index 00-->
+        <word parse_result="duvar+Noun+A3sg+Pnon+Dat" str="duvara" syntactic_category="Noun">
+            <root lemma="duvar" lemma_root="duvar" str="duvar" syntactic_category="Noun"/>
+            <suffixes>
+                <inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="duvar" name="A3sg" to_syntactic_category="Noun" word="duvar"/>
+                <inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="duvar" name="Pnon" to_syntactic_category="Noun" word="duvar"/>
+                <inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_word="duvara" name="Dat" to_syntactic_category="Noun" word="duvara"/>
+            </suffixes>
+        </word>
+        <!--index 01-->
+        <word parse_result="tutku+Noun+A3sg+Pnon+Acc" str="tutkuyu" syntactic_category="Noun">
+            <root lemma="tutku" lemma_root="tutku" str="tutku" syntactic_category="Noun"/>
+            <suffixes>
+                <inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="tutku" name="A3sg" to_syntactic_category="Noun" word="tutku"/>
+                <inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="tutku" name="Pnon" to_syntactic_category="Noun" word="tutku"/>
+                <inflectionalSuffix actual="yu" application="yu" form="+yI" id="Acc_Noun" matched_word="tutkuyu" name="Acc" to_syntactic_category="Noun" word="tutkuyu"/>
+            </suffixes>
+        </word>
+        <!--index 02-->
+        <word parse_result="saç+Noun+A3pl+P3sg+Nom" str="saçları" syntactic_category="Noun">
+            <root lemma="saç" lemma_root="saç" str="saç" syntactic_category="Noun"/>
+            <suffixes>
+                <inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_word="saçlar" name="A3pl" to_syntactic_category="Noun" word="saçlar"/>
+                <inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3sg_Noun" matched_word="saçları" name="P3sg" to_syntactic_category="Noun" word="saçları"/>
+                <inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="saçları" name="Nom" to_syntactic_category="Noun" word="saçları"/>
+            </suffixes>
+        </word>
+        <!--index 03-->
+        <word parse_result="oğul+Noun+A3sg+P1sg+Nom" str="oğlum" syntactic_category="Noun">
+            <root lemma="oğul" lemma_root="oğul" str="oğl" syntactic_category="Noun"/>
+            <suffixes>
+                <inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="oğl" name="A3sg" to_syntactic_category="Noun" word="oğul"/>
+                <inflectionalSuffix actual="um" application="um" form="+Im" id="P1sg_Noun" matched_word="oğlum" name="P1sg" to_syntactic_category="Noun" word="oğlum"/>
+                <inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="oğlum" name="Nom" to_syntactic_category="Noun" word="oğlum"/>
+            </suffixes>
+        </word>
+        <!--index 04-->
+        <word parse_result="de+Verb+Pos+Past+A3sg" str="dedi" syntactic_category="Verb">
+            <root lemma="demek" lemma_root="de" str="de" syntactic_category="Verb"/>
+            <suffixes>
+                <inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="de" name="Pos" to_syntactic_category="Verb" word="de"/>
+                <inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="dedi" name="Past" to_syntactic_category="Verb" word="dedi"/>
+                <inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="dedi" name="A3sg" to_syntactic_category="Verb" word="dedi"/>
+            </suffixes>
+        </word>
+        <!--index 05-->
+        <word parse_result="bu+Det" str="bu" syntactic_category="Det">
+            <root lemma="bu" lemma_root="bu" str="bu" syntactic_category="Det"/>
+        </word>
+
+
+    </sentence>
+</parseset>
