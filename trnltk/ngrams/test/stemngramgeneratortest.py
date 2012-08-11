@@ -5,16 +5,16 @@ import unittest
 from xml.dom.minidom import parse
 from hamcrest.core.assert_that import assert_that
 import pymongo
-from trnltk.ngrams.ngramgenerators import LexemeNGramGenerator
-from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding, WordBinding, SentenceBinding, RootBinding
+from trnltk.ngrams.ngramgenerators import  StemNGramGenerator
+from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding, WordBinding, SentenceBinding, RootBinding, InflectionalSuffixBinding, DerivationalSuffixBinding
 from hamcrest import *
 
-class LexemeTrigramMongodbGeneratorTest(unittest.TestCase):
+class StemTrigramMongodbGeneratorTest(unittest.TestCase):
     BULK_INSERT_SIZE = 500
 
     @classmethod
     def setUpClass(cls):
-        super(LexemeTrigramMongodbGeneratorTest, cls).setUpClass()
+        super(StemTrigramMongodbGeneratorTest, cls).setUpClass()
         connection = pymongo.Connection()
         cls.db = connection['trnltk']
 
@@ -48,9 +48,9 @@ class LexemeTrigramMongodbGeneratorTest(unittest.TestCase):
         print "Found {} parsable words".format(
             len(filter(lambda word: not isinstance(word, UnparsableWordBinding), [word for sentence in parseset.sentences for word in sentence.words])))
 
-        generator = LexemeNGramGenerator(3)
+        generator = StemNGramGenerator(3)
 
-        collection = self.db['lexemeTrigrams{}'.format(parseset_index)]
+        collection = self.db['stemTrigrams{}'.format(parseset_index)]
 
         # delete everything in the collection
         collection.remove({})
@@ -66,9 +66,9 @@ class LexemeTrigramMongodbGeneratorTest(unittest.TestCase):
         bulk_insert_buffer = []
         for trigram in generator.iter_ngrams(parseset.sentences):
             entity = {
-                'item_0': {'value': trigram[0][0], 'category': trigram[0][1]},
-                'item_1': {'value': trigram[1][0], 'category': trigram[1][1]},
-                'item_2': {'value': trigram[2][0], 'category': trigram[2][1]}
+                'item_0': trigram[0],
+                'item_1': trigram[1],
+                'item_2': trigram[2]
             }
             bulk_insert_buffer.append(entity)
             if len(bulk_insert_buffer) % self.BULK_INSERT_SIZE == 0:
@@ -90,8 +90,7 @@ class LexemeTrigramMongodbGeneratorTest(unittest.TestCase):
         mapper = Code("""
             function(){
                 emit({
-                    a:this.item_0.value,    b:this.item_1.value,    c:this.item_2.value,
-                    d:this.item_0.category, d:this.item_1.category, f:this.item_2.category,
+                    a:this.item_0, b:this.item_1, c:this.item_2
                 }, {count: 1});
             }
         """)
@@ -116,8 +115,7 @@ class LexemeTrigramMongodbGeneratorTest(unittest.TestCase):
         mapper = Code("""
             function(){
                 emit({
-                    a:this.item_0.value,    b:this.item_1.value,    c:this.item_2.value,
-                    d:this.item_0.category, d:this.item_1.category, f:this.item_2.category,
+                    a:this.item_0, b:this.item_1, c:this.item_2
                 }, {count: 1});
             }
         """)
@@ -138,59 +136,53 @@ class LexemeTrigramMongodbGeneratorTest(unittest.TestCase):
         return result.find({"value.count" : {"$gt" : 1}}).count()
 
 
-class LexemeNGramGeneratorTest(unittest.TestCase):
+class StemNGramGeneratorTest(unittest.TestCase):
     root1 = RootBinding("root1", "lemma1", "lemma_root1", "root_synt_cat1", None)
     root2 = RootBinding("root2", "lemma2", "lemma_root2", "root_synt_cat2", None)
     root4 = RootBinding("root4", "lemma4", "lemma_root4", "root_synt_cat4", None)
     root5 = RootBinding("root5", "lemma5", "lemma_root5", "root_synt_cat5", None)
 
-    word1 = WordBinding("surface_1", "word1_parse_result", root1, "word1_synt_cat", None, None)
-    word2 = WordBinding("surface_2", "word2_parse_result", root2, "word2_synt_cat", None, None)
+    suffix_a = InflectionalSuffixBinding("suffix_a", "suffix_a", "form_a", "appl_a", "actual_a", "word_a", "matched_word_a", "suffix_a_syn_cat")
+    suffix_b = DerivationalSuffixBinding("suffix_b", "suffix_b", "form_b", "appl_b", "actual_b", "word_b", "matched_word_b", "suffix_b_syn_cat")
+    suffix_c = InflectionalSuffixBinding("suffix_c", "suffix_c", "form_c", "appl_c", "actual_c", "word_c", "matched_word_c", "suffix_c_syn_cat")
+
+    suffixes1 = [suffix_a, suffix_b, suffix_c]
+    suffixes2 = [suffix_a, suffix_b]
+    suffixes4 = [suffix_a]
+
+    word1 = WordBinding("surface_1", "word1_parse_result", root1, "word1_synt_cat", None, suffixes1)
+    word2 = WordBinding("surface_2", "word2_parse_result", root2, "word2_synt_cat", None, suffixes2)
     word3 = UnparsableWordBinding("surface_1")
-    word4 = WordBinding("surface_4", "word4_parse_result", root4, "word4_synt_cat", None, None)
+    word4 = WordBinding("surface_4", "word4_parse_result", root4, "word4_synt_cat", None, suffixes4)
     word5 = WordBinding("surface_5", "word5_parse_result", root5, "word5_synt_cat", None, None)
 
     sentence = SentenceBinding()
     sentence.words = [word1, word2, word3, word4, word5]
 
     def test_create_bigrams(self):
-        generator = LexemeNGramGenerator(2)
+        generator = StemNGramGenerator(2)
         ngrams = generator.get_ngrams([self.sentence])
 
         assert_that(ngrams, has_length(5))
 
-        start_lexeme = ("<s>", "<s>")
-        lexeme1 = ("lemma_root1", "root_synt_cat1")
-        lexeme2 = ("lemma_root2", "root_synt_cat2")
-        lexeme4 = ("lemma_root4", "root_synt_cat4")
-        lexeme5 = ("lemma_root5", "root_synt_cat5")
-        end_lexeme = ("</s>", "</s>")
-
-        assert_that(ngrams, has_item((start_lexeme, lexeme1)))
-        assert_that(ngrams, has_item((lexeme1, lexeme2)))
-        assert_that(ngrams, has_item((lexeme2, lexeme4)))
-        assert_that(ngrams, has_item((lexeme4, lexeme5)))
-        assert_that(ngrams, has_item((lexeme5, end_lexeme)))
+        assert_that(ngrams, has_item(("<s>", "word_b")))
+        assert_that(ngrams, has_item(("word_b", "word_b")))
+        assert_that(ngrams, has_item(("word_b", "surface_4")))
+        assert_that(ngrams, has_item(("surface_4", "surface_5")))
+        assert_that(ngrams, has_item(("surface_5", "</s>")))
 
     def test_create_trigrams(self):
-        generator = LexemeNGramGenerator(3)
+        generator = StemNGramGenerator(3)
         ngrams = generator.get_ngrams([self.sentence])
 
         assert_that(ngrams, has_length(6))
 
-        start_lexeme = ("<s>", "<s>")
-        lexeme1 = ("lemma_root1", "root_synt_cat1")
-        lexeme2 = ("lemma_root2", "root_synt_cat2")
-        lexeme4 = ("lemma_root4", "root_synt_cat4")
-        lexeme5 = ("lemma_root5", "root_synt_cat5")
-        end_lexeme = ("</s>", "</s>")
-
-        assert_that(ngrams, has_item((start_lexeme, start_lexeme, lexeme1)))
-        assert_that(ngrams, has_item((start_lexeme, lexeme1, lexeme2)))
-        assert_that(ngrams, has_item((lexeme1, lexeme2, lexeme4)))
-        assert_that(ngrams, has_item((lexeme2, lexeme4, lexeme5)))
-        assert_that(ngrams, has_item((lexeme4, lexeme5, end_lexeme)))
-        assert_that(ngrams, has_item((lexeme5, end_lexeme, end_lexeme)))
+        assert_that(ngrams, has_item(("<s>", "<s>", "word_b")))
+        assert_that(ngrams, has_item(("<s>", "word_b", "word_b")))
+        assert_that(ngrams, has_item(("word_b", "word_b", "surface_4")))
+        assert_that(ngrams, has_item(("word_b", "surface_4", "surface_5")))
+        assert_that(ngrams, has_item(("surface_4", "surface_5", "</s>")))
+        assert_that(ngrams, has_item(("surface_5", "</s>", "</s>")))
 
 
 if __name__ == '__main__':
