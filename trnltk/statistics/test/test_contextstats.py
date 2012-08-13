@@ -8,7 +8,7 @@ from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, Nume
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
-from trnltk.statistics.contextstats import ContextProbabilityGenerator
+from trnltk.statistics.contextstats import BigramContextProbabilityGenerator
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.parseset.xmlbindings import ParseSetBinding
@@ -19,10 +19,10 @@ parse_set_word_list = []
 for sentence in parseset.sentences:
     parse_set_word_list.extend(sentence.words)
 
-class ContextProbabilityGeneratorTest(unittest.TestCase):
+class BigramContextProbabilityGeneratorTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        super(ContextProbabilityGeneratorTest, cls).setUpClass()
+        super(BigramContextProbabilityGeneratorTest, cls).setUpClass()
         all_roots = []
 
         lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
@@ -47,7 +47,7 @@ class ContextProbabilityGeneratorTest(unittest.TestCase):
         mongodb_connection = pymongo.Connection()
         collection = mongodb_connection['trnltk']['wordBigrams999']
 
-        cls.generator = ContextProbabilityGenerator(collection)
+        cls.generator = BigramContextProbabilityGenerator(collection)
 
     def test_generate_one_word(self):
         context = [u'bir']

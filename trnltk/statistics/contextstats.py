@@ -53,9 +53,8 @@ class WordBigramQueryBuilder(object):
         return self._query
 
 
-class ContextProbabilityGenerator(object):
+class BigramContextProbabilityGenerator(object):
     def __init__(self, collection):
-        #self.collection = collection
         self._no_context_parsing_likelihood_calculator = NoContextParsingLikelihoodCalculator(collection)
         self._context_parsing_likelihood_calculator = ContextParsingLikelihoodCalculator(collection)
 
@@ -78,52 +77,15 @@ class ContextProbabilityGenerator(object):
 
         parse_results_of_previous_word = context[0][1]
 
-        likelihood_without_context_parsing = self._no_context_parsing_likelihood_calculator._likelihood(previous_word, lemma_root_str,
+        likelihood_without_parsing_context = self._no_context_parsing_likelihood_calculator.likelihood(previous_word, lemma_root_str,
             lemma_root_syn_cat,
             stem_str, stem_syn_cat, surface_str, surface_syn_cat)
 
-        likelihood_with_context_parsing = self._context_parsing_likelihood_calculator._likelihood(parse_results_of_previous_word,
+        likelihood_with_parsing_context = self._context_parsing_likelihood_calculator.likelihood(parse_results_of_previous_word,
             lemma_root_str, lemma_root_syn_cat,
             stem_str, stem_syn_cat, surface_str, surface_syn_cat)
 
-        return 0.2 * likelihood_without_context_parsing + 0.8 * likelihood_with_context_parsing
-
-
-    def something(self, surface_0, cat_0, surface_1, cat_1):
-        import pymongo
-
-        c = pymongo.Connection()
-        collection = c['trnltk']['wordBigrams999']
-
-        r = collection.find(WordBigramQueryBuilder().given_surface(surface_0, cat_0).surface(surface_1, cat_1).build())
-        print r.count()
-
-        r = collection.find(WordBigramQueryBuilder().surface(surface_0, cat_0).build())
-        print r.count()
-
-    def something2(self, surface_0, cat_0, surface_1, cat_1):
-        import pymongo
-
-        c = pymongo.Connection()
-        collection = c['trnltk']['wordBigrams999']
-
-        r = collection.find(WordBigramQueryBuilder().given_stem(surface_0, cat_0).stem(surface_1, cat_1).build())
-        print r.count()
-
-        r = collection.find(WordBigramQueryBuilder().stem(surface_0, cat_0).build())
-        print r.count()
-
-    def something3(self, surface_0, cat_0, surface_1, cat_1):
-        import pymongo
-
-        c = pymongo.Connection()
-        collection = c['trnltk']['wordBigrams999']
-
-        r = collection.find(WordBigramQueryBuilder().given_lemma_root(surface_0, cat_0).lemma_root(surface_1, cat_1).build())
-        print r.count()
-
-        r = collection.find(WordBigramQueryBuilder().lemma_root(surface_0, cat_0).build())
-        print r.count()
+        return 0.2 * likelihood_without_parsing_context + 0.8 * likelihood_with_parsing_context
 
 
 class NoContextParsingLikelihoodCalculator(object):
@@ -172,7 +134,7 @@ class NoContextParsingLikelihoodCalculator(object):
         count_lexeme_given_previous_word = float(self.collection.find(query_lexeme_given_previous_word).count())
         return count_lexeme_given_previous_word
 
-    def _likelihood(self, previous_word, lemma_root_str, lemma_root_syn_cat, stem_str, stem_syn_cat, surface_str, surface_syn_cat):
+    def likelihood(self, previous_word, lemma_root_str, lemma_root_syn_cat, stem_str, stem_syn_cat, surface_str, surface_syn_cat):
         count_given_previous_word = self._count_given_previous_word(previous_word)
         count_surface_given_previous_word = self._count_surface_given_previous_word(previous_word, surface_str, surface_syn_cat)
         count_stem_given_previous_word = self._count_stem_given_previous_word(previous_word, stem_str, stem_syn_cat)
@@ -336,7 +298,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_lexeme_given_previous_lexeme
 
 
-    def p_word_given_previous_surface(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
+    def _p_word_given_previous_surface(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
 
         previous_surface_str = morpheme_container.get_surface_so_far()
         previous_surface_syn_cat = morpheme_container.get_surface_syntactic_category()
@@ -359,7 +321,7 @@ class ContextParsingLikelihoodCalculator(object):
 
         return p_word_with_previous_surface
 
-    def p_word_given_previous_stem(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
+    def _p_word_given_previous_stem(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
 
         previous_stem_str = morpheme_container.get_stem()
         previous_stem_syn_cat = morpheme_container.get_stem_syntactic_category()
@@ -382,7 +344,7 @@ class ContextParsingLikelihoodCalculator(object):
 
         return p_word_with_previous_stem
 
-    def p_word_given_previous_lexeme(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
+    def _p_word_given_previous_lexeme(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
 
         previous_lemma_root_str = morpheme_container.get_root().lexeme.root
         previous_lemma_root_syn_cat = morpheme_container.get_root().lexeme.syntactic_category
@@ -405,36 +367,15 @@ class ContextParsingLikelihoodCalculator(object):
 
         return p_word_with_previous_lexeme
 
-    def _likelihood(self, parse_results_of_previous_word, lemma_root_str, lemma_root_syn_cat, stem_str, stem_syn_cat, surface_str, surface_syn_cat):
+    def likelihood(self, parse_results_of_previous_word, lemma_root_str, lemma_root_syn_cat, stem_str, stem_syn_cat, surface_str, surface_syn_cat):
         total = 0.0
 
         for morpheme_container in parse_results_of_previous_word:
-            p_word_given_previous_surface = self.p_word_given_previous_surface(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
-            p_word_given_previous_stem = self.p_word_given_previous_stem(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
-            p_word_given_previous_lexeme = self.p_word_given_previous_lexeme(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
+            p_word_given_previous_surface = self._p_word_given_previous_surface(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
+            p_word_given_previous_stem = self._p_word_given_previous_stem(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
+            p_word_given_previous_lexeme = self._p_word_given_previous_lexeme(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
 
             total += 0.55 * p_word_given_previous_surface + 0.3 * p_word_given_previous_stem + 0.15 * p_word_given_previous_lexeme
 
 
         return total / float(len(parse_results_of_previous_word))
-
-
-#
-#
-#surface_0 = u'bir'
-#cat_0 = u'Det'
-##surface_1 = u'durum'
-##cat_1 = u'Noun'
-#surface_1 = u'erkek'
-#cat_1 = u'Noun'
-#
-#print
-#
-#ContextProbabilityGenerator().something(surface_0, cat_0, surface_1, cat_1)
-#print
-#
-#ContextProbabilityGenerator().something2(surface_0, cat_0, surface_1, cat_1)
-#print
-#
-#ContextProbabilityGenerator().something3(surface_0, cat_0, surface_1, cat_1)
-#print
