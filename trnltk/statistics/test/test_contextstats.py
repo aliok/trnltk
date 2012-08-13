@@ -50,17 +50,22 @@ class BigramContextProbabilityGeneratorTest(unittest.TestCase):
         cls.generator = BigramContextProbabilityGenerator(collection)
 
     def test_generate_one_word(self):
-        context = [u'bir']
+        leading_context = [u'bir']
         surface = u'erkek'
+        following_context = [u'girdi']
 
-        context_with_parse_results = [(cw, self.context_free_parser.parse(cw)) for cw in context]
-        print [(cw, [formatter.format_morpheme_container_for_parseset(cwr) for cwr in cwrs]) for cw, cwrs in context_with_parse_results]
+        leading_context_with_parse_results = [(cw, self.context_free_parser.parse(cw)) for cw in leading_context]
+        print [(cw, [formatter.format_morpheme_container_for_parseset(cwr) for cwr in cwrs]) for cw, cwrs in leading_context_with_parse_results]
+        print
+
+        following_context_with_parse_results = [(cw, self.context_free_parser.parse(cw)) for cw in following_context]
+        print [(cw, [formatter.format_morpheme_container_for_parseset(cwr) for cwr in cwrs]) for cw, cwrs in following_context_with_parse_results]
         print
 
         results = self.context_free_parser.parse(surface)
         for result in results:
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
-            likelihood = self.generator.generate(result, context_with_parse_results)
+            likelihood = self.generator.generate(result, leading_context_with_parse_results, following_context_with_parse_results)
             print formatted_parse_result, likelihood
 
 
