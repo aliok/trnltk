@@ -155,6 +155,33 @@ class MorphemeContainer(object):
         else:
             return self._root_state
 
+    def get_surface_syntactic_category(self):
+        return self.get_last_state().syntactic_category
+
+    def get_stem(self):
+        if not self._transitions:
+            return self._root.lexeme.root
+
+        indexes_of_derivational_suffixes = [i for i in range(len(self._transitions)) if self._transitions[i].is_derivational()]
+        if indexes_of_derivational_suffixes:
+            index_of_last_derivational_suffix = indexes_of_derivational_suffixes[-1]
+            stem_so_far = self._root.str
+            for i in range(0, index_of_last_derivational_suffix + 1):
+                stem_so_far += self._transitions[i].suffix_form_application.fitting_suffix_form
+        else:
+            return self._root.lexeme.root
+
+    def get_stem_syntactic_category(self):
+        if not self._transitions:
+            return self._root.lexeme.syntactic_category
+
+        indexes_of_derivational_suffixes = [i for i in range(len(self._transitions)) if self._transitions[i].is_derivational()]
+        if indexes_of_derivational_suffixes:
+            index_of_last_derivational_suffix = indexes_of_derivational_suffixes[-1]
+            return self._transitions[index_of_last_derivational_suffix].to_state.syntactic_category
+        else:
+            return self._root.lexeme.syntactic_category
+
     def get_last_derivation_transition(self):
         for transition in reversed(self._transitions):
             if transition.from_state.type==State.DERIVATIONAL:
