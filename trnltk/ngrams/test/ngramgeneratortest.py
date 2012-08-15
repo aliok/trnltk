@@ -6,8 +6,71 @@ from xml.dom.minidom import parse
 from hamcrest.core.assert_that import assert_that
 import pymongo
 from trnltk.ngrams.ngramgenerator import NGramGenerator, WordNGramGenerator
-from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding, WordBinding, SentenceBinding, RootBinding
+from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding, WordBinding, RootBinding
 from hamcrest import *
+
+class WordUnigramMongodbGeneratorTest(unittest.TestCase):
+    BULK_INSERT_SIZE = 500
+
+    @classmethod
+    def setUpClass(cls):
+        super(WordUnigramMongodbGeneratorTest, cls).setUpClass()
+        connection = pymongo.Connection()
+        cls.db = connection['trnltk']
+
+    def test_create_unigrams_for_parseset_001(self):
+        self._create_unigrams_for_parseset_n("001")
+
+    def test_create_unigrams_for_parseset_002(self):
+        self._create_unigrams_for_parseset_n("002")
+
+    def test_create_unigrams_for_parseset_003(self):
+        self._create_unigrams_for_parseset_n("003")
+
+    def test_create_unigrams_for_parseset_004(self):
+        self._create_unigrams_for_parseset_n("004")
+
+    def test_create_unigrams_for_parseset_005(self):
+        self._create_unigrams_for_parseset_n("005")
+
+    def test_create_unigrams_for_parseset_999(self):
+        self._create_unigrams_for_parseset_n("999")
+
+
+    def _create_unigrams_for_parseset_n(self, parseset_index):
+        print "Parsing parse set {} and generating unigrams with occurrence counts".format(parseset_index)
+
+        dom = parse(os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
+        parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
+
+        print "Found {} sentences".format(len(parseset.sentences))
+        words = [word for sentence in parseset.sentences for word in sentence.words]
+        print "Found {} words".format(len(words))
+        print "Found {} parsable words".format(
+            len(filter(lambda word: not isinstance(word, UnparsableWordBinding), words)))
+
+        generator = WordNGramGenerator(1)
+
+        collection = self.db['wordUnigrams{}'.format(parseset_index)]
+
+        # delete everything in the collection
+        collection.remove({})
+
+        bulk_insert_buffer = []
+        for unigram in generator.iter_ngrams(words):
+            entity = {
+                'item_0': unigram
+            }
+            bulk_insert_buffer.append(entity)
+            if len(bulk_insert_buffer) % self.BULK_INSERT_SIZE == 0:
+                collection.insert(bulk_insert_buffer)
+                bulk_insert_buffer = []
+
+        collection.insert(bulk_insert_buffer)
+
+        unigram_count = collection.count()
+        print "Generated {} unigrams".format(unigram_count)
+
 
 class WordBigramMongodbGeneratorTest(unittest.TestCase):
     BULK_INSERT_SIZE = 500
@@ -44,9 +107,10 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
         parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
 
         print "Found {} sentences".format(len(parseset.sentences))
-        print "Found {} words".format(len([word for sentence in parseset.sentences for word in sentence.words]))
+        words = [word for sentence in parseset.sentences for word in sentence.words]
+        print "Found {} words".format(len(words))
         print "Found {} parsable words".format(
-            len(filter(lambda word: not isinstance(word, UnparsableWordBinding), [word for sentence in parseset.sentences for word in sentence.words])))
+            len(filter(lambda word: not isinstance(word, UnparsableWordBinding), words)))
 
         generator = WordNGramGenerator(2)
 
@@ -55,10 +119,8 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
         # delete everything in the collection
         collection.remove({})
 
-        # TODO: add some indexes
-
         bulk_insert_buffer = []
-        for bigram in generator.iter_ngrams(parseset.sentences):
+        for bigram in generator.iter_ngrams(words):
             entity = {
                 'item_0': bigram[0],
                 'item_1': bigram[1]
@@ -133,7 +195,7 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
 
         result = collection.map_reduce(mapper, reducer, "_temporary")
 
-        return result.find({"value.count" : {"$gt" : 1}}).count()
+        return result.find({"value.count": {"$gt": 1}}).count()
 
     @classmethod
     def _calculate_distinct_stem_bigrams(cls, collection):
@@ -185,7 +247,7 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
 
         result = collection.map_reduce(mapper, reducer, "_temporary")
 
-        return result.find({"value.count" : {"$gt" : 1}}).count()
+        return result.find({"value.count": {"$gt": 1}}).count()
 
     @classmethod
     def _calculate_distinct_lexeme_bigrams(cls, collection):
@@ -237,7 +299,7 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
 
         result = collection.map_reduce(mapper, reducer, "_temporary")
 
-        return result.find({"value.count" : {"$gt" : 1}}).count()
+        return result.find({"value.count": {"$gt": 1}}).count()
 
 
 class WordTrigramMongodbGeneratorTest(unittest.TestCase):
@@ -275,9 +337,10 @@ class WordTrigramMongodbGeneratorTest(unittest.TestCase):
         parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
 
         print "Found {} sentences".format(len(parseset.sentences))
-        print "Found {} words".format(len([word for sentence in parseset.sentences for word in sentence.words]))
+        words = [word for sentence in parseset.sentences for word in sentence.words]
+        print "Found {} words".format(len(words))
         print "Found {} parsable words".format(
-            len(filter(lambda word: not isinstance(word, UnparsableWordBinding), [word for sentence in parseset.sentences for word in sentence.words])))
+            len(filter(lambda word: not isinstance(word, UnparsableWordBinding), words)))
 
         generator = WordNGramGenerator(3)
 
@@ -286,10 +349,8 @@ class WordTrigramMongodbGeneratorTest(unittest.TestCase):
         # delete everything in the collection
         collection.remove({})
 
-        # TODO: add some indexes
-
         bulk_insert_buffer = []
-        for trigram in generator.iter_ngrams(parseset.sentences):
+        for trigram in generator.iter_ngrams(words):
             entity = {
                 'item_0': trigram[0],
                 'item_1': trigram[1],
@@ -318,13 +379,29 @@ class GenericGramGeneratorTest(unittest.TestCase):
     word4 = WordBinding("surface_4", "word4_parse_result", root4, "word4_synt_cat", None, None)
     word5 = WordBinding("surface_5", "word5_parse_result", root5, "word5_synt_cat", None, None)
 
-    sentence = SentenceBinding()
-    sentence.words = [word1, word2, word3, word4, word5]
+    words = [word1, word2, word3, word4, word5]
+
+    def test_create_unigrams(self):
+        extractor = lambda word_binding: (word_binding.root.lemma_root, word_binding.root.syntactic_category)
+        generator = NGramGenerator(1, extractor, ("<s>", "<s>"), ("</s>", "</s>"))
+        ngrams = generator.get_ngrams(self.words)
+
+        assert_that(ngrams, has_length(4))
+
+        lexeme1 = ("lemma_root1", "root_synt_cat1")
+        lexeme2 = ("lemma_root2", "root_synt_cat2")
+        lexeme4 = ("lemma_root4", "root_synt_cat4")
+        lexeme5 = ("lemma_root5", "root_synt_cat5")
+
+        assert_that(ngrams, has_item(lexeme1))
+        assert_that(ngrams, has_item(lexeme2))
+        assert_that(ngrams, has_item(lexeme4))
+        assert_that(ngrams, has_item(lexeme5))
 
     def test_create_bigrams(self):
         extractor = lambda word_binding: (word_binding.root.lemma_root, word_binding.root.syntactic_category)
         generator = NGramGenerator(2, extractor, ("<s>", "<s>"), ("</s>", "</s>"))
-        ngrams = generator.get_ngrams([self.sentence])
+        ngrams = generator.get_ngrams(self.words)
 
         assert_that(ngrams, has_length(5))
 
@@ -344,7 +421,7 @@ class GenericGramGeneratorTest(unittest.TestCase):
     def test_create_trigrams(self):
         extractor = lambda word_binding: (word_binding.root.lemma_root, word_binding.root.syntactic_category)
         generator = NGramGenerator(3, extractor, ("<s>", "<s>"), ("</s>", "</s>"))
-        ngrams = generator.get_ngrams([self.sentence])
+        ngrams = generator.get_ngrams(self.words)
 
         assert_that(ngrams, has_length(6))
 
