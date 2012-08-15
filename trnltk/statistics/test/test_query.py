@@ -2,7 +2,7 @@
 import unittest
 from hamcrest import *
 from mock import Mock
-from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder
+from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor, QueryExecutionContext
 
 class WordNGramQueryContainerTest(unittest.TestCase):
     @classmethod
@@ -179,6 +179,25 @@ class QueryBuilderTest(unittest.TestCase):
         assert_that(query_execution_context.collection, is_(self.trigram_collection))
 
         self.trigram_collection.ensure_index.assert_called_with([('key1', 1), ('key2', 1)], drop_dups=True, name='idx_name')
+
+class QueryExecutorTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        pass
+
+    def test_build_query_with_invalid_params(self):
+        query_execution_context = QueryExecutionContext(["key1", "key2"], None)
+        self.assertRaises(AssertionError, lambda : QueryExecutor().query_execution_context(query_execution_context).params()._build_query_with_params())
+        self.assertRaises(AssertionError, lambda : QueryExecutor().query_execution_context(query_execution_context).params("1")._build_query_with_params())
+        self.assertRaises(AssertionError, lambda : QueryExecutor().query_execution_context(query_execution_context).params("1", "2", "3")._build_query_with_params())
+
+    def test_build_query_with_params(self):
+        query_execution_context = QueryExecutionContext(["key1", "key2"], None)
+        query_with_params = QueryExecutor().query_execution_context(query_execution_context).params("1", "2")._build_query_with_params()
+        assert_that(query_with_params, has_length(2))
+        assert_that(query_with_params, has_entry("key1", "1"))
+        assert_that(query_with_params, has_entry("key2", "2"))
+
 
 if __name__ == '__main__':
     unittest.main()
