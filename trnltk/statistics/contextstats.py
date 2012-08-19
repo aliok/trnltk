@@ -1,395 +1,490 @@
 # coding=utf-8
-import pymongo
+import itertools
+from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor
 
-class WordBigramQueryBuilder(object):
-    def __init__(self):
-        self._query = {}
+class NonContextParsingLikelihoodCalculator(object):
+    COEFFICIENT_SURFACE_GIVEN_CONTEXT = 0.55
+    COEFFICIENT_STEM_GIVEN_CONTEXT = 0.3
+    COEFFICIENT_LEXEME_GIVEN_CONTEXT = 0.15
 
-    def surface(self, str_value, syntactic_category=None):
-        self._query['item_1.word.surface.value'] = str_value
-        if syntactic_category:
-            self._query['item_1.word.surface.syntactic_category'] = syntactic_category
+    WEIGHT_LEADING_CONTEXT = 0.6
+    WEIGHT_FOLLOWING_CONTEXT = 0.4
 
-        return self
+    def __init__(self, collection_map):
+        self._collection_map = collection_map
 
-    def given_surface(self, str_value, syntactic_category=None):
-        self._query['item_0.word.surface.value'] = str_value
-        if syntactic_category:
-            self._query['item_0.word.surface.syntactic_category'] = syntactic_category
-
-        return self
-
-    def stem(self, str_value, syntactic_category=None):
-        self._query['item_1.word.stem.value'] = str_value
-        if syntactic_category:
-            self._query['item_1.word.stem.syntactic_category'] = syntactic_category
-
-        return self
-
-    def given_stem(self, str_value, syntactic_category=None):
-        self._query['item_0.word.stem.value'] = str_value
-        if syntactic_category:
-            self._query['item_0.word.stem.syntactic_category'] = syntactic_category
-
-        return self
-
-    def lemma_root(self, str_value, syntactic_category=None):
-        self._query['item_1.word.lemma_root.value'] = str_value
-        if syntactic_category:
-            self._query['item_1.word.lemma_root.syntactic_category'] = syntactic_category
-
-        return self
-
-    def given_lemma_root(self, str_value, syntactic_category=None):
-        self._query['item_0.word.lemma_root.value'] = str_value
-        if syntactic_category:
-            self._query['item_0.word.lemma_root.syntactic_category'] = syntactic_category
-
-        return self
-
-    def build(self):
-        return self._query
+    def calculate_likelihood(self, target, leading_context, following_context):
+        return self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   + \
+               self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
 
 
-class BigramContextProbabilityGenerator(object):
-    def __init__(self, collection):
-        self._no_context_parsing_likelihood_calculator = NoContextParsingLikelihoodCalculator(collection)
-        self._context_parsing_likelihood_calculator = ContextParsingLikelihoodCalculator(collection)
-
-    def generate(self, morpheme_container, leading_context, following_context):
+    def calculate_oneway_likelihood(self, target, context, target_comes_after):
         """
-        Generates the probability of a morpheme container, aka morphological parse result, with its context
-        @type morpheme_container: MorphemeContainer
-        @param leading_context: List of tuples for leading words (surface, parse_results_list)
-        @type leading_context: list
-        @param following_context: List of tuples for following words (surface, parse_results_list)
-        @type following_context: list
+        @type target: WordFormContainer
+        @type context: list of WordFormContainer
+        @type target_comes_after: bool
+        @rtype: float
         """
+        assert target
+        assert context
 
-        #don't attempt parsing the leading_context yet
-        leading_word = leading_context[0][0]
-        following_word = following_context[0][0]
+        count_given_context = self._count_given_context(context)
 
-        surface_str = morpheme_container.get_surface_so_far()
-        surface_syn_cat = morpheme_container.get_surface_syntactic_category()
-        stem_str = morpheme_container.get_stem()
-        stem_syn_cat = morpheme_container.get_stem_syntactic_category()
-        lemma_root_str = morpheme_container.get_root().lexeme.root
-        lemma_root_syn_cat = morpheme_container.get_root().lexeme.syntactic_category
+        if not count_given_context:
+            return 0
 
-        parse_results_of_leading_word = leading_context[0][1]
+        count_target_surface_given_context = self._count_target_surface_given_context(target, context, target_comes_after)
+        count_target_stem_given_context = self._count_target_stem_given_context(target, context, target_comes_after)
+        count_target_lexeme_given_context = self._count_target_lexeme_given_context(target, context, target_comes_after)
 
-        likelihood_without_parsing_leading_context = self._no_context_parsing_likelihood_calculator.likelihood(leading_word, lemma_root_str,
-            lemma_root_syn_cat,
-            stem_str, stem_syn_cat, surface_str, surface_syn_cat)
+        likelihood = (
+                         count_target_surface_given_context * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
+                         count_target_stem_given_context * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
+                         count_target_lexeme_given_context * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+                     ) / count_given_context
 
-        likelihood_with_parsing_leading_context = self._context_parsing_likelihood_calculator.likelihood(parse_results_of_leading_word,
-            lemma_root_str, lemma_root_syn_cat,
-            stem_str, stem_syn_cat, surface_str, surface_syn_cat)
+        return likelihood
 
-        return 0.2 * likelihood_without_parsing_leading_context + 0.8 * likelihood_with_parsing_leading_context
+    def _count_given_context(self, context):
+        query_container = WordNGramQueryContainer(len(context))
+        params = []
+        for context_item in context:
+            query_container = query_container.given_surface(False)
+            params.append(context_item[0])
 
+        # target_comes_after doesn't matter, since there is no target
+        return self._find_count_for_query(params, query_container, False)
 
-class NoContextParsingLikelihoodCalculator(object):
-    def __init__(self, collection):
-        self.collection = collection
+    def _count_target_surface_given_context(self, target, context, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context) + 1)
+        params = []
 
-    def _count_given_leading_word(self, leading_word):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING)
-        ], name="leading_surface_index", drop_dups=True)
+        query_container = query_container.target_surface(True)
+        params.append(target.get_surface())
+        params.append(target.get_surface_syntactic_category())
 
-        query_given_leading_word = WordBigramQueryBuilder().given_surface(leading_word).build()
-        count_given_leading_word = float(self.collection.find(query_given_leading_word).count())
-        return count_given_leading_word
+        for context_item in context:
+            query_container = query_container.given_surface(False)
+            params.append(context_item[0])
 
-    def _count_surface_given_leading_word(self, leading_word, surface_str, surface_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.surface.syntactic_category", pymongo.ASCENDING),
-        ], name="word_surface_index", drop_dups=True)
+        return self._find_count_for_query(params, query_container, target_comes_after)
 
-        query_surface_given_leading_word = WordBigramQueryBuilder().surface(surface_str, surface_syntactic_category).given_surface(leading_word).build()
-        count_surface_given_leading_word = float(self.collection.find(query_surface_given_leading_word).count())
-        return count_surface_given_leading_word
+    def _count_target_stem_given_context(self, target, context, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context) + 1)
+        params = []
 
-    def _count_stem_given_leading_word(self, leading_word, stem_str, stem_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.stem.value", pymongo.ASCENDING),
-            ("item_1.word.stem.syntactic_category", pymongo.ASCENDING),
-        ], name="word_stem_index", drop_dups=True)
+        query_container = query_container.target_stem(True)
+        params.append(target.get_stem())
+        params.append(target.get_stem_syntactic_category())
 
-        query_stem_given_leading_word = WordBigramQueryBuilder().stem(stem_str, stem_syntactic_category).given_surface(leading_word).build()
-        count_stem_given_leading_word = float(self.collection.find(query_stem_given_leading_word).count())
-        return count_stem_given_leading_word
+        for context_item in context:
+            query_container = query_container.given_surface(False)
+            params.append(context_item[0])
 
-    def _count_lexeme_given_leading_word(self, leading_word, lemma_root_str, lemma_root_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-        ], name="word_lemma_root_index", drop_dups=True)
+        return self._find_count_for_query(params, query_container, target_comes_after)
 
-        query_lexeme_given_leading_word = WordBigramQueryBuilder().lemma_root(lemma_root_str, lemma_root_syntactic_category).given_surface(leading_word).build()
-        count_lexeme_given_leading_word = float(self.collection.find(query_lexeme_given_leading_word).count())
-        return count_lexeme_given_leading_word
+    def _count_target_lexeme_given_context(self, target, context, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context) + 1)
+        params = []
 
-    def likelihood(self, leading_word, lemma_root_str, lemma_root_syn_cat, stem_str, stem_syn_cat, surface_str, surface_syn_cat):
-        count_given_leading_word = self._count_given_leading_word(leading_word)
-        count_surface_given_leading_word = self._count_surface_given_leading_word(leading_word, surface_str, surface_syn_cat)
-        count_stem_given_leading_word = self._count_stem_given_leading_word(leading_word, stem_str, stem_syn_cat)
-        count_lexeme_given_leading_word = self._count_lexeme_given_leading_word(leading_word, lemma_root_str, lemma_root_syn_cat)
+        query_container = query_container.target_lemma_root(True)
+        params.append(target.get_lemma_root())
+        params.append(target.get_lemma_root_syntactic_category())
 
-        # P(surface + surface_syn_cat | leading word)
-        p_surface_given_leading_word = count_surface_given_leading_word / count_given_leading_word if count_given_leading_word else 0.0
+        for context_item in context:
+            query_container = query_container.given_surface(False)
+            params.append(context_item[0])
 
-        # P(stem + stem_syn_cat | leading word)
-        p_stem_given_leading_word = count_stem_given_leading_word / count_given_leading_word if count_given_leading_word else 0.0
+        return self._find_count_for_query(params, query_container, target_comes_after)
 
-        # P(lexeme + lexeme_syn_cat | leading word)
-        p_lexeme_given_leading_word = count_lexeme_given_leading_word / count_given_leading_word if count_given_leading_word else 0.0
-
-        #attempt parsing the context words
-        return 0.55 * p_surface_given_leading_word + 0.3 * p_stem_given_leading_word + 0.15 * p_lexeme_given_leading_word
+    def _find_count_for_query(self, params, query_container, target_comes_after):
+        query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
+        return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
 
 
 class ContextParsingLikelihoodCalculator(object):
-    def __init__(self, collection):
-        self.collection = collection
+    COEFFICIENT_SURFACE_GIVEN_CONTEXT = 0.55
+    COEFFICIENT_STEM_GIVEN_CONTEXT = 0.3
+    COEFFICIENT_LEXEME_GIVEN_CONTEXT = 0.15
 
-    def _count_given_leading_surface(self, leading_surface_str, leading_surface_syn_cat):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_0.word.surface.syntactic_category", pymongo.ASCENDING)
-        ], name="word_surface_index", drop_dups=True)
+    WEIGHT_LEADING_CONTEXT = 0.6
+    WEIGHT_FOLLOWING_CONTEXT = 0.4
 
-        query_given_leading_surface = WordBigramQueryBuilder().given_surface(leading_surface_str, leading_surface_syn_cat).build()
-        count_given_leading_surface = float(self.collection.find(query_given_leading_surface).count())
-        return count_given_leading_surface
+    def __init__(self, collection_map):
+        self._collection_map = collection_map
 
-    def _count_surface_given_leading_surface(self, leading_surface_str, leading_surface_syn_cat, surface_str, surface_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_0.word.surface.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.surface.syntactic_category", pymongo.ASCENDING),
-        ], name="surface_surface_index", drop_dups=True)
-
-        query_surface_given_leading_surface = WordBigramQueryBuilder().surface(surface_str, surface_syntactic_category).given_surface(leading_surface_str,
-            leading_surface_syn_cat).build()
-        count_surface_given_leading_surface = float(self.collection.find(query_surface_given_leading_surface).count())
-        return count_surface_given_leading_surface
-
-    def _count_stem_given_leading_surface(self, leading_surface_str, leading_surface_syn_cat, stem_str, stem_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_0.word.surface.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.stem.value", pymongo.ASCENDING),
-            ("item_1.word.stem.syntactic_category", pymongo.ASCENDING),
-        ], name="surface_stem_index", drop_dups=True)
-
-        query_stem_given_leading_surface = WordBigramQueryBuilder().stem(stem_str, stem_syntactic_category).given_surface(leading_surface_str,
-            leading_surface_syn_cat).build()
-        count_stem_given_leading_surface = float(self.collection.find(query_stem_given_leading_surface).count())
-        return count_stem_given_leading_surface
-
-    def _count_lexeme_given_leading_surface(self, leading_surface_str, leading_surface_syn_cat, lemma_root_str, lemma_root_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.surface.value", pymongo.ASCENDING),
-            ("item_0.word.surface.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-        ], name="surface_lemma_root_index", drop_dups=True)
-
-        query_lexeme_given_leading_surface = WordBigramQueryBuilder().lemma_root(lemma_root_str, lemma_root_syntactic_category).given_surface(
-            leading_surface_str, leading_surface_syn_cat).build()
-        count_lexeme_given_leading_surface = float(self.collection.find(query_lexeme_given_leading_surface).count())
-        return count_lexeme_given_leading_surface
+    def calculate_likelihood(self, target, leading_context, following_context):
+        return self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
+               self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
 
 
-    def _count_given_leading_stem(self, leading_stem_str, leading_stem_syn_cat):
-        self.collection.ensure_index([
-            ("item_0.word.stem.value", pymongo.ASCENDING),
-            ("item_0.word.stem.syntactic_category", pymongo.ASCENDING)
-        ], name="stem_surface_index", drop_dups=True)
+    def calculate_oneway_likelihood(self, target, context, target_comes_after):
+        """
+        @type target: WordFormContainer
+        @type context: list of WordFormContainer
+        @type target_comes_after: bool
+        @rtype: float
+        """
+        assert target
+        assert context
 
-        query_given_leading_stem = WordBigramQueryBuilder().given_stem(leading_stem_str, leading_stem_syn_cat).build()
-        count_given_leading_stem = float(self.collection.find(query_given_leading_stem).count())
-        return count_given_leading_stem
+        cartesian_products_of_context_parse_results = []
+        if len(context)==1:
+            if context[0] is None:
+                return 0.0
+            else:
+                cartesian_products_of_context_parse_results = [[context_parse_result] for context_parse_result in context[0][1]]
+        else:
+            for context_word in context:
+                context_item_morpheme_containers = context_word[1]
+                if not context_item_morpheme_containers:
+                    break      # TODO: logging! one of the context words is unparsable
 
-    def _count_surface_given_leading_stem(self, leading_stem_str, leading_stem_syn_cat, surface_str, surface_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.stem.value", pymongo.ASCENDING),
-            ("item_0.word.stem.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.surface.syntactic_category", pymongo.ASCENDING),
-        ], name="stem_surface_index", drop_dups=True)
-
-        query_surface_given_leading_stem = WordBigramQueryBuilder().surface(surface_str, surface_syntactic_category).given_stem(leading_stem_str,
-            leading_stem_syn_cat).build()
-        count_surface_given_leading_stem = float(self.collection.find(query_surface_given_leading_stem).count())
-        return count_surface_given_leading_stem
-
-    def _count_stem_given_leading_stem(self, leading_stem_str, leading_stem_syn_cat, stem_str, stem_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.stem.value", pymongo.ASCENDING),
-            ("item_0.word.stem.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.stem.value", pymongo.ASCENDING),
-            ("item_1.word.stem.syntactic_category", pymongo.ASCENDING),
-        ], name="stem_stem_index", drop_dups=True)
-
-        query_stem_given_leading_stem = WordBigramQueryBuilder().stem(stem_str, stem_syntactic_category).given_stem(leading_stem_str,
-            leading_stem_syn_cat).build()
-        count_stem_given_leading_stem = float(self.collection.find(query_stem_given_leading_stem).count())
-        return count_stem_given_leading_stem
-
-    def _count_lexeme_given_leading_stem(self, leading_stem_str, leading_stem_syn_cat, lemma_root_str, lemma_root_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.stem.value", pymongo.ASCENDING),
-            ("item_0.word.stem.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-        ], name="stem_lemma_root_index", drop_dups=True)
-
-        query_lexeme_given_leading_stem = WordBigramQueryBuilder().lemma_root(lemma_root_str, lemma_root_syntactic_category).given_stem(leading_stem_str,
-            leading_stem_syn_cat).build()
-        count_lexeme_given_leading_stem = float(self.collection.find(query_lexeme_given_leading_stem).count())
-        return count_lexeme_given_leading_stem
+                if not cartesian_products_of_context_parse_results:
+                    cartesian_products_of_context_parse_results = context_item_morpheme_containers[:]
+                else:
+                    cartesian_products_of_context_parse_results = itertools.product(cartesian_products_of_context_parse_results, context_item_morpheme_containers)
 
 
-    def _count_given_leading_lexeme(self, leading_lemma_root_str, leading_lemma_root_syn_cat):
-        self.collection.ensure_index([
-            ("item_0.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_0.word.lemma_root.syntactic_category", pymongo.ASCENDING)
-        ], name="lemma_root_surface_index", drop_dups=True)
+        likelihood = 0.0
 
-        query_given_leading_lexeme = WordBigramQueryBuilder().given_lemma_root(leading_lemma_root_str, leading_lemma_root_syn_cat).build()
-        count_given_leading_lexeme = float(self.collection.find(query_given_leading_lexeme).count())
-        return count_given_leading_lexeme
-
-    def _count_surface_given_leading_lexeme(self, leading_lemma_root_str, leading_lemma_root_syn_cat, surface_str, surface_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_0.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.surface.value", pymongo.ASCENDING),
-            ("item_1.word.surface.syntactic_category", pymongo.ASCENDING),
-        ], name="lemma_root_surface_index", drop_dups=True)
-
-        query_surface_given_leading_lexeme = WordBigramQueryBuilder().surface(surface_str, surface_syntactic_category).given_lemma_root(leading_lemma_root_str,
-            leading_lemma_root_syn_cat).build()
-        count_surface_given_leading_lexeme = float(self.collection.find(query_surface_given_leading_lexeme).count())
-        return count_surface_given_leading_lexeme
-
-    def _count_stem_given_leading_lexeme(self, leading_lemma_root_str, leading_lemma_root_syn_cat, stem_str, stem_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_0.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.stem.value", pymongo.ASCENDING),
-            ("item_1.word.stem.syntactic_category", pymongo.ASCENDING),
-        ], name="lemma_root_stem_index", drop_dups=True)
-
-        query_stem_given_leading_lexeme = WordBigramQueryBuilder().stem(stem_str, stem_syntactic_category).given_lemma_root(leading_lemma_root_str,
-            leading_lemma_root_syn_cat).build()
-        count_stem_given_leading_lexeme = float(self.collection.find(query_stem_given_leading_lexeme).count())
-        return count_stem_given_leading_lexeme
-
-    def _count_lexeme_given_leading_lexeme(self, leading_lemma_root_str, leading_lemma_root_syn_cat, lemma_root_str, lemma_root_syntactic_category):
-        self.collection.ensure_index([
-            ("item_0.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_0.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.value", pymongo.ASCENDING),
-            ("item_1.word.lemma_root.syntactic_category", pymongo.ASCENDING),
-        ], name="lemma_root_lemma_root_index", drop_dups=True)
-
-        query_lexeme_given_leading_lexeme = WordBigramQueryBuilder().lemma_root(lemma_root_str, lemma_root_syntactic_category).given_lemma_root(
-            leading_lemma_root_str, leading_lemma_root_syn_cat).build()
-        count_lexeme_given_leading_lexeme = float(self.collection.find(query_lexeme_given_leading_lexeme).count())
-        return count_lexeme_given_leading_lexeme
+        for context_parse_results in cartesian_products_of_context_parse_results:
+            p_target_surface_given_context = self._calculate_probability_target_surface_given_context(target, context_parse_results, target_comes_after)
+            p_target_stem_given_context = self._calculate_probability_target_stem_given_context(target, context_parse_results, target_comes_after)
+            p_target_lexeme_given_context = self._calculate_probability_target_lexeme_given_context(target, context_parse_results, target_comes_after)
 
 
-    def _p_word_given_leading_surface(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
-        leading_surface_str = morpheme_container.get_surface_so_far()
-        leading_surface_syn_cat = morpheme_container.get_surface_syntactic_category()
+            likelihood +=  p_target_surface_given_context * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +\
+                           p_target_stem_given_context    * self.COEFFICIENT_STEM_GIVEN_CONTEXT    +\
+                           p_target_lexeme_given_context  * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
 
-        count_given_leading_surface = self._count_given_leading_surface(leading_surface_str, leading_surface_syn_cat)
-        count_surface_given_leading_surface = self._count_surface_given_leading_surface(leading_surface_str, leading_surface_syn_cat, surface_str,
-            surface_syn_cat)
-        count_stem_given_leading_surface = self._count_stem_given_leading_surface(leading_surface_str, leading_surface_syn_cat, stem_str, stem_syn_cat)
-        count_lexeme_given_leading_surface = self._count_lexeme_given_leading_surface(leading_surface_str, leading_surface_syn_cat, lemma_root_str,
-            lemma_root_syn_cat)
+        return likelihood
 
-        # P(surface + surface_syn_cat | leading surface + syn_cat)
-        p_surface_given_leading_surface = count_surface_given_leading_surface / count_given_leading_surface if count_given_leading_surface else 0.0
+    def _count_given_context(self, context):
+        query_container = WordNGramQueryContainer(len(context))
+        params = []
+        for context_item in context:
+            query_container = query_container.given_surface(False)
+            params.append(context_item[0])
 
-        # P(stem + stem_syn_cat | leading surface + syn_cat)
-        p_stem_given_leading_surface = count_stem_given_leading_surface / count_given_leading_surface if count_given_leading_surface else 0.0
+        # target_comes_after doesn't matter, since there is no target
+        return self._find_count_for_query(params, query_container, False)
 
-        # P(lexeme + lexeme_syn_cat | leading surface + syn_cat)
-        p_lexeme_given_leading_surface = count_lexeme_given_leading_surface / count_given_leading_surface if count_given_leading_surface else 0.0
+    ################## context form counts
+    def _count_given_context_surfaces(self, context_parse_results):
+        query_container = WordNGramQueryContainer(len(context_parse_results))
+        params = []
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_surface(True)
+            params.append(context_item_parse_result.get_surface())
+            params.append(context_item_parse_result.get_surface_syntactic_category())
 
-        p_word_with_leading_surface = 0.55 * p_surface_given_leading_surface + 0.3 * p_stem_given_leading_surface + 0.15 * p_lexeme_given_leading_surface
+        # target_comes_after doesn't matter, since there is no target
+        return self._find_count_for_query(params, query_container, False)
 
-        return p_word_with_leading_surface
+    def _count_given_context_stems(self, context_parse_results):
+        query_container = WordNGramQueryContainer(len(context_parse_results))
+        params = []
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_stem(True)
+            params.append(context_item_parse_result.get_stem())
+            params.append(context_item_parse_result.get_stem_syntactic_category())
 
-    def _p_word_given_leading_stem(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
-        leading_stem_str = morpheme_container.get_stem()
-        leading_stem_syn_cat = morpheme_container.get_stem_syntactic_category()
+        # target_comes_after doesn't matter, since there is no target
+        return self._find_count_for_query(params, query_container, False)
 
-        count_given_leading_stem = self._count_given_leading_stem(leading_stem_str, leading_stem_syn_cat)
-        count_surface_given_leading_stem = self._count_surface_given_leading_stem(leading_stem_str, leading_stem_syn_cat, surface_str, surface_syn_cat)
-        count_stem_given_leading_stem = self._count_stem_given_leading_stem(leading_stem_str, leading_stem_syn_cat, stem_str, stem_syn_cat)
-        count_lexeme_given_leading_stem = self._count_lexeme_given_leading_stem(leading_stem_str, leading_stem_syn_cat, lemma_root_str, lemma_root_syn_cat)
+    def _count_given_context_lexemes(self, context_parse_results):
+        query_container = WordNGramQueryContainer(len(context_parse_results))
+        params = []
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_lemma_root(True)
+            params.append(context_item_parse_result.get_lemma_root())
+            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
 
-        # P(surface + surface_syn_cat | leading stem + syn_cat)
-        p_surface_given_leading_stem = count_surface_given_leading_stem / count_given_leading_stem if count_given_leading_stem else 0.0
+        # target_comes_after doesn't matter, since there is no target
+        return self._find_count_for_query(params, query_container, False)
 
-        # P(stem + stem_syn_cat | leading stem + syn_cat)
-        p_stem_given_leading_stem = count_stem_given_leading_stem / count_given_leading_stem if count_given_leading_stem else 0.0
 
-        # P(lexeme + lexeme_syn_cat | leading stem + syn_cat)
-        p_lexeme_given_leading_stem = count_lexeme_given_leading_stem / count_given_leading_stem if count_given_leading_stem else 0.0
+    ################## 1. target surface given context
+    def _calculate_probability_target_surface_given_context(self, target, context_parse_results, target_comes_after):
+        probability_target_surface_given_context_surfaces = self._calculate_probability_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after)
+        probability_target_surface_given_context_stems = self._calculate_probability_target_surface_given_context_stems(target, context_parse_results, target_comes_after)
+        probability_target_surface_given_context_lexemes = self._calculate_probability_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after)
 
-        p_word_with_leading_stem = 0.55 * p_surface_given_leading_stem + 0.3 * p_stem_given_leading_stem + 0.15 * p_lexeme_given_leading_stem
+        likelihood = (
+                          probability_target_surface_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
+                          probability_target_surface_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
+                          probability_target_surface_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+                      )
 
-        return p_word_with_leading_stem
+        return likelihood
 
-    def _p_word_given_leading_lexeme(self, morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str, lemma_root_syn_cat):
-        leading_lemma_root_str = morpheme_container.get_root().lexeme.root
-        leading_lemma_root_syn_cat = morpheme_container.get_root().lexeme.syntactic_category
+    def _calculate_probability_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after):
+        count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
 
-        count_given_leading_lexeme = self._count_given_leading_lexeme(leading_lemma_root_str, leading_lemma_root_syn_cat)
-        count_surface_given_leading_lexeme = self._count_surface_given_leading_lexeme(leading_lemma_root_str, leading_lemma_root_syn_cat, surface_str,
-            surface_syn_cat)
-        count_stem_given_leading_lexeme = self._count_stem_given_leading_lexeme(leading_lemma_root_str, leading_lemma_root_syn_cat, stem_str, stem_syn_cat)
-        count_lexeme_given_leading_lexeme = self._count_lexeme_given_leading_lexeme(leading_lemma_root_str, leading_lemma_root_syn_cat, lemma_root_str,
-            lemma_root_syn_cat)
+        if not count_given_context_surfaces:
+            return 0.0
 
-        # P(surface + surface_syn_cat | leading lemma + syn_cat)
-        p_surface_given_leading_lexeme = count_surface_given_leading_lexeme / count_given_leading_lexeme if count_given_leading_lexeme else 0.0
+        count_target_surface_given_context_surfaces = self._count_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after)
 
-        # P(stem + stem_syn_cat | leading lemma + syn_cat)
-        p_stem_given_leading_lexeme = count_stem_given_leading_lexeme / count_given_leading_lexeme if count_given_leading_lexeme else 0.0
+        return count_target_surface_given_context_surfaces / count_given_context_surfaces
 
-        # P(lexeme + lexeme_syn_cat | leading lemma + syn_cat)
-        p_lexeme_given_leading_lexeme = count_lexeme_given_leading_lexeme / count_given_leading_lexeme if count_given_leading_lexeme else 0.0
+    ################## 1.a target surface given context surfaces
+    def _count_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
 
-        p_word_with_leading_lexeme = 0.55 * p_surface_given_leading_lexeme + 0.3 * p_stem_given_leading_lexeme + 0.15 * p_lexeme_given_leading_lexeme
+        query_container = query_container.target_surface(True)
+        params.append(target.get_surface())
+        params.append(target.get_surface_syntactic_category())
 
-        return p_word_with_leading_lexeme
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_surface(True)
+            params.append(context_item_parse_result.get_surface())
+            params.append(context_item_parse_result.get_surface_syntactic_category())
 
-    def likelihood(self, parse_results_of_leading_word, lemma_root_str, lemma_root_syn_cat, stem_str, stem_syn_cat, surface_str, surface_syn_cat):
-        total = 0.0
+        return self._find_count_for_query(params, query_container, target_comes_after)
 
-        for morpheme_container in parse_results_of_leading_word:
-            p_word_given_leading_surface = self._p_word_given_leading_surface(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat,
-                lemma_root_str, lemma_root_syn_cat)
-            p_word_given_leading_stem = self._p_word_given_leading_stem(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat, lemma_root_str
-                , lemma_root_syn_cat)
-            p_word_given_leading_lexeme = self._p_word_given_leading_lexeme(morpheme_container, surface_str, surface_syn_cat, stem_str, stem_syn_cat,
-                lemma_root_str, lemma_root_syn_cat)
+    ################## 1.b target surface given context stems
+    def _calculate_probability_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after):
+        count_given_context_stems = self._count_given_context_stems(context_parse_results)
 
-            total += 0.55 * p_word_given_leading_surface + 0.3 * p_word_given_leading_stem + 0.15 * p_word_given_leading_lexeme
+        if not count_given_context_stems:
+            return 0.0
 
-        return total / float(len(parse_results_of_leading_word))
+        count_target_surface_given_context_stems = self._count_target_surface_given_context_stems(target, context_parse_results, target_comes_after)
+
+        return count_target_surface_given_context_stems / count_given_context_stems
+
+    def _count_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_surface(True)
+        params.append(target.get_surface())
+        params.append(target.get_surface_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_stem(True)
+            params.append(context_item_parse_result.get_stem())
+            params.append(context_item_parse_result.get_stem_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+    ################## 1.c target surface given context lexemes
+    def _calculate_probability_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after):
+        count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
+
+        if not count_given_context_lexemes:
+            return 0.0
+
+        count_target_surface_given_context_lexemes = self._count_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        return count_target_surface_given_context_lexemes / count_given_context_lexemes
+
+    def _count_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_surface(True)
+        params.append(target.get_surface())
+        params.append(target.get_surface_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_lemma_root(True)
+            params.append(context_item_parse_result.get_lemma_root())
+            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+
+    ################## 2. target stem given context
+    def _calculate_probability_target_stem_given_context(self, target, context_parse_results, target_comes_after):
+        probability_target_stem_given_context_surfaces = self._calculate_probability_target_stem_given_context_surfaces(target, context_parse_results, target_comes_after)
+        probability_target_stem_given_context_stems = self._calculate_probability_target_stem_given_context_stems(target, context_parse_results, target_comes_after)
+        probability_target_stem_given_context_lexemes = self._calculate_probability_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        likelihood = (
+            probability_target_stem_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
+            probability_target_stem_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
+            probability_target_stem_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+            )
+
+        return likelihood
+
+    ################## 2.a target stem given context surfaces
+    def _calculate_probability_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after):
+        count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
+
+        if not count_given_context_surfaces:
+            return 0.0
+
+        count_target_stem_given_context_surfaces = self._count_target_stem_given_context_surfaces(target, context_parse_results, target_comes_after)
+
+        return count_target_stem_given_context_surfaces / count_given_context_surfaces
+
+    def _count_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_stem(True)
+        params.append(target.get_stem())
+        params.append(target.get_stem_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_surface(True)
+            params.append(context_item_parse_result.get_surface())
+            params.append(context_item_parse_result.get_surface_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+    ############## 2,b target stem given context stems
+    def _calculate_probability_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after):
+        count_given_context_stems = self._count_given_context_stems(context_parse_results)
+
+        if not count_given_context_stems:
+            return 0.0
+
+        count_target_stem_given_context_stems = self._count_target_stem_given_context_stems(target, context_parse_results, target_comes_after)
+
+        return count_target_stem_given_context_stems / count_given_context_stems
+
+    def _count_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_stem(True)
+        params.append(target.get_stem())
+        params.append(target.get_stem_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_stem(True)
+            params.append(context_item_parse_result.get_stem())
+            params.append(context_item_parse_result.get_stem_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+    ############## 2,c target stem given context lexemes
+    def _calculate_probability_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after):
+        count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
+
+        if not count_given_context_lexemes:
+            return 0.0
+
+        count_target_stem_given_context_lexemes = self._count_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        return count_target_stem_given_context_lexemes / count_given_context_lexemes
+
+    def _count_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_stem(True)
+        params.append(target.get_stem())
+        params.append(target.get_stem_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_lemma_root(True)
+            params.append(context_item_parse_result.get_lemma_root())
+            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+
+    ################## 3. target lexeme given context
+    def _calculate_probability_target_lexeme_given_context(self, target, context_parse_results, target_comes_after):
+        probability_target_lexeme_given_context_surfaces = self._calculate_probability_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after)
+        probability_target_lexeme_given_context_stems = self._calculate_probability_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after)
+        probability_target_lexeme_given_context_lexemes = self._calculate_probability_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        likelihood = (
+            probability_target_lexeme_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
+            probability_target_lexeme_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
+            probability_target_lexeme_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+            )
+
+        return likelihood
+
+
+    ################## 3.a target lexeme given context surfaces
+    def _calculate_probability_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after):
+        count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
+
+        if not count_given_context_surfaces:
+            return 0.0
+
+        count_target_lexeme_given_context_surfaces = self._count_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after)
+
+        return count_target_lexeme_given_context_surfaces / count_given_context_surfaces
+
+    def _count_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_lemma_root(True)
+        params.append(target.get_lemma_root())
+        params.append(target.get_lemma_root_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_surface(True)
+            params.append(context_item_parse_result.get_surface())
+            params.append(context_item_parse_result.get_surface_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+    ################## 3.b target lexeme given context stems
+    def _calculate_probability_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after):
+        count_given_context_stems = self._count_given_context_stems(context_parse_results)
+
+        if not count_given_context_stems:
+            return 0.0
+
+        count_target_lexeme_given_context_stems = self._count_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after)
+
+        return count_target_lexeme_given_context_stems / count_given_context_stems
+
+    def _count_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_lemma_root(True)
+        params.append(target.get_lemma_root())
+        params.append(target.get_lemma_root_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_stem(True)
+            params.append(context_item_parse_result.get_stem())
+            params.append(context_item_parse_result.get_stem_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+    ################## 3.c target lexeme given context lexemes
+    def _calculate_probability_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after):
+        count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
+
+        if not count_given_context_lexemes:
+            return 0.0
+
+        count_target_lexeme_given_context_lexemes = self._count_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        return count_target_lexeme_given_context_lexemes / count_given_context_lexemes
+
+    def _count_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after):
+        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
+        params = []
+
+        query_container = query_container.target_lemma_root(True)
+        params.append(target.get_lemma_root())
+        params.append(target.get_lemma_root_syntactic_category())
+
+        for context_item_parse_result in context_parse_results:
+            query_container = query_container.given_lemma_root(True)
+            params.append(context_item_parse_result.get_lemma_root())
+            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
+
+    #########
+    def _find_count_for_query(self, params, query_container, target_comes_after):
+        query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
+        return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()

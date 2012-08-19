@@ -155,6 +155,9 @@ class MorphemeContainer(object):
         else:
             return self._root_state
 
+    def get_surface(self):
+        return (self._surface_so_far or "") + self._remaining_surface
+
     def get_surface_syntactic_category(self):
         return self.get_last_state().syntactic_category
 
@@ -181,6 +184,12 @@ class MorphemeContainer(object):
             return self._transitions[index_of_last_derivational_suffix].to_state.syntactic_category
         else:
             return self._root.lexeme.syntactic_category
+
+    def get_lemma_root(self):
+        return self._root.lexeme.root
+
+    def get_lemma_root_syntactic_category(self):
+        return self._root.lexeme.syntactic_category
 
     def get_last_derivation_transition(self):
         for transition in reversed(self._transitions):

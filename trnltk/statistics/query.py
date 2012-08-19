@@ -1,5 +1,8 @@
 # coding=utf-8
+import logging
 import pymongo
+
+logger = logging.getLogger('query')
 
 class WordNGramQueryContainerItem(object):
     def __init__(self, str_type, include_syntactic_category):
@@ -102,7 +105,12 @@ class QueryBuilder(object):
         collection = self._collection_map[query_container._n]
 
         index_keys = [(key, pymongo.ASCENDING) for key in keys]
-        collection.ensure_index(index_keys, name=index_name, drop_dups=True)
+        logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
+        created_index_name = collection.ensure_index(index_keys, name=index_name, drop_dups=True)
+        if created_index_name:
+            logger.log(logging.DEBUG, u'\tCreated index with name : ' + created_index_name)
+        else:
+            logger.log(logging.DEBUG, u'\tIndex already exists')
 
         return QueryExecutionContext(keys, collection)
 
@@ -122,10 +130,12 @@ class QueryExecutor(object):
 
     def find(self):
         query_with_params = self._build_query_with_params()
-        return self._query_execution_context.collection.find(query_with_params).count()
+        return self._query_execution_context.collection.find(query_with_params)
 
     def count(self):
-        return self.find().count()
+        count = float(self.find().count())
+        logger.log(logging.DEBUG, u'\tFound {} results \n'.format(count))
+        return count
 
     def _build_query_with_params(self):
         assert len(self._params)==len(self._query_execution_context.keys)
@@ -133,4 +143,6 @@ class QueryExecutor(object):
         for index, param in enumerate(self._params):
             mongo_query[self._query_execution_context.keys[index]] = param
 
+        logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
+        logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
         return mongo_query
