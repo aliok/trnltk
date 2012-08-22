@@ -6,6 +6,89 @@ from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, Query
 
 logger = logging.getLogger('contextstats')
 
+class QueryFormAppender(object):
+    def append(self, container, query, params):
+        raise NotImplementedError()
+
+class ContextWordAppender(QueryFormAppender):
+    def append(self, context_item, query, params):
+        query.given_surface(False)
+        params.append(context_item)
+
+class ParseResultFormAppender(QueryFormAppender):
+    def __init__(self, add_syntactic_category, is_target):
+        self.add_syntactic_category = add_syntactic_category
+        self.is_target = is_target
+
+    def append(self, target, query, params):
+        raise NotImplementedError()
+
+class ParseResultSurfaceAppender(ParseResultFormAppender):
+    def append(self, morpheme_container, query, params):
+        if self.is_target:
+            if self.add_syntactic_category:
+                query.target_surface(True)
+            else:
+                query.target_surface(False)
+        else:
+            if self.add_syntactic_category:
+                query.given_surface(True)
+            else:
+                query.given_surface(False)
+
+        if self.add_syntactic_category:
+            params.append(morpheme_container.get_surface())
+            params.append(morpheme_container.get_surface_syntactic_category())
+        else:
+            params.append(morpheme_container.get_surface())
+
+class ParseResultStemAppender(ParseResultFormAppender):
+    def append(self, morpheme_container, query, params):
+        if self.is_target:
+            if self.add_syntactic_category:
+                query.target_stem(True)
+            else:
+                query.target_stem(False)
+        else:
+            if self.add_syntactic_category:
+                query.given_stem(True)
+            else:
+                query.given_stem(False)
+
+        if self.add_syntactic_category:
+            params.append(morpheme_container.get_stem())
+            params.append(morpheme_container.get_stem_syntactic_category())
+        else:
+            params.append(morpheme_container.get_stem())
+
+class ParseResultLemmaRootAppender(ParseResultFormAppender):
+    def append(self, morpheme_container, query, params):
+        if self.is_target:
+            if self.add_syntactic_category:
+                query.target_lemma_root(True)
+            else:
+                query.target_lemma_root(False)
+        else:
+            if self.add_syntactic_category:
+                query.given_lemma_root(True)
+            else:
+                query.given_lemma_root(False)
+
+        if self.add_syntactic_category:
+            params.append(morpheme_container.get_lemma_root())
+            params.append(morpheme_container.get_lemma_root_syntactic_category())
+        else:
+            params.append(morpheme_container.get_lemma_root())
+
+context_word_appender = ContextWordAppender()
+target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
+target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
+target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)
+
+context_surface_syn_cat_appender = ParseResultSurfaceAppender(True, False)
+context_stem_syn_cat_appender = ParseResultStemAppender(True, False)
+context_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, False)
+
 class NonContextParsingLikelihoodCalculator(object):
     COEFFICIENT_SURFACE_GIVEN_CONTEXT = 0.55
     COEFFICIENT_STEM_GIVEN_CONTEXT = 0.3
@@ -19,7 +102,7 @@ class NonContextParsingLikelihoodCalculator(object):
 
     def calculate_likelihood(self, target, leading_context, following_context):
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug("Calculating likelihood of {1}, {0}, {2}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in leading_context], [t[0] for t in following_context]))
+            logger.debug("Calculating likelihood of {1}, {0}, {2}".format(formatter.format_morpheme_container_for_simple_parseset(target), leading_context, following_context))
 
         likelihood =  self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   + \
                       self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
@@ -40,18 +123,18 @@ class NonContextParsingLikelihoodCalculator(object):
 
         if logger.isEnabledFor(logging.DEBUG):
             if target_comes_after:
-                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), context))
             else:
-                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), context))
 
-        count_given_context = self._count_given_context(context)
+        count_given_context = self._count_target_form_given_context(target, context, False, None, context_word_appender)
 
         if not count_given_context:
             return 0
 
-        count_target_surface_given_context = self._count_target_surface_given_context(target, context, target_comes_after)
-        count_target_stem_given_context = self._count_target_stem_given_context(target, context, target_comes_after)
-        count_target_lexeme_given_context = self._count_target_lexeme_given_context(target, context, target_comes_after)
+        count_target_surface_given_context = self._count_target_form_given_context(target, context, target_comes_after, target_surface_syn_cat_appender, context_word_appender)
+        count_target_stem_given_context = self._count_target_form_given_context(target, context, target_comes_after, target_stem_syn_cat_appender, context_word_appender)
+        count_target_lexeme_given_context = self._count_target_form_given_context(target, context, target_comes_after, target_lemma_root_syn_cat_appender, context_word_appender)
 
         logger.debug("    Found {} context occurrences".format(count_given_context))
         logger.debug("    Found {} target surface with context occurrences".format(count_target_surface_given_context))
@@ -68,61 +151,21 @@ class NonContextParsingLikelihoodCalculator(object):
 
         return likelihood
 
-    def _count_given_context(self, context):
-        query_container = WordNGramQueryContainer(len(context))
-        params = []
-        for context_item in context:
-            query_container = query_container.given_surface(False)
-            params.append(context_item[0])
-
-        # target_comes_after doesn't matter, since there is no target
-        return self._find_count_for_query(params, query_container, False)
-
-    def _count_target_surface_given_context(self, target, context, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context) + 1)
+    def _count_target_form_given_context(self, target, context, target_comes_after, target_appender, context_appender):
+        query_container = WordNGramQueryContainer(len(context) + 1) if target_appender else WordNGramQueryContainer(len(context))
         params = []
 
-        query_container = query_container.target_surface(True)
-        params.append(target.get_surface())
-        params.append(target.get_surface_syntactic_category())
-
+        if target_appender:
+            target_appender.append(target, query_container, params)
         for context_item in context:
-            query_container = query_container.given_surface(False)
-            params.append(context_item[0])
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
-
-    def _count_target_stem_given_context(self, target, context, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context) + 1)
-        params = []
-
-        query_container = query_container.target_stem(True)
-        params.append(target.get_stem())
-        params.append(target.get_stem_syntactic_category())
-
-        for context_item in context:
-            query_container = query_container.given_surface(False)
-            params.append(context_item[0])
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
-
-    def _count_target_lexeme_given_context(self, target, context, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context) + 1)
-        params = []
-
-        query_container = query_container.target_lemma_root(True)
-        params.append(target.get_lemma_root())
-        params.append(target.get_lemma_root_syntactic_category())
-
-        for context_item in context:
-            query_container = query_container.given_surface(False)
-            params.append(context_item[0])
+            context_appender.append(context_item, query_container, params)
 
         return self._find_count_for_query(params, query_container, target_comes_after)
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
         query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
         return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
+
 
 
 class ContextParsingLikelihoodCalculator(object):
@@ -207,50 +250,29 @@ class ContextParsingLikelihoodCalculator(object):
 
         return likelihood
 
-    def _count_given_context(self, context):
-        query_container = WordNGramQueryContainer(len(context))
+    def _count_target_form_given_context(self, target, context, target_comes_after, target_appender, context_appender):
+        query_container = WordNGramQueryContainer(len(context) + 1) if target_appender else WordNGramQueryContainer(len(context))
         params = []
-        for context_item in context:
-            query_container = query_container.given_surface(False)
-            params.append(context_item[0])
 
-        # target_comes_after doesn't matter, since there is no target
-        return self._find_count_for_query(params, query_container, False)
+        if target_appender:
+            target_appender.append(target, query_container, params)
+        for context_item in context:
+            context_appender.append(context_item, query_container, params)
+
+        return self._find_count_for_query(params, query_container, target_comes_after)
 
     ################## context form counts
     def _count_given_context_surfaces(self, context_parse_results):
-        query_container = WordNGramQueryContainer(len(context_parse_results))
-        params = []
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_surface(True)
-            params.append(context_item_parse_result.get_surface())
-            params.append(context_item_parse_result.get_surface_syntactic_category())
-
         # target_comes_after doesn't matter, since there is no target
-        return self._find_count_for_query(params, query_container, False)
+        return self._count_target_form_given_context(None, context_parse_results, False, None, context_surface_syn_cat_appender)
 
     def _count_given_context_stems(self, context_parse_results):
-        query_container = WordNGramQueryContainer(len(context_parse_results))
-        params = []
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_stem(True)
-            params.append(context_item_parse_result.get_stem())
-            params.append(context_item_parse_result.get_stem_syntactic_category())
-
         # target_comes_after doesn't matter, since there is no target
-        return self._find_count_for_query(params, query_container, False)
+        return self._count_target_form_given_context(None, context_parse_results, False, None, context_stem_syn_cat_appender)
 
     def _count_given_context_lexemes(self, context_parse_results):
-        query_container = WordNGramQueryContainer(len(context_parse_results))
-        params = []
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_lemma_root(True)
-            params.append(context_item_parse_result.get_lemma_root())
-            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
-
         # target_comes_after doesn't matter, since there is no target
-        return self._find_count_for_query(params, query_container, False)
-
+        return self._count_target_form_given_context(None, context_parse_results, False, None, context_lemma_root_syn_cat_appender)
 
     ################## 1. target surface given context
     def _calculate_probability_target_surface_given_context(self, target, context_parse_results, target_comes_after):
@@ -263,13 +285,14 @@ class ContextParsingLikelihoodCalculator(object):
         logger.debug("       Found surface probability {} for context lexemes".format(probability_target_surface_given_context_lexemes))
 
         likelihood = (
-                          probability_target_surface_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
-                          probability_target_surface_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
-                          probability_target_surface_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
-                      )
+            probability_target_surface_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
+            probability_target_surface_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
+            probability_target_surface_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+            )
 
         return likelihood
 
+    ################## 1.a target surface given context surfaces
     def _calculate_probability_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after):
         count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
 
@@ -280,21 +303,8 @@ class ContextParsingLikelihoodCalculator(object):
 
         return count_target_surface_given_context_surfaces / count_given_context_surfaces
 
-    ################## 1.a target surface given context surfaces
     def _count_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_surface(True)
-        params.append(target.get_surface())
-        params.append(target.get_surface_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_surface(True)
-            params.append(context_item_parse_result.get_surface())
-            params.append(context_item_parse_result.get_surface_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_surface_syn_cat_appender)
 
     ################## 1.b target surface given context stems
     def _calculate_probability_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after):
@@ -308,19 +318,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_surface_given_context_stems / count_given_context_stems
 
     def _count_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_surface(True)
-        params.append(target.get_surface())
-        params.append(target.get_surface_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_stem(True)
-            params.append(context_item_parse_result.get_stem())
-            params.append(context_item_parse_result.get_stem_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_stem_syn_cat_appender)
 
     ################## 1.c target surface given context lexemes
     def _calculate_probability_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after):
@@ -334,19 +332,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_surface_given_context_lexemes / count_given_context_lexemes
 
     def _count_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_surface(True)
-        params.append(target.get_surface())
-        params.append(target.get_surface_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_lemma_root(True)
-            params.append(context_item_parse_result.get_lemma_root())
-            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender)
 
 
     ################## 2. target stem given context
@@ -379,19 +365,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_stem_given_context_surfaces / count_given_context_surfaces
 
     def _count_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_stem(True)
-        params.append(target.get_stem())
-        params.append(target.get_stem_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_surface(True)
-            params.append(context_item_parse_result.get_surface())
-            params.append(context_item_parse_result.get_surface_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_surface_syn_cat_appender)
 
     ############## 2,b target stem given context stems
     def _calculate_probability_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after):
@@ -405,21 +379,9 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_stem_given_context_stems / count_given_context_stems
 
     def _count_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_stem_syn_cat_appender)
 
-        query_container = query_container.target_stem(True)
-        params.append(target.get_stem())
-        params.append(target.get_stem_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_stem(True)
-            params.append(context_item_parse_result.get_stem())
-            params.append(context_item_parse_result.get_stem_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
-
-    ############## 2,c target stem given context lexemes
+    ############## 2.c target stem given context lexemes
     def _calculate_probability_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after):
         count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
 
@@ -431,20 +393,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_stem_given_context_lexemes / count_given_context_lexemes
 
     def _count_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_stem(True)
-        params.append(target.get_stem())
-        params.append(target.get_stem_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_lemma_root(True)
-            params.append(context_item_parse_result.get_lemma_root())
-            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
-
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
 
     ################## 3. target lexeme given context
     def _calculate_probability_target_lexeme_given_context(self, target, context_parse_results, target_comes_after):
@@ -477,19 +426,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_lexeme_given_context_surfaces / count_given_context_surfaces
 
     def _count_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_lemma_root(True)
-        params.append(target.get_lemma_root())
-        params.append(target.get_lemma_root_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_surface(True)
-            params.append(context_item_parse_result.get_surface())
-            params.append(context_item_parse_result.get_surface_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender)
 
     ################## 3.b target lexeme given context stems
     def _calculate_probability_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after):
@@ -503,19 +440,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_lexeme_given_context_stems / count_given_context_stems
 
     def _count_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_lemma_root(True)
-        params.append(target.get_lemma_root())
-        params.append(target.get_lemma_root_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_stem(True)
-            params.append(context_item_parse_result.get_stem())
-            params.append(context_item_parse_result.get_stem_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender)
 
     ################## 3.c target lexeme given context lexemes
     def _calculate_probability_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after):
@@ -529,19 +454,7 @@ class ContextParsingLikelihoodCalculator(object):
         return count_target_lexeme_given_context_lexemes / count_given_context_lexemes
 
     def _count_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        query_container = WordNGramQueryContainer(len(context_parse_results) + 1)
-        params = []
-
-        query_container = query_container.target_lemma_root(True)
-        params.append(target.get_lemma_root())
-        params.append(target.get_lemma_root_syntactic_category())
-
-        for context_item_parse_result in context_parse_results:
-            query_container = query_container.given_lemma_root(True)
-            params.append(context_item_parse_result.get_lemma_root())
-            params.append(context_item_parse_result.get_lemma_root_syntactic_category())
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
+        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender)
 
     #########
     def _find_count_for_query(self, params, query_container, target_comes_after):

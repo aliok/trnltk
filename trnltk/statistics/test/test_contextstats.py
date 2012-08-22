@@ -26,10 +26,10 @@ parse_set_word_list = []
 for sentence in parseset.sentences:
     parse_set_word_list.extend(sentence.words)
 
-class LikelihoodCalculatorTest(unittest.TestCase):
+class _LikelihoodCalculatorTest(object):
     @classmethod
     def setUpClass(cls):
-        super(LikelihoodCalculatorTest, cls).setUpClass()
+        super(_LikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
         lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
@@ -68,8 +68,8 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     def _test_generate_likelihood(self, surface, leading_context=None, following_context=None):
         assert leading_context or following_context
 
-        leading_context_with_parse_results = [(cw, self.context_free_parser.parse(cw)) for cw in leading_context] if leading_context else []
-        following_context_with_parse_results = [(cw, self.context_free_parser.parse(cw)) for cw in following_context] if following_context else []
+        leading_context = self._get_context(leading_context)
+        following_context = self._get_context(following_context)
 
         likelihoods = []
         results = self.context_free_parser.parse(surface)
@@ -77,20 +77,23 @@ class LikelihoodCalculatorTest(unittest.TestCase):
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
             likelihood = 0.0
             if leading_context and following_context:
-                likelihood = self.generator.calculate_likelihood(result, leading_context_with_parse_results, following_context_with_parse_results)
+                likelihood = self.generator.calculate_likelihood(result, leading_context, following_context)
             elif leading_context:
-                likelihood = self.generator.calculate_oneway_likelihood(result, leading_context_with_parse_results, True)
+                likelihood = self.generator.calculate_oneway_likelihood(result, leading_context, True)
             elif following_context:
-                likelihood = self.generator.calculate_oneway_likelihood(result, following_context_with_parse_results, False)
+                likelihood = self.generator.calculate_oneway_likelihood(result, following_context, False)
 
             likelihoods.append((formatted_parse_result, likelihood))
 
         for item in likelihoods:
             print item
 
+    def _get_context(self, context):
+        raise NotImplementedError()
+
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
-    #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+#        query_logger.setLevel(logging.DEBUG)
+#        context_stats_logger.setLevel(logging.DEBUG)
 
         context = [u'bir']
         surface = u'erkek'
@@ -135,19 +138,26 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 
         self._test_generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 
-class NonContextParsingLikelihoodCalculatorTest(LikelihoodCalculatorTest):
+
+class NonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(NonContextParsingLikelihoodCalculatorTest, cls).setUpClass()
 
         cls.generator = NonContextParsingLikelihoodCalculator(cls.collection_map)
 
-class ContextParsingLikelihoodCalculatorTest(LikelihoodCalculatorTest):
+    def _get_context(self, context):
+        return context if context else []
+
+class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(ContextParsingLikelihoodCalculatorTest, cls).setUpClass()
 
         cls.generator = ContextParsingLikelihoodCalculator(cls.collection_map)
+
+    def _get_context(self, context):
+        return [(cw, self.context_free_parser.parse(cw)) for cw in context] if context else []
 
 
 if __name__ == '__main__':
