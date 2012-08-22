@@ -1,6 +1,10 @@
 # coding=utf-8
 import itertools
+import logging
+from trnltk.morphology.model import formatter
 from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor
+
+logger = logging.getLogger('contextstats')
 
 class NonContextParsingLikelihoodCalculator(object):
     COEFFICIENT_SURFACE_GIVEN_CONTEXT = 0.55
@@ -14,9 +18,15 @@ class NonContextParsingLikelihoodCalculator(object):
         self._collection_map = collection_map
 
     def calculate_likelihood(self, target, leading_context, following_context):
-        return self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   + \
-               self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("Calculating likelihood of {1}, {0}, {2}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in leading_context], [t[0] for t in following_context]))
 
+        likelihood =  self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   + \
+                      self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
+
+        logger.debug(" Calculated likelihood is {}".format(likelihood))
+
+        return likelihood
 
     def calculate_oneway_likelihood(self, target, context, target_comes_after):
         """
@@ -28,6 +38,12 @@ class NonContextParsingLikelihoodCalculator(object):
         assert target
         assert context
 
+        if logger.isEnabledFor(logging.DEBUG):
+            if target_comes_after:
+                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+            else:
+                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+
         count_given_context = self._count_given_context(context)
 
         if not count_given_context:
@@ -37,11 +53,18 @@ class NonContextParsingLikelihoodCalculator(object):
         count_target_stem_given_context = self._count_target_stem_given_context(target, context, target_comes_after)
         count_target_lexeme_given_context = self._count_target_lexeme_given_context(target, context, target_comes_after)
 
+        logger.debug("    Found {} context occurrences".format(count_given_context))
+        logger.debug("    Found {} target surface with context occurrences".format(count_target_surface_given_context))
+        logger.debug("    Found {} target stem with context occurrences".format(count_target_stem_given_context))
+        logger.debug("    Found {} target lexeme with context occurrences".format(count_target_lexeme_given_context))
+
         likelihood = (
                          count_target_surface_given_context * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
                          count_target_stem_given_context * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
                          count_target_lexeme_given_context * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
                      ) / count_given_context
+
+        logger.debug("  Calculated oneway likelihood is {}".format(likelihood))
 
         return likelihood
 
@@ -114,9 +137,12 @@ class ContextParsingLikelihoodCalculator(object):
         self._collection_map = collection_map
 
     def calculate_likelihood(self, target, leading_context, following_context):
-        return self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
-               self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
+        likelihood = self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
+                     self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
 
+        logger.debug("  Calculated likelihood is {}".format(likelihood))
+
+        return likelihood
 
     def calculate_oneway_likelihood(self, target, context, target_comes_after):
         """
@@ -127,6 +153,12 @@ class ContextParsingLikelihoodCalculator(object):
         """
         assert target
         assert context
+
+        if logger.isEnabledFor(logging.DEBUG):
+            if target_comes_after:
+                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+            else:
+                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
 
         cartesian_products_of_context_parse_results = []
         if len(context)==1:
@@ -149,14 +181,29 @@ class ContextParsingLikelihoodCalculator(object):
         likelihood = 0.0
 
         for context_parse_results in cartesian_products_of_context_parse_results:
+            if logger.isEnabledFor(logging.DEBUG):
+                if target_comes_after:
+                    logger.debug("   Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [formatter.format_morpheme_container_for_simple_parseset(t) for t in context_parse_results]))
+                else:
+                    logger.debug("   Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [formatter.format_morpheme_container_for_simple_parseset(t) for t in context_parse_results]))
+
             p_target_surface_given_context = self._calculate_probability_target_surface_given_context(target, context_parse_results, target_comes_after)
             p_target_stem_given_context = self._calculate_probability_target_stem_given_context(target, context_parse_results, target_comes_after)
             p_target_lexeme_given_context = self._calculate_probability_target_lexeme_given_context(target, context_parse_results, target_comes_after)
 
+            logger.debug("      Found surface probability {}".format(p_target_surface_given_context))
+            logger.debug("      Found stem probability {}".format(p_target_stem_given_context))
+            logger.debug("      Found lexeme probability {}".format(p_target_lexeme_given_context))
 
-            likelihood +=  p_target_surface_given_context * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +\
-                           p_target_stem_given_context    * self.COEFFICIENT_STEM_GIVEN_CONTEXT    +\
-                           p_target_lexeme_given_context  * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+            item_likelihood  =  p_target_surface_given_context * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +\
+                                p_target_stem_given_context    * self.COEFFICIENT_STEM_GIVEN_CONTEXT    +\
+                                p_target_lexeme_given_context  * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
+
+            logger.debug("      Calculated oneway likelihood is {}".format(item_likelihood))
+
+            likelihood += item_likelihood
+
+        logger.debug("  Calculated oneway likelihood is {}".format(likelihood))
 
         return likelihood
 
@@ -210,6 +257,10 @@ class ContextParsingLikelihoodCalculator(object):
         probability_target_surface_given_context_surfaces = self._calculate_probability_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after)
         probability_target_surface_given_context_stems = self._calculate_probability_target_surface_given_context_stems(target, context_parse_results, target_comes_after)
         probability_target_surface_given_context_lexemes = self._calculate_probability_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        logger.debug("       Found surface probability {} for context surfaces".format(probability_target_surface_given_context_surfaces))
+        logger.debug("       Found surface probability {} for context stems".format(probability_target_surface_given_context_stems))
+        logger.debug("       Found surface probability {} for context lexemes".format(probability_target_surface_given_context_lexemes))
 
         likelihood = (
                           probability_target_surface_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
@@ -304,6 +355,10 @@ class ContextParsingLikelihoodCalculator(object):
         probability_target_stem_given_context_stems = self._calculate_probability_target_stem_given_context_stems(target, context_parse_results, target_comes_after)
         probability_target_stem_given_context_lexemes = self._calculate_probability_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after)
 
+        logger.debug("       Found stem probability {} for context surfaces".format(probability_target_stem_given_context_surfaces))
+        logger.debug("       Found stem probability {} for context stems".format(probability_target_stem_given_context_stems))
+        logger.debug("       Found stem probability {} for context lexemes".format(probability_target_stem_given_context_lexemes))
+
         likelihood = (
             probability_target_stem_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
             probability_target_stem_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
@@ -396,6 +451,10 @@ class ContextParsingLikelihoodCalculator(object):
         probability_target_lexeme_given_context_surfaces = self._calculate_probability_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after)
         probability_target_lexeme_given_context_stems = self._calculate_probability_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after)
         probability_target_lexeme_given_context_lexemes = self._calculate_probability_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after)
+
+        logger.debug("       Found lexeme probability {} for context surfaces".format(probability_target_lexeme_given_context_surfaces))
+        logger.debug("       Found lexeme probability {} for context stems".format(probability_target_lexeme_given_context_stems))
+        logger.debug("       Found lexeme probability {} for context lexemes".format(probability_target_lexeme_given_context_lexemes))
 
         likelihood = (
             probability_target_lexeme_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
