@@ -265,6 +265,14 @@ class ContextParsingLikelihoodCalculator(object):
 
         return self._find_count_for_query(params, query_container, target_comes_after)
 
+    def _calculate_probability_of_case(self, target, context_parse_results, target_comes_after, target_appender, context_appender, given_context_count):
+        if not given_context_count:
+            return 0.0
+
+        count_target_given_context = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
+
+        return count_target_given_context / given_context_count
+
     ################## context form counts
     def _count_given_context_surfaces(self, context_parse_results):
         # target_comes_after doesn't matter, since there is no target
@@ -298,40 +306,15 @@ class ContextParsingLikelihoodCalculator(object):
 
     ################## 1.a target surface given context surfaces
     def _calculate_probability_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
-        if not count_given_context_surfaces:
-            return 0.0
-
-        count_target_surface_given_context_surfaces = self._count_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after)
-
-        return count_target_surface_given_context_surfaces / count_given_context_surfaces
-
-    def _count_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_surface_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_surface_syn_cat_appender, count_given_context_surfaces)
 
     ################## 1.b target surface given context stems
     def _calculate_probability_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
-        if not count_given_context_stems:
-            return 0.0
-
-        count_target_surface_given_context_stems = self._count_target_surface_given_context_stems(target, context_parse_results, target_comes_after)
-
-        return count_target_surface_given_context_stems / count_given_context_stems
-
-    def _count_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_stem_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_stem_syn_cat_appender, count_given_context_stems)
 
     ################## 1.c target surface given context lexemes
     def _calculate_probability_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
-        if not count_given_context_lexemes:
-            return 0.0
-
-        count_target_surface_given_context_lexemes = self._count_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after)
-
-        return count_target_surface_given_context_lexemes / count_given_context_lexemes
-
-    def _count_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender)
-
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender, count_given_context_lexemes)
 
     ################## 2. target stem given context
     def _calculate_probability_target_stem_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
@@ -353,39 +336,15 @@ class ContextParsingLikelihoodCalculator(object):
 
     ################## 2.a target stem given context surfaces
     def _calculate_probability_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
-        if not count_given_context_surfaces:
-            return 0.0
-
-        count_target_stem_given_context_surfaces = self._count_target_stem_given_context_surfaces(target, context_parse_results, target_comes_after)
-
-        return count_target_stem_given_context_surfaces / count_given_context_surfaces
-
-    def _count_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_surface_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_surface_syn_cat_appender, count_given_context_surfaces)
 
     ############## 2,b target stem given context stems
     def _calculate_probability_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
-        if not count_given_context_stems:
-            return 0.0
-
-        count_target_stem_given_context_stems = self._count_target_stem_given_context_stems(target, context_parse_results, target_comes_after)
-
-        return count_target_stem_given_context_stems / count_given_context_stems
-
-    def _count_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_stem_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_stem_syn_cat_appender, count_given_context_stems)
 
     ############## 2.c target stem given context lexemes
     def _calculate_probability_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
-        if not count_given_context_lexemes:
-            return 0.0
-
-        count_target_stem_given_context_lexemes = self._count_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after)
-
-        return count_target_stem_given_context_lexemes / count_given_context_lexemes
-
-    def _count_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender, count_given_context_lexemes)
 
     ################## 3. target lexeme given context
     def _calculate_probability_target_lexeme_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
@@ -408,39 +367,15 @@ class ContextParsingLikelihoodCalculator(object):
 
     ################## 3.a target lexeme given context surfaces
     def _calculate_probability_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
-        if not count_given_context_surfaces:
-            return 0.0
-
-        count_target_lexeme_given_context_surfaces = self._count_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after)
-
-        return count_target_lexeme_given_context_surfaces / count_given_context_surfaces
-
-    def _count_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender, count_given_context_surfaces)
 
     ################## 3.b target lexeme given context stems
     def _calculate_probability_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
-        if not count_given_context_stems:
-            return 0.0
-
-        count_target_lexeme_given_context_stems = self._count_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after)
-
-        return count_target_lexeme_given_context_stems / count_given_context_stems
-
-    def _count_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender, count_given_context_stems)
 
     ################## 3.c target lexeme given context lexemes
     def _calculate_probability_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
-        if not count_given_context_lexemes:
-            return 0.0
-
-        count_target_lexeme_given_context_lexemes = self._count_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after)
-
-        return count_target_lexeme_given_context_lexemes / count_given_context_lexemes
-
-    def _count_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender, count_given_context_lexemes)
 
     #########
     def _find_count_for_query(self, params, query_container, target_comes_after):
