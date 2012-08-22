@@ -230,9 +230,13 @@ class ContextParsingLikelihoodCalculator(object):
                 else:
                     logger.debug("   Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [formatter.format_morpheme_container_for_simple_parseset(t) for t in context_parse_results]))
 
-            p_target_surface_given_context = self._calculate_probability_target_surface_given_context(target, context_parse_results, target_comes_after)
-            p_target_stem_given_context = self._calculate_probability_target_stem_given_context(target, context_parse_results, target_comes_after)
-            p_target_lexeme_given_context = self._calculate_probability_target_lexeme_given_context(target, context_parse_results, target_comes_after)
+            count_context_surfaces = self._count_given_context_surfaces(context_parse_results)
+            count_context_stems = self._count_given_context_stems(context_parse_results)
+            count_context_lexemes = self._count_given_context_lexemes(context_parse_results)
+
+            p_target_surface_given_context = self._calculate_probability_target_surface_given_context(target, context_parse_results, target_comes_after, count_context_surfaces, count_context_stems, count_context_lexemes)
+            p_target_stem_given_context = self._calculate_probability_target_stem_given_context(target, context_parse_results, target_comes_after, count_context_surfaces, count_context_stems, count_context_lexemes)
+            p_target_lexeme_given_context = self._calculate_probability_target_lexeme_given_context(target, context_parse_results, target_comes_after, count_context_surfaces, count_context_stems, count_context_lexemes)
 
             logger.debug("      Found surface probability {}".format(p_target_surface_given_context))
             logger.debug("      Found stem probability {}".format(p_target_stem_given_context))
@@ -275,10 +279,10 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(None, context_parse_results, False, None, context_lemma_root_syn_cat_appender)
 
     ################## 1. target surface given context
-    def _calculate_probability_target_surface_given_context(self, target, context_parse_results, target_comes_after):
-        probability_target_surface_given_context_surfaces = self._calculate_probability_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after)
-        probability_target_surface_given_context_stems = self._calculate_probability_target_surface_given_context_stems(target, context_parse_results, target_comes_after)
-        probability_target_surface_given_context_lexemes = self._calculate_probability_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after)
+    def _calculate_probability_target_surface_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
+        probability_target_surface_given_context_surfaces = self._calculate_probability_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after, count_given_context_surfaces)
+        probability_target_surface_given_context_stems = self._calculate_probability_target_surface_given_context_stems(target, context_parse_results, target_comes_after, count_given_context_stems)
+        probability_target_surface_given_context_lexemes = self._calculate_probability_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after, count_given_context_lexemes)
 
         logger.debug("       Found surface probability {} for context surfaces".format(probability_target_surface_given_context_surfaces))
         logger.debug("       Found surface probability {} for context stems".format(probability_target_surface_given_context_stems))
@@ -293,9 +297,7 @@ class ContextParsingLikelihoodCalculator(object):
         return likelihood
 
     ################## 1.a target surface given context surfaces
-    def _calculate_probability_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
-
+    def _calculate_probability_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
         if not count_given_context_surfaces:
             return 0.0
 
@@ -307,9 +309,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_surface_syn_cat_appender)
 
     ################## 1.b target surface given context stems
-    def _calculate_probability_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after):
-        count_given_context_stems = self._count_given_context_stems(context_parse_results)
-
+    def _calculate_probability_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
         if not count_given_context_stems:
             return 0.0
 
@@ -321,9 +321,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_stem_syn_cat_appender)
 
     ################## 1.c target surface given context lexemes
-    def _calculate_probability_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
-
+    def _calculate_probability_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
         if not count_given_context_lexemes:
             return 0.0
 
@@ -336,10 +334,10 @@ class ContextParsingLikelihoodCalculator(object):
 
 
     ################## 2. target stem given context
-    def _calculate_probability_target_stem_given_context(self, target, context_parse_results, target_comes_after):
-        probability_target_stem_given_context_surfaces = self._calculate_probability_target_stem_given_context_surfaces(target, context_parse_results, target_comes_after)
-        probability_target_stem_given_context_stems = self._calculate_probability_target_stem_given_context_stems(target, context_parse_results, target_comes_after)
-        probability_target_stem_given_context_lexemes = self._calculate_probability_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after)
+    def _calculate_probability_target_stem_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
+        probability_target_stem_given_context_surfaces = self._calculate_probability_target_stem_given_context_surfaces(target, context_parse_results, target_comes_after, count_given_context_surfaces)
+        probability_target_stem_given_context_stems = self._calculate_probability_target_stem_given_context_stems(target, context_parse_results, target_comes_after, count_given_context_stems)
+        probability_target_stem_given_context_lexemes = self._calculate_probability_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after, count_given_context_lexemes)
 
         logger.debug("       Found stem probability {} for context surfaces".format(probability_target_stem_given_context_surfaces))
         logger.debug("       Found stem probability {} for context stems".format(probability_target_stem_given_context_stems))
@@ -354,9 +352,7 @@ class ContextParsingLikelihoodCalculator(object):
         return likelihood
 
     ################## 2.a target stem given context surfaces
-    def _calculate_probability_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
-
+    def _calculate_probability_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
         if not count_given_context_surfaces:
             return 0.0
 
@@ -368,9 +364,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_surface_syn_cat_appender)
 
     ############## 2,b target stem given context stems
-    def _calculate_probability_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after):
-        count_given_context_stems = self._count_given_context_stems(context_parse_results)
-
+    def _calculate_probability_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
         if not count_given_context_stems:
             return 0.0
 
@@ -382,9 +376,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_stem_syn_cat_appender)
 
     ############## 2.c target stem given context lexemes
-    def _calculate_probability_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
-
+    def _calculate_probability_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
         if not count_given_context_lexemes:
             return 0.0
 
@@ -396,10 +388,10 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
 
     ################## 3. target lexeme given context
-    def _calculate_probability_target_lexeme_given_context(self, target, context_parse_results, target_comes_after):
-        probability_target_lexeme_given_context_surfaces = self._calculate_probability_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after)
-        probability_target_lexeme_given_context_stems = self._calculate_probability_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after)
-        probability_target_lexeme_given_context_lexemes = self._calculate_probability_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after)
+    def _calculate_probability_target_lexeme_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
+        probability_target_lexeme_given_context_surfaces = self._calculate_probability_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after, count_given_context_surfaces)
+        probability_target_lexeme_given_context_stems = self._calculate_probability_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after, count_given_context_stems)
+        probability_target_lexeme_given_context_lexemes = self._calculate_probability_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after, count_given_context_lexemes)
 
         logger.debug("       Found lexeme probability {} for context surfaces".format(probability_target_lexeme_given_context_surfaces))
         logger.debug("       Found lexeme probability {} for context stems".format(probability_target_lexeme_given_context_stems))
@@ -415,9 +407,7 @@ class ContextParsingLikelihoodCalculator(object):
 
 
     ################## 3.a target lexeme given context surfaces
-    def _calculate_probability_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after):
-        count_given_context_surfaces = self._count_given_context_surfaces(context_parse_results)
-
+    def _calculate_probability_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
         if not count_given_context_surfaces:
             return 0.0
 
@@ -429,9 +419,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender)
 
     ################## 3.b target lexeme given context stems
-    def _calculate_probability_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after):
-        count_given_context_stems = self._count_given_context_stems(context_parse_results)
-
+    def _calculate_probability_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
         if not count_given_context_stems:
             return 0.0
 
@@ -443,9 +431,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender)
 
     ################## 3.c target lexeme given context lexemes
-    def _calculate_probability_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after):
-        count_given_context_lexemes = self._count_given_context_lexemes(context_parse_results)
-
+    def _calculate_probability_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
         if not count_given_context_lexemes:
             return 0.0
 
