@@ -1,8 +1,11 @@
 # coding=utf-8
 import itertools
 import logging
+import numpy
 from trnltk.morphology.model import formatter
 from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor
+
+numpy.seterr(divide='ignore', invalid='ignore')
 
 logger = logging.getLogger('contextstats')
 
@@ -288,94 +291,102 @@ class ContextParsingLikelihoodCalculator(object):
 
     ################## 1. target surface given context
     def _calculate_probability_target_surface_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
-        probability_target_surface_given_context_surfaces = self._calculate_probability_target_surface_given_context_surfaces(target, context_parse_results, target_comes_after, count_given_context_surfaces)
-        probability_target_surface_given_context_stems = self._calculate_probability_target_surface_given_context_stems(target, context_parse_results, target_comes_after, count_given_context_stems)
-        probability_target_surface_given_context_lexemes = self._calculate_probability_target_surface_given_context_lexemes(target, context_parse_results, target_comes_after, count_given_context_lexemes)
+        appender_matrix = [
+            (target_surface_syn_cat_appender, context_surface_syn_cat_appender),
+            (target_surface_syn_cat_appender, context_stem_syn_cat_appender),
+            (target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        ]
 
-        logger.debug("       Found surface probability {} for context surfaces".format(probability_target_surface_given_context_surfaces))
-        logger.debug("       Found surface probability {} for context stems".format(probability_target_surface_given_context_stems))
-        logger.debug("       Found surface probability {} for context lexemes".format(probability_target_surface_given_context_lexemes))
+        target_surface_given_context_counts = []
+        for target_appender, context_appender in appender_matrix:
+            target_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
+            target_surface_given_context_counts.append(target_given_count)
 
-        likelihood = (
-            probability_target_surface_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
-            probability_target_surface_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
-            probability_target_surface_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
-            )
+        target_surface_given_context_counts = numpy.array(target_surface_given_context_counts)
 
-        return likelihood
+        logger.debug("       Target surface counts given context forms: \n{}".format(target_surface_given_context_counts))
 
-    ################## 1.a target surface given context surfaces
-    def _calculate_probability_target_surface_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_surface_syn_cat_appender, count_given_context_surfaces)
+        context_form_counts = numpy.array([count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes])
+        logger.debug("       Given context form counts: \n{}".format(context_form_counts))
 
-    ################## 1.b target surface given context stems
-    def _calculate_probability_target_surface_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_stem_syn_cat_appender, count_given_context_stems)
+        target_surface_given_context_probabilities = target_surface_given_context_counts / context_form_counts
+        target_surface_given_context_probabilities = numpy.array([nr if numpy.isfinite(nr) else 0.0 for nr in target_surface_given_context_probabilities])
+        logger.debug("       Target surface probabilities given context forms: \n{}".format(target_surface_given_context_probabilities))
 
-    ################## 1.c target surface given context lexemes
-    def _calculate_probability_target_surface_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender, count_given_context_lexemes)
+        target_surface_given_context_coefficients = numpy.array([self.COEFFICIENT_SURFACE_GIVEN_CONTEXT, self.COEFFICIENT_STEM_GIVEN_CONTEXT, self.COEFFICIENT_LEXEME_GIVEN_CONTEXT])
+
+        weighted_probabilities = target_surface_given_context_probabilities * target_surface_given_context_coefficients
+        logger.debug("       Target surface weighted probabilities given context forms: \n{}".format(weighted_probabilities))
+
+        target_surface_given_context_likelihood =  numpy.sum(weighted_probabilities)
+
+        return target_surface_given_context_likelihood
 
     ################## 2. target stem given context
     def _calculate_probability_target_stem_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
-        probability_target_stem_given_context_surfaces = self._calculate_probability_target_stem_given_context_surfaces(target, context_parse_results, target_comes_after, count_given_context_surfaces)
-        probability_target_stem_given_context_stems = self._calculate_probability_target_stem_given_context_stems(target, context_parse_results, target_comes_after, count_given_context_stems)
-        probability_target_stem_given_context_lexemes = self._calculate_probability_target_stem_given_context_lexemes(target, context_parse_results, target_comes_after, count_given_context_lexemes)
+        appender_matrix = [
+            (target_stem_syn_cat_appender, context_surface_syn_cat_appender),
+            (target_stem_syn_cat_appender, context_stem_syn_cat_appender),
+            (target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        ]
 
-        logger.debug("       Found stem probability {} for context surfaces".format(probability_target_stem_given_context_surfaces))
-        logger.debug("       Found stem probability {} for context stems".format(probability_target_stem_given_context_stems))
-        logger.debug("       Found stem probability {} for context lexemes".format(probability_target_stem_given_context_lexemes))
+        target_stem_given_context_counts = []
+        for target_appender, context_appender in appender_matrix:
+            target_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
+            target_stem_given_context_counts.append(target_given_count)
 
-        likelihood = (
-            probability_target_stem_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
-            probability_target_stem_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
-            probability_target_stem_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
-            )
+        target_stem_given_context_counts = numpy.array(target_stem_given_context_counts)
 
-        return likelihood
+        logger.debug("       Target stem counts given context forms: \n{}".format(target_stem_given_context_counts))
 
-    ################## 2.a target stem given context surfaces
-    def _calculate_probability_target_stem_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_surface_syn_cat_appender, count_given_context_surfaces)
+        context_form_counts = numpy.array([count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes])
+        logger.debug("       Given context form counts: \n{}".format(context_form_counts))
 
-    ############## 2,b target stem given context stems
-    def _calculate_probability_target_stem_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_stem_syn_cat_appender, count_given_context_stems)
+        target_stem_given_context_probabilities = target_stem_given_context_counts / context_form_counts
+        target_stem_given_context_probabilities = numpy.array([nr if numpy.isfinite(nr) else 0.0 for nr in target_stem_given_context_probabilities])
+        logger.debug("       Target stem probabilities given context forms: \n{}".format(target_stem_given_context_probabilities))
 
-    ############## 2.c target stem given context lexemes
-    def _calculate_probability_target_stem_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender, count_given_context_lexemes)
+        target_stem_given_context_coefficients = numpy.array([self.COEFFICIENT_SURFACE_GIVEN_CONTEXT, self.COEFFICIENT_STEM_GIVEN_CONTEXT, self.COEFFICIENT_LEXEME_GIVEN_CONTEXT])
+
+        weighted_probabilities = target_stem_given_context_probabilities * target_stem_given_context_coefficients
+        logger.debug("       Target stem weighted probabilities given context forms: \n{}".format(weighted_probabilities))
+
+        target_stem_given_context_likelihood =  numpy.sum(weighted_probabilities)
+
+        return target_stem_given_context_likelihood
 
     ################## 3. target lexeme given context
     def _calculate_probability_target_lexeme_given_context(self, target, context_parse_results, target_comes_after, count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes):
-        probability_target_lexeme_given_context_surfaces = self._calculate_probability_target_lexeme_given_context_surfaces(target, context_parse_results, target_comes_after, count_given_context_surfaces)
-        probability_target_lexeme_given_context_stems = self._calculate_probability_target_lexeme_given_context_stems(target, context_parse_results, target_comes_after, count_given_context_stems)
-        probability_target_lexeme_given_context_lexemes = self._calculate_probability_target_lexeme_given_context_lexemes(target, context_parse_results, target_comes_after, count_given_context_lexemes)
+        appender_matrix = [
+            (target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender),
+            (target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender),
+            (target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        ]
 
-        logger.debug("       Found lexeme probability {} for context surfaces".format(probability_target_lexeme_given_context_surfaces))
-        logger.debug("       Found lexeme probability {} for context stems".format(probability_target_lexeme_given_context_stems))
-        logger.debug("       Found lexeme probability {} for context lexemes".format(probability_target_lexeme_given_context_lexemes))
+        target_lemma_root_given_context_counts = []
+        for target_appender, context_appender in appender_matrix:
+            target_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
+            target_lemma_root_given_context_counts.append(target_given_count)
 
-        likelihood = (
-            probability_target_lexeme_given_context_surfaces * self.COEFFICIENT_SURFACE_GIVEN_CONTEXT +
-            probability_target_lexeme_given_context_stems * self.COEFFICIENT_STEM_GIVEN_CONTEXT+
-            probability_target_lexeme_given_context_lexemes * self.COEFFICIENT_LEXEME_GIVEN_CONTEXT
-            )
+        target_lemma_root_given_context_counts = numpy.array(target_lemma_root_given_context_counts)
 
-        return likelihood
+        logger.debug("       Target lexeme counts given context forms: \n{}".format(target_lemma_root_given_context_counts))
 
+        context_form_counts = numpy.array([count_given_context_surfaces, count_given_context_stems, count_given_context_lexemes])
+        logger.debug("       Given context form counts: \n{}".format(context_form_counts))
 
-    ################## 3.a target lexeme given context surfaces
-    def _calculate_probability_target_lexeme_given_context_surfaces(self, target, context_parse_results, target_comes_after, count_given_context_surfaces):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender, count_given_context_surfaces)
+        target_lemma_root_given_context_probabilities = target_lemma_root_given_context_counts / context_form_counts
+        target_lemma_root_given_context_probabilities = numpy.array([nr if numpy.isfinite(nr) else 0.0 for nr in target_lemma_root_given_context_probabilities])
+        logger.debug("       Target lexeme probabilities given context forms: \n{}".format(target_lemma_root_given_context_probabilities))
 
-    ################## 3.b target lexeme given context stems
-    def _calculate_probability_target_lexeme_given_context_stems(self, target, context_parse_results, target_comes_after, count_given_context_stems):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender, count_given_context_stems)
+        target_lemma_root_given_context_coefficients = numpy.array([self.COEFFICIENT_SURFACE_GIVEN_CONTEXT, self.COEFFICIENT_STEM_GIVEN_CONTEXT, self.COEFFICIENT_LEXEME_GIVEN_CONTEXT])
 
-    ################## 3.c target lexeme given context lexemes
-    def _calculate_probability_target_lexeme_given_context_lexemes(self, target, context_parse_results, target_comes_after, count_given_context_lexemes):
-        return self._calculate_probability_of_case(target, context_parse_results, target_comes_after, target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender, count_given_context_lexemes)
+        weighted_probabilities = target_lemma_root_given_context_probabilities * target_lemma_root_given_context_coefficients
+        logger.debug("       Target stem weighted probabilities given context forms: \n{}".format(weighted_probabilities))
+
+        target_lemma_root_given_context_likelihood =  numpy.sum(weighted_probabilities)
+
+        return target_lemma_root_given_context_likelihood
 
     #########
     def _find_count_for_query(self, params, query_container, target_comes_after):
