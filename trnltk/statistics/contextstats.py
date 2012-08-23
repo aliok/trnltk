@@ -203,27 +203,16 @@ class ContextParsingLikelihoodCalculator(object):
 
         if logger.isEnabledFor(logging.DEBUG):
             if target_comes_after:
-                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
             else:
-                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0] for t in context]))
+                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
 
-        cartesian_products_of_context_parse_results = []
-        if len(context)==1:
-            if context[0] is None:
-                return 0.0
-            else:
-                cartesian_products_of_context_parse_results = [[context_parse_result] for context_parse_result in context[0][1]]
-        else:
-            for context_word in context:
-                context_item_morpheme_containers = context_word[1]
-                if not context_item_morpheme_containers:
-                    break      # TODO: logging! one of the context words is unparsable
+        cartesian_products_of_context_parse_results = self._get_cartesian_products_of_context_parse_results(context)
+        logger.debug("  Going to check the usages with the following cartesian product of parse results: \n".format(
+            [[formatter.format_morpheme_container_for_simple_parseset(mc) for mc in product_item] for product_item in cartesian_products_of_context_parse_results]))
 
-                if not cartesian_products_of_context_parse_results:
-                    cartesian_products_of_context_parse_results = context_item_morpheme_containers[:]
-                else:
-                    cartesian_products_of_context_parse_results = itertools.product(cartesian_products_of_context_parse_results, context_item_morpheme_containers)
-
+        if not cartesian_products_of_context_parse_results or not any(cartesian_products_of_context_parse_results):
+            return 0.0
 
         likelihood = 0.0
 
@@ -321,3 +310,28 @@ class ContextParsingLikelihoodCalculator(object):
     def _find_count_for_query(self, params, query_container, target_comes_after):
         query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
         return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
+
+    def _get_cartesian_products_of_context_parse_results(self, context):
+        # context is in form:
+        # [ [parse_result_0_for_word_0, parse_result_1_for_word_0]
+        #   [parse_result_0_for_word_1, parse_result_1_for_word_1] ]
+
+        # if context is empty, or its items are empty lists
+        if not context or not any(context):
+            return []
+
+        if len(context)==1:
+            return [[context_parse_result] for context_parse_result in context[0]]
+
+        cartesian_products_of_context_parse_results = []
+
+        for context_item_morpheme_containers in context:
+            if not context_item_morpheme_containers:
+                continue      #TODO: logging! one of the context words is unparsable. we'll just ignore it and use the remaining context information
+
+            if not cartesian_products_of_context_parse_results:
+                cartesian_products_of_context_parse_results = context_item_morpheme_containers[:]
+            else:
+                cartesian_products_of_context_parse_results = itertools.product(cartesian_products_of_context_parse_results, context_item_morpheme_containers)
+
+        return cartesian_products_of_context_parse_results
