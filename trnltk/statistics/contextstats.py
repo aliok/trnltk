@@ -320,9 +320,6 @@ class ContextParsingLikelihoodCalculator(object):
         if not context or not any(context):
             return []
 
-        if len(context)==1:
-            return [[context_parse_result] for context_parse_result in context[0]]
-
         cartesian_products_of_context_parse_results = []
 
         for context_item_morpheme_containers in context:
@@ -333,5 +330,12 @@ class ContextParsingLikelihoodCalculator(object):
                 cartesian_products_of_context_parse_results = context_item_morpheme_containers[:]
             else:
                 cartesian_products_of_context_parse_results = itertools.product(cartesian_products_of_context_parse_results, context_item_morpheme_containers)
+                cartesian_products_of_context_parse_results = list(cartesian_products_of_context_parse_results)
+                cartesian_products_of_context_parse_results = [(x[0] if isinstance(x[0], list) else [x[0]]) + [x[1]] for x in cartesian_products_of_context_parse_results]
 
-        return cartesian_products_of_context_parse_results
+        # cartesian product results in tuples, but if there is nothing to product we must return something iterable
+        cartesian_product_list = list(cartesian_products_of_context_parse_results)
+        if numpy.shape(cartesian_product_list) == (len(cartesian_product_list),):
+            return [[context_parse_result] for context_parse_result in cartesian_product_list]
+
+        return cartesian_product_list

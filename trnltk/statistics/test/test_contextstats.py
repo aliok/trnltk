@@ -8,6 +8,8 @@ import os
 import unittest
 from xml.dom.minidom import parse
 import pymongo
+from hamcrest import *
+from mock import Mock
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, NumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.model import formatter
@@ -120,7 +122,7 @@ class _LikelihoodCalculatorTest(object):
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-        context_stats_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
 
         leading_context = [u'bir']
         surface = u'erkek'
@@ -159,6 +161,239 @@ class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest
     def _get_context(self, context):
         return [self.context_free_parser.parse(cw) for cw in context] if context else []
 
+
+class ContextParsingLikelihoodCalculatorMockTest(unittest.TestCase):
+    def setUp(self):
+        self.generator = ContextParsingLikelihoodCalculator(None)
+
+    def test_should_get_cartesian_products_of_parse_results_when_context_is_empty(self):
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results(None), equal_to([]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([]), equal_to([]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[]]), equal_to([]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[],[]]), equal_to([]))
+
+    def test_should_get_cartesian_products_of_parse_results_when_context_has_one_item(self):
+        morpheme_container_a = Mock()
+        morpheme_container_b = Mock()
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[morpheme_container_a]]), equal_to([[morpheme_container_a]]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[morpheme_container_a, morpheme_container_b]]), equal_to([[morpheme_container_a],[morpheme_container_b]]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[morpheme_container_a],[]]), equal_to([[morpheme_container_a]]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[morpheme_container_a, morpheme_container_b],[]]), equal_to([[morpheme_container_a],[morpheme_container_b]]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[],[morpheme_container_a]]), equal_to([[morpheme_container_a]]))
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([[],[morpheme_container_a, morpheme_container_b]]), equal_to([[morpheme_container_a],[morpheme_container_b]]))
+
+    def test_should_get_cartesian_products_of_parse_results_when_context_has_two_items(self):
+        morpheme_container_a_0 = Mock()
+        morpheme_container_a_1 = Mock()
+        morpheme_container_b_0 = Mock()
+        morpheme_container_b_1 = Mock()
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [morpheme_container_b_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [morpheme_container_b_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0],
+            [morpheme_container_a_1, morpheme_container_b_0]
+
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [morpheme_container_b_0, morpheme_container_b_1]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0],
+            [morpheme_container_a_0, morpheme_container_b_1]
+
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [morpheme_container_b_0, morpheme_container_b_1]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0],
+            [morpheme_container_a_0, morpheme_container_b_1],
+            [morpheme_container_a_1, morpheme_container_b_0],
+            [morpheme_container_a_1, morpheme_container_b_1]
+
+        ]))
+
+    def test_should_get_cartesian_products_of_parse_results_when_context_has_two_items_and_blank_ones(self):
+        morpheme_container_a_0 = Mock()
+        morpheme_container_a_1 = Mock()
+        morpheme_container_b_0 = Mock()
+        morpheme_container_b_1 = Mock()
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [morpheme_container_b_0],
+            []
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [],
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [morpheme_container_b_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0],
+            [morpheme_container_a_1, morpheme_container_b_0]
+
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [],
+            [morpheme_container_b_0, morpheme_container_b_1]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0],
+            [morpheme_container_a_0, morpheme_container_b_1]
+
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [morpheme_container_b_0, morpheme_container_b_1],
+            []
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0],
+            [morpheme_container_a_0, morpheme_container_b_1],
+            [morpheme_container_a_1, morpheme_container_b_0],
+            [morpheme_container_a_1, morpheme_container_b_1]
+
+        ]))
+
+    def test_should_get_cartesian_products_of_parse_results_when_context_has_three(self):
+        morpheme_container_a_0 = Mock()
+        morpheme_container_b_0 = Mock()
+        morpheme_container_c_0 = Mock()
+        morpheme_container_a_1 = Mock()
+        morpheme_container_b_1 = Mock()
+        morpheme_container_c_1 = Mock()
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [morpheme_container_b_0],
+            [morpheme_container_c_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [],
+            [morpheme_container_a_0],
+            [morpheme_container_b_0],
+            [morpheme_container_c_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [],
+            [morpheme_container_b_0],
+            [morpheme_container_c_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [morpheme_container_b_0],
+            [],
+            [morpheme_container_c_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [],
+            [morpheme_container_b_0],
+            [],
+            [morpheme_container_c_0],
+            []
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0]
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [],
+            [morpheme_container_b_0],
+            [morpheme_container_c_0, morpheme_container_c_1],
+            []
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_1],
+            [morpheme_container_a_1, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_1, morpheme_container_b_0, morpheme_container_c_1],
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [],
+            [],
+            [morpheme_container_a_0],
+            [morpheme_container_b_0, morpheme_container_b_1],
+            [morpheme_container_c_0, morpheme_container_c_1],
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_1],
+            [morpheme_container_a_0, morpheme_container_b_1, morpheme_container_c_0],
+            [morpheme_container_a_0, morpheme_container_b_1, morpheme_container_c_1],
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [morpheme_container_b_0, morpheme_container_b_1],
+            [],
+            [morpheme_container_c_0],
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_0, morpheme_container_b_1, morpheme_container_c_0],
+            [morpheme_container_a_1, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_1, morpheme_container_b_1, morpheme_container_c_0],
+        ]))
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0, morpheme_container_a_1],
+            [morpheme_container_b_0, morpheme_container_b_1],
+            [morpheme_container_c_0, morpheme_container_c_1],
+            [],
+            [],
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_1],
+            [morpheme_container_a_0, morpheme_container_b_1, morpheme_container_c_0],
+            [morpheme_container_a_0, morpheme_container_b_1, morpheme_container_c_1],
+            [morpheme_container_a_1, morpheme_container_b_0, morpheme_container_c_0],
+            [morpheme_container_a_1, morpheme_container_b_0, morpheme_container_c_1],
+            [morpheme_container_a_1, morpheme_container_b_1, morpheme_container_c_0],
+            [morpheme_container_a_1, morpheme_container_b_1, morpheme_container_c_1],
+        ]))
+
+
+    def test_should_get_cartesian_products_of_parse_results_when_context_has_four(self):
+        morpheme_container_a_0 = Mock()
+        morpheme_container_b_0 = Mock()
+        morpheme_container_c_0 = Mock()
+        morpheme_container_d_0 = Mock()
+
+        assert_that(self.generator._get_cartesian_products_of_context_parse_results([
+            [morpheme_container_a_0],
+            [morpheme_container_b_0],
+            [morpheme_container_c_0],
+            [morpheme_container_d_0]
+        ]), equal_to([
+            [morpheme_container_a_0, morpheme_container_b_0, morpheme_container_c_0, morpheme_container_d_0]
+        ]))
 
 if __name__ == '__main__':
     unittest.main()
