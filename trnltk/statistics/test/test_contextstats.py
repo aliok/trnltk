@@ -120,7 +120,7 @@ class _LikelihoodCalculatorTest(object):
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
 
         leading_context = [u'bir']
         surface = u'erkek'
