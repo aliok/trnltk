@@ -119,3 +119,12 @@ def format_morpheme_container_for_simple_parseset(result):
         return_value = return_value.replace(u'+Apos', u'')
 
     return return_value
+
+
+def format_morpheme_container_for_simple_parseset_without_suffixes(result):
+    """
+    @type result MorphemeContainer
+    @return "kitaplasti+Verb[kitaplas(kitap+Noun)+Verb]" for word 'kitaplasti'
+    """
+
+    return u"{}+{}[{}({}+{})+{}]".format(result.get_surface(), result.get_surface_syntactic_category(), result.get_stem(), result.get_stem_syntactic_category(), result.get_lemma_root(), result.get_lemma_root_syntactic_category())

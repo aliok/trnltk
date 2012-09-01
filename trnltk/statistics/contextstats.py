@@ -208,8 +208,8 @@ class ContextParsingLikelihoodCalculator(object):
                 logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
 
         cartesian_products_of_context_parse_results = self._get_cartesian_products_of_context_parse_results(context)
-        logger.debug("  Going to check the usages with the following cartesian product of parse results: \n".format(
-            [[formatter.format_morpheme_container_for_simple_parseset(mc) for mc in product_item] for product_item in cartesian_products_of_context_parse_results]))
+        logger.debug("  Going to check the usages with the following cartesian product of parse results: \n{}".format(
+            [[formatter.format_morpheme_container_for_simple_parseset_without_suffixes(mc) for mc in product_item] for product_item in cartesian_products_of_context_parse_results]))
 
         if not cartesian_products_of_context_parse_results or not any(cartesian_products_of_context_parse_results):
             return 0.0
@@ -218,7 +218,7 @@ class ContextParsingLikelihoodCalculator(object):
 
         for context_parse_results in cartesian_products_of_context_parse_results:
             if logger.isEnabledFor(logging.DEBUG):
-                context_parse_result_str_list = [formatter.format_morpheme_container_for_simple_parseset(t) for t in context_parse_results]
+                context_parse_result_str_list = [formatter.format_morpheme_container_for_simple_parseset_without_suffixes(t) for t in context_parse_results]
                 if target_comes_after:
                     logger.debug("   Calculating oneway likelihood of {1}, {0}".format(target_morpheme_container_str, context_parse_result_str_list))
                 else:
