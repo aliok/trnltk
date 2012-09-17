@@ -183,10 +183,11 @@ class ParserTestWithSimpleParseSets(unittest.TestCase):
 
     def _test_should_parse_simple_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
-        with codecs.open(path, 'r', 'utf-8') as parse_set_file:
+        with codecs.open(path, 'r', 'utf-8-sig') as parse_set_file:
             index = 0
             for line in parse_set_file:
                 if line.startswith('#'):
+                    index +=1
                     continue
 
                 line = line.strip()

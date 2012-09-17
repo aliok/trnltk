@@ -54,6 +54,8 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.ADVERB_COPULA    .add_out_suffix(ZeroTransitionSuffix("Adverb_Copula_Zero_Transition"   ),   self.VERB_COPULA_WITHOUT_TENSE)
         self.PRONOUN_COPULA   .add_out_suffix(ZeroTransitionSuffix("Pronoun_Copula_Zero_Transition"  ),   self.VERB_COPULA_WITHOUT_TENSE)
 
+        self.ADJECTIVE_DERIV.add_out_suffix(ZeroTransitionSuffix("Adjective_Adverb_Zero_Transition"), self.ADVERB_ROOT)
+
         ############# Copula tenses
         self.Pres_Cop = Suffix("Pres_Cop", pretty_name="Pres")
         self.Narr_Cop = Suffix("Narr_Cop", pretty_name="Narr")

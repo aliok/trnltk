@@ -188,11 +188,24 @@ class ParserTestWithExtendedGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'mıdır',               u'mı(mı)+Ques+Pres+A3sg+Cop(dIr[dır])')
         self.assert_parse_correct_for_verb(u'mıyımdır',            u'mı(mı)+Ques+Pres+A1sg(yım[yım])+Cop(dIr[dır])')
 
+    def test_should_parse_adjectives_as_adverbs(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_exists(u'mavi',                         u'mavi(mavi)+Adj+Adv+Zero')
+        self.assert_parse_exists(u'yapan',                        u'yap(yapmak)+Verb+Pos+Adj+PresPart(+yAn[an])+Adv+Zero')
+        self.assert_parse_exists(u'kesici',                       u'kes(kesmek)+Verb+Pos+Adj+Agt(+yIcI[ici])+Adv+Zero')
+        self.assert_parse_exists(u'pembemsi',                     u'pembe(pembe)+Adj+Adj+JustLike(+ImsI[msi])+Adv+Zero')
+        self.assert_parse_exists(u'delice',                       u'deli(deli)+Adj+Adj+Equ(cA[ce])+Adv+Zero')
+
     def assert_parse_correct_for_verb(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
 
     def assert_parse_correct(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatchesIgnoreVerbPresA3Sg([a for a in args]))
+
+    def assert_parse_exists(self, word_to_parse, *args):
+        assert_that(self.parse_result(word_to_parse), IsParseResultExists([a for a in args]))
 
     def parse_result(self, word):
         return [formatter.format_morpheme_container_for_tests(r) for r in (self.parser.parse(word))]
@@ -214,6 +227,16 @@ class IsParseResultMatchesIgnoreVerbPresA3Sg(BaseMatcher):
     def _matches(self, items):
         items = filter(lambda item : u'+Zero+Pres+' not in item, items)
         return all(er in items for er in self.expected_results) and all(item in self.expected_results for item in items)
+
+    def describe_to(self, description):
+        description.append_text(u'     ' + str(self.expected_results))
+
+class IsParseResultExists(BaseMatcher):
+    def __init__(self, expected_results):
+        self.expected_results = expected_results
+
+    def _matches(self, items):
+        return any(er in items for er in self.expected_results) and any(item in self.expected_results for item in items)
 
     def describe_to(self, description):
         description.append_text(u'     ' + str(self.expected_results))

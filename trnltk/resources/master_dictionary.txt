@@ -2779,8 +2779,8 @@ berhane [P:Adj]
 berhava [P:Adj]
 berhayat [P:Adj; A:NoVoicing]
 berhudar [P:Adj]
-beri
 beri [P:Adj]
+beri [P:Adv]
 beri [P:Part]
 beribenzer [P:Adj]
 beriberi
@@ -5555,7 +5555,6 @@ denk
 denklem
 denklemek
 denktaş [P:Adj]
-denli [P:Adj]
 denli [P:Part]
 densiz [P:Adj]
 densizlenmek
@@ -7231,6 +7230,7 @@ esirgemek
 eskatologya
 eski
 eski [P:Adj]
+eskiden [P:Adv, Time]
 eskimek
 eskiz
 eskort [A:NoVoicing]
@@ -7586,6 +7586,7 @@ faz
 fazıl
 fazilet [A:NoVoicing]
 fazla [P:Adj]
+fazla [P:Adv]
 fecaat [A:InverseHarmony]
 feci [P:Adj]
 fecir [A:LastVowelDrop]
@@ -9037,6 +9038,7 @@ hafif [P:Adj]
 hafiflemek
 hafifmeşrep
 hafifsemek
+hafiften [P:Adv]
 hafit
 hafiye
 hafniyum
@@ -9085,7 +9087,7 @@ hal [A:InverseHarmony]
 hâl [A:InverseHarmony]
 haletmek [A:Voicing, Aorist_A]
 hala
-hâlâ
+hâlâ [P:Adv, Time]
 halaoğlu
 halâs
 halâskâr
@@ -9193,7 +9195,7 @@ hanımeligiller
 hanımgöbeği [A:CompoundP3sg, Voicing; R:hanımgöbek]
 hanımnine
 hanımparmağı [P:Noun; A:CompoundP3sg, Voicing; R:hanımparmak]
-hani
+hani [P:Adv]
 hanigiller
 hantal [P:Adj]
 hanüman
@@ -9318,7 +9320,7 @@ hassas [P:Adj]
 hassasiyet [A:NoVoicing]
 hassaten
 hasse
-hasta
+hasta [P:Adj]
 hastahane
 hastalanmak
 hastalık
@@ -9498,6 +9500,7 @@ helâk [A:InverseHarmony]
 helâl [A:InverseHarmony]
 helâlleşmek
 helâlzade
+hele [P:Adv]
 hele [P:Conj]
 helecan
 helecanlanmak
@@ -9519,6 +9522,7 @@ helyodor
 helyograf
 helyoterapi
 helyum
+hem [P:Adv]
 hem [P:Conj]
 hemati
 hematit [A:NoVoicing]
@@ -10377,6 +10381,7 @@ ilenmek
 ilerde
 ileri
 ileri [P:Adj]
+ileri [P:Adv]
 ilerlemek
 ileti
 iletişim
@@ -10403,7 +10408,6 @@ ilişik
 ilişki
 ilişkin
 ilişmek
-ilk
 ilk [P:Adj]
 ilkbahar
 ilke
@@ -11019,7 +11023,6 @@ ivmeyazar
 İvrindi
 iye
 iyi [P:Adj]
-iyi [P:Adv]
 iyicene
 iyicil
 İyidere
@@ -16475,7 +16478,7 @@ nışadır
 nice [P:Adj]
 nicel
 nicelemek
-niçin [P:Adv]
+niçin [P:Adv, Ques]
 nida
 nifak [A:NoVoicing]
 nihaî
@@ -16534,7 +16537,7 @@ nitrojen
 nitroselüloz
 niyabet [A:NoVoicing]
 niyaz
-niye
+niye [P:Adv, Ques]
 niyet [A:NoVoicing]
 niyetlenmek
 niyobyum
@@ -17136,6 +17139,7 @@ ozuga
 öşür [A:LastVowelDrop]
 öte
 öte [P:Adj]
+öte [P:Adv]
 öteberi
 öteki
 ötelemek
@@ -18414,7 +18418,7 @@ resif
 resim [A:LastVowelDrop]
 resimlemek
 resital [A:InverseHarmony]
-resmen [P:Adj]
+resmen [P:Adv]
 resmetmek [A:Voicing, Aorist_A]
 resmî [P:Adj]
 resmigeçit
@@ -18716,7 +18720,7 @@ sahabet [A:NoVoicing]
 sahaf
 sahan
 sahavet [A:NoVoicing]
-sahi
+sahi [P:Adv]
 sahibe
 sahici [P:Adj]
 sahiden [P:Adv]
@@ -18841,7 +18845,7 @@ salon
 saloz
 salpa
 salpak
-salt
+salt [P:Adj]
 salta
 saltanat [A:NoVoicing]
 saltık
@@ -20327,6 +20331,7 @@ süregitmek [A:Aorist_A]
 süreğen
 sürek
 sürekli [P:Adj]
+sürekli [P:Adv]
 süreölçer
 süreyazar
 sürfe
@@ -21148,6 +21153,7 @@ taltif
 talveg
 talyum
 tam [P:Adj]
+tam [P:Adv]
 tamah
 tamahkâr [P:Adj]
 tamam [P:Adj]
@@ -21614,6 +21620,7 @@ teknokrat [A:NoVoicing]
 teknoloji
 teknolojik [P:Adj]
 tekrar
+tekrar [P:Adv]
 tekrarlamak
 tekrir
 teksif
@@ -22282,7 +22289,8 @@ topoloji
 topolojik [P:Adj]
 toprak
 topraklamak
-toptan
+toptan [P:Adj]
+toptan [P:Adv]
 topuk
 topuklamak
 topuz
@@ -23157,7 +23165,7 @@ vejetarizm
 vejetaryen
 vejetasyon
 vekâlet [A:NoVoicing]
-vekâleten
+vekâleten [P:Adv]
 vekâletname
 vekil
 vekilharç
@@ -23791,7 +23799,7 @@ yermek
 yeröte
 yeryüzü
 yestehlemek
-yesyeni
+yesyeni [P:Adj]
 yeşermek
 yeşerti
 yeşil [P:Adj]
@@ -23807,6 +23815,7 @@ yeşim
 yetenek
 yeter [P:Adj]
 yeterince [P:Adj]
+yeterince [P:Adv]
 yeterli [P:Adj]
 yeterlik
 yetersiz [P:Adj]
