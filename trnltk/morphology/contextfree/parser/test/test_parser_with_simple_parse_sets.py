@@ -22,8 +22,6 @@ cases_to_skip = {
     u'1+Num+Card',
     u'70+Num+Card',
 
-    u'(1,"tek+Adj")',
-
     u'incecik+',        # Think about it!
 
     u'bir\u015fey+Noun',        # Must be pron!
@@ -71,8 +69,6 @@ cases_to_skip = {
     u'sonralar\u0131+Adv',      # aksamlari, geceleri, vs...
     u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
     u'hiçlik+Noun', u'gençlik+Noun', u'ayr\u0131l\u0131k+Noun', u'arac\u0131l\u0131k',
-    u'(1,"yok+Interj")',
-    u'yok+Adv',
     u'bir\xe7ok+Det',
     u'iğretileme',
     u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel',
@@ -97,13 +93,10 @@ cases_to_skip = {
 
     u'tümü+Pron',
 
-    u'yeni+Adv',        # yeni yeni alismisti
-
     # TODO: think about taralı, kapali, takili vs
     # TODO: word tuerlue is used much different in various cases
     u't\xfcrl\xfc',
 
-    u'b\xfct\xfcn\xfcyle+Adv', # tamamiyle, etc.
 
     u'kestirim+Noun', u'(1,"kazanımlar+Noun+A3sg+Pnon+Abl")',       # yapim, cizim, etc.
     u'nesi+Noun',
@@ -116,9 +109,7 @@ cases_to_skip = {
     u'(1,"hız+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus+Pos")(4,"Noun+Inf2+A3sg+Pnon+Nom")',
     u'ahali+Noun',
     u'tıpkı+Noun',
-    u'salt+Adv',
     u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
-    u'gittik\xe7e+Adv',
     u'donan+Verb',
     u'(1,"barış+Verb+Pos")(2,"Noun+Inf1+A3sg+Pnon+Loc")',
 
