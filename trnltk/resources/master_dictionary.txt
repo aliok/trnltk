@@ -7304,6 +7304,7 @@ eşmek
 eşofman
 eşraf
 eşref
+eşsiz [P:Adj]
 eşya
 et
 etajer
@@ -8690,7 +8691,7 @@ gönyelemek
 gördek
 gördürmek
 göre [P:Part]
-görece
+görece [P:Adj]
 göreli
 görelik
 görenek
@@ -10122,7 +10123,7 @@ ibadet [A:NoVoicing]
 ibadethane
 ibadullah
 ibare
-ibaret [A:NoVoicing]
+ibaret [P:Adj; A:NoVoicing]
 ibate
 ibda
 ibdaî
@@ -13244,6 +13245,7 @@ köken
 kökenlenmek
 köklemek
 köklenmek
+köklü [P:Adj]
 köknar
 kökten
 kökteş
@@ -13390,6 +13392,7 @@ kruvazör
 ksenon
 ksilofon
 kuaför
+kuantum
 kuartet [A:NoVoicing]
 kubarmak
 kubaşmak
@@ -16478,6 +16481,7 @@ nışadır
 nice [P:Adj]
 nicel
 nicelemek
+nicelik
 niçin [P:Adv, Ques]
 nida
 nifak [A:NoVoicing]
@@ -16528,7 +16532,7 @@ nişastalanmak
 nitekim [P:Adv]
 nitel
 nitelemek
-nitelik [P:Adj]
+nitelik
 nitramit [A:NoVoicing]
 nitrat [A:NoVoicing]
 nitratin
@@ -17116,7 +17120,7 @@ ozuga
 örk
 örklemek
 örmek
-örneğin [P:Part]
+örneğin [P:Conj]
 örnek
 örneklemek
 örneksemek
@@ -19878,7 +19882,6 @@ sokulu
 sokum
 sokur
 sokuşturmak
-sol
 sol [P:Adj]
 solak
 solaryum

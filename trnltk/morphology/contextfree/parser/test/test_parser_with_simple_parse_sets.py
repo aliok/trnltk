@@ -67,6 +67,7 @@ cases_to_skip = {
     u'havil+',            # becomes can havlIyla
     u'(1,"savur+Verb")(2,"Verb+Pass+Pos")',         # savrul <> savrIl
     u'(1,"kavur+Verb")(2,"Verb+Pass+Pos+Narr")(3,"Adj+Zero")', # kavrul <> kavrIl
+    u'(1,"s\u0131yr\u0131l+Verb+Pos")',                     # siyir <> siyril
 
     u'sonralar\u0131+Adv',      # aksamlari, geceleri, vs...
     u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
@@ -80,7 +81,7 @@ cases_to_skip = {
 
     u'ikibin+Num',  # sacmalik!
 
-    u'+Related', u'kavramsal', u'nesnel+Adj',
+    u'+Related', u'kavramsal', u'nesnel+Adj', u'alg\u0131sal', u'i\xe7sel',
     u'+NotState',
 
     u'stoku+Noun+',      # Does optional voicing work? gotta create 2 roots like normal voicing case
@@ -90,6 +91,7 @@ cases_to_skip = {
     u'yetkili+Noun', u'ilgili+Noun', u'köylü+Noun',
     u'(1,"ku\u015fkusuz+Adv")', u'(1,"s\xf6zgelimi+Adv")', u'(1,"mesela+Adv")', u'kimbilir+', u'(1,"sahi+Adv")', u'aslında+Adv', # "örneğin" var, ama o Conj
     u'(1,"siz+Pron+Pers+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
+    u'(1,"bug\xfcn+Noun+A3sg+Pnon+Nom")(2,"Adj+Rel")',
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
     u'(1,"ingilizce+Adj"',
@@ -109,8 +111,8 @@ cases_to_skip = {
     u'dokun+Verb")(2,"Verb+Caus',
     u'kop+Verb")(2,"Verb+Caus',     # kopar
     u'(1,"sık+Verb")(2,"Verb+Recip")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr+A3sg+Cop")',
-    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr")(5,"Adj+Zero")',
-    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")(4,"Verb+Pass+Pos")(5,"Noun+Inf2+A3sg+P3sg+Nom")',
+    u'(1,"\xf6t+Verb")(2,"Verb+Caus+Pos")',
+    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")',
     u'(1,"doğ+Verb")(2,"Verb+Caus+Pos+Narr+A3sg+Cop")',
     u'(1,"hız+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus+Pos")(4,"Noun+Inf2+A3sg+Pnon+Nom")',
     u'ahali+Noun',
@@ -121,8 +123,12 @@ cases_to_skip = {
     u'donan+Verb',
     u'(1,"barış+Verb+Pos")(2,"Noun+Inf1+A3sg+Pnon+Loc")',
 
+    u'var+', u'yok+',
+
     u'Noun+Agt',
     u'(1,"ön+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")', u'(1,"art+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")',
+
+    u'(1,"kullan\u0131m+Noun+A3sg+Pnon+Nom")',
 
     u'(1,"anlat+Verb")(2,"Verb+Able+Neg")(3,"Adv+WithoutHavingDoneSo1")'        # very complicated!
 
