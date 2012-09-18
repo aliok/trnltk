@@ -47,7 +47,6 @@ cases_to_skip = {
     u'â', u'î',
     u'hala+Adv',
     u'sanayi+Noun',
-    u'serin+Adv', u"rahat+Adv", u'yeterince+Adv', u'ilk+Adv',       # big thing? using adjectives as adverbs?
 
     u'(1,"de+Verb+Pos")(2,"Adv+ByDoingSo")',        # diyerek, yiyerek
     u'de+Verb+Pos+Fut+Past+A1pl',                   # diyecek, yiyecek,

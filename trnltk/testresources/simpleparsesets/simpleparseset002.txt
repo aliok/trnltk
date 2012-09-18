@@ -921,7 +921,7 @@ seyrediyordu=(1,"seyret+Verb+Pos+Prog1+Past+A3sg")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
 Elini=(1,"el+Noun+A3sg+P3sg+Acc")
-sol=(1,"sol+Noun+A3sg+Pnon+Nom")
+sol=(1,"sol+Adj")
 cebine=(1,"cep+Noun+A3sg+P3sg+Dat")
 sokup=(1,"sok+Verb+Pos")(2,"Adv+AfterDoingSo")
 bir=(1,"bir+Det")
