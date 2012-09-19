@@ -84,9 +84,10 @@ cases_to_skip = {
     u'(1,"yak\u0131n+Noun+A3sg+Pnon+Loc")(2,"Adj+Rel")',
     u'yakın+Noun',
     u'yetkili+Noun', u'ilgili+Noun', u'köylü+Noun',
-    u'(1,"ku\u015fkusuz+Adv")', u'(1,"s\xf6zgelimi+Adv")', u'(1,"mesela+Adv")', u'kimbilir+', u'(1,"sahi+Adv")', u'aslında+Adv', # "örneğin" var, ama o Conj
+
     u'(1,"siz+Pron+Pers+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
     u'(1,"bug\xfcn+Noun+A3sg+Pnon+Nom")(2,"Adj+Rel")',
+    u'bura+'
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
     u'(1,"ingilizce+Adj"',

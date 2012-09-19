@@ -1551,6 +1551,7 @@ aslangiller
 aslankuyruğu
 aslanpençesi
 aslen [P:Adv]
+aslında [P:Adv]
 aslî [P:Adj]
 asliye
 asma
@@ -3700,6 +3701,7 @@ bütün [P:Adj]
 bütüncül [P:Adj]
 bütünlemek
 bütünleşik [P:Adj]
+bütünüyle [P:Adv]
 büvelek
 büvet [A:NoVoicing]
 büyü
@@ -8573,6 +8575,7 @@ gitar
 gitarist [A:NoVoicing]
 gitgide [P:Adv]
 gitmek [A:Voicing]
+gittikçe [P:Adv]
 giyecek
 giyim
 giyinik
@@ -12676,6 +12679,7 @@ kils
 kilüs
 kim [P:Pron, Ques]
 kim [P:Conj]
+kimbilir [P:Adv]
 kimi [P:Det]
 kimi [P:Pron]
 kimisi [P:Pron]
@@ -13566,7 +13570,7 @@ kuşkanadı [A:CompoundP3sg, Voicing; R:kuşkanat]
 kuşkonmaz
 kuşku
 kuşkulanmak
-kuşkusuz [P:Part]
+kuşkusuz [P:Adv]
 kuşlokumu [A:CompoundP3sg; R:kuşlokum]
 kuşmar
 kuşpalazı [A:CompoundP3sg; R:kuşpalaz]
@@ -14886,7 +14890,7 @@ mesame
 mesane
 mescit
 mesel
-meselâ [P:Part]
+meselâ [P:Adv]
 mesele
 mesen
 meserret [A:NoVoicing]
@@ -20034,7 +20038,7 @@ sözcü
 sözcük
 sözde
 sözel [P:Adj]
-sözgelimi [P:Part]
+sözgelimi [P:Adv]
 sözlenmek
 sözleşme
 sözleşmek

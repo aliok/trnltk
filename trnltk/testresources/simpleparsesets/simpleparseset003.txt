@@ -572,7 +572,7 @@ gören=(1,"gör+Verb+Pos")(2,"Adj+PresPart")
 olmadı=(1,"ol+Verb+Neg+Past+A3sg")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
-Kimbilir=(1,"kimbilir+Adj")
+Kimbilir=(1,"kimbilir+Adv")
 nereye=(1,"nere+Pron+Ques+A3sg+Pnon+Dat")
 gitti=(1,"git+Verb+Pos+Past+A3sg")
 ?=(1,"?+Punc")
