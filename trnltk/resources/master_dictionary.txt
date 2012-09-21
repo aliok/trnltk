@@ -2561,6 +2561,7 @@ bazen [P:Adv]
 bazan [P:Adv]
 bazı [P:Adj]
 bazı [P:Adv]
+bazıları [P:Pron]
 bazidiyospor
 bazik [P:Adj]
 bazilika
@@ -19619,6 +19620,7 @@ sıyanet [A:NoVoicing]
 sıyga
 sıyırmak [A:LastVowelDrop]
 sıyrık
+sıyrılmak
 sızak
 sızdırmak
 sızgıt [A:NoVoicing]
@@ -22112,7 +22114,8 @@ tıpırdamak
 tıpırtı
 tıpış [P:Adj, Dup]
 tıpışlamak
-tıpkı [P:Adj]
+tıpkı
+tıpkı [P:Adv]
 tıpkıbasım
 tıpkıçekim
 tırabzan

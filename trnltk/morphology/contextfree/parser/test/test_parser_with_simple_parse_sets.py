@@ -5,6 +5,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
 from trnltk.morphology.model import formatter
@@ -43,14 +44,12 @@ cases_to_skip = {
     u'birbiri+Pron+A3pl',  # TODO: birbirleri
 
     u'â', u'î',
-    u'hala+Adv',
     u'sanayi+Noun',
 
     u'(1,"de+Verb+Pos")(2,"Adv+ByDoingSo")',        # diyerek, yiyerek
     u'de+Verb+Pos+Fut+Past+A1pl',                   # diyecek, yiyecek,
 
     u'kadar',
-    u'tamam+Adv',         # Part or Adv?
     u'(1,"de\u011fil+Conj")',
     u'Postp',
     u'Aor+A3pl+Past"',    # yaparlardi
@@ -59,12 +58,6 @@ cases_to_skip = {
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
     u'(1,"bo\u011ful+Verb+Pos")',
-
-    u'vakit+',            # becomes vaktIn
-    u'havil+',            # becomes can havlIyla
-    u'(1,"savur+Verb")(2,"Verb+Pass+Pos")',         # savrul <> savrIl
-    u'(1,"kavur+Verb")(2,"Verb+Pass+Pos+Narr")(3,"Adj+Zero")', # kavrul <> kavrIl
-    u'(1,"s\u0131yr\u0131l+Verb+Pos")',                     # siyir <> siyril
 
     u'sonralar\u0131+Adv',      # aksamlari, geceleri, vs...
     u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
@@ -87,7 +80,7 @@ cases_to_skip = {
 
     u'(1,"siz+Pron+Pers+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
     u'(1,"bug\xfcn+Noun+A3sg+Pnon+Nom")(2,"Adj+Rel")',
-    u'bura+'
+    u'bura+',
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
     u'(1,"ingilizce+Adj"',
@@ -109,12 +102,11 @@ cases_to_skip = {
     u'(1,"doğ+Verb")(2,"Verb+Caus+Pos+Narr+A3sg+Cop")',
     u'(1,"hız+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus+Pos")(4,"Noun+Inf2+A3sg+Pnon+Nom")',
     u'ahali+Noun',
-    u'tıpkı+Noun',
     u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
     u'donan+Verb',
     u'(1,"barış+Verb+Pos")(2,"Noun+Inf1+A3sg+Pnon+Loc")',
 
-    u'var+', u'yok+',
+    u'var+', u'yok+', u'tamam+Adv', u'evet+', u'hayır',         # Part or Adv?
 
     u'Noun+Agt',
     u'(1,"ön+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")', u'(1,"art+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")',
@@ -125,7 +117,7 @@ cases_to_skip = {
 
 }
 
-class ParserTestWithSimpleParseSets(unittest.TestCase):
+class ParserTestWithSimpleParseSets(ParserTest):
 
     @classmethod
     def setUpClass(cls):

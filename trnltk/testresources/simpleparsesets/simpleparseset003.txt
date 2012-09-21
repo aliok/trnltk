@@ -477,7 +477,7 @@ Attım=(1,"at+Verb+Pos+Past+A1sg")
 dışarıya=(1,"dışarı+Noun+A3sg+Pnon+Dat")
 ,=(1,",+Punc")
 can=(1,"can+Noun+A3sg+Pnon+Nom")
-havliyle=(1,"havil+Noun+A3sg+Pnon+Ins")
+havliyle=(1,"havil+Noun+A3sg+P3sg+Ins")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
 Nasıl=(1,"nasıl+Adv")

@@ -5,6 +5,7 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
 from trnltk.morphology.model import formatter
 from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
@@ -15,7 +16,7 @@ from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 
-class ParserTestWithSimpleGraph(unittest.TestCase):
+class ParserTestWithSimpleGraph(ParserTest):
 
     @classmethod
     def setUpClass(cls):
@@ -1251,6 +1252,24 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'birçoğunun',          u'birçoğ(birçok)+Noun+A3sg+P2sg(+In[un])+Gen(+nIn[un])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+Pnon+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
         self.assert_parse_correct_for_verb(u'birçoğumuzdan',       u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Abl(dAn[dan])', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])')
 
+    def test_should_parse_digits_with_vowel_drops(self):
+        self.assert_parse_correct(u'vaktimi',                 u'vakt(vakit)+Noun+A3sg+P1sg(+Im[im])+Acc(+yI[i])')
+        self.assert_parse_correct(u'havliyle',                u'havl(havil)+Noun+A3sg+P3sg(+sI[i])+Ins(+ylA[yle])')
+        self.assert_parse_correct(u'savruldu',                u'savr(savurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
+        self.assert_parse_correct(u'kavruldu',                u'kavr(kavurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
+        self.assert_parse_correct(u'sıyrılıyor',              u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg', u'sıyrıl(sıyrılmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
+
+    def test_should_parse_digits_with_vowel_drops(self):
+    #        parser_logger.setLevel(logging.DEBUG)
+    #        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_exists(u'bazıları',                   u'bazıları(bazıları)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'bazılarımız',                u'bazıları(bazıları)+Pron+A3sg+P1pl(+ImIz[mız])+Nom')
+        self.assert_parse_exists(u'bazılarının',                u'bazıları(baz\u0131lar\u0131)+Pron+A3sg+Pnon+Gen(+nIn[n\u0131n])')
+        self.assert_parse_exists(u'kimileri',                   u'savr(savurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
+        self.assert_parse_exists(u'kimilerinin',                u'kavr(kavurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
+        self.assert_parse_exists(u'sıyrılıyor',                 u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg', u'sıyrıl(sıyrılmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
+
     def test_should_parse_digits(self):
         self.assert_parse_correct_for_verb(u'0',                     u'0(0)+Num+Digits+Adj+Zero', u'0(0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct_for_verb(u'1',                     u'1(1)+Num+Digits+Adj+Zero', u'1(1)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
@@ -1280,7 +1299,6 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
     def test_should_parse_digits_with_suffixes(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        XXXXXXXXXXXXX = ''
 
         self.assert_parse_correct_for_verb(u'0\'ı',                 u'0(0)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'0(0)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
         self.assert_parse_correct_for_verb(u'1\'i',                 u'1(1)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1(1)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom')
@@ -1520,38 +1538,6 @@ class ParserTestWithSimpleGraph(unittest.TestCase):
         self.assert_parse_correct_for_verb(u'111111111111111110\'u',              u'111111111111111110(111111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111111111110(111111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
         self.assert_parse_correct_for_verb(u'111111111111111111\'i',              u'111111111111111111(111111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111111111(111111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
         self.assert_parse_correct_for_verb(u'200000000000000000\'u',              u'200000000000000000(200000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'200000000000000000(200000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-
-    def assert_parse_correct_for_verb(self, word_to_parse, *args):
-        assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]))
-#        result = self.parse_result(word_to_parse)
-#        print u', '.join([repr(x) for x in result])
-
-    def assert_parse_correct(self, word_to_parse, *args):
-        assert_that(self.parse_result(word_to_parse), IsParseResultMatchesIgnoreVerbPresA3Sg([a for a in args]))
-
-    def parse_result(self, word):
-        return [formatter.format_morpheme_container_for_tests(r) for r in (self.parser.parse(word))]
-
-class IsParseResultMatches(BaseMatcher):
-    def __init__(self, expected_results):
-        self.expected_results = expected_results
-
-    def _matches(self, items):
-        return all(er in items for er in self.expected_results) and all(item in self.expected_results for item in items)
-
-    def describe_to(self, description):
-        description.append_text(u'     ' + str(self.expected_results))
-
-class IsParseResultMatchesIgnoreVerbPresA3Sg(BaseMatcher):
-    def __init__(self, expected_results):
-        self.expected_results = expected_results
-
-    def _matches(self, items):
-        items = filter(lambda item : u'+Zero+Pres+' not in item, items)
-        return all(er in items for er in self.expected_results) and all(item in self.expected_results for item in items)
-
-    def describe_to(self, description):
-        description.append_text(u'     ' + str(self.expected_results))
 
 if __name__ == '__main__':
     unittest.main()
