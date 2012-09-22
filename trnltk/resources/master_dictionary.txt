@@ -1271,7 +1271,7 @@ arabanbuselik
 arabankürdi
 arabesk [A:NoVoicing]
 arabozan
-aracı
+aracı [P:Adj]
 araç
 araf
 aragonit [A:NoVoicing]
@@ -2068,7 +2068,6 @@ bakam
 bakan
 bakan [P:Adj]
 bakanak
-bakanlık
 bakara
 bakaya
 bakı
@@ -2880,7 +2879,6 @@ beyazımsı [P:Adj]
 beyazımtırak
 beyazlamak
 beyazlanmak
-beyazlık
 beyazsinek
 beyaztilki
 beybaba
@@ -3095,7 +3093,6 @@ bini
 binici
 bininci [P:Num, Ord]
 binit [A:NoVoicing]
-binlik
 binnetice [P:Adv]
 binyıl [P:Noun, Time]
 biperva [P:Adj]
@@ -4156,7 +4153,6 @@ cumburlop [A:NoVoicing, NoSuffix]
 cumburtu
 cumhur
 cumhurbaşkanı [A:CompoundP3sg; R:cumhurbaşkan]
-cumhurbaşkanlığı
 cumhurca [P:Adv]
 cumhuriyet [A:NoVoicing]
 cumhuriyetperver [P:Adj]
@@ -4317,7 +4313,6 @@ cüzzam
 çamçak
 Çameli [P:Noun, Prop; A:NounConsInsert_n]
 çamgiller
-çamlık
 Çamlıyayla
 Çamoluk
 çamuka
@@ -4972,7 +4967,6 @@ cüzzam
 çöküntü
 çöl
 Çölemerik
-çöllük [P:Adj]
 çömçe
 çömelmek
 çömez
@@ -5071,7 +5065,6 @@ dağlağı
 dağlamak
 dağlı [P:Adj]
 dağlıç
-dağlık [P:Adj]
 daha [P:Noun, Time; S:+Rel_ki]
 daha [P:Adv]
 dahası
@@ -5164,8 +5157,6 @@ damargenişleten
 damarlanmak
 damasko
 damat
-damatlık
-damatlık [P:Adj]
 damdazlak [P:Adj]
 damga
 damgalamak
@@ -5445,7 +5436,6 @@ delalet [A:NoVoicing]
 delecek
 delegasyon
 delege
-delegelik
 delgeç
 delgi
 delgiç
@@ -6225,7 +6215,6 @@ doymak
 doyurmak
 doyum
 doyumevi
-doyumluk
 doyumluk [P:Adj]
 doyumsuz [P:Adj]
 doz
@@ -6379,7 +6368,6 @@ duşak
 duşaklamak
 dut
 dutgiller
-dutluk
 duvak
 duvaklamak
 duvar
@@ -6425,7 +6413,6 @@ düğüncübaşı
 düğürcük
 dük
 dükkân
-düklük
 düldül
 dülger
 dümbelek
@@ -6885,13 +6872,10 @@ elit [P:Adj; A:NoVoicing]
 ellemek
 elli [P:Num, Card]
 ellik
-ellilik
-ellilik [P:Adj]
 ellinci [P:Num, Ord]
 elma
 elmabaş
 elmacık
-elmalık
 elmas
 elmas [P:Adj]
 elmasiye
@@ -7030,7 +7014,6 @@ enfraruj
 enfrastrüktür
 enfüsi
 engebe
-engebelik
 engel
 engellemek
 engerek
@@ -7154,7 +7137,6 @@ erguvani [P:Adj]
 erigen [P:Adj]
 erik
 erika
-eriklik
 eril [P:Adj]
 erim
 erimek
@@ -7319,7 +7301,6 @@ etçil [P:Adj]
 etçiller
 etek
 eteklik
-eteklik [P:Adj]
 eteklemek
 eten
 etene
@@ -8336,7 +8317,6 @@ gececi
 gecekondu
 gecelemek
 geceleyin
-gecelik
 gecesefası
 gecesefasıgiller
 gecikmek
@@ -8387,7 +8367,6 @@ gelinboğan
 gelincik
 gelincikgiller
 gelinfeneri [A:CompoundP3sg; R:gelinfener]
-gelinlik
 gelinparmağı [P:Noun; A:CompoundP3sg, Voicing; R:gelinparmak]
 gelir
 gelişigüzel
@@ -8696,7 +8675,7 @@ gördek
 gördürmek
 göre [P:Part]
 görece [P:Adj]
-göreli
+göreli [P:Adj]
 görelik
 görenek
 görev
@@ -8934,12 +8913,11 @@ güneydoğu [P:Adj]
 güngörmez
 güngörmüş
 günindi
-günlük
 günlük [P:Adj]
 günöte
 gün-tün
 günü
-günübirlik
+günübirlik [P:Adj]
 günülemek
 güpegündüz
 güpgüzel
@@ -9049,6 +9027,7 @@ hafiye
 hafniyum
 hafriyat [A:NoVoicing]
 hafta [P:Noun, Time]
+haftalık
 hah [P:Interj]
 haham
 hahambaşı
@@ -16900,7 +16879,6 @@ otizm
 otlak
 otlamak
 otlubağa
-otluk
 oto
 otoban
 otobiyografi
@@ -17087,6 +17065,7 @@ ozuga
 önce [P:Adv, Time]
 öncelemek
 öncelik
+öncelikle [P:Adv]
 öncü
 öncül
 önder
@@ -18254,7 +18233,7 @@ rahman
 rahmanî
 rahmet [A:NoVoicing]
 rahmetli
-rahmetlik
+rahmetlik [P:Adj]
 rahne
 raht
 rahvan
@@ -19457,7 +19436,6 @@ seyek
 seyelân
 seyir [A:LastVowelDrop]
 seyirci
-seyirlik
 seyis
 seyishane
 seyit
@@ -21095,6 +21073,7 @@ takigraf
 takim
 takimetre
 takip
+takipsizlik
 takkadak [P:Adv]
 takke
 takla
@@ -21348,7 +21327,6 @@ taşikardi
 taşkın [P:Adj]
 taşkırangiller
 taşlamak
-taşlık
 taşmak
 taşra
 tat [A:Voicing]
@@ -23708,7 +23686,6 @@ yazılım
 yazın [P:Adj]
 yazıt [A:NoVoicing]
 yazlamak
-yazlık
 yazma
 yazmak
 yazman
@@ -23883,7 +23860,6 @@ yılık
 yılışık
 yılışmak
 yıllamak
-yıllık
 yılmak
 yılmaz
 yıprak
@@ -24087,7 +24063,6 @@ yüzgeç
 yüzgöz
 yüzlemek
 yüzleşmek
-yüzlük
 yüzmek
 yüznumara
 yüzsüz [P:Adj]
@@ -24257,7 +24232,6 @@ zeybek
 zeyil [A:LastVowelDrop]
 zeyrek
 zeytin
-zeytinlik
 zeytinyağı [A:CompoundP3sg; R:zeytinyağ]
 zeytunî [P:Adj]
 zıbarmak
