@@ -161,20 +161,24 @@ class PredefinedPathsTest(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.predefined_paths._create_predefined_path_of_bazilari()
-        self.predefined_paths._create_predefined_path_of_kimileri()
-        self.predefined_paths._create_predefined_path_of_kimi_and_kimisi()
+        self.predefined_paths._create_predefined_path_of_bazilari_bazisi()
+        self.predefined_paths._create_predefined_path_of_kimileri_kimisi_kimi()
+        self.predefined_paths._create_predefined_path_of_birileri_birisi_biri()
 
         self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
         PRON = SyntacticCategory.PRONOUN
 
         self.assert_defined_path(u'bazıları', PRON, None, u'bazıları(bazıları)+Pron+A3sg+P3sg', u'bazıları(bazıları)+Pron+A3sg+P1pl(mız[mız])', u'bazıları(bazıları)+Pron+A3sg+P2pl(nız[nız])')
+        self.assert_defined_path(u'bazısı',   PRON, None, u'baz\u0131s\u0131(baz\u0131s\u0131)+Pron+A3sg+P3sg')
 
         self.assert_defined_path(u'kimileri', PRON, None, u'kimileri(kimileri)+Pron+A3sg+P3sg', u'kimileri(kimileri)+Pron+A3sg+P1pl(miz[miz])', u'kimileri(kimileri)+Pron+A3sg+P2pl(niz[niz])')
+        self.assert_defined_path(u'kimisi',   PRON, None, u'kimisi(kimisi)+Pron+A3sg+P3sg')
+        self.assert_defined_path(u'kimi',     PRON, None, u'kimi(kimi)+Pron+A3sg+P3sg', u'kimi(kimi)+Pron+A3sg+P1pl(miz[miz])', u'kimi(kimi)+Pron+A3sg+P2pl(niz[niz])')
 
-        self.assert_defined_path(u'kimisi', PRON, None, u'kimisi(kimisi)+Pron+A3sg+P3sg')
-        self.assert_defined_path(u'kimi',   PRON, None, u'kimi(kimi)+Pron+A3sg+P3sg')
+        self.assert_defined_path(u'birileri', PRON, None, u'birileri(birileri)+Pron+A3sg+P3sg', u'birileri(birileri)+Pron+A3sg+P1pl(miz[miz])', u'birileri(birileri)+Pron+A3sg+P2pl(niz[niz])')
+        self.assert_defined_path(u'birisi',   PRON, None, u'birisi(birisi)+Pron+A3sg+P3sg')
+        self.assert_defined_path(u'biri',     PRON, None, u'biri(biri)+Pron+A3sg+P3sg', u'biri(biri)+Pron+A3sg+P1pl(miz[miz])', u'biri(biri)+Pron+A3sg+P2pl(niz[niz])')
 
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))

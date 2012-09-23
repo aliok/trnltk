@@ -97,9 +97,9 @@ class PredefinedPaths(object):
 
         self._create_predefined_path_of_ora()
 
-        self._create_predefined_path_of_bazilari()
-        self._create_predefined_path_of_kimileri()
-        self._create_predefined_path_of_kimi_and_kimisi()
+        self._create_predefined_path_of_bazilari_bazisi()
+        self._create_predefined_path_of_kimileri_kimisi_kimi()
+        self._create_predefined_path_of_birileri_birisi_biri()
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -543,48 +543,44 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_or, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Loc_Noun,'da')])
         self._add_morpheme_container(root_or, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Abl_Noun,'dan')])
 
-    def _create_predefined_path_of_bazilari(self): # TODO test
+    def _create_predefined_path_of_bazilari_bazisi(self):
+        root_bazisi = self._find_root(u'bazısı', SyntacticCategory.PRONOUN, None)
         root_bazilari = self._find_root(u'bazıları', SyntacticCategory.PRONOUN, None)
 
-        # No P1sg
-
-        # No P2sg
-
-        # P3sg
         self._add_morpheme_container(root_bazilari, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
-
-        # P1Pl
         self._add_morpheme_container(root_bazilari, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'mız')])
-
-        # P2Pl
         self._add_morpheme_container(root_bazilari, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'nız')])
 
-        # P3Pl
-        # ignore P3pl situation ...
+        self._add_morpheme_container(root_bazisi,   [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
 
-    def _create_predefined_path_of_kimileri(self): # TODO test
-        root_kimileri = self._find_root(u'kimileri', SyntacticCategory.PRONOUN, None)
-
-        # No P1sg
-
-        # No P2sg
-
-        # P3sg
-        self._add_morpheme_container(root_kimileri, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
-
-        # P1Pl
-        self._add_morpheme_container(root_kimileri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
-
-        # P2Pl
-        self._add_morpheme_container(root_kimileri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
-
-        # P3Pl
-        # ignore P3pl situation ...
-
-    def _create_predefined_path_of_kimi_and_kimisi(self): # TODO test
+    def _create_predefined_path_of_kimileri_kimisi_kimi(self):
         root_kimi   = self._find_root(u'kimi',   SyntacticCategory.PRONOUN, None)
         root_kimisi = self._find_root(u'kimisi', SyntacticCategory.PRONOUN, None)
+        root_kimileri = self._find_root(u'kimileri', SyntacticCategory.PRONOUN, None)
 
-        # Only P3sg
-        self._add_morpheme_container(root_kimi,   [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_kimileri, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_kimileri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_kimileri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
+        self._add_morpheme_container(root_kimi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_kimi, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_kimi, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
         self._add_morpheme_container(root_kimisi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+
+    def _create_predefined_path_of_birileri_birisi_biri(self):
+        root_biri   = self._find_root(u'biri',   SyntacticCategory.PRONOUN, None)
+        root_birisi = self._find_root(u'birisi', SyntacticCategory.PRONOUN, None)
+        root_birileri = self._find_root(u'birileri', SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_birileri, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_birileri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_birileri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
+        self._add_morpheme_container(root_biri,   [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_biri,   [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_biri,   [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
+        self._add_morpheme_container(root_birisi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+
+

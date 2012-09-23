@@ -2561,6 +2561,7 @@ bazan [P:Adv]
 bazı [P:Adj]
 bazı [P:Adv]
 bazıları [P:Pron]
+bazısı [P:Pron]
 bazidiyospor
 bazik [P:Adj]
 bazilika
