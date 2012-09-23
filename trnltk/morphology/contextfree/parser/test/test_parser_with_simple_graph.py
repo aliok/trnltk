@@ -3,10 +3,7 @@ from copy import copy
 import logging
 import os
 import unittest
-from hamcrest import *
-from hamcrest.core.base_matcher import BaseMatcher
 from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
-from trnltk.morphology.model import formatter
 from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
