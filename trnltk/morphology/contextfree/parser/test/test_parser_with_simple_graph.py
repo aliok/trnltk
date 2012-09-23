@@ -1297,10 +1297,15 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'birbirleri',                 u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])+Nom')
         self.assert_parse_exists(u'birbirlerine',               u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])+Dat(nA[ne])')
 
-    def test_should_parse_LIK_suffixes(self):
-    #        parser_logger.setLevel(logging.DEBUG)
-    #        suffix_applier_logger.setLevel(logging.DEBUG)
+    def test_should_parse_irregular_pronouns(self):
+        self.assert_parse_correct(u'herkes',            u'herkes(herkes)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'herkese',           u'herkes(herkes)+Pron+A3sg+Pnon+Dat(+yA[e])')
+        self.assert_parse_correct(u'herkesin',          u'herkes(herkes)+Pron+A3sg+Pnon+Gen(+nIn[in])')
+        self.assert_parse_correct(u'herkeste',          u'herkes(herkes)+Pron+A3sg+Pnon+Loc(dA[te])')
+        self.assert_parse_correct(u'herkesle',          u'herkes(herkes)+Pron+A3sg+Pnon+Ins(+ylA[le])')
+        self.assert_parse_correct(u'herkesim',          )
 
+    def test_should_parse_LIK_suffixes(self):
         self.assert_parse_exists(u'güzellik',              u'güzel(güzel)+Adj+Noun+Ness(lIk[lik])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'ustalık',               u'usta(usta)+Noun+A3sg+Pnon+Nom+Noun+Prof(lIk[l\u0131k])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'kitaplık',              u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Noun+FitFor(lIk[lık])+A3sg+Pnon+Nom')

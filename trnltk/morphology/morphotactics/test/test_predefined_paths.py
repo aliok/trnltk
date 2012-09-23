@@ -184,6 +184,18 @@ class PredefinedPathsTest(unittest.TestCase):
         self.assert_defined_path(u'birbiri',  PRON, None, u'birbiri(birbiri)+Pron+A3sg+P3sg', u'birbiri(birbiri)+Pron+A1pl+P1pl(miz[miz])', u'birbiri(birbiri)+Pron+A2pl+P2pl(niz[niz])')
         self.assert_defined_path(u'birbir',   PRON, None, u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])')
 
+    def test_should_have_paths_for_irregular_pronouns(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.predefined_paths._create_predefined_path_of_herkes()
+
+        self.morpheme_container_map = self.predefined_paths._morpheme_container_map
+
+        PRON = SyntacticCategory.PRONOUN
+
+        self.assert_defined_path(u'herkes', PRON, None, u'herkes(herkes)+Pron+A3sg+Pnon')
+
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))
 

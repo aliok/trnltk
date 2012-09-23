@@ -92,6 +92,7 @@ class PredefinedPaths(object):
 
         self._create_predefined_path_of_kendi()
         self._create_predefined_path_of_hepsi()
+        self._create_predefined_path_of_herkes()
 
         self._create_predefined_path_of_question_particles()
 
@@ -442,6 +443,11 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_hepsi, [self._suffix_graph.A3Pl_Pron, self._suffix_graph.P3Pl_Pron, (self._suffix_graph.AccordingTo, u'nce')])
 
         self._add_morpheme_container(root_hepsi, [self._suffix_graph.A3Pl_Pron, self._suffix_graph.P3Pl_Pron, self._suffix_graph.Nom_Pron_Deriv])
+
+    def _create_predefined_path_of_herkes(self):
+        root_herkes = self._find_root(u'herkes', SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_herkes, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron])
 
     def _create_predefined_path_of_question_particles(self):
         root_mii = self._find_root(u'mı', SyntacticCategory.QUESTION, None)

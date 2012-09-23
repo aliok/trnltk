@@ -906,6 +906,7 @@ class SuffixGraph(object):
         #Ins_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.AccordingTo, self.PRONOUN_WITH_CASE)
+        self.AccordingTo.add_suffix_form(u"cA")
         #AccordingTo forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'hepsi' are predefined
 
     def _register_pronoun_to_adjective_suffixes(self):
