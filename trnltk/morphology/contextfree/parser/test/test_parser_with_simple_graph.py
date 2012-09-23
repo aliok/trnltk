@@ -597,7 +597,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'nereleri',          u'nere(nere)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
 
         self.assert_parse_correct(u'nerenden',          u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Abl(dAn[den])')
-        self.assert_parse_correct(u'kimimizle',         u'kim(kim)+Pron+Ques+A3sg+P1pl(+ImIz[imiz])+Ins(+ylA[le])', u'kimi(kimi)+Pron+A3sg+P1pl(+ImIz[miz])+Ins(+ylA[le])')
+        self.assert_parse_correct(u'kimimizle',         u'kim(kim)+Pron+Ques+A3sg+P1pl(+ImIz[imiz])+Ins(+ylA[le])', u'kimi(kimi)+Pron+A3sg+P1pl(miz[miz])+Ins(+ylA[le])')
         self.assert_parse_correct(u'kimleri',           u'kim(kim)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
         self.assert_parse_correct(u'kimlerimiz',        u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Nom')
         self.assert_parse_correct(u'kimlerimize',       u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Dat(+yA[e])')
@@ -1259,6 +1259,7 @@ class ParserTestWithSimpleGraph(ParserTest):
     def test_should_parse_pronouns_with_implicit_possession(self):
         self.assert_parse_exists(u'bazıları',                   u'bazıları(bazıları)+Pron+A3sg+P3sg+Nom')
         self.assert_parse_doesnt_exist(u'bazıları',             u'bazıları(bazıları)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'bazılarına',                 u'bazıları(bazıları)+Pron+A3sg+P3sg+Dat(nA[na])')
         self.assert_parse_exists(u'bazılarımız',                u'bazıları(bazıları)+Pron+A3sg+P1pl(mız[mız])+Nom')
         self.assert_parse_exists(u'bazılarının',                u'bazıları(bazıları)+Pron+A3sg+P3sg+Gen(+nIn[nın])')
         self.assert_parse_exists(u'bazısı',                     u'bazısı(bazısı)+Pron+A3sg+P3sg+Nom')
@@ -1269,6 +1270,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'kimileriniz',               u'kimileri(kimileri)+Pron+A3sg+P2pl(niz[niz])+Nom')
         self.assert_parse_exists(u'kimilerinin',                u'kimileri(kimileri)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
         self.assert_parse_correct(u'kimisi',                    u'kimisi(kimisi)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct(u'kimisini',                  u'kimisi(kimisi)+Pron+A3sg+P3sg+Acc(nI[ni])')
         self.assert_parse_correct(u'kimisinin',                 u'kimisi(kimisi)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
         self.assert_parse_exists(u'kimi',                       u'kimi(kimi)+Pron+A3sg+P3sg+Nom')
         self.assert_parse_correct(u'kimimiz',                   u'kimi(kimi)+Pron+A3sg+P1pl(miz[miz])+Nom', u'kim(kim)+Pron+Ques+A3sg+P1pl(+ImIz[imiz])+Nom')
@@ -1280,10 +1282,20 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'birileriniz',               u'birileri(birileri)+Pron+A3sg+P2pl(niz[niz])+Nom')
         self.assert_parse_exists(u'birilerinin',                u'birileri(birileri)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
         self.assert_parse_correct(u'birisi',                    u'birisi(birisi)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct(u'birisinde',                 u'birisi(birisi)+Pron+A3sg+P3sg+Loc(ndA[nde])')
         self.assert_parse_correct(u'birisinin',                 u'birisi(birisi)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
         self.assert_parse_exists(u'biri',                       u'biri(biri)+Pron+A3sg+P3sg+Nom')
         self.assert_parse_exists(u'birimiz',                    u'biri(biri)+Pron+A3sg+P1pl(miz[miz])+Nom')
         self.assert_parse_exists(u'biriniz',                    u'biri(biri)+Pron+A3sg+P2pl(niz[niz])+Nom')
+
+        self.assert_parse_exists(u'birbiri',                    u'birbiri(birbiri)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_exists(u'birbirine',                  u'birbiri(birbiri)+Pron+A3sg+P3sg+Dat(nA[ne])')
+        self.assert_parse_exists(u'birbirinden',                u'birbiri(birbiri)+Pron+A3sg+P3sg+Abl(ndAn[nden])')
+        self.assert_parse_exists(u'birbirimiz',                 u'birbiri(birbiri)+Pron+A1pl+P1pl(miz[miz])+Nom')
+        self.assert_parse_exists(u'birbiriniz',                 u'birbiri(birbiri)+Pron+A2pl+P2pl(niz[niz])+Nom')
+        self.assert_parse_exists(u'birbirinize',                u'birbiri(birbiri)+Pron+A2pl+P2pl(niz[niz])+Dat(+yA[e])')
+        self.assert_parse_exists(u'birbirleri',                 u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])+Nom')
+        self.assert_parse_exists(u'birbirlerine',               u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])+Dat(nA[ne])')
 
     def test_should_parse_LIK_suffixes(self):
     #        parser_logger.setLevel(logging.DEBUG)

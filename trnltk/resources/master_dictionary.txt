@@ -3114,7 +3114,7 @@ biraz [P:Adv]
 birazcık [P:Adj]
 birazcık [P:Adv]
 birazdan [P:Adv]
-birbiri [P:Pron]
+birbiri [P:Pron; A:RootChange]
 birçoğu [P:Pron]
 birçok
 birden [P:Adv]

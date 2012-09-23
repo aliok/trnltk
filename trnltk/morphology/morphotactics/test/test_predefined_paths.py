@@ -164,6 +164,7 @@ class PredefinedPathsTest(unittest.TestCase):
         self.predefined_paths._create_predefined_path_of_bazilari_bazisi()
         self.predefined_paths._create_predefined_path_of_kimileri_kimisi_kimi()
         self.predefined_paths._create_predefined_path_of_birileri_birisi_biri()
+        self.predefined_paths._create_predefined_path_of_birbiri()
 
         self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
@@ -179,6 +180,9 @@ class PredefinedPathsTest(unittest.TestCase):
         self.assert_defined_path(u'birileri', PRON, None, u'birileri(birileri)+Pron+A3sg+P3sg', u'birileri(birileri)+Pron+A3sg+P1pl(miz[miz])', u'birileri(birileri)+Pron+A3sg+P2pl(niz[niz])')
         self.assert_defined_path(u'birisi',   PRON, None, u'birisi(birisi)+Pron+A3sg+P3sg')
         self.assert_defined_path(u'biri',     PRON, None, u'biri(biri)+Pron+A3sg+P3sg', u'biri(biri)+Pron+A3sg+P1pl(miz[miz])', u'biri(biri)+Pron+A3sg+P2pl(niz[niz])')
+
+        self.assert_defined_path(u'birbiri',  PRON, None, u'birbiri(birbiri)+Pron+A3sg+P3sg', u'birbiri(birbiri)+Pron+A1pl+P1pl(miz[miz])', u'birbiri(birbiri)+Pron+A2pl+P2pl(niz[niz])')
+        self.assert_defined_path(u'birbir',   PRON, None, u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])')
 
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))

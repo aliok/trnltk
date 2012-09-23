@@ -112,6 +112,10 @@ class RootGenerator(object):
             root_or = Root(u'or', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'or'))
             root_ora = Root(u'ora', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ora'))
             return [root_or, root_ora]
+        elif lexeme.lemma==u'birbiri':
+            root_birbir = Root(u'birbir', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbir'))
+            root_birbiri = Root(u'birbiri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbiri'))
+            return [root_birbir, root_birbiri]
         else:
             raise Exception('Unhandled root change : {} !'.format(lexeme))
 

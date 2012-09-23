@@ -100,6 +100,7 @@ class PredefinedPaths(object):
         self._create_predefined_path_of_bazilari_bazisi()
         self._create_predefined_path_of_kimileri_kimisi_kimi()
         self._create_predefined_path_of_birileri_birisi_biri()
+        self._create_predefined_path_of_birbiri()
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -582,5 +583,16 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_biri,   [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
 
         self._add_morpheme_container(root_birisi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+
+    def _create_predefined_path_of_birbiri(self):
+        root_birbir    = self._find_root(u'birbir',    SyntacticCategory.PRONOUN, None)
+        root_birbiri   = self._find_root(u'birbiri',   SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_birbiri, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_birbiri, [self._suffix_graph.A1Pl_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_birbiri, [self._suffix_graph.A2Pl_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
+        self._add_morpheme_container(root_birbir,  [self._suffix_graph.A3Pl_Pron, (self._suffix_graph.P3Pl_Pron, u'leri')])
+
 
 

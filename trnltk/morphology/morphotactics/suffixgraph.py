@@ -868,6 +868,9 @@ class SuffixGraph(object):
         #P3Pl_Pron forms for "'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
     def _register_pronoun_cases(self):
+        comes_after_P3 = comes_after(self.P3Sg_Pron) | comes_after(self.P3Pl_Pron)
+        doesnt_come_after_P3 = ~comes_after_P3
+
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Pron, self.PRONOUN_WITH_CASE)
         self.Nom_Pron.add_suffix_form("")
 
@@ -875,19 +878,23 @@ class SuffixGraph(object):
         self.Nom_Pron_Deriv.add_suffix_form("", comes_after(self.Pnon_Pron))
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Acc_Pron, self.PRONOUN_WITH_CASE)
-        self.Acc_Pron.add_suffix_form(u"+yI")
+        self.Acc_Pron.add_suffix_form(u"+yI", doesnt_come_after_P3)
+        self.Acc_Pron.add_suffix_form(u"nI", comes_after_P3)
         #Acc_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Dat_Pron, self.PRONOUN_WITH_CASE)
-        self.Dat_Pron.add_suffix_form(u"+yA")
+        self.Dat_Pron.add_suffix_form(u"+yA", doesnt_come_after_P3)
+        self.Dat_Pron.add_suffix_form(u"nA", comes_after_P3)
         #Dat_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Loc_Pron, self.PRONOUN_WITH_CASE)
-        self.Loc_Pron.add_suffix_form(u"dA")
+        self.Loc_Pron.add_suffix_form(u"dA", doesnt_come_after_P3)
+        self.Loc_Pron.add_suffix_form(u"ndA", comes_after_P3)
         #Loc_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Abl_Pron, self.PRONOUN_WITH_CASE)
-        self.Abl_Pron.add_suffix_form(u"dAn")
+        self.Abl_Pron.add_suffix_form(u"dAn", doesnt_come_after_P3)
+        self.Abl_Pron.add_suffix_form(u"ndAn", comes_after_P3)
         #Abl_Pron forms for 'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Gen_Pron, self.PRONOUN_WITH_CASE)
