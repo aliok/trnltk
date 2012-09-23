@@ -156,7 +156,26 @@ class PredefinedPathsTest(unittest.TestCase):
             u'mı(mı)+Ques+Past(ymış[ymış])+A1pl(ız[ız])',
             u'mı(mı)+Ques+Past(ymış[ymış])+A2pl(sınız[sınız])',
             u'mı(mı)+Ques+Past(ymış[ymış])+A3pl(lar[lar])')
-        
+
+    def test_should_have_paths_for_pronouns_with_implicit_possession(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.predefined_paths._create_predefined_path_of_bazilari()
+        self.predefined_paths._create_predefined_path_of_kimileri()
+        self.predefined_paths._create_predefined_path_of_kimi_and_kimisi()
+
+        self.morpheme_container_map = self.predefined_paths._morpheme_container_map
+
+        PRON = SyntacticCategory.PRONOUN
+
+        self.assert_defined_path(u'bazıları', PRON, None, u'bazıları(bazıları)+Pron+A3sg+P3sg', u'bazıları(bazıları)+Pron+A3sg+P1pl(mız[mız])', u'bazıları(bazıları)+Pron+A3sg+P2pl(nız[nız])')
+
+        self.assert_defined_path(u'kimileri', PRON, None, u'kimileri(kimileri)+Pron+A3sg+P3sg', u'kimileri(kimileri)+Pron+A3sg+P1pl(miz[miz])', u'kimileri(kimileri)+Pron+A3sg+P2pl(niz[niz])')
+
+        self.assert_defined_path(u'kimisi', PRON, None, u'kimisi(kimisi)+Pron+A3sg+P3sg')
+        self.assert_defined_path(u'kimi',   PRON, None, u'kimi(kimi)+Pron+A3sg+P3sg')
+
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))
 

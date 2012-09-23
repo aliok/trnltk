@@ -1256,12 +1256,16 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'kavruldu',                u'kavr(kavurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
         self.assert_parse_correct(u'sıyrılıyor',              u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg', u'sıyrıl(sıyrılmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
 
-    def test_should_parse_plural_pronouns(self):
-        self.assert_parse_exists(u'bazıları',                   u'bazıları(bazıları)+Pron+A3sg+Pnon+Nom')
-        self.assert_parse_exists(u'bazılarımız',                u'bazıları(bazıları)+Pron+A3sg+P1pl(+ImIz[mız])+Nom')
-        self.assert_parse_exists(u'bazılarının',                u'bazıları(baz\u0131lar\u0131)+Pron+A3sg+Pnon+Gen(+nIn[n\u0131n])')
-        self.assert_parse_exists(u'kimileri',                   u'kimileri(kimileri)+Pron+A3sg+Pnon+Nom')
-        self.assert_parse_exists(u'kimilerinin',                u'kimileri(kimileri)+Pron+A3sg+Pnon+Gen(+nIn[nin])')
+    def test_should_parse_pronouns_with_implicit_possession(self):
+        self.assert_parse_exists(u'bazıları',                   u'bazıları(bazıları)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_doesnt_exist(u'bazıları',             u'bazıları(bazıları)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'bazılarımız',                u'bazıları(bazıları)+Pron+A3sg+P1pl(mız[mız])+Nom')
+        self.assert_parse_exists(u'bazılarının',                u'bazıları(baz\u0131lar\u0131)+Pron+A3sg+P3sg+Gen(+nIn[n\u0131n])')
+        self.assert_parse_exists(u'kimileri',                   u'kimileri(kimileri)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_doesnt_exist(u'kimileri',             u'kimileri(kimileri)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'kimilerinin',                u'kimileri(kimileri)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
+        self.assert_parse_correct(u'kimisi',                    u'kimisi(kimisi)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct(u'kimisinin',                 u'kimisi(kimisi)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
 
     def test_should_parse_LIK_suffixes(self):
     #        parser_logger.setLevel(logging.DEBUG)
