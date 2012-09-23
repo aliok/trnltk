@@ -165,13 +165,15 @@ class PredefinedPathsTest(unittest.TestCase):
         self.predefined_paths._create_predefined_path_of_kimileri_kimisi_kimi()
         self.predefined_paths._create_predefined_path_of_birileri_birisi_biri()
         self.predefined_paths._create_predefined_path_of_birbiri()
+        self.predefined_paths._create_predefined_path_of_cogu_bircogu_coklari_bircoklari()
+        self.predefined_paths._create_predefined_path_of_birkaci()
 
         self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
         PRON = SyntacticCategory.PRONOUN
 
         self.assert_defined_path(u'bazıları', PRON, None, u'bazıları(bazıları)+Pron+A3sg+P3sg', u'bazıları(bazıları)+Pron+A3sg+P1pl(mız[mız])', u'bazıları(bazıları)+Pron+A3sg+P2pl(nız[nız])')
-        self.assert_defined_path(u'bazısı',   PRON, None, u'baz\u0131s\u0131(baz\u0131s\u0131)+Pron+A3sg+P3sg')
+        self.assert_defined_path(u'bazısı',   PRON, None, u'bazısı(bazısı)+Pron+A3sg+P3sg')
 
         self.assert_defined_path(u'kimileri', PRON, None, u'kimileri(kimileri)+Pron+A3sg+P3sg', u'kimileri(kimileri)+Pron+A3sg+P1pl(miz[miz])', u'kimileri(kimileri)+Pron+A3sg+P2pl(niz[niz])')
         self.assert_defined_path(u'kimisi',   PRON, None, u'kimisi(kimisi)+Pron+A3sg+P3sg')
@@ -183,6 +185,13 @@ class PredefinedPathsTest(unittest.TestCase):
 
         self.assert_defined_path(u'birbiri',  PRON, None, u'birbiri(birbiri)+Pron+A3sg+P3sg', u'birbiri(birbiri)+Pron+A1pl+P1pl(miz[miz])', u'birbiri(birbiri)+Pron+A2pl+P2pl(niz[niz])')
         self.assert_defined_path(u'birbir',   PRON, None, u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])')
+
+        self.assert_defined_path(u'çoğu',       PRON, None, u'çoğu(çoğu)+Pron+A3sg+P3sg', u'çoğu(çoğu)+Pron+A3sg+P1pl(muz[muz])', u'çoğu(çoğu)+Pron+A3sg+P2pl(nuz[nuz])')
+        self.assert_defined_path(u'birçoğu',    PRON, None, u'birçoğu(birçoğu)+Pron+A3sg+P3sg', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])', u'birçoğu(birçoğu)+Pron+A3sg+P2pl(nuz[nuz])')
+        self.assert_defined_path(u'çokları',    PRON, None, u'çokları(çokları)+Pron+A3sg+P3pl')
+        self.assert_defined_path(u'birçokları', PRON, None, u'birçokları(birçokları)+Pron+A3sg+P3pl')
+
+        self.assert_defined_path(u'birkaçı',    PRON, None, u'birka\xe7\u0131(birka\xe7\u0131)+Pron+A3sg+P3sg', u'birka\xe7\u0131(birka\xe7\u0131)+Pron+A3sg+P1pl(m\u0131z[m\u0131z])', u'birka\xe7\u0131(birka\xe7\u0131)+Pron+A3sg+P2pl(n\u0131z[n\u0131z])')
 
     def test_should_have_paths_for_irregular_pronouns(self):
         parser_logger.setLevel(logging.DEBUG)

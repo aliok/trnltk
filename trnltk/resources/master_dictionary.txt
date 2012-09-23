@@ -3117,6 +3117,7 @@ birazdan [P:Adv]
 birbiri [P:Pron; A:RootChange]
 birçoğu [P:Pron]
 birçok
+birçokları [P:Pron]
 birden [P:Adv]
 birdenbire [P:Adv]
 birdirbir
@@ -12668,6 +12669,7 @@ kimisi [P:Pron]
 kimlik
 kimono
 kimse [P:Pron]
+kimsecik [P:Pron]
 kimüs
 kimya
 kimyager

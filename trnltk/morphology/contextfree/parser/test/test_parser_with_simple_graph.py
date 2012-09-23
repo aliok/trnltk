@@ -597,6 +597,31 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'nereleri',          u'nere(nere)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
 
         self.assert_parse_correct(u'nerenden',          u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Abl(dAn[den])')
+
+        self.assert_parse_correct(u'kimse',              u'kimse(kimse)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kimseyi',            u'kimse(kimse)+Pron+A3sg+Pnon+Acc(+yI[yi])')
+        self.assert_parse_correct(u'kimseye',            u'kimse(kimse)+Pron+A3sg+Pnon+Dat(+yA[ye])')
+        self.assert_parse_correct(u'kimsede',            u'kimse(kimse)+Pron+A3sg+Pnon+Loc(dA[de])')
+        self.assert_parse_correct(u'kimseden',           u'kimse(kimse)+Pron+A3sg+Pnon+Abl(dAn[den])')
+        self.assert_parse_correct(u'kimsenin',           u'kimse(kimse)+Pron+A3sg+Pnon+Gen(+nIn[nin])', u'kimse(kimse)+Pron+A3sg+P2sg(+In[n])+Gen(+nIn[in])')
+        self.assert_parse_correct(u'kimseyle',           u'kimse(kimse)+Pron+A3sg+Pnon+Ins(+ylA[yle])')
+
+        self.assert_parse_correct(u'kimsem',             u'kimse(kimse)+Pron+A3sg+P1sg(+Im[m])+Nom')
+        self.assert_parse_correct(u'kimsen',             u'kimse(kimse)+Pron+A3sg+P2sg(+In[n])+Nom')
+        self.assert_parse_correct(u'kimsesi',            u'kimse(kimse)+Pron+A3sg+P3sg(+sI[si])+Nom')
+        self.assert_parse_correct(u'kimsemiz',           u'kimse(kimse)+Pron+A3sg+P1pl(+ImIz[miz])+Nom')
+        self.assert_parse_correct(u'kimseniz',           u'kimse(kimse)+Pron+A3sg+P2pl(+InIz[niz])+Nom')
+        self.assert_parse_correct(u'kimseleri',          u'kimse(kimse)+Pron+A3sg+P3pl(lArI![leri])+Nom', u'kimse(kimse)+Pron+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'kimse(kimse)+Pron+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'kimse(kimse)+Pron+A3pl(lAr[ler])+P3pl(I![i])+Nom')
+        self.assert_parse_correct(u'kimselerim',         u'kimse(kimse)+Pron+A3pl(lAr[ler])+P1sg(+Im[im])+Nom')
+        self.assert_parse_correct(u'kimselerimizde',     u'kimse(kimse)+Pron+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Loc(dA[de])')
+        self.assert_parse_correct(u'kimseler',           u'kimse(kimse)+Pron+A3pl(lAr[ler])+Pnon+Nom')
+
+        self.assert_parse_correct(u'kimsecikler',        u'kimsecik(kimsecik)+Pron+A3pl(lAr[ler])+Pnon+Nom')
+        self.assert_parse_correct(u'kimseciklerde',      u'kimsecik(kimsecik)+Pron+A3pl(lAr[ler])+Pnon+Loc(dA[de])')
+
+
+        self.assert_parse_correct(u'nerenden',          u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Abl(dAn[den])')
+
         self.assert_parse_correct(u'kimimizle',         u'kim(kim)+Pron+Ques+A3sg+P1pl(+ImIz[imiz])+Ins(+ylA[le])', u'kimi(kimi)+Pron+A3sg+P1pl(miz[miz])+Ins(+ylA[le])')
         self.assert_parse_correct(u'kimleri',           u'kim(kim)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
         self.assert_parse_correct(u'kimlerimiz',        u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Nom')
@@ -1297,6 +1322,19 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'birbirleri',                 u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])+Nom')
         self.assert_parse_exists(u'birbirlerine',               u'birbir(birbiri)+Pron+A3pl+P3pl(leri[leri])+Dat(nA[ne])')
 
+        self.assert_parse_exists(u'çoğu',                       u'çoğu(çoğu)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_exists(u'çoğumuz',                    u'çoğu(çoğu)+Pron+A3sg+P1pl(muz[muz])+Nom')
+        self.assert_parse_exists(u'çoğunuz',                    u'çoğu(çoğu)+Pron+A3sg+P2pl(nuz[nuz])+Nom')
+        self.assert_parse_exists(u'birçoğu',                    u'birçoğu(birçoğu)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_exists(u'birçoğumuz',                 u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Nom')
+        self.assert_parse_exists(u'birçoğunuz',                 u'birçoğu(birçoğu)+Pron+A3sg+P2pl(nuz[nuz])+Nom')
+        self.assert_parse_exists(u'çokları',                    u'çokları(çokları)+Pron+A3sg+P3pl+Nom')
+        self.assert_parse_exists(u'birçokları',                 u'birçokları(birçokları)+Pron+A3sg+P3pl+Nom')
+
+        self.assert_parse_exists(u'birkaçı',                    u'birkaçı(birkaçı)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_exists(u'birkaçımız',                 u'birkaçı(birkaçı)+Pron+A3sg+P1pl(mız[mız])+Nom')
+        self.assert_parse_exists(u'birkaçınız',                 u'birkaçı(birkaçı)+Pron+A3sg+P2pl(nız[nız])+Nom')
+
     def test_should_parse_irregular_pronouns(self):
         self.assert_parse_correct(u'herkes',            u'herkes(herkes)+Pron+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'herkese',           u'herkes(herkes)+Pron+A3sg+Pnon+Dat(+yA[e])')
@@ -1307,7 +1345,7 @@ class ParserTestWithSimpleGraph(ParserTest):
 
     def test_should_parse_LIK_suffixes(self):
         self.assert_parse_exists(u'güzellik',              u'güzel(güzel)+Adj+Noun+Ness(lIk[lik])+A3sg+Pnon+Nom')
-        self.assert_parse_exists(u'ustalık',               u'usta(usta)+Noun+A3sg+Pnon+Nom+Noun+Prof(lIk[l\u0131k])+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'ustalık',               u'usta(usta)+Noun+A3sg+Pnon+Nom+Noun+Prof(lIk[lık])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'kitaplık',              u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Noun+FitFor(lIk[lık])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'çamlık',                u'çam(çam)+Noun+A3sg+Pnon+Nom+Adj+Y(lIk[lık])')
         self.assert_parse_exists(u'kiralık',               u'kira(kira)+Noun+A3sg+Pnon+Nom+Adj+For(lIk[lık])')

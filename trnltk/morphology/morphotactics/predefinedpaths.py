@@ -102,6 +102,8 @@ class PredefinedPaths(object):
         self._create_predefined_path_of_kimileri_kimisi_kimi()
         self._create_predefined_path_of_birileri_birisi_biri()
         self._create_predefined_path_of_birbiri()
+        self._create_predefined_path_of_cogu_bircogu_coklari_bircoklari()
+        self._create_predefined_path_of_birkaci()
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -600,5 +602,28 @@ class PredefinedPaths(object):
 
         self._add_morpheme_container(root_birbir,  [self._suffix_graph.A3Pl_Pron, (self._suffix_graph.P3Pl_Pron, u'leri')])
 
+    def _create_predefined_path_of_cogu_bircogu_coklari_bircoklari(self):
+        root_cogu       = self._find_root(u'çoğu',        SyntacticCategory.PRONOUN, None)
+        root_bircogu    = self._find_root(u'birçoğu',     SyntacticCategory.PRONOUN, None)
+        root_coklari    = self._find_root(u'çokları',     SyntacticCategory.PRONOUN, None)
+        root_bircoklari = self._find_root(u'birçokları',  SyntacticCategory.PRONOUN, None)
 
+        self._add_morpheme_container(root_cogu, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_cogu, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'muz')])
+        self._add_morpheme_container(root_cogu, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'nuz')])
+
+        self._add_morpheme_container(root_bircogu, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_bircogu, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'muz')])
+        self._add_morpheme_container(root_bircogu, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'nuz')])
+
+        self._add_morpheme_container(root_coklari, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Pl_Pron])
+
+        self._add_morpheme_container(root_bircoklari, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Pl_Pron])
+
+    def _create_predefined_path_of_birkaci(self):
+        root_birkaci = self._find_root(u'birkaçı', SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_birkaci, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_birkaci, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'mız')])
+        self._add_morpheme_container(root_birkaci, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'nız')])
 
