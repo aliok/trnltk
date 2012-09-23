@@ -96,14 +96,16 @@ class PredefinedPaths(object):
 
         self._create_predefined_path_of_question_particles()
 
-        self._create_predefined_path_of_ora()
+        self._create_predefined_path_of_ora_bura_sura()
 
         self._create_predefined_path_of_bazilari_bazisi()
         self._create_predefined_path_of_kimileri_kimisi_kimi()
         self._create_predefined_path_of_birileri_birisi_biri()
+        self._create_predefined_path_of_hicbirisi_hicbiri()
         self._create_predefined_path_of_birbiri()
         self._create_predefined_path_of_cogu_bircogu_coklari_bircoklari()
         self._create_predefined_path_of_birkaci()
+        self._create_predefined_path_of_cumlesi()
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -544,13 +546,21 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A2Pl_Ques,u'sünüz')])
         self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A3Pl_Ques,u'ler')])
 
-    def _create_predefined_path_of_ora(self):
-        root_or = self._find_root(u'or', SyntacticCategory.NOUN, None)
+    def _create_predefined_path_of_ora_bura_sura(self):
+        root_or = self._find_root(u'or', SyntacticCategory.PRONOUN, None)
+        root_bur = self._find_root(u'bur', SyntacticCategory.PRONOUN, None)
+        root_sur = self._find_root(u'şur', SyntacticCategory.PRONOUN, None)
 
-        # define predefined paths for "orda" and "ordan"
+        # define predefined paths for "orda" and "ordan" etc.
 
-        self._add_morpheme_container(root_or, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Loc_Noun,'da')])
-        self._add_morpheme_container(root_or, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Abl_Noun,'dan')])
+        self._add_morpheme_container(root_or, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Loc_Pron,'da')])
+        self._add_morpheme_container(root_or, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Abl_Pron,'dan')])
+
+        self._add_morpheme_container(root_bur, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Loc_Pron,'da')])
+        self._add_morpheme_container(root_bur, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Abl_Pron,'dan')])
+
+        self._add_morpheme_container(root_sur, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Loc_Pron,'da')])
+        self._add_morpheme_container(root_sur, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Abl_Pron,'dan')])
 
     def _create_predefined_path_of_bazilari_bazisi(self):
         root_bazisi = self._find_root(u'bazısı', SyntacticCategory.PRONOUN, None)
@@ -592,6 +602,16 @@ class PredefinedPaths(object):
 
         self._add_morpheme_container(root_birisi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
 
+    def _create_predefined_path_of_hicbirisi_hicbiri(self):
+        root_hicbiri   = self._find_root(u'hiçbiri',   SyntacticCategory.PRONOUN, None)
+        root_hicbirisi = self._find_root(u'hiçbirisi', SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_hicbiri,   [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_hicbiri,   [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_hicbiri,   [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
+        self._add_morpheme_container(root_hicbirisi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+
     def _create_predefined_path_of_birbiri(self):
         root_birbir    = self._find_root(u'birbir',    SyntacticCategory.PRONOUN, None)
         root_birbiri   = self._find_root(u'birbiri',   SyntacticCategory.PRONOUN, None)
@@ -627,3 +647,7 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_birkaci, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'mız')])
         self._add_morpheme_container(root_birkaci, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'nız')])
 
+    def _create_predefined_path_of_cumlesi(self):
+        root_cumlesi = self._find_root(u'cümlesi', SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_cumlesi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])

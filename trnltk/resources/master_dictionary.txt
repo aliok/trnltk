@@ -3585,12 +3585,9 @@ buncağız [P:Adj]
 bungalov [P:Adj]
 bungun
 bunlu [P:Adj]
-bura
+bura [P:Pron; A:RootChange]
 buracıkta [P:Adv]
-burada [P:Adv]
-buradan [P:Adv]
 burağan
-burası
 burcu
 burç [A:Voicing]
 burçak
@@ -9659,6 +9656,7 @@ hiç [A:NoVoicing]
 hiç [P:Adv; A:NoVoicing]
 hiçbir [P:Det]
 hiçbiri [P:Pron]
+hiçbirisi [P:Pron]
 hiçlemek
 hiçlik
 hidatit
@@ -16790,7 +16788,7 @@ optimist [A:NoVoicing]
 optimizm
 optimum
 opus
-ora [A:RootChange]
+ora [P:Pron; A:RootChange]
 orak
 oral
 oramiral [A:InverseHarmony]
@@ -20866,7 +20864,7 @@ süzülmek
 şuncacık [P:Adj]
 şungur [P:Adj, Dup]
 şupur [P:Adj, Dup]
-şura
+şura [P:Pron; A:RootChange]
 şûra
 Şûrayıdevlet [A:NoVoicing]
 şurup

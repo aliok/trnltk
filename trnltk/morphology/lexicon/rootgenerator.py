@@ -1,3 +1,4 @@
+# coding=utf-8
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
@@ -112,6 +113,14 @@ class RootGenerator(object):
             root_or = Root(u'or', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'or'))
             root_ora = Root(u'ora', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ora'))
             return [root_or, root_ora]
+        elif lexeme.lemma==u'bura':
+            root_bur = Root(u'bur', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'bur'))
+            root_bura = Root(u'bura', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'bura'))
+            return [root_bur, root_bura]
+        elif lexeme.lemma==u'şura':
+            root_sur = Root(u'şur', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şur'))
+            root_sura = Root(u'şura', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şura'))
+            return [root_sur, root_sura]
         elif lexeme.lemma==u'birbiri':
             root_birbir = Root(u'birbir', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbir'))
             root_birbiri = Root(u'birbiri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbiri'))

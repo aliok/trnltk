@@ -497,6 +497,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.cloned_root_map[u'ona'] = []
         self.cloned_root_map[u'bend'] = []
         self.cloned_root_map[u'bun'] = []
+        self.cloned_root_map[u'bur'] = []
         self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
         self.cloned_root_map[u'ban'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ban'])
         self.cloned_root_map[u'san'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'san'])
@@ -597,6 +598,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'nereleri',          u'nere(nere)+Pron+Ques+A3sg+P3pl(lArI![leri])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+Pnon+Acc(+yI[i])', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3sg(+sI[i])+Nom', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P3pl(I![i])+Nom')
 
         self.assert_parse_correct(u'nerenden',          u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Abl(dAn[den])')
+        self.assert_parse_correct(u'neresine',          u'nere(nere)+Pron+Ques+A3sg+P3sg(+sI[si])+Dat(nA[ne])')
 
         self.assert_parse_correct(u'kimse',              u'kimse(kimse)+Pron+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'kimseyi',            u'kimse(kimse)+Pron+A3sg+Pnon+Acc(+yI[yi])')
@@ -627,6 +629,27 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'kimlerimiz',        u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Nom')
         self.assert_parse_correct(u'kimlerimize',       u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Dat(+yA[e])')
         self.assert_parse_correct(u'kimlerimizin',      u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])')
+
+        self.assert_parse_correct(u'bura',              u'bura(bura)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'burayı',            u'bura(bura)+Pron+A3sg+Pnon+Acc(+yI[y\u0131])')
+        self.assert_parse_correct(u'buraya',            u'bura(bura)+Pron+A3sg+Pnon+Dat(+yA[ya])')
+        self.assert_parse_correct(u'burada',            u'bura(bura)+Pron+A3sg+Pnon+Loc(dA[da])')
+        self.assert_parse_correct(u'buradan',           u'bura(bura)+Pron+A3sg+Pnon+Abl(dAn[dan])')
+        self.assert_parse_correct(u'buranın',           u'bura(bura)+Pron+A3sg+Pnon+Gen(+nIn[n\u0131n])', u'bura(bura)+Pron+A3sg+P2sg(+In[n])+Gen(+nIn[\u0131n])')
+        self.assert_parse_correct(u'burayla',           u'bura(bura)+Pron+A3sg+Pnon+Ins(+ylA[yla])')
+
+        self.assert_parse_correct(u'buram',             u'bura(bura)+Pron+A3sg+P1sg(+Im[m])+Nom')
+        self.assert_parse_correct(u'buran',             u'bura(bura)+Pron+A3sg+P2sg(+In[n])+Nom')
+        self.assert_parse_correct(u'burası',            u'bura(bura)+Pron+A3sg+P3sg(+sI[sı])+Nom')
+        self.assert_parse_correct(u'buramız',           u'bura(bura)+Pron+A3sg+P1pl(+ImIz[mız])+Nom')
+        self.assert_parse_correct(u'buranız',           u'bura(bura)+Pron+A3sg+P2pl(+InIz[nız])+Nom')
+        self.assert_parse_correct(u'buraları',          u'bura(bura)+Pron+A3sg+P3pl(lArI![lar\u0131])+Nom', u'bura(bura)+Pron+A3pl(lAr[lar])+Pnon+Acc(+yI[\u0131])', u'bura(bura)+Pron+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Nom', u'bura(bura)+Pron+A3pl(lAr[lar])+P3pl(I![\u0131])+Nom')
+
+        self.assert_parse_correct(u'burandan',          u'bura(bura)+Pron+A3sg+P2sg(+In[n])+Abl(dAn[dan])')
+        self.assert_parse_correct(u'burasına',          u'bura(bura)+Pron+A3sg+P3sg(+sI[sı])+Dat(nA[na])')
+
+        self.assert_parse_correct(u'oradan',            u'ora(ora)+Pron+A3sg+Pnon+Abl(dAn[dan])')
+        self.assert_parse_correct(u'şuranla',           u'şura(şura)+Pron+A3sg+P2sg(+In[n])+Ins(+ylA[la])')
 
     def test_should_parse_pronoun_derivations(self):
         self.assert_parse_correct(u'bensiz',
@@ -1265,14 +1288,14 @@ class ParserTestWithSimpleGraph(ParserTest):
         #self.assert_parse_correct_for_verb(u'zeytinyağları',        xxxx)
 
     def test_should_parse_cogu_bircogu(self):
-        self.assert_parse_correct_for_verb(u'çoğu',                u'çoğu(çoğu)+Adj', u'çoğu(çoğu)+Pron+A3sg+Pnon+Nom', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'çoğumuz',             u'çoğu(çoğu)+Pron+A3sg+P1pl(+ImIz[muz])+Nom', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[muz])+Nom')
-        self.assert_parse_correct_for_verb(u'çoğunun',             u'çoğu(çoğu)+Pron+A3sg+Pnon+Gen(+nIn[nun])', u'çoğu(çoğu)+Pron+A3sg+P2sg(+In[n])+Gen(+nIn[un])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+Pnon+Gen(+nIn[nun])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
-        self.assert_parse_correct_for_verb(u'çoğumuzdan',          u'çoğu(çoğu)+Pron+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])')
-        self.assert_parse_correct_for_verb(u'birçoğu',             u'birçoğ(birçok)+Noun+A3sg+Pnon+Acc(+yI[u])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Nom', u'birçoğu(birçoğu)+Pron+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'birçoğumuz',          u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Nom', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(+ImIz[muz])+Nom')
-        self.assert_parse_correct_for_verb(u'birçoğunun',          u'birçoğ(birçok)+Noun+A3sg+P2sg(+In[un])+Gen(+nIn[un])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+Pnon+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
-        self.assert_parse_correct_for_verb(u'birçoğumuzdan',       u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Abl(dAn[dan])', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])')
+        self.assert_parse_correct_for_verb(u'çoğu',                u'çoğu(çoğu)+Adj', u'çoğu(çoğu)+Pron+A3sg+P3sg+Nom', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'çoğumuz',             u'çoğu(çoğu)+Pron+A3sg+P1pl(muz[muz])+Nom', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[muz])+Nom')
+        self.assert_parse_correct_for_verb(u'çoğunun',             u'çoğu(çoğu)+Pron+A3sg+P3sg+Gen(+nIn[nun])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+Pnon+Gen(+nIn[nun])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
+        self.assert_parse_correct_for_verb(u'çoğumuzdan',          u'çoğu(çoğu)+Pron+A3sg+P1pl(muz[muz])+Abl(dAn[dan])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])')
+        self.assert_parse_correct_for_verb(u'birçoğu',             u'birçoğ(birçok)+Noun+A3sg+Pnon+Acc(+yI[u])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Nom', u'birçoğu(birçoğu)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct_for_verb(u'birçoğumuz',          u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Nom', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Nom')
+        self.assert_parse_correct_for_verb(u'birçoğunun',          u'birçoğ(birçok)+Noun+A3sg+P2sg(+In[un])+Gen(+nIn[un])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+P3sg+Gen(+nIn[nun])')
+        self.assert_parse_correct_for_verb(u'birçoğumuzdan',       u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Abl(dAn[dan])', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Abl(dAn[dan])')
 
     def test_should_parse_some_words_with_vowel_drops(self):
         self.assert_parse_correct(u'vaktimi',                 u'vakt(vakit)+Noun+A3sg+P1sg(+Im[im])+Acc(+yI[i])')
@@ -1313,6 +1336,13 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'birimiz',                    u'biri(biri)+Pron+A3sg+P1pl(miz[miz])+Nom')
         self.assert_parse_exists(u'biriniz',                    u'biri(biri)+Pron+A3sg+P2pl(niz[niz])+Nom')
 
+        self.assert_parse_correct(u'hiçbirisi',                 u'hiçbirisi(hiçbirisi)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct(u'hiçbirisinde',              u'hiçbirisi(hiçbirisi)+Pron+A3sg+P3sg+Loc(ndA[nde])')
+        self.assert_parse_correct(u'hiçbirisinin',              u'hiçbirisi(hiçbirisi)+Pron+A3sg+P3sg+Gen(+nIn[nin])')
+        self.assert_parse_correct(u'hiçbiri',                   u'hiçbiri(hiçbiri)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct(u'hiçbirimiz',                u'hiçbiri(hiçbiri)+Pron+A3sg+P1pl(miz[miz])+Nom')
+        self.assert_parse_correct(u'hiçbiriniz',                u'hiçbiri(hiçbiri)+Pron+A3sg+P2pl(niz[niz])+Nom')
+
         self.assert_parse_exists(u'birbiri',                    u'birbiri(birbiri)+Pron+A3sg+P3sg+Nom')
         self.assert_parse_exists(u'birbirine',                  u'birbiri(birbiri)+Pron+A3sg+P3sg+Dat(nA[ne])')
         self.assert_parse_exists(u'birbirinden',                u'birbiri(birbiri)+Pron+A3sg+P3sg+Abl(ndAn[nden])')
@@ -1334,6 +1364,8 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'birkaçı',                    u'birkaçı(birkaçı)+Pron+A3sg+P3sg+Nom')
         self.assert_parse_exists(u'birkaçımız',                 u'birkaçı(birkaçı)+Pron+A3sg+P1pl(mız[mız])+Nom')
         self.assert_parse_exists(u'birkaçınız',                 u'birkaçı(birkaçı)+Pron+A3sg+P2pl(nız[nız])+Nom')
+
+        self.assert_parse_exists(u'cümlesi',                    u'cümlesi(cümlesi)+Pron+A3sg+P3sg+Nom')
 
     def test_should_parse_irregular_pronouns(self):
         self.assert_parse_correct(u'herkes',            u'herkes(herkes)+Pron+A3sg+Pnon+Nom')
