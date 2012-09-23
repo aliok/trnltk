@@ -104,11 +104,11 @@ var=(1,"var+Adj")
 #END#OF#SENTENCE#
 Kimi=(1,"kimi+Pron+A3sg+P3sg+Nom")
 bir=(1,"bir+Num+Card")(2,"Adj+Zero")
-saatlik=(1,"saat+Noun+A3sg+Pnon+Nom")(2,"Noun+Ness+A3sg+Pnon+Nom")
+saatlik=(1,"saat+Noun+A3sg+Pnon+Nom")(2,"Adj+DurationOf")
 ,=(1,",+Punc")
 kimi=(1,"kimi+Pron+A3sg+P3sg+Nom")
 birkaç=(1,"birkaç+Adj")
-günlük=(1,"gün+Noun+A3sg+Pnon+Nom")(2,"Noun+Ness+A3sg+Pnon+Nom")
+günlük=(1,"gün+Noun+A3sg+Pnon+Nom")(2,"Adj+DurationOf")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
 Gördüğü=(1,"gör+Verb+Pos")(2,"Adj+PastPart+P3sg")
