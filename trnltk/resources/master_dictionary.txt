@@ -12662,6 +12662,7 @@ kim [P:Conj]
 kimbilir [P:Adv]
 kimi [P:Det]
 kimi [P:Pron]
+kimileri [P:Pron]
 kimisi [P:Pron]
 kimlik
 kimono
@@ -22753,7 +22754,6 @@ uslu [P:Adj]
 usta
 usta [P:Adj]
 ustabaşı
-ustalık
 ustunç
 ustura
 usturlâp

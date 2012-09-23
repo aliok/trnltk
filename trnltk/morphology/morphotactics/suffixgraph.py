@@ -219,6 +219,9 @@ class SuffixGraph(object):
         ############# Noun to Noun derivations
         self.Agt_Noun = Suffix("Agt_Noun", pretty_name='Agt')
         self.Dim = Suffix("Dim")
+        self.Prof = Suffix("Prof")
+        self.FitFor = Suffix("FitFor")
+        self.Office = Suffix("Office")
 
         ############# Noun to Verb derivations
         self.Acquire = Suffix("Acquire")
@@ -229,6 +232,10 @@ class SuffixGraph(object):
         self.Rel = Suffix("Rel")
         self.JustLike_Noun = Suffix("JustLike_Noun", pretty_name='JustLike')
         self.Equ_Noun = Suffix("Equ_Noun", pretty_name='Equ')
+        self.Y = Suffix("Y")
+        self.For = Suffix("For")
+        self.DurationOf = Suffix("DurationOf")
+        self.OfUnit_Noun = Suffix("OfUnit_Noun", pretty_name='OfUnit')
 
         ############ Noun to Adverb derivations
         self.InTermsOf = Suffix("InTermsOf")
@@ -383,6 +390,7 @@ class SuffixGraph(object):
 
         ########### Cardinal numbers to Adjective derivations
         self.NumbersOf = Suffix("NumbersOf")
+        self.OfUnit_Number = Suffix("OfUnit_Number", pretty_name='OfUnit')
 
         ########### Cardinal digits suffixes
         self.Apos_Digit = Suffix("Apos")
@@ -508,6 +516,15 @@ class SuffixGraph(object):
         self.NOUN_NOM_DERIV.add_out_suffix(self.Dim, self.NOUN_ROOT)
         self.Dim.add_suffix_form(u"cIk")
 
+        self.NOUN_NOM_DERIV.add_out_suffix(self.Prof, self.NOUN_ROOT)
+        self.Prof.add_suffix_form(u"lIk")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.FitFor, self.NOUN_ROOT)
+        self.FitFor.add_suffix_form(u"lIk")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.Office, self.NOUN_ROOT)
+        self.Office.add_suffix_form(u"lIk")
+
     def _register_noun_to_verb_derivations(self):
         self.NOUN_NOM_DERIV.add_out_suffix(self.Acquire, self.VERB_ROOT)
         self.Acquire.add_suffix_form(u"lAn")
@@ -524,6 +541,18 @@ class SuffixGraph(object):
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.Equ_Noun, self.ADJECTIVE_ROOT)
         self.Equ_Noun.add_suffix_form(u"cA")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.Y, self.ADJECTIVE_ROOT)
+        self.Y.add_suffix_form(u"lIk")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.For, self.ADJECTIVE_ROOT)
+        self.For.add_suffix_form(u"lIk")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.DurationOf, self.ADJECTIVE_ROOT)
+        self.DurationOf.add_suffix_form(u"lIk")
+
+        self.NOUN_NOM_DERIV.add_out_suffix(self.OfUnit_Noun, self.ADJECTIVE_ROOT)
+        self.OfUnit_Noun.add_suffix_form(u"lIk")
 
         self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.Rel, self.ADJECTIVE_ROOT)
         self.Rel.add_suffix_form(u"ki")
@@ -901,6 +930,9 @@ class SuffixGraph(object):
     def _register_cardinal_to_adjective_suffixes(self):
         self.NUMERAL_CARDINAL_DERIV.add_out_suffix(self.NumbersOf, self.ADJECTIVE_ROOT)
         self.NumbersOf.add_suffix_form(u"lArcA")
+
+        self.NUMERAL_CARDINAL_DERIV.add_out_suffix(self.OfUnit_Number, self.ADJECTIVE_ROOT)
+        self.OfUnit_Number.add_suffix_form(u"lIk")
 
     def _register_digits_suffixes(self):
         self.NUMERAL_DIGIT_CARDINAL_ROOT.add_out_suffix(self.Apos_Digit, self.NUMERAL_CARDINAL_DERIV)

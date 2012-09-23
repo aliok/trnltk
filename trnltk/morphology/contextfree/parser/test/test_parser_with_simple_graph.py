@@ -1252,23 +1252,33 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'birçoğunun',          u'birçoğ(birçok)+Noun+A3sg+P2sg(+In[un])+Gen(+nIn[un])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+Pnon+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
         self.assert_parse_correct_for_verb(u'birçoğumuzdan',       u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Abl(dAn[dan])', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])')
 
-    def test_should_parse_digits_with_vowel_drops(self):
+    def test_should_parse_some_words_with_vowel_drops(self):
         self.assert_parse_correct(u'vaktimi',                 u'vakt(vakit)+Noun+A3sg+P1sg(+Im[im])+Acc(+yI[i])')
         self.assert_parse_correct(u'havliyle',                u'havl(havil)+Noun+A3sg+P3sg(+sI[i])+Ins(+ylA[yle])')
         self.assert_parse_correct(u'savruldu',                u'savr(savurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
         self.assert_parse_correct(u'kavruldu',                u'kavr(kavurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
         self.assert_parse_correct(u'sıyrılıyor',              u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg', u'sıyrıl(sıyrılmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
 
-    def test_should_parse_digits_with_vowel_drops(self):
-    #        parser_logger.setLevel(logging.DEBUG)
-    #        suffix_applier_logger.setLevel(logging.DEBUG)
-
+    def test_should_parse_plural_pronouns(self):
         self.assert_parse_exists(u'bazıları',                   u'bazıları(bazıları)+Pron+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'bazılarımız',                u'bazıları(bazıları)+Pron+A3sg+P1pl(+ImIz[mız])+Nom')
         self.assert_parse_exists(u'bazılarının',                u'bazıları(baz\u0131lar\u0131)+Pron+A3sg+Pnon+Gen(+nIn[n\u0131n])')
-        self.assert_parse_exists(u'kimileri',                   u'savr(savurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
-        self.assert_parse_exists(u'kimilerinin',                u'kavr(kavurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
-        self.assert_parse_exists(u'sıyrılıyor',                 u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg', u'sıyrıl(sıyrılmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
+        self.assert_parse_exists(u'kimileri',                   u'kimileri(kimileri)+Pron+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'kimilerinin',                u'kimileri(kimileri)+Pron+A3sg+Pnon+Gen(+nIn[nin])')
+
+    def test_should_parse_LIK_suffixes(self):
+    #        parser_logger.setLevel(logging.DEBUG)
+    #        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.assert_parse_exists(u'güzellik',              u'güzel(güzel)+Adj+Noun+Ness(lIk[lik])+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'ustalık',               u'usta(usta)+Noun+A3sg+Pnon+Nom+Noun+Prof(lIk[l\u0131k])+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'kitaplık',              u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Noun+FitFor(lIk[lık])+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'çamlık',                u'çam(çam)+Noun+A3sg+Pnon+Nom+Adj+Y(lIk[lık])')
+        self.assert_parse_exists(u'kiralık',               u'kira(kira)+Noun+A3sg+Pnon+Nom+Adj+For(lIk[lık])')
+        self.assert_parse_exists(u'savcılık',              u'savcı(savcı)+Noun+A3sg+Pnon+Nom+Noun+Office(lIk[lık])+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'yıllık',                u'yıl(yıl)+Noun+Time+A3sg+Pnon+Nom+Adj+DurationOf(lIk[lık])')
+        self.assert_parse_exists(u'milyarlık',             u'milyar(milyar)+Num+Card+Adj+OfUnit(lIk[lık])')
+        self.assert_parse_exists(u'dolarlık',              u'dolar(dolar)+Noun+A3sg+Pnon+Nom+Adj+OfUnit(lIk[lık])')
 
     def test_should_parse_digits(self):
         self.assert_parse_correct_for_verb(u'0',                     u'0(0)+Num+Digits+Adj+Zero', u'0(0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
