@@ -61,6 +61,7 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.Narr_Cop = Suffix("Narr_Cop", pretty_name="Narr")
         self.Past_Cop = Suffix("Past_Cop", pretty_name="Past")
         self.Cond_Cop = Suffix("Cond_Cop", pretty_name="Cond")
+        self.Cond_Cop_Secondary = Suffix("Cond_Cop_Secondary", pretty_name="Cond")
 
         ############# Copula agreements
         self.Copula_Agreements_Group = SuffixGroup('Copula_Agreements_Group')
@@ -98,8 +99,11 @@ class ExtendedSuffixGraph(SuffixGraph):
         self.VERB_COPULA_WITHOUT_TENSE.add_out_suffix(self.Cond_Cop, self.VERB_COPULA_WITH_TENSE)
         self.Cond_Cop.add_suffix_form(u"+ysA")
 
+        self.VERB_COPULA_WITH_TENSE.add_out_suffix(self.Cond_Cop_Secondary, self.VERB_COPULA_WITH_TENSE)
+        self.Cond_Cop_Secondary.add_suffix_form(u"+ysA", doesnt_come_after(self.Pres_Cop))
+
     def _register_copula_agreements(self):
-        comes_after_cond_or_past = comes_after(self.Cond_Cop) | comes_after(self.Past_Cop)
+        comes_after_cond_or_past = comes_after(self.Cond_Cop) | comes_after(self.Cond_Cop_Secondary) | comes_after(self.Past_Cop)
 
         self.VERB_COPULA_WITH_TENSE.add_out_suffix(self.A1Sg_Cop, self.VERB_TERMINAL_TRANSFER)
         self.A1Sg_Cop.add_suffix_form("+yIm")                          # (ben) elma-yim, (ben) armud-um, elma-ymis-im
@@ -133,7 +137,7 @@ class ExtendedSuffixGraph(SuffixGraph):
                                             & doesnt_come_after(self.Cond) & doesnt_come_after(self.Imp) \
                                             & doesnt_come_after(self.Opt)
 
-        explicit_verb_copula_precondition &= doesnt_come_after(self.Cond_Cop) & doesnt_come_after(self.Past_Cop) & doesnt_come_after(self.Narr_Cop)
+        explicit_verb_copula_precondition &= doesnt_come_after(self.Cond_Cop) & doesnt_come_after(self.Cond_Cop_Secondary) & doesnt_come_after(self.Past_Cop) & doesnt_come_after(self.Narr_Cop)
         explicit_verb_copula_precondition &= doesnt_come_after(self.Narr_Ques) & doesnt_come_after(self.Past_Ques)
 
 

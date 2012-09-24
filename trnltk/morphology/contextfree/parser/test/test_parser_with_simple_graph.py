@@ -630,6 +630,9 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'kimlerimize',       u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Dat(+yA[e])')
         self.assert_parse_correct(u'kimlerimizin',      u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])')
 
+        self.assert_parse_correct(u'kimim',             u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Nom')
+        self.assert_parse_correct(u'kimin',             u'kim(kim)+Pron+Ques+A3sg+P2sg(+In[in])+Nom', u'kim(kim)+Pron+Ques+A3sg+Pnon+Gen(+nIn[in])')
+
         self.assert_parse_correct(u'bura',              u'bura(bura)+Pron+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'burayı',            u'bura(bura)+Pron+A3sg+Pnon+Acc(+yI[y\u0131])')
         self.assert_parse_correct(u'buraya',            u'bura(bura)+Pron+A3sg+Pnon+Dat(+yA[ya])')

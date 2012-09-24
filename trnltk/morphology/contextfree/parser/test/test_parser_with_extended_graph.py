@@ -1,4 +1,5 @@
 # coding=utf-8
+from copy import copy
 import logging
 import os
 import unittest
@@ -25,35 +26,37 @@ class ParserTestWithExtendedGraph(ParserTest):
 
 
         root_map_generator = RootMapGenerator()
-        cls.root_map = root_map_generator.generate(all_roots)
-
-        suffix_graph = ExtendedSuffixGraph()
-        predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
-        predefined_paths.create_predefined_paths()
-
-        word_root_finder = WordRootFinder(cls.root_map)
-        numeral_root_finder = NumeralRootFinder()
-        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
-        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
-
-        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
+        cls._org_root_map = (RootMapGenerator()).generate(all_roots)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
+        self.cloned_root_map = copy(self._org_root_map)
+
+        suffix_graph = ExtendedSuffixGraph()
+        predefined_paths = PredefinedPaths(self.cloned_root_map, suffix_graph)
+        predefined_paths.create_predefined_paths()
+
+        word_root_finder = WordRootFinder(self.cloned_root_map)
+        numeral_root_finder = NumeralRootFinder()
+        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
+        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
+
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
+
     def test_should_parse_other_categories_to_verbs_zero_transition(self):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
         #remove some roots for keeping the tests simple!
-        self.root_map['elmas'] = []
-        self.root_map['bent'] = []
-        self.root_map['bend'] = []
-        self.root_map['oy'] = []
-        self.root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.root_map['ben'])
+        self.cloned_root_map['elmas'] = []
+        self.cloned_root_map['bent'] = []
+        self.cloned_root_map['bend'] = []
+        self.cloned_root_map['oy'] = []
+        self.cloned_root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map['ben'])
 
 
         self.assert_parse_correct_for_verb(u'elmayım',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yım])')
@@ -139,8 +142,8 @@ class ParserTestWithExtendedGraph(ParserTest):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.root_map['elmas'] = []
-        self.root_map['on'] = []
+        self.cloned_root_map['elmas'] = []
+        self.cloned_root_map['on'] = []
 
         self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
@@ -183,9 +186,6 @@ class ParserTestWithExtendedGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'onlarken',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
 
     def test_should_parse_verb_degil(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct_for_verb(u'değil',               u'değil(değil)+Verb+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'değilim',             u'değil(değil)+Verb+Pres+A1sg(+yIm[im])')
         self.assert_parse_correct_for_verb(u'değilsin',            u'değil(değil)+Verb+Pres+A2sg(sIn[sin])')
@@ -200,9 +200,9 @@ class ParserTestWithExtendedGraph(ParserTest):
         suffix_applier_logger.setLevel(logging.DEBUG)
 
         # remove some roots to keep tests simple
-        self.root_map['on'] = []
-        self.root_map['gelecek'] = []
-        self.root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.root_map['ben'])
+        self.cloned_root_map['on'] = []
+        self.cloned_root_map['gelecek'] = []
+        self.cloned_root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map['ben'])
 
         self.assert_parse_correct_for_verb(u'elmadır',             u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dır])')
         self.assert_parse_correct_for_verb(u'müdürdür',            u'müdür(müdür)+Noun+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[dür])')
@@ -251,6 +251,54 @@ class ParserTestWithExtendedGraph(ParserTest):
         self.assert_parse_exists(u'kesici',                       u'kes(kesmek)+Verb+Pos+Adj+Agt(+yIcI[ici])+Adv+Zero')
         self.assert_parse_exists(u'pembemsi',                     u'pembe(pembe)+Adj+Adj+JustLike(+ImsI[msi])+Adv+Zero')
         self.assert_parse_exists(u'delice',                       u'deli(deli)+Adj+Adj+Equ(cA[ce])+Adv+Zero')
+
+    def test_should_parse_pronoun_tenses(self):
+        # remove some roots to make the test simple
+        self.cloned_root_map[u'bend'] = []
+        self.cloned_root_map[u'kimi'] = []
+        self.cloned_root_map[u'kimse'] = []
+        self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
+        self.cloned_root_map[u'ban'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ban'])
+        self.cloned_root_map[u'san'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'san'])
+        self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
+
+        self.assert_parse_exists(u'benim',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[im])')
+        self.assert_parse_correct_for_verb(u'bendim',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'benmişim',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+A1sg(+yIm[im])')
+
+        self.assert_parse_correct_for_verb(u'bensem',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'bense',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A3sg')
+        self.assert_parse_correct_for_verb(u'bendiyse',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
+#        self.assert_parse_correct_for_verb(u'bendimse',           u'xxxx')   TODO
+        self.assert_parse_correct_for_verb(u'bendiysem',          u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'benmişsem',          u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+Cond(+ysA[se])+A1sg(m[m])')
+
+        self.assert_parse_correct_for_verb(u'beniyse',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Acc(i[i])+Verb+Zero+Cond(+ysA[yse])+A3sg')
+        self.assert_parse_correct_for_verb(u'banaymışsa',         u'ban(ben)+Pron+Pers+A1sg+Pnon+Dat(a[a])+Verb+Zero+Narr(+ymI\u015f[ym\u0131\u015f])+Cond(+ysA[sa])+A3sg')
+        self.assert_parse_correct_for_verb(u'bendeymişseler',     u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3pl(lAr[ler])')
+        self.assert_parse_correct_for_verb(u'bendendiyse',        u'ben(ben)+Pron+Pers+A1sg+Pnon+Abl(den[den])+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
+        self.assert_parse_correct_for_verb(u'benimleydiysen',     u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])+Verb+Zero+Past(+ydI[ydi])+Cond(+ysA[yse])+A2sg(n[n])')
+        self.assert_parse_correct_for_verb(u'benimleymişseler',   u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3pl(lAr[ler])')
+#        self.assert_parse_correct_for_verb(u'benimleymişlerse',   u'xxxx')  TODO
+
+        self.assert_parse_correct_for_verb(u'kimim',              u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Nom', u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[im])', u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Nom+Verb+Zero+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'kimdim',             u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'kimmişim',           u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+A1sg(+yIm[im])')
+
+        self.assert_parse_correct_for_verb(u'kimsem',             u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'kimse',              u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimdiyse',           u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
+#        self.assert_parse_correct_for_verb(u'kimdimse',           u'xxxx') TODO
+        self.assert_parse_correct_for_verb(u'kimdiysem',          u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'kimmişsem',          u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+Cond(+ysA[se])+A1sg(m[m])')
+
+        self.assert_parse_correct_for_verb(u'kimiyse',            u'kim(kim)+Pron+Ques+A3sg+Pnon+Acc(+yI[i])+Verb+Zero+Cond(+ysA[yse])+A3sg', u'kim(kim)+Pron+Ques+A3sg+P3sg(+sI[i])+Nom+Verb+Zero+Cond(+ysA[yse])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimeymişse',         u'kim(kim)+Pron+Ques+A3sg+Pnon+Dat(+yA[e])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimdeymişse',        u'kim(kim)+Pron+Ques+A3sg+Pnon+Loc(dA[de])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimdendiyse',        u'kim(kim)+Pron+Ques+A3sg+Pnon+Abl(dAn[den])+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimlerdendiyse',     u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+Pnon+Abl(dAn[den])+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimimleydiysen',     u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Ins(+ylA[le])+Verb+Zero+Past(+ydI[ydi])+Cond(+ysA[yse])+A2sg(n[n])')
+#        self.assert_parse_correct_for_verb(u'kimimleymişlerse',   u'xxxx') TODO
 
 if __name__ == '__main__':
     unittest.main()
