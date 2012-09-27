@@ -231,7 +231,7 @@ class SuffixGraph(object):
         ############# Noun to Adjective derivations
         self.With = Suffix("With")
         self.Without = Suffix("Without")
-        self.Rel_Noun = Suffix("Rel_Noun", pretty_name="Rel")
+        self.PointQual_Noun = Suffix("PointQual_Noun", pretty_name="PointQual")     #was marked as relative pronoun in other projects, but that is "Alininki"
         self.JustLike_Noun = Suffix("JustLike_Noun", pretty_name='JustLike')
         self.Equ_Noun = Suffix("Equ_Noun", pretty_name='Equ')
         self.Y = Suffix("Y")
@@ -374,10 +374,10 @@ class SuffixGraph(object):
 
         ############# Pronoun to Adjective derivations
         self.Without_Pron = Suffix("Without_Pron", pretty_name="Without")
-        self.Rel_Pron = Suffix("Rel_Pron", pretty_name="Rel")
+        self.PointQual_Pron = Suffix("PointQual_Pron", pretty_name="PointQual")
 
         ############# Adverb to Adjective derivations
-        self.Rel_Adv = Suffix("Rel_Adv", pretty_name="Rel")
+        self.PointQual_Adv = Suffix("PointQual_Adv", pretty_name="PointQual")
 
         ############ Question Tenses
         self.Question_Tense_Group = SuffixGroup('Question_Tense_Group')
@@ -564,8 +564,8 @@ class SuffixGraph(object):
         self.NOUN_NOM_DERIV.add_out_suffix(self.OfUnit_Noun, self.ADJECTIVE_ROOT)
         self.OfUnit_Noun.add_suffix_form(u"lIk")
 
-        self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.Rel_Noun, self.ADJECTIVE_ROOT)
-        self.Rel_Noun.add_suffix_form(u"ki")
+        self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.PointQual_Noun, self.ADJECTIVE_ROOT)
+        self.PointQual_Noun.add_suffix_form(u"ki")
 
     def _register_noun_to_adverb_derivations(self):
         self.NOUN_NOM_DERIV.add_out_suffix(self.InTermsOf, self.ADVERB_ROOT)
@@ -930,16 +930,16 @@ class SuffixGraph(object):
         self.Without_Pron.add_suffix_form(u"sIz", doesnt(comes_after_bu_su_o_pnon))  # ben-siz, onlar-siz
         self.Without_Pron.add_suffix_form(u"nsuz", comes_after_bu_su_o_pnon)         # o-nsuz, bu-nsuz, su-nsuz
 
-        self.PRONOUN_DERIV_WITH_CASE.add_out_suffix(self.Rel_Pron, self.ADJECTIVE_ROOT)
-        self.Rel_Pron.add_suffix_form(u"ki", comes_after(self.Loc_Pron))
+        self.PRONOUN_DERIV_WITH_CASE.add_out_suffix(self.PointQual_Pron, self.ADJECTIVE_ROOT)
+        self.PointQual_Pron.add_suffix_form(u"ki", comes_after(self.Loc_Pron))
 
     def _register_adverb_to_adjective_derivations(self):
-        rel_form_ku_applicable = applies_to_root(u'bugün') | applies_to_root(u'dün') | applies_to_root(u'gün') | applies_to_root(u'öbür')
+        PointQual_form_ku_applicable = applies_to_root(u'bugün') | applies_to_root(u'dün') | applies_to_root(u'gün') | applies_to_root(u'öbür')
         #TODO: only applies to time adverbs
 
-        self.ADVERB_DERIV.add_out_suffix(self.Rel_Adv, self.ADJECTIVE_ROOT)
-        self.Rel_Adv.add_suffix_form(u"ki", doesnt(rel_form_ku_applicable))
-        self.Rel_Adv.add_suffix_form(u"kü", rel_form_ku_applicable)
+        self.ADVERB_DERIV.add_out_suffix(self.PointQual_Adv, self.ADJECTIVE_ROOT)
+        self.PointQual_Adv.add_suffix_form(u"ki", doesnt(PointQual_form_ku_applicable))
+        self.PointQual_Adv.add_suffix_form(u"kü", PointQual_form_ku_applicable)
 
     def _register_question_tenses(self):
         # Question tenses are all predefined

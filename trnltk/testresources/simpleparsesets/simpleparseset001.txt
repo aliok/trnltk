@@ -42,7 +42,7 @@ Soluk_soluğaydı=(1,"Soluk_soluk+Noun+A3sg+Pnon+Dat")(2,"Verb+Zero+Past+A3sg")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
 Kapının=(1,"kapı+Noun+A3sg+P2sg+Gen")
-kenarındaki=(1,"kenar+Noun+A3sg+P3sg+Loc")(2,"Adj+Rel")
+kenarındaki=(1,"kenar+Noun+A3sg+P3sg+Loc")(2,"Adj+PointQual")
 duvara=(1,"duvar+Noun+A3sg+Pnon+Dat")
 dayanıp=(1,"dayan+Verb+Pos")(2,"Adv+AfterDoingSo")
 bize=(1,"biz+Pron+Pers+A1pl+Pnon+Dat")
