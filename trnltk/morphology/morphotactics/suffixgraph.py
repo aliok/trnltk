@@ -246,6 +246,11 @@ class SuffixGraph(object):
         self.ManyOf = Suffix("ManyOf")
         self.ForALotOfTime = Suffix("ForALotOfTime")
 
+        ############ Noun to Pronoun derivations
+        self.Relative_Noun_Pronoun_Group = SuffixGroup("Relative_Noun_Pronoun_Group")
+        self.RelPron_A3Sg_Noun = Suffix("RelPron_A3Sg_Noun", self.Relative_Noun_Pronoun_Group, "A3sg")
+        self.RelPron_A3Pl_Noun = Suffix("RelPron_A3Pl_Noun", self.Relative_Noun_Pronoun_Group, "A3pl")
+
         ############# Noun Compound suffixes
         self.A3Sg_Noun_Compound = Suffix("A3Sg_Noun_Compound", pretty_name="A3sg")
         self.PNon_Noun_Compound = Suffix("Pnon_Noun_Compound", pretty_name="Pnon")
@@ -376,6 +381,11 @@ class SuffixGraph(object):
         self.Without_Pron = Suffix("Without_Pron", pretty_name="Without")
         self.PointQual_Pron = Suffix("PointQual_Pron", pretty_name="PointQual")
 
+        ############# Pronoun to Pronoun derivations
+        self.Relative_Pron_Pronoun_Group = SuffixGroup("Relative_Pron_Pronoun_Group")
+        self.RelPron_A3Sg_Pron = Suffix("RelPron_A3Sg_Pron", self.Relative_Pron_Pronoun_Group, "A3sg")
+        self.RelPron_A3Pl_Pron = Suffix("RelPron_A3Pl_Pron", self.Relative_Pron_Pronoun_Group, "A3pl")
+
         ############# Adverb to Adjective derivations
         self.PointQual_Adv = Suffix("PointQual_Adv", pretty_name="PointQual")
 
@@ -418,6 +428,7 @@ class SuffixGraph(object):
         self._register_noun_to_verb_derivations()
         self._register_noun_to_adjective_derivations()
         self._register_noun_to_adverb_derivations()
+        self._register_noun_to_pronoun_derivations()
         self._register_noun_compound_suffixes()
 
     def _register_verb_suffixes(self):
@@ -442,6 +453,7 @@ class SuffixGraph(object):
         self._register_pronoun_possessions()
         self._register_pronoun_cases()
         self._register_pronoun_to_adjective_suffixes()
+        self._register_pronoun_to_pronoun_derivations()
 
     def _register_adverb_suffixes(self):
         self._register_adverb_to_adjective_derivations()
@@ -565,7 +577,7 @@ class SuffixGraph(object):
         self.OfUnit_Noun.add_suffix_form(u"lIk")
 
         self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.PointQual_Noun, self.ADJECTIVE_ROOT)
-        self.PointQual_Noun.add_suffix_form(u"ki")
+        self.PointQual_Noun.add_suffix_form(u"ki", comes_after(self.Loc_Noun))
 
     def _register_noun_to_adverb_derivations(self):
         self.NOUN_NOM_DERIV.add_out_suffix(self.InTermsOf, self.ADVERB_ROOT)
@@ -582,6 +594,16 @@ class SuffixGraph(object):
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.ForALotOfTime, self.ADVERB_ROOT)
         self.ForALotOfTime.add_suffix_form(u"lArcA", precondition=root_has_secondary_syntactic_category(SecondarySyntacticCategory.TIME))
+
+    def _register_noun_to_pronoun_derivations(self):
+        comes_after_Gen_Noun = comes_after(self.Gen_Noun)   # since it only works for nouns after Gen : "masaninki", "kardesiminkiler"
+        followed_by_Pnon_Pron = followed_by(self.Pnon_Pron) # since sth like this doesn't work: "masanınkim"
+
+        self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.RelPron_A3Sg_Noun, self.PRONOUN_WITH_AGREEMENT)
+        self.RelPron_A3Sg_Noun.add_suffix_form(u"ki", comes_after_Gen_Noun, followed_by_Pnon_Pron)
+
+        self.NOUN_DERIV_WITH_CASE.add_out_suffix(self.RelPron_A3Pl_Noun, self.PRONOUN_WITH_AGREEMENT)
+        self.RelPron_A3Pl_Noun.add_suffix_form(u"kiler", comes_after_Gen_Noun, followed_by_Pnon_Pron)
 
     def _register_noun_compound_suffixes(self):
         self.NOUN_COMPOUND_ROOT.add_out_suffix(self.A3Sg_Noun_Compound, self.NOUN_COMPOUND_WITH_AGREEMENT)
@@ -932,6 +954,16 @@ class SuffixGraph(object):
 
         self.PRONOUN_DERIV_WITH_CASE.add_out_suffix(self.PointQual_Pron, self.ADJECTIVE_ROOT)
         self.PointQual_Pron.add_suffix_form(u"ki", comes_after(self.Loc_Pron))
+
+    def _register_pronoun_to_pronoun_derivations(self):
+        comes_after_Gen_Pron = comes_after(self.Gen_Pron)   # since it only works for pronouns after Gen : "oraninki", "senin oraninki", "benimki"
+        followed_by_Pnon_Pron = followed_by(self.Pnon_Pron) # since sth like this doesn't work: "oraninkim", "benimkin"
+
+        self.PRONOUN_DERIV_WITH_CASE.add_out_suffix(self.RelPron_A3Sg_Noun, self.PRONOUN_WITH_AGREEMENT)
+        self.RelPron_A3Sg_Noun.add_suffix_form(u"ki", comes_after_Gen_Pron, followed_by_Pnon_Pron)
+
+        self.PRONOUN_DERIV_WITH_CASE.add_out_suffix(self.RelPron_A3Pl_Noun, self.PRONOUN_WITH_AGREEMENT)
+        self.RelPron_A3Pl_Noun.add_suffix_form(u"kiler", comes_after_Gen_Pron, followed_by_Pnon_Pron)
 
     def _register_adverb_to_adjective_derivations(self):
         PointQual_form_ku_applicable = applies_to_root(u'bugün') | applies_to_root(u'dün') | applies_to_root(u'gün') | applies_to_root(u'öbür')

@@ -18,6 +18,8 @@ class ParserTest(unittest.TestCase):
     def assert_parse_doesnt_exist(self, word_to_parse, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultDoesntExist([a for a in args]))
 
+    def assert_not_parsable(self, word_to_parse):
+        assert_that(self.parse_result(word_to_parse), equal_to([]))
 
     def parse_result(self, word):
         return [formatter.format_morpheme_container_for_tests(r) for r in (self.parser.parse(word))]

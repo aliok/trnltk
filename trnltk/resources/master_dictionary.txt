@@ -2735,8 +2735,6 @@ beniâdem
 benibeşer
 beniçinci [P:Adj]
 benildemek
-benimki [P:Adj]
-benimki [P:Pron]
 benimsemek
 beniz [A:LastVowelDrop]
 benlenmek
@@ -3232,7 +3230,6 @@ biz [P:Pron, Pers]
 bizar [P:Adv]
 bizatihi [P:Adv]
 bizcileyin [P:Adv]
-bizimki [P:Pron]
 bizlengiç
 bizmut [A:NoVoicing]
 bizon
@@ -5474,7 +5471,6 @@ demetlemek
 demevi [P:Adj]
 demin [P:Adv]
 demincek [P:Adv]
-deminki [P:Adj]
 demir
 demir [P:Adj]
 demirbaş

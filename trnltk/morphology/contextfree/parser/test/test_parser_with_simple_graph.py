@@ -80,8 +80,6 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'kutumsu',          u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])', u'kutu(kutu)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msu])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'telefonumsu',      u'telefon(telefon)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[umsu])', u'telefon(telefon)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[umsu])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'meleğimsi',        u'meleğ(melek)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])', u'meleğ(melek)+Noun+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'masamınki',        u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[ın])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[ın])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'masanınki',        u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[nın])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[ın])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[nın])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[ın])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_noun_to_verb_derivations(self):
         #heyecanlan
@@ -1411,6 +1409,31 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'yıllık',                u'yıl(yıl)+Noun+Time+A3sg+Pnon+Nom+Adj+DurationOf(lIk[lık])')
         self.assert_parse_exists(u'milyarlık',             u'milyar(milyar)+Num+Card+Adj+OfUnit(lIk[lık])')
         self.assert_parse_exists(u'dolarlık',              u'dolar(dolar)+Noun+A3sg+Pnon+Nom+Adj+OfUnit(lIk[lık])')
+
+    def test_should_parse_relative_pronouns(self):
+        self.cloned_root_map[u'on'] = []
+
+        self.assert_parse_correct(u'masamınki',            u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'masanınki',            u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[n\u0131n])+Pron+A3sg(ki[ki])+Pnon+Nom', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'masamınkiler',         u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
+        self.assert_parse_correct(u'masalarınınkiler',     u'masa(masa)+Noun+A3sg+P3pl(lArI![lar\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[\u0131n])+Gen(+nIn[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
+
+        self.assert_parse_correct(u'benimki',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'seninki',              u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'onunki',               u'o(o)+Pron+Demons+A3sg+Pnon+Gen(nun[nun])+Pron+A3sg(ki[ki])+Pnon+Nom', u'o(o)+Pron+Pers+A3sg+Pnon+Gen(nun[nun])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'onlarınkiler',         u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Gen(\u0131n[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Gen(\u0131n[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
+        self.assert_parse_correct(u'bizlerinkilerin',      u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])')
+        self.assert_parse_correct(u'bizlerinkilerinki',    u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])+Pron+A3sg(ki[ki])+Pnon+Nom')
+
+        self.assert_parse_correct(u'nereninki',            u'nere(nere)+Pron+Ques+A3sg+Pnon+Gen(+nIn[nin])+Pron+A3sg(ki[ki])+Pnon+Nom', u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Gen(+nIn[in])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'buramınki',            u'bura(bura)+Pron+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Nom')
+        self.assert_parse_correct(u'nerelerimizinkiler',   u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
+        self.assert_parse_correct(u'nerelerimizinkilerin', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])')
+        self.assert_parse_correct(u'nerelerimizinkilerde', u'nere(nere)+Pron+Ques+A3pl(lAr[ler])+P1pl(+ImIz[imiz])+Gen(+nIn[in])+Pron+A3pl(kiler[kiler])+Pnon+Loc(dA[de])')
+
+        self.assert_not_parsable(u'masamınkin')
+        self.assert_not_parsable(u'benimkilerim')
+        self.assert_not_parsable(u'nereninkisi')
 
     def test_should_parse_digits(self):
         self.assert_parse_correct_for_verb(u'0',                     u'0(0)+Num+Digits+Adj+Zero', u'0(0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
