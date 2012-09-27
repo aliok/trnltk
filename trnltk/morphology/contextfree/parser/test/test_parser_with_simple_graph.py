@@ -654,6 +654,28 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'oradan',            u'ora(ora)+Pron+A3sg+Pnon+Abl(dAn[dan])')
         self.assert_parse_correct(u'şuranla',           u'şura(şura)+Pron+A3sg+P2sg(+In[n])+Ins(+ylA[la])')
 
+    def test_should_parse_Rel_suffixes(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.cloned_root_map[u'masad'] = []
+        self.cloned_root_map[u'bend'] = []
+        self.cloned_root_map[u'on'] = []
+        self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
+        self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
+
+        self.assert_parse_correct(u'masadaki',             u'masa(masa)+Noun+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'masamdaki',            u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Loc(dA[da])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'masalarındaki',        u'masa(masa)+Noun+A3sg+P3pl(lArI![lar\u0131])+Loc(ndA[nda])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[\u0131n])+Loc(dA[da])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Loc(ndA[nda])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![\u0131])+Loc(ndA[nda])+Adj+Rel(ki[ki])', u'masa(masa)+Noun+A3sg+P3pl(lArI![lar\u0131])+Loc(ndA[nda])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[\u0131n])+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Loc(ndA[nda])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![\u0131])+Loc(ndA[nda])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'sekizdeki',            u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[de])+Adj+Rel(ki[ki])', u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[de])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'kısadaki',             u'k\u0131sa(k\u0131sa)+Adj+Noun+Zero+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])', u'k\u0131sa(k\u0131sa)+Adj+Noun+Zero+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'bendeki',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Adj+Rel(ki[ki])', u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'ondaki',               u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])+Adj+Rel(ki[ki])', u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])+Adj+Rel(ki[ki])', u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'bizlerdeki',           u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Loc(de[de])+Adj+Rel(ki[ki])', u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Loc(de[de])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'küçüğümdekilerdeki',   u'k\xfc\xe7\xfc\u011f(k\xfc\xe7\xfck)+Adj+Noun+Zero+A3sg+P1sg(+Im[\xfcm])+Loc(dA[de])+Adj+Rel(ki[ki])+Noun+Zero+A3pl(lAr[ler])+Pnon+Loc(dA[de])+Adj+Rel(ki[ki])', u'k\xfc\xe7\xfc\u011f(k\xfc\xe7\xfck)+Adj+Noun+Zero+A3sg+P1sg(+Im[\xfcm])+Loc(dA[de])+Adj+Rel(ki[ki])+Noun+Zero+A3pl(lAr[ler])+Pnon+Loc(dA[de])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'oradaki',              u'ora(ora)+Pron+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])', u'ora(ora)+Pron+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'oradakilerin',         u'ora(ora)+Pron+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3pl(lAr[ler])+Pnon+Gen(+nIn[in])', u'ora(ora)+Pron+A3sg+Pnon+Loc(dA[da])+Adj+Rel(ki[ki])+Noun+Zero+A3pl(lAr[ler])+P2sg(+In[in])+Nom')
+
     def test_should_parse_pronoun_derivations(self):
         self.assert_parse_correct(u'bensiz',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Adj+Without(sIz[siz])',
@@ -1276,6 +1298,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.cloned_root_map[u'a'] = []
         self.cloned_root_map[u'ak'] = []
         self.cloned_root_map[u'akşam'] = []
+        self.cloned_root_map[u'akşamüstü'] = filter(lambda _root : _root.lexeme.syntactic_category==SyntacticCategory.NOUN, self.cloned_root_map[u'akşamüstü'])
 
         self.assert_parse_correct_for_verb(u'akşamüstü',         u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3sg(+sI[ü])+Nom')
         self.assert_parse_correct_for_verb(u'akşamüstleri',      u'akşamüst(akşamüstü)+Noun+Time+A3sg+P3pl(lArI![leri])+Nom')
@@ -1416,9 +1439,6 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'-9.999.999.999.999,01', u'-9.999.999.999.999,01(-9.999.999.999.999,01)+Num+Digits+Adj+Zero', u'-9.999.999.999.999,01(-9.999.999.999.999,01)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_digits_with_suffixes(self):
-#        parser_logger.setLevel(logging.DEBUG)
-#        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_correct_for_verb(u'0\'ı',                 u'0(0)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'0(0)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
         self.assert_parse_correct_for_verb(u'1\'i',                 u'1(1)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1(1)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom')
         self.assert_parse_correct_for_verb(u'2\'si',                u'2(2)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[si])+Nom')

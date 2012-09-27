@@ -576,13 +576,15 @@ aksu
 aksuna
 aksungur
 aksülamel
-akşam [P:Noun, Time; S:+Rel_ki]
-akşamki
+akşam [P:Noun, Time]
+akşam [P:Adv, Time]
 akşamlamak
-akşamleyin
+akşamleyin [P:Adv, Time]
 akşamsefası [A:CompoundP3sg; R:akşamsefa]
 akşamüstü [P:Noun, Time; A:CompoundP3sg; R:akşamüst]
+akşamüstü [P:Adv, Time]
 akşamüzeri [P:Noun, Time; A:CompoundP3sg; R:akşamüzer]
+akşamüzeri [P:Adv, Time]
 akşın
 aktar
 aktarım
@@ -966,7 +968,8 @@ amudi [P:Adj]
 amudufıkari
 amut
 amyant [A:Compound]
-an [P:Noun, Time; S:+Rel_ki]
+an [P:Noun, Time]
+an [P:Adv, Time]
 ana
 ana [P:Adj]
 ana [P:Interj]
@@ -1773,7 +1776,8 @@ avurt
 avurtlamak
 avutmak
 ay
-ay [P:Noun, Time; S:+Rel_ki]
+ay [P:Noun, Time]
+ay [P:Adv, Time]
 ay [P:Interj]
 aya
 ayak
@@ -2042,7 +2046,8 @@ bağrışmak
 baha
 bahadır
 bahane
-bahar
+bahar [P:Noun, Time]
+bahar [P:Adv, Time]
 baharat [A:NoVoicing]
 bahariye
 bahçe
@@ -3096,6 +3101,7 @@ bininci [P:Num, Ord]
 binit [A:NoVoicing]
 binnetice [P:Adv]
 binyıl [P:Noun, Time]
+binyıl [P:Adv, Time]
 biperva [P:Adj]
 biperva [P:Adv]
 binmek
@@ -3504,7 +3510,7 @@ budaklanmak
 budala
 budamak
 budun
-bugün [P:Noun, Time; S:+Rel_kI]
+bugün [P:Noun, Time]
 bugün [P:Adv]
 bugünlük [P:Adv]
 buğday
@@ -5064,7 +5070,7 @@ dağlağı
 dağlamak
 dağlı [P:Adj]
 dağlıç
-daha [P:Noun, Time; S:+Rel_ki]
+daha [P:Noun, Time]
 daha [P:Adv]
 dahası
 dâhi [P:Adj]
@@ -5090,6 +5096,7 @@ daire
 dairevi
 dakik [P:Adj]
 dakika [P:Noun, Time]
+dakika [P:Adv, Time]
 dakikasında [P:Adv]
 daktilo
 daktilograf
@@ -6242,7 +6249,8 @@ dönek [P:Adj]
 dönel [P:Adj]
 dönelemek
 dönelmek
-dönem [P:Noun, Time; S:+Rel_ki]
+dönem [P:Noun, Time]
+dönem [P:Adv, Time]
 dönemeç
 dönence
 dönencel [P:Adj]
@@ -6421,7 +6429,7 @@ dümdar
 dümdüz [P:Adj]
 dümen
 dümtek [A:NoVoicing]
-dün [P:Noun, Time; S:+Rel_kI]
+dün [P:Noun, Time]
 dün [P:Adv]
 dünden [P:Adv]
 dünit [A:NoVoicing]
@@ -7161,7 +7169,6 @@ erkek [P:Adj]
 erkekçil [P:Adj]
 erkekevi
 erkeklenmek
-erken [P:Noun, Time; S:+Rel_ki]
 erken [P:Adj]
 erken [P:Adv]
 erkence [P:Adv]
@@ -7393,7 +7400,8 @@ evrişik
 evropiyum
 evsaf
 evsemek
-evvel [P:Noun, Time; S:+Rel_ki]
+evvel [P:Noun, Time]
+evvel [P:Adv, Time]
 evvelâ [P:Adj]
 evveliyat [A:NoVoicing]
 evvelsi [P:Adj]
@@ -8311,15 +8319,17 @@ gebermek
 gebeş
 gebre
 gebrelemek
-gece [P:Noun, Time; S:+Rel_ki]
+gece [P:Noun, Time]
+gece [P:Adv, Time]
 gececi
 gecekondu
 gecelemek
-geceleyin
+geceleyin [P:Adv, Time]
 gecesefası
 gecesefasıgiller
 gecikmek
 geceyarısı [P:Noun, Time; A:CompoundP3sg; R:geceyarı]
+geceyarısı [P:Adv, Time]
 geç
 geç [P:Adj]
 geç [P:Adv]
@@ -8878,7 +8888,8 @@ gümüş [P:Adj]
 gümüşgöz
 gümüşî
 gümüşlemek
-gün [P:Noun, Time; S:+Rel_kI]
+gün [P:Noun, Time]
+gün [P:Adv, Time]
 günah
 günahkâr [P:Adj]
 günaşırı [P:Adv]
@@ -8894,9 +8905,11 @@ gündaş
 gündelik [P:Adj]
 gündem
 gündöndü
-gündüz
+gündüz [P:Noun, Time]
+gündüz [P:Adv, Time]
+gündüzleyin [P:Adv, Time]
 gündüzsefası
-gündüzün [P:Adv]
+gündüzün [P:Adv, Time]
 günebakan
 güneç
 güneğik
@@ -8955,7 +8968,8 @@ güvey
 güveyfeneri [A:CompoundP3sg; R:güveyfener]
 güvez
 güya [P:Adv]
-güz
+güz [P:Noun, Time]
+güz [P:Adv, Time]
 güzaf
 güzel [P:Adj]
 güzelleme
@@ -8964,7 +8978,7 @@ güzey
 güzide [P:Adj]
 güzlek
 güzlemek
-güzün [P:Adv]
+güzün [P:Adv, Time]
 ha [P:Conj]
 ha [P:Interj]
 ha [P:Part]
@@ -9026,6 +9040,7 @@ hafiye
 hafniyum
 hafriyat [A:NoVoicing]
 hafta [P:Noun, Time]
+hafta [P:Adv, Time]
 haftalık
 hah [P:Interj]
 haham
@@ -10305,10 +10320,13 @@ ikilem
 ikilemek
 ikinci [P:Num, Ord]
 ikincil
-ikindi
-ikindiüstü
-ikindiüzeri
-ikindiyin [A:NoSuffix]
+ikindi [P:Noun, Time]
+ikindi [P:Adv, Time]
+ikindiüstü [P:Noun, Time; A:CompoundP3sg; R:ikindiüst]
+ikindiüstü [P:Adv, Time]
+ikindiüzeri [P:Noun, Time; A:CompoundP3sg; R:ikindiüzer]
+ikindiüzeri [P:Adv, Time]
+ikindiyin [P:Adv, Time; A:NoSuffix]
 ikircik
 ikirciklenmek
 ikircil
@@ -10393,7 +10411,8 @@ ilişki
 ilişkin
 ilişmek
 ilk [P:Adj]
-ilkbahar
+ilkbahar [P:Noun, Time]
+ilkbahar [P:Adv, Time]
 ilke
 ilkel [P:Adj]
 ilkin [P:Adv, Time]
@@ -12515,8 +12534,9 @@ kıstak
 kıstas
 kıstelyevm
 kıstırmak
-kış
-kışın
+kış [P:Noun, Time]
+kış [P:Adv, Time]
+kışın [P:Adv, Time]
 kışır [A:LastVowelDrop]
 kışkırtı
 kışkırtmak
@@ -17009,11 +17029,14 @@ ozuga
 öge
 öglena
 öglenagiller
-öğle
-öğlen [P:Noun, Time; S:+Rel_ki]
-öğleüstü
-öğleüzeri
-öğleyin
+öğle [P:Noun, Time]
+öğlen [P:Noun, Time]
+öğlen [P:Adv, Time]
+öğleüstü [P:Noun, Time; A:CompoundP3sg; R:öğleüst]
+öğleüstü [P:Adv, Time]
+öğleüzeri [P:Noun, Time; A:CompoundP3sg; R:öğleüzer]
+öğleüzeri [P:Adv, Time]
+öğleyin [P:Adv, Time]
 öğrek
 öğrenci
 öğrenmek
@@ -17063,7 +17086,7 @@ ozuga
 ön
 ön [P:Adj]
 önayak
-önce [P:Noun, Time; S:+Rel_ki]
+önce [P:Noun, Time]
 önce [P:Adv, Time]
 öncelemek
 öncelik
@@ -18612,10 +18635,12 @@ saadet [A:NoVoicing]
 saadethane
 saat [A:InverseHarmony, NoVoicing]
 saat [P:Noun, Time; A:InverseHarmony, NoVoicing]
+saat [P:Adv, Time; A:InverseHarmony, NoVoicing]
 saba
-sabah [P:Noun, Time; S:+Rel_ki]
+sabah [P:Noun, Time]
+sabah [P:Adv, Time]
 sabahlamak
-sabahleyin [P:Noun, Time; S:+Rel_ki]
+sabahleyin [P:Adv, Time]
 saban
 sabık
 sabıka
@@ -18819,6 +18844,7 @@ salim
 salimen [P:Adj]
 salip
 salise [P:Noun, Time]
+salise [P:Adv, Time]
 salisen [P:Adv]
 salisilât [A:NoVoicing]
 salisilik
@@ -18885,6 +18911,7 @@ sanı
 sanık
 sanidin
 saniye [P:Noun, Time]
+saniye [P:Adv, Time]
 sanki [P:Adv]
 sanmak [A:Aorist_I]
 sanrı
@@ -19146,7 +19173,8 @@ sefahat [A:InverseHarmony]
 sefalet [A:NoVoicing]
 sefaret [A:NoVoicing]
 sefarethane
-sefer [P:Noun, Time; S:+Rel_ki]
+sefer [P:Noun, Time]
+sefer [P:Adv, Time]
 sefer
 seferber
 seferî
@@ -19285,7 +19313,8 @@ sendikal
 sendikalist [A:NoVoicing]
 sendikalizm
 sendrom
-sene [P:Noun, Time; S:+Rel_ki]
+sene [P:Noun, Time]
+sene [P:Adv, Time]
 senek
 senet
 senevî
@@ -19463,7 +19492,8 @@ sezinlemek
 sezinmek
 seziş
 sezmek
-sezon [P:Noun, Time; S:+Rel_ki]
+sezon [P:Noun, Time]
+sezon [P:Adv, Time]
 sezü
 sezyum
 sfagnum
@@ -19905,7 +19935,8 @@ somya
 son [P:Adj]
 sonar
 sonat [A:NoVoicing]
-sonbahar
+sonbahar [P:Noun, Time]
+sonbahar [P:Adv, Time]
 soncul
 sonda
 sondaj
@@ -19914,7 +19945,7 @@ sondör
 sone
 sonlanmak
 sonlu
-sonra [P:Noun, Time; S:+Rel_ki]
+sonra [P:Noun, Time]
 sonra [P:Adv, Time]
 sonradan [P:Adv, Time]
 sonsuz
@@ -20765,7 +20796,7 @@ süzülmek
 şilte
 şimal [A:InverseHarmony]
 şimalî
-şimdi [P:Noun, Time; S:+Rel_ki]
+şimdi [P:Noun, Time]
 şimdi [P:Adv, Time]
 şimdilik [P:Adv]
 şimendifer
@@ -23580,7 +23611,8 @@ yarım [P:Adj]
 yarımada
 yarımlamak
 yarımşar
-yarın [P:Noun, Time; S:+Rel_ki]
+yarın [P:Noun, Time]
+yarın [P:Adv, Time]
 yarış
 yarışmak
 yarıyıl
@@ -23673,7 +23705,8 @@ yaylamak
 yaylım
 yaymak
 yayvan [P:Adj]
-yaz [P:Noun, Time; S:+Rel_ki]
+yaz [P:Noun, Time]
+yaz [P:Adv, Time]
 yazanak
 yazar
 yazboz
@@ -23840,7 +23873,8 @@ yıkım
 yıkıntı
 yıkışmak
 yıkmak
-yıl [P:Noun, Time; S:+Rel_ki]
+yıl [P:Noun, Time]
+yıl [P:Adv, Time]
 yılan
 yılancıl
 yılandili [A:CompoundP3sg; R:yılandil]
@@ -24072,6 +24106,7 @@ yüzükoyun [P:Adj]
 yüzüncü [P:Num, Ord]
 yüzüstü [P:Adj]
 yüzyıl [P:Noun, Time]
+yüzyıl [P:Adv, Time]
 zaaf
 zabıt [A:LastVowelDrop]
 zabıt [A:Voicing, LastVowelDrop]
@@ -24104,7 +24139,8 @@ zalim
 zalim [P:Adj]
 zalimane [P:Adv]
 zam [A:Doubling]
-zaman [P:Noun, Time; S:+Rel_ki]
+zaman [P:Noun, Time]
+zaman [P:Adv, Time]
 zamane
 zamanlamak
 zamazingo

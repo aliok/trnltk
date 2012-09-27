@@ -68,8 +68,6 @@ class LexiconLoader(object):
                 else:
                     raise Exception('Unable to parse line' + line)
 
-                ##todo: S:rel_ki stuff is skipped
-
         return Lexeme(lemma, root, syntactic_category, secondary_syntactic_category, attributes or None)
 
     @classmethod

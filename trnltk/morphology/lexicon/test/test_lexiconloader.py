@@ -65,7 +65,7 @@ class LexiconLoaderTest(unittest.TestCase):
         item = LexiconLoader._crate_lexeme_from_line(u'ahlat [A:NoVoicing, Plural]')
         assert_that(item, equal_to(Lexeme(u"ahlat", u"ahlat", None, None, [RootAttribute.NoVoicing, RootAttribute.Plural])))
 
-        item = LexiconLoader._crate_lexeme_from_line(u'akşam [P:Noun, Time; S:+Rel_ki]')
+        item = LexiconLoader._crate_lexeme_from_line(u'akşam [P:Noun, Time]')
         assert_that(item, equal_to(Lexeme(u"akşam", u"akşam", SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'yemek [P:Noun]')
@@ -198,7 +198,7 @@ class LexiconLoaderTest(unittest.TestCase):
             addetmek [A:Voicing, Aorist_A]
             addolmak [A:Causative_dIr]
             ahlat [A:NoVoicing, Plural]
-            akşam [P:Noun, Time; S:+Rel_ki]
+            akşam [P:Noun, Time]
             atamak [A:Causative_It]
             yemek [P:Noun]
             yemek [A:Causative_dIr]
