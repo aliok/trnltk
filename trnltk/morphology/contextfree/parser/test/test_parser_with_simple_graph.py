@@ -1418,12 +1418,24 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'masamınkiler',         u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
         self.assert_parse_correct(u'masalarınınkiler',     u'masa(masa)+Noun+A3sg+P3pl(lArI![lar\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[\u0131n])+Gen(+nIn[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
 
+        self.assert_parse_correct(u'masamınkine',          u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Dat(nA[ne])')
+        self.assert_parse_correct(u'masanınkini',          u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[n\u0131n])+Pron+A3sg(ki[ki])+Pnon+Acc(nI[ni])', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Acc(nI[ni])')
+        self.assert_parse_correct(u'masamınkinde',         u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Loc(ndA[nde])')
+        self.assert_parse_correct(u'masalarınınkilere',    u'masa(masa)+Noun+A3sg+P3pl(lArI![lar\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Dat(+yA[e])', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[\u0131n])+Gen(+nIn[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Dat(+yA[e])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Dat(+yA[e])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![\u0131])+Gen(+nIn[n\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Dat(+yA[e])')
+
         self.assert_parse_correct(u'benimki',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])+Pron+A3sg(ki[ki])+Pnon+Nom')
         self.assert_parse_correct(u'seninki',              u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Pron+A3sg(ki[ki])+Pnon+Nom')
         self.assert_parse_correct(u'onunki',               u'o(o)+Pron+Demons+A3sg+Pnon+Gen(nun[nun])+Pron+A3sg(ki[ki])+Pnon+Nom', u'o(o)+Pron+Pers+A3sg+Pnon+Gen(nun[nun])+Pron+A3sg(ki[ki])+Pnon+Nom')
         self.assert_parse_correct(u'onlarınkiler',         u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Gen(\u0131n[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Gen(\u0131n[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Nom')
         self.assert_parse_correct(u'bizlerinkilerin',      u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])')
         self.assert_parse_correct(u'bizlerinkilerinki',    u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])+Pron+A3sg(ki[ki])+Pnon+Nom')
+
+        self.assert_parse_correct(u'benimkine',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Gen(im[im])+Pron+A3sg(ki[ki])+Pnon+Dat(nA[ne])')
+        self.assert_parse_correct(u'seninkini',            u'sen(sen)+Pron+Pers+A2sg+Pnon+Gen(in[in])+Pron+A3sg(ki[ki])+Pnon+Acc(nI[ni])')
+        self.assert_parse_correct(u'onunkinden',           u'o(o)+Pron+Demons+A3sg+Pnon+Gen(nun[nun])+Pron+A3sg(ki[ki])+Pnon+Abl(ndAn[nden])', u'o(o)+Pron+Pers+A3sg+Pnon+Gen(nun[nun])+Pron+A3sg(ki[ki])+Pnon+Abl(ndAn[nden])')
+        self.assert_parse_correct(u'onlarınkilerinkini',   u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Gen(\u0131n[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])+Pron+A3sg(ki[ki])+Pnon+Acc(nI[ni])', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Gen(\u0131n[\u0131n])+Pron+A3pl(kiler[kiler])+Pnon+Gen(+nIn[in])+Pron+A3sg(ki[ki])+Pnon+Acc(nI[ni])')
+        self.assert_parse_correct(u'bizlerinkilerde',      u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])+Pron+A3pl(kiler[kiler])+Pnon+Loc(dA[de])')
+        self.assert_parse_correct(u'bizlerinkilere',       u'biz(biz)+Pron+Pers+A1pl(ler[ler])+Pnon+Gen(in[in])+Pron+A3pl(kiler[kiler])+Pnon+Dat(+yA[e])')
 
         self.assert_parse_correct(u'nereninki',            u'nere(nere)+Pron+Ques+A3sg+Pnon+Gen(+nIn[nin])+Pron+A3sg(ki[ki])+Pnon+Nom', u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Gen(+nIn[in])+Pron+A3sg(ki[ki])+Pnon+Nom')
         self.assert_parse_correct(u'buramınki',            u'bura(bura)+Pron+A3sg+P1sg(+Im[m])+Gen(+nIn[\u0131n])+Pron+A3sg(ki[ki])+Pnon+Nom')

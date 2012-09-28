@@ -2682,7 +2682,6 @@ belgi
 belgilemek
 belgin [P:Adj]
 belgisiz [P:Adj]
-belgisiz [P:Pron]
 belgit [A:NoVoicing]
 beli [P:Part]
 beliğ [P:Adj]

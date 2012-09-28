@@ -1,7 +1,7 @@
 # coding=utf-8
 from trnltk.morphology.model.graphmodel import State
 from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category
+from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category, comes_after_derivation
 from trnltk.morphology.model.morpheme import *
 
 class SuffixGraph(object):
@@ -900,7 +900,8 @@ class SuffixGraph(object):
         #P3Pl_Pron forms for "'ben', 'sen', 'o', 'biz', 'siz', 'onlar', 'bu', 'su', 'kendi' are predefined
 
     def _register_pronoun_cases(self):
-        comes_after_P3 = comes_after(self.P3Sg_Pron) | comes_after(self.P3Pl_Pron)
+        comes_after_P3 = comes_after(self.P3Sg_Pron) | comes_after(self.P3Pl_Pron) | \
+                         comes_after_derivation(self.RelPron_A3Sg_Noun) | comes_after_derivation(self.RelPron_A3Sg_Pron)
         doesnt_come_after_P3 = ~comes_after_P3
 
         self.PRONOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Pron, self.PRONOUN_WITH_CASE)
