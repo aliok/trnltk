@@ -193,7 +193,7 @@ class MorphemeContainer(object):
 
     def get_last_derivation_transition(self):
         for transition in reversed(self._transitions):
-            if transition.from_state.type==State.DERIVATIONAL:
+            if transition.is_derivational():
                 return transition
 
         return None
@@ -208,7 +208,7 @@ class MorphemeContainer(object):
     def get_suffixes_since_derivation_suffix(self):
         result = []
         for transition in reversed(self._transitions):
-            if transition.from_state.type==State.DERIVATIONAL:
+            if transition.is_derivational():
                 break
             else:
                 result.append(transition.suffix_form_application.suffix_form.suffix)
@@ -218,7 +218,7 @@ class MorphemeContainer(object):
     def get_transitions_since_derivation_suffix(self):
         result = []
         for transition in reversed(self._transitions):
-            if transition.from_state.type==State.DERIVATIONAL:
+            if transition.is_derivational():
                 break
             else:
                 result.append(transition)
@@ -228,7 +228,7 @@ class MorphemeContainer(object):
     def get_transitions_from_derivation_suffix(self):
         result = []
         for transition in reversed(self._transitions):
-            if transition.from_state.type==State.DERIVATIONAL:
+            if transition.is_derivational():
                 result.append(transition)
                 break
             else:
@@ -238,6 +238,24 @@ class MorphemeContainer(object):
 
     def get_suffix_groups_since_last_derivation(self):
         return [s.group for s in self.get_suffixes_since_derivation_suffix()]
+
+    def get_last_non_blank_transition(self):
+        if not self._transitions:
+            return None
+        for transition in reversed(self._transitions):
+            if transition.suffix_form_application.suffix_form.form:
+                return transition
+
+        return None
+
+    def get_last_non_blank_derivation(self):
+        if not self._transitions:
+            return None
+        for transition in reversed(self._transitions):
+            if transition.is_derivational() and transition.suffix_form_application.suffix_form.form:
+                return transition
+
+        return None
 
     def get_attributes(self):
         if self._transitions and any(t.suffix_form_application.actual_suffix_form for t in self._transitions):

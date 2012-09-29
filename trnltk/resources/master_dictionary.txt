@@ -3507,7 +3507,7 @@ budala
 budamak
 budun
 bugün [P:Noun, Time]
-bugün [P:Adv]
+bugün [P:Adv, Time]
 bugünlük [P:Adv]
 buğday
 buğdaycıl

@@ -263,6 +263,39 @@ class RootHasSecondarySyntacticCategory(Specification):
     def __repr__(self):
         return self.__str__()
 
+class HasLastNonBlankDerivation(Specification):
+    def __init__(self, _suffix, _form_str=None):
+        self._suffix = _suffix
+        self._form_str = _form_str
+
+    def is_satisfied_by(self, morpheme_container):
+        """
+        @type morpheme_container : MorphemeContainer
+        @return:
+        """
+        if not morpheme_container:
+            return False
+
+        last_non_blank_derivation = morpheme_container.get_last_non_blank_derivation()
+        if not last_non_blank_derivation:
+            return False
+
+#        print "For", morpheme_container, "result is", last_non_blank_derivation
+
+        if self._form_str is not None:
+            return self._suffix == last_non_blank_derivation.suffix_form_application.suffix_form.suffix and \
+                   self._form_str == last_non_blank_derivation.suffix_form_application.suffix_form.form
+        else:
+            return self._suffix==last_non_blank_derivation.suffix_form_application.suffix_form.suffix
+
+    def __str__(self):
+        if self._form_str is not None:
+            return u'has_last_non_blank_derivation({}[{}])'.format(self._suffix, self._form_str)
+        else:
+            return u'has_last_non_blank_derivation({})'.format(self._suffix)
+
+    def __repr__(self):
+        return self.__str__()
 
 ########### preconditions
 def doesnt(condition):
@@ -297,6 +330,9 @@ def doesnt_have_root_attributes(root_attrs):
 
 def doesnt_have_root_attribute(root_attr):
     return doesnt_have_root_attributes([root_attr])
+
+def comes_after_last_non_blank_derivation(suffix, form_str=None):
+    return HasLastNonBlankDerivation(suffix, form_str)
 
 ########### postconditions
 def followed_by(suffix, form_str=None):

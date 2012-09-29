@@ -1,7 +1,7 @@
 # coding=utf-8
 from trnltk.morphology.model.graphmodel import State
 from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category, comes_after_derivation
+from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category, comes_after_derivation, comes_after_last_non_blank_derivation
 from trnltk.morphology.model.morpheme import *
 
 class SuffixGraph(object):
@@ -171,6 +171,7 @@ class SuffixGraph(object):
 
         self.ADVERB_ROOT                  .add_out_suffix(FreeTransitionSuffix("Adv_Free_Transition_1"      ), self.ADVERB_TERMINAL_TRANSFER)
         self.ADVERB_TERMINAL_TRANSFER     .add_out_suffix(FreeTransitionSuffix("Adv_Free_Transition_2"      ), self.ADVERB_TERMINAL)
+        self.ADVERB_ROOT                  .add_out_suffix(FreeTransitionSuffix("Adv_Free_Transition_3"      ), self.ADVERB_DERIV)
 
         self.PRONOUN_WITH_CASE            .add_out_suffix(FreeTransitionSuffix("Pronoun_Free_Transition_1"  ), self.PRONOUN_TERMINAL_TRANSFER)
         self.PRONOUN_TERMINAL_TRANSFER    .add_out_suffix(FreeTransitionSuffix("Pronoun_Free_Transition_2"  ), self.PRONOUN_TERMINAL)
@@ -474,31 +475,41 @@ class SuffixGraph(object):
         self.A3Pl_Noun.add_suffix_form("lAr")
 
     def _register_possessive_agreements(self):
+        doesnt_come_after_PointerQual = doesnt(comes_after_last_non_blank_derivation(self.PointQual_Adv))  & \
+                                        doesnt(comes_after_last_non_blank_derivation(self.PointQual_Noun)) & \
+                                        doesnt(comes_after_last_non_blank_derivation(self.PointQual_Pron))
+
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.Pnon_Noun, self.NOUN_WITH_POSSESSION)
         self.Pnon_Noun.add_suffix_form("")
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P1Sg_Noun, self.NOUN_WITH_POSSESSION)
-        self.P1Sg_Noun.add_suffix_form("+Im")
+        self.P1Sg_Noun.add_suffix_form("+Im", doesnt_come_after_PointerQual)
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P2Sg_Noun, self.NOUN_WITH_POSSESSION)
-        self.P2Sg_Noun.add_suffix_form("+In")
+        self.P2Sg_Noun.add_suffix_form("+In", doesnt_come_after_PointerQual)
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P3Sg_Noun, self.NOUN_WITH_POSSESSION)
-        self.P3Sg_Noun.add_suffix_form("+sI")
+        self.P3Sg_Noun.add_suffix_form("+sI", doesnt_come_after_PointerQual)
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P1Pl_Noun, self.NOUN_WITH_POSSESSION)
-        self.P1Pl_Noun.add_suffix_form("+ImIz")
+        self.P1Pl_Noun.add_suffix_form("+ImIz", doesnt_come_after_PointerQual)
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P2Pl_Noun, self.NOUN_WITH_POSSESSION)
-        self.P2Pl_Noun.add_suffix_form("+InIz")
+        self.P2Pl_Noun.add_suffix_form("+InIz", doesnt_come_after_PointerQual)
 
         self.NOUN_WITH_AGREEMENT.add_out_suffix(self.P3Pl_Noun, self.NOUN_WITH_POSSESSION)
-        self.P3Pl_Noun.add_suffix_form("lArI!")
-        self.P3Pl_Noun.add_suffix_form("I!", comes_after(self.A3Pl_Noun))
+        self.P3Pl_Noun.add_suffix_form("lArI!", doesnt_come_after_PointerQual)
+        self.P3Pl_Noun.add_suffix_form("I!", comes_after(self.A3Pl_Noun) & doesnt_come_after_PointerQual)
 
     def _register_noun_cases(self):
         comes_after_P3 = comes_after(self.P3Sg_Noun) | comes_after(self.P3Pl_Noun) | comes_after(self.P3Sg_Noun_Compound) | comes_after(self.P3Pl_Noun_Compound)
         doesnt_come_after_P3 = ~comes_after_P3
+
+        comes_after_PointQual  = comes_after_last_non_blank_derivation(self.PointQual_Adv) | comes_after_last_non_blank_derivation(self.PointQual_Noun) | comes_after_last_non_blank_derivation(self.PointQual_Pron)
+        doesnt_come_after_PointQual = ~comes_after_PointQual
+
+        comes_after_PointQual_Followed_By_A3Sg = comes_after_PointQual & (comes_after(self.A3Sg_Noun) | comes_after(self.A3Sg_Noun_Compound))
+        comes_after_PointQual_Followed_By_A3Pl = comes_after_PointQual & comes_after(self.A3Pl_Noun)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Nom_Noun, self.NOUN_WITH_CASE)
         self.Nom_Noun.add_suffix_form("")
@@ -510,20 +521,20 @@ class SuffixGraph(object):
         self.Nom_Noun_Possessive_Deriv.add_suffix_form("", doesnt_come_after(self.Pnon_Noun))
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Acc_Noun, self.NOUN_WITH_CASE)
-        self.Acc_Noun.add_suffix_form(u"+yI", doesnt_come_after_P3)
-        self.Acc_Noun.add_suffix_form(u"nI", comes_after_P3)
+        self.Acc_Noun.add_suffix_form(u"+yI", (doesnt_come_after_P3 & doesnt(comes_after_PointQual_Followed_By_A3Sg)) | comes_after_PointQual_Followed_By_A3Pl)
+        self.Acc_Noun.add_suffix_form(u"nI", comes_after_P3 | comes_after_PointQual_Followed_By_A3Sg)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Dat_Noun, self.NOUN_WITH_CASE)
-        self.Dat_Noun.add_suffix_form(u"+yA", doesnt_come_after_P3)
-        self.Dat_Noun.add_suffix_form(u"nA", comes_after_P3)
+        self.Dat_Noun.add_suffix_form(u"+yA", (doesnt_come_after_P3 & doesnt(comes_after_PointQual_Followed_By_A3Sg)) | comes_after_PointQual_Followed_By_A3Pl)
+        self.Dat_Noun.add_suffix_form(u"nA", comes_after_P3 | comes_after_PointQual_Followed_By_A3Sg)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Loc_Noun, self.NOUN_WITH_CASE)
-        self.Loc_Noun.add_suffix_form(u"dA", doesnt_come_after_P3 & doesnt_come_after_derivation(self.Inf, "mAk"))
-        self.Loc_Noun.add_suffix_form(u"ndA")
+        self.Loc_Noun.add_suffix_form(u"dA", ((doesnt_come_after_P3 & doesnt(comes_after_PointQual_Followed_By_A3Sg)) | comes_after_PointQual_Followed_By_A3Pl) & doesnt_come_after_derivation(self.Inf, "mAk"))
+        self.Loc_Noun.add_suffix_form(u"ndA", comes_after_P3 | comes_after_PointQual_Followed_By_A3Sg)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Abl_Noun, self.NOUN_WITH_CASE)
-        self.Abl_Noun.add_suffix_form(u"dAn", doesnt_come_after_P3)
-        self.Abl_Noun.add_suffix_form(u"ndAn")
+        self.Abl_Noun.add_suffix_form(u"dAn", (doesnt_come_after_P3 & doesnt(comes_after_PointQual_Followed_By_A3Sg)) | comes_after_PointQual_Followed_By_A3Pl)
+        self.Abl_Noun.add_suffix_form(u"ndAn", comes_after_P3 | comes_after_PointQual_Followed_By_A3Sg)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Gen_Noun, self.NOUN_WITH_CASE)
         self.Gen_Noun.add_suffix_form(u"+nIn")
