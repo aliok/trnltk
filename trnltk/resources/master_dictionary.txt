@@ -5803,6 +5803,7 @@ difüzyon
 diğer [P:Adj]
 diğeri [P:Pron]
 diğerkâm [P:Adj]
+diğerleri [P:Pron]
 dijital [A:InverseHarmony]
 dijital [P:Adj; A:InverseHarmony]
 dik [P:Adj]

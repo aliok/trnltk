@@ -106,6 +106,7 @@ class PredefinedPaths(object):
         self._create_predefined_path_of_cogu_bircogu_coklari_bircoklari()
         self._create_predefined_path_of_birkaci()
         self._create_predefined_path_of_cumlesi()
+        self._create_predefined_path_of_digeri_digerleri()
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -651,3 +652,15 @@ class PredefinedPaths(object):
         root_cumlesi = self._find_root(u'cümlesi', SyntacticCategory.PRONOUN, None)
 
         self._add_morpheme_container(root_cumlesi, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+
+    def _create_predefined_path_of_digeri_digerleri(self):
+        root_digeri    = self._find_root(u'diğeri',    SyntacticCategory.PRONOUN, None)
+        root_digerleri = self._find_root(u'diğerleri', SyntacticCategory.PRONOUN, None)
+
+        self._add_morpheme_container(root_digeri,    [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Sg_Pron])
+        self._add_morpheme_container(root_digeri,    [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_digeri,    [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])
+
+        self._add_morpheme_container(root_digerleri, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.P3Pl_Pron])
+        self._add_morpheme_container(root_digerleri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron, u'miz')])
+        self._add_morpheme_container(root_digerleri, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron, u'niz')])

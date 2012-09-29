@@ -1429,6 +1429,16 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'birkaçınız',                 u'birkaçı(birkaçı)+Pron+A3sg+P2pl(nız[nız])+Nom')
 
         self.assert_parse_exists(u'cümlesi',                    u'cümlesi(cümlesi)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_exists(u'cümlesine',                  u'cümlesi(cümlesi)+Pron+A3sg+P3sg+Dat(nA[ne])')
+
+        self.assert_parse_exists(u'diğeri',                     u'di\u011feri(di\u011feri)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_exists(u'diğerinde',                  u'di\u011feri(di\u011feri)+Pron+A3sg+P3sg+Loc(ndA[nde])')
+        self.assert_parse_exists(u'diğerimize',                 u'di\u011feri(di\u011feri)+Pron+A3sg+P1pl(miz[miz])+Dat(+yA[e])')
+        self.assert_parse_exists(u'diğerinizin',                u'di\u011feri(di\u011feri)+Pron+A3sg+P2pl(niz[niz])+Gen(+nIn[in])')
+        self.assert_parse_exists(u'diğerleri',                  u'di\u011ferleri(di\u011ferleri)+Pron+A3sg+P3pl+Nom')
+        self.assert_parse_exists(u'diğerlerini',                u'di\u011ferleri(di\u011ferleri)+Pron+A3sg+P3pl+Acc(nI[ni])')
+        self.assert_parse_exists(u'diğerlerimizle',             u'di\u011ferleri(di\u011ferleri)+Pron+A3sg+P1pl(miz[miz])+Ins(+ylA[le])')
+        self.assert_parse_exists(u'diğerlerinize',              u'di\u011ferleri(di\u011ferleri)+Pron+A3sg+P2pl(niz[niz])+Dat(+yA[e])')
 
     def test_should_parse_irregular_pronouns(self):
         self.assert_parse_correct(u'herkes',            u'herkes(herkes)+Pron+A3sg+Pnon+Nom')
