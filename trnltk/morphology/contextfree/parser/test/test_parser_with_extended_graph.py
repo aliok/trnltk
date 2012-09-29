@@ -264,37 +264,37 @@ class ParserTestWithExtendedGraph(ParserTest):
 
         self.assert_parse_exists(u'benim',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[im])')
         self.assert_parse_correct_for_verb(u'bendim',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+A1sg(m[m])')
-        self.assert_parse_correct_for_verb(u'benmişim',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+A1sg(+yIm[im])')
+        self.assert_parse_correct_for_verb(u'benmişim',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Narr(+ymIş[miş])+A1sg(+yIm[im])')
 
         self.assert_parse_correct_for_verb(u'bensem',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A1sg(m[m])')
         self.assert_parse_correct_for_verb(u'bense',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A3sg')
         self.assert_parse_correct_for_verb(u'bendiyse',           u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
 #        self.assert_parse_correct_for_verb(u'bendimse',           u'xxxx')   TODO
         self.assert_parse_correct_for_verb(u'bendiysem',          u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A1sg(m[m])')
-        self.assert_parse_correct_for_verb(u'benmişsem',          u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+Cond(+ysA[se])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'benmişsem',          u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Verb+Zero+Narr(+ymIş[miş])+Cond(+ysA[se])+A1sg(m[m])')
 
         self.assert_parse_correct_for_verb(u'beniyse',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Acc(i[i])+Verb+Zero+Cond(+ysA[yse])+A3sg')
-        self.assert_parse_correct_for_verb(u'banaymışsa',         u'ban(ben)+Pron+Pers+A1sg+Pnon+Dat(a[a])+Verb+Zero+Narr(+ymI\u015f[ym\u0131\u015f])+Cond(+ysA[sa])+A3sg')
-        self.assert_parse_correct_for_verb(u'bendeymişseler',     u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3pl(lAr[ler])')
+        self.assert_parse_correct_for_verb(u'banaymışsa',         u'ban(ben)+Pron+Pers+A1sg+Pnon+Dat(a[a])+Verb+Zero+Narr(+ymIş[ymış])+Cond(+ysA[sa])+A3sg')
+        self.assert_parse_correct_for_verb(u'bendeymişseler',     u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Verb+Zero+Narr(+ymIş[ymiş])+Cond(+ysA[se])+A3pl(lAr[ler])')
         self.assert_parse_correct_for_verb(u'bendendiyse',        u'ben(ben)+Pron+Pers+A1sg+Pnon+Abl(den[den])+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
         self.assert_parse_correct_for_verb(u'benimleydiysen',     u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])+Verb+Zero+Past(+ydI[ydi])+Cond(+ysA[yse])+A2sg(n[n])')
-        self.assert_parse_correct_for_verb(u'benimleymişseler',   u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3pl(lAr[ler])')
+        self.assert_parse_correct_for_verb(u'benimleymişseler',   u'ben(ben)+Pron+Pers+A1sg+Pnon+Ins(imle[imle])+Verb+Zero+Narr(+ymIş[ymiş])+Cond(+ysA[se])+A3pl(lAr[ler])')
 #        self.assert_parse_correct_for_verb(u'benimleymişlerse',   u'xxxx')  TODO
 
         self.assert_parse_correct_for_verb(u'kimim',              u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Nom', u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[im])', u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Nom+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'kimdim',             u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+A1sg(m[m])')
-        self.assert_parse_correct_for_verb(u'kimmişim',           u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+A1sg(+yIm[im])')
+        self.assert_parse_correct_for_verb(u'kimmişim',           u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Narr(+ymIş[miş])+A1sg(+yIm[im])')
 
         self.assert_parse_correct_for_verb(u'kimsem',             u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A1sg(m[m])')
         self.assert_parse_correct_for_verb(u'kimse',              u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Cond(+ysA[se])+A3sg')
         self.assert_parse_correct_for_verb(u'kimdiyse',           u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
 #        self.assert_parse_correct_for_verb(u'kimdimse',           u'xxxx') TODO
         self.assert_parse_correct_for_verb(u'kimdiysem',          u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A1sg(m[m])')
-        self.assert_parse_correct_for_verb(u'kimmişsem',          u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Narr(+ymI\u015f[mi\u015f])+Cond(+ysA[se])+A1sg(m[m])')
+        self.assert_parse_correct_for_verb(u'kimmişsem',          u'kim(kim)+Pron+Ques+A3sg+Pnon+Nom+Verb+Zero+Narr(+ymIş[miş])+Cond(+ysA[se])+A1sg(m[m])')
 
         self.assert_parse_correct_for_verb(u'kimiyse',            u'kim(kim)+Pron+Ques+A3sg+Pnon+Acc(+yI[i])+Verb+Zero+Cond(+ysA[yse])+A3sg', u'kim(kim)+Pron+Ques+A3sg+P3sg(+sI[i])+Nom+Verb+Zero+Cond(+ysA[yse])+A3sg')
-        self.assert_parse_correct_for_verb(u'kimeymişse',         u'kim(kim)+Pron+Ques+A3sg+Pnon+Dat(+yA[e])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3sg')
-        self.assert_parse_correct_for_verb(u'kimdeymişse',        u'kim(kim)+Pron+Ques+A3sg+Pnon+Loc(dA[de])+Verb+Zero+Narr(+ymI\u015f[ymi\u015f])+Cond(+ysA[se])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimeymişse',         u'kim(kim)+Pron+Ques+A3sg+Pnon+Dat(+yA[e])+Verb+Zero+Narr(+ymIş[ymiş])+Cond(+ysA[se])+A3sg')
+        self.assert_parse_correct_for_verb(u'kimdeymişse',        u'kim(kim)+Pron+Ques+A3sg+Pnon+Loc(dA[de])+Verb+Zero+Narr(+ymIş[ymiş])+Cond(+ysA[se])+A3sg')
         self.assert_parse_correct_for_verb(u'kimdendiyse',        u'kim(kim)+Pron+Ques+A3sg+Pnon+Abl(dAn[den])+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
         self.assert_parse_correct_for_verb(u'kimlerdendiyse',     u'kim(kim)+Pron+Ques+A3pl(lAr[ler])+Pnon+Abl(dAn[den])+Verb+Zero+Past(+ydI[di])+Cond(+ysA[yse])+A3sg')
         self.assert_parse_correct_for_verb(u'kimimleydiysen',     u'kim(kim)+Pron+Ques+A3sg+P1sg(+Im[im])+Ins(+ylA[le])+Verb+Zero+Past(+ydI[ydi])+Cond(+ysA[yse])+A2sg(n[n])')
