@@ -978,7 +978,7 @@ anacıl
 anaç
 anaç [P:Adj]
 anadut [A:NoVoicing]
-anaerki
+anaerki [A:CompoundP3sg; R:anaerk]
 anaerkil [P:Adj]
 anaerobik [P:Adj]
 anafilaksi
@@ -1654,7 +1654,7 @@ at
 ata
 atabek
 atabey
-ataerki
+ataerki [A:CompoundP3sg; R:ataerk]
 ataerkil [P:Adj]
 atak
 atak [P:Adj]

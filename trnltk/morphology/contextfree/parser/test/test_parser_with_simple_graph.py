@@ -713,6 +713,12 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'dünkünden',              u'd\xfcn(d\xfcn)+Adv+Adj+PointQual(k\xfc[k\xfc])+Noun+Zero+A3sg+Pnon+Abl(ndAn[nden])')
         self.assert_parse_correct(u'zamankini',              u'zaman(zaman)+Adv+Time+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Acc(nI[ni])')
 
+    def test_should_parse_point_qualifiers_for_derived_adverbs(self):
+        self.assert_parse_correct(u'yaparkenki',           u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adv+While(ken[ken])+Adj+PointQual(ki[ki])', u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adv+While(ken[ken])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yapıncaki',            u'yap(yapmak)+Verb+Pos+Adv+When(+yIncA[\u0131nca])+Adj+PointQual(ki[ki])', u'yap(yapmak)+Verb+Pos+Adv+When(+yIncA[\u0131nca])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
+
+        # there are more forms of derived adverbs, but they don't make sense with "ki" suffix
+
     def test_should_parse_pronoun_derivations(self):
         self.assert_parse_correct(u'bensiz',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Adj+Without(sIz[siz])',
@@ -1495,6 +1501,13 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_not_parsable(u'masamınkin')
         self.assert_not_parsable(u'benimkilerim')
         self.assert_not_parsable(u'nereninkisi')
+
+#        TODO
+#        'beriki, öteki, öbürkü' --> complicated stuff
+#        support all: "senin ötekin nereder", "berikini getir", "berikiyi getir", 'berikisi bizim ev'
+#        self.assert_parse_correct(u'berikini',              u'xxx')
+#        self.assert_parse_correct(u'berikisi',              u'xxx')
+#        self.assert_parse_correct(u'berikiyi',              u'xxx')
 
     def test_should_parse_digits(self):
         self.assert_parse_correct_for_verb(u'0',                     u'0(0)+Num+Digits+Adj+Zero', u'0(0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
