@@ -117,9 +117,7 @@ acun
 acur
 acuze
 acyo
-aç
 aç [P:Adj]
-aç [P:Adv]
 açacak
 açar
 açelya
@@ -760,7 +758,6 @@ alıntılamak
 alırlık
 alış
 alışık [P:Adj]
-alışkan [P:Adj]
 alışkı
 alışkın [P:Adj]
 alışmak
@@ -1374,7 +1371,7 @@ arka [P:Adj]
 arkabahçe
 arkaç
 arkadaş
-arkadaşça [P:Adv]
+arkadaş [P:Adj]
 arkaik [P:Adj]
 arkaizm
 arkalamak
@@ -2076,7 +2073,7 @@ bakanak
 bakara
 bakaya
 bakı
-bakıcı
+bakıcı [P:Adj]
 bakım
 bakıncak
 bakınmak
@@ -4895,11 +4892,11 @@ cüzzam
 çobantarağı [A:CompoundP3sg, Voicing; R:çobantarak]
 çobantuzluğu [A:CompoundP3sg, Voicing; R:çobantuzluk]
 çocuk
+çocuk [P:Adj]
 çocukça [P:Adj]
 çocukça [P:Adv]
 çocukçu
 çocuklu [P:Adj]
-çocukluk
 çoğalmak
 çoğu [P:Pron]
 çoğu [P:Adj]
@@ -6462,7 +6459,6 @@ düşkü
 düşkün [P:Adj]
 düşkünlerevi [A:CompoundP3sg; R:düşkünlerev]
 düşlemek
-düşman
 düşman [P:Adj]
 düşmek
 düşük
@@ -6745,7 +6741,6 @@ ekseriya [P:Adv]
 ekseriyet [A:NoVoicing]
 eksi
 eksibe
-eksik
 eksik [P:Adj]
 eksilmek
 eksin
@@ -7258,13 +7253,13 @@ estetizm
 estomp [A:NoVoicing]
 esvap
 eş
+eş [P:Adj]
 eşantiyon
 eşarp
 eşcinsel [P:Adj]
 eşdeğer [P:Adj]
 eşek
-eşekçe [P:Adj]
-eşekçe [P:Adv]
+eşek [P:Adj]
 eşekbaşı
 eşekkulağı [A:CompoundP3sg, Voicing; R:eşekkulak]
 eşeksırtı [A:CompoundP3sg; R:eşeksırt]
@@ -9432,7 +9427,7 @@ hayli [P:Adj]
 hayli [P:Adv]
 haymana
 haymatlos
-hayran
+hayran [P:Adj]
 hayrat [A:NoVoicing]
 hayret [A:NoVoicing]
 hayrola [P:Interj]
@@ -10604,6 +10599,7 @@ insancıl
 insangiller
 insanî [P:Adj]
 insaniyet [A:NoVoicing]
+insanlık
 insanoğlu [A:CompoundP3sg, LastVowelDrop; R:insanoğul]
 insanüstü
 insektaryum
@@ -11160,6 +11156,7 @@ kabadayı
 kabadayılanmak
 kabahat [A:InverseHarmony]
 kabak
+kabak [P:Adj]
 kabakgiller
 kabaklamak
 kabakulak
@@ -11230,6 +11227,7 @@ kader
 kaderiye
 kadı
 kadın
+kadın [P:Adj]
 kadınana
 kadınbudu
 kadıncıl
@@ -11717,6 +11715,7 @@ karbüratör
 karcığar
 kardelen
 kardeş
+kardeş [P:Adj]
 kardeşkanı [A:CompoundP3sg; R:kardeşkan]
 kardeşlenmek
 kardinal [A:InverseHarmony]
@@ -12452,7 +12451,7 @@ kırçıllanmak
 kırdılı [P:Adj, Dup]
 kırgın
 kırgın [P:Adj]
-kırık
+kırık [P:Adj]
 kırıklamak
 kırılgan [P:Adj]
 kırılım
@@ -12460,7 +12459,7 @@ kırım
 kırın [P:Adj, Dup]
 kırınım
 kırıntı
-kırışık
+kırışık [P:Adj]
 kırışmak
 kırıtkan
 kırıtmak
@@ -13974,7 +13973,7 @@ libero
 libido
 libre
 libretto
-lider
+lider [P:Adj]
 lif
 liflemek
 lift
@@ -16432,7 +16431,7 @@ neşrolunmak
 neşter
 neşterlemek
 neşvünema
-net
+net [P:Adj]
 netice
 neticelenmek
 neticeten [P:Adv]
@@ -19910,8 +19909,7 @@ solo
 solucan
 soluğan
 soluk
-soluklamak
-soluklanmak
+soluk [P:Adj]
 solumak
 solungaç
 solunum
@@ -21206,7 +21204,7 @@ tangırtı
 tango
 tanı
 tanık
-tanıklamak
+tanık [P:Adj]
 tanılamak
 tanım
 tanımak
@@ -22558,7 +22556,7 @@ tutar
 tutkal
 tutkallamak
 tutku
-tutkun
+tutkun [P:Adj]
 tutmaç
 tutmak
 tutsak
@@ -22838,6 +22836,7 @@ uyuşturucu
 uyuşuk [P:Adj]
 uyuşum
 uyuz
+uyuz [P:Adj]
 uz
 uzadıya [P:Adv]
 uzak [P:Adj]
@@ -22992,6 +22991,7 @@ uzviyet [A:NoVoicing]
 üveymek
 üvez
 üye
+üye [P:Adj]
 üzengi
 üzengilemek
 üzere [P:Adv]

@@ -224,7 +224,7 @@ class SuffixGraph(object):
         self.Dim = Suffix("Dim")
         self.Prof = Suffix("Prof")
         self.FitFor = Suffix("FitFor")
-        self.Office = Suffix("Office")
+        self.Title = Suffix("Title")
 
         ############# Noun to Verb derivations
         self.Acquire = Suffix("Acquire")
@@ -555,8 +555,8 @@ class SuffixGraph(object):
         self.NOUN_NOM_DERIV.add_out_suffix(self.FitFor, self.NOUN_ROOT)
         self.FitFor.add_suffix_form(u"lIk")
 
-        self.NOUN_NOM_DERIV.add_out_suffix(self.Office, self.NOUN_ROOT)
-        self.Office.add_suffix_form(u"lIk")
+        self.NOUN_NOM_DERIV.add_out_suffix(self.Title, self.NOUN_ROOT)
+        self.Title.add_suffix_form(u"lIk")
 
     def _register_noun_to_verb_derivations(self):
         self.NOUN_NOM_DERIV.add_out_suffix(self.Acquire, self.VERB_ROOT)

@@ -307,7 +307,7 @@ bir=(1,"bir+Det")
 aşığıyla=(1,"aşık+Noun+A3sg+P3sg+Ins")
 konuşmuştum=(1,"konuş+Verb+Pos+Narr+Past+A1sg")
 bir=(1,"bir+Det")
-akşamüstü=(1,"akşamüst+Adv")
+akşamüstü=(1,"akşamüstü+Adv")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
 Acı=(1,"acı+Noun+A3sg+Pnon+Nom")

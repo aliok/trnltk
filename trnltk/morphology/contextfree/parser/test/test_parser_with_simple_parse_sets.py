@@ -17,31 +17,23 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
 #TODO
 cases_to_skip = {
-    u'FitFor',
-    u'Noun+Ness',
-
     u'1+Num+Card',
     u'70+Num+Card',
 
     u'incecik+',        # Think about it!
 
-    u'bir\u015fey+Noun',        # Must be pron!
+    u'birşey+Noun',        # Must be pron!
 
     u'_',
     u'+Prop+',
     u'+Abbr+',
 
     u'Postp',
-    u'kimi+Pron',  # TODO: check how "bazi" is on the set
-    u'baz\u0131+Pron',
     u'biri+Pron',
 
-    #TODO: need to add pron acc form +nA. same for : biri, kimi, cogu, coklari vs....
     u'üzer+',
     u'üzeri',
-    u'hi\xe7biri',
-    u'birbiri+Pron',
-    u'birbiri+Pron+A3pl',  # TODO: birbirleri
+    u'hiçbiri',
 
     u'â', u'î',
     u'sanayi+Noun',
@@ -50,36 +42,36 @@ cases_to_skip = {
     u'de+Verb+Pos+Fut+Past+A1pl',                   # diyecek, yiyecek,
 
     u'kadar',
-    u'(1,"de\u011fil+Conj")',
+    u'(1,"değil+Conj")',
     u'Postp',
     u'Aor+A3pl+Past"',    # yaparlardi
     u'Prog1+A3pl+Past',   # yapiyorlardi
     u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
-    u'(1,"bo\u011ful+Verb+Pos")',
+    u'(1,"boğul+Verb+Pos")',
 
-    u'sonralar\u0131+Adv',      # aksamlari, geceleri, vs...
-    u'(1,"y\u0131l+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
-    u'hiçlik+Noun', u'gençlik+Noun', u'ayr\u0131l\u0131k+Noun', u'arac\u0131l\u0131k',
-    u'bir\xe7ok+Det',
+    u'sonraları+Adv',      # aksamlari, geceleri, vs...
+    u'(1,"yıl+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
+    u'hiçlik+Noun', u'gençlik+Noun', u'ayrılık+Noun', u'aracılık',
+    u'birçok+Det',
     u'iğretileme',
     u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel',
     u'çarpıcı+Adj', u'matematikçi+Noun+',   u'itici+',
 
     u'ikibin+Num',  # sacmalik!
 
-    u'+Related', u'kavramsal', u'nesnel+Adj', u'alg\u0131sal', u'i\xe7sel',
+    u'+Related', u'kavramsal', u'nesnel+Adj', u'algısal', u'içsel',
     u'+NotState',
 
     u'stoku+Noun+',      # Does optional voicing work? gotta create 2 roots like normal voicing case
 
-    u'(1,"yak\u0131n+Noun+A3sg+Pnon+Loc")(2,"Adj+Rel")',
+    u'(1,"yakın+Noun+A3sg+Pnon+Loc")(2,"Adj+PointQual")',
     u'yakın+Noun',
     u'yetkili+Noun', u'ilgili+Noun', u'köylü+Noun',
 
     u'(1,"siz+Pron+Pers+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
-    u'(1,"bug\xfcn+Noun+A3sg+Pnon+Nom")(2,"Adj+Rel")',
+    u'(1,"bugün+Noun+A3sg+Pnon+Nom")(2,"Adj+PointQual")',
     u'bura+',
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
@@ -89,7 +81,7 @@ cases_to_skip = {
 
     # TODO: think about taralı, kapali, takili vs
     # TODO: word tuerlue is used much different in various cases
-    u't\xfcrl\xfc',
+    u'türlü',
 
 
     u'kestirim+Noun', u'(1,"kazanımlar+Noun+A3sg+Pnon+Abl")',       # yapim, cizim, etc.
@@ -111,7 +103,7 @@ cases_to_skip = {
     u'Noun+Agt',
     u'(1,"ön+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")', u'(1,"art+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")',
 
-    u'(1,"kullan\u0131m+Noun+A3sg+Pnon+Nom")',
+    u'(1,"kullanım+Noun+A3sg+Pnon+Nom")',
 
     u'(1,"anlat+Verb")(2,"Verb+Able+Neg")(3,"Adv+WithoutHavingDoneSo1")'        # very complicated!
 
@@ -163,7 +155,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
     def test_should_parse_simple_parse_set_004(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_simple_parse_set("004")
+        self._test_should_parse_simple_parse_set("004", 2931)
 
     def test_should_parse_simple_parse_set_005(self):
     #        parser_logger.setLevel(logging.DEBUG)

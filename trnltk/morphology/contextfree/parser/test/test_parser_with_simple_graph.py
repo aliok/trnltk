@@ -1460,7 +1460,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists(u'kitaplık',              u'kitap(kitap)+Noun+A3sg+Pnon+Nom+Noun+FitFor(lIk[lık])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'çamlık',                u'çam(çam)+Noun+A3sg+Pnon+Nom+Adj+Y(lIk[lık])')
         self.assert_parse_exists(u'kiralık',               u'kira(kira)+Noun+A3sg+Pnon+Nom+Adj+For(lIk[lık])')
-        self.assert_parse_exists(u'savcılık',              u'savcı(savcı)+Noun+A3sg+Pnon+Nom+Noun+Office(lIk[lık])+A3sg+Pnon+Nom')
+        self.assert_parse_exists(u'savcılık',              u'savcı(savcı)+Noun+A3sg+Pnon+Nom+Noun+Title(lIk[lık])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'yıllık',                u'yıl(yıl)+Noun+Time+A3sg+Pnon+Nom+Adj+DurationOf(lIk[lık])')
         self.assert_parse_exists(u'milyarlık',             u'milyar(milyar)+Num+Card+Adj+OfUnit(lIk[lık])')
         self.assert_parse_exists(u'dolarlık',              u'dolar(dolar)+Noun+A3sg+Pnon+Nom+Adj+OfUnit(lIk[lık])')
