@@ -16206,6 +16206,7 @@ naftalin
 naftalinlemek
 nagehan
 nağme
+nah [P:Interj]
 nah [P:Part]
 nahak [A:NoVoicing]
 nahır
@@ -21050,6 +21051,7 @@ tahsisat [A:NoVoicing]
 tahşiye
 taht
 tahta
+tahta [P:Adj]
 tahtaboş
 tahtakurusu [A:CompoundP3sg; R:tahtakuru]
 tahtalıköy

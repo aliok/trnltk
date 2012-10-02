@@ -90,27 +90,32 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct(u'yaparım',           u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+A1sg(+Im[ım])', u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[ım])+Nom')
         self.assert_parse_correct(u'yaparsın',          u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+A2sg(sIn[sın])')
         self.assert_parse_correct(u'yapar',             u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+A3sg', u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adj+Zero', u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yaparız',           u'yap(yapmak)+Verb+Pos+Aor(+Ar[ar])+A1pl(+Iz[ız])')
 
         self.assert_parse_correct(u'yapıyorum',         u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+A1sg(+Im[um])')
         self.assert_parse_correct(u'yapıyorsun',        u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+A2sg(sIn[sun])')
         self.assert_parse_correct(u'yapıyor',           u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
+        self.assert_parse_correct(u'yapıyoruz',         u'yap(yapmak)+Verb+Pos+Prog(Iyor[ıyor])+A1pl(+Iz[uz])')
 
         self.assert_parse_correct(u'yapmaktayım',       u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+A1sg(yIm[yım])')
         self.assert_parse_correct(u'yapmaktasın',       u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+A2sg(sIn[sın])')
         self.assert_parse_correct(u'yapmakta',          u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+A3sg')
+        self.assert_parse_correct(u'yapmaktayız',       u'yap(yapmak)+Verb+Pos+Prog(mAktA[makta])+A1pl(yIz[yız])')
 
         self.assert_parse_correct(u'yapacağım',         u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acağ])+A1sg(+Im[ım])', u'yap(yapmak)+Verb+Pos+Adj+FutPart(+yAcAk[acağ])+P1sg(+Im[ım])', u'yap(yapmak)+Verb+Pos+Noun+FutPart(+yAcAk[acağ])+A3sg+P1sg(+Im[ım])+Nom')
         self.assert_parse_correct(u'yapacaksın',        u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+A2sg(sIn[sın])')
         self.assert_parse_correct(u'yapacak',           u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acak])+A3sg', u'yap(yapmak)+Verb+Pos+Adj+FutPart(+yAcAk[acak])+Pnon', u'yap(yapmak)+Verb+Pos+Noun+FutPart(+yAcAk[acak])+A3sg+Pnon+Nom')
+        self.assert_parse_correct(u'yapacağız',         u'yap(yapmak)+Verb+Pos+Fut(+yAcAk[acağ])+A1pl(+Iz[ız])')
 
         self.assert_parse_correct(u'yaptım',            u'yap(yapmak)+Verb+Pos+Past(dI[tı])+A1sg(+Im[m])')
         self.assert_parse_correct(u'yaptın',            u'yap(yapmak)+Verb+Pos+Past(dI[tı])+A2sg(n[n])')
         self.assert_parse_correct(u'yaptı',             u'yap(yapmak)+Verb+Pos+Past(dI[tı])+A3sg')
+        self.assert_parse_correct(u'yaptık',            u'yap(yapmak)+Verb+Pos+Past(dI[tı])+A1pl(k[k])', u'yap(yapmak)+Verb+Pos+Adj+PastPart(dIk[t\u0131k])+Pnon', u'yap(yapmak)+Verb+Pos+Noun+PastPart(dIk[t\u0131k])+A3sg+Pnon+Nom')
 
         self.assert_parse_correct(u'yapmışım',          u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A1sg(+Im[ım])', u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[ım])+Nom')
         self.assert_parse_correct(u'yapmışsın',         u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A2sg(sIn[sın])')
         self.assert_parse_correct(u'yapmış',            u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A3sg', u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+Adj+Zero', u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-
+        self.assert_parse_correct(u'yapmışız',          u'yap(yapmak)+Verb+Pos+Narr(mIş[mış])+A1pl(+Iz[ız])')
 
         self.assert_parse_correct(u'çeviririm',         u'çevir(çevirmek)+Verb+Pos+Aor(+Ir[ir])+A1sg(+Im[im])', u'çevir(çevirmek)+Verb+Pos+Aor(+Ir[ir])+Adj+Zero+Noun+Zero+A3sg+P1sg(+Im[im])+Nom')
         self.assert_parse_correct(u'çevirirsin',        u'çevir(çevirmek)+Verb+Pos+Aor(+Ir[ir])+A2sg(sIn[sin])')
@@ -167,6 +172,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'yapmam',             u'yap(yapmak)+Verb+Neg(mA[ma])+Aor+A1sg(+Im[m])', u'yap(yapmak)+Verb+Pos+Noun+Inf(mA[ma])+A3sg+P1sg(+Im[m])+Nom')
         self.assert_parse_correct_for_verb(u'yapmazsın',          u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+A2sg(sIn[sın])')
         self.assert_parse_correct_for_verb(u'yapmaz',             u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+A3sg', u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Adj+Zero', u'yap(yapmak)+Verb+Neg(mA[ma])+Aor(z[z])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'yapmayız',           u'yap(yapmak)+Verb+Neg(mA[ma])+Aor+A1pl(yIz[y\u0131z])')
 
         self.assert_parse_correct_for_verb(u'yapmıyorum',         u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+A1sg(+Im[um])')
         self.assert_parse_correct_for_verb(u'yapmıyorsun',        u'yap(yapmak)+Verb+Neg(m[m])+Prog(Iyor[ıyor])+A2sg(sIn[sun])')

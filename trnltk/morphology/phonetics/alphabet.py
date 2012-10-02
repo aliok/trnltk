@@ -114,6 +114,12 @@ class TurkishAlphabet(object):
         return TurkishLetter(char, char.upper(), 99)
 
     @classmethod
+    def get_letter_for_upper_case_char(cls, char):
+        if TurkishAlphabet.Upper_Case_Letter_Map.has_key(char):
+            return TurkishAlphabet.Upper_Case_Letter_Map[char]
+        return None
+
+    @classmethod
     def voice(cls, letter):
         """
         @type letter: TurkishLetter

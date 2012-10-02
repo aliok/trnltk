@@ -641,10 +641,12 @@ class SuffixGraph(object):
         self.Positive.add_suffix_form("")
 
     def _register_verb_tenses(self):
-        self.Aorist.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I))
-        self.Aorist.add_suffix_form(u"+Ar")
-        self.Aorist.add_suffix_form(u"z", comes_after(self.Negative))    # gel-me-z or gel-me-z-sin
-        self.Aorist.add_suffix_form(u"", comes_after(self.Negative), followed_by(self.A1Sg_Verb) or followed_by(self.A1Pl_Verb))     # gel-me-m or gel-me-yiz
+        followed_by_A1Sg_A1Pl = followed_by(self.A1Sg_Verb, u'+Im') | followed_by(self.A1Pl_Verb, u'yIz')
+
+        self.Aorist.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I) & doesnt_come_after(self.Negative))
+        self.Aorist.add_suffix_form(u"+Ar", doesnt_come_after(self.Negative))
+        self.Aorist.add_suffix_form(u"z", comes_after(self.Negative), doesnt(followed_by_A1Sg_A1Pl))    # gel-me-z or gel-me-z-sin
+        self.Aorist.add_suffix_form(u"", comes_after(self.Negative), followed_by_A1Sg_A1Pl)     # gel-me-m or gel-me-yiz
 
         self.Progressive.add_suffix_form(u"Iyor")
         self.Progressive.add_suffix_form(u"mAktA")

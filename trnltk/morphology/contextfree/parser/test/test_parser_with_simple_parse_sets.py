@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 # coding=utf-8
 import codecs
 import logging
@@ -16,6 +17,8 @@ from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
 #TODO
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
+
 cases_to_skip = {
     u'1+Num+Card',
     u'70+Num+Card',
@@ -106,8 +109,15 @@ cases_to_skip = {
     u'(1,"kullanım+Noun+A3sg+Pnon+Nom")',
 
     u'(1,"anlat+Verb")(2,"Verb+Able+Neg")(3,"Adv+WithoutHavingDoneSo1")'        # very complicated!
-
 }
+
+words_to_skip={
+    u'yapıyon',
+    u'Hiiç',
+    u'korkuyo',
+    u'yiyecek'
+}
+
 
 class ParserTestWithSimpleParseSets(ParserTest):
 
@@ -155,7 +165,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
     def test_should_parse_simple_parse_set_004(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_simple_parse_set("004", 2931)
+        self._test_should_parse_simple_parse_set("004")
 
     def test_should_parse_simple_parse_set_005(self):
     #        parser_logger.setLevel(logging.DEBUG)
@@ -173,7 +183,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
 
                 line = line.strip()
                 (word, parse_result) = line.split('=')
-                if any([case_to_skip in parse_result for case_to_skip in cases_to_skip]):
+                if any([case_to_skip in parse_result for case_to_skip in cases_to_skip]) or word in words_to_skip:
                     index +=1
                     continue
 
@@ -199,7 +209,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
                     parse_result = parse_result.replace('Postp+PCIns', 'Postp')
                     parse_result = parse_result.replace('Postp+PCGen', 'Postp')
 
-                    self.assert_parse_correct(word.lower(), index, parse_result)
+                    self.assert_parse_correct(lower(word), index, parse_result)
 
                 index += 1
 
@@ -218,6 +228,22 @@ class IsParseResultMatches(BaseMatcher):
 
     def describe_to(self, description):
         description.append_text(u'     ' + str(self.expected_results))
+
+def lower(word):
+    if not word:
+        return word
+    lower_word = u''
+    for c in word:
+        if c.isupper():
+            letter_for_upper_char = TurkishAlphabet.get_letter_for_upper_case_char(c)
+            if letter_for_upper_char:
+                lower_word += letter_for_upper_char.char_value
+            else:
+                lower_word += letter_for_upper_char.lower()
+        else:
+            lower_word += c.lower()
+
+    return lower_word
 
 if __name__ == '__main__':
     unittest.main()

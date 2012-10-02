@@ -285,7 +285,7 @@ mu=(1,"mu+Ques+Pres+A3sg")
 ?=(1,"?+Punc")
 Âşıkları=(1,"âşık+Noun+A3pl+P3sg+Nom")
 ,=(1,",+Punc")
-hayranları=(1,"hayran+Noun+A3pl+P3sg+Nom")
+hayranları=(1,"hayran+Adj")(2,"Noun+Zero+A3pl+P3sg+Nom")
 ...=(1,"...+Punc")
 #END#OF#SENTENCE#
 Parkı=(1,"park+Noun+A3sg+Pnon+Acc")
