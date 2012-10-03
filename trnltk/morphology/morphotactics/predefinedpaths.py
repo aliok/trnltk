@@ -32,7 +32,22 @@ class PredefinedPaths(object):
             if out_suffix == suffix:
                 return out_state
 
-        raise Exception(u'Unable to find output state for {} {}'.format(state, suffix))
+        return None
+
+    def _discover_intermediate_state_and_suffix(self, state, suffix):
+        # go only one level
+        found_state = None
+        found_suffix = None
+        for (out_suffix, out_state) in state.outputs:
+            for (deep_out_suffix, deep_out_state) in out_state.outputs:
+                if deep_out_suffix == suffix:
+                    if found_state:
+                        raise Exception(u'Output state not found for {} {}. Tried states that are accessible, but found two states :{}, {}'.format(state, suffix, found_state, deep_out_state))
+                    else:
+                        found_state = out_state
+                        found_suffix = out_suffix
+
+        return found_state, found_suffix
 
 
     def _follow_path(self, root, path_edges):
@@ -48,10 +63,21 @@ class PredefinedPaths(object):
                 suffix = path_edge
                 suffix_form_application_str = u''
 
-            path_result = morpheme_container.get_surface_so_far() + suffix_form_application_str
+            surface_so_far = morpheme_container.get_surface_so_far()
+            path_result = surface_so_far + suffix_form_application_str
             to_state = self._find_to_state(morpheme_container.get_last_state(), suffix)
+            if not to_state:
+                intermediate_state, intermediate_suffix = self._discover_intermediate_state_and_suffix(morpheme_container.get_last_state(), suffix)
+                if not intermediate_state:
+                    raise Exception(u'Also tried to discover intermediate states, but unable to find output state for {} {}'.format(to_state, suffix))
+                morpheme_container = self._add_transition(morpheme_container, u'', intermediate_suffix, intermediate_state, surface_so_far)
+                to_state = self._find_to_state(morpheme_container.get_last_state(), suffix)
+                if not to_state:
+                    raise Exception(u'Unable to find output state which has been suggested by intermediate state before, for {} {}'.format(to_state, suffix))
+                morpheme_container = self._add_transition(morpheme_container, suffix_form_application_str, suffix, to_state, path_result)
+            else:
+                morpheme_container = self._add_transition(morpheme_container, suffix_form_application_str, suffix, to_state, path_result)
 
-            morpheme_container = self._add_transition(morpheme_container, suffix_form_application_str, suffix, to_state, path_result)
 
         return morpheme_container
 
@@ -76,6 +102,9 @@ class PredefinedPaths(object):
         return self._morpheme_container_map[lexeme]
 
     def create_predefined_paths(self):
+        self._create_predefined_path_of_di()
+        self._create_predefined_path_of_yi()
+
         self._create_predefined_path_of_ben()
         self._create_predefined_path_of_sen()
         self._create_predefined_path_of_o_pron_pers()
@@ -96,7 +125,7 @@ class PredefinedPaths(object):
 
         self._create_predefined_path_of_question_particles()
 
-        self._create_predefined_path_of_ora_bura_sura()
+        self._create_predefined_path_of_ora_bura_sura_nere()
 
         self._create_predefined_path_of_bazilari_bazisi()
         self._create_predefined_path_of_kimileri_kimisi_kimi()
@@ -107,6 +136,46 @@ class PredefinedPaths(object):
         self._create_predefined_path_of_birkaci()
         self._create_predefined_path_of_cumlesi()
         self._create_predefined_path_of_digeri_digerleri()
+
+    def _create_predefined_path_of_di(self):
+        root_di = self._find_root(u'di', SyntacticCategory.VERB, None)
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Future, u'yecek')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Future, u'yeceğ')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Future_to_Adj, u'yecek')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Future_to_Adj, u'yeceğ')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Noun, u'yecek')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Noun, u'yeceğ')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Adj, u'yecek')])
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Adj, u'yeceğ')])
+
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Progressive, u'yor')])
+
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.PresPart, u'yen')])
+
+        self._add_morpheme_container(root_di, [(self._suffix_graph.Able, u'yebil'), self._suffix_graph.Positive])
+        self._add_morpheme_container(root_di, [(self._suffix_graph.Able, u'ye'), (self._suffix_graph.Negative, "me")])
+
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Opt, u'ye')])
+
+    def _create_predefined_path_of_yi(self):
+        root_yi = self._find_root(u'yi', SyntacticCategory.VERB, None)
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Future, u'yecek')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Future, u'yeceğ')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Future_to_Adj, u'yecek')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Future_to_Adj, u'yeceğ')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Noun, u'yecek')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Noun, u'yeceğ')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Adj, u'yecek')])
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.FutPart_Adj, u'yeceğ')])
+
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Progressive, u'yor')])
+
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.PresPart, u'yen')])
+
+        self._add_morpheme_container(root_yi, [(self._suffix_graph.Able, u'yebil'), self._suffix_graph.Positive])
+        self._add_morpheme_container(root_yi, [(self._suffix_graph.Able, u'ye'), (self._suffix_graph.Negative, "me")])
+
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Opt, u'ye')])
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -519,38 +588,39 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ydü'), (self._suffix_graph.A3Pl_Ques,u'ler')])
 
         ##### Narr
-        self._add_morpheme_container(root_mii, [(self._suffix_graph.Past_Ques,u'ymış'), (self._suffix_graph.A1Sg_Ques,u'ım')])
-        self._add_morpheme_container(root_mii, [(self._suffix_graph.Past_Ques,u'ymış'), (self._suffix_graph.A2Sg_Ques,u'sın')])
-        self._add_morpheme_container(root_mii, [(self._suffix_graph.Past_Ques,u'ymış'), (self._suffix_graph.A3Sg_Ques,u'')])
-        self._add_morpheme_container(root_mii, [(self._suffix_graph.Past_Ques,u'ymış'), (self._suffix_graph.A1Pl_Ques,u'ız')])
-        self._add_morpheme_container(root_mii, [(self._suffix_graph.Past_Ques,u'ymış'), (self._suffix_graph.A2Pl_Ques,u'sınız')])
-        self._add_morpheme_container(root_mii, [(self._suffix_graph.Past_Ques,u'ymış'), (self._suffix_graph.A3Pl_Ques,u'lar')])
+        self._add_morpheme_container(root_mii, [(self._suffix_graph.Narr_Ques,u'ymış'), (self._suffix_graph.A1Sg_Ques,u'ım')])
+        self._add_morpheme_container(root_mii, [(self._suffix_graph.Narr_Ques,u'ymış'), (self._suffix_graph.A2Sg_Ques,u'sın')])
+        self._add_morpheme_container(root_mii, [(self._suffix_graph.Narr_Ques,u'ymış'), (self._suffix_graph.A3Sg_Ques,u'')])
+        self._add_morpheme_container(root_mii, [(self._suffix_graph.Narr_Ques,u'ymış'), (self._suffix_graph.A1Pl_Ques,u'ız')])
+        self._add_morpheme_container(root_mii, [(self._suffix_graph.Narr_Ques,u'ymış'), (self._suffix_graph.A2Pl_Ques,u'sınız')])
+        self._add_morpheme_container(root_mii, [(self._suffix_graph.Narr_Ques,u'ymış'), (self._suffix_graph.A3Pl_Ques,u'lar')])
 
-        self._add_morpheme_container(root_mi , [(self._suffix_graph.Past_Ques,u'ymiş'), (self._suffix_graph.A1Sg_Ques,u'im')])
-        self._add_morpheme_container(root_mi , [(self._suffix_graph.Past_Ques,u'ymiş'), (self._suffix_graph.A2Sg_Ques,u'sin')])
-        self._add_morpheme_container(root_mi , [(self._suffix_graph.Past_Ques,u'ymiş'), (self._suffix_graph.A3Sg_Ques,u'')])
-        self._add_morpheme_container(root_mi , [(self._suffix_graph.Past_Ques,u'ymiş'), (self._suffix_graph.A1Pl_Ques,u'iz')])
-        self._add_morpheme_container(root_mi , [(self._suffix_graph.Past_Ques,u'ymiş'), (self._suffix_graph.A2Pl_Ques,u'siniz')])
-        self._add_morpheme_container(root_mi , [(self._suffix_graph.Past_Ques,u'ymiş'), (self._suffix_graph.A3Pl_Ques,u'ler')])
+        self._add_morpheme_container(root_mi , [(self._suffix_graph.Narr_Ques,u'ymiş'), (self._suffix_graph.A1Sg_Ques,u'im')])
+        self._add_morpheme_container(root_mi , [(self._suffix_graph.Narr_Ques,u'ymiş'), (self._suffix_graph.A2Sg_Ques,u'sin')])
+        self._add_morpheme_container(root_mi , [(self._suffix_graph.Narr_Ques,u'ymiş'), (self._suffix_graph.A3Sg_Ques,u'')])
+        self._add_morpheme_container(root_mi , [(self._suffix_graph.Narr_Ques,u'ymiş'), (self._suffix_graph.A1Pl_Ques,u'iz')])
+        self._add_morpheme_container(root_mi , [(self._suffix_graph.Narr_Ques,u'ymiş'), (self._suffix_graph.A2Pl_Ques,u'siniz')])
+        self._add_morpheme_container(root_mi , [(self._suffix_graph.Narr_Ques,u'ymiş'), (self._suffix_graph.A3Pl_Ques,u'ler')])
 
-        self._add_morpheme_container(root_mu , [(self._suffix_graph.Past_Ques,u'ymuş'), (self._suffix_graph.A1Sg_Ques,u'um')])
-        self._add_morpheme_container(root_mu , [(self._suffix_graph.Past_Ques,u'ymuş'), (self._suffix_graph.A2Sg_Ques,u'sun')])
-        self._add_morpheme_container(root_mu , [(self._suffix_graph.Past_Ques,u'ymuş'), (self._suffix_graph.A3Sg_Ques,u'')])
-        self._add_morpheme_container(root_mu , [(self._suffix_graph.Past_Ques,u'ymuş'), (self._suffix_graph.A1Pl_Ques,u'uz')])
-        self._add_morpheme_container(root_mu , [(self._suffix_graph.Past_Ques,u'ymuş'), (self._suffix_graph.A2Pl_Ques,u'sunuz')])
-        self._add_morpheme_container(root_mu , [(self._suffix_graph.Past_Ques,u'ymuş'), (self._suffix_graph.A3Pl_Ques,u'lar')])
+        self._add_morpheme_container(root_mu , [(self._suffix_graph.Narr_Ques,u'ymuş'), (self._suffix_graph.A1Sg_Ques,u'um')])
+        self._add_morpheme_container(root_mu , [(self._suffix_graph.Narr_Ques,u'ymuş'), (self._suffix_graph.A2Sg_Ques,u'sun')])
+        self._add_morpheme_container(root_mu , [(self._suffix_graph.Narr_Ques,u'ymuş'), (self._suffix_graph.A3Sg_Ques,u'')])
+        self._add_morpheme_container(root_mu , [(self._suffix_graph.Narr_Ques,u'ymuş'), (self._suffix_graph.A1Pl_Ques,u'uz')])
+        self._add_morpheme_container(root_mu , [(self._suffix_graph.Narr_Ques,u'ymuş'), (self._suffix_graph.A2Pl_Ques,u'sunuz')])
+        self._add_morpheme_container(root_mu , [(self._suffix_graph.Narr_Ques,u'ymuş'), (self._suffix_graph.A3Pl_Ques,u'lar')])
 
-        self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A1Sg_Ques,u'üm')])
-        self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A2Sg_Ques,u'sün')])
-        self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A3Sg_Ques,u'')])
-        self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A1Pl_Ques,u'üz')])
-        self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A2Pl_Ques,u'sünüz')])
-        self._add_morpheme_container(root_muu, [(self._suffix_graph.Past_Ques,u'ymüş'), (self._suffix_graph.A3Pl_Ques,u'ler')])
+        self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A1Sg_Ques,u'üm')])
+        self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A2Sg_Ques,u'sün')])
+        self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A3Sg_Ques,u'')])
+        self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A1Pl_Ques,u'üz')])
+        self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A2Pl_Ques,u'sünüz')])
+        self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A3Pl_Ques,u'ler')])
 
-    def _create_predefined_path_of_ora_bura_sura(self):
+    def _create_predefined_path_of_ora_bura_sura_nere(self):
         root_or = self._find_root(u'or', SyntacticCategory.PRONOUN, None)
         root_bur = self._find_root(u'bur', SyntacticCategory.PRONOUN, None)
         root_sur = self._find_root(u'şur', SyntacticCategory.PRONOUN, None)
+        root_ner = self._find_root(u'ner', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.QUESTION)
 
         # define predefined paths for "orda" and "ordan" etc.
 
@@ -562,6 +632,9 @@ class PredefinedPaths(object):
 
         self._add_morpheme_container(root_sur, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Loc_Pron,'da')])
         self._add_morpheme_container(root_sur, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Abl_Pron,'dan')])
+
+        self._add_morpheme_container(root_ner, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Loc_Pron,'de')])
+        self._add_morpheme_container(root_ner, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Abl_Pron,'den')])
 
     def _create_predefined_path_of_bazilari_bazisi(self):
         root_bazisi = self._find_root(u'bazısı', SyntacticCategory.PRONOUN, None)

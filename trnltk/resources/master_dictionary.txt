@@ -476,7 +476,6 @@ akım
 akımölçer
 akımtoplar
 akın
-akıncı
 akındırık
 akıntı
 akıntıölçer
@@ -758,6 +757,7 @@ alıntılamak
 alırlık
 alış
 alışık [P:Adj]
+alışkan [P:Adj]
 alışkı
 alışkın [P:Adj]
 alışmak
@@ -1763,7 +1763,7 @@ avret [A:NoVoicing]
 avro
 avrovil
 avşar
-avuç
+avuç [A:LastVowelDrop]
 avuçlamak
 avukat [A:NoVoicing]
 avunç
@@ -3050,6 +3050,7 @@ bilhassa [P:Adv]
 bili [P:Adj, Dup]
 bililtizam [P:Adv]
 bilim
+bilimdışı [P:Adj]
 bilimsel [P:Adj]
 bilinç
 bilinçaltı
@@ -3153,7 +3154,6 @@ birşey [P:Pron]
 birtakım [P:Adj]
 birun
 biryan
-biryancı
 bis [P:Adv]
 biseksüel [P:Adj]
 bisiklet [A:NoVoicing]
@@ -3166,6 +3166,7 @@ bisülfat [A:NoVoicing]
 bisülfür
 bişek
 bişi
+bişop [A:NoVoicing]
 bit
 bitap [P:Adj]
 bitaraf [P:Adj]
@@ -3453,7 +3454,7 @@ börek
 börk
 börkenek
 börtmek
-börtü [P:Adj, Dup]
+börtü
 börtük
 börülce
 bösmek
@@ -5313,7 +5314,6 @@ dede [P:Interj]
 dedektif
 dedektör
 dedikodu
-dedirmek
 dedüksiyon
 def
 defaten [P:Adv]
@@ -5414,7 +5414,7 @@ dekan
 dekar
 dekaster
 dekatlon
-dekatloncu
+dekatlon
 deklanşör
 deklarasyon
 deklare [P:Adj]
@@ -5458,10 +5458,9 @@ demagog
 demagoji
 demagojik [P:Adj]
 dembedem [P:Adv]
-deme
 demeç
 demek [P:Adv]
-demek [A:RootChange, Passive_In, Passive_InIl]
+demek [A:RootChange, Passive_In, Passive_InIl, Causative_dIr]
 demet [A:NoVoicing]
 demetlemek
 demevi [P:Adj]
@@ -5546,7 +5545,7 @@ denk
 denklem
 denklemek
 denktaş [P:Adj]
-denli [P:Part]
+denli [P:Adv]
 densiz [P:Adj]
 densizlenmek
 denşirmek
@@ -5879,7 +5878,7 @@ dinamo
 dinamometre
 dinar
 dince [P:Adv]
-dinci
+din
 dinç [P:Adj]
 dinç [P:Adv]
 dindar [P:Adj]
@@ -6072,7 +6071,7 @@ doğasever [P:Adj]
 doğaüstü [P:Adj]
 doğma
 doğma [P:Adj]
-doğmak
+doğmak [A:Causative_Ir]
 doğram
 doğrama
 doğramak
@@ -6386,7 +6385,7 @@ duymak
 duyu
 duyultu
 duyum
-duyumsamak
+duyumsamak [A:Causative_t]
 duyurmak
 duyuru
 duyuüstü [P:Adj]
@@ -7385,11 +7384,13 @@ evrak [A:NoVoicing]
 evrat
 evre
 evren
+evrenbilim
 evrik
 evrim
 evrişik
 evropiyum
 evsaf
+evsahibi [A:CompoundP3sg; R:evsahip]
 evsemek
 evvel [P:Noun, Time]
 evvel [P:Adv, Time]
@@ -7450,7 +7451,7 @@ fahriye
 fahur
 faik
 faikıyet [A:NoVoicing]
-fail
+fail [P:Adj]
 failimuhtar
 faiz
 fak
@@ -8013,6 +8014,7 @@ fotometri
 fotomodel
 fotomontaj
 fotomorfoz
+foton
 fotoroman
 fotosentez
 fotosfer
@@ -8744,6 +8746,7 @@ gözlük
 gözükmek
 gözyaşı [A:CompoundP3sg; R:gözyaş]
 grado
+gradyent [A:NoVoicing]
 grafik
 grafit [A:NoVoicing]
 grafolog
@@ -9427,6 +9430,7 @@ hayli [P:Adj]
 hayli [P:Adv]
 haymana
 haymatlos
+hayoş [P:Adj]
 hayran [P:Adj]
 hayrat [A:NoVoicing]
 hayret [A:NoVoicing]
@@ -9562,6 +9566,7 @@ herif
 herifçioğlu [A:CompoundP3sg, LastVowelDrop; R:herifçioğul]
 herk
 herkes [P:Pron]
+herşey [P:Pron]
 hertz
 herze
 herzevekil
@@ -10940,6 +10945,7 @@ işporta
 işret [A:NoVoicing]
 iştah
 iştahlanmak
+işte [P:Interj]
 işte [P:Part]
 işte [P:Adv]
 işteş
@@ -11211,7 +11217,7 @@ kaçınmak
 kaçırmak
 kaçışmak
 kaçkın
-kaçmak
+kaçmak [A:Causative_Ir]
 kadana
 kadar [P:Part]
 kadastro
@@ -12499,6 +12505,7 @@ kırtasiye
 kırtıpil
 kıs [P:Adj, Dup]
 kısa [P:Adj]
+kısacası [P:Adv]
 kısalmak
 kısarak [P:Adj]
 kısas
@@ -12692,7 +12699,7 @@ kimyon
 kimyonî
 kin
 kinaye
-kinci
+kin
 kindar [P:Adj]
 kinematik
 kinestezi
@@ -13529,6 +13536,7 @@ kurttırnağı [A:CompoundP3sg, Voicing; R:kurttırnak]
 kurtulmak
 kuru [P:Adj]
 kurul
+kurulu [P:Adj]
 kurulum
 kurulamak
 kurultay
@@ -13751,6 +13759,7 @@ la
 labada
 labirent [A:NoVoicing]
 laborant [A:NoVoicing]
+laboratuar
 laboratuvar
 labrador
 labros
@@ -13823,6 +13832,7 @@ lamekan
 lamel
 laminarya
 lamise
+lan [P:Interj]
 lanarkit [A:NoVoicing]
 lando
 landon
@@ -14161,6 +14171,7 @@ mafevk [A:NoVoicing]
 mafiş
 mafsal
 mafya
+mafyatik [P:Adj]
 maganda
 magazin
 magma
@@ -15010,6 +15021,7 @@ mevkut [A:NoVoicing]
 mevlâ
 mevlit
 mevlithan
+mevlüt
 mevrut
 mevsim
 mevsuf
@@ -16408,7 +16420,8 @@ neon
 neoplâzma
 neozoik
 neptünyum
-nere [P:Pron, Ques]
+nere [P:Pron, Ques; A:RootChange]
+nerdeyse [P:Adv]
 neredeyse [P:Adv]
 nergis
 nergisgiller
@@ -17025,6 +17038,7 @@ ozuga
 öge
 öglena
 öglenagiller
+öğe
 öğle [P:Noun, Time]
 öğlen [P:Noun, Time]
 öğlen [P:Adv, Time]
@@ -18244,6 +18258,7 @@ rağm
 rağmen [P:Adv]
 rahat [P:Adj; A:NoVoicing]
 rahatlamak
+rahatsız [P:Adj]
 rahatsızlanmak
 rahibe
 rahîm
@@ -19076,6 +19091,7 @@ savan
 savana
 savaş
 savaşçı
+savaşım
 savaşkan
 savaşmak
 savat [A:NoVoicing]
@@ -19396,7 +19412,6 @@ serpantin
 serpelemek
 serpici
 serpinti
-serpiştirmek
 serpmek
 serpuş
 sersefil
@@ -19992,7 +20007,7 @@ soya
 soyadı [A:CompoundP3sg; R:soyad]
 soydaş
 soygun
-soyguncu
+soygun
 soyka
 soykırım
 soylu
@@ -20036,6 +20051,7 @@ sövgü
 sövmek
 söylem
 söylemek
+söylence
 söylenmek
 söylenti
 söyleşi
@@ -20558,7 +20574,7 @@ süzülmek
 şarküteri
 şarlamak
 şarlatan
-şart
+şart [A:NoVoicing]
 şartlamak
 şartname
 şaryo
@@ -20940,8 +20956,8 @@ tabasbus
 tabelâ
 tabetmek [A:Voicing, Aorist_A]
 tabı
-tabi
 tabi [P:Adj]
+tabi [P:Interj]
 tâbi
 tâbi [P:Adj]
 tabiat [A:NoVoicing]
@@ -21174,7 +21190,6 @@ tam [P:Adv]
 tamah
 tamahkâr [P:Adj]
 tamam [P:Adj]
-tamam [P:Part]
 tamam [P:Interj]
 tamamen [P:Adv]
 tamamiyet [A:NoVoicing]
@@ -22093,7 +22108,7 @@ tıkırtı
 tıkış [P:Adj, Dup]
 tıkıştırmak
 tıkız
-tıklamak
+tıklamak [A:Causative_t]
 tıklım [P:Adj, Dup]
 tıkmak
 tıknaz
@@ -22271,6 +22286,7 @@ tonaj
 tonga
 tonik
 tonilâto
+tonlamak
 tonmayster
 tonoz
 tonton
@@ -22555,6 +22571,7 @@ tutamak [P:Noun]
 tutamlamak
 tutanak
 tutar
+tutarlı [P:Adj]
 tutkal
 tutkallamak
 tutku
@@ -22820,6 +22837,7 @@ uydurmak
 uydurmasyon
 uyduruk [P:Adj]
 uygar [P:Adj]
+uygulama
 uygulamak
 uygun
 uygun [P:Adj]
@@ -22871,7 +22889,7 @@ uzviyet [A:NoVoicing]
 ücra [P:Adj]
 ücret [A:NoVoicing]
 ücretlemek
-üç [P:Num, Card]
+üç [P:Num, Card; A:NoVoicing]
 üçayak
 üçgen
 üçgül
@@ -23537,6 +23555,7 @@ yanlamasına [P:Adj]
 yanlı [P:Adj]
 yanlış
 yanlış [P:Adj]
+yanlışlamak
 yanmak
 yansı
 yansılamak
@@ -23712,6 +23731,7 @@ yazgı
 yazı
 yazıhane
 yazık [P:Adv]
+yazık [P:Interj]
 yazıklanmak
 yazılamak
 yazılım
@@ -23805,7 +23825,6 @@ yeregeçen
 yerel
 yerey
 yergi
-yerinde [P:Adj]
 yerinmek
 yerküre
 yerleşik [P:Adj]

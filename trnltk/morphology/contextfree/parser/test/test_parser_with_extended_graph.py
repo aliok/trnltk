@@ -25,7 +25,6 @@ class ParserTestWithExtendedGraph(ParserTest):
             all_roots.extend(RootGenerator.generate(di))
 
 
-        root_map_generator = RootMapGenerator()
         cls._org_root_map = (RootMapGenerator()).generate(all_roots)
 
     def setUp(self):
@@ -48,9 +47,6 @@ class ParserTestWithExtendedGraph(ParserTest):
             [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def test_should_parse_other_categories_to_verbs_zero_transition(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         #remove some roots for keeping the tests simple!
         self.cloned_root_map['elmas'] = []
         self.cloned_root_map['bent'] = []
@@ -139,9 +135,6 @@ class ParserTestWithExtendedGraph(ParserTest):
         )
 
     def test_should_parse_copula_derivations(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.cloned_root_map['elmas'] = []
         self.cloned_root_map['on'] = []
 
@@ -196,9 +189,6 @@ class ParserTestWithExtendedGraph(ParserTest):
         #TODO: degillerdi, degillerse, degillermis
 
     def test_should_parse_verbs_with_explicit_copula(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         # remove some roots to keep tests simple
         self.cloned_root_map['on'] = []
         self.cloned_root_map['gelecek'] = []
@@ -226,10 +216,10 @@ class ParserTestWithExtendedGraph(ParserTest):
             u'sıcak(sıcak)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[ça])+Adv+Zero+Verb+Zero+Pres+A1sg(+yIm[yım])+Cop(dIr[dır])',
             u'sıcak(sıcak)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+Equ(cA[ça])+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A1sg(+yIm[yım])+Cop(dIr[dır])'
         )
-        self.assert_parse_correct_for_verb(u'gelmektedir',         u'gel(gelmek)+Verb+Pos+Prog(mAktA[mekte])+A3sg+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'gelmektedir',         u'gel(gelmek)+Verb+Pos+Prog(mAktA[mekte])+A3sg+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+Inf(mAk[mek])+A3sg+Pnon+Loc(dA[te])+Verb+Zero+Pres+A3sg+Cop(dIr[dir])')
         self.assert_parse_correct_for_verb(u'geliyorlardır',       u'gel(gelmek)+Verb+Pos+Prog(Iyor[iyor])+A3pl(lAr[lar])+Cop(dIr[dır])')
         self.assert_parse_correct_for_verb(u'gelmiştir',           u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+A3sg+Cop(dIr[tir])', u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Verb+Zero+Pres+A3sg+Cop(dIr[tir])', u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Adv+Zero+Verb+Zero+Pres+A3sg+Cop(dIr[tir])', u'gel(gelmek)+Verb+Pos+Narr(mIş[miş])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A3sg+Cop(dIr[tir])')
-        self.assert_parse_correct_for_verb(u'geleceksinizdir',     u'gel(gelmek)+Verb+Pos+Fut(+yAcAk[ecek])+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Adj+FutPart(+yAcAk[ecek])+Pnon+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+FutPart(+yAcAk[ecek])+A3sg+Pnon+Nom+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])')
+        self.assert_parse_correct_for_verb(u'geleceksinizdir',     u'gel(gelmek)+Verb+Pos+Fut(+yAcAk[ecek])+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Adj+FutPart(+yAcAk[ecek])+Pnon+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Fut(+yAcAk[ecek])+Adj+Zero+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Fut(+yAcAk[ecek])+Adj+Zero+Adv+Zero+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Noun+FutPart(+yAcAk[ecek])+A3sg+Pnon+Nom+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])', u'gel(gelmek)+Verb+Pos+Fut(+yAcAk[ecek])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Verb+Zero+Pres+A2pl(sInIz[siniz])+Cop(dIr[dir])')
         self.assert_parse_correct_for_verb(u'gelmelilerdir',
             u'gel(gelmek)+Verb+Pos+Neces(mAlI![meli])+A3pl(lAr[ler])+Cop(dIr[dir])',
             u'gel(gelmek)+Verb+Pos+Noun+Inf(mA[me])+A3sg+Pnon+Nom+Adj+With(lI[li])+Verb+Zero+Pres+A3pl(lAr[ler])+Cop(dIr[dir])',
@@ -243,9 +233,6 @@ class ParserTestWithExtendedGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'mıyımdır',            u'mı(mı)+Ques+Pres+A1sg(yım[yım])+Cop(dIr[dır])')
 
     def test_should_parse_adjectives_as_adverbs(self):
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
-
         self.assert_parse_exists(u'mavi',                         u'mavi(mavi)+Adj+Adv+Zero')
         self.assert_parse_exists(u'yapan',                        u'yap(yapmak)+Verb+Pos+Adj+PresPart(+yAn[an])+Adv+Zero')
         self.assert_parse_exists(u'kesici',                       u'kes(kesmek)+Verb+Pos+Adj+Agt(+yIcI[ici])+Adv+Zero')

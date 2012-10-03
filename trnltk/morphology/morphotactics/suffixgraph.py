@@ -33,6 +33,7 @@ class SuffixGraph(object):
         self.VERB_TERMINAL_TRANSFER = State("VERB_TERMINAL_TRANSFER", State.TRANSFER, SyntacticCategory.VERB)
         self.VERB_PLAIN_DERIV = State("VERB_PLAIN_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
         self.VERB_POLARITY_DERIV = State("VERB_POLARITY_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
+        self.VERB_WITH_TENSE_BEFORE_DERIV = State("VERB_WITH_TENSE_BEFORE_DERIV", State.TRANSFER, SyntacticCategory.VERB)
         self.VERB_TENSE_DERIV = State("VERB_TENSE_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
         self.VERB_TENSE_ADJ_DERIV = State("VERB_TENSE_ADJ_DERIV", State.DERIVATIONAL, SyntacticCategory.VERB)
 
@@ -86,7 +87,7 @@ class SuffixGraph(object):
             self.NOUN_COMPOUND_ROOT, self.NOUN_COMPOUND_WITH_AGREEMENT, self.NOUN_COMPOUND_WITH_POSSESSION,
 
             self.VERB_ROOT, self.VERB_WITH_POLARITY, self.VERB_WITH_TENSE, self.VERB_TERMINAL, self.VERB_TERMINAL_TRANSFER,
-            self.VERB_PLAIN_DERIV, self.VERB_POLARITY_DERIV, self.VERB_TENSE_DERIV, self.VERB_TENSE_ADJ_DERIV,
+            self.VERB_PLAIN_DERIV, self.VERB_POLARITY_DERIV, self.VERB_WITH_TENSE_BEFORE_DERIV, self.VERB_TENSE_DERIV, self.VERB_TENSE_ADJ_DERIV,
 
             self.ADJECTIVE_ROOT, self.ADJECTIVE_PART_WITHOUT_POSSESSION, self.ADJECTIVE_TERMINAL,
             self.ADJECTIVE_TERMINAL_TRANSFER, self.ADJECTIVE_DERIV,
@@ -155,15 +156,16 @@ class SuffixGraph(object):
 
     def _add_suffixes(self):
 
-        #############  Empty _transitions
+        #############  Free _transitions
         self.NOUN_WITH_CASE               .add_out_suffix(FreeTransitionSuffix("Noun_Free_Transition_1"     ), self.NOUN_TERMINAL_TRANSFER)
         self.NOUN_TERMINAL_TRANSFER       .add_out_suffix(FreeTransitionSuffix("Noun_Free_Transition_2"     ), self.NOUN_TERMINAL)
         self.NOUN_WITH_CASE               .add_out_suffix(FreeTransitionSuffix("Noun_Free_Transition_3"     ), self.NOUN_DERIV_WITH_CASE)
 
         self.VERB_ROOT                    .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_1"     ), self.VERB_PLAIN_DERIV)
         self.VERB_WITH_POLARITY           .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_2"     ), self.VERB_POLARITY_DERIV)
-        self.VERB_WITH_TENSE              .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_3"     ), self.VERB_TENSE_DERIV)
-        self.VERB_TERMINAL_TRANSFER       .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_4"     ), self.VERB_TERMINAL)
+        self.VERB_WITH_TENSE              .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_3"     ), self.VERB_WITH_TENSE_BEFORE_DERIV)
+        self.VERB_WITH_TENSE_BEFORE_DERIV .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_4"     ), self.VERB_TENSE_DERIV)
+        self.VERB_TERMINAL_TRANSFER       .add_out_suffix(FreeTransitionSuffix("Verb_Free_Transition_5"     ), self.VERB_TERMINAL)
 
         self.ADJECTIVE_ROOT               .add_out_suffix(FreeTransitionSuffix("Adj_Free_Transition_1"      ), self.ADJECTIVE_TERMINAL_TRANSFER)
         self.ADJECTIVE_TERMINAL_TRANSFER  .add_out_suffix(FreeTransitionSuffix("Adj_Free_Transition_2"      ), self.ADJECTIVE_TERMINAL)
@@ -220,7 +222,6 @@ class SuffixGraph(object):
         self.Ins_Noun = Suffix("Ins_Noun", self.Noun_Cases_Group, "Ins")
 
         ############# Noun to Noun derivations
-        self.Agt_Noun = Suffix("Agt_Noun", pretty_name='Agt')
         self.Dim = Suffix("Dim")
         self.Prof = Suffix("Prof")
         self.FitFor = Suffix("FitFor")
@@ -230,6 +231,7 @@ class SuffixGraph(object):
         self.Acquire = Suffix("Acquire")
 
         ############# Noun to Adjective derivations
+        self.Agt_Noun_to_Adj = Suffix("Agt_Noun_to_Adj", pretty_name='Agt')
         self.With = Suffix("With")
         self.Without = Suffix("Without")
         self.PointQual_Noun = Suffix("PointQual_Noun", pretty_name="PointQual")     #was marked as relative pronoun in other projects, but that is "Alininki"
@@ -306,16 +308,17 @@ class SuffixGraph(object):
         self.WithoutHavingDoneSo = Suffix("WithoutHavingDoneSo")
         self.AsLongAs = Suffix("AsLongAs")
         self.ByDoingSo = Suffix("ByDoingSo")
-        self.While = Suffix("While")
         self.When = Suffix("When")
         self.SinceDoingSo = Suffix('SinceDoingSo')
-        self.AsIf = Suffix("AsIf")
+        self.While = Suffix("While")        # A3pl can come before
+        self.AsIf = Suffix("AsIf")          # A3pl can come before
+        self.A3Pl_Verb_For_Adv = Suffix("A3Pl_Verb_For_Adv", pretty_name="A3pl")
 
         ########### Verb to Adjective derivations
         self.PresPart = Suffix("PresPart")
         self.PastPart_Adj = Suffix("PastPart_Adj", pretty_name='PastPart')
         self.FutPart_Adj = Suffix('FutPart_Adj', pretty_name='FutPart')
-        self.Agt_Adj = Suffix('Agt_Adj', pretty_name='Agt')
+        self.Agt_Verb_to_Adj = Suffix('Agt_Verb_to_Adj', pretty_name='Agt')
 
         self.Aorist_to_Adj = Suffix("Aorist_to_Adj", pretty_name="Aor")
         self.Future_to_Adj = Suffix("Future_to_Adj", pretty_name="Fut")
@@ -529,7 +532,7 @@ class SuffixGraph(object):
         self.Dat_Noun.add_suffix_form(u"nA", comes_after_P3 | comes_after_PointQual_Followed_By_A3Sg)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Loc_Noun, self.NOUN_WITH_CASE)
-        self.Loc_Noun.add_suffix_form(u"dA", ((doesnt_come_after_P3 & doesnt(comes_after_PointQual_Followed_By_A3Sg)) | comes_after_PointQual_Followed_By_A3Pl) & doesnt_come_after_derivation(self.Inf, "mAk"))
+        self.Loc_Noun.add_suffix_form(u"dA", ((doesnt_come_after_P3 & doesnt(comes_after_PointQual_Followed_By_A3Sg)) | comes_after_PointQual_Followed_By_A3Pl))
         self.Loc_Noun.add_suffix_form(u"ndA", comes_after_P3 | comes_after_PointQual_Followed_By_A3Sg)
 
         self.NOUN_WITH_POSSESSION.add_out_suffix(self.Abl_Noun, self.NOUN_WITH_CASE)
@@ -543,9 +546,6 @@ class SuffixGraph(object):
         self.Ins_Noun.add_suffix_form(u"+ylA")
 
     def _register_noun_to_noun_derivations(self):
-        self.NOUN_NOM_DERIV.add_out_suffix(self.Agt_Noun, self.NOUN_ROOT)
-        self.Agt_Noun.add_suffix_form(u"cI")
-
         self.NOUN_NOM_DERIV.add_out_suffix(self.Dim, self.NOUN_ROOT)
         self.Dim.add_suffix_form(u"cIk")
 
@@ -563,6 +563,9 @@ class SuffixGraph(object):
         self.Acquire.add_suffix_form(u"lAn")
 
     def _register_noun_to_adjective_derivations(self):
+        self.NOUN_NOM_DERIV.add_out_suffix(self.Agt_Noun_to_Adj, self.ADJECTIVE_ROOT)
+        self.Agt_Noun_to_Adj.add_suffix_form(u"cI")
+
         self.NOUN_NOM_DERIV.add_out_suffix(self.With, self.ADJECTIVE_ROOT)
         self.With.add_suffix_form(u"lI")
 
@@ -787,6 +790,9 @@ class SuffixGraph(object):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.SinceDoingSo, self.ADVERB_ROOT)
         self.SinceDoingSo.add_suffix_form(u"+yAlI!")
 
+        self.VERB_WITH_TENSE_BEFORE_DERIV.add_out_suffix(self.A3Pl_Verb_For_Adv, self.VERB_TENSE_DERIV)
+        self.A3Pl_Verb_For_Adv.add_suffix_form("lAr")
+
         self.VERB_TENSE_DERIV.add_out_suffix(self.While, self.ADVERB_ROOT)
         self.While.add_suffix_form(u"ken")
 
@@ -803,14 +809,17 @@ class SuffixGraph(object):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.FutPart_Adj, self.ADJECTIVE_PART_WITHOUT_POSSESSION)
         self.FutPart_Adj.add_suffix_form(u'+yAcAk')
 
-        self.VERB_POLARITY_DERIV.add_out_suffix(self.Agt_Adj, self.ADJECTIVE_ROOT)
-        self.Agt_Adj.add_suffix_form(u"+yIcI")
+        self.VERB_POLARITY_DERIV.add_out_suffix(self.Agt_Verb_to_Adj, self.ADJECTIVE_ROOT)
+        self.Agt_Verb_to_Adj.add_suffix_form(u"+yIcI")
 
 
         self.VERB_WITH_POLARITY.add_out_suffix(self.Aorist_to_Adj, self.VERB_TENSE_ADJ_DERIV)
         self.Aorist_to_Adj.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I))
         self.Aorist_to_Adj.add_suffix_form(u"+Ar")
         self.Aorist_to_Adj.add_suffix_form(u"z", comes_after(self.Negative))    # gel-me-z
+
+        self.VERB_WITH_POLARITY.add_out_suffix(self.Future_to_Adj, self.VERB_TENSE_ADJ_DERIV)
+        self.Future_to_Adj.add_suffix_form(u'+yAcAk')
 
         self.VERB_WITH_POLARITY.add_out_suffix(self.Narr_to_Adj, self.VERB_TENSE_ADJ_DERIV)
         self.Narr_to_Adj.add_suffix_form(u"mIş")

@@ -102,9 +102,13 @@ class RootGenerator(object):
             root_san = Root(u'san', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
             return [root_sen, root_san]
         elif lexeme.lemma==u'demek':
-            return None
+            root_di = Root(u'di', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'di'))
+            root_de = Root(u'de', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'de'))
+            return [root_di, root_de]
         elif lexeme.lemma==u'yemek':
-            return None
+            root_yi = Root(u'yi', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'yi'))
+            root_ye = Root(u'ye', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ye'))
+            return [root_yi, root_ye]
         elif lexeme.lemma==u'hepsi':
             root_hep = Root(u'hep', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hep'))
             root_hepsi = Root(u'hepsi', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hepsi'))
@@ -121,6 +125,10 @@ class RootGenerator(object):
             root_sur = Root(u'şur', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şur'))
             root_sura = Root(u'şura', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şura'))
             return [root_sur, root_sura]
+        elif lexeme.lemma==u'nere':
+            root_ner = Root(u'ner', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
+            root_nere = Root(u'nere', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
+            return [root_ner, root_nere]
         elif lexeme.lemma==u'birbiri':
             root_birbir = Root(u'birbir', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbir'))
             root_birbiri = Root(u'birbiri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbiri'))

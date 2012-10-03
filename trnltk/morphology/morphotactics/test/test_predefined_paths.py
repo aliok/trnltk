@@ -150,12 +150,12 @@ class PredefinedPathsTest(unittest.TestCase):
             u'mı(mı)+Ques+Past(ydı[ydı])+A1pl(k[k])',
             u'mı(mı)+Ques+Past(ydı[ydı])+A2pl(nız[nız])',
             u'mı(mı)+Ques+Past(ydı[ydı])+A3pl(lar[lar])',
-            u'mı(mı)+Ques+Past(ymış[ymış])+A1sg(ım[ım])',
-            u'mı(mı)+Ques+Past(ymış[ymış])+A2sg(sın[sın])',
-            u'mı(mı)+Ques+Past(ymış[ymış])+A3sg',
-            u'mı(mı)+Ques+Past(ymış[ymış])+A1pl(ız[ız])',
-            u'mı(mı)+Ques+Past(ymış[ymış])+A2pl(sınız[sınız])',
-            u'mı(mı)+Ques+Past(ymış[ymış])+A3pl(lar[lar])')
+            u'mı(mı)+Ques+Narr(ymış[ymış])+A1sg(ım[ım])',
+            u'mı(mı)+Ques+Narr(ymış[ymış])+A2sg(sın[sın])',
+            u'mı(mı)+Ques+Narr(ymış[ymış])+A3sg',
+            u'mı(mı)+Ques+Narr(ymış[ymış])+A1pl(ız[ız])',
+            u'mı(mı)+Ques+Narr(ymış[ymış])+A2pl(sınız[sınız])',
+            u'mı(mı)+Ques+Narr(ymış[ymış])+A3pl(lar[lar])')
 
     def test_should_have_paths_for_pronouns_with_implicit_possession(self):
         parser_logger.setLevel(logging.DEBUG)
@@ -220,7 +220,7 @@ class PredefinedPathsTest(unittest.TestCase):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.predefined_paths._create_predefined_path_of_ora_bura_sura()
+        self.predefined_paths._create_predefined_path_of_ora_bura_sura_nere()
 
         self.morpheme_container_map = self.predefined_paths._morpheme_container_map
 
@@ -229,6 +229,7 @@ class PredefinedPathsTest(unittest.TestCase):
         self.assert_defined_path(u'or',  PRON, None, u'or(ora)+Pron+A3sg+Pnon+Loc(da[da])', u'or(ora)+Pron+A3sg+Pnon+Abl(dan[dan])')
         self.assert_defined_path(u'bur', PRON, None, u'bur(bura)+Pron+A3sg+Pnon+Loc(da[da])', u'bur(bura)+Pron+A3sg+Pnon+Abl(dan[dan])')
         self.assert_defined_path(u'şur', PRON, None, u'şur(şura)+Pron+A3sg+Pnon+Loc(da[da])', u'şur(şura)+Pron+A3sg+Pnon+Abl(dan[dan])')
+        self.assert_defined_path(u'ner', PRON, SecondarySyntacticCategory.QUESTION, u'ner(nere)+Pron+Ques+A3sg+Pnon+Loc(de[de])', u'ner(nere)+Pron+Ques+A3sg+Pnon+Abl(den[den])')
 
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))

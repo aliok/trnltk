@@ -236,20 +236,15 @@ class Phonetics(object):
         @rtype: set
         """
 
-        phonetic_attributes = None
-        if word == u'd' or word == u'y':  #verbs demek, yemek
-            phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word + u'e')
-            phonetic_attributes.remove(PhoneticAttributes.LastLetterVowel)
-        else:
-            phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word)
-            if root_attributes and RootAttribute.InverseHarmony in root_attributes:
-                if PhoneticAttributes.LastVowelBack in phonetic_attributes:
-                    phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
-                    phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
+        phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word)
+        if root_attributes and RootAttribute.InverseHarmony in root_attributes:
+            if PhoneticAttributes.LastVowelBack in phonetic_attributes:
+                phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
+                phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
 
-                elif PhoneticAttributes.LastVowelFrontal in phonetic_attributes:
-                    phonetic_attributes.remove(PhoneticAttributes.LastVowelFrontal)
-                    phonetic_attributes.add(PhoneticAttributes.LastVowelBack)
+            elif PhoneticAttributes.LastVowelFrontal in phonetic_attributes:
+                phonetic_attributes.remove(PhoneticAttributes.LastVowelFrontal)
+                phonetic_attributes.add(PhoneticAttributes.LastVowelBack)
 
         return phonetic_attributes
 

@@ -90,7 +90,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>
 			<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="sabah" name="Nom" to_syntactic_category="Noun" word="sabah"/>
-			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun" matched_word="sabahçı" name="Agt" to_syntactic_category="Noun" word="sabahçı"/>
+			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun_to_Adj" matched_word="sabahçı" name="Agt" to_syntactic_category="Noun" word="sabahçı"/>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabahçı" name="A3sg" to_syntactic_category="Noun" word="sabahçı"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabahçı" name="Pnon" to_syntactic_category="Noun" word="sabahçı"/>
 			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabahçı" name="Nom" to_syntactic_category="Noun" word="sabahçı"/>

@@ -18,17 +18,19 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
 #TODO
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-
 cases_to_skip = {
     u'1+Num+Card',
     u'70+Num+Card',
+    u'Num+Distrib',
+
+    u'Verb+Reflex',
 
     u'incecik+',        # Think about it!
 
     u'birşey+Noun',        # Must be pron!
 
     u'_',
-    u'+Prop+',
+    u'+Prop',
     u'+Abbr+',
 
     u'Postp',
@@ -41,15 +43,34 @@ cases_to_skip = {
     u'â', u'î',
     u'sanayi+Noun',
 
-    u'(1,"de+Verb+Pos")(2,"Adv+ByDoingSo")',        # diyerek, yiyerek
-    u'de+Verb+Pos+Fut+Past+A1pl',                   # diyecek, yiyecek,
+    # diyerek, yiyerek
+    u'(1,"de+Verb+Pos")(2,"Adv+ByDoingSo")', u'(1,"ye+Verb+Pos")(2,"Adv+ByDoingSo")',
+    # diyecek, yiyecek,
+    u'de+Verb+Pos+Fut+', u'ye+Verb+Pos+Fut+',
+    # diyemez, diyemezdim, yiyemez, yiyemezdim
+    u'(1,"de+Verb")(2,"Verb+Able+Neg+Aor', u'(1,"ye+Verb")(2,"Verb+Able+Neg+Aor',
+
+    # passives to be changed in treebank
+    u'vurul+Verb', u'dikil',
+
+
+    # add to master dictionary and check tb for usages
+    u'önceleri', u'böylesine', u'yenik',
+
+    # not sure what to do
+    u'şakalaş+Verb', u'önceden', u'böylesi',
+
+    #
+    u'ayırdet+Verb', u'elatma+Noun', u'varet', u'sözet',
+
+    #
+    u'A3pl+Past',    # yaparlardi
+    u'Prog+A3pl+Cond'     # yapiyorsalar
+    u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
 
     u'kadar',
     u'(1,"değil+Conj")',
     u'Postp',
-    u'Aor+A3pl+Past"',    # yaparlardi
-    u'Prog1+A3pl+Past',   # yapiyorlardi
-    u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
     u'içeri',
     u'yaşa+Verb+Neg+Past+A2pl+Cond"',
     u'(1,"boğul+Verb+Pos")',
@@ -59,10 +80,16 @@ cases_to_skip = {
     u'hiçlik+Noun', u'gençlik+Noun', u'ayrılık+Noun', u'aracılık',
     u'birçok+Det',
     u'iğretileme',
-    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel',
-    u'çarpıcı+Adj', u'matematikçi+Noun+',   u'itici+',
 
-    u'ikibin+Num',  # sacmalik!
+    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel', u'içgüdüsel', u'matematiksel', u'mantıksal', u'deneysel', u'gözlemsel',
+    u'ereksel', u'nedensel', u'fiziksel', u'bütünsel',
+
+    u'çarpıcı+Adj', u'matematikçi+Noun+',   u'itici+', u'inandırıcı',
+
+    # sacmalik!
+    u'ikibin+Num', u'sekizonikibindokuzyuzdoksansekiz', u'onsekiz', u'onyedi',
+    u'doksandokuz', u'bindokuzyüzseksendokuz', u'onbirbindokuzyüzdoksansekiz',
+    u'binyediyüzotuzdört', u'onbir',
 
     u'+Related', u'kavramsal', u'nesnel+Adj', u'algısal', u'içsel',
     u'+NotState',
@@ -103,23 +130,31 @@ cases_to_skip = {
 
     u'var+', u'yok+', u'tamam+Adv', u'evet+', u'hayır',         # Part or Adv?
 
-    u'Noun+Agt',
-    u'(1,"ön+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")', u'(1,"art+Noun+A3sg+Pnon+Nom")(2,"Adj+Agt")',
-
     u'(1,"kullanım+Noun+A3sg+Pnon+Nom")',
 
     u'(1,"anlat+Verb")(2,"Verb+Able+Neg")(3,"Adv+WithoutHavingDoneSo1")'        # very complicated!
 }
 
+
 words_to_skip={
-    u'yapıyon',
-    u'Hiiç',
-    u'korkuyo',
-    u'yiyecek'
+    u'yapıyon', u'korkuyo',
+    u'Hiiç', u'Giir', u'hii', u'Geeç',      # mark as "Arbitrary Interjection"
+    u'Aaa', u'ham', u'aga', u'Eee',
+    u'Börtü',
+    u'eşşek',
+    u'vb.', u'vb',
+    u'meyin',   # "beyin meyin kalmamisti"
+
+    u'yiyecek',
+    u'Dördü',
+    u'çocuksu',
 }
 
+logger = logging.getLogger('parser')
 
 class ParserTestWithSimpleParseSets(ParserTest):
+    STATS_MODE=True
+    LOG_SKIPPED=False
 
     @classmethod
     def setUpClass(cls):
@@ -146,6 +181,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
         logging.basicConfig(level=logging.INFO)
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
+        logger.setLevel(logging.INFO)
 
     def test_should_parse_simple_parse_set_001(self):
 #        parser_logger.setLevel(logging.DEBUG)
@@ -172,46 +208,76 @@ class ParserTestWithSimpleParseSets(ParserTest):
     #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_simple_parse_set("005")
 
+#    def test_should_parse_simple_parse_set_999(self):
+#    #        parser_logger.setLevel(logging.DEBUG)
+#    #        suffix_applier_logger.setLevel(logging.DEBUG)
+#        self._test_should_parse_simple_parse_set("999")
+
     def _test_should_parse_simple_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
+        logger.info("Parsing simple parse set {}".format(path))
+        skipped = 0
+        unparsable = 0
+        comment = 0
         with codecs.open(path, 'r', 'utf-8-sig') as parse_set_file:
             index = 0
             for line in parse_set_file:
+                if start_index>index:
+                    index +=1
+                    continue
+
                 if line.startswith('#'):
+                    comment +=1
                     index +=1
                     continue
 
                 line = line.strip()
                 (word, parse_result) = line.split('=')
                 if any([case_to_skip in parse_result for case_to_skip in cases_to_skip]) or word in words_to_skip:
+                    if self.LOG_SKIPPED:
+                        logger.info(u'Skipped : {} {} {}'.format(index, word, parse_result))
+                    skipped +=1
                     index +=1
                     continue
 
-                if start_index<=index:
-                    #TODO
-                    parse_result = parse_result.replace('Prog1', 'Prog')
-                    parse_result = parse_result.replace('Prog2', 'Prog')
-                    parse_result = parse_result.replace('Inf1', 'Inf')
-                    parse_result = parse_result.replace('Inf2', 'Inf')
-                    parse_result = parse_result.replace('Inf3', 'Inf')
-                    parse_result = parse_result.replace('WithoutHavingDoneSo1', 'WithoutHavingDoneSo')
-                    parse_result = parse_result.replace('WithoutHavingDoneSo2', 'WithoutHavingDoneSo')
+                #TODO
+                parse_result = parse_result.replace('Prog1', 'Prog')
+                parse_result = parse_result.replace('Prog2', 'Prog')
+                parse_result = parse_result.replace('Inf1', 'Inf')
+                parse_result = parse_result.replace('Inf2', 'Inf')
+                parse_result = parse_result.replace('Inf3', 'Inf')
+                parse_result = parse_result.replace('WithoutHavingDoneSo1', 'WithoutHavingDoneSo')
+                parse_result = parse_result.replace('WithoutHavingDoneSo2', 'WithoutHavingDoneSo')
 
 
-                    #TODO
-                    parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
+                #TODO
+                parse_result = parse_result.replace('Hastily', 'Hastily+Pos')
 
-                    parse_result = parse_result.replace('Postp+PCNom', 'Part')
-                    parse_result = parse_result.replace('Postp+PCDat', 'Postp')
-                    parse_result = parse_result.replace('Postp+PCAcc', 'Postp')
-                    parse_result = parse_result.replace('Postp+PCLoc', 'Postp')
-                    parse_result = parse_result.replace('Postp+PCAbl', 'Postp')
-                    parse_result = parse_result.replace('Postp+PCIns', 'Postp')
-                    parse_result = parse_result.replace('Postp+PCGen', 'Postp')
+                parse_result = parse_result.replace('Postp+PCNom', 'Part')
+                parse_result = parse_result.replace('Postp+PCDat', 'Postp')
+                parse_result = parse_result.replace('Postp+PCAcc', 'Postp')
+                parse_result = parse_result.replace('Postp+PCLoc', 'Postp')
+                parse_result = parse_result.replace('Postp+PCAbl', 'Postp')
+                parse_result = parse_result.replace('Postp+PCIns', 'Postp')
+                parse_result = parse_result.replace('Postp+PCGen', 'Postp')
 
+                if self.STATS_MODE:
+                    try:
+                        self.assert_parse_correct(lower(word), index, parse_result)
+                    except:
+                        unparsable +=1
+                        logger.info(u'Unparsable : {} {} {}'.format(index, word, parse_result))
+                else:
                     self.assert_parse_correct(lower(word), index, parse_result)
 
                 index += 1
+
+        if self.STATS_MODE:
+            logger.info("Finished simple parse set {}".format(path))
+            logger.info("Found {} lines, with {} lines of comments".format(index, comment))
+            logger.info("Skipped {}, unparsable {}".format(skipped, unparsable))
+            logger.info("Words that should be parsable : {}".format(index-comment))
+            logger.info("Parse success rate : {}".format(float(index-comment-skipped-unparsable)/float(index-comment)))
 
     def assert_parse_correct(self, word_to_parse, index, *args):
         assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
