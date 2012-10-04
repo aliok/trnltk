@@ -128,6 +128,8 @@ class PredefinedPaths(object):
 
         self._create_predefined_path_of_ora_bura_sura_nere()
 
+        self._create_predefined_path_of_iceri_disari()
+
         self._create_predefined_path_of_bazilari_bazisi()
         self._create_predefined_path_of_kimileri_kimisi_kimi()
         self._create_predefined_path_of_birileri_birisi_biri()
@@ -158,6 +160,8 @@ class PredefinedPaths(object):
 
         self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.Opt, u'ye')])
 
+        self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.ByDoingSo, u'yerek')])
+
     def _create_predefined_path_of_yi(self):
         root_yi = self._find_root(u'yi', SyntacticCategory.VERB, None)
         self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Future, u'yecek')])
@@ -177,6 +181,8 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_yi, [(self._suffix_graph.Able, u'ye'), (self._suffix_graph.Negative, "me")])
 
         self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Opt, u'ye')])
+
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.ByDoingSo, u'yerek')])
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)
@@ -658,6 +664,20 @@ class PredefinedPaths(object):
 
         self._add_morpheme_container(root_ner, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Loc_Pron,'de')])
         self._add_morpheme_container(root_ner, [self._suffix_graph.A3Sg_Pron, self._suffix_graph.Pnon_Pron, (self._suffix_graph.Abl_Pron,'den')])
+
+    def _create_predefined_path_of_iceri_disari(self):
+        root_icer = self._find_root(u'içer', SyntacticCategory.NOUN, None)
+        root_disar = self._find_root(u'dışar', SyntacticCategory.NOUN, None)
+
+        # define predefined paths for "içerde" and "dışardan" etc.
+
+        self._add_morpheme_container(root_icer, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Loc_Noun,'de')])
+        self._add_morpheme_container(root_icer, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Abl_Noun,'den')])
+        self._add_morpheme_container(root_icer, [self._suffix_graph.A3Sg_Noun, (self._suffix_graph.P3Sg_Noun,'si')])
+
+        self._add_morpheme_container(root_disar, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Loc_Noun,'da')])
+        self._add_morpheme_container(root_disar, [self._suffix_graph.A3Sg_Noun, self._suffix_graph.Pnon_Noun, (self._suffix_graph.Abl_Noun,'dan')])
+        self._add_morpheme_container(root_disar, [self._suffix_graph.A3Sg_Noun, (self._suffix_graph.P3Sg_Noun,u'sı')])
 
     def _create_predefined_path_of_bazilari_bazisi(self):
         root_bazisi = self._find_root(u'bazısı', SyntacticCategory.PRONOUN, None)

@@ -129,6 +129,18 @@ class RootGenerator(object):
             root_ner = Root(u'ner', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
             root_nere = Root(u'nere', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
             return [root_ner, root_nere]
+        elif lexeme.lemma==u'nere':
+            root_ner = Root(u'ner', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
+            root_nere = Root(u'nere', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
+            return [root_ner, root_nere]
+        elif lexeme.lemma==u'içeri':
+            root_icer = Root(u'içer', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'içer'))
+            root_iceri = Root(u'içeri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'içeri'))
+            return [root_icer, root_iceri]
+        elif lexeme.lemma==u'dışarı':
+            root_disar = Root(u'dışar', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'dışar'))
+            root_disari = Root(u'dışarı', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'dışarı'))
+            return [root_disar, root_disari]
         elif lexeme.lemma==u'birbiri':
             root_birbir = Root(u'birbir', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbir'))
             root_birbiri = Root(u'birbiri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbiri'))

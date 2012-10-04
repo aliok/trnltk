@@ -231,6 +231,19 @@ class PredefinedPathsTest(unittest.TestCase):
         self.assert_defined_path(u'şur', PRON, None, u'şur(şura)+Pron+A3sg+Pnon+Loc(da[da])', u'şur(şura)+Pron+A3sg+Pnon+Abl(dan[dan])')
         self.assert_defined_path(u'ner', PRON, SecondarySyntacticCategory.QUESTION, u'ner(nere)+Pron+Ques+A3sg+Pnon+Loc(de[de])', u'ner(nere)+Pron+Ques+A3sg+Pnon+Abl(den[den])')
 
+    def test_should_have_paths_for_iceri_disari(self):
+        parser_logger.setLevel(logging.DEBUG)
+        suffix_applier_logger.setLevel(logging.DEBUG)
+
+        self.predefined_paths._create_predefined_path_of_iceri_disari()
+
+        self.morpheme_container_map = self.predefined_paths._morpheme_container_map
+
+        NOUN = SyntacticCategory.NOUN
+
+        self.assert_defined_path(u'içer',  NOUN, None, u'i\xe7er(i\xe7eri)+Noun+A3sg+Pnon+Loc(de[de])', u'i\xe7er(i\xe7eri)+Noun+A3sg+Pnon+Abl(den[den])', u'i\xe7er(i\xe7eri)+Noun+A3sg+P3sg(si[si])')
+        self.assert_defined_path(u'dışar', NOUN, None, u'd\u0131\u015far(d\u0131\u015far\u0131)+Noun+A3sg+Pnon+Loc(da[da])', u'd\u0131\u015far(d\u0131\u015far\u0131)+Noun+A3sg+Pnon+Abl(dan[dan])', u'd\u0131\u015far(d\u0131\u015far\u0131)+Noun+A3sg+P3sg(s\u0131[s\u0131])')
+
     def assert_defined_path(self, root, syntactic_category, secondary_syntactic_category, *args):
         assert_that(self.predefined_morpheme_containers(root, syntactic_category, secondary_syntactic_category), AreMorphemeContainersMatch([a for a in args]))
 

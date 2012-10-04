@@ -23,15 +23,17 @@ cases_to_skip = {
     u'70+Num+Card',
     u'Num+Distrib',
 
+    # sacmalik!
+    u'ikibin+Num', u'sekizonikibindokuzyuzdoksansekiz', u'onsekiz', u'onyedi',
+    u'doksandokuz', u'bindokuzyüzseksendokuz', u'onbirbindokuzyüzdoksansekiz',
+    u'binyediyüzotuzdört', u'onbir',
+
     u'Verb+Reflex',
 
     u'incecik+',        # Think about it!
 
-    u'birşey+Noun',        # Must be pron!
-
-    u'_',
-    u'+Prop',
-    u'+Abbr+',
+    #
+    u'_', u'+Prop', u'+Abbr+',
 
     u'Postp',
     u'biri+Pron',
@@ -43,19 +45,12 @@ cases_to_skip = {
     u'â', u'î',
     u'sanayi+Noun',
 
-    # diyerek, yiyerek
-    u'(1,"de+Verb+Pos")(2,"Adv+ByDoingSo")', u'(1,"ye+Verb+Pos")(2,"Adv+ByDoingSo")',
-    # diyecek, yiyecek,
-    u'de+Verb+Pos+Fut+', u'ye+Verb+Pos+Fut+',
-    # diyemez, diyemezdim, yiyemez, yiyemezdim
-    u'(1,"de+Verb")(2,"Verb+Able+Neg+Aor', u'(1,"ye+Verb")(2,"Verb+Able+Neg+Aor',
-
     # passives to be changed in treebank
     u'vurul+Verb', u'dikil',
 
 
     # add to master dictionary and check tb for usages
-    u'önceleri', u'böylesine', u'yenik',
+    u'önceleri', u'böylesine', u'sonraları',
 
     # not sure what to do
     u'şakalaş+Verb', u'önceden', u'böylesi',
@@ -68,68 +63,40 @@ cases_to_skip = {
     u'+A3pl+Narr',    # yaparlarmis
     u'+A3pl+Cond',    # yapiyorsalar
     u'+Cop+A3pl',     # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
+    u'+A2pl+Cond',     # yapmadinizsa
+    u'+A2sg+Cond',     # yaptinsa
 
     u'kadar',
-    u'(1,"değil+Conj")',
     u'Postp',
-    u'içeri',
-    u'yaşa+Verb+Neg+Past+A2pl+Cond"',
-    u'(1,"boğul+Verb+Pos")',
 
-    u'sonraları+Adv',      # aksamlari, geceleri, vs...
-    u'(1,"yıl+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")',
-    u'hiçlik+Noun', u'gençlik+Noun', u'ayrılık+Noun', u'aracılık',
-    u'birçok+Det',
-    u'iğretileme',
+    u'(1,"yıl+Noun+A3sg+Pnon+Nom")(2,"Adv+Since")', u'yıl+Noun+A3pl+Pnon+Nom")(2,"Adv+Since")', # yildir, yillardir
 
-    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel', u'içgüdüsel', u'matematiksel', u'mantıksal', u'deneysel', u'gözlemsel',
+    # -sel
+    u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel', u'içgüdüsel',
+    u'matematiksel', u'mantıksal', u'deneysel', u'gözlemsel',
     u'ereksel', u'nedensel', u'fiziksel', u'bütünsel',
+    u'kavramsal', u'nesnel+Adj', u'algısal', u'içsel',
 
-    u'çarpıcı+Adj', u'matematikçi+Noun+',   u'itici+', u'inandırıcı',
-
-    # sacmalik!
-    u'ikibin+Num', u'sekizonikibindokuzyuzdoksansekiz', u'onsekiz', u'onyedi',
-    u'doksandokuz', u'bindokuzyüzseksendokuz', u'onbirbindokuzyüzdoksansekiz',
-    u'binyediyüzotuzdört', u'onbir',
-
-    u'+Related', u'kavramsal', u'nesnel+Adj', u'algısal', u'içsel',
-    u'+NotState',
+    u'+Related', u'+NotState',
 
     u'stoku+Noun+',      # Does optional voicing work? gotta create 2 roots like normal voicing case
 
-    u'(1,"yakın+Noun+A3sg+Pnon+Loc")(2,"Adj+PointQual")',
-    u'yakın+Noun',
     u'yetkili+Noun', u'ilgili+Noun', u'köylü+Noun',
-
-    u'(1,"siz+Pron+Pers+A2pl+Pnon+Gen")(2,"Pron+A3sg+Pnon+Nom")',      # sizinki ?
-    u'(1,"bugün+Noun+A3sg+Pnon+Nom")(2,"Adj+PointQual")',
-    u'bura+',
 
     # TODO: check languages like Ingilizce, Almanca, Turkce vs...
     u'(1,"ingilizce+Adj"',
 
-    u'tümü+Pron',
-
     # TODO: think about taralı, kapali, takili vs
     # TODO: word tuerlue is used much different in various cases
-    u'türlü',
 
+    # sistemlesme, evlesme, mekanlasma
+    u'+Noun+A3sg+Pnon+Nom")(2,"Verb+Become',
 
     u'kestirim+Noun', u'(1,"kazanımlar+Noun+A3sg+Pnon+Abl")',       # yapim, cizim, etc.
-    u'nesi+Noun',
     u'dokun+Verb")(2,"Verb+Caus',
-    u'kop+Verb")(2,"Verb+Caus',     # kopar
-    u'(1,"sık+Verb")(2,"Verb+Recip")(3,"Verb+Caus")(4,"Verb+Pass+Pos+Narr+A3sg+Cop")',
-    u'(1,"\xf6t+Verb")(2,"Verb+Caus+Pos")',
-    u'(1,"sistem+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus")',
-    u'(1,"doğ+Verb")(2,"Verb+Caus+Pos+Narr+A3sg+Cop")',
-    u'(1,"hız+Noun+A3sg+Pnon+Nom")(2,"Verb+Become")(3,"Verb+Caus+Pos")(4,"Noun+Inf2+A3sg+Pnon+Nom")',
-    u'ahali+Noun',
-    u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
     u'donan+Verb',
+    u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
     u'(1,"barış+Verb+Pos")(2,"Noun+Inf1+A3sg+Pnon+Loc")',
-
-    u'var+', u'yok+', u'tamam+Adv', u'evet+', u'hayır',         # Part or Adv?
 
     u'(1,"kullanım+Noun+A3sg+Pnon+Nom")',
 
@@ -146,7 +113,6 @@ words_to_skip={
     u'vb.', u'vb',
     u'meyin',   # "beyin meyin kalmamisti"
 
-    u'yiyecek',
     u'Dördü',
     u'çocuksu',
 }

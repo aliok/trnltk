@@ -846,7 +846,7 @@ Kerem=(1,"Kerem+Noun+Prop+A3sg+Pnon+Nom")
 #END#OF#SENTENCE#
 Parkın=(1,"park+Noun+A3sg+Pnon+Gen")
 kapısından=(1,"kapı+Noun+A3sg+P3sg+Abl")
-içeri=(1,"içeri+Noun+A3sg+Pnon+Dat")
+içeri=(1,"içeri+Adv")
 girdik=(1,"gir+Verb+Pos+Past+A1pl")
 .=(1,".+Punc")
 #END#OF#SENTENCE#

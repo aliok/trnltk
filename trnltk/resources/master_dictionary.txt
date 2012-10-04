@@ -3117,7 +3117,7 @@ birazcık [P:Adv]
 birazdan [P:Adv]
 birbiri [P:Pron; A:RootChange]
 birçoğu [P:Pron]
-birçok
+birçok [P:Det]
 birçokları [P:Pron]
 birden [P:Adv]
 birdenbire [P:Adv]
@@ -3267,6 +3267,7 @@ boğazlamak
 boğmaca
 boğmak
 boğuk [P:Adj]
+boğulmak
 boğum
 boğumlamak
 boğuşmak
@@ -5357,6 +5358,7 @@ değerli [P:Adj]
 değersiz [P:Adj]
 değgin [P:Adj]
 değil [P:Verb]
+değil [P:Conj]
 değim
 değin
 değin [P:Part]
@@ -5754,7 +5756,8 @@ dırlanmak
 dırlaşmak
 dış
 dış [P:Adj]
-dışarı
+dışarı [A:RootChange]
+dışarı [P:Adj]
 dışarı [P:Adv]
 dışarılık
 dışarlık
@@ -10159,7 +10162,9 @@ iç [P:Adj]
 içbükey
 içecek
 İçel
-içeri
+içeri [A:RootChange]
+içeri [P:Adj]
+içeri [P:Adv]
 içerik
 içerlek
 içerlemek
@@ -10246,6 +10251,7 @@ iğrengen
 iğrenmek
 iğrenti
 iğreti [P:Adj]
+iğretilemek
 iğtinam
 ihale
 iham
@@ -13109,7 +13115,7 @@ kopçalamak
 kopek
 kopil
 kopkoyu [P:Adj]
-kopmak
+kopmak [A:Causative_Ar]
 kopolimer
 kopoy
 kopuk
@@ -23448,6 +23454,7 @@ yakarmak
 yakı
 yakım
 yakın [P:Adj]
+yakında [P:Adv, Time]
 yakınmak
 yakınsak
 yakınsamak
@@ -23958,8 +23965,10 @@ yoğurthane
 yoğurtlamak
 yoğuşmak
 yok [P:Adj; A:VoicingOpt]
+yok [P:Adv]
 yok [P:Conj]
 yok [P:Part]
+yok [P:Interj]
 yoklamak
 yoksa [P:Conj]
 yoksul [P:Adj]

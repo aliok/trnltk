@@ -1398,6 +1398,8 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'diyenler',      u'di(demek)+Verb+Pos+Adj+PresPart(yen[yen])+Noun+Zero+A3pl(lAr[ler])+Pnon+Nom')
         self.assert_parse_correct_for_verb(u'de',            u'de(de)+Conj', u'de(demek)+Verb+Pos+Imp+A2sg')
         self.assert_parse_correct_for_verb(u'desinler',      u'de(demek)+Verb+Pos+Imp+A3pl(sInlAr[sinler])')
+        self.assert_parse_correct_for_verb(u'diyerek',       u'di(demek)+Verb+Pos+Adv+ByDoingSo(yerek[yerek])')
+
 
     def test_should_parse_some_problematic_words(self):
         self.cloned_root_map[u'ney'] = []
@@ -1425,6 +1427,10 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'neyim',            u'ne(ne)+Pron+Ques+A3sg+P1sg(yim[yim])+Nom')
         self.assert_parse_correct_for_verb(u'nen',              u'ne(ne)+Pron+Ques+A3sg+P2sg(n[n])+Nom', u'ne(ne)+Adj+Ques+Noun+Zero+A3sg+P2sg(+In[n])+Nom')
         self.assert_parse_correct_for_verb(u'neyine',           u'ne(ne)+Pron+Ques+A3sg+P2sg(yin[yin])+Dat(+yA[e])', u'ne(ne)+Pron+Ques+A3sg+P3sg(yi[yi])+Dat(nA[ne])')
+        self.assert_parse_correct_for_verb(u'içerde',           u'XXXXXXXXXXXXXXXXXXX')
+        self.assert_parse_correct_for_verb(u'içerden',          u'XXXXXXXXXXXXXXXXXXX')
+        self.assert_parse_correct_for_verb(u'dışarda',          u'XXXXXXXXXXXXXXXXXXX')
+        self.assert_parse_correct_for_verb(u'dışardan',         u'XXXXXXXXXXXXXXXXXXX')
 
 
     def test_should_parse_question_particles(self):
