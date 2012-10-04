@@ -17175,7 +17175,7 @@ ozuga
 ötleğen
 ötleğengiller
 ötleği
-ötmek
+ötmek [A:Causative_dIr]
 ötre
 ötümlü
 ötümsüz

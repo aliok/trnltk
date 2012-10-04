@@ -1427,10 +1427,10 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'neyim',            u'ne(ne)+Pron+Ques+A3sg+P1sg(yim[yim])+Nom')
         self.assert_parse_correct_for_verb(u'nen',              u'ne(ne)+Pron+Ques+A3sg+P2sg(n[n])+Nom', u'ne(ne)+Adj+Ques+Noun+Zero+A3sg+P2sg(+In[n])+Nom')
         self.assert_parse_correct_for_verb(u'neyine',           u'ne(ne)+Pron+Ques+A3sg+P2sg(yin[yin])+Dat(+yA[e])', u'ne(ne)+Pron+Ques+A3sg+P3sg(yi[yi])+Dat(nA[ne])')
-        self.assert_parse_correct_for_verb(u'içerde',           u'XXXXXXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'içerden',          u'XXXXXXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'dışarda',          u'XXXXXXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'dışardan',         u'XXXXXXXXXXXXXXXXXXX')
+        self.assert_parse_correct_for_verb(u'içerde',           u'i\xe7er(i\xe7eri)+Noun+A3sg+Pnon+Loc(de[de])', u'i\xe7(i\xe7mek)+Verb+Pos+Aor(+Ar[er])+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[de])')
+        self.assert_parse_correct_for_verb(u'içerden',          u'i\xe7er(i\xe7eri)+Noun+A3sg+Pnon+Abl(den[den])', u'i\xe7(i\xe7mek)+Verb+Pos+Aor(+Ar[er])+Adj+Zero+Noun+Zero+A3sg+Pnon+Abl(dAn[den])')
+        self.assert_parse_correct_for_verb(u'dışarda',          u'd\u0131\u015far(d\u0131\u015far\u0131)+Noun+A3sg+Pnon+Loc(da[da])')
+        self.assert_parse_correct_for_verb(u'dışardan',         u'd\u0131\u015far(d\u0131\u015far\u0131)+Noun+A3sg+Pnon+Abl(dan[dan])')
 
 
     def test_should_parse_question_particles(self):
