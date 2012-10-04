@@ -944,7 +944,7 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'kapatılmış',        u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+A3sg', u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+Adj+Zero', u'kapa(kapamak)+Verb+Verb+Caus(t[t])+Verb+Pass(+nIl[ıl])+Pos+Narr(mIş[mış])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct_for_verb(u'düşündürtüyordu',   u'düşün(düşünmek)+Verb+Verb+Caus(dIr[dür])+Verb+Caus(t[t])+Pos+Prog(Iyor[üyor])+Past(dI[du])+A3sg')
         self.assert_parse_correct_for_verb(u'korkutmamalı',      u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Neces(mAlI![malı])+A3sg', u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom+Adj+With(lI[lı])', u'kork(korkmak)+Verb+Verb+Caus(It[ut])+Neg(mA[ma])+Noun+Inf(mA[ma])+A3sg+Pnon+Nom+Adj+With(lI[lı])+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'sıkıştırıldığı',    u'sıkış(sıkışmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Adj+PastPart(dIk[dığ])+P3sg(+sI[ı])', u'sıkış(sıkışmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Noun+PastPart(dIk[dığ])+A3sg+Pnon+Acc(+yI[ı])', u'sıkış(sıkışmak)+Verb+Verb+Caus(dIr[tır])+Verb+Pass(+nIl[ıl])+Pos+Noun+PastPart(dIk[dığ])+A3sg+P3sg(+sI[ı])+Nom')
+        self.assert_parse_correct_for_verb(u'sıkıştırıldığı',    u's\u0131k(s\u0131kmak)+Verb+Verb+Recip(+I\u015f[\u0131\u015f])+Verb+Caus(dIr[t\u0131r])+Verb+Pass(+nIl[\u0131l])+Pos+Adj+PastPart(dIk[d\u0131\u011f])+P3sg(+sI[\u0131])', u's\u0131k(s\u0131kmak)+Verb+Verb+Recip(+I\u015f[\u0131\u015f])+Verb+Caus(dIr[t\u0131r])+Verb+Pass(+nIl[\u0131l])+Pos+Noun+PastPart(dIk[d\u0131\u011f])+A3sg+Pnon+Acc(+yI[\u0131])', u's\u0131k(s\u0131kmak)+Verb+Verb+Recip(+I\u015f[\u0131\u015f])+Verb+Caus(dIr[t\u0131r])+Verb+Pass(+nIl[\u0131l])+Pos+Noun+PastPart(dIk[d\u0131\u011f])+A3sg+P3sg(+sI[\u0131])+Nom')
 
 
     def test_should_parse_double_causatives(self):
@@ -1400,6 +1400,8 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'desinler',      u'de(demek)+Verb+Pos+Imp+A3pl(sInlAr[sinler])')
 
     def test_should_parse_some_problematic_words(self):
+        self.cloned_root_map[u'ney'] = []
+
         self.assert_parse_correct_for_verb(u'bitirelim',         u'bit(bitmek)+Verb+Verb+Caus(Ir[ir])+Pos+Opt(A[e])+A1pl(lIm[lim])')
         self.assert_parse_correct_for_verb(u'bulmalıyım',        u'bul(bulmak)+Verb+Pos+Neces(mAlI![malı])+A1sg(yIm[yım])')
         self.assert_parse_correct_for_verb(u'diyordunuz',        u'di(demek)+Verb+Pos+Prog(yor[yor])+Past(dI[du])+A2pl(nIz[nuz])')
@@ -1408,6 +1410,22 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'gelsenize',         u'gel(gelmek)+Verb+Pos+Imp(sAnIzA[senize])+A2pl')
         self.assert_parse_correct_for_verb(u'yapan',             u'yap(yapmak)+Verb+Pos+Adj+PresPart(+yAn[an])', u'yap(yapmak)+Verb+Pos+Adj+PresPart(+yAn[an])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct_for_verb(u'diyen',             u'di(demek)+Verb+Pos+Adj+PresPart(yen[yen])', u'di(demek)+Verb+Pos+Adj+PresPart(yen[yen])+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'duyumsatınca',      u'duyumsa(duyumsamak)+Verb+Verb+Caus(t[t])+Pos+Adv+When(+yIncA[\u0131nca])')
+#        self.assert_parse_correct_for_verb(u'duyumsatıncaya',    u'xxxxxxxxx')     #TODO
+        self.assert_parse_doesnt_exist(u'yaparkene')
+        self.assert_parse_doesnt_exist(u'yapıba')
+        self.assert_parse_doesnt_exist(u'yaparcasınaya')
+        self.assert_parse_correct_for_verb(u'evsahibi',         u'evsahib(evsahibi)+Noun+A3sg+P3sg(+sI[i])+Nom')
+        self.assert_parse_correct_for_verb(u'serpiştirilmiş',   u'serp(serpmek)+Verb+Verb+Recip(+I\u015f[i\u015f])+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mI\u015f[mi\u015f])+A3sg', u'serp(serpmek)+Verb+Verb+Recip(+I\u015f[i\u015f])+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mI\u015f[mi\u015f])+Adj+Zero', u'serp(serpmek)+Verb+Verb+Recip(+I\u015f[i\u015f])+Verb+Caus(dIr[tir])+Verb+Pass(+nIl[il])+Pos+Narr(mI\u015f[mi\u015f])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'reddine',          u'redd(ret)+Noun+A3sg+P2sg(+In[in])+Dat(+yA[e])', u'redd(ret)+Noun+A3sg+P3sg(+sI[i])+Dat(nA[ne])')
+        self.assert_parse_exists(u'yanlışlanabilirlik',         u'yanl\u0131\u015fla(yanl\u0131\u015flamak)+Verb+Verb+Pass(+In[n])+Verb+Able(+yAbil[abil])+Pos+Aor(+Ir[ir])+Adj+Zero+Noun+Ness(lIk[lik])+A3sg+Pnon+Nom')
+        self.assert_parse_correct_for_verb(u'neyi',             u'ne(ne)+Pron+Ques+A3sg+P3sg(yi[yi])+Nom', u'ne(ne)+Pron+Ques+A3sg+Pnon+Acc(+yI[yi])', u'ne(ne)+Adj+Ques+Noun+Zero+A3sg+Pnon+Acc(+yI[yi])')
+        self.assert_parse_correct_for_verb(u'neyin',            u'ne(ne)+Pron+Ques+A3sg+Pnon+Gen(yin[yin])', u'ne(ne)+Pron+Ques+A3sg+P2sg(yin[yin])+Nom')
+        self.assert_parse_correct_for_verb(u'nesi',             u'ne(ne)+Pron+Ques+A3sg+P3sg(si[si])+Nom', u'ne(ne)+Adj+Ques+Noun+Zero+A3sg+P3sg(+sI[si])+Nom')
+        self.assert_parse_correct_for_verb(u'neyim',            u'ne(ne)+Pron+Ques+A3sg+P1sg(yim[yim])+Nom')
+        self.assert_parse_correct_for_verb(u'nen',              u'ne(ne)+Pron+Ques+A3sg+P2sg(n[n])+Nom', u'ne(ne)+Adj+Ques+Noun+Zero+A3sg+P2sg(+In[n])+Nom')
+        self.assert_parse_correct_for_verb(u'neyine',           u'ne(ne)+Pron+Ques+A3sg+P2sg(yin[yin])+Dat(+yA[e])', u'ne(ne)+Pron+Ques+A3sg+P3sg(yi[yi])+Dat(nA[ne])')
+
 
     def test_should_parse_question_particles(self):
         self.assert_parse_correct_for_verb(u'mı',                u'mı(mı)+Ques+Pres+A3sg')

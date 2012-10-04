@@ -749,7 +749,7 @@ class SuffixGraph(object):
         self.Pass.add_suffix_form(u"+InIl", root_can_have_passive & has_root_attribute(RootAttribute.Passive_InIl))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)
-        self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)))
+        self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)) | followed_by_derivation(self.Caus, u'dIr'))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Caus, self.VERB_ROOT)
         self.Caus.add_suffix_form(u"t",  has_root_attribute(RootAttribute.Causative_t) & doesnt_come_after_derivation(self.Caus, "t") & doesnt_come_after_derivation(self.Caus, "It"))

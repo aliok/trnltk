@@ -124,6 +124,7 @@ class PredefinedPaths(object):
         self._create_predefined_path_of_herkes()
 
         self._create_predefined_path_of_question_particles()
+        self._create_predefined_path_of_ne()
 
         self._create_predefined_path_of_ora_bura_sura_nere()
 
@@ -615,6 +616,28 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A1Pl_Ques,u'üz')])
         self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A2Pl_Ques,u'sünüz')])
         self._add_morpheme_container(root_muu, [(self._suffix_graph.Narr_Ques,u'ymüş'), (self._suffix_graph.A3Pl_Ques,u'ler')])
+
+    def _create_predefined_path_of_ne(self):
+        root_ne = self._find_root(u'ne', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.QUESTION)
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Sg_Pron,u'm')])
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Sg_Pron,u'yim')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Sg_Pron,u'n')])
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Sg_Pron,u'yin')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P3Sg_Pron,u'yi')])
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P3Sg_Pron,u'si')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P1Pl_Pron,u'yimiz')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P2Pl_Pron,u'yiniz')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron, (self._suffix_graph.P3Pl_Pron,u'leri')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron,  self._suffix_graph.Pnon_Pron,     (self._suffix_graph.Gen_Pron, u'yin')])
+
+        self._add_morpheme_container(root_ne, [self._suffix_graph.A3Sg_Pron,  self._suffix_graph.Pnon_Pron])
+        self._add_morpheme_container(root_ne, [(self._suffix_graph.A3Pl_Pron, u'ler'),  self._suffix_graph.Pnon_Pron])
 
     def _create_predefined_path_of_ora_bura_sura_nere(self):
         root_or = self._find_root(u'or', SyntacticCategory.PRONOUN, None)

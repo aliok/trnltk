@@ -64,9 +64,10 @@ cases_to_skip = {
     u'ayırdet+Verb', u'elatma+Noun', u'varet', u'sözet',
 
     #
-    u'A3pl+Past',    # yaparlardi
-    u'Prog+A3pl+Cond'     # yapiyorsalar
-    u'+Cop+A3pl',         # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
+    u'+A3pl+Past',    # yaparlardi
+    u'+A3pl+Narr',    # yaparlarmis
+    u'+A3pl+Cond',    # yapiyorsalar
+    u'+Cop+A3pl',     # hazirdirlar <> hazirlardir , similarly for "Ques"s : midirler
 
     u'kadar',
     u'(1,"değil+Conj")',

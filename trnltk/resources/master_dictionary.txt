@@ -7390,7 +7390,7 @@ evrim
 evrişik
 evropiyum
 evsaf
-evsahibi [A:CompoundP3sg; R:evsahip]
+evsahibi [A:CompoundP3sg, Voicing; R:evsahip]
 evsemek
 evvel [P:Noun, Time]
 evvel [P:Adv, Time]
@@ -19562,13 +19562,12 @@ sıkılmak
 sıkınmak
 sıkıntı
 sıkışık [P:Adj]
-sıkışmak [A:Causative_dIr]
 sıkıt [A:NoVoicing]
 sıkıyönetim
 sıkkın
 sıklet [A:NoVoicing]
 sıkmaç
-sıkmak
+sıkmak [A:Causative_dIr]
 sıla
 sımsıcak [P:Adj]
 sımsıkı [P:Adj]
