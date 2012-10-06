@@ -28,7 +28,7 @@ cases_to_skip = {
     u'doksandokuz', u'bindokuzyüzseksendokuz', u'onbirbindokuzyüzdoksansekiz',
     u'binyediyüzotuzdört', u'onbir',
 
-    u'Verb+Reflex',
+    u'Verb+Reflex', u'Verb+Stay+',
 
     u'incecik+',        # Think about it!
 
@@ -42,8 +42,7 @@ cases_to_skip = {
     u'üzeri',
     u'hiçbiri',
 
-    u'â', u'î',
-    u'sanayi+Noun',
+    u'â', u'î', u'û',
 
     # passives to be changed in treebank
     u'vurul+Verb', u'dikil',
@@ -56,7 +55,7 @@ cases_to_skip = {
     u'şakalaş+Verb', u'önceden', u'böylesi',
 
     #
-    u'ayırdet+Verb', u'elatma+Noun', u'varet', u'sözet',
+    u'ayırdet+Verb', u'elatma+Noun', u'varet', u'sözet', u'terket', u'yeral', u'sağol', u'terket', u'yolaç',
 
     #
     u'+A3pl+Past',    # yaparlardi
@@ -73,11 +72,13 @@ cases_to_skip = {
 
     # -sel
     u'dinsel+Adj', u'(1,"toplumsal+Adj")', u'kişisel+Adj', u'tarihsel', u'içgüdüsel',
-    u'matematiksel', u'mantıksal', u'deneysel', u'gözlemsel',
-    u'ereksel', u'nedensel', u'fiziksel', u'bütünsel',
-    u'kavramsal', u'nesnel+Adj', u'algısal', u'içsel',
+    u'matematiksel', u'mantıksal', u'deneysel', u'gözlemsel', u'kimyasal',
+    u'ereksel', u'nedensel', u'fiziksel', u'bütünsel', u'duygusal', u'ruhsal',
+    u'kavramsal', u'nesnel+Adj', u'algısal', u'içsel', u'geleneksel', u'madensel',
+    u'hukuksal', u'parasal',
 
-    u'+Related', u'+NotState',
+    u'+Related',    # metodolojik, teknolojik, etc
+    u'+NotState',
 
     u'stoku+Noun+',      # Does optional voicing work? gotta create 2 roots like normal voicing case
 
@@ -87,12 +88,23 @@ cases_to_skip = {
     u'(1,"ingilizce+Adj"',
 
     # TODO: think about taralı, kapali, takili vs
-    # TODO: word tuerlue is used much different in various cases
+    u'yazılı', u'kapalı', u'takılı', u'taralı',
+
+    # milletvekilleri, zeytinyaglari etc.
+    u'milletvekil+Noun+A3pl',
 
     # sistemlesme, evlesme, mekanlasma
     u'+Noun+A3sg+Pnon+Nom")(2,"Verb+Become',
 
-    u'kestirim+Noun', u'(1,"kazanımlar+Noun+A3sg+Pnon+Abl")',       # yapim, cizim, etc.
+    # yapim, cizim, etc.
+    u'kestirim', u'kazanım', u'kullanım', u'yapım', u'çizim', u'aşım', u'bileşim',
+
+    # material used as adjective
+    u'kadife+Adj', u'mermer+Adj', u'ipek+Adj',
+
+    # çalı malı
+    u'malı+Noun+',
+
     u'dokun+Verb")(2,"Verb+Caus',
     u'donan+Verb',
     u'(1,"dokun+Verb+Pos")(2,"Adv+WithoutHavingDoneSo2")',
@@ -105,16 +117,28 @@ cases_to_skip = {
 
 
 words_to_skip={
-    u'yapıyon', u'korkuyo',
-    u'Hiiç', u'Giir', u'hii', u'Geeç',      # mark as "Arbitrary Interjection"
+    u'yapıyon', u'korkuyo', u'yakak',
+    u'Hiiç', u'Giir', u'hii', u'Geeç', u'yo', u'Yoo', u'ööö',      # mark as "Arbitrary Interjection"
     u'Aaa', u'ham', u'aga', u'Eee',
     u'Börtü',
     u'eşşek',
     u'vb.', u'vb',
-    u'meyin',   # "beyin meyin kalmamisti"
+
+    # "beyin meyin kalmamisti"
+    u'meyin', u'melektronik', u'mekonomi', u'mişletme', u'miçki', u'mumar', u'mefahat', u'moşku',
+    u'mırık', u'meker',
 
     u'Dördü',
     u'çocuksu',
+
+    # words ending with arabic "Ayn"
+    u'mevzuu', u'camii', u'sanayii',
+
+    # "until" suffix
+    u'duyumsatıncaya', u'kızarıncaya', u'deyinceye',
+
+    u'psikolog', u'antropolog'
+
 }
 
 logger = logging.getLogger('parser')
@@ -175,10 +199,10 @@ class ParserTestWithSimpleParseSets(ParserTest):
     #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_simple_parse_set("005")
 
-#    def test_should_parse_simple_parse_set_999(self):
-#    #        parser_logger.setLevel(logging.DEBUG)
-#    #        suffix_applier_logger.setLevel(logging.DEBUG)
-#        self._test_should_parse_simple_parse_set("999")
+    def test_should_parse_simple_parse_set_999(self):
+    #        parser_logger.setLevel(logging.DEBUG)
+    #        suffix_applier_logger.setLevel(logging.DEBUG)
+        self._test_should_parse_simple_parse_set("999")
 
     def _test_should_parse_simple_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))

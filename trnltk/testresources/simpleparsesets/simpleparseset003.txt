@@ -554,7 +554,7 @@ rastlamadım=(1,"rastla+Verb+Neg+Past+A1sg")
 .=(1,".+Punc")
 #END#OF#SENTENCE#
 İki=(1,"iki+Num+Card")(2,"Adj+Zero")
-yıl=(1,"yıl+Noun+A3sg+Pnon+Nom")
+yıl=(1,"yıl+Noun+Time+A3sg+Pnon+Nom")
 önce=(1,"önce+Adv")
 bir=(1,"bir+Det")
 kabadayı=(1,"kabadayı+Noun+A3sg+Pnon+Nom")

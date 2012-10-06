@@ -162,6 +162,7 @@ class PredefinedPaths(object):
 
         self._add_morpheme_container(root_di, [self._suffix_graph.Positive, (self._suffix_graph.ByDoingSo, u'yerek')])
 
+
     def _create_predefined_path_of_yi(self):
         root_yi = self._find_root(u'yi', SyntacticCategory.VERB, None)
         self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Future, u'yecek')])
@@ -183,6 +184,9 @@ class PredefinedPaths(object):
         self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.Opt, u'ye')])
 
         self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.ByDoingSo, u'yerek')])
+
+        # different from "demek"
+        self._add_morpheme_container(root_yi, [self._suffix_graph.Positive, (self._suffix_graph.AfterDoingSo, u'yip')])
 
     def _create_predefined_path_of_ben(self):
         root_ben = self._find_root(u'ben', SyntacticCategory.PRONOUN, SecondarySyntacticCategory.PERSONAL)

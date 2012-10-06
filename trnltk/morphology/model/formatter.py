@@ -53,10 +53,11 @@ def format_morpheme_container_for_simple_parseset(result):
     secondary_syntactic_category_str = result.get_root().lexeme.secondary_syntactic_category
 
     #    ##TODO: skip some secondary categories for now...
-    if result.get_root().lexeme.syntactic_category == SyntacticCategory.NOUN:
-        if result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
-            secondary_syntactic_category_str = None
-    elif result.get_root().lexeme.syntactic_category == SyntacticCategory.ADVERB:
+#    if result.get_root().lexeme.syntactic_category == SyntacticCategory.NOUN:
+#        if result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
+#            secondary_syntactic_category_str = None
+#    elif result.get_root().lexeme.syntactic_category == SyntacticCategory.ADVERB:
+    if result.get_root().lexeme.syntactic_category == SyntacticCategory.ADVERB:
         if result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.QUESTION:
             secondary_syntactic_category_str = None
         elif result.get_root().lexeme.secondary_syntactic_category == SecondarySyntacticCategory.TIME:
