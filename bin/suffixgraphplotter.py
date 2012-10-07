@@ -1,6 +1,6 @@
 import os
 from trnltk.morphology.morphotactics.suffixgraph import *
-from trnltk.morphology.morphotactics.extendedsuffixgraph import *
+from trnltk.morphology.morphotactics.copulasuffixgraph import *
 
 
 import networkx as nx
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     if(graph_type=='S'):
         suffix_graph = SuffixGraph()
     elif(graph_type=='E'):
-        suffix_graph = ExtendedSuffixGraph()
+        suffix_graph = CopulaSuffixGraph()
 
     if not suffix_graph:
         print "Unknown graph type : {} ".format(graph_type)

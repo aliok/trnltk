@@ -5,7 +5,7 @@ from trnltk.morphology.morphotactics.suffixconditions import comes_after, doesnt
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
 from trnltk.morphology.model.morpheme import *
 
-class ExtendedSuffixGraph(SuffixGraph):
+class CopulaSuffixGraph(SuffixGraph):
 
     def __init__(self):
         SuffixGraph.__init__(self)

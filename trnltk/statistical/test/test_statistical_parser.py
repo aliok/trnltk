@@ -6,7 +6,7 @@ from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistical.parser import StatisticalParser
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.morphotactics.extendedsuffixgraph import ExtendedSuffixGraph
+from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, NumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -27,7 +27,7 @@ class StatisticalParserTest(unittest.TestCase):
         root_map_generator = RootMapGenerator()
         cls.root_map = root_map_generator.generate(all_roots)
 
-        suffix_graph = ExtendedSuffixGraph()
+        suffix_graph = CopulaSuffixGraph()
         predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 

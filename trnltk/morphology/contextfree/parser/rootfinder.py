@@ -49,7 +49,7 @@ class ProperNounWithoutApostropheRootFinder(RootFinder):
 
         # TODO: might be a known proper noun with implicit P3sg. like : Eminonu, Kusadasi.
         # it is important since :
-        # 1. Ankara'_y_a but Eminonu'_n_e
+        # 1. Ankara'_y_a but Eminonu'_n_e    : Since this case has apostrophe, it is handled in ProperNounFromApostropheRootFinder
         # 2: P3sg doesn't apply to these words: onun Kusadasi, onun Eminonu
         # 3. Possessions are applied to 'root' : benim Kusadam etc. SKIP this case!
 
