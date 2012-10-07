@@ -199,10 +199,10 @@ class ParserTestWithSimpleParseSets(ParserTest):
     #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_simple_parse_set("005")
 
-    def test_should_parse_simple_parse_set_999(self):
-    #        parser_logger.setLevel(logging.DEBUG)
-    #        suffix_applier_logger.setLevel(logging.DEBUG)
-        self._test_should_parse_simple_parse_set("999")
+#    def test_should_parse_simple_parse_set_999(self):
+#    #        parser_logger.setLevel(logging.DEBUG)
+#    #        suffix_applier_logger.setLevel(logging.DEBUG)
+#        self._test_should_parse_simple_parse_set("999")
 
     def _test_should_parse_simple_parse_set(self, set_number, start_index=0):
         path = os.path.join(os.path.dirname(__file__), '../../../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))

@@ -59,8 +59,8 @@ class ParserTestWithProperNouns(ParserTest):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
-        self.assert_parse_correct(u"AB",            u"AB(AB)+Noun+Prop+A3sg+Pnon+Nom")
-        self.assert_parse_correct(u"AB'ye",         u"AB(AB)+Noun+Prop+A3sg+Pnon+Acc")       ## TODO: not supported yet!
+        self.assert_parse_correct(u"AB",            u"AB(AB)+Noun+Abbr+A3sg+Pnon+Nom")
+        self.assert_parse_correct(u"AB'ye",         u"AB(AB)+Noun+Abbr+A3sg+Pnon+Acc")       ## TODO: not supported yet!
 
 
 if __name__ == '__main__':

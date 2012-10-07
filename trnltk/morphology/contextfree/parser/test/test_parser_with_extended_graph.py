@@ -179,7 +179,7 @@ class ParserTestWithExtendedGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'onlarken',            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])', u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg', u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Verb+Zero+Adv+While(+yken[ken])+Verb+Zero+Pres+A3sg')
 
     def test_should_parse_verb_degil(self):
-        self.assert_parse_correct_for_verb(u'değil',               u'değil(değil)+Verb+Pres+A3sg')
+        self.assert_parse_correct_for_verb(u'değil',               u'de\u011fil(de\u011fil)+Conj', u'değil(değil)+Verb+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'değilim',             u'değil(değil)+Verb+Pres+A1sg(+yIm[im])')
         self.assert_parse_correct_for_verb(u'değilsin',            u'değil(değil)+Verb+Pres+A2sg(sIn[sin])')
         self.assert_parse_correct_for_verb(u'değildik',            u'değil(değil)+Verb+Past(+ydI[di])+A1pl(k[k])')

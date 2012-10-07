@@ -1450,19 +1450,6 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_exists          (u'okumuşçasına',     u'oku(okumak)+Verb+Pos+Narr(mI\u015f[mu\u015f])+Adv+AsIf(cAsI!nA[\xe7as\u0131na])')
         self.assert_parse_exists          (u'yeşillikleri',     u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+Y(lIk[lik])+Noun+Zero+A3sg+P3pl(lArI![leri])+Nom')
         self.assert_parse_correct_for_verb(u'sulandı',          u'sula(sulamak)+Verb+Verb+Pass(+In[n])+Pos+Past(dI[d\u0131])+A3sg', u'su(su)+Noun+A3sg+Pnon+Nom+Verb+Acquire(lAn[lan])+Pos+Past(dI[d\u0131])+A3sg')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        self.assert_parse_correct_for_verb(u'inandırıcı',       u'XXXXXXXXXXXXXXX')
-        parser_logger.setLevel(logging.DEBUG)
-        suffix_applier_logger.setLevel(logging.DEBUG)
 
 
     def test_should_parse_question_particles(self):
@@ -1505,10 +1492,10 @@ class ParserTestWithSimpleGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'çoğumuz',             u'çoğu(çoğu)+Pron+A3sg+P1pl(muz[muz])+Nom', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[muz])+Nom')
         self.assert_parse_correct_for_verb(u'çoğunun',             u'çoğu(çoğu)+Pron+A3sg+P3sg+Gen(+nIn[nun])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+Pnon+Gen(+nIn[nun])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P2sg(+In[n])+Gen(+nIn[un])')
         self.assert_parse_correct_for_verb(u'çoğumuzdan',          u'çoğu(çoğu)+Pron+A3sg+P1pl(muz[muz])+Abl(dAn[dan])', u'çoğu(çoğu)+Adj+Noun+Zero+A3sg+P1pl(+ImIz[muz])+Abl(dAn[dan])')
-        self.assert_parse_correct_for_verb(u'birçoğu',             u'birçoğ(birçok)+Noun+A3sg+Pnon+Acc(+yI[u])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Nom', u'birçoğu(birçoğu)+Pron+A3sg+P3sg+Nom')
-        self.assert_parse_correct_for_verb(u'birçoğumuz',          u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Nom', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Nom')
-        self.assert_parse_correct_for_verb(u'birçoğunun',          u'birçoğ(birçok)+Noun+A3sg+P2sg(+In[un])+Gen(+nIn[un])', u'birçoğ(birçok)+Noun+A3sg+P3sg(+sI[u])+Gen(+nIn[nun])', u'birçoğu(birçoğu)+Pron+A3sg+P3sg+Gen(+nIn[nun])')
-        self.assert_parse_correct_for_verb(u'birçoğumuzdan',       u'birçoğ(birçok)+Noun+A3sg+P1pl(+ImIz[umuz])+Abl(dAn[dan])', u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Abl(dAn[dan])')
+        self.assert_parse_correct_for_verb(u'birçoğu',             u'bir\xe7o\u011fu(bir\xe7o\u011fu)+Pron+A3sg+P3sg+Nom')
+        self.assert_parse_correct_for_verb(u'birçoğumuz',          u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Nom')
+        self.assert_parse_correct_for_verb(u'birçoğunun',          u'birçoğu(birçoğu)+Pron+A3sg+P3sg+Gen(+nIn[nun])')
+        self.assert_parse_correct_for_verb(u'birçoğumuzdan',       u'birçoğu(birçoğu)+Pron+A3sg+P1pl(muz[muz])+Abl(dAn[dan])')
 
     def test_should_parse_some_words_with_vowel_drops(self):
         self.assert_parse_correct(u'vaktimi',                 u'vakt(vakit)+Noun+A3sg+P1sg(+Im[im])+Acc(+yI[i])')
