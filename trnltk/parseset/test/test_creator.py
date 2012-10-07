@@ -10,7 +10,7 @@ from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, W
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
-from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
 class ParseSetCreatorTest(unittest.TestCase):
 
@@ -25,7 +25,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 
         root_map = (RootMapGenerator()).generate(all_roots)
 
-        suffix_graph = SuffixGraph()
+        suffix_graph = BasicSuffixGraph()
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 

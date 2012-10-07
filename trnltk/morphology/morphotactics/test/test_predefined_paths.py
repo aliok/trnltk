@@ -11,7 +11,7 @@ from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenera
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.contextfree.parser.parser import  logger as parser_logger
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
 class PredefinedPathsTest(unittest.TestCase):
     @classmethod
@@ -28,7 +28,7 @@ class PredefinedPathsTest(unittest.TestCase):
 
         cls.morpheme_container_map = {}
 
-        cls.suffix_graph = SuffixGraph()
+        cls.suffix_graph = BasicSuffixGraph()
 
     def setUp(self):
         super(PredefinedPathsTest, self).setUp()

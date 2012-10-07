@@ -36,8 +36,8 @@ class SuffixTransitionProbabilityGeneratorTest(unittest.TestCase):
         assert_that(generator.suffix_transition_probability_matrix['A3Sg_Noun']['Pnon_Noun'], equal_to(1.0))
         assert_that(generator.suffix_transition_probability_matrix['Pnon_Noun']['Acc_Noun'], equal_to(1.0))
 
-        assert_that(generator.suffix_transition_probability_matrix['A3Pl_Noun']['P3sg_Noun'], equal_to(1.0))
-        assert_that(generator.suffix_transition_probability_matrix['P3sg_Noun']['Nom_Noun'], equal_to(1.0))
+        assert_that(generator.suffix_transition_probability_matrix['A3Pl_Noun']['P3Sg_Noun'], equal_to(1.0))
+        assert_that(generator.suffix_transition_probability_matrix['P3Sg_Noun']['Nom_Noun'], equal_to(1.0))
 
     def test_should_check_words_1_2_and_3(self):
         generator = self._create_generator_with_words([1, 2, 3])
@@ -46,13 +46,13 @@ class SuffixTransitionProbabilityGeneratorTest(unittest.TestCase):
         assert_that(generator.first_suffix_transition_probability_matrix['Noun']['A3Pl_Noun'], equal_to(1.0 / 3.0))
 
         assert_that(generator.suffix_transition_probability_matrix['A3Sg_Noun']['Pnon_Noun'], equal_to(0.5))
-        assert_that(generator.suffix_transition_probability_matrix['A3Sg_Noun']['P1sg_Noun'], equal_to(0.5))
+        assert_that(generator.suffix_transition_probability_matrix['A3Sg_Noun']['P1Sg_Noun'], equal_to(0.5))
 
-        assert_that(generator.suffix_transition_probability_matrix['A3Pl_Noun']['P3sg_Noun'], equal_to(1.0))
+        assert_that(generator.suffix_transition_probability_matrix['A3Pl_Noun']['P3Sg_Noun'], equal_to(1.0))
 
         assert_that(generator.suffix_transition_probability_matrix['Pnon_Noun']['Acc_Noun'], equal_to(1.0))
-        assert_that(generator.suffix_transition_probability_matrix['P3sg_Noun']['Nom_Noun'], equal_to(1.0))
-        assert_that(generator.suffix_transition_probability_matrix['P1sg_Noun']['Nom_Noun'], equal_to(1.0))
+        assert_that(generator.suffix_transition_probability_matrix['P3Sg_Noun']['Nom_Noun'], equal_to(1.0))
+        assert_that(generator.suffix_transition_probability_matrix['P1Sg_Noun']['Nom_Noun'], equal_to(1.0))
 
     def test_should_check_words_1_and_4(self):
         generator = self._create_generator_with_words([1, 4])

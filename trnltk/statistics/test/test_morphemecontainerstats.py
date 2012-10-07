@@ -8,7 +8,7 @@ from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder
 from trnltk.statistics.morphemecontainerstats import MorphemeContainerContextFreeProbabilityGenerator
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistics.suffixtransitionstats import SuffixTransitionProbabilityGenerator
 
@@ -40,7 +40,7 @@ class MorphemeContainerContextFreeProbabilityGeneratorWithContainersTest(unittes
         root_map_generator = RootMapGenerator()
         cls.root_map = root_map_generator.generate(all_roots)
 
-        suffix_graph = SuffixGraph()
+        suffix_graph = BasicSuffixGraph()
 
         word_root_finder = WordRootFinder(cls.root_map)
 

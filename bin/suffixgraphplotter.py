@@ -1,5 +1,5 @@
 import os
-from trnltk.morphology.morphotactics.suffixgraph import *
+from trnltk.morphology.morphotactics.basicsuffixgraph import *
 from trnltk.morphology.morphotactics.copulasuffixgraph import *
 
 
@@ -78,10 +78,11 @@ if __name__ == "__main__":
     output_file_path = sys.argv[2]
 
     suffix_graph = None
-    if(graph_type=='S'):
-        suffix_graph = SuffixGraph()
-    elif(graph_type=='E'):
-        suffix_graph = CopulaSuffixGraph()
+    basic_suffix_graph = BasicSuffixGraph()
+    if graph_type==u'S':
+        suffix_graph = basic_suffix_graph
+    elif graph_type==u'E':
+        suffix_graph = CopulaSuffixGraph(basic_suffix_graph)
 
     if not suffix_graph:
         print "Unknown graph type : {} ".format(graph_type)

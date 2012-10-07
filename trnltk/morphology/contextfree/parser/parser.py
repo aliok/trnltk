@@ -137,14 +137,14 @@ class ContextFreeMorphologicalParser(object):
             if candidate.get_root().lexeme.syntactic_category==SyntacticCategory.VERB:
                 if RootAttribute.ProgressiveVowelDrop in candidate.get_root().lexeme.attributes and len(candidate.get_root().str)==len(candidate.get_root().lexeme.root)-1:
                     # apply Positive + Progressive 'Iyor'
-                    Positive = self._suffix_graph.Positive
-                    Progressive = self._suffix_graph.Progressive
+                    Positive = self._suffix_graph.get_suffix(u'Pos')
+                    Progressive = self._suffix_graph.get_suffix(u'Prog')
 
                     # apply Positive
                     if not transition_allowed_for_suffix(candidate, Positive):
                         raise Exception('There is a progressive vowel drop, but suffix "{}" cannot be applied to {}'.format(Positive, candidate))
 
-                    clone = try_suffix_form(candidate, Positive.get_suffix_form(u''), self._suffix_graph.VERB_WITH_POLARITY, word)
+                    clone = try_suffix_form(candidate, Positive.get_suffix_form(u''), self._suffix_graph.get_state(u'VERB_WITH_POLARITY'), word)
                     if not clone:
                         logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Positive.suffix_forms[0], candidate))
                         continue
@@ -153,7 +153,7 @@ class ContextFreeMorphologicalParser(object):
                     if not transition_allowed_for_suffix(clone, Progressive):
                         raise Exception('There is a progressive vowel drop, but suffix "{}" cannot be applied to {}'.format(Progressive, candidate))
 
-                    clone = try_suffix_form(clone, Progressive.get_suffix_form(u'Iyor'), self._suffix_graph.VERB_WITH_TENSE, word)
+                    clone = try_suffix_form(clone, Progressive.get_suffix_form(u'Iyor'), self._suffix_graph.get_state(u'VERB_WITH_TENSE'), word)
                     if not clone:
                         logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Progressive.suffix_forms[0], candidate))
                         continue

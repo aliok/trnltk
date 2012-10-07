@@ -5,7 +5,7 @@ from mock import Mock
 from trnltk.morphology.model.lexeme import RootAttribute
 from trnltk.morphology.contextfree.parser.parser import SuffixFormApplication
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, has_root_attributes
-from trnltk.morphology.morphotactics.suffixgraph import Suffix
+from trnltk.morphology.morphotactics.basicsuffixgraph import Suffix
 from trnltk.morphology.model.morpheme import SuffixForm, Transition
 
 class SuffixConditionsTest(unittest.TestCase):

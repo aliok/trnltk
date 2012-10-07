@@ -8,7 +8,8 @@ from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphological
 from trnltk.morphology.contextfree.parser.rootfinder import  WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.model import formatter
-from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
+from trnltk.morphology.morphotactics.suffixgraph import EmptySuffixGraph
 
 class FormatterTest(unittest.TestCase):
 
@@ -30,7 +31,8 @@ class FormatterTest(unittest.TestCase):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-        suffix_graph = SuffixGraph()
+        suffix_graph = BasicSuffixGraph()
+        suffix_graph.initialize()
 
         word_root_finder = WordRootFinder(self.root_map)
 

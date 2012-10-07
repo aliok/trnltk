@@ -11,13 +11,14 @@ from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphological
 from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
-from trnltk.morphology.morphotactics.suffixgraph import SuffixGraph
+from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
+from trnltk.morphology.morphotactics.suffixgraph import EmptySuffixGraph
 
-class ParserTestWithSimpleGraph(ParserTest):
+class ParserTestWithBasicGraph(ParserTest):
 
     @classmethod
     def setUpClass(cls):
-        super(ParserTestWithSimpleGraph, cls).setUpClass()
+        super(ParserTestWithBasicGraph, cls).setUpClass()
         all_roots = []
 
         lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
@@ -32,7 +33,9 @@ class ParserTestWithSimpleGraph(ParserTest):
         parser_logger.setLevel(logging.INFO)
         suffix_applier_logger.setLevel(logging.INFO)
 
-        suffix_graph = SuffixGraph()
+        suffix_graph = BasicSuffixGraph()
+        suffix_graph.initialize()
+
         self.cloned_root_map = copy(self._org_root_map)
         predefined_paths = PredefinedPaths(self.cloned_root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
