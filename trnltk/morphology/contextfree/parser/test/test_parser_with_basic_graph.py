@@ -8,11 +8,10 @@ from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
-from trnltk.morphology.morphotactics.suffixgraph import EmptySuffixGraph
 
 class ParserTestWithBasicGraph(ParserTest):
 
@@ -41,9 +40,8 @@ class ParserTestWithBasicGraph(ParserTest):
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(self.cloned_root_map)
-        numeral_root_finder = NumeralRootFinder()
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder])
 
     def test_should_parse_noun_cases(self):
         self.assert_parse_correct(u'sokak',            u'sokak(sokak)+Noun+A3sg+Pnon+Nom')
@@ -679,7 +677,6 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct(u'masadaki',             u'masa(masa)+Noun+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])', u'masa(masa)+Noun+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'masamdaki',            u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Loc(dA[da])+Adj+PointQual(ki[ki])', u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'masalarındaki',        u'masa(masa)+Noun+A3sg+P3pl(lArI![ları])+Loc(ndA[nda])+Adj+PointQual(ki[ki])', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[ın])+Loc(dA[da])+Adj+PointQual(ki[ki])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Loc(ndA[nda])+Adj+PointQual(ki[ki])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![ı])+Loc(ndA[nda])+Adj+PointQual(ki[ki])', u'masa(masa)+Noun+A3sg+P3pl(lArI![ları])+Loc(ndA[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[ın])+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Loc(ndA[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![ı])+Loc(ndA[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'sekizdeki',            u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[de])+Adj+PointQual(ki[ki])', u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[de])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'kısadaki',             u'kısa(kısa)+Adj+Noun+Zero+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])', u'kısa(kısa)+Adj+Noun+Zero+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'bendeki',              u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Adj+PointQual(ki[ki])', u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'ondaki',               u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])+Adj+PointQual(ki[ki])', u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])+Adj+PointQual(ki[ki])', u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom', u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Nom')
@@ -714,7 +711,6 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct(u'masadakini',             u'masa(masa)+Noun+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Acc(nI[ni])')
         self.assert_parse_correct(u'masamdakine',            u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Dat(nA[ne])')
         self.assert_parse_correct(u'masalarındakinde',       u'masa(masa)+Noun+A3sg+P3pl(lArI![ları])+Loc(ndA[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])', u'masa(masa)+Noun+A3pl(lAr[lar])+P2sg(+In[ın])+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3sg(+sI[ı])+Loc(ndA[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])', u'masa(masa)+Noun+A3pl(lAr[lar])+P3pl(I![ı])+Loc(ndA[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])')
-        self.assert_parse_correct(u'sekizdekinden',          u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Loc(dA[de])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Abl(ndAn[nden])')
         self.assert_parse_correct(u'kısadakini',             u'kısa(kısa)+Adj+Noun+Zero+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Acc(nI[ni])')
         self.assert_parse_correct(u'bendekinden',            u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Abl(ndAn[nden])')
         self.assert_parse_correct(u'ondakinde',              u'o(o)+Pron+Demons+A3sg+Pnon+Loc(nda[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])', u'o(o)+Pron+Pers+A3sg+Pnon+Loc(nda[nda])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])')
@@ -736,6 +732,8 @@ class ParserTestWithBasicGraph(ParserTest):
         # there are more forms of derived adverbs, but they don't make sense with "ki" suffix
 
     def test_should_parse_pronoun_derivations(self):
+        self.cloned_root_map[u'on'] = []
+
         self.assert_parse_correct(u'bensiz',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Adj+Without(sIz[siz])',
             u'ben(ben)+Noun+A3sg+Pnon+Nom+Adj+Without(sIz[siz])',
@@ -750,9 +748,7 @@ class ParserTestWithBasicGraph(ParserTest):
             u'o(o)+Pron+Pers+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])',
             u'o(o)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])',
             u'o(o)+Pron+Pers+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])+Noun+Zero+A3sg+Pnon+Nom',
-            u'o(o)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])+Noun+Zero+A3sg+Pnon+Nom',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adj+Without(sIz[suz])',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adj+Without(sIz[suz])+Noun+Zero+A3sg+Pnon+Nom'
+            u'o(o)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])+Noun+Zero+A3sg+Pnon+Nom'
         )
         self.assert_parse_correct(u'bizsiz',
             u'biz(biz)+Pron+Pers+A1pl+Pnon+Nom+Adj+Without(sIz[siz])',
@@ -766,9 +762,7 @@ class ParserTestWithBasicGraph(ParserTest):
             u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])',
             u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])',
             u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])+Noun+Zero+A3sg+Pnon+Nom',
-            u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])+Noun+Zero+A3sg+Pnon+Nom',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom+Adj+Without(sIz[sız])',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom+Adj+Without(sIz[sız])+Noun+Zero+A3sg+Pnon+Nom'
+            u'o(o)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])+Noun+Zero+A3sg+Pnon+Nom'
         )
         self.assert_parse_correct(u'bunsuz',
             u'bu(bu)+Pron+Demons+A3sg+Pnon+Nom+Adj+Without(nsuz[nsuz])',
@@ -821,75 +815,6 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct_for_verb(u'söylemeyin',        u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yIn[yin])')
         self.assert_parse_correct_for_verb(u'söylemeyiniz',      u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A2pl(+yInIz[yiniz])')
         self.assert_parse_correct_for_verb(u'söylemesinler',     u'söyle(söylemek)+Verb+Neg(mA[me])+Imp+A3pl(sInlAr[sinler])')
-
-    def test_should_parse_cardinal_numerals(self):
-        self.cloned_root_map[u'bir'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'bir'])
-        self.cloned_root_map[u'alt'] = []
-        self.cloned_root_map[u'ye'] = []
-        self.cloned_root_map[u'yet'] = []
-        self.cloned_root_map[u'on'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'on'])
-        self.cloned_root_map[u'kırk'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'kırk'])
-        self.cloned_root_map[u'el'] = []
-        self.cloned_root_map[u'sek'] = []
-        self.cloned_root_map[u'yüz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'yüz'])
-        self.cloned_root_map[u'bin'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, self.cloned_root_map[u'bin'])
-
-        self.assert_parse_correct(u'sıfır',                 u'sıfır(sıfır)+Num+Card+Adj+Zero', u'sıfır(sıfır)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'bir',                   u'bir(bir)+Num+Card+Adj+Zero', u'bir(bir)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'iki',                   u'iki(iki)+Num+Card+Adj+Zero', u'iki(iki)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'üç',                    u'üç(üç)+Num+Card+Adj+Zero', u'üç(üç)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'dört',                  u'dört(dört)+Num+Card+Adj+Zero', u'dört(dört)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'beş',                   u'beş(beş)+Num+Card+Adj+Zero', u'beş(beş)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'altı',                  u'altı(altı)+Num+Card+Adj+Zero', u'altı(altı)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yedi',                  u'yedi(yedi)+Num+Card+Adj+Zero', u'yedi(yedi)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'sekiz',                 u'sekiz(sekiz)+Num+Card+Adj+Zero', u'sekiz(sekiz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'dokuz',                 u'dokuz(dokuz)+Num+Card+Adj+Zero', u'dokuz(dokuz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'on',                    u'on(on)+Num+Card+Adj+Zero', u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yirmi',                 u'yirmi(yirmi)+Num+Card+Adj+Zero', u'yirmi(yirmi)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'otuz',                  u'otuz(otuz)+Num+Card+Adj+Zero', u'otuz(otuz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'kırk',                  u'kırk(kırk)+Num+Card+Adj+Zero', u'kırk(kırk)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'elli',                  u'elli(elli)+Num+Card+Adj+Zero', u'elli(elli)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'altmış',                u'altmış(altmış)+Num+Card+Adj+Zero', u'altmış(altmış)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yetmiş',                u'yetmiş(yetmiş)+Num+Card+Adj+Zero', u'yetmiş(yetmiş)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'seksen',                u'seksen(seksen)+Num+Card+Adj+Zero', u'seksen(seksen)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'doksan',                u'doksan(doksan)+Num+Card+Adj+Zero', u'doksan(doksan)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yüz',                   u'yüz(yüz)+Num+Card+Adj+Zero', u'yüz(yüz)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'bin',                   u'bin(bin)+Num+Card+Adj+Zero', u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'milyon',                u'milyon(milyon)+Num+Card+Adj+Zero', u'milyon(milyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'milyar',                u'milyar(milyar)+Num+Card+Adj+Zero', u'milyar(milyar)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'trilyon',               u'trilyon(trilyon)+Num+Card+Adj+Zero', u'trilyon(trilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'katrilyon',             u'katrilyon(katrilyon)+Num+Card+Adj+Zero', u'katrilyon(katrilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'kentilyon',             u'kentilyon(kentilyon)+Num+Card+Adj+Zero', u'kentilyon(kentilyon)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-
-    def test_should_parse_ordinal_numerals(self):
-        self.cloned_root_map[u'altın'] = []
-
-        self.assert_parse_correct(u'sıfırıncı',        u'sıfırıncı(sıfırıncı)+Num+Ord+Adj+Zero', u'sıfırıncı(sıfırıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'birinci',          u'birinci(birinci)+Num+Ord+Adj+Zero', u'birinci(birinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'ikinci',           u'ikinci(ikinci)+Num+Ord+Adj+Zero', u'ikinci(ikinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'üçüncü',           u'üçüncü(üçüncü)+Num+Ord+Adj+Zero', u'üçüncü(üçüncü)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'dördüncü',         u'dördüncü(dördüncü)+Num+Ord+Adj+Zero', u'dördüncü(dördüncü)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'beşinci',          u'beşinci(beşinci)+Num+Ord+Adj+Zero', u'beşinci(beşinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'altıncı',          u'altıncı(altıncı)+Num+Ord+Adj+Zero', u'altıncı(altıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yedinci',          u'yedinci(yedinci)+Num+Ord+Adj+Zero', u'yedinci(yedinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'sekizinci',        u'sekizinci(sekizinci)+Num+Ord+Adj+Zero', u'sekizinci(sekizinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'dokuzuncu',        u'dokuzuncu(dokuzuncu)+Num+Ord+Adj+Zero', u'dokuzuncu(dokuzuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'onuncu',           u'onuncu(onuncu)+Num+Ord+Adj+Zero', u'onuncu(onuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yirminci',         u'yirminci(yirminci)+Num+Ord+Adj+Zero', u'yirminci(yirminci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'otuzuncu',         u'otuzuncu(otuzuncu)+Num+Ord+Adj+Zero', u'otuzuncu(otuzuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'kırkıncı',         u'kırkıncı(kırkıncı)+Num+Ord+Adj+Zero', u'kırkıncı(kırkıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'ellinci',          u'ellinci(ellinci)+Num+Ord+Adj+Zero', u'ellinci(ellinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'altmışıncı',       u'altmışıncı(altmışıncı)+Num+Ord+Adj+Zero', u'altmışıncı(altmışıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yetmişinci',       u'yetmişinci(yetmişinci)+Num+Ord+Adj+Zero', u'yetmişinci(yetmişinci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'sekseninci',       u'sekseninci(sekseninci)+Num+Ord+Adj+Zero', u'sekseninci(sekseninci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'doksanıncı',       u'doksanıncı(doksanıncı)+Num+Ord+Adj+Zero', u'doksanıncı(doksanıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'yüzüncü',          u'yüzüncü(yüzüncü)+Num+Ord+Adj+Zero', u'yüzüncü(yüzüncü)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'bininci',          u'bininci(bininci)+Num+Ord+Adj+Zero', u'bininci(bininci)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'milyonuncu',       u'milyonuncu(milyonuncu)+Num+Ord+Adj+Zero', u'milyonuncu(milyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'milyarıncı',       u'milyarıncı(milyarıncı)+Num+Ord+Adj+Zero', u'milyarıncı(milyarıncı)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'trilyonuncu',      u'trilyonuncu(trilyonuncu)+Num+Ord+Adj+Zero', u'trilyonuncu(trilyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'katrilyonuncu',    u'katrilyonuncu(katrilyonuncu)+Num+Ord+Adj+Zero', u'katrilyonuncu(katrilyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct(u'kentilyonuncu',    u'kentilyonuncu(kentilyonuncu)+Num+Ord+Adj+Zero', u'kentilyonuncu(kentilyonuncu)+Num+Ord+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_verb_to_noun_derivations(self):
         self.assert_parse_correct(u'yapmak',            u'yap(yapmak)+Verb+Pos+Noun+Inf(mAk[mak])+A3sg+Pnon+Nom')
@@ -1249,23 +1174,7 @@ class ParserTestWithBasicGraph(ParserTest):
             u'sayı(sayı)+Noun+A3sg+Pnon+Nom+Adj+Equ(cA[ca])+Noun+Zero+A3sg+Pnon+Nom')
 
         self.assert_parse_correct(u'onlarca',
-            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+AccordingTo(ca[ca])',
-            u'on(on)+Num+Card+Adj+NumbersOf(lArcA[larca])',
-            u'on(on)+Num+Card+Adj+NumbersOf(lArcA[larca])+Noun+Zero+A3sg+Pnon+Nom',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adv+ManyOf(lArcA[larca])',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom+Adj+Equ(cA[ca])',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom+Adv+InTermsOf(cA[ca])',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom+Adv+By(cA[ca])',
-            u'on(on)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[lar])+Pnon+Nom+Adj+Equ(cA[ca])+Noun+Zero+A3sg+Pnon+Nom')
-
-        self.assert_parse_correct(u'binlerce',
-            u'bin(bin)+Num+Card+Adj+NumbersOf(lArcA[lerce])',
-            u'bin(bin)+Num+Card+Adj+NumbersOf(lArcA[lerce])+Noun+Zero+A3sg+Pnon+Nom',
-            u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom+Adv+ManyOf(lArcA[lerce])',
-            u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[ler])+Pnon+Nom+Adj+Equ(cA[ce])',
-            u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[ler])+Pnon+Nom+Adv+InTermsOf(cA[ce])',
-            u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[ler])+Pnon+Nom+Adv+By(cA[ce])',
-            u'bin(bin)+Num+Card+Adj+Zero+Noun+Zero+A3pl(lAr[ler])+Pnon+Nom+Adj+Equ(cA[ce])+Noun+Zero+A3sg+Pnon+Nom')
+            u'o(o)+Pron+Pers+A3pl(nlar[nlar])+Pnon+AccordingTo(ca[ca])')
 
         self.assert_parse_correct(u'saatlerce',
             u'saat(saat)+Noun+A3sg+Pnon+Nom+Adv+ManyOf(lArcA[lerce])',
@@ -1596,7 +1505,6 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_exists(u'kiralık',               u'kira(kira)+Noun+A3sg+Pnon+Nom+Adj+For(lIk[lık])')
         self.assert_parse_exists(u'savcılık',              u'savcı(savcı)+Noun+A3sg+Pnon+Nom+Noun+Title(lIk[lık])+A3sg+Pnon+Nom')
         self.assert_parse_exists(u'yıllık',                u'yıl(yıl)+Noun+Time+A3sg+Pnon+Nom+Adj+DurationOf(lIk[lık])')
-        self.assert_parse_exists(u'milyarlık',             u'milyar(milyar)+Num+Card+Adj+OfUnit(lIk[lık])')
         self.assert_parse_exists(u'dolarlık',              u'dolar(dolar)+Noun+A3sg+Pnon+Nom+Adj+OfUnit(lIk[lık])')
 
     def test_should_parse_relative_pronouns(self):
@@ -1642,272 +1550,6 @@ class ParserTestWithBasicGraph(ParserTest):
 #        self.assert_parse_correct(u'berikini',              u'xxx')
 #        self.assert_parse_correct(u'berikisi',              u'xxx')
 #        self.assert_parse_correct(u'berikiyi',              u'xxx')
-
-    def test_should_parse_digits(self):
-        self.assert_parse_correct_for_verb(u'0',                     u'0(0)+Num+Digits+Adj+Zero', u'0(0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'1',                     u'1(1)+Num+Digits+Adj+Zero', u'1(1)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-1',                    u'-1(-1)+Num+Digits+Adj+Zero', u'-1(-1)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'9999999999',            u'9999999999(9999999999)+Num+Digits+Adj+Zero', u'9999999999(9999999999)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-9999999999',           u'-9999999999(-9999999999)+Num+Digits+Adj+Zero', u'-9999999999(-9999999999)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-
-        # In Turkish, comma is the fraction separator
-        self.assert_parse_correct_for_verb(u'0,0',                   u'0,0(0,0)+Num+Digits+Adj+Zero', u'0,0(0,0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'0,1',                   u'0,1(0,1)+Num+Digits+Adj+Zero', u'0,1(0,1)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-0,0',                  u'-0,0(-0,0)+Num+Digits+Adj+Zero', u'-0,0(-0,0)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-0,1',                  u'-0,1(-0,1)+Num+Digits+Adj+Zero', u'-0,1(-0,1)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'0,000000001',           u'0,000000001(0,000000001)+Num+Digits+Adj+Zero', u'0,000000001(0,000000001)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-0,000000001',          u'-0,000000001(-0,000000001)+Num+Digits+Adj+Zero', u'-0,000000001(-0,000000001)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-
-        # In Turkish, full stop is the grouping separator
-        self.assert_parse_correct_for_verb(u'1.000',                 u'1.000(1.000)+Num+Digits+Adj+Zero', u'1.000(1.000)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'9.999.999.999.999',     u'9.999.999.999.999(9.999.999.999.999)+Num+Digits+Adj+Zero', u'9.999.999.999.999(9.999.999.999.999)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-1.000',                u'-1.000(-1.000)+Num+Digits+Adj+Zero', u'-1.000(-1.000)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-9.999.999.999.999',    u'-9.999.999.999.999(-9.999.999.999.999)+Num+Digits+Adj+Zero', u'-9.999.999.999.999(-9.999.999.999.999)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-
-        self.assert_parse_correct_for_verb(u'1.000,0001212',         u'1.000,0001212(1.000,0001212)+Num+Digits+Adj+Zero', u'1.000,0001212(1.000,0001212)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'9.999.999.999.999,01',  u'9.999.999.999.999,01(9.999.999.999.999,01)+Num+Digits+Adj+Zero', u'9.999.999.999.999,01(9.999.999.999.999,01)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-1.000,0001212',        u'-1.000,0001212(-1.000,0001212)+Num+Digits+Adj+Zero', u'-1.000,0001212(-1.000,0001212)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-        self.assert_parse_correct_for_verb(u'-9.999.999.999.999,01', u'-9.999.999.999.999,01(-9.999.999.999.999,01)+Num+Digits+Adj+Zero', u'-9.999.999.999.999,01(-9.999.999.999.999,01)+Num+Digits+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
-
-    def test_should_parse_digits_with_suffixes(self):
-        self.assert_parse_correct_for_verb(u'0\'ı',                 u'0(0)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'0(0)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'1\'i',                 u'1(1)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1(1)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom')
-        self.assert_parse_correct_for_verb(u'2\'si',                u'2(2)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[si])+Nom')
-        self.assert_parse_correct_for_verb(u'3\'ü',                 u'3(3)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'3(3)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'4\'ü',                 u'4(4)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'4(4)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'5\'i',                 u'5(5)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'5(5)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom')
-        self.assert_parse_correct_for_verb(u'6\'sı',                u'6(6)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[sı])+Nom')
-        self.assert_parse_correct_for_verb(u'7\'si',                u'7(7)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[si])+Nom')
-        self.assert_parse_correct_for_verb(u'8\'i',                 u'8(8)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'8(8)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom')
-        self.assert_parse_correct_for_verb(u'9\'u',                 u'9(9)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'9(9)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom')
-
-        # 10-99
-        self.assert_parse_correct_for_verb(u'10\'u',                 u'10(10)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'10(10)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom')
-        self.assert_parse_correct_for_verb(u'11\'i',                 u'11(11)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11(11)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom')
-        self.assert_parse_correct_for_verb(u'20\'si',                u'20(20)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[si])+Nom')
-        self.assert_parse_correct_for_verb(u'30\'u',                 u'30(30)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'30(30)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom')
-        self.assert_parse_correct_for_verb(u'40\'ı',                 u'40(40)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'40(40)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'50\'si',                u'50(50)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[si])+Nom')
-        self.assert_parse_correct_for_verb(u'60\'ı',                 u'60(60)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'60(60)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'70\'i',                 u'70(70)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'70(70)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'80\'i',                 u'80(80)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'80(80)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'90\'ı',                 u'90(90)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'90(90)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-
-        # 100-999
-        self.assert_parse_correct_for_verb(u'100\'ü',                 u'100(100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'100(100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'110\'u',                 u'110(110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'110(110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111\'i',                 u'111(111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111(111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'200\'ü',                 u'200(200)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'200(200)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-
-        # 1000-9999 (bin)
-        self.assert_parse_correct_for_verb(u'1000\'i',                 u'1000(1000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1000(1000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1100\'ü',                 u'1100(1100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'1100(1100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'1110\'u',                 u'1110(1110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1110(1110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1111\'i',                 u'1111(1111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111(1111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'2000\'i',                 u'2000(2000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'2000(2000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-
-        # 10000-99999 (on bin)
-        self.assert_parse_correct_for_verb(u'10000\'i',                 u'10000(10000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'10000(10000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11000\'i',                 u'11000(11000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11000(11000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11100\'ü',                 u'11100(11100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'11100(11100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'11110\'u',                 u'11110(11110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11110(11110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11111\'i',                 u'11111(11111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111(11111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'20000\'i',                 u'20000(20000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'20000(20000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-
-        # 100000-999999 (yüz bin)
-        self.assert_parse_correct_for_verb(u'100000\'i',                 u'100000(100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'100000(100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'110000\'i',                 u'110000(110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'110000(110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111000\'i',                 u'111000(111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111000(111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111100\'ü',                 u'111100(111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'111100(111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'111110\'u',                 u'111110(111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111110(111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111111\'i',                 u'111111(111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111(111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'200000\'i',                 u'200000(200000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'200000(200000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-
-        # 1000000-9999999 (milyon)
-        self.assert_parse_correct_for_verb(u'1000000\'u',                 u'1000000(1000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1000000(1000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1100000\'i',                 u'1100000(1100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1100000(1100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1110000\'i',                 u'1110000(1110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1110000(1110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1111000\'i',                 u'1111000(1111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111000(1111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1111100\'ü',                 u'1111100(1111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'1111100(1111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'1111110\'u',                 u'1111110(1111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111110(1111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1111111\'i',                 u'1111111(1111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111(1111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'2000000\'u',                 u'2000000(2000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'2000000(2000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-
-        # 10000000-99999999 (on milyon)
-        self.assert_parse_correct_for_verb(u'10000000\'u',                 u'10000000(10000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'10000000(10000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11000000\'u',                 u'11000000(11000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11000000(11000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11100000\'i',                 u'11100000(11100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11100000(11100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11110000\'i',                 u'11110000(11110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11110000(11110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11111000\'i',                 u'11111000(11111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111000(11111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11111100\'ü',                 u'11111100(11111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'11111100(11111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'11111110\'u',                 u'11111110(11111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111110(11111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'11111111\'i',                 u'11111111(11111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111(11111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'20000000\'u',                 u'20000000(20000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'20000000(20000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-
-        # 100000000-999999999 (yüz milyon)
-        self.assert_parse_correct_for_verb(u'100000000\'u',                u'100000000(100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'100000000(100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'110000000\'u',                u'110000000(110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'110000000(110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111000000\'u',                u'111000000(111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111000000(111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111100000\'i',                u'111100000(111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111100000(111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111110000\'i',                u'111110000(111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111110000(111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111111000\'i',                u'111111000(111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111000(111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111111100\'ü',                u'111111100(111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'111111100(111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom')
-        self.assert_parse_correct_for_verb(u'111111110\'u',                u'111111110(111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111110(111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-        self.assert_parse_correct_for_verb(u'111111111\'i',                u'111111111(111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111(111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'      )
-        self.assert_parse_correct_for_verb(u'200000000\'u',                u'200000000(200000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'200000000(200000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'      )
-
-        # 1000000000-9999999999 (milyar)
-        self.assert_parse_correct_for_verb(u'1000000000\'ı',               u'1000000000(1000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1000000000(1000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'1100000000\'u',               u'1100000000(1100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1100000000(1100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1110000000\'u',               u'1110000000(1110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1110000000(1110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111000000\'u',               u'1111000000(1111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111000000(1111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111100000\'i',               u'1111100000(1111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111100000(1111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111110000\'i',               u'1111110000(1111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111110000(1111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111000\'i',               u'1111111000(1111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111000(1111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111100\'ü',               u'1111111100(1111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'1111111100(1111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'1111111110\'u',               u'1111111110(1111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111110(1111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111\'i',               u'1111111111(1111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111(1111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'2000000000\'ı',               u'2000000000(2000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'2000000000(2000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-
-        # 10000000000-99999999999 (on milyar)
-        self.assert_parse_correct_for_verb(u'10000000000\'ı',               u'10000000000(10000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'10000000000(10000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11000000000\'ı',               u'11000000000(11000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11000000000(11000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11100000000\'u',               u'11100000000(11100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11100000000(11100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11110000000\'u',               u'11110000000(11110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11110000000(11110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111000000\'u',               u'11111000000(11111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111000000(11111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111100000\'i',               u'11111100000(11111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111100000(11111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111110000\'i',               u'11111110000(11111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111110000(11111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111000\'i',               u'11111111000(11111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111000(11111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111100\'ü',               u'11111111100(11111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'11111111100(11111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'11111111110\'u',               u'11111111110(11111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111110(11111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111\'i',               u'11111111111(11111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111(11111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'20000000000\'ı',               u'20000000000(20000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'20000000000(20000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-
-        # 10000000000-99999999999 (yüz milyar)
-        self.assert_parse_correct_for_verb(u'100000000000\'ı',               u'100000000000(100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'100000000000(100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'110000000000\'ı',               u'110000000000(110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'110000000000(110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111000000000\'ı',               u'111000000000(111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111000000000(111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111100000000\'u',               u'111100000000(111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111100000000(111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111110000000\'u',               u'111110000000(111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111110000000(111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111000000\'u',               u'111111000000(111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111000000(111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111100000\'i',               u'111111100000(111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111100000(111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111110000\'i',               u'111111110000(111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111110000(111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111000\'i',               u'111111111000(111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111000(111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111100\'ü',               u'111111111100(111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'111111111100(111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'111111111110\'u',               u'111111111110(111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111110(111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111\'i',               u'111111111111(111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111(111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'200000000000\'ı',               u'200000000000(200000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'200000000000(200000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-
-        # 100000000000-999999999999 (trilyon)
-        self.assert_parse_correct_for_verb(u'1000000000000\'u',               u'1000000000000(1000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1000000000000(1000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1100000000000\'ı',               u'1100000000000(1100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1100000000000(1100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom'  )
-        self.assert_parse_correct_for_verb(u'1110000000000\'ı',               u'1110000000000(1110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1110000000000(1110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom'  )
-        self.assert_parse_correct_for_verb(u'1111000000000\'ı',               u'1111000000000(1111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1111000000000(1111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom'  )
-        self.assert_parse_correct_for_verb(u'1111100000000\'u',               u'1111100000000(1111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111100000000(1111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111110000000\'u',               u'1111110000000(1111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111110000000(1111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111111000000\'u',               u'1111111000000(1111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111000000(1111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111111100000\'i',               u'1111111100000(1111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111100000(1111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111111110000\'i',               u'1111111110000(1111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111110000(1111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111111111000\'i',               u'1111111111000(1111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111000(1111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111111111100\'ü',               u'1111111111100(1111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'1111111111100(1111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'      )
-        self.assert_parse_correct_for_verb(u'1111111111110\'u',               u'1111111111110(1111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111111110(1111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'            )
-        self.assert_parse_correct_for_verb(u'1111111111111\'i',               u'1111111111111(1111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111111(1111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'            )
-        self.assert_parse_correct_for_verb(u'2000000000000\'u',               u'2000000000000(2000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'2000000000000(2000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'            )
-
-        # 1000000000000-9999999999999 (on trilyon)
-        self.assert_parse_correct_for_verb(u'10000000000000\'u',               u'10000000000000(10000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'10000000000000(10000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11000000000000\'u',               u'11000000000000(11000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11000000000000(11000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11100000000000\'ı',               u'11100000000000(11100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11100000000000(11100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11110000000000\'ı',               u'11110000000000(11110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11110000000000(11110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11111000000000\'ı',               u'11111000000000(11111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11111000000000(11111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11111100000000\'u',               u'11111100000000(11111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111100000000(11111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111110000000\'u',               u'11111110000000(11111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111110000000(11111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111000000\'u',               u'11111111000000(11111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111000000(11111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111100000\'i',               u'11111111100000(11111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111100000(11111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111110000\'i',               u'11111111110000(11111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111110000(11111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111000\'i',               u'11111111111000(11111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111000(11111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111100\'ü',               u'11111111111100(11111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'11111111111100(11111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'11111111111110\'u',               u'11111111111110(11111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111111110(11111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111111\'i',               u'11111111111111(11111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111111(11111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'20000000000000\'u',               u'20000000000000(20000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'20000000000000(20000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-
-        # 10000000000000-99999999999999 (yüz trilyon)
-        self.assert_parse_correct_for_verb(u'100000000000000\'u',               u'100000000000000(100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'100000000000000(100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'110000000000000\'u',               u'110000000000000(110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'110000000000000(110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111000000000000\'u',               u'111000000000000(111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111000000000000(111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111100000000000\'ı',               u'111100000000000(111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111100000000000(111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111110000000000\'ı',               u'111110000000000(111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111110000000000(111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111111000000000\'ı',               u'111111000000000(111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111111000000000(111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111111100000000\'u',               u'111111100000000(111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111100000000(111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111110000000\'u',               u'111111110000000(111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111110000000(111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111000000\'u',               u'111111111000000(111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111000000(111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111100000\'i',               u'111111111100000(111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111100000(111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111110000\'i',               u'111111111110000(111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111110000(111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111000\'i',               u'111111111111000(111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111000(111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111100\'ü',               u'111111111111100(111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'111111111111100(111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'111111111111110\'u',               u'111111111111110(111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111111110(111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111111\'i',               u'111111111111111(111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111111(111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'200000000000000\'u',               u'200000000000000(200000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'200000000000000(200000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-
-        # 100000000000000-999999999999999 (katrilyon)
-        self.assert_parse_correct_for_verb(u'1000000000000000\'u',               u'1000000000000000(1000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1000000000000000(1000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1100000000000000\'u',               u'1100000000000000(1100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1100000000000000(1100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1110000000000000\'u',               u'1110000000000000(1110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1110000000000000(1110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111000000000000\'u',               u'1111000000000000(1111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111000000000000(1111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111100000000000\'ı',               u'1111100000000000(1111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1111100000000000(1111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'1111110000000000\'ı',               u'1111110000000000(1111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1111110000000000(1111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'1111111000000000\'ı',               u'1111111000000000(1111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'1111111000000000(1111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'1111111100000000\'u',               u'1111111100000000(1111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111100000000(1111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111110000000\'u',               u'1111111110000000(1111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111110000000(1111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111000000\'u',               u'1111111111000000(1111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111111000000(1111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111100000\'i',               u'1111111111100000(1111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111100000(1111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111110000\'i',               u'1111111111110000(1111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111110000(1111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111111000\'i',               u'1111111111111000(1111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111111000(1111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111111100\'ü',               u'1111111111111100(1111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'1111111111111100(1111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'1111111111111110\'u',               u'1111111111111110(1111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'1111111111111110(1111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'1111111111111111\'i',               u'1111111111111111(1111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'1111111111111111(1111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'2000000000000000\'u',               u'2000000000000000(2000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'2000000000000000(2000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-
-        # 1000000000000000-9999999999999999 (on katrilyon)
-        self.assert_parse_correct_for_verb(u'10000000000000000\'u',               u'10000000000000000(10000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'10000000000000000(10000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11000000000000000\'u',               u'11000000000000000(11000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11000000000000000(11000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11100000000000000\'u',               u'11100000000000000(11100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11100000000000000(11100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11110000000000000\'u',               u'11110000000000000(11110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11110000000000000(11110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111000000000000\'u',               u'11111000000000000(11111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111000000000000(11111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111100000000000\'ı',               u'11111100000000000(11111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11111100000000000(11111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11111110000000000\'ı',               u'11111110000000000(11111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11111110000000000(11111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11111111000000000\'ı',               u'11111111000000000(11111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'11111111000000000(11111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'11111111100000000\'u',               u'11111111100000000(11111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111100000000(11111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111110000000\'u',               u'11111111110000000(11111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111110000000(11111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111000000\'u',               u'11111111111000000(11111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111111000000(11111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111100000\'i',               u'11111111111100000(11111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111100000(11111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111110000\'i',               u'11111111111110000(11111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111110000(11111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111111000\'i',               u'11111111111111000(11111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111111000(11111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111111100\'ü',               u'11111111111111100(11111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'11111111111111100(11111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'11111111111111110\'u',               u'11111111111111110(11111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'11111111111111110(11111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'11111111111111111\'i',               u'11111111111111111(11111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'11111111111111111(11111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'20000000000000000\'u',               u'20000000000000000(20000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'20000000000000000(20000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-
-        # 10000000000000000-99999999999999999 (yüz katrilyon)
-        self.assert_parse_correct_for_verb(u'100000000000000000\'u',              u'100000000000000000(100000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'100000000000000000(100000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'110000000000000000\'u',              u'110000000000000000(110000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'110000000000000000(110000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111000000000000000\'u',              u'111000000000000000(111000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111000000000000000(111000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111100000000000000\'u',              u'111100000000000000(111100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111100000000000000(111100000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111110000000000000\'u',              u'111110000000000000(111110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111110000000000000(111110000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111000000000000\'u',              u'111111000000000000(111111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111000000000000(111111000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111100000000000\'ı',              u'111111100000000000(111111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111111100000000000(111111100000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111111110000000000\'ı',              u'111111110000000000(111111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111111110000000000(111111110000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111111111000000000\'ı',              u'111111111000000000(111111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ı])', u'111111111000000000(111111111000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ı])+Nom')
-        self.assert_parse_correct_for_verb(u'111111111100000000\'u',              u'111111111100000000(111111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111100000000(111111111100000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111110000000\'u',              u'111111111110000000(111111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111110000000(111111111110000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111000000\'u',              u'111111111111000000(111111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111111000000(111111111111000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111100000\'i',              u'111111111111100000(111111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111100000(111111111111100000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111110000\'i',              u'111111111111110000(111111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111110000(111111111111110000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111111000\'i',              u'111111111111111000(111111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111111000(111111111111111000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111111100\'ü',              u'111111111111111100(111111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[ü])', u'111111111111111100(111111111111111100)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[ü])+Nom'    )
-        self.assert_parse_correct_for_verb(u'111111111111111110\'u',              u'111111111111111110(111111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'111111111111111110(111111111111111110)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
-        self.assert_parse_correct_for_verb(u'111111111111111111\'i',              u'111111111111111111(111111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[i])', u'111111111111111111(111111111111111111)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[i])+Nom'          )
-        self.assert_parse_correct_for_verb(u'200000000000000000\'u',              u'200000000000000000(200000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+Pnon+Acc(+yI[u])', u'200000000000000000(200000000000000000)+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3sg+P3sg(+sI[u])+Nom'          )
 
 if __name__ == '__main__':
     unittest.main()

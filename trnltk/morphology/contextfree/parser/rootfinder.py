@@ -1,4 +1,5 @@
 import re
+from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.model.root import NumeralRoot, AbbreviationRoot, ProperNounRoot
 
 class RootFinder(object):
@@ -11,11 +12,23 @@ class WordRootFinder(RootFinder):
 
     def find_roots_for_partial_input(self, partial_input):
         if self.lexeme_map.has_key(partial_input):
-            return self.lexeme_map[partial_input][:]
+            roots = self.lexeme_map[partial_input][:]
+            return filter(lambda root:root.lexeme.syntactic_category!=SyntacticCategory.NUMERAL, roots)
         else:
             return []
 
-class NumeralRootFinder(RootFinder):
+class TextNumeralRootFinder(RootFinder):
+    def __init__(self, lexeme_map):
+        self.lexeme_map = lexeme_map
+
+    def find_roots_for_partial_input(self, partial_input):
+        if self.lexeme_map.has_key(partial_input):
+            roots = self.lexeme_map[partial_input][:]
+            return filter(lambda root:root.lexeme.syntactic_category==SyntacticCategory.NUMERAL, roots)
+        else:
+            return []
+
+class DigitNumeralRootFinder(RootFinder):
     NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
 
     def find_roots_for_partial_input(self, partial_input):

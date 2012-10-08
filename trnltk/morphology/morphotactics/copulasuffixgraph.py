@@ -28,11 +28,11 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
         self.DECORATED_ADVERB_ROOT = self.get_state('ADVERB_ROOT')
         self.DECORATED_VERB_TERMINAL_TRANSFER = self.get_state('VERB_TERMINAL_TRANSFER')
 
-    def get_default_root_state(self, root):
+    def _find_default_root_state(self, root):
         if root.lexeme.syntactic_category==SyntacticCategory.VERB and root.str==u'değil':
             return self.VERB_DEGIL_ROOT
-        else:
-            return super(CopulaSuffixGraph, self).get_default_root_state(root)
+
+        return self._decorated._find_default_root_state(root)
 
 
     def register_suffixes(self):

@@ -6,7 +6,7 @@ from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -30,7 +30,7 @@ class ParseSetCreatorTest(unittest.TestCase):
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(root_map)
-        numeral_root_finder = NumeralRootFinder()
+        numeral_root_finder = DigitNumeralRootFinder()
 
         self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
 

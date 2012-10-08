@@ -11,7 +11,7 @@ import pymongo
 from hamcrest import *
 from mock import Mock
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, NumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -46,7 +46,7 @@ class _LikelihoodCalculatorTest(object):
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(cls.root_map)
-        numeral_root_finder = NumeralRootFinder()
+        numeral_root_finder = DigitNumeralRootFinder()
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 

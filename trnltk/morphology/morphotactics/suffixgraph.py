@@ -16,6 +16,9 @@ class EmptySuffixGraph(object):
     def get_default_root_state(self, root):
         return None
 
+    def _find_default_root_state(self, root):
+        return None
+
     def register_suffixes(self):
         pass
 
@@ -53,9 +56,15 @@ class SuffixGraphDecorator(EmptySuffixGraph):
         self.register_suffixes()
         self.create_suffix_edges()
 
-
     def get_default_root_state(self, root):
-        return self._decorated.get_default_root_state(root)
+        state = self._find_default_root_state(root)
+        if not state:
+            raise Exception(u'Unable to find default root state for root {}'.format(str(root)))
+        else:
+            return state
+
+    def _find_default_root_state(self, root):
+        return self._decorated._find_default_root_state(root)
 
     def get_all_states(self):
         return (self._decorated.get_all_states() or []) | self.all_states.values()

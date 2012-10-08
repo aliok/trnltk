@@ -63,14 +63,6 @@ class BasicSuffixGraph(SuffixGraphDecorator):
 
         self.CONJUNCTION_ROOT_TERMINAL = self._register_state("CONJUNCTION_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.CONJUNCTION)
 
-        self.NUMERAL_CARDINAL_ROOT = self._register_state("NUMERAL_CARDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
-        self.NUMERAL_CARDINAL_DERIV = self._register_state("NUMERAL_CARDINAL_DERIV", State.DERIVATIONAL, SyntacticCategory.NUMERAL)
-
-        self.NUMERAL_DIGIT_CARDINAL_ROOT = self._register_state("NUMERAL_DIGIT_CARDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
-
-        self.NUMERAL_ORDINAL_ROOT = self._register_state("NUMERAL_ORDINAL_ROOT", State.TRANSFER, SyntacticCategory.NUMERAL)
-        self.NUMERAL_ORDINAL_DERIV = self._register_state("NUMERAL_ORDINAL_DERIV", State.DERIVATIONAL, SyntacticCategory.NUMERAL)
-
         self.QUESTION_ROOT = self._register_state("QUESTION_ROOT", State.TRANSFER, SyntacticCategory.QUESTION)
         self.QUESTION_WITH_TENSE = self._register_state("QUESTION_WITH_TENSE", State.TRANSFER, SyntacticCategory.QUESTION)
         self.QUESTION_WITH_AGREEMENT = self._register_state("QUESTION_WITH_AGREEMENT", State.TRANSFER, SyntacticCategory.QUESTION)
@@ -80,7 +72,7 @@ class BasicSuffixGraph(SuffixGraphDecorator):
 
         self.PART_ROOT_TERMINAL = self._register_state("PART_ROOT_TERMINAL", State.TERMINAL, SyntacticCategory.PARTICLE)
 
-    def get_default_root_state(self, root):
+    def _find_default_root_state(self, root):
         """
         Return the initial state for root based on primary and secondary syntactic category of it.
         @type root: Root
@@ -105,20 +97,14 @@ class BasicSuffixGraph(SuffixGraphDecorator):
             return self.INTERJECTION_ROOT_TERMINAL
         elif root.lexeme.syntactic_category==SyntacticCategory.CONJUNCTION:
             return self.CONJUNCTION_ROOT_TERMINAL
-        elif root.lexeme.syntactic_category==SyntacticCategory.NUMERAL and root.lexeme.secondary_syntactic_category==SecondarySyntacticCategory.DIGITS:
-            return self.NUMERAL_DIGIT_CARDINAL_ROOT
-        elif root.lexeme.syntactic_category==SyntacticCategory.NUMERAL and root.lexeme.secondary_syntactic_category==SecondarySyntacticCategory.CARD:
-            return self.NUMERAL_CARDINAL_ROOT
-        elif root.lexeme.syntactic_category==SyntacticCategory.NUMERAL and root.lexeme.secondary_syntactic_category==SecondarySyntacticCategory.ORD:
-            return self.NUMERAL_ORDINAL_ROOT
         elif root.lexeme.syntactic_category==SyntacticCategory.PUNCTUATION:
             return self.PUNC_ROOT_TERMINAL
         elif root.lexeme.syntactic_category==SyntacticCategory.PARTICLE:
             return self.PART_ROOT_TERMINAL
         elif root.lexeme.syntactic_category==SyntacticCategory.QUESTION:
             return self.QUESTION_ROOT
-        else:
-            raise Exception("No _root state found for root {} !".format(root))
+
+        return self._decorated._find_default_root_state(root)
 
     def register_suffixes(self):
 
@@ -145,15 +131,8 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.PRONOUN_TERMINAL_TRANSFER    .add_out_suffix(self._register_free_transition_suffix("Pronoun_Free_Transition_2"  ), self.PRONOUN_TERMINAL)
         self.PRONOUN_WITH_CASE            .add_out_suffix(self._register_free_transition_suffix("Pronoun_Free_Transition_3"  ), self.PRONOUN_DERIV_WITH_CASE)
 
-        self.NUMERAL_CARDINAL_ROOT        .add_out_suffix(self._register_free_transition_suffix("Numeral_Free_Transition_1"  ), self.NUMERAL_CARDINAL_DERIV)
-        self.NUMERAL_ORDINAL_ROOT         .add_out_suffix(self._register_free_transition_suffix("Numeral_Free_Transition_2"  ), self.NUMERAL_ORDINAL_DERIV)
-
         self.QUESTION_WITH_AGREEMENT      .add_out_suffix(self._register_free_transition_suffix("Question_Free_Transition_1" ), self.QUESTION_TERMINAL)
 
-        self.NUMERAL_DIGIT_CARDINAL_ROOT  .add_out_suffix(self._register_free_transition_suffix("Digits_Free_Transition_1"   ), self.NUMERAL_CARDINAL_DERIV)
-
-        self.NUMERAL_CARDINAL_DERIV       .add_out_suffix(self._register_zero_transition_suffix("Numeral_Zero_Transition_1"  ), self.ADJECTIVE_ROOT)
-        self.NUMERAL_ORDINAL_DERIV        .add_out_suffix(self._register_zero_transition_suffix("Numeral_Zero_Transition_2"  ), self.ADJECTIVE_ROOT)
         self.ADJECTIVE_DERIV              .add_out_suffix(self._register_zero_transition_suffix("Adj_to_Noun_Zero_Transition"), self.NOUN_ROOT)
         self.VERB_TENSE_ADJ_DERIV         .add_out_suffix(self._register_zero_transition_suffix("Verb_to_Adj_Zero_Transition"), self.ADJECTIVE_ROOT)
 
@@ -388,7 +367,6 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self._register_pronoun_suffixes()
         self._register_adverb_suffixes()
         self._register_question_suffixes()
-        self._register_numeral_suffixes()
 
     def _register_noun_suffixes(self):
         self._register_noun_agreements()
@@ -431,10 +409,6 @@ class BasicSuffixGraph(SuffixGraphDecorator):
     def _register_question_suffixes(self):
         self._register_question_tenses()
         self._register_question_agreements()
-
-    def _register_numeral_suffixes(self):
-        self._register_cardinal_to_adjective_suffixes()
-        self._register_digits_suffixes()
 
     def _register_noun_agreements(self):
         self.NOUN_ROOT.add_out_suffix(self.A3Sg_Noun, self.NOUN_WITH_AGREEMENT)
@@ -976,14 +950,3 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A1Pl_Ques, self.VERB_TERMINAL_TRANSFER)
         self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A2Pl_Ques, self.VERB_TERMINAL_TRANSFER)
         self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A3Pl_Ques, self.VERB_TERMINAL_TRANSFER)
-
-    def _register_cardinal_to_adjective_suffixes(self):
-        self.NUMERAL_CARDINAL_DERIV.add_out_suffix(self.NumbersOf, self.ADJECTIVE_ROOT)
-        self.NumbersOf.add_suffix_form(u"lArcA")
-
-        self.NUMERAL_CARDINAL_DERIV.add_out_suffix(self.OfUnit_Number, self.ADJECTIVE_ROOT)
-        self.OfUnit_Number.add_suffix_form(u"lIk")
-
-    def _register_digits_suffixes(self):
-        self.NUMERAL_DIGIT_CARDINAL_ROOT.add_out_suffix(self.Apos_Digit, self.NUMERAL_CARDINAL_DERIV)
-        self.Apos_Digit.add_suffix_form(u"'")

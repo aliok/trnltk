@@ -6,7 +6,7 @@ from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphological
 from trnltk.morphology.model import formatter
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
@@ -33,7 +33,7 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(root_map)
-        numeral_root_finder = NumeralRootFinder()
+        numeral_root_finder = DigitNumeralRootFinder()
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 

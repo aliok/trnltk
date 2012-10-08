@@ -4,12 +4,12 @@ from hamcrest.core.assert_that import *
 from hamcrest.core.core.isequal import equal_to
 from hamcrest.library.object.haslength import has_length
 from trnltk.morphology.model.lexeme import SecondarySyntacticCategory
-from trnltk.morphology.contextfree.parser.rootfinder import NumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 
 class NumeralRootFinderTest(unittest.TestCase):
 
     def setUp(self):
-        self.root_finder = NumeralRootFinder()
+        self.root_finder = DigitNumeralRootFinder()
 
     def test_should_recognize_number_roots(self):
         roots = self.root_finder.find_roots_for_partial_input('3')
