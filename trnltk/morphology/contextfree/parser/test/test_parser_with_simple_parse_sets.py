@@ -13,7 +13,7 @@ from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -169,9 +169,10 @@ class ParserTestWithSimpleParseSets(ParserTest):
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(cls.root_map)
-        numeral_root_finder = DigitNumeralRootFinder()
+        text_numeral_root_finder = TextNumeralRootFinder(cls.root_map)
+        digit_numeral_root_finder = DigitNumeralRootFinder()
 
-        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
+        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, text_numeral_root_finder, digit_numeral_root_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)

@@ -13,7 +13,6 @@ from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphological
 from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
-from trnltk.morphology.morphotactics.suffixgraph import EmptySuffixGraph
 
 class ParserTestWithExtendedGraph(ParserTest):
 

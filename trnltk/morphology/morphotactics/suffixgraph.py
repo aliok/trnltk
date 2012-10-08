@@ -67,7 +67,7 @@ class SuffixGraphDecorator(EmptySuffixGraph):
         return self._decorated._find_default_root_state(root)
 
     def get_all_states(self):
-        return (self._decorated.get_all_states() or []) | self.all_states.values()
+        return (self._decorated.get_all_states() or []) + self.all_states.values()
 
     def find_state(self, name):
         state_from_decorated = self._decorated.find_state(name)
@@ -85,7 +85,7 @@ class SuffixGraphDecorator(EmptySuffixGraph):
             return state
 
     def find_suffix(self, name):
-        suffix_from_decorated = self._decorated.get_suffix(name)
+        suffix_from_decorated = self._decorated.find_suffix(name)
         suffix_from_self = self.all_suffixes[name] if self.all_suffixes.has_key(name) else None
         if suffix_from_decorated and suffix_from_self:
             raise Exception(u'Suffix {} is found in decorated and self!'.format(name))
@@ -110,13 +110,6 @@ class SuffixGraphDecorator(EmptySuffixGraph):
 
     def _register_suffix(self, name, group=None, pretty_name=None, allow_repetition=False):
         suffix = Suffix(name, group, pretty_name, allow_repetition)
-        if self.find_suffix(name):
-            raise Exception(u'Suffix {} already exists in decorated or self!'.format(name))
-        self.all_suffixes[name] = suffix
-        return suffix
-
-    def _register_suffix(self, name, group=None, pretty_name=None, allow_repetition=False):
-        suffix = Suffix(name, group, pretty_name, allow_repetition)
         return self.__put_suffix(name, suffix)
 
     def _register_zero_transition_suffix(self, name):
@@ -128,6 +121,7 @@ class SuffixGraphDecorator(EmptySuffixGraph):
         return self.__put_suffix(name, suffix)
 
     def __put_suffix(self, name, suffix):
-        assert not self.all_suffixes.has_key(name)
+        if self.find_suffix(name):
+            raise Exception(u'Suffix {} already exists in decorated or self!'.format(name))
         self.all_suffixes[name] = suffix
         return suffix

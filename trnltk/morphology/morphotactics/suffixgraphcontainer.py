@@ -1,2 +1,0 @@
-class SuffixGraphContainer(object):
-    pass

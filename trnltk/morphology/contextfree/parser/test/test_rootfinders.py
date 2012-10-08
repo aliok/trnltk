@@ -1,12 +1,89 @@
 # coding=utf-8
 import unittest
-from hamcrest.core.assert_that import *
-from hamcrest.core.core.isequal import equal_to
-from hamcrest.library.object.haslength import has_length
-from trnltk.morphology.model.lexeme import SecondarySyntacticCategory
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from hamcrest import *
+from mock import Mock
+from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, WordRootFinder, TextNumeralRootFinder
 
-class NumeralRootFinderTest(unittest.TestCase):
+class WordRootFinderTest(unittest.TestCase):
+
+    def setUp(self):
+        mock_lexeme1_1 = Mock()
+        mock_lexeme1_2 = Mock()
+        mock_lexeme2_1 = Mock()
+        mock_lexeme2_2 = Mock()
+
+        mock_lexeme1_1.syntactic_category = SyntacticCategory.NOUN
+        mock_lexeme1_2.syntactic_category = SyntacticCategory.NOUN
+        mock_lexeme2_1.syntactic_category = SyntacticCategory.NOUN
+        mock_lexeme2_2.syntactic_category = SyntacticCategory.NUMERAL
+
+        self.mock_root1_1 = Mock()
+        self.mock_root1_2 = Mock()
+        self.mock_root2_1 = Mock()
+        self.mock_root2_2 = Mock()
+
+        self.mock_root1_1.lexeme = mock_lexeme1_1
+        self.mock_root1_2.lexeme = mock_lexeme1_2
+        self.mock_root2_1.lexeme = mock_lexeme2_1
+        self.mock_root2_2.lexeme = mock_lexeme2_2
+
+        lexeme_map = {u'root1' : [self.mock_root1_1, self.mock_root1_2], u'root2': [self.mock_root2_1, self.mock_root2_2]}
+
+        self.root_finder = WordRootFinder(lexeme_map)
+
+    def test_should_find_roots(self):
+        roots = self.root_finder.find_roots_for_partial_input(u"root1")
+        assert_that(roots, has_length(2))
+        assert_that(roots, has_items(self.mock_root1_1, self.mock_root1_2))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"root2")
+        assert_that(roots, has_length(1))
+        assert_that(roots, has_items(self.mock_root2_1))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"UNDEFINED")
+        assert_that(roots, has_length(0))
+
+class TextNumeralRootFinderTest(unittest.TestCase):
+
+    def setUp(self):
+        mock_lexeme1_1 = Mock()
+        mock_lexeme1_2 = Mock()
+        mock_lexeme2_1 = Mock()
+        mock_lexeme2_2 = Mock()
+
+        mock_lexeme1_1.syntactic_category = SyntacticCategory.NUMERAL
+        mock_lexeme1_2.syntactic_category = SyntacticCategory.NUMERAL
+        mock_lexeme2_1.syntactic_category = SyntacticCategory.NUMERAL
+        mock_lexeme2_2.syntactic_category = SyntacticCategory.NOUN
+
+        self.mock_root1_1 = Mock()
+        self.mock_root1_2 = Mock()
+        self.mock_root2_1 = Mock()
+        self.mock_root2_2 = Mock()
+
+        self.mock_root1_1.lexeme = mock_lexeme1_1
+        self.mock_root1_2.lexeme = mock_lexeme1_2
+        self.mock_root2_1.lexeme = mock_lexeme2_1
+        self.mock_root2_2.lexeme = mock_lexeme2_2
+
+        lexeme_map = {u'root1' : [self.mock_root1_1, self.mock_root1_2], u'root2': [self.mock_root2_1, self.mock_root2_2]}
+
+        self.root_finder = TextNumeralRootFinder(lexeme_map)
+
+    def test_should_find_roots(self):
+        roots = self.root_finder.find_roots_for_partial_input(u"root1")
+        assert_that(roots, has_length(2))
+        assert_that(roots, has_items(self.mock_root1_1, self.mock_root1_2))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"root2")
+        assert_that(roots, has_length(1))
+        assert_that(roots, has_items(self.mock_root2_1))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"UNDEFINED")
+        assert_that(roots, has_length(0))
+
+class DigitNumeralRootFinderTest(unittest.TestCase):
 
     def setUp(self):
         self.root_finder = DigitNumeralRootFinder()

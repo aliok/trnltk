@@ -8,7 +8,7 @@ from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import  WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph

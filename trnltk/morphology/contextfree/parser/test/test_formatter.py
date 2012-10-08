@@ -9,7 +9,6 @@ from trnltk.morphology.contextfree.parser.rootfinder import  WordRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
-from trnltk.morphology.morphotactics.suffixgraph import EmptySuffixGraph
 
 class FormatterTest(unittest.TestCase):
 
