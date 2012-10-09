@@ -29,6 +29,7 @@ class PredefinedPathsTest(unittest.TestCase):
         cls.morpheme_container_map = {}
 
         cls.suffix_graph = BasicSuffixGraph()
+        cls.suffix_graph.initialize()
 
     def setUp(self):
         super(PredefinedPathsTest, self).setUp()

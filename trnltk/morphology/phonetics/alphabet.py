@@ -12,7 +12,7 @@ class TurkishLetter(object):
         @type rounded: bool
         @type voiceless: bool
         @type stop_consonant: bool
-        @type in_ascii: unicode
+        @type in_ascii: bool
         @type foreign: bool
         @type english_equivalent_char: unicode
         """

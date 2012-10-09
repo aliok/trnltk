@@ -353,13 +353,6 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.A2Pl_Ques = self._register_suffix("A2Pl_Ques", self.Question_Agreements_Group, 'A2pl')
         self.A3Pl_Ques = self._register_suffix("A3Pl_Ques", self.Question_Agreements_Group, 'A3pl')
 
-        ########### Cardinal numbers to Adjective derivations
-        self.NumbersOf = self._register_suffix("NumbersOf")
-        self.OfUnit_Number = self._register_suffix("OfUnit_Number", pretty_name='OfUnit')
-
-        ########### Cardinal digits suffixes
-        self.Apos_Digit = self._register_suffix("Apos")
-
     def create_suffix_edges(self):
         self._register_noun_suffixes()
         self._register_verb_suffixes()

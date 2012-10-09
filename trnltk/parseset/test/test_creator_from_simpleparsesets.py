@@ -4,9 +4,11 @@ import os
 import unittest
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
 from trnltk.morphology.model import formatter
+from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
+from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
@@ -28,17 +30,20 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
 
         root_map = (RootMapGenerator()).generate(all_roots)
 
-        suffix_graph = BasicSuffixGraph()
+        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(BasicSuffixGraph()))
+        suffix_graph.initialize()
+
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(root_map)
-        numeral_root_finder = DigitNumeralRootFinder()
+        digit_numeral_root_finder = DigitNumeralRootFinder()
+        text_numeral_root_finder = TextNumeralRootFinder(root_map)
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
         self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
+            [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def test_should_create_parseset_001(self):
         self._create_parseset_n("001")

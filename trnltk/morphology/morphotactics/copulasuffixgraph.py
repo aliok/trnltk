@@ -2,7 +2,6 @@
 from trnltk.morphology.model.graphmodel import State
 from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, doesnt_come_after
-from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.model.morpheme import *
 from trnltk.morphology.morphotactics.suffixgraph import SuffixGraphDecorator
 
@@ -26,7 +25,12 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
         # from decorated
         self.DECORATED_ADJECTIVE_DERIV = self.get_state('ADJECTIVE_DERIV')
         self.DECORATED_ADVERB_ROOT = self.get_state('ADVERB_ROOT')
-        self.DECORATED_VERB_TERMINAL_TRANSFER = self.get_state('VERB_TERMINAL_TRANSFER')
+
+        self.DECORATED_NOUN_TERMINAL_TRANSFER       = self.get_state('NOUN_TERMINAL_TRANSFER')
+        self.DECORATED_ADJECTIVE_TERMINAL_TRANSFER  = self.get_state('ADJECTIVE_TERMINAL_TRANSFER')
+        self.DECORATED_ADVERB_TERMINAL_TRANSFER     = self.get_state('ADVERB_TERMINAL_TRANSFER')
+        self.DECORATED_PRONOUN_TERMINAL_TRANSFER    = self.get_state('PRONOUN_TERMINAL_TRANSFER')
+        self.DECORATED_VERB_TERMINAL_TRANSFER       = self.get_state('VERB_TERMINAL_TRANSFER')
 
     def _find_default_root_state(self, root):
         if root.lexeme.syntactic_category==SyntacticCategory.VERB and root.str==u'değil':
@@ -36,10 +40,10 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
 
 
     def register_suffixes(self):
-        self._decorated.NOUN_TERMINAL_TRANSFER     .add_out_suffix(self._register_free_transition_suffix("Noun_Cop_Free_Transition"     ), self.NOUN_COPULA)
-        self._decorated.ADJECTIVE_TERMINAL_TRANSFER.add_out_suffix(self._register_free_transition_suffix("Adjective_Cop_Free_Transition"), self.ADJECTIVE_COPULA)
-        self._decorated.ADVERB_TERMINAL_TRANSFER   .add_out_suffix(self._register_free_transition_suffix("Adverb_Cop_Free_Transition"   ), self.ADVERB_COPULA)
-        self._decorated.PRONOUN_TERMINAL_TRANSFER  .add_out_suffix(self._register_free_transition_suffix("Pronoun_Cop_Free_Transition"  ), self.PRONOUN_COPULA)
+        self.DECORATED_NOUN_TERMINAL_TRANSFER      .add_out_suffix(self._register_free_transition_suffix("Noun_Cop_Free_Transition"     ), self.NOUN_COPULA)
+        self.DECORATED_ADJECTIVE_TERMINAL_TRANSFER .add_out_suffix(self._register_free_transition_suffix("Adjective_Cop_Free_Transition"), self.ADJECTIVE_COPULA)
+        self.DECORATED_ADVERB_TERMINAL_TRANSFER    .add_out_suffix(self._register_free_transition_suffix("Adverb_Cop_Free_Transition"   ), self.ADVERB_COPULA)
+        self.DECORATED_PRONOUN_TERMINAL_TRANSFER   .add_out_suffix(self._register_free_transition_suffix("Pronoun_Cop_Free_Transition"  ), self.PRONOUN_COPULA)
         self.VERB_DEGIL_ROOT                       .add_out_suffix(self._register_free_transition_suffix("Verb_Degil_Free_Transition"   ), self.VERB_COPULA_WITHOUT_TENSE)
         self.VERB_COPULA_WITHOUT_TENSE             .add_out_suffix(self._register_free_transition_suffix("Copula_Deriv_Free_Transition" ), self.VERB_COPULA_WITHOUT_TENSE_DERIV)
 

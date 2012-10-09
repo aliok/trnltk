@@ -5,8 +5,9 @@ import unittest
 from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
+from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, TextNumeralRootFinder
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -25,14 +26,17 @@ class ParseSetCreatorTest(unittest.TestCase):
 
         root_map = (RootMapGenerator()).generate(all_roots)
 
-        suffix_graph = BasicSuffixGraph()
+        suffix_graph = NumeralSuffixGraph(BasicSuffixGraph())
+        suffix_graph.initialize()
+
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(root_map)
-        numeral_root_finder = DigitNumeralRootFinder()
+        digit_numeral_root_finder = DigitNumeralRootFinder()
+        text_numeral_root_finder = TextNumeralRootFinder(root_map)
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, numeral_root_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder])
 
     def test_should_create_sentence_binding_from_morpheme_containers(self):
         morpheme_containers = []
@@ -84,25 +88,17 @@ class ParseSetCreatorTest(unittest.TestCase):
 			<inflectionalSuffix actual="ın" application="ın" form="+In" id="P2Sg_Adj" matched_word="kıvrandığın" name="P2sg" to_syntactic_category="Adj" word="kıvrandığın"/>
 		</suffixes>
 	</word>
-	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom+Noun+Agt+A3sg+Pnon+Nom" str="sabahçı" syntactic_category="Noun">
+	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom+Adj+Agt" str="sabahçı" syntactic_category="Adj">
 		<root lemma="sabah" lemma_root="sabah" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
 			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>
 			<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="sabah" name="Nom" to_syntactic_category="Noun" word="sabah"/>
-			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun_to_Adj" matched_word="sabahçı" name="Agt" to_syntactic_category="Noun" word="sabahçı"/>
-			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabahçı" name="A3sg" to_syntactic_category="Noun" word="sabahçı"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabahçı" name="Pnon" to_syntactic_category="Noun" word="sabahçı"/>
-			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabahçı" name="Nom" to_syntactic_category="Noun" word="sabahçı"/>
+			<derivationalSuffix actual="çı" application="çı" form="cI" id="Agt_Noun_to_Adj" matched_word="sabahçı" name="Agt" to_syntactic_category="Adj" word="sabahçı"/>
 		</suffixes>
 	</word>
-	<word parse_result="sabah+Noun+Time+A3sg+Pnon+Nom" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun">
-		<root lemma="sabah" lemma_root="sabah" secondary_syntactic_category="Time" str="sabah" syntactic_category="Noun"/>
-		<suffixes>
-			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="sabah" name="A3sg" to_syntactic_category="Noun" word="sabah"/>
-			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="sabah" name="Pnon" to_syntactic_category="Noun" word="sabah"/>
-			<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="sabah" name="Nom" to_syntactic_category="Noun" word="sabah"/>
-		</suffixes>
+	<word parse_result="sabah+Adv+Time" secondary_syntactic_category="Time" str="sabah" syntactic_category="Adv">
+		<root lemma="sabah" lemma_root="sabah" secondary_syntactic_category="Time" str="sabah" syntactic_category="Adv"/>
 	</word>
 </sentence>
 '''

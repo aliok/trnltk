@@ -20865,7 +20865,7 @@ süzülmek
 Şişli
 şişman [P:Adj]
 şişmanlamak
-şişmek [P:Causative_Ir]
+şişmek [A:Causative_Ir]
 şita
 şitaiye
 şive
