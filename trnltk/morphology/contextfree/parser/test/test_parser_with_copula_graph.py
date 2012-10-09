@@ -41,12 +41,9 @@ class ParserTestWithExtendedGraph(ParserTest):
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(self.cloned_root_map)
-        numeral_root_finder = DigitNumeralRootFinder()
-        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
-        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
         self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
+            [word_root_finder])
 
     def test_should_parse_other_categories_to_verbs_zero_transition(self):
         #remove some roots for keeping the tests simple!
