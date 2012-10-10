@@ -108,7 +108,7 @@ Plan
 
 A finite state machine is used for parsing surfaces. Nodes with different states of words and edges as suffixes.
 
-As of June 2012, [this](https://github.com/aliok/trnltk/raw/master/suffixGraphExtended_20120628.png) graph is used to parse surfaces.
+As of October 2012, [this](https://github.com/aliok/trnltk/raw/master/suffixGraphExtended_20121010.png) graph is used to parse surfaces.
 That graph is drawn by [this script](https://github.com/aliok/trnltk/bin/suffixgraphplotter.py) with the following command
 
     suffixgraphplotter.py E /home/ali/Desktop/suffixGraphX.png
