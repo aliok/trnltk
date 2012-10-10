@@ -1,10 +1,11 @@
 from trnltk.morphology.model import formatter
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset.xmlbindings import *
 from trnltk.morphology.model.morpheme import FreeTransitionSuffix
 
 class ParseSetCreator(object):
     def create_word_binding_from_morpheme_container(self, word_str, morpheme_container):
-        assert word_str == morpheme_container.get_surface_so_far()
+        assert (word_str == morpheme_container.get_surface_so_far()) or (TurkishAlphabet.lower(word_str[0])+word_str[1:] == morpheme_container.get_surface_so_far())
 
         root_str = morpheme_container.get_root().str
         lemma = morpheme_container.get_root().lexeme.lemma
@@ -22,7 +23,6 @@ class ParseSetCreator(object):
                 word_syntactic_category = last_derivation_transition.to_state.syntactic_category
                 word_secondary_syntactic_category = None
 
-        word_str = morpheme_container.get_surface_so_far()
         parse_result = formatter.format_morpheme_container_for_parseset(morpheme_container)
         word = WordBinding(word_str, parse_result, root, word_syntactic_category, word_secondary_syntactic_category)
 

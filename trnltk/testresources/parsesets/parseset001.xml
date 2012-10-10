@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <parseset xmlns="http://trnltk.org/parseset">
 	<sentence>
-		<unparsable_word str="Hayır"/>
+		<word parse_result="hayır+Adv" str="Hayır" syntactic_category="Adv">
+			<root lemma="hayır" lemma_root="hayır" str="hayır" syntactic_category="Adv"/>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -30,25 +32,20 @@
 		</word>
 	</sentence>
 	<sentence>
-		<word parse_result="Milas+Noun+Prop+A3sg+Pnon+Nom+Adj+With+Noun+Zero+A3sg+Pnon+Nom" str="Milaslı" syntactic_category="Noun">
-			<root lemma="Milas" lemma_root="Milas" secondary_syntactic_category="Prop" str="Milas" syntactic_category="Noun"/>
-			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Milas" name="A3sg" to_syntactic_category="Noun" word="Milas"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Milas" name="Pnon" to_syntactic_category="Noun" word="Milas"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Deriv_Noun" matched_word="Milas" name="Nom" to_syntactic_category="Noun" word="Milas"/>
-				<derivationalSuffix actual="lı" application="lı" form="lI" id="With" matched_word="Milaslı" name="With" to_syntactic_category="Adj" word="Milaslı"/>
-				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_word="Milaslı" name="Zero" to_syntactic_category="Noun" word="Milaslı"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Milaslı" name="A3sg" to_syntactic_category="Noun" word="Milaslı"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Milaslı" name="Pnon" to_syntactic_category="Noun" word="Milaslı"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Milaslı" name="Nom" to_syntactic_category="Noun" word="Milaslı"/>
-			</suffixes>
-		</word>
+		<unparsable_word str="Milaslı"/>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Saçları"/>
+		<word parse_result="saç+Noun+A3pl+P3sg+Nom" str="Saçları" syntactic_category="Noun">
+			<root lemma="saç" lemma_root="saç" str="saç" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_word="saçlar" name="A3pl" to_syntactic_category="Noun" word="saçlar"/>
+				<inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3Sg_Noun" matched_word="saçları" name="P3sg" to_syntactic_category="Noun" word="saçları"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="saçları" name="Nom" to_syntactic_category="Noun" word="saçları"/>
+			</suffixes>
+		</word>
 		<word parse_result="kır+Noun+A3sg+Pnon+Nom" str="kır" syntactic_category="Noun">
 			<root lemma="kır" lemma_root="kır" str="kır" syntactic_category="Noun"/>
 			<suffixes>
@@ -62,7 +59,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Arkaya"/>
+		<word parse_result="arka+Noun+A3sg+Pnon+Dat" str="Arkaya" syntactic_category="Noun">
+			<root lemma="arka" lemma_root="arka" str="arka" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="arka" name="A3sg" to_syntactic_category="Noun" word="arka"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="arka" name="Pnon" to_syntactic_category="Noun" word="arka"/>
+				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Noun" matched_word="arkaya" name="Dat" to_syntactic_category="Noun" word="arkaya"/>
+			</suffixes>
+		</word>
 		<word parse_result="tara+Verb+Verb+Pass+Pos+Narr+A3sg" str="taranmış" syntactic_category="Verb">
 			<root lemma="taramak" lemma_root="tara" str="tara" syntactic_category="Verb"/>
 			<suffixes>
@@ -77,7 +81,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="İzini"/>
+		<word parse_result="iz+Noun+A3sg+P3sg+Acc" str="İzini" syntactic_category="Noun">
+			<root lemma="iz" lemma_root="iz" str="iz" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="iz" name="A3sg" to_syntactic_category="Noun" word="iz"/>
+				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3Sg_Noun" matched_word="izi" name="P3sg" to_syntactic_category="Noun" word="izi"/>
+				<inflectionalSuffix actual="ni" application="ni" form="nI" id="Acc_Noun" matched_word="izini" name="Acc" to_syntactic_category="Noun" word="izini"/>
+			</suffixes>
+		</word>
 		<word parse_result="bul+Verb+Pos+Aor+Cond+A2pl" str="bulursanız" syntactic_category="Verb">
 			<root lemma="bulmak" lemma_root="bul" str="bul" syntactic_category="Verb"/>
 			<suffixes>
@@ -133,7 +144,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Kahvenin"/>
+		<word parse_result="kahve+Noun+A3sg+Pnon+Gen" str="Kahvenin" syntactic_category="Noun">
+			<root lemma="kahve" lemma_root="kahve" str="kahve" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kahve" name="A3sg" to_syntactic_category="Noun" word="kahve"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kahve" name="Pnon" to_syntactic_category="Noun" word="kahve"/>
+				<inflectionalSuffix actual="nin" application="nin" form="+nIn" id="Gen_Noun" matched_word="kahvenin" name="Gen" to_syntactic_category="Noun" word="kahvenin"/>
+			</suffixes>
+		</word>
 		<word parse_result="numara+Noun+A3sg+P3sg+Acc" str="numarasını" syntactic_category="Noun">
 			<root lemma="numara" lemma_root="numara" str="numara" syntactic_category="Noun"/>
 			<suffixes>
@@ -155,7 +173,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="İçeriye"/>
+		<word parse_result="içeri+Noun+A3sg+Pnon+Dat" str="İçeriye" syntactic_category="Noun">
+			<root lemma="içeri" lemma_root="içeri" str="içeri" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="içeri" name="A3sg" to_syntactic_category="Noun" word="içeri"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="içeri" name="Pnon" to_syntactic_category="Noun" word="içeri"/>
+				<inflectionalSuffix actual="ye" application="ye" form="+yA" id="Dat_Noun" matched_word="içeriye" name="Dat" to_syntactic_category="Noun" word="içeriye"/>
+			</suffixes>
+		</word>
 		<word parse_result="genç+Adj+Noun+Zero+A3sg+Pnon+Abl" str="gençten" syntactic_category="Noun">
 			<root lemma="genç" lemma_root="genç" str="genç" syntactic_category="Adj"/>
 			<suffixes>
@@ -195,7 +220,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Kapının"/>
+		<word parse_result="kapı+Noun+A3sg+P2sg+Gen" str="Kapının" syntactic_category="Noun">
+			<root lemma="kapı" lemma_root="kapı" str="kapı" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kapı" name="A3sg" to_syntactic_category="Noun" word="kapı"/>
+				<inflectionalSuffix actual="n" application="n" form="+In" id="P2Sg_Noun" matched_word="kapın" name="P2sg" to_syntactic_category="Noun" word="kapın"/>
+				<inflectionalSuffix actual="ın" application="ın" form="+nIn" id="Gen_Noun" matched_word="kapının" name="Gen" to_syntactic_category="Noun" word="kapının"/>
+			</suffixes>
+		</word>
 		<word parse_result="kenar+Noun+A3sg+P3sg+Loc+Adj+PointQual" str="kenarındaki" syntactic_category="Adj">
 			<root lemma="kenar" lemma_root="kenar" str="kenar" syntactic_category="Noun"/>
 			<suffixes>
@@ -247,7 +279,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Göğsü"/>
+		<word parse_result="göğüs+Noun+A3sg+P3sg+Nom" str="Göğsü" syntactic_category="Noun">
+			<root lemma="göğüs" lemma_root="göğüs" str="göğs" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="göğs" name="A3sg" to_syntactic_category="Noun" word="göğüs"/>
+				<inflectionalSuffix actual="ü" application="ü" form="+sI" id="P3Sg_Noun" matched_word="göğsü" name="P3sg" to_syntactic_category="Noun" word="göğsü"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="göğsü" name="Nom" to_syntactic_category="Noun" word="göğsü"/>
+			</suffixes>
+		</word>
 		<word parse_result="körük+Noun+A3sg+Pnon+Nom" str="körük" syntactic_category="Noun">
 			<root lemma="körük" lemma_root="körük" str="körük" syntactic_category="Noun"/>
 			<suffixes>
@@ -256,14 +295,18 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="körük" name="Nom" to_syntactic_category="Noun" word="körük"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="gibi"/>
+		<word parse_result="gibi+Part" str="gibi" syntactic_category="Part">
+			<root lemma="gibi" lemma_root="gibi" str="gibi" syntactic_category="Part"/>
+		</word>
 		<unparsable_word str="inip_kalkıyordu"/>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Kumral"/>
+		<word parse_result="kumral+Adj" str="Kumral" syntactic_category="Adj">
+			<root lemma="kumral" lemma_root="kumral" str="kumral" syntactic_category="Adj"/>
+		</word>
 		<word parse_result="saç+Noun+A3pl+P3sg+Nom" str="saçları" syntactic_category="Noun">
 			<root lemma="saç" lemma_root="saç" str="saç" syntactic_category="Noun"/>
 			<suffixes>
@@ -292,7 +335,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Ama"/>
+		<word parse_result="ama+Conj" str="Ama" syntactic_category="Conj">
+			<root lemma="ama" lemma_root="ama" str="ama" syntactic_category="Conj"/>
+		</word>
 		<word parse_result="hiçbir+Det" str="hiçbir" syntactic_category="Det">
 			<root lemma="hiçbir" lemma_root="hiçbir" str="hiçbir" syntactic_category="Det"/>
 		</word>
@@ -336,7 +381,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Ne"/>
+		<word parse_result="ne+Conj" str="Ne" syntactic_category="Conj">
+			<root lemma="ne" lemma_root="ne" str="ne" syntactic_category="Conj"/>
+		</word>
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Abl" secondary_syntactic_category="Pers" str="ondan" syntactic_category="Pron">
 			<root lemma="o" lemma_root="o" secondary_syntactic_category="Pers" str="o" syntactic_category="Pron"/>
 			<suffixes>
@@ -375,7 +422,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Onlar"/>
+		<word parse_result="o+Pron+Pers+A3pl+Pnon+Nom" secondary_syntactic_category="Pers" str="Onlar" syntactic_category="Pron">
+			<root lemma="o" lemma_root="o" secondary_syntactic_category="Pers" str="o" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="nlar" application="nlar" form="nlar" id="A3Pl_Pron" matched_word="onlar" name="A3pl" to_syntactic_category="Pron" word="onlar"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="onlar" name="Pnon" to_syntactic_category="Pron" word="onlar"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="onlar" name="Nom" to_syntactic_category="Pron" word="onlar"/>
+			</suffixes>
+		</word>
 		<word parse_result="önem+Noun+A3sg+Pnon+Nom+Adj+With" str="önemli" syntactic_category="Adj">
 			<root lemma="önem" lemma_root="önem" str="önem" syntactic_category="Noun"/>
 			<suffixes>
@@ -400,7 +454,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Sen"/>
+		<word parse_result="sen+Pron+Pers+A2sg+Pnon+Nom" secondary_syntactic_category="Pers" str="Sen" syntactic_category="Pron">
+			<root lemma="sen" lemma_root="sen" secondary_syntactic_category="Pers" str="sen" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A2Sg_Pron" matched_word="sen" name="A2sg" to_syntactic_category="Pron" word="sen"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="sen" name="Pnon" to_syntactic_category="Pron" word="sen"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="sen" name="Nom" to_syntactic_category="Pron" word="sen"/>
+			</suffixes>
+		</word>
 		<word parse_result="pençe+Noun+A3sg+P3sg+Loc" str="pençesinde" syntactic_category="Noun">
 			<root lemma="pençe" lemma_root="pençe" str="pençe" syntactic_category="Noun"/>
 			<suffixes>
@@ -441,9 +502,9 @@
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun">
 			<root lemma="Kerem" lemma_root="Kerem" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem" name="A3sg" to_syntactic_category="Noun" word="Kerem"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem" name="Pnon" to_syntactic_category="Noun" word="Kerem"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Kerem" name="Nom" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Proper_Noun" matched_word="Kerem" name="A3sg" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Proper_Noun" matched_word="Kerem" name="Pnon" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Proper_Noun" matched_word="Kerem" name="Nom" to_syntactic_category="Noun" word="Kerem"/>
 			</suffixes>
 		</word>
 		<unparsable_word str="bir_an"/>
@@ -460,7 +521,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Ben"/>
+		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Nom" secondary_syntactic_category="Pers" str="Ben" syntactic_category="Pron">
+			<root lemma="ben" lemma_root="ben" secondary_syntactic_category="Pers" str="ben" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A1Sg_Pron" matched_word="ben" name="A1sg" to_syntactic_category="Pron" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ben" name="Pnon" to_syntactic_category="Pron" word="ben"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="ben" name="Nom" to_syntactic_category="Pron" word="ben"/>
+			</suffixes>
+		</word>
 		<word parse_result="bir+Det" str="bir" syntactic_category="Det">
 			<root lemma="bir" lemma_root="bir" str="bir" syntactic_category="Det"/>
 		</word>
@@ -491,8 +559,19 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Gördüğünüz"/>
-		<unparsable_word str="gibi"/>
+		<word parse_result="gör+Verb+Pos+Noun+PastPart+A3sg+P2pl+Nom" str="Gördüğünüz" syntactic_category="Noun">
+			<root lemma="görmek" lemma_root="gör" str="gör" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gör" name="Pos" to_syntactic_category="Verb" word="gör"/>
+				<derivationalSuffix actual="düğ" application="dük" form="dIk" id="PastPart_Noun" matched_word="gördüğ" name="PastPart" to_syntactic_category="Noun" word="gördük"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="gördüğ" name="A3sg" to_syntactic_category="Noun" word="gördüğ"/>
+				<inflectionalSuffix actual="ünüz" application="ünüz" form="+InIz" id="P2Pl_Noun" matched_word="gördüğünüz" name="P2pl" to_syntactic_category="Noun" word="gördüğünüz"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="gördüğünüz" name="Nom" to_syntactic_category="Noun" word="gördüğünüz"/>
+			</suffixes>
+		</word>
+		<word parse_result="gibi+Part" str="gibi" syntactic_category="Part">
+			<root lemma="gibi" lemma_root="gibi" str="gibi" syntactic_category="Part"/>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -553,7 +632,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Gözleri"/>
+		<word parse_result="göz+Noun+A3pl+P3sg+Nom" str="Gözleri" syntactic_category="Noun">
+			<root lemma="göz" lemma_root="göz" str="göz" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="ler" application="ler" form="lAr" id="A3Pl_Noun" matched_word="gözler" name="A3pl" to_syntactic_category="Noun" word="gözler"/>
+				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3Sg_Noun" matched_word="gözleri" name="P3sg" to_syntactic_category="Noun" word="gözleri"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="gözleri" name="Nom" to_syntactic_category="Noun" word="gözleri"/>
+			</suffixes>
+		</word>
 		<word parse_result="kor+Noun+A3sg+Pnon+Nom" str="kor" syntactic_category="Noun">
 			<root lemma="kor" lemma_root="kor" str="kor" syntactic_category="Noun"/>
 			<suffixes>
@@ -562,14 +648,31 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kor" name="Nom" to_syntactic_category="Noun" word="kor"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="gibi"/>
-		<unparsable_word str="yanıyordu"/>
+		<word parse_result="gibi+Part" str="gibi" syntactic_category="Part">
+			<root lemma="gibi" lemma_root="gibi" str="gibi" syntactic_category="Part"/>
+		</word>
+		<word parse_result="yan+Verb+Pos+Prog+Past+A3sg" str="yanıyordu" syntactic_category="Verb">
+			<root lemma="yanmak" lemma_root="yan" str="yan" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yan" name="Pos" to_syntactic_category="Verb" word="yan"/>
+				<inflectionalSuffix actual="ıyor" application="ıyor" form="Iyor" id="Prog" matched_word="yanıyor" name="Prog" to_syntactic_category="Verb" word="yanıyor"/>
+				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_word="yanıyordu" name="Past" to_syntactic_category="Verb" word="yanıyordu"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="yanıyordu" name="A3sg" to_syntactic_category="Verb" word="yanıyordu"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Yerinden"/>
+		<word parse_result="yer+Noun+A3sg+P3sg+Abl" str="Yerinden" syntactic_category="Noun">
+			<root lemma="yer" lemma_root="yer" str="yer" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="yer" name="A3sg" to_syntactic_category="Noun" word="yer"/>
+				<inflectionalSuffix actual="i" application="i" form="+sI" id="P3Sg_Noun" matched_word="yeri" name="P3sg" to_syntactic_category="Noun" word="yeri"/>
+				<inflectionalSuffix actual="nden" application="nden" form="ndAn" id="Abl_Noun" matched_word="yerinden" name="Abl" to_syntactic_category="Noun" word="yerinden"/>
+			</suffixes>
+		</word>
 		<word parse_result="kalk+Verb+Pos+Narr+Past+A3sg" str="kalkmıştı" syntactic_category="Verb">
 			<root lemma="kalkmak" lemma_root="kalk" str="kalk" syntactic_category="Verb"/>
 			<suffixes>
@@ -584,8 +687,24 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Kurtulmak"/>
-		<unparsable_word str="istiyor"/>
+		<word parse_result="kurtul+Verb+Pos+Noun+Inf+A3sg+Pnon+Nom" str="Kurtulmak" syntactic_category="Noun">
+			<root lemma="kurtulmak" lemma_root="kurtul" str="kurtul" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kurtul" name="Pos" to_syntactic_category="Verb" word="kurtul"/>
+				<derivationalSuffix actual="mak" application="mak" form="mAk" id="Inf" matched_word="kurtulmak" name="Inf" to_syntactic_category="Noun" word="kurtulmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kurtulmak" name="A3sg" to_syntactic_category="Noun" word="kurtulmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kurtulmak" name="Pnon" to_syntactic_category="Noun" word="kurtulmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kurtulmak" name="Nom" to_syntactic_category="Noun" word="kurtulmak"/>
+			</suffixes>
+		</word>
+		<word parse_result="iste+Verb+Pos+Prog+A3sg" str="istiyor" syntactic_category="Verb">
+			<root lemma="istemek" lemma_root="iste" str="ist" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="ist" name="Pos" to_syntactic_category="Verb" word="iste"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="istiyor" name="Prog" to_syntactic_category="Verb" word="istiyor"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="istiyor" name="A3sg" to_syntactic_category="Verb" word="istiyor"/>
+			</suffixes>
+		</word>
 		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Ques">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
@@ -616,9 +735,9 @@
 		<word parse_result="Şakir+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Şakir" syntactic_category="Noun">
 			<root lemma="Şakir" lemma_root="Şakir" secondary_syntactic_category="Prop" str="Şakir" syntactic_category="Noun"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Şakir" name="A3sg" to_syntactic_category="Noun" word="Şakir"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Şakir" name="Pnon" to_syntactic_category="Noun" word="Şakir"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Şakir" name="Nom" to_syntactic_category="Noun" word="Şakir"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Proper_Noun" matched_word="Şakir" name="A3sg" to_syntactic_category="Noun" word="Şakir"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Proper_Noun" matched_word="Şakir" name="Pnon" to_syntactic_category="Noun" word="Şakir"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Proper_Noun" matched_word="Şakir" name="Nom" to_syntactic_category="Noun" word="Şakir"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
@@ -626,7 +745,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Hayır"/>
+		<word parse_result="hayır+Adv" str="Hayır" syntactic_category="Adv">
+			<root lemma="hayır" lemma_root="hayır" str="hayır" syntactic_category="Adv"/>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -641,9 +762,9 @@
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun">
 			<root lemma="Kerem" lemma_root="Kerem" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem" name="A3sg" to_syntactic_category="Noun" word="Kerem"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem" name="Pnon" to_syntactic_category="Noun" word="Kerem"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Kerem" name="Nom" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Proper_Noun" matched_word="Kerem" name="A3sg" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Proper_Noun" matched_word="Kerem" name="Pnon" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Proper_Noun" matched_word="Kerem" name="Nom" to_syntactic_category="Noun" word="Kerem"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
@@ -651,14 +772,32 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Kurtulmak"/>
-		<unparsable_word str="istemiyorum"/>
+		<word parse_result="kurtul+Verb+Pos+Noun+Inf+A3sg+Pnon+Nom" str="Kurtulmak" syntactic_category="Noun">
+			<root lemma="kurtulmak" lemma_root="kurtul" str="kurtul" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kurtul" name="Pos" to_syntactic_category="Verb" word="kurtul"/>
+				<derivationalSuffix actual="mak" application="mak" form="mAk" id="Inf" matched_word="kurtulmak" name="Inf" to_syntactic_category="Noun" word="kurtulmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kurtulmak" name="A3sg" to_syntactic_category="Noun" word="kurtulmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kurtulmak" name="Pnon" to_syntactic_category="Noun" word="kurtulmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kurtulmak" name="Nom" to_syntactic_category="Noun" word="kurtulmak"/>
+			</suffixes>
+		</word>
+		<word parse_result="iste+Verb+Neg+Prog+A1sg" str="istemiyorum" syntactic_category="Verb">
+			<root lemma="istemek" lemma_root="iste" str="iste" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="istem" name="Neg" to_syntactic_category="Verb" word="istem"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="istemiyor" name="Prog" to_syntactic_category="Verb" word="istemiyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="istemiyorum" name="A1sg" to_syntactic_category="Verb" word="istemiyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Bir"/>
+		<word parse_result="bir+Det" str="Bir" syntactic_category="Det">
+			<root lemma="bir" lemma_root="bir" str="bir" syntactic_category="Det"/>
+		</word>
 		<word parse_result="tutsak+Noun+A3sg+P1sg+Nom" str="tutsağım" syntactic_category="Noun">
 			<root lemma="tutsak" lemma_root="tutsak" str="tutsağ" syntactic_category="Noun"/>
 			<suffixes>
@@ -680,15 +819,41 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Özgür"/>
-		<unparsable_word str="kalmak"/>
-		<unparsable_word str="istemiyorum"/>
+		<word parse_result="özgür+Adj" str="Özgür" syntactic_category="Adj">
+			<root lemma="özgür" lemma_root="özgür" str="özgür" syntactic_category="Adj"/>
+		</word>
+		<word parse_result="kal+Verb+Pos+Noun+Inf+A3sg+Pnon+Nom" str="kalmak" syntactic_category="Noun">
+			<root lemma="kalmak" lemma_root="kal" str="kal" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kal" name="Pos" to_syntactic_category="Verb" word="kal"/>
+				<derivationalSuffix actual="mak" application="mak" form="mAk" id="Inf" matched_word="kalmak" name="Inf" to_syntactic_category="Noun" word="kalmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kalmak" name="A3sg" to_syntactic_category="Noun" word="kalmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kalmak" name="Pnon" to_syntactic_category="Noun" word="kalmak"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="kalmak" name="Nom" to_syntactic_category="Noun" word="kalmak"/>
+			</suffixes>
+		</word>
+		<word parse_result="iste+Verb+Neg+Prog+A1sg" str="istemiyorum" syntactic_category="Verb">
+			<root lemma="istemek" lemma_root="iste" str="iste" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="istem" name="Neg" to_syntactic_category="Verb" word="istem"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="istemiyor" name="Prog" to_syntactic_category="Verb" word="istemiyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="istemiyorum" name="A1sg" to_syntactic_category="Verb" word="istemiyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Dayanamadım"/>
+		<word parse_result="dayan+Verb+Verb+Able+Neg+Past+A1sg" str="Dayanamadım" syntactic_category="Verb">
+			<root lemma="dayanmak" lemma_root="dayan" str="dayan" syntactic_category="Verb"/>
+			<suffixes>
+				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_word="dayana" name="Able" to_syntactic_category="Verb" word="dayana"/>
+				<inflectionalSuffix actual="ma" application="ma" form="mA" id="Neg" matched_word="dayanama" name="Neg" to_syntactic_category="Verb" word="dayanama"/>
+				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_word="dayanamadı" name="Past" to_syntactic_category="Verb" word="dayanamadı"/>
+				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="dayanamadım" name="A1sg" to_syntactic_category="Verb" word="dayanamadım"/>
+			</suffixes>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -706,13 +871,27 @@
 	</sentence>
 	<sentence>
 		<unparsable_word str="Elim_ayağım"/>
-		<unparsable_word str="tutmuyor"/>
+		<word parse_result="tut+Verb+Neg+Prog+A3sg" str="tutmuyor" syntactic_category="Verb">
+			<root lemma="tutmak" lemma_root="tut" str="tut" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="tutm" name="Neg" to_syntactic_category="Verb" word="tutm"/>
+				<inflectionalSuffix actual="uyor" application="uyor" form="Iyor" id="Prog" matched_word="tutmuyor" name="Prog" to_syntactic_category="Verb" word="tutmuyor"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="tutmuyor" name="A3sg" to_syntactic_category="Verb" word="tutmuyor"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Bunları"/>
+		<word parse_result="bu+Pron+Demons+A3pl+Pnon+Acc" secondary_syntactic_category="Demons" str="Bunları" syntactic_category="Pron">
+			<root lemma="bu" lemma_root="bu" secondary_syntactic_category="Demons" str="bu" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="nlar" application="nlar" form="nlar" id="A3Pl_Pron" matched_word="bunlar" name="A3pl" to_syntactic_category="Pron" word="bunlar"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="bunlar" name="Pnon" to_syntactic_category="Pron" word="bunlar"/>
+				<inflectionalSuffix actual="ı" application="ı" form="ı" id="Acc_Pron" matched_word="bunları" name="Acc" to_syntactic_category="Pron" word="bunları"/>
+			</suffixes>
+		</word>
 		<word parse_result="söyle+Verb+Pos+Aor+Adv+While" str="söylerken" syntactic_category="Adv">
 			<root lemma="söylemek" lemma_root="söyle" str="söyle" syntactic_category="Verb"/>
 			<suffixes>
@@ -758,7 +937,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Kapıyı"/>
+		<word parse_result="kapı+Noun+A3sg+Pnon+Acc" str="Kapıyı" syntactic_category="Noun">
+			<root lemma="kapı" lemma_root="kapı" str="kapı" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kapı" name="A3sg" to_syntactic_category="Noun" word="kapı"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kapı" name="Pnon" to_syntactic_category="Noun" word="kapı"/>
+				<inflectionalSuffix actual="yı" application="yı" form="+yI" id="Acc_Noun" matched_word="kapıyı" name="Acc" to_syntactic_category="Noun" word="kapıyı"/>
+			</suffixes>
+		</word>
 		<word parse_result="aç+Verb+Pos+Past+A3sg" str="açtı" syntactic_category="Verb">
 			<root lemma="açmak" lemma_root="aç" str="aç" syntactic_category="Verb"/>
 			<suffixes>
@@ -815,7 +1001,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Aniden"/>
+		<word parse_result="aniden+Adv" str="Aniden" syntactic_category="Adv">
+			<root lemma="aniden" lemma_root="aniden" str="aniden" syntactic_category="Adv"/>
+		</word>
 		<word parse_result="kaybol+Verb+Pos+Adv+AfterDoingSo" str="kaybolup" syntactic_category="Adv">
 			<root lemma="kaybolmak" lemma_root="kaybol" str="kaybol" syntactic_category="Verb"/>
 			<suffixes>
@@ -823,7 +1011,16 @@
 				<derivationalSuffix actual="up" application="up" form="+yIp" id="AfterDoingSo" matched_word="kaybolup" name="AfterDoingSo" to_syntactic_category="Adv" word="kaybolup"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="gidiverdi"/>
+		<word parse_result="git+Verb+Pos+Verb+Hastily+Pos+Past+A3sg" str="gidiverdi" syntactic_category="Verb">
+			<root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gid" name="Pos" to_syntactic_category="Verb" word="git"/>
+				<derivationalSuffix actual="iver" application="iver" form="+yIver" id="Hastily" matched_word="gidiver" name="Hastily" to_syntactic_category="Verb" word="gidiver"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gidiver" name="Pos" to_syntactic_category="Verb" word="gidiver"/>
+				<inflectionalSuffix actual="di" application="di" form="dI" id="Past" matched_word="gidiverdi" name="Past" to_syntactic_category="Verb" word="gidiverdi"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="gidiverdi" name="A3sg" to_syntactic_category="Verb" word="gidiverdi"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
@@ -854,7 +1051,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Yerimden"/>
+		<word parse_result="yer+Noun+A3sg+P1sg+Abl" str="Yerimden" syntactic_category="Noun">
+			<root lemma="yer" lemma_root="yer" str="yer" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="yer" name="A3sg" to_syntactic_category="Noun" word="yer"/>
+				<inflectionalSuffix actual="im" application="im" form="+Im" id="P1Sg_Noun" matched_word="yerim" name="P1sg" to_syntactic_category="Noun" word="yerim"/>
+				<inflectionalSuffix actual="den" application="den" form="dAn" id="Abl_Noun" matched_word="yerimden" name="Abl" to_syntactic_category="Noun" word="yerimden"/>
+			</suffixes>
+		</word>
 		<word parse_result="fırla+Verb+Pos+Past+A1sg" str="fırladım" syntactic_category="Verb">
 			<root lemma="fırlamak" lemma_root="fırla" str="fırla" syntactic_category="Verb"/>
 			<suffixes>
@@ -911,7 +1115,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Dar"/>
+		<word parse_result="dar+Adj" str="Dar" syntactic_category="Adj">
+			<root lemma="dar" lemma_root="dar" str="dar" syntactic_category="Adj"/>
+		</word>
 		<word parse_result="yol+Noun+A3pl+Pnon+Loc" str="yollarda" syntactic_category="Noun">
 			<root lemma="yol" lemma_root="yol" str="yol" syntactic_category="Noun"/>
 			<suffixes>
@@ -934,7 +1140,15 @@
 				<derivationalSuffix actual="en" application="en" form="+yAn" id="PresPart" matched_word="giden" name="PresPart" to_syntactic_category="Adj" word="giden"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="Kerem'i"/>
+		<word parse_result="Kerem+Noun+Prop+Apos+A3sg+Pnon+Acc" secondary_syntactic_category="Prop" str="Kerem'i" syntactic_category="Noun">
+			<root lemma="Kerem" lemma_root="Kerem" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="'" application="'" form="'" id="Apos_Proper_Noun" matched_word="Kerem'" name="Apos" to_syntactic_category="Noun" word="Kerem'"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem'" name="A3sg" to_syntactic_category="Noun" word="Kerem'"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem'" name="Pnon" to_syntactic_category="Noun" word="Kerem'"/>
+				<inflectionalSuffix actual="i" application="i" form="+yI" id="Acc_Noun" matched_word="Kerem'i" name="Acc" to_syntactic_category="Noun" word="Kerem'i"/>
+			</suffixes>
+		</word>
 		<word parse_result="yakala+Verb+Pos+Past+A1sg" str="yakaladım" syntactic_category="Verb">
 			<root lemma="yakalamak" lemma_root="yakala" str="yakala" syntactic_category="Verb"/>
 			<suffixes>
@@ -948,7 +1162,13 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Dönüp"/>
+		<word parse_result="dön+Verb+Pos+Adv+AfterDoingSo" str="Dönüp" syntactic_category="Adv">
+			<root lemma="dönmek" lemma_root="dön" str="dön" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="dön" name="Pos" to_syntactic_category="Verb" word="dön"/>
+				<derivationalSuffix actual="üp" application="üp" form="+yIp" id="AfterDoingSo" matched_word="dönüp" name="AfterDoingSo" to_syntactic_category="Adv" word="dönüp"/>
+			</suffixes>
+		</word>
 		<word parse_result="bak+Verb+Pos+Past+A3sg" str="baktı" syntactic_category="Verb">
 			<root lemma="bakmak" lemma_root="bak" str="bak" syntactic_category="Verb"/>
 			<suffixes>
@@ -970,7 +1190,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Neden"/>
+		<word parse_result="neden+Adv+Ques" secondary_syntactic_category="Ques" str="Neden" syntactic_category="Adv">
+			<root lemma="neden" lemma_root="neden" secondary_syntactic_category="Ques" str="neden" syntactic_category="Adv"/>
+		</word>
 		<word parse_result="gel+Verb+Pos+Past+A2pl" str="geldiniz" syntactic_category="Verb">
 			<root lemma="gelmek" lemma_root="gel" str="gel" syntactic_category="Verb"/>
 			<suffixes>
@@ -984,7 +1206,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Seninle"/>
+		<word parse_result="sen+Pron+Pers+A2sg+Pnon+Ins" secondary_syntactic_category="Pers" str="Seninle" syntactic_category="Pron">
+			<root lemma="sen" lemma_root="sen" secondary_syntactic_category="Pers" str="sen" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A2Sg_Pron" matched_word="sen" name="A2sg" to_syntactic_category="Pron" word="sen"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="sen" name="Pnon" to_syntactic_category="Pron" word="sen"/>
+				<inflectionalSuffix actual="inle" application="inle" form="inle" id="Ins_Pron" matched_word="seninle" name="Ins" to_syntactic_category="Pron" word="seninle"/>
+			</suffixes>
+		</word>
 		<word parse_result="birlikte+Adv" str="birlikte" syntactic_category="Adv">
 			<root lemma="birlikte" lemma_root="birlikte" str="birlikte" syntactic_category="Adv"/>
 		</word>
@@ -1001,7 +1230,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Nereye"/>
+		<word parse_result="nere+Pron+Ques+A3sg+Pnon+Dat" secondary_syntactic_category="Ques" str="Nereye" syntactic_category="Pron">
+			<root lemma="nere" lemma_root="nere" secondary_syntactic_category="Ques" str="nere" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="nere" name="A3sg" to_syntactic_category="Pron" word="nere"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="nere" name="Pnon" to_syntactic_category="Pron" word="nere"/>
+				<inflectionalSuffix actual="ye" application="ye" form="+yA" id="Dat_Pron" matched_word="nereye" name="Dat" to_syntactic_category="Pron" word="nereye"/>
+			</suffixes>
+		</word>
 		<word parse_result="git+Verb+Pos+Noun+PastPart+A3sg+P1sg+Acc" str="gittiğimi" syntactic_category="Noun">
 			<root lemma="gitmek" lemma_root="git" str="git" syntactic_category="Verb"/>
 			<suffixes>
@@ -1012,7 +1248,14 @@
 				<inflectionalSuffix actual="i" application="i" form="+yI" id="Acc_Noun" matched_word="gittiğimi" name="Acc" to_syntactic_category="Noun" word="gittiğimi"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="biliyor"/>
+		<word parse_result="bil+Verb+Pos+Prog+A3sg" str="biliyor" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bil" name="Pos" to_syntactic_category="Verb" word="bil"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="biliyor" name="Prog" to_syntactic_category="Verb" word="biliyor"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="biliyor" name="A3sg" to_syntactic_category="Verb" word="biliyor"/>
+			</suffixes>
+		</word>
 		<word parse_result="mu+Ques+Pres+A2pl" str="musunuz" syntactic_category="Ques">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
@@ -1025,20 +1268,36 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Biliyorum"/>
+		<word parse_result="bil+Verb+Pos+Prog+A1sg" str="Biliyorum" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="bil" name="Pos" to_syntactic_category="Verb" word="bil"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="biliyor" name="Prog" to_syntactic_category="Verb" word="biliyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="biliyorum" name="A1sg" to_syntactic_category="Verb" word="biliyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
 		<unparsable_word str="Erkekler_Parkı'na"/>
-		<unparsable_word str="gidiyorsun"/>
+		<word parse_result="git+Verb+Pos+Prog+A2sg" str="gidiyorsun" syntactic_category="Verb">
+			<root lemma="gitmek" lemma_root="git" str="gid" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="gid" name="Pos" to_syntactic_category="Verb" word="git"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="gidiyor" name="Prog" to_syntactic_category="Verb" word="gidiyor"/>
+				<inflectionalSuffix actual="sun" application="sun" form="sIn" id="A2Sg_Verb" matched_word="gidiyorsun" name="A2sg" to_syntactic_category="Verb" word="gidiyorsun"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Evet"/>
+		<word parse_result="evet+Adv" str="Evet" syntactic_category="Adv">
+			<root lemma="evet" lemma_root="evet" str="evet" syntactic_category="Adv"/>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -1068,7 +1327,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Ama"/>
+		<word parse_result="ama+Conj" str="Ama" syntactic_category="Conj">
+			<root lemma="ama" lemma_root="ama" str="ama" syntactic_category="Conj"/>
+		</word>
 		<word parse_result="yol+Noun+A3sg+Pnon+Acc" str="yolu" syntactic_category="Noun">
 			<root lemma="yol" lemma_root="yol" str="yol" syntactic_category="Noun"/>
 			<suffixes>
@@ -1077,13 +1338,27 @@
 				<inflectionalSuffix actual="u" application="u" form="+yI" id="Acc_Noun" matched_word="yolu" name="Acc" to_syntactic_category="Noun" word="yolu"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="bilmiyorum"/>
+		<word parse_result="bil+Verb+Neg+Prog+A1sg" str="bilmiyorum" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="bilm" name="Neg" to_syntactic_category="Verb" word="bilm"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="bilmiyor" name="Prog" to_syntactic_category="Verb" word="bilmiyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="bilmiyorum" name="A1sg" to_syntactic_category="Verb" word="bilmiyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Korku"/>
+		<word parse_result="korku+Noun+A3sg+Pnon+Nom" str="Korku" syntactic_category="Noun">
+			<root lemma="korku" lemma_root="korku" str="korku" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="korku" name="A3sg" to_syntactic_category="Noun" word="korku"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="korku" name="Pnon" to_syntactic_category="Noun" word="korku"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="korku" name="Nom" to_syntactic_category="Noun" word="korku"/>
+			</suffixes>
+		</word>
 		<word parse_result="iç+Noun+A3sg+P3sg+Loc+Verb+Zero+Pres+A1sg" str="içindeyim" syntactic_category="Verb">
 			<root lemma="iç" lemma_root="iç" str="iç" syntactic_category="Noun"/>
 			<suffixes>
@@ -1100,7 +1375,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Belki"/>
+		<word parse_result="belki+Adv" str="Belki" syntactic_category="Adv">
+			<root lemma="belki" lemma_root="belki" str="belki" syntactic_category="Adv"/>
+		</word>
 		<word parse_result="de+Conj" str="de" syntactic_category="Conj">
 			<root lemma="de" lemma_root="de" str="de" syntactic_category="Conj"/>
 		</word>
@@ -1127,7 +1404,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Şimdi"/>
+		<word parse_result="şimdi+Adv+Time" secondary_syntactic_category="Time" str="Şimdi" syntactic_category="Adv">
+			<root lemma="şimdi" lemma_root="şimdi" secondary_syntactic_category="Time" str="şimdi" syntactic_category="Adv"/>
+		</word>
 		<word parse_result="iki+Num+Card+Adj+Zero+Noun+Zero+A3sg+P1pl+Nom" str="ikimiz" syntactic_category="Noun">
 			<root lemma="iki" lemma_root="iki" secondary_syntactic_category="Card" str="iki" syntactic_category="Num"/>
 			<suffixes>
@@ -1156,13 +1435,23 @@
 				<inflectionalSuffix actual="nde" application="nde" form="ndA" id="Loc_Noun" matched_word="içinde" name="Loc" to_syntactic_category="Noun" word="içinde"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="ilerliyorduk"/>
+		<word parse_result="ilerle+Verb+Pos+Prog+Past+A1pl" str="ilerliyorduk" syntactic_category="Verb">
+			<root lemma="ilerlemek" lemma_root="ilerle" str="ilerl" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="ilerl" name="Pos" to_syntactic_category="Verb" word="ilerle"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="ilerliyor" name="Prog" to_syntactic_category="Verb" word="ilerliyor"/>
+				<inflectionalSuffix actual="du" application="du" form="dI" id="Past" matched_word="ilerliyordu" name="Past" to_syntactic_category="Verb" word="ilerliyordu"/>
+				<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="ilerliyorduk" name="A1pl" to_syntactic_category="Verb" word="ilerliyorduk"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Nasıl"/>
+		<word parse_result="nasıl+Adj" str="Nasıl" syntactic_category="Adj">
+			<root lemma="nasıl" lemma_root="nasıl" str="nasıl" syntactic_category="Adj"/>
+		</word>
 		<word parse_result="bir+Det" str="bir" syntactic_category="Det">
 			<root lemma="bir" lemma_root="bir" str="bir" syntactic_category="Det"/>
 		</word>
@@ -1199,13 +1488,22 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Bilmiyorum"/>
+		<word parse_result="bil+Verb+Neg+Prog+A1sg" str="Bilmiyorum" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="bilm" name="Neg" to_syntactic_category="Verb" word="bilm"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="bilmiyor" name="Prog" to_syntactic_category="Verb" word="bilmiyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="bilmiyorum" name="A1sg" to_syntactic_category="Verb" word="bilmiyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Evet"/>
+		<word parse_result="evet+Adv" str="Evet" syntactic_category="Adv">
+			<root lemma="evet" lemma_root="evet" str="evet" syntactic_category="Adv"/>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -1223,7 +1521,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Buyrun"/>
+		<word parse_result="buyur+Verb+Pos+Imp+A2pl" str="Buyrun" syntactic_category="Verb">
+			<root lemma="buyurmak" lemma_root="buyur" str="buyr" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="buyr" name="Pos" to_syntactic_category="Verb" word="buyur"/>
+				<inflectionalSuffix actual="" application="" form="" id="Imp" matched_word="buyr" name="Imp" to_syntactic_category="Verb" word="buyur"/>
+				<inflectionalSuffix actual="un" application="un" form="+yIn" id="A2Pl_Verb" matched_word="buyrun" name="A2pl" to_syntactic_category="Verb" word="buyrun"/>
+			</suffixes>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
@@ -1238,9 +1543,9 @@
 		<word parse_result="Hacı_Murat+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Hacı_Murat" syntactic_category="Noun">
 			<root lemma="Hacı_Murat" lemma_root="Hacı_Murat" secondary_syntactic_category="Prop" str="Hacı_Murat" syntactic_category="Noun"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Hacı_Murat" name="A3sg" to_syntactic_category="Noun" word="Hacı_Murat"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Hacı_Murat" name="Pnon" to_syntactic_category="Noun" word="Hacı_Murat"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Hacı_Murat" name="Nom" to_syntactic_category="Noun" word="Hacı_Murat"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Proper_Noun" matched_word="Hacı_Murat" name="A3sg" to_syntactic_category="Noun" word="Hacı_Murat"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Proper_Noun" matched_word="Hacı_Murat" name="Pnon" to_syntactic_category="Noun" word="Hacı_Murat"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Proper_Noun" matched_word="Hacı_Murat" name="Nom" to_syntactic_category="Noun" word="Hacı_Murat"/>
 			</suffixes>
 		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
@@ -1248,7 +1553,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Bilmiyor"/>
+		<word parse_result="bil+Verb+Neg+Prog+A3sg" str="Bilmiyor" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="bilm" name="Neg" to_syntactic_category="Verb" word="bilm"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="bilmiyor" name="Prog" to_syntactic_category="Verb" word="bilmiyor"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="bilmiyor" name="A3sg" to_syntactic_category="Verb" word="bilmiyor"/>
+			</suffixes>
+		</word>
 		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Ques">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
@@ -1261,7 +1573,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Onun"/>
+		<word parse_result="o+Pron+Pers+A3sg+Pnon+Gen" secondary_syntactic_category="Pers" str="Onun" syntactic_category="Pron">
+			<root lemma="o" lemma_root="o" secondary_syntactic_category="Pers" str="o" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="o" name="A3sg" to_syntactic_category="Pron" word="o"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="o" name="Pnon" to_syntactic_category="Pron" word="o"/>
+				<inflectionalSuffix actual="nun" application="nun" form="nun" id="Gen_Pron" matched_word="onun" name="Gen" to_syntactic_category="Pron" word="onun"/>
+			</suffixes>
+		</word>
 		<word parse_result="nasıl+Adv" str="nasıl" syntactic_category="Adv">
 			<root lemma="nasıl" lemma_root="nasıl" str="nasıl" syntactic_category="Adv"/>
 		</word>
@@ -1286,7 +1605,14 @@
 				<inflectionalSuffix actual="nu" application="nu" form="nI" id="Acc_Noun" matched_word="olduğunu" name="Acc" to_syntactic_category="Noun" word="olduğunu"/>
 			</suffixes>
 		</word>
-		<unparsable_word str="bilmiyor"/>
+		<word parse_result="bil+Verb+Neg+Prog+A3sg" str="bilmiyor" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="bilm" name="Neg" to_syntactic_category="Verb" word="bilm"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="bilmiyor" name="Prog" to_syntactic_category="Verb" word="bilmiyor"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="bilmiyor" name="A3sg" to_syntactic_category="Verb" word="bilmiyor"/>
+			</suffixes>
+		</word>
 		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Ques">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
@@ -1299,7 +1625,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Hayret"/>
+		<word parse_result="hayret+Noun+A3sg+Pnon+Nom" str="Hayret" syntactic_category="Noun">
+			<root lemma="hayret" lemma_root="hayret" str="hayret" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="hayret" name="A3sg" to_syntactic_category="Noun" word="hayret"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="hayret" name="Pnon" to_syntactic_category="Noun" word="hayret"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="hayret" name="Nom" to_syntactic_category="Noun" word="hayret"/>
+			</suffixes>
+		</word>
 		<word parse_result="iç+Noun+A3sg+P3sg+Loc+Verb+Zero+Past+A1sg" str="içindeydim" syntactic_category="Verb">
 			<root lemma="iç" lemma_root="iç" str="iç" syntactic_category="Noun"/>
 			<suffixes>
@@ -1319,9 +1652,9 @@
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun">
 			<root lemma="Kerem" lemma_root="Kerem" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Kerem" name="A3sg" to_syntactic_category="Noun" word="Kerem"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Kerem" name="Pnon" to_syntactic_category="Noun" word="Kerem"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="Kerem" name="Nom" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Proper_Noun" matched_word="Kerem" name="A3sg" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Proper_Noun" matched_word="Kerem" name="Pnon" to_syntactic_category="Noun" word="Kerem"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Proper_Noun" matched_word="Kerem" name="Nom" to_syntactic_category="Noun" word="Kerem"/>
 			</suffixes>
 		</word>
 		<word parse_result="ben+Pron+Pers+A1sg+Pnon+Dat" secondary_syntactic_category="Pers" str="bana" syntactic_category="Pron">
@@ -1345,8 +1678,17 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Hiç"/>
-		<unparsable_word str="bilmiyorum"/>
+		<word parse_result="hiç+Adv" str="Hiç" syntactic_category="Adv">
+			<root lemma="hiç" lemma_root="hiç" str="hiç" syntactic_category="Adv"/>
+		</word>
+		<word parse_result="bil+Verb+Neg+Prog+A1sg" str="bilmiyorum" syntactic_category="Verb">
+			<root lemma="bilmek" lemma_root="bil" str="bil" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="bilm" name="Neg" to_syntactic_category="Verb" word="bilm"/>
+				<inflectionalSuffix actual="iyor" application="iyor" form="Iyor" id="Prog" matched_word="bilmiyor" name="Prog" to_syntactic_category="Verb" word="bilmiyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="bilmiyorum" name="A1sg" to_syntactic_category="Verb" word="bilmiyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result="nasıl+Adv" str="nasıl" syntactic_category="Adv">
 			<root lemma="nasıl" lemma_root="nasıl" str="nasıl" syntactic_category="Adv"/>
 		</word>
@@ -1387,7 +1729,12 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="İyi"/>
+		<word parse_result="iyi+Adj+Adv+Zero" str="İyi" syntactic_category="Adv">
+			<root lemma="iyi" lemma_root="iyi" str="iyi" syntactic_category="Adj"/>
+			<suffixes>
+				<derivationalSuffix actual="" application="" form="" id="Adjective_Adverb_Zero_Transition" matched_word="iyi" name="Zero" to_syntactic_category="Adv" word="iyi"/>
+			</suffixes>
+		</word>
 		<word parse_result="tanı+Verb+Verb+Able+Neg+Past+A1pl" str="tanıyamadık" syntactic_category="Verb">
 			<root lemma="tanımak" lemma_root="tanı" str="tanı" syntactic_category="Verb"/>
 			<suffixes>
@@ -1410,7 +1757,9 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Ama"/>
+		<word parse_result="ama+Conj" str="Ama" syntactic_category="Conj">
+			<root lemma="ama" lemma_root="ama" str="ama" syntactic_category="Conj"/>
+		</word>
 		<word parse_result="o+Pron+Pers+A3sg+Pnon+Gen" secondary_syntactic_category="Pers" str="onun" syntactic_category="Pron">
 			<root lemma="o" lemma_root="o" secondary_syntactic_category="Pers" str="o" syntactic_category="Pron"/>
 			<suffixes>
@@ -1443,24 +1792,58 @@
 		<word parse_result="ayrı+Adj" str="ayrı" syntactic_category="Adj">
 			<root lemma="ayrı" lemma_root="ayrı" str="ayrı" syntactic_category="Adj"/>
 		</word>
-		<unparsable_word str="kalmaya"/>
-		<unparsable_word str="dayanamıyorsun"/>
+		<word parse_result="kal+Verb+Pos+Noun+Inf+A3sg+Pnon+Dat" str="kalmaya" syntactic_category="Noun">
+			<root lemma="kalmak" lemma_root="kal" str="kal" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kal" name="Pos" to_syntactic_category="Verb" word="kal"/>
+				<derivationalSuffix actual="ma" application="ma" form="mA" id="Inf" matched_word="kalma" name="Inf" to_syntactic_category="Noun" word="kalma"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kalma" name="A3sg" to_syntactic_category="Noun" word="kalma"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="kalma" name="Pnon" to_syntactic_category="Noun" word="kalma"/>
+				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Noun" matched_word="kalmaya" name="Dat" to_syntactic_category="Noun" word="kalmaya"/>
+			</suffixes>
+		</word>
+		<word parse_result="dayan+Verb+Verb+Able+Neg+Prog+A2sg" str="dayanamıyorsun" syntactic_category="Verb">
+			<root lemma="dayanmak" lemma_root="dayan" str="dayan" syntactic_category="Verb"/>
+			<suffixes>
+				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_word="dayana" name="Able" to_syntactic_category="Verb" word="dayana"/>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="dayanam" name="Neg" to_syntactic_category="Verb" word="dayanam"/>
+				<inflectionalSuffix actual="ıyor" application="ıyor" form="Iyor" id="Prog" matched_word="dayanamıyor" name="Prog" to_syntactic_category="Verb" word="dayanamıyor"/>
+				<inflectionalSuffix actual="sun" application="sun" form="sIn" id="A2Sg_Verb" matched_word="dayanamıyorsun" name="A2sg" to_syntactic_category="Verb" word="dayanamıyorsun"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Evet"/>
+		<word parse_result="evet+Adv" str="Evet" syntactic_category="Adv">
+			<root lemma="evet" lemma_root="evet" str="evet" syntactic_category="Adv"/>
+		</word>
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
-		<unparsable_word str="dayanamıyorum"/>
+		<word parse_result="dayan+Verb+Verb+Able+Neg+Prog+A1sg" str="dayanamıyorum" syntactic_category="Verb">
+			<root lemma="dayanmak" lemma_root="dayan" str="dayan" syntactic_category="Verb"/>
+			<suffixes>
+				<derivationalSuffix actual="a" application="a" form="+yA" id="Able" matched_word="dayana" name="Able" to_syntactic_category="Verb" word="dayana"/>
+				<inflectionalSuffix actual="m" application="m" form="m" id="Neg" matched_word="dayanam" name="Neg" to_syntactic_category="Verb" word="dayanam"/>
+				<inflectionalSuffix actual="ıyor" application="ıyor" form="Iyor" id="Prog" matched_word="dayanamıyor" name="Prog" to_syntactic_category="Verb" word="dayanamıyor"/>
+				<inflectionalSuffix actual="um" application="um" form="+Im" id="A1Sg_Verb" matched_word="dayanamıyorum" name="A1sg" to_syntactic_category="Verb" word="dayanamıyorum"/>
+			</suffixes>
+		</word>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Yürüdüğümüz"/>
+		<word parse_result="yürü+Verb+Pos+Adj+PastPart+P1pl" str="Yürüdüğümüz" syntactic_category="Adj">
+			<root lemma="yürümek" lemma_root="yürü" str="yürü" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yürü" name="Pos" to_syntactic_category="Verb" word="yürü"/>
+				<derivationalSuffix actual="düğ" application="dük" form="dIk" id="PastPart_Adj" matched_word="yürüdüğ" name="PastPart" to_syntactic_category="Adj" word="yürüdük"/>
+				<inflectionalSuffix actual="ümüz" application="ümüz" form="+ImIz" id="P1Pl_Adj" matched_word="yürüdüğümüz" name="P1pl" to_syntactic_category="Adj" word="yürüdüğümüz"/>
+			</suffixes>
+		</word>
 		<word parse_result="yol+Noun+A3sg+Pnon+Nom" str="yol" syntactic_category="Noun">
 			<root lemma="yol" lemma_root="yol" str="yol" syntactic_category="Noun"/>
 			<suffixes>
@@ -1509,7 +1892,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Oraya"/>
+		<word parse_result="ora+Pron+A3sg+Pnon+Dat" str="Oraya" syntactic_category="Pron">
+			<root lemma="ora" lemma_root="ora" str="ora" syntactic_category="Pron"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Pron" matched_word="ora" name="A3sg" to_syntactic_category="Pron" word="ora"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Pron" matched_word="ora" name="Pnon" to_syntactic_category="Pron" word="ora"/>
+				<inflectionalSuffix actual="ya" application="ya" form="+yA" id="Dat_Pron" matched_word="oraya" name="Dat" to_syntactic_category="Pron" word="oraya"/>
+			</suffixes>
+		</word>
 		<word parse_result="sap+Verb+Pos+Past+A1pl" str="saptık" syntactic_category="Verb">
 			<root lemma="sapmak" lemma_root="sap" str="sap" syntactic_category="Verb"/>
 			<suffixes>
@@ -1523,7 +1913,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="Yaşadın"/>
+		<word parse_result="yaşa+Verb+Pos+Past+A2sg" str="Yaşadın" syntactic_category="Verb">
+			<root lemma="yaşamak" lemma_root="yaşa" str="yaşa" syntactic_category="Verb"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="yaşa" name="Pos" to_syntactic_category="Verb" word="yaşa"/>
+				<inflectionalSuffix actual="dı" application="dı" form="dI" id="Past" matched_word="yaşadı" name="Past" to_syntactic_category="Verb" word="yaşadı"/>
+				<inflectionalSuffix actual="n" application="n" form="n" id="A2Sg_Verb" matched_word="yaşadın" name="A2sg" to_syntactic_category="Verb" word="yaşadın"/>
+			</suffixes>
+		</word>
 		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>

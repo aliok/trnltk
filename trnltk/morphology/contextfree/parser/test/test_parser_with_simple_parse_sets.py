@@ -283,7 +283,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
     def assert_parse_correct(self, word_to_parse, index, *args):
         parse_result = self.parse_result(word_to_parse)
         if word_to_parse[0].isupper():
-            lower_word_to_parse = lower(word_to_parse)
+            lower_word_to_parse = TurkishAlphabet.lower(word_to_parse)
             parse_result += self.parse_result(lower_word_to_parse)
         assert_that(parse_result, IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 
@@ -299,22 +299,6 @@ class IsParseResultMatches(BaseMatcher):
 
     def describe_to(self, description):
         description.append_text(u'     ' + str(self.expected_results))
-
-def lower(word):
-    if not word:
-        return word
-    lower_word = u''
-    for c in word:
-        if c.isupper():
-            letter_for_upper_char = TurkishAlphabet.get_letter_for_upper_case_char(c)
-            if letter_for_upper_char:
-                lower_word += letter_for_upper_char.char_value
-            else:
-                lower_word += letter_for_upper_char.lower()
-        else:
-            lower_word += c.lower()
-
-    return lower_word
 
 if __name__ == '__main__':
     unittest.main()

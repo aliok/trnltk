@@ -142,6 +142,23 @@ class TurkishAlphabet(object):
             return None
 
     @classmethod
+    def lower(cls, word):
+        if not word:
+            return word
+        lower_word = u''
+        for c in word:
+            if c.isupper():
+                letter_for_upper_char = cls.get_letter_for_upper_case_char(c)
+                if letter_for_upper_char:
+                    lower_word += letter_for_upper_char.char_value
+                else:
+                    lower_word += letter_for_upper_char.lower()
+            else:
+                lower_word += c.lower()
+
+        return lower_word
+
+    @classmethod
     def _initialize(cls):
         if not TurkishAlphabet.Lower_Case_Letter_Map or not TurkishAlphabet.Upper_Case_Letter_Map:
             TurkishAlphabet.Lower_Case_Letter_Map = {}

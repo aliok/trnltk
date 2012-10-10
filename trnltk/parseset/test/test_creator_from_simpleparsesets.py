@@ -6,6 +6,8 @@ from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphological
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
+from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
 from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
@@ -16,6 +18,30 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
 END_OF_SENTENCE_MARKER = '#END#OF#SENTENCE#'
+
+def modify_treebank_parse_result_strs_to_look_like_trnltk(parse_result_str):
+    #TODO
+    parse_result_str = parse_result_str.replace('Prog1', 'Prog')
+    parse_result_str = parse_result_str.replace('Prog2', 'Prog')
+    parse_result_str = parse_result_str.replace('Inf1', 'Inf')
+    parse_result_str = parse_result_str.replace('Inf2', 'Inf')
+    parse_result_str = parse_result_str.replace('Inf3', 'Inf')
+    parse_result_str = parse_result_str.replace('WithoutHavingDoneSo1', 'WithoutHavingDoneSo')
+    parse_result_str = parse_result_str.replace('WithoutHavingDoneSo2', 'WithoutHavingDoneSo')
+
+
+    #TODO
+    parse_result_str = parse_result_str.replace('Hastily', 'Hastily+Pos')
+
+    parse_result_str = parse_result_str.replace('Postp+PCNom', 'Part')
+    parse_result_str = parse_result_str.replace('Postp+PCDat', 'Postp')
+    parse_result_str = parse_result_str.replace('Postp+PCAcc', 'Postp')
+    parse_result_str = parse_result_str.replace('Postp+PCLoc', 'Postp')
+    parse_result_str = parse_result_str.replace('Postp+PCAbl', 'Postp')
+    parse_result_str = parse_result_str.replace('Postp+PCIns', 'Postp')
+    parse_result_str = parse_result_str.replace('Postp+PCGen', 'Postp')
+
+    return parse_result_str
 
 class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
 
@@ -30,7 +56,7 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
 
         root_map = (RootMapGenerator()).generate(all_roots)
 
-        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(BasicSuffixGraph()))
+        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(ProperNounSuffixGraph(BasicSuffixGraph())))
         suffix_graph.initialize()
 
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
@@ -60,8 +86,8 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
     def test_should_create_parseset_005(self):
         self._create_parseset_n("005")
 
-#    def test_should_create_parseset_999(self):
-#        self._create_parseset_n("999")
+    def test_should_create_parseset_999(self):
+        self._create_parseset_n("999")
 
     def _create_parseset_n(self, set_number):
         source_file_path = os.path.join(os.path.dirname(__file__), '../../testresources/simpleparsesets/simpleparseset{}.txt'.format(set_number))
@@ -101,8 +127,14 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
 
     def _find_parse_result_matching_simple_parseset(self, word_part, parse_result_part):
         parse_results = self.parser.parse(word_part)
+        if word_part[0].isupper():
+            parse_results += self.parser.parse(TurkishAlphabet.lower(word_part[0])+word_part[1:])
+
         for parse_result in parse_results:
-            if parse_result_part== formatter.format_morpheme_container_for_simple_parseset(parse_result):
+            parse_result_str = formatter.format_morpheme_container_for_simple_parseset(parse_result)
+            if parse_result_part==parse_result_str:
+                return parse_result
+            elif parse_result_str==modify_treebank_parse_result_strs_to_look_like_trnltk(parse_result_part):
                 return parse_result
 
         return None

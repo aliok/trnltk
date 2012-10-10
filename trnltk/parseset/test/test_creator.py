@@ -5,9 +5,13 @@ import unittest
 from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
+from trnltk.morphology.model import formatter
+from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
+from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset.creator import ParseSetCreator
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
@@ -26,7 +30,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 
         root_map = (RootMapGenerator()).generate(all_roots)
 
-        suffix_graph = NumeralSuffixGraph(BasicSuffixGraph())
+        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(ProperNounSuffixGraph(BasicSuffixGraph())))
         suffix_graph.initialize()
 
         predefined_paths = PredefinedPaths(root_map, suffix_graph)
@@ -35,26 +39,30 @@ class ParseSetCreatorTest(unittest.TestCase):
         word_root_finder = WordRootFinder(root_map)
         digit_numeral_root_finder = DigitNumeralRootFinder()
         text_numeral_root_finder = TextNumeralRootFinder(root_map)
+        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
+        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder])
+        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+            [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def test_should_create_sentence_binding_from_morpheme_containers(self):
         morpheme_containers = []
         morpheme_containers.append(self._get_word_morpheme_container_tuple(u'blablabla'))
-        morpheme_containers.append(self._get_word_morpheme_container_tuple(u'kitaba'))
+        morpheme_containers.append(self._get_word_morpheme_container_tuple(u'Kitaba', u'kitap+Noun+A3sg+Pnon+Dat'))
         morpheme_containers.append(self._get_word_morpheme_container_tuple(u'abcabcabc'))
         morpheme_containers.append(self._get_word_morpheme_container_tuple(u'buyurmam'))
         morpheme_containers.append(self._get_word_morpheme_container_tuple(u'yetiştirdik'))
-        morpheme_containers.append(self._get_word_morpheme_container_tuple(u'kıvrandığın'))
+        morpheme_containers.append(self._get_word_morpheme_container_tuple(u'Kıvrandığın', u'kıvran+Verb+Pos+Adj+PastPart+P2sg'))
         morpheme_containers.append(self._get_word_morpheme_container_tuple(u'sabahçı'))
         morpheme_containers.append(self._get_word_morpheme_container_tuple(u'sabah'))
+        morpheme_containers.append(self._get_word_morpheme_container_tuple(u"Ali'nin"))
 
         sentence = self.parseset_creator.create_sentence_binding_from_morpheme_containers(morpheme_containers)
 
         expected = u'''
 <sentence>
 	<unparsable_word str="blablabla"/>
-	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="kitaba" syntactic_category="Noun">
+	<word parse_result="kitap+Noun+A3sg+Pnon+Dat" str="Kitaba" syntactic_category="Noun">
 		<root lemma="kitap" lemma_root="kitap" str="kitab" syntactic_category="Noun"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="kitab" name="A3sg" to_syntactic_category="Noun" word="kitap"/>
@@ -80,7 +88,7 @@ class ParseSetCreatorTest(unittest.TestCase):
 			<inflectionalSuffix actual="k" application="k" form="k" id="A1Pl_Verb" matched_word="yetiştirdik" name="A1pl" to_syntactic_category="Verb" word="yetiştirdik"/>
 		</suffixes>
 	</word>
-	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="kıvrandığın" syntactic_category="Adj">
+	<word parse_result="kıvran+Verb+Pos+Adj+PastPart+P2sg" str="Kıvrandığın" syntactic_category="Adj">
 		<root lemma="kıvranmak" lemma_root="kıvran" str="kıvran" syntactic_category="Verb"/>
 		<suffixes>
 			<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="kıvran" name="Pos" to_syntactic_category="Verb" word="kıvran"/>
@@ -100,6 +108,15 @@ class ParseSetCreatorTest(unittest.TestCase):
 	<word parse_result="sabah+Adv+Time" secondary_syntactic_category="Time" str="sabah" syntactic_category="Adv">
 		<root lemma="sabah" lemma_root="sabah" secondary_syntactic_category="Time" str="sabah" syntactic_category="Adv"/>
 	</word>
+	<word parse_result="Ali+Noun+Prop+Apos+A3sg+Pnon+Gen" secondary_syntactic_category="Prop" str="Ali'nin" syntactic_category="Noun">
+		<root lemma="Ali" lemma_root="Ali" secondary_syntactic_category="Prop" str="Ali" syntactic_category="Noun"/>
+		<suffixes>
+			<inflectionalSuffix actual="'" application="'" form="'" id="Apos_Proper_Noun" matched_word="Ali'" name="Apos" to_syntactic_category="Noun" word="Ali'"/>
+			<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="Ali'" name="A3sg" to_syntactic_category="Noun" word="Ali'"/>
+			<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="Ali'" name="Pnon" to_syntactic_category="Noun" word="Ali'"/>
+			<inflectionalSuffix actual="nin" application="nin" form="+nIn" id="Gen_Noun" matched_word="Ali'nin" name="Gen" to_syntactic_category="Noun" word="Ali'nin"/>
+		</suffixes>
+	</word>
 </sentence>
 '''
         expected = expected.strip()
@@ -111,12 +128,22 @@ class ParseSetCreatorTest(unittest.TestCase):
 
         assert_that(expected, equal_to(sentence.to_dom().toprettyxml().strip()))
 
-    def _get_word_morpheme_container_tuple(self, seq):
+    def _get_word_morpheme_container_tuple(self, seq, expected_result=None):
         res = self.parser.parse(seq)
+        if seq[0].isupper():
+            res += self.parser.parse(TurkishAlphabet.lower(seq))
+
         if res:
-            return (seq, res[0])
+            if expected_result:
+                matching_containers = filter(lambda parse_result : formatter.format_morpheme_container_for_parseset(parse_result)==expected_result, res)
+                if matching_containers:
+                    return seq, matching_containers[0]
+                else:
+                    return seq, None
+            else:
+                return seq, res[0]
         else:
-            return (seq, None)
+            return seq, None
 
 if __name__ == '__main__':
     unittest.main()
