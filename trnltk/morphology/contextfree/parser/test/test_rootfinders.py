@@ -206,30 +206,45 @@ class ProperNounWithoutApostropheRootFinderTest(unittest.TestCase):
         self.root_finder = ProperNounWithoutApostropheRootFinder()
 
     def test_should_recognize_proper_nouns(self):
-        roots = self.root_finder.find_roots_for_partial_input(u"A")
+        roots = self.root_finder.find_roots_for_partial_input(u"A", u"Ali")
         assert_that(roots[0].str, equal_to(u'A'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Al")
+        roots = self.root_finder.find_roots_for_partial_input(u"Al", u"Ali")
         assert_that(roots[0].str, equal_to(u'Al'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Ali")
+        roots = self.root_finder.find_roots_for_partial_input(u"Ali", u"Ali")
         assert_that(roots[0].str, equal_to(u'Ali'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Ali8")
+        roots = self.root_finder.find_roots_for_partial_input(u"Ali8", u"Ali8912")
         assert_that(roots[0].str, equal_to(u'Ali8'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"a")
+    def test_should_not_recognize_proper_nouns_when_the_input_is_not(self):
+        roots = self.root_finder.find_roots_for_partial_input(u"A", u"Ali'nin")
         assert_that(roots, has_length(0))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Ali'nin")
+        roots = self.root_finder.find_roots_for_partial_input(u"Al", u"Ali'nin")
         assert_that(roots, has_length(0))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"123A")
+        roots = self.root_finder.find_roots_for_partial_input(u"Ali", u"Ali'nin")
         assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"Ali8", u"Ali8912'nin")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"a", u"aa")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"Ali'nin", u"Ali'nin")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"123A", u"123A")
+        assert_that(roots, has_length(0))
+
+
 
 if __name__ == '__main__':
     unittest.main()

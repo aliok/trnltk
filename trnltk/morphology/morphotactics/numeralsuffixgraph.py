@@ -50,7 +50,7 @@ class NumeralSuffixGraph(SuffixGraphDecorator):
         self.OfUnit_Number = self._register_suffix("OfUnit_Number", pretty_name='OfUnit')
 
         ########### Cardinal digits suffixes
-        self.Apos_Digit = self._register_suffix("Apos")
+        self.Apos_Digit = self._register_suffix("Apos_Digit", pretty_name="Apos")
 
     def create_suffix_edges(self):
         self._register_numeral_suffixes()

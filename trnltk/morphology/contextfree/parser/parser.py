@@ -39,7 +39,7 @@ class ContextFreeMorphologicalParser(object):
         for i in range(1, len(input) + 1):
             partial_input = input[:i]
 
-            roots_from_lexicon = self._find_roots_for_partial_input(partial_input)
+            roots_from_lexicon = self._find_roots_for_partial_input(partial_input, input)
 
             if logger.isEnabledFor(logging.DEBUG):
                 logger.debug('Found %d root candidates for partial input "%s":', len(roots_from_lexicon), partial_input)
@@ -59,15 +59,15 @@ class ContextFreeMorphologicalParser(object):
                         else:
                             logger.debug('Predefined morpheme container is not applicable, skipping %s', predefined_morpheme_container)
                 else:
-                    morpheme_container = MorphemeContainer(root, self._suffix_graph.get_default_root_state(root), input[len(partial_input):])
+                    morpheme_container = MorphemeContainer(root, self._suffix_graph.get_default_root_state(root), input[len(root.str):])
                     candidates.append(morpheme_container)
 
         return candidates
 
-    def _find_roots_for_partial_input(self, partial_input):
+    def _find_roots_for_partial_input(self, partial_input, input):
         roots = []
         for root_finder in self._root_finders:
-            roots.extend(root_finder.find_roots_for_partial_input(partial_input))
+            roots.extend(root_finder.find_roots_for_partial_input(partial_input, input))
         return roots
 
     def _traverse_candidates(self, candidates, results, word):

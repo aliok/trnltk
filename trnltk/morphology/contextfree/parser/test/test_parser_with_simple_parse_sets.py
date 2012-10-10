@@ -13,13 +13,13 @@ from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
 #TODO
-from trnltk.morphology.morphotactics.suffixgraph import EmptySuffixGraph
+from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 cases_to_skip = {
     u'1+Num+Card',
@@ -162,7 +162,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
         root_map_generator = RootMapGenerator()
         cls.root_map = root_map_generator.generate(all_roots)
 
-        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(BasicSuffixGraph()))
+        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(ProperNounSuffixGraph(BasicSuffixGraph())))
         suffix_graph.initialize()
 
         predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
@@ -171,8 +171,12 @@ class ParserTestWithSimpleParseSets(ParserTest):
         word_root_finder = WordRootFinder(cls.root_map)
         text_numeral_root_finder = TextNumeralRootFinder(cls.root_map)
         digit_numeral_root_finder = DigitNumeralRootFinder()
+        proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
+        proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder, text_numeral_root_finder, digit_numeral_root_finder])
+        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+            [word_root_finder, text_numeral_root_finder, digit_numeral_root_finder,
+             proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -260,8 +264,8 @@ class ParserTestWithSimpleParseSets(ParserTest):
 
                 if self.STATS_MODE:
                     try:
-                        self.assert_parse_correct(lower(word), index, parse_result)
-                    except:
+                        self.assert_parse_correct(word, index, parse_result)
+                    except Exception:
                         unparsable +=1
                         logger.info(u'Unparsable : {} {} {}'.format(index, word, parse_result))
                 else:
@@ -277,7 +281,11 @@ class ParserTestWithSimpleParseSets(ParserTest):
             logger.info("Parse success rate : {}".format(float(index-comment-skipped-unparsable)/float(index-comment)))
 
     def assert_parse_correct(self, word_to_parse, index, *args):
-        assert_that(self.parse_result(word_to_parse), IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
+        parse_result = self.parse_result(word_to_parse)
+        if word_to_parse[0].isupper():
+            lower_word_to_parse = lower(word_to_parse)
+            parse_result += self.parse_result(lower_word_to_parse)
+        assert_that(parse_result, IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 
     def parse_result(self, word):
         return [formatter.format_morpheme_container_for_simple_parseset(r) for r in (self.parser.parse(word))]
