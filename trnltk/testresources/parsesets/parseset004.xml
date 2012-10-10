@@ -15254,7 +15254,7 @@
 		<word parse_result="70+Num+Digits+Apos+Adj+Zero+Noun+Zero+A3pl+Pnon+Dat" str="70'lere" syntactic_category="Noun">
 			<root lemma="70" lemma_root="70" secondary_syntactic_category="Digits" str="70" syntactic_category="Num"/>
 			<suffixes>
-				<inflectionalSuffix actual="'" application="'" form="'" id="Apos" matched_word="70'" name="Apos" to_syntactic_category="Num" word="70'"/>
+				<inflectionalSuffix actual="'" application="'" form="'" id="Apos_Digit" matched_word="70'" name="Apos" to_syntactic_category="Num" word="70'"/>
 				<derivationalSuffix actual="" application="" form="" id="Numeral_Zero_Transition_1" matched_word="70'" name="Zero" to_syntactic_category="Adj" word="70'"/>
 				<derivationalSuffix actual="" application="" form="" id="Adj_to_Noun_Zero_Transition" matched_word="70'" name="Zero" to_syntactic_category="Noun" word="70'"/>
 				<inflectionalSuffix actual="ler" application="ler" form="lAr" id="A3Pl_Noun" matched_word="70'ler" name="A3pl" to_syntactic_category="Noun" word="70'ler"/>
@@ -15520,7 +15520,14 @@
 		</word>
 	</sentence>
 	<sentence>
-		<unparsable_word str="CD"/>
+		<word parse_result="CD+Noun+Abbr+A3sg+Pnon+Nom" secondary_syntactic_category="Abbr" str="CD" syntactic_category="Noun">
+			<root lemma="CD" lemma_root="CD" secondary_syntactic_category="Abbr" str="CD" syntactic_category="Noun"/>
+			<suffixes>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="CD" name="A3sg" to_syntactic_category="Noun" word="CD"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="CD" name="Pnon" to_syntactic_category="Noun" word="CD"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="CD" name="Nom" to_syntactic_category="Noun" word="CD"/>
+			</suffixes>
+		</word>
 		<word parse_result="çal+Verb+Pos+Adj+PresPart" str="çalan" syntactic_category="Adj">
 			<root lemma="çalmak" lemma_root="çal" str="çal" syntactic_category="Verb"/>
 			<suffixes>
