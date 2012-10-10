@@ -503,7 +503,7 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.With.add_suffix_form(u"lI")
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.Without, self.ADJECTIVE_ROOT)
-        self.Without.add_suffix_form(u"sIz")
+        self.Without.add_suffix_form(u"sIz", doesnt_come_after(self.A3Pl_Noun))
 
         self.NOUN_NOM_DERIV.add_out_suffix(self.JustLike_Noun, self.ADJECTIVE_ROOT)
         self.JustLike_Noun.add_suffix_form(u"+ImsI")
