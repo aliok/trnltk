@@ -39,11 +39,17 @@ class ParseResultSurfaceAppender(ParseResultFormAppender):
             else:
                 query.given_surface(False)
 
+        surface = morpheme_container.get_surface()
         if self.add_syntactic_category:
-            params.append(morpheme_container.get_surface())
-            params.append(morpheme_container.get_surface_syntactic_category())
+            syntactic_category = morpheme_container.get_surface_syntactic_category()
+            secondary_syntactic_category = morpheme_container.get_surface_secondary_syntactic_category()
+            if secondary_syntactic_category:
+                syntactic_category += u'_' + secondary_syntactic_category
+
+            params.append(surface)
+            params.append(syntactic_category)
         else:
-            params.append(morpheme_container.get_surface())
+            params.append(surface)
 
 class ParseResultStemAppender(ParseResultFormAppender):
     def append(self, morpheme_container, query, params):
@@ -58,11 +64,17 @@ class ParseResultStemAppender(ParseResultFormAppender):
             else:
                 query.given_stem(False)
 
+        stem = morpheme_container.get_stem()
         if self.add_syntactic_category:
-            params.append(morpheme_container.get_stem())
-            params.append(morpheme_container.get_stem_syntactic_category())
+            syntactic_category = morpheme_container.get_stem_syntactic_category()
+            secondary_syntactic_category = morpheme_container.get_stem_secondary_syntactic_category()
+            if secondary_syntactic_category:
+                syntactic_category += u'_' + secondary_syntactic_category
+
+            params.append(stem)
+            params.append(syntactic_category)
         else:
-            params.append(morpheme_container.get_stem())
+            params.append(stem)
 
 class ParseResultLemmaRootAppender(ParseResultFormAppender):
     def append(self, morpheme_container, query, params):
@@ -77,11 +89,17 @@ class ParseResultLemmaRootAppender(ParseResultFormAppender):
             else:
                 query.given_lemma_root(False)
 
+        lemma_root = morpheme_container.get_lemma_root()
         if self.add_syntactic_category:
-            params.append(morpheme_container.get_lemma_root())
-            params.append(morpheme_container.get_lemma_root_syntactic_category())
+            syntactic_category = morpheme_container.get_lemma_root_syntactic_category()
+            secondary_syntactic_category = morpheme_container.get_lemma_root_secondary_syntactic_category()
+            if secondary_syntactic_category:
+                syntactic_category += u'_' + secondary_syntactic_category
+
+            params.append(lemma_root)
+            params.append(syntactic_category)
         else:
-            params.append(morpheme_container.get_lemma_root())
+            params.append(lemma_root)
 
 context_word_appender = ContextWordAppender()
 target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)

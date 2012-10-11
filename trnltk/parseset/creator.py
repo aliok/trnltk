@@ -14,14 +14,8 @@ class ParseSetCreator(object):
         root_secondary_syntactic_category = morpheme_container.get_root().lexeme.secondary_syntactic_category
         root = RootBinding(root_str, lemma, lemma_root, root_syntactic_category, root_secondary_syntactic_category)
 
-        word_syntactic_category = root_syntactic_category
-        word_secondary_syntactic_category = root_secondary_syntactic_category
-
-        if morpheme_container.has_transitions():
-            last_derivation_transition = morpheme_container.get_last_derivation_transition()
-            if last_derivation_transition:
-                word_syntactic_category = last_derivation_transition.to_state.syntactic_category
-                word_secondary_syntactic_category = None
+        word_syntactic_category = morpheme_container.get_surface_syntactic_category()
+        word_secondary_syntactic_category = morpheme_container.get_surface_secondary_syntactic_category()
 
         parse_result = formatter.format_morpheme_container_for_parseset(morpheme_container)
         word = WordBinding(word_str, parse_result, root, word_syntactic_category, word_secondary_syntactic_category)

@@ -175,7 +175,7 @@ class DerivationalSuffixBinding(SuffixBinding):
         return node
 
 
-class UnparsableWordBinding (Binding):
+class UnparsableWordBinding(Binding):
     def __init__(self, str):
         self.str = str
 

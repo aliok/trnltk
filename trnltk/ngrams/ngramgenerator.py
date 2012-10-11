@@ -63,20 +63,26 @@ class WordNGramGenerator(NGramGenerator):
     }
 
     def __init__(self, n):
-        super(WordNGramGenerator, self).__init__(n, self._extract_trigram_item, self.START_WORD, self.END_WORD)
+        super(WordNGramGenerator, self).__init__(n, self._extract_ngram_item, self.START_WORD, self.END_WORD)
 
 
     @classmethod
-    def _extract_trigram_item(cls, word_binding):
+    def _extract_ngram_item(cls, word_binding):
         """
         @type word_binding: WordBinding
         @return:
         """
 
         surface_str, surface_syntactic_category = word_binding.str, word_binding.syntactic_category
-        stem_str, stem_syntactic_category = cls._get_stem(word_binding)
+        stem_str, stem_syntactic_category, stem_secondary_syntactic_category = cls._get_stem(word_binding)
         lemma_root_str, lemma_root_syntactic_category = word_binding.root.lemma_root, word_binding.root.syntactic_category
 
+        if word_binding.secondary_syntactic_category:
+            surface_syntactic_category += u'_' + word_binding.secondary_syntactic_category
+        if stem_secondary_syntactic_category:
+            stem_syntactic_category += u'_' + stem_secondary_syntactic_category
+        if word_binding.root.secondary_syntactic_category:
+            lemma_root_syntactic_category += u'_' + word_binding.root.secondary_syntactic_category
 
         return {
             'word' : {
@@ -95,12 +101,12 @@ class WordNGramGenerator(NGramGenerator):
         """
 
         if not word_binding.suffixes:
-            return word_binding.str, word_binding.syntactic_category
+            return word_binding.str, word_binding.syntactic_category, word_binding.secondary_syntactic_category
 
 
         indexes_of_derivational_suffixes = [i for i in range(len(word_binding.suffixes)) if isinstance(word_binding.suffixes[i], DerivationalSuffixBinding)]
         if indexes_of_derivational_suffixes:
             index_of_last_derivational_suffix = indexes_of_derivational_suffixes[-1]
-            return word_binding.suffixes[index_of_last_derivational_suffix].word, word_binding.suffixes[index_of_last_derivational_suffix].to_syntactic_category
+            return word_binding.suffixes[index_of_last_derivational_suffix].word, word_binding.suffixes[index_of_last_derivational_suffix].to_syntactic_category, None
         else:
-            return word_binding.root.lemma_root, word_binding.root.syntactic_category
+            return word_binding.root.lemma_root, word_binding.root.syntactic_category, word_binding.root.secondary_syntactic_category

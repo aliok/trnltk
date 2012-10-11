@@ -161,6 +161,17 @@ class MorphemeContainer(object):
     def get_surface_syntactic_category(self):
         return self.get_last_state().syntactic_category
 
+    def get_surface_secondary_syntactic_category(self):
+        word_secondary_syntactic_category = self.get_root().lexeme.secondary_syntactic_category
+
+        if self.has_transitions():
+            last_derivation_transition = self.get_last_derivation_transition()
+            if last_derivation_transition:
+                word_secondary_syntactic_category = None
+
+        return word_secondary_syntactic_category
+
+
     def get_stem(self):
         if not self._transitions:
             return self._root.lexeme.root
@@ -185,11 +196,24 @@ class MorphemeContainer(object):
         else:
             return self._root.lexeme.syntactic_category
 
+    def get_stem_secondary_syntactic_category(self):
+        if not self._transitions:
+            return self._root.lexeme.secondary_syntactic_category
+
+        indexes_of_derivational_suffixes = [i for i in range(len(self._transitions)) if self._transitions[i].is_derivational()]
+        if indexes_of_derivational_suffixes:
+            return None
+        else:
+            return self._root.lexeme.secondary_syntactic_category
+
     def get_lemma_root(self):
         return self._root.lexeme.root
 
     def get_lemma_root_syntactic_category(self):
         return self._root.lexeme.syntactic_category
+
+    def get_lemma_root_secondary_syntactic_category(self):
+        return self._root.lexeme.secondary_syntactic_category
 
     def get_last_derivation_transition(self):
         for transition in reversed(self._transitions):

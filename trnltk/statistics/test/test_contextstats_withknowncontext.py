@@ -20,6 +20,7 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistics.contextstats import  ContextParsingLikelihoodCalculator
 from trnltk.statistics.contextstats import logger as context_stats_logger
@@ -32,23 +33,29 @@ for sentence in parseset.sentences:
     parse_set_word_list.extend(sentence.words)
 
 class MockContainerBuilder(object):
-    def __init__(self, surface_str, surface_syntactic_category):
+    def __init__(self, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
         self.surface_str = surface_str
         self.surface_syntactic_category = surface_syntactic_category
-
+        self.surface_secondary_syntactic_category = surface_secondary_syntactic_category
         self.stem_str = None
         self.stem_syntactic_category = None
+        self.stem_secondary_syntactic_category = None
         self.lemma_root_str = None
         self.lemma_root_syntactic_category = None
+        self.lemma_root_secondary_syntactic_category = None
 
-    def stem(self, stem_str, stem_syntactic_category=None):
+    def stem(self, stem_str, stem_syntactic_category=None, stem_secondary_syntactic_category=None):
         self.stem_str = stem_str
         self.stem_syntactic_category = stem_syntactic_category
+        self.stem_secondary_syntactic_category = stem_secondary_syntactic_category
+
         return self
 
-    def lexeme(self, lemma_root_str, lemma_root_syntactic_category=None):
+    def lexeme(self, lemma_root_str, lemma_root_syntactic_category=None, lemma_root_secondary_syntactic_category=None):
         self.lemma_root_str = lemma_root_str
         self.lemma_root_syntactic_category = lemma_root_syntactic_category
+        self.lemma_root_secondary_syntactic_category = lemma_root_syntactic_category
+
         return self
 
     def build(self):
@@ -56,17 +63,20 @@ class MockContainerBuilder(object):
 
         mock.get_surface.return_value  = self.surface_str
         mock.get_surface_syntactic_category.return_value  = self.surface_syntactic_category
+        mock.get_surface_secondary_syntactic_category.return_value = self.surface_secondary_syntactic_category
 
         mock.get_stem.return_value = self.stem_str if self.stem_str else self.surface_str
         mock.get_stem_syntactic_category.return_value = self.stem_syntactic_category if self.stem_syntactic_category else self.surface_syntactic_category
+        mock.get_stem_secondary_syntactic_category.return_value = self.stem_secondary_syntactic_category if self.stem_syntactic_category else self.surface_secondary_syntactic_category
 
         mock.get_lemma_root.return_value = self.lemma_root_str if self.lemma_root_str else self.surface_str
         mock.get_lemma_root_syntactic_category.return_value = self.lemma_root_syntactic_category if self.lemma_root_syntactic_category else self.surface_syntactic_category
+        mock.get_lemma_root_secondary_syntactic_category.return_value = self.lemma_root_secondary_syntactic_category if self.lemma_root_syntactic_category else self.surface_secondary_syntactic_category
 
         return mock
 
-def _container_builder(surface_str, surface_syntactic_category):
-    return MockContainerBuilder(surface_str, surface_syntactic_category)
+def _container_builder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
+    return MockContainerBuilder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category)
 
 class LikelihoodCalculatorTest(unittest.TestCase):
     @classmethod
@@ -117,6 +127,9 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 
         likelihoods = []
         results = self.context_free_parser.parse(surface)
+        if surface[0].isupper():
+            results += self.context_free_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
+
         for result in results:
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
             likelihood = 0.0
@@ -147,6 +160,33 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 
         context = [[_container_builder(u"bir", "Adj").build()]]
         surface = u'erkek'
+
+        self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
+
+    def test_generate_likelihood_of_one_word_given_one_leading_context_word_sc2(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+
+        context = [[_container_builder(u".", "Punc").build()]]
+        surface = u'Saçları'
+
+        self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
+
+    def test_generate_likelihood_of_one_word_given_one_leading_context_word_sc3(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+
+        context = [[_container_builder(u".", "Punc").build()]]
+        surface = u'Kerem'
+
+        self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
+
+    def test_generate_likelihood_of_one_word_given_one_leading_context_word_sc4(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+
+        context = [[_container_builder(u"Kerem", "Noun", "Prop").build()]]
+        surface = u'ter'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
 
