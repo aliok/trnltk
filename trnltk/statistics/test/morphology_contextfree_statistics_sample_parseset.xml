@@ -24,7 +24,7 @@
             <root lemma="saç" lemma_root="saç" str="saç" syntactic_category="Noun"/>
             <suffixes>
                 <inflectionalSuffix actual="lar" application="lar" form="lAr" id="A3Pl_Noun" matched_word="saçlar" name="A3pl" to_syntactic_category="Noun" word="saçlar"/>
-                <inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3sg_Noun" matched_word="saçları" name="P3sg" to_syntactic_category="Noun" word="saçları"/>
+                <inflectionalSuffix actual="ı" application="ı" form="+sI" id="P3Sg_Noun" matched_word="saçları" name="P3sg" to_syntactic_category="Noun" word="saçları"/>
                 <inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="saçları" name="Nom" to_syntactic_category="Noun" word="saçları"/>
             </suffixes>
         </word>
@@ -33,7 +33,7 @@
             <root lemma="oğul" lemma_root="oğul" str="oğl" syntactic_category="Noun"/>
             <suffixes>
                 <inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="oğl" name="A3sg" to_syntactic_category="Noun" word="oğul"/>
-                <inflectionalSuffix actual="um" application="um" form="+Im" id="P1sg_Noun" matched_word="oğlum" name="P1sg" to_syntactic_category="Noun" word="oğlum"/>
+                <inflectionalSuffix actual="um" application="um" form="+Im" id="P1Sg_Noun" matched_word="oğlum" name="P1sg" to_syntactic_category="Noun" word="oğlum"/>
                 <inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="oğlum" name="Nom" to_syntactic_category="Noun" word="oğlum"/>
             </suffixes>
         </word>

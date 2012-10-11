@@ -186,13 +186,19 @@ class QueryExecutorTest(unittest.TestCase):
         pass
 
     def test_build_query_with_invalid_params(self):
-        query_execution_context = QueryExecutionContext(["key1", "key2"], None)
+        mock_collection = Mock()
+        mock_collection.full_name = 'Mock_Collection'
+
+        query_execution_context = QueryExecutionContext(["key1", "key2"], mock_collection)
         self.assertRaises(AssertionError, lambda : QueryExecutor().query_execution_context(query_execution_context).params()._build_query_with_params())
         self.assertRaises(AssertionError, lambda : QueryExecutor().query_execution_context(query_execution_context).params("1")._build_query_with_params())
         self.assertRaises(AssertionError, lambda : QueryExecutor().query_execution_context(query_execution_context).params("1", "2", "3")._build_query_with_params())
 
     def test_build_query_with_params(self):
-        query_execution_context = QueryExecutionContext(["key1", "key2"], None)
+        mock_collection = Mock()
+        mock_collection.full_name = 'Mock_Collection'
+
+        query_execution_context = QueryExecutionContext(["key1", "key2"], mock_collection)
         query_with_params = QueryExecutor().query_execution_context(query_execution_context).params("1", "2")._build_query_with_params()
         assert_that(query_with_params, has_length(2))
         assert_that(query_with_params, has_entry("key1", "1"))

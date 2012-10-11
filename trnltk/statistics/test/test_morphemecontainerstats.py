@@ -41,6 +41,7 @@ class MorphemeContainerContextFreeProbabilityGeneratorWithContainersTest(unittes
         cls.root_map = root_map_generator.generate(all_roots)
 
         suffix_graph = BasicSuffixGraph()
+        suffix_graph.initialize()
 
         word_root_finder = WordRootFinder(cls.root_map)
 
@@ -62,7 +63,9 @@ class MorphemeContainerContextFreeProbabilityGeneratorWithContainersTest(unittes
         for i in range(len(parse_set_word_list)):
             generator = self._create_generator_with_words([i])
             parse_results = self.context_free_parser.parse(parse_set_word_list[i].str)
-            assert_that(any([generator.get_probability(parse_result)==1.0 for parse_result in parse_results]))
+            probabilities = [generator.get_probability(parse_result) for parse_result in parse_results]
+            print u'Calculating probability of word {} : {}'.format(parse_set_word_list[i].str, probabilities)
+            assert_that(any([probability==1.0 for probability in probabilities]))
 
 
 if __name__ == '__main__':

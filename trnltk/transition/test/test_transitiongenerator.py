@@ -6,11 +6,14 @@ from hamcrest import *
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.model import formatter
+from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
+from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.transition.transitiongenerator import TransitionGenerator
 
 class TransitionGeneratorTest(unittest.TestCase):
@@ -26,17 +29,21 @@ class TransitionGeneratorTest(unittest.TestCase):
         root_map_generator = RootMapGenerator()
         cls.root_map = root_map_generator.generate(all_roots)
 
-        suffix_graph = CopulaSuffixGraph()
+        suffix_graph = CopulaSuffixGraph(NumeralSuffixGraph(ProperNounSuffixGraph(BasicSuffixGraph())))
+        suffix_graph.initialize()
+
         predefined_paths = PredefinedPaths(cls.root_map, suffix_graph)
         predefined_paths.create_predefined_paths()
 
         word_root_finder = WordRootFinder(cls.root_map)
-        numeral_root_finder = DigitNumeralRootFinder()
+        digit_numeral_root_finder = DigitNumeralRootFinder()
+        text_numeral_root_finder = TextNumeralRootFinder(cls.root_map)
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
         cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
-            [word_root_finder, numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
+            [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
+             proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
         cls.transition_generator = TransitionGenerator(cls.parser)
 

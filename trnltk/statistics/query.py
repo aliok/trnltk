@@ -108,7 +108,7 @@ class QueryBuilder(object):
         logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
         created_index_name = collection.ensure_index(index_keys, name=index_name, drop_dups=True)
         if created_index_name:
-            logger.log(logging.DEBUG, u'\tCreated index with name : ' + created_index_name)
+            logger.log(logging.DEBUG, u'\tCreated index with name : ' + str(created_index_name))
         else:
             logger.log(logging.DEBUG, u'\tIndex already exists')
 
