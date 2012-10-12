@@ -90,6 +90,92 @@ class WordNGramQueryContainer(object):
         return index_part, keys
 
 
+class WordNGramIndexContainerItem(object):
+    def __init__(self, str_type, include_syntactic_category):
+        self.str_type = str_type
+        self.include_syntactic_category = include_syntactic_category
+
+    def __str__(self):
+        if self.include_syntactic_category:
+            return "({}, {})".format(self.str_type, "syntactic_category")
+        else:
+            return "({})".format(self.str_type)
+
+    def __repr__(self):
+        return self.__str__()
+
+class WordNGramIndexContainer(object):
+    def __init__(self, n):
+        assert n>0
+        self._n = n
+        self._target_item = None
+        self._given_items = []
+
+    def _add_given(self, type, include_syntactic_category=False):
+        self._given_items.append(WordNGramIndexContainerItem(type, include_syntactic_category))
+        return self
+
+    def _add_target(self, type, include_syntactic_category=False):
+        if self._target_item:
+            raise Exception("Target item is already set!")
+        self._target_item = WordNGramIndexContainerItem(type, include_syntactic_category)
+        return self
+
+    def given_surface(self, include_syntactic_category=False):
+        return self._add_given('surface', include_syntactic_category)
+
+    def given_stem(self, include_syntactic_category=False):
+        return self._add_given('stem', include_syntactic_category)
+
+    def given_lemma_root(self, include_syntactic_category=False):
+        return self._add_given('lemma_root', include_syntactic_category)
+
+    def target_surface(self, include_syntactic_category=False):
+        return self._add_target('surface', include_syntactic_category)
+
+    def target_stem(self, include_syntactic_category=False):
+        return self._add_target('stem', include_syntactic_category)
+
+    def target_lemma_root(self, include_syntactic_category=False):
+        return self._add_target('lemma_root', include_syntactic_category)
+
+    def create_context(self, target_comes_after):
+        item_count = (1 if self._target_item else 0) + len(self._given_items)
+        assert self._n == item_count, "n: {}, item count : {}".format(self._n, item_count)
+
+        index_name = "word{}GramIdx".format(self._n)
+        keys = []
+
+        target_item_index = self._n - 1 if target_comes_after else 0
+        item_index_range = range(0, target_item_index) if target_comes_after else range(1, self._n)
+
+        if not self._target_item:
+            target_item_index = -1
+            item_index_range = range(0, self._n)
+
+        if self._target_item:
+            target_item_index_part, target_item_keys = self._build_key(self._target_item, target_item_index)
+            keys.extend(target_item_keys)
+            index_name += target_item_index_part
+
+        for index, item in enumerate(self._given_items):
+            item_index = item_index_range[index]
+            item = self._given_items[index]
+            item_index_part, item_keys = self._build_key(item, item_index)
+            keys.extend(item_keys)
+            index_name += item_index_part
+
+        return index_name, keys
+
+    def _build_key(self, query_item, index):
+        index_part = "_{}_{}".format(index, query_item.str_type)
+        keys = ["item_{}.word.{}.value".format(index, query_item.str_type)]
+        if query_item.include_syntactic_category:
+            keys.append("item_{}.word.{}.syntactic_category".format(index, query_item.str_type))
+            index_part += "_cat"
+        return index_part, keys
+
+
 class QueryExecutionContext(object):
     def __init__(self, keys, collection):
         self.keys = keys
@@ -104,13 +190,14 @@ class QueryBuilder(object):
         index_name, keys = query_container.create_context(target_comes_after)
         collection = self._collection_map[query_container._n]
 
-        index_keys = [(key, pymongo.ASCENDING) for key in keys]
-        logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
-        created_index_name = collection.ensure_index(index_keys, name=index_name, drop_dups=True)
-        if created_index_name:
-            logger.log(logging.DEBUG, u'\tCreated index with name : ' + str(created_index_name))
-        else:
-            logger.log(logging.DEBUG, u'\tIndex already exists')
+        # index is created already!
+#        index_keys = [(key, pymongo.ASCENDING) for key in keys]
+#        logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
+#        created_index_name = collection.ensure_index(index_keys, name=index_name)
+#        if created_index_name:
+#            logger.log(logging.DEBUG, u'\tCreated index with name : ' + str(created_index_name))
+#        else:
+#            logger.log(logging.DEBUG, u'\tIndex already exists')
 
         return QueryExecutionContext(keys, collection)
 
@@ -146,3 +233,57 @@ class QueryExecutor(object):
         logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
         logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
         return mongo_query
+
+class DatabaseIndexBuilder(object):
+    def __init__(self, collection_map):
+        self._collection_map = collection_map
+
+    def create_indexes(self, appender_matrix):
+        for appender_tuple in appender_matrix:
+            target_appender, context_appender = None, None
+
+            if len(appender_tuple)>1:
+                target_appender, context_appender = appender_tuple
+            else:
+                context_appender = appender_tuple[0]
+
+            for key_index in range(0, len(self._collection_map.keys())):
+
+                n = sorted(list(self._collection_map.keys()))[key_index]
+                collection = self._collection_map[n]
+
+                if n>1:
+                    smaller_collection = self._collection_map[n-1]
+                    smaller_index_container = WordNGramIndexContainer(n-1)
+
+                    self._create_container_and_index(smaller_collection, smaller_index_container, n-1, None, context_appender)
+
+                index_container = WordNGramIndexContainer(n)
+                self._create_container_and_index(collection, index_container, n, target_appender, context_appender)
+
+
+
+    def _create_container_and_index(self, collection, index_container, n, target_appender, context_appender):
+        if target_appender:
+            target_appender.append_index_key(index_container)
+        else:
+            n +=1
+
+        for i in range(0, n-1):
+            context_appender.append_index_key(index_container)
+
+        self._create_index_from_container(collection, index_container, True)
+        self._create_index_from_container(collection, index_container, False)
+
+
+    def _create_index_from_container(self, collection, index_container, target_comes_after):
+        index_name, keys = index_container.create_context(target_comes_after)
+
+        index_keys = [(key, pymongo.ASCENDING) for key in keys]
+        logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
+        created_index_name = collection.ensure_index(index_keys, name=index_name)
+        if created_index_name:
+            logger.log(logging.DEBUG, u'\tCreated index with name : ' + str(created_index_name))
+        else:
+            logger.log(logging.DEBUG, u'\tIndex already exists')
+
