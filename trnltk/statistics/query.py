@@ -15,11 +15,6 @@ class QueryExecutionIndexContext(object):
         self.index_name = index_name
         self.collection = collection
 
-class CachingQueryExecutionContext(QueryExecutionContext):
-    def __init__(self, keys, collection, query_cache_collection):
-        super(CachingQueryExecutionContext, self).__init__(keys, collection)
-        self.query_cache_collection = query_cache_collection
-
 class WordNGramQueryContainerItem(object):
     def __init__(self, str_type, include_syntactic_category):
         self.str_type = str_type
@@ -190,19 +185,19 @@ class CachingQueryExecutor(QueryExecutor):
         return self
 
     def count(self):
-        cached_query_with_params = self._build_cached_query_with_params()
         query_with_params = self._build_query_with_params()
-        print query_with_params
-        raise Exception('E')
+        query_cache_collection = self._query_execution_context.query_cache_collection
+        query_str = str(query_with_params)
+        cached_count = query_cache_collection.find_one({'query': query_str}, fields=['count'])
 
-    def _build_cached_query_with_params(self):
-        mongo_query = {}
-        for index, param in enumerate(self._params):
-            mongo_query[self._query_execution_context.keys[index]] = param
-
-        logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
-        logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
-        return mongo_query
+        if cached_count and cached_count['count'] is not None:
+            logger.log(logging.DEBUG, u'\tFound query in the cache, returning result {}'.format(cached_count['count']))
+            return cached_count['count']
+        else:
+            count = self._query_execution_context.collection.find(query_with_params).count()
+            logger.log(logging.DEBUG, u'\tPutting query into the cache, with result {}'.format(count))
+            query_cache_collection.insert({'query' : query_str, 'count' : count})
+            return count
 
 
 class DatabaseIndexBuilder(object):
@@ -257,3 +252,21 @@ class DatabaseIndexBuilder(object):
         collection.ensure_index(index_keys, name=index_name)
 
 
+class QueryCacheCollectionCreator(object):
+    def __init__(self, database):
+        self.database = database
+
+    def build(self, drop=False, collection_name='ngramQueryCache', size=100000, max=1000):
+        exists = collection_name in self.database.collection_names()
+        if drop and exists:
+            self.database.drop_collection(collection_name)
+
+        query_cache_collection = None
+        if not exists:
+            query_cache_collection = self.database.create_collection(collection_name, capped=True, size=100000, max=1000)   # max N documents!
+        else:
+            query_cache_collection = self.database[collection_name]
+
+        query_cache_collection.ensure_index([('query', pymongo.ASCENDING)], unique=True)
+
+        return query_cache_collection

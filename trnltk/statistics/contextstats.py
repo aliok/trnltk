@@ -171,12 +171,12 @@ class NonContextParsingLikelihoodCalculator(object):
         index_builder = DatabaseIndexBuilder(self._collection_map)
 
         non_context_parsing_appender_matrix = [
-            (context_word_appender,),
             (target_surface_syn_cat_appender, context_word_appender),
             (target_stem_syn_cat_appender, context_word_appender),
             (target_lemma_root_syn_cat_appender, context_word_appender)
         ]
 
+        index_builder.create_indexes([(context_word_appender,)])
         index_builder.create_indexes(non_context_parsing_appender_matrix)
 
     def calculate_likelihood(self, target, leading_context, following_context):
@@ -252,7 +252,7 @@ class CachingNonContextParsingLikelihoodCalculator(NonContextParsingLikelihoodCa
         self._query_cache_collection = query_cache_collection
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
-        query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
+        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
         caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection, self._query_cache_collection)
         return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
 
@@ -266,6 +266,32 @@ class ContextParsingLikelihoodCalculator(object):
 
     def __init__(self, collection_map):
         self._collection_map = collection_map
+
+    def build_indexes(self):
+        index_builder = DatabaseIndexBuilder(self._collection_map)
+
+        non_context_parsing_appender_matrix_row_0 = [
+            (target_surface_syn_cat_appender, context_surface_syn_cat_appender),
+            (target_surface_syn_cat_appender, context_stem_syn_cat_appender),
+            (target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        ]
+
+        non_context_parsing_appender_matrix_row_1 = [
+            (target_stem_syn_cat_appender, context_surface_syn_cat_appender),
+            (target_stem_syn_cat_appender, context_stem_syn_cat_appender),
+            (target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        ]
+
+        non_context_parsing_appender_matrix_row_2 = [
+            (target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender),
+            (target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender),
+            (target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender)
+        ]
+
+        index_builder.create_indexes([(context_word_appender,)])
+        index_builder.create_indexes(non_context_parsing_appender_matrix_row_0)
+        index_builder.create_indexes(non_context_parsing_appender_matrix_row_1)
+        index_builder.create_indexes(non_context_parsing_appender_matrix_row_2)
 
     def calculate_likelihood(self, target, leading_context, following_context):
         likelihood = self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
@@ -394,7 +420,7 @@ class ContextParsingLikelihoodCalculator(object):
         return self._find_count_for_query(params, query_container, target_comes_after)
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
-        query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
+        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
         return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
 
     def _get_cartesian_products_of_context_parse_results(self, context):
@@ -425,3 +451,14 @@ class ContextParsingLikelihoodCalculator(object):
             return [[context_parse_result] for context_parse_result in cartesian_product_list]
 
         return cartesian_product_list
+
+
+class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
+    def __init__(self, collection_map, query_cache_collection):
+        super(CachingContextParsingLikelihoodCalculator, self).__init__(collection_map)
+        self._query_cache_collection = query_cache_collection
+
+    def _find_count_for_query(self, params, query_container, target_comes_after):
+        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
+        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection, self._query_cache_collection)
+        return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()

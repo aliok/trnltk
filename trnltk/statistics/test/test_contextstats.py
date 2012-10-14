@@ -135,7 +135,7 @@ class NonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unitt
         cls.generator = NonContextParsingLikelihoodCalculator(cls.collection_map)
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
-        query_logger.setLevel(logging.DEBUG)
+#        query_logger.setLevel(logging.DEBUG)
 #        context_stats_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
