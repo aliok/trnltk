@@ -3,7 +3,7 @@ import itertools
 import logging
 import numpy
 from trnltk.morphology.model import formatter
-from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor
+from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor, DatabaseIndexBuilder
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
@@ -166,6 +166,18 @@ class NonContextParsingLikelihoodCalculator(object):
 
     def __init__(self, collection_map):
         self._collection_map = collection_map
+
+    def build_indexes(self):
+        index_builder = DatabaseIndexBuilder(self._collection_map)
+
+        non_context_parsing_appender_matrix = [
+            (context_word_appender,),
+            (target_surface_syn_cat_appender, context_word_appender),
+            (target_stem_syn_cat_appender, context_word_appender),
+            (target_lemma_root_syn_cat_appender, context_word_appender)
+        ]
+
+        index_builder.create_indexes(non_context_parsing_appender_matrix)
 
     def calculate_likelihood(self, target, leading_context, following_context):
         if logger.isEnabledFor(logging.DEBUG):

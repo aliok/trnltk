@@ -75,6 +75,8 @@ class _LikelihoodCalculatorTest(object):
         context_stats_logger.setLevel(logging.INFO)
 
     def _test_generate_likelihood(self, surface, leading_context=None, following_context=None):
+        self.generator.build_indexes()
+
         assert leading_context or following_context
 
         leading_context = self._get_context(leading_context)
@@ -101,36 +103,24 @@ class _LikelihoodCalculatorTest(object):
         raise NotImplementedError()
 
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
-#        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
-
         context = [u'bir']
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
 
     def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
-    #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
-
         context = [u'gençten', u'bir']
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
 
     def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
-    #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
-
         context = [u'girdi']
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=None, following_context=context)
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
-    #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
-
         leading_context = [u'bir']
         surface = u'erkek'
         following_context = [u'girdi']
@@ -138,9 +128,6 @@ class _LikelihoodCalculatorTest(object):
         self._test_generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
-    #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
-
         leading_context = [u'gençten', u'bir']
         surface = u'erkek'
         following_context = [u'girdi', u'.']
@@ -155,6 +142,36 @@ class NonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unitt
 
         cls.generator = NonContextParsingLikelihoodCalculator(cls.collection_map)
 
+    def test_generate_likelihood_of_one_word_given_two_context_words(self):
+        query_logger.setLevel(logging.DEBUG)
+#        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
+
+    def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
+#        query_logger.setLevel(logging.DEBUG)
+#        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_leading_context_word()
+
+    def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
+#        query_logger.setLevel(logging.DEBUG)
+#        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_leading_context_words()
+
+    def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
+#        query_logger.setLevel(logging.DEBUG)
+#        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_following_context_word()
+
+    def test_generate_likelihood_of_one_word_given_one_context_word(self):
+#        query_logger.setLevel(logging.DEBUG)
+#        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
+
     def _get_context(self, context):
         return context if context else []
 
@@ -164,6 +181,36 @@ class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest
         super(ContextParsingLikelihoodCalculatorTest, cls).setUpClass()
 
         cls.generator = ContextParsingLikelihoodCalculator(cls.collection_map)
+
+    def test_generate_likelihood_of_one_word_given_two_context_words(self):
+        #        query_logger.setLevel(logging.DEBUG)
+        #        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
+
+    def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_leading_context_word()
+
+    def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_leading_context_words()
+
+    def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_following_context_word()
+
+    def test_generate_likelihood_of_one_word_given_one_context_word(self):
+    #        query_logger.setLevel(logging.DEBUG)
+    #        context_stats_logger.setLevel(logging.DEBUG)
+        # don't override anything. added for better IDE support while running individual tests
+        super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 
     def _get_context(self, context):
         return [self.context_free_parser.parse(cw) for cw in context] if context else []

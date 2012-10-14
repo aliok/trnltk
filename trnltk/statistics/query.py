@@ -280,10 +280,8 @@ class DatabaseIndexBuilder(object):
         index_name, keys = index_container.create_context(target_comes_after)
 
         index_keys = [(key, pymongo.ASCENDING) for key in keys]
-        logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
-        created_index_name = collection.ensure_index(index_keys, name=index_name)
-        if created_index_name:
-            logger.log(logging.DEBUG, u'\tCreated index with name : ' + str(created_index_name))
-        else:
-            logger.log(logging.DEBUG, u'\tIndex already exists')
+        logger.log(logging.DEBUG, u'Creating index {} on collection {} with keys: {}'.format(index_name, collection.name, index_keys))
+        # pymongo caches the index creation requests, so it is safe to request the same for multiple times
+        collection.ensure_index(index_keys, name=index_name)
+
 
