@@ -109,10 +109,10 @@ class QueryExecutionContextBuilder(object):
         return keys
 
 class QueryExecutionIndexContextBuilder(object):
-    def __init__(self, collection_map):
-        self._collection_map = collection_map
+    def __init__(self):
+        pass
 
-    def create_context(self, query_container, target_comes_after):
+    def create_context(self, collection, query_container, target_comes_after):
         item_count = (1 if query_container.target_item else 0) + len(query_container.given_items)
         assert query_container.n == item_count, "n: {}, item count : {}".format(query_container.n, item_count)
 
@@ -137,8 +137,6 @@ class QueryExecutionIndexContextBuilder(object):
             item_index_part, item_keys = self._build_key(item, item_index)
             keys.extend(item_keys)
             index_name += item_index_part
-
-        collection = self._collection_map[query_container.n]
 
         return QueryExecutionIndexContext(keys, index_name, collection)
 
@@ -227,11 +225,11 @@ class DatabaseIndexBuilder(object):
 
                 if n>1:
                     smaller_collection = self._collection_map[n-1]
-                    smaller_index_container = WordNGramIndexContainer(n-1)
+                    smaller_index_container = WordNGramQueryContainer(n-1)
 
                     self._create_container_and_index(smaller_collection, smaller_index_container, n-1, None, context_appender)
 
-                index_container = WordNGramIndexContainer(n)
+                index_container = WordNGramQueryContainer(n)
                 self._create_container_and_index(collection, index_container, n, target_appender, context_appender)
 
 
@@ -250,7 +248,8 @@ class DatabaseIndexBuilder(object):
 
 
     def _create_index_from_container(self, collection, index_container, target_comes_after):
-        index_name, keys = index_container.create_context(target_comes_after)
+        query_execution_index_context = QueryExecutionIndexContextBuilder().create_context(collection, index_container, target_comes_after)
+        index_name, keys = query_execution_index_context.index_name, query_execution_index_context.keys
 
         index_keys = [(key, pymongo.ASCENDING) for key in keys]
         logger.log(logging.DEBUG, u'Creating index {} on collection {} with keys: {}'.format(index_name, collection.name, index_keys))
