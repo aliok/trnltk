@@ -6,7 +6,6 @@ The tests are there for making sure there is no run time exceptions
 import logging
 import os
 import unittest
-from xml.dom.minidom import parse
 import pymongo
 from hamcrest import *
 from mock import Mock
@@ -20,16 +19,9 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistics.contextstats import NonContextParsingLikelihoodCalculator, ContextParsingLikelihoodCalculator
 from trnltk.statistics.contextstats import logger as context_stats_logger
 from trnltk.statistics.query import logger as query_logger
-
-dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextfree_statistics_sample_parseset.xml'))
-parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
-parse_set_word_list = []
-for sentence in parseset.sentences:
-    parse_set_word_list.extend(sentence.words)
 
 class _LikelihoodCalculatorTest(object):
     @classmethod
@@ -60,11 +52,11 @@ class _LikelihoodCalculatorTest(object):
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
-        mongodb_connection = pymongo.Connection()
+        cls.mongodb_connection = pymongo.Connection()
         cls.collection_map = {
-            1: mongodb_connection['trnltk']['wordUnigrams999'],
-            2: mongodb_connection['trnltk']['wordBigrams999'],
-            3: mongodb_connection['trnltk']['wordTrigrams999']
+            1: cls.mongodb_connection['trnltk']['wordUnigrams999'],
+            2: cls.mongodb_connection['trnltk']['wordBigrams999'],
+            3: cls.mongodb_connection['trnltk']['wordTrigrams999']
         }
 
         cls.generator = None

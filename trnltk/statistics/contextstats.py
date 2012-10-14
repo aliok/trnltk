@@ -3,7 +3,7 @@ import itertools
 import logging
 import numpy
 from trnltk.morphology.model import formatter
-from trnltk.statistics.query import WordNGramQueryContainer, QueryBuilder, QueryExecutor, DatabaseIndexBuilder
+from trnltk.statistics.query import WordNGramQueryContainer, QueryExecutor, DatabaseIndexBuilder, CachingQueryExecutor, CachingQueryExecutionContext, QueryExecutionContextBuilder
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
@@ -242,9 +242,19 @@ class NonContextParsingLikelihoodCalculator(object):
         return self._find_count_for_query(params, query_container, target_comes_after)
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
-        query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
+        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
         return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
 
+
+class CachingNonContextParsingLikelihoodCalculator(NonContextParsingLikelihoodCalculator):
+    def __init__(self, collection_map, query_cache_collection):
+        super(CachingNonContextParsingLikelihoodCalculator, self).__init__(collection_map)
+        self._query_cache_collection = query_cache_collection
+
+    def _find_count_for_query(self, params, query_container, target_comes_after):
+        query_execution_context = QueryBuilder(self._collection_map).build_query(query_container, target_comes_after)
+        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection, self._query_cache_collection)
+        return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
 
 
 class ContextParsingLikelihoodCalculator(object):

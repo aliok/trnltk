@@ -4,6 +4,22 @@ import pymongo
 
 logger = logging.getLogger('query')
 
+class QueryExecutionContext(object):
+    def __init__(self, keys, collection):
+        self.keys = keys
+        self.collection = collection
+
+class QueryExecutionIndexContext(object):
+    def __init__(self, keys, index_name, collection):
+        self.keys = keys
+        self.index_name = index_name
+        self.collection = collection
+
+class CachingQueryExecutionContext(QueryExecutionContext):
+    def __init__(self, keys, collection, query_cache_collection):
+        super(CachingQueryExecutionContext, self).__init__(keys, collection)
+        self.query_cache_collection = query_cache_collection
+
 class WordNGramQueryContainerItem(object):
     def __init__(self, str_type, include_syntactic_category):
         self.str_type = str_type
@@ -22,18 +38,18 @@ class WordNGramQueryContainerItem(object):
 class WordNGramQueryContainer(object):
     def __init__(self, n):
         assert n>0
-        self._n = n
-        self._target_item = None
-        self._given_items = []
+        self.n = n
+        self.target_item = None
+        self.given_items = []
 
     def _add_given(self, type, include_syntactic_category=False):
-        self._given_items.append(WordNGramQueryContainerItem(type, include_syntactic_category))
+        self.given_items.append(WordNGramQueryContainerItem(type, include_syntactic_category))
         return self
 
     def _add_target(self, type, include_syntactic_category=False):
-        if self._target_item:
+        if self.target_item:
             raise Exception("Target item is already set!")
-        self._target_item = WordNGramQueryContainerItem(type, include_syntactic_category)
+        self.target_item = WordNGramQueryContainerItem(type, include_syntactic_category)
         return self
 
     def given_surface(self, include_syntactic_category=False):
@@ -54,153 +70,85 @@ class WordNGramQueryContainer(object):
     def target_lemma_root(self, include_syntactic_category=False):
         return self._add_target('lemma_root', include_syntactic_category)
 
-    def create_context(self, target_comes_after):
-        assert self._n == (1 if self._target_item else 0) + len(self._given_items)
 
-        index_name = "word{}GramIdx".format(self._n)
-        keys = []
-
-        target_item_index = self._n - 1 if target_comes_after else 0
-        item_index_range = range(0, target_item_index) if target_comes_after else range(1, self._n)
-
-        if not self._target_item:
-            target_item_index = -1
-            item_index_range = range(0, self._n)
-
-        if self._target_item:
-            target_item_index_part, target_item_keys = self._build_key(self._target_item, target_item_index)
-            keys.extend(target_item_keys)
-            index_name += target_item_index_part
-
-        for index, item in enumerate(self._given_items):
-            item_index = item_index_range[index]
-            item = self._given_items[index]
-            item_index_part, item_keys = self._build_key(item, item_index)
-            keys.extend(item_keys)
-            index_name += item_index_part
-
-        return index_name, keys
-
-    def _build_key(self, query_item, index):
-        index_part = "_{}_{}".format(index, query_item.str_type)
-        keys = ["item_{}.word.{}.value".format(index, query_item.str_type)]
-        if query_item.include_syntactic_category:
-            keys.append("item_{}.word.{}.syntactic_category".format(index, query_item.str_type))
-            index_part += "_cat"
-        return index_part, keys
-
-
-class WordNGramIndexContainerItem(object):
-    def __init__(self, str_type, include_syntactic_category):
-        self.str_type = str_type
-        self.include_syntactic_category = include_syntactic_category
-
-    def __str__(self):
-        if self.include_syntactic_category:
-            return "({}, {})".format(self.str_type, "syntactic_category")
-        else:
-            return "({})".format(self.str_type)
-
-    def __repr__(self):
-        return self.__str__()
-
-class WordNGramIndexContainer(object):
-    def __init__(self, n):
-        assert n>0
-        self._n = n
-        self._target_item = None
-        self._given_items = []
-
-    def _add_given(self, type, include_syntactic_category=False):
-        self._given_items.append(WordNGramIndexContainerItem(type, include_syntactic_category))
-        return self
-
-    def _add_target(self, type, include_syntactic_category=False):
-        if self._target_item:
-            raise Exception("Target item is already set!")
-        self._target_item = WordNGramIndexContainerItem(type, include_syntactic_category)
-        return self
-
-    def given_surface(self, include_syntactic_category=False):
-        return self._add_given('surface', include_syntactic_category)
-
-    def given_stem(self, include_syntactic_category=False):
-        return self._add_given('stem', include_syntactic_category)
-
-    def given_lemma_root(self, include_syntactic_category=False):
-        return self._add_given('lemma_root', include_syntactic_category)
-
-    def target_surface(self, include_syntactic_category=False):
-        return self._add_target('surface', include_syntactic_category)
-
-    def target_stem(self, include_syntactic_category=False):
-        return self._add_target('stem', include_syntactic_category)
-
-    def target_lemma_root(self, include_syntactic_category=False):
-        return self._add_target('lemma_root', include_syntactic_category)
-
-    def create_context(self, target_comes_after):
-        item_count = (1 if self._target_item else 0) + len(self._given_items)
-        assert self._n == item_count, "n: {}, item count : {}".format(self._n, item_count)
-
-        index_name = "word{}GramIdx".format(self._n)
-        keys = []
-
-        target_item_index = self._n - 1 if target_comes_after else 0
-        item_index_range = range(0, target_item_index) if target_comes_after else range(1, self._n)
-
-        if not self._target_item:
-            target_item_index = -1
-            item_index_range = range(0, self._n)
-
-        if self._target_item:
-            target_item_index_part, target_item_keys = self._build_key(self._target_item, target_item_index)
-            keys.extend(target_item_keys)
-            index_name += target_item_index_part
-
-        for index, item in enumerate(self._given_items):
-            item_index = item_index_range[index]
-            item = self._given_items[index]
-            item_index_part, item_keys = self._build_key(item, item_index)
-            keys.extend(item_keys)
-            index_name += item_index_part
-
-        return index_name, keys
-
-    def _build_key(self, query_item, index):
-        index_part = "_{}_{}".format(index, query_item.str_type)
-        keys = ["item_{}.word.{}.value".format(index, query_item.str_type)]
-        if query_item.include_syntactic_category:
-            keys.append("item_{}.word.{}.syntactic_category".format(index, query_item.str_type))
-            index_part += "_cat"
-        return index_part, keys
-
-
-class QueryExecutionContext(object):
-    def __init__(self, keys, collection):
-        self.keys = keys
-        self.collection = collection
-
-
-class QueryBuilder(object):
+class QueryExecutionContextBuilder(object):
     def __init__(self, collection_map):
         self._collection_map = collection_map
 
-    def build_query(self, query_container, target_comes_after):
-        index_name, keys = query_container.create_context(target_comes_after)
-        collection = self._collection_map[query_container._n]
+    def create_context(self, query_container, target_comes_after):
+        item_count = (1 if query_container.target_item else 0) + len(query_container.given_items)
+        assert query_container.n == item_count, "n: {}, item count : {}".format(query_container.n, item_count)
 
-        # index is created already!
-#        index_keys = [(key, pymongo.ASCENDING) for key in keys]
-#        logger.log(logging.DEBUG, u'Creating index {} with keys: {}'.format(index_name, index_keys))
-#        created_index_name = collection.ensure_index(index_keys, name=index_name)
-#        if created_index_name:
-#            logger.log(logging.DEBUG, u'\tCreated index with name : ' + str(created_index_name))
-#        else:
-#            logger.log(logging.DEBUG, u'\tIndex already exists')
+        keys = []
+
+        target_item_index = query_container.n - 1 if target_comes_after else 0
+        item_index_range = range(0, target_item_index) if target_comes_after else range(1, query_container.n)
+
+        if not query_container.target_item:
+            target_item_index = -1
+            item_index_range = range(0, query_container.n)
+
+        if query_container.target_item:
+            target_item_keys = self._build_key(query_container.target_item, target_item_index)
+            keys.extend(target_item_keys)
+
+        for index, item in enumerate(query_container.given_items):
+            item_index = item_index_range[index]
+            item = query_container.given_items[index]
+            item_keys = self._build_key(item, item_index)
+            keys.extend(item_keys)
+
+        collection = self._collection_map[query_container.n]
 
         return QueryExecutionContext(keys, collection)
 
+    def _build_key(self, query_item, index):
+        keys = ["item_{}.word.{}.value".format(index, query_item.str_type)]
+        if query_item.include_syntactic_category:
+            keys.append("item_{}.word.{}.syntactic_category".format(index, query_item.str_type))
+        return keys
+
+class QueryExecutionIndexContextBuilder(object):
+    def __init__(self, collection_map):
+        self._collection_map = collection_map
+
+    def create_context(self, query_container, target_comes_after):
+        item_count = (1 if query_container.target_item else 0) + len(query_container.given_items)
+        assert query_container.n == item_count, "n: {}, item count : {}".format(query_container.n, item_count)
+
+        index_name = "word{}GramIdx".format(query_container.n)
+        keys = []
+
+        target_item_index = query_container.n - 1 if target_comes_after else 0
+        item_index_range = range(0, target_item_index) if target_comes_after else range(1, query_container.n)
+
+        if not query_container.target_item:
+            target_item_index = -1
+            item_index_range = range(0, query_container.n)
+
+        if query_container.target_item:
+            target_item_index_part, target_item_keys = self._build_key(query_container.target_item, target_item_index)
+            keys.extend(target_item_keys)
+            index_name += target_item_index_part
+
+        for index, item in enumerate(query_container.given_items):
+            item_index = item_index_range[index]
+            item = query_container.given_items[index]
+            item_index_part, item_keys = self._build_key(item, item_index)
+            keys.extend(item_keys)
+            index_name += item_index_part
+
+        collection = self._collection_map[query_container.n]
+
+        return QueryExecutionIndexContext(keys, index_name, collection)
+
+    def _build_key(self, query_item, index):
+        index_part = "_{}_{}".format(index, query_item.str_type)
+        keys = ["item_{}.word.{}.value".format(index, query_item.str_type)]
+        if query_item.include_syntactic_category:
+            keys.append("item_{}.word.{}.syntactic_category".format(index, query_item.str_type))
+            index_part += "_cat"
+        return index_part, keys
 
 class QueryExecutor(object):
     def __init__(self):
@@ -233,6 +181,31 @@ class QueryExecutor(object):
         logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
         logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
         return mongo_query
+
+class CachingQueryExecutor(QueryExecutor):
+    def query_execution_context(self, query_execution_context):
+        """
+        @type query_execution_context: CachingQueryExecutionContext
+        """
+        assert isinstance(query_execution_context, CachingQueryExecutionContext)
+        self._query_execution_context = query_execution_context
+        return self
+
+    def count(self):
+        cached_query_with_params = self._build_cached_query_with_params()
+        query_with_params = self._build_query_with_params()
+        print query_with_params
+        raise Exception('E')
+
+    def _build_cached_query_with_params(self):
+        mongo_query = {}
+        for index, param in enumerate(self._params):
+            mongo_query[self._query_execution_context.keys[index]] = param
+
+        logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
+        logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
+        return mongo_query
+
 
 class DatabaseIndexBuilder(object):
     def __init__(self, collection_map):
