@@ -9,6 +9,7 @@ import os
 import unittest
 from xml.dom.minidom import parse
 import pymongo
+import datetime
 from hamcrest import *
 from mock import Mock
 from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
@@ -74,10 +75,10 @@ class MockContainerBuilder(object):
 def _container_builder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
     return MockContainerBuilder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category)
 
-class LikelihoodCalculatorTest(unittest.TestCase):
+class _BaseLikelihoodCalculatorTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        super(LikelihoodCalculatorTest, cls).setUpClass()
+        super(_BaseLikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
         lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
@@ -108,41 +109,22 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         query_logger.setLevel(logging.INFO)
         context_stats_logger.setLevel(logging.INFO)
 
-    def test_contextstats_with_parseset_001(self):
-        self._test_contextstats_with_parseset_n("001")
+    def _test_contextstats_with_parseset_n(self, parseset_index, leading_context_size, following_context_size):
+        start_time = datetime.datetime.today()
 
-    def test_contextstats_with_parseset_002(self):
-        self._test_contextstats_with_parseset_n("002")
+        self.generator = self.create_calculator(parseset_index)
 
-    def test_contextstats_with_parseset_003(self):
-        self._test_contextstats_with_parseset_n("003")
-
-    def test_contextstats_with_parseset_004(self):
-        self._test_contextstats_with_parseset_n("004")
-
-    def test_contextstats_with_parseset_005(self):
-        self._test_contextstats_with_parseset_n("005")
-
-    def test_contextstats_with_parseset_999(self):
-        self._test_contextstats_with_parseset_n("999")
-
-    def _test_contextstats_with_parseset_n(self, n):
-        mongodb_connection = pymongo.Connection()
-        self.collection_map = {
-            1: mongodb_connection['trnltk']['wordUnigrams{}'.format(n)],
-            2: mongodb_connection['trnltk']['wordBigrams{}'.format(n)],
-            3: mongodb_connection['trnltk']['wordTrigrams{}'.format(n)]
-        }
-
-        self.generator = ContextParsingLikelihoodCalculator(self.collection_map)
-
-        dom = parse(os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.xml'.format(n)))
+        dom = parse(os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
         parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
         self.parse_set_word_list = []
         for sentence in parseset.sentences:
             self.parse_set_word_list.extend(sentence.words)
 
-        self._test_generate_likelihood_of_one_word_given_one_leading_context_word()
+        self._test_generate_likelihoods(leading_context_size, following_context_size)
+
+        end_time = datetime.datetime.today()
+        print u'Done in {} seconds for {} words'.format(end_time-start_time, len(self.parse_set_word_list)-1)
+        print u'Average in {} seconds'.format((end_time-start_time)/(len(self.parse_set_word_list)-1))
 
     def _generate_likelihood(self, surface, leading_context=None, following_context=None):
         assert leading_context or following_context
@@ -151,6 +133,12 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         results = self.context_free_parser.parse(surface)
         if surface[0].isupper():
             results += self.context_free_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
+
+        if not results:
+            return None
+
+        if len(results)==1:
+            return [(formatter.format_morpheme_container_for_parseset(results[0]), 1.0)]
 
         for result in results:
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
@@ -166,42 +154,55 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 
         return likelihoods
 
-    def _test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
-#        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+    def _create_mock_container(self, word):
+        if isinstance(word, UnparsableWordBinding):
+            print u'Previous word is unparsable, skipped : {}'.format(word.str)
+            return None
 
+        surface_str, surface_syntactic_category = word.str, word.syntactic_category
+        stem_str, stem_syntactic_category, stem_secondary_syntactic_category = WordNGramGenerator._get_stem(word)
+        lemma_root_str, lemma_root_syntactic_category = word.root.lemma_root, word.root.syntactic_category
+
+        if word.secondary_syntactic_category:
+            surface_syntactic_category += u'_' + word.secondary_syntactic_category
+        if stem_secondary_syntactic_category:
+            stem_syntactic_category += u'_' + stem_secondary_syntactic_category
+        if word.root.secondary_syntactic_category:
+            lemma_root_syntactic_category += u'_' + word.root.secondary_syntactic_category
+
+        return _container_builder(surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
+
+    def _test_generate_likelihoods(self, leading_context_size, following_context_size):
         for index,word in enumerate(self.parse_set_word_list):
             print u'Checking word {} {}'.format(index, word.str)
-            if index==0:
+            if index < leading_context_size:
                 continue
+            if index > len(self.parse_set_word_list)-following_context_size:
+                continue
+
             if isinstance(word, UnparsableWordBinding):
                 print u'Word is unparsable, skipped'
                 continue
 
-            previous_word = self.parse_set_word_list[index-1]
+            leading_context_words = self.parse_set_word_list[index-leading_context_size : index]
+            following_context_words = self.parse_set_word_list[index+1 : index+following_context_size+1]
 
-            if isinstance(previous_word, UnparsableWordBinding):
-                print u'Previous word is unparsable, skipped'
+            leading_context = None
+            if len(leading_context_words)>0:
+                leading_context = [self._create_mock_container(leading_context_word) for leading_context_word in leading_context_words]
+                leading_context = [[leading_context_word] for leading_context_word in leading_context if leading_context_word]
+
+            following_context = None
+            if len(following_context_words)>0:
+                following_context = [self._create_mock_container(following_context_word) for following_context_word in following_context_words]
+                following_context = [[following_context_word] for following_context_word in following_context if following_context_word]
+
+            if not leading_context and not following_context:
+                print u'No context information found, skipped'
                 continue
 
-            surface_str, surface_syntactic_category = previous_word.str, previous_word.syntactic_category
-            stem_str, stem_syntactic_category, stem_secondary_syntactic_category = WordNGramGenerator._get_stem(previous_word)
-            lemma_root_str, lemma_root_syntactic_category = previous_word.root.lemma_root, previous_word.root.syntactic_category
-
-            if previous_word.secondary_syntactic_category:
-                surface_syntactic_category += u'_' + previous_word.secondary_syntactic_category
-            if stem_secondary_syntactic_category:
-                stem_syntactic_category += u'_' + stem_secondary_syntactic_category
-            if previous_word.root.secondary_syntactic_category:
-                lemma_root_syntactic_category += u'_' + previous_word.root.secondary_syntactic_category
-
-            context = [[_container_builder(surface_str, surface_syntactic_category)
-                        .stem(stem_str, stem_syntactic_category)
-                        .lexeme(lemma_root_str, lemma_root_syntactic_category)
-                        .build()]]
-
             surface = word.str
-            likelihoods = self._generate_likelihood(surface=surface, leading_context=context, following_context=None)
+            likelihoods = self._generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 
             for item in likelihoods:
                 print u'\t' + str(item)
@@ -217,6 +218,44 @@ class LikelihoodCalculatorTest(unittest.TestCase):
                 print u'Correct result is NOT found in statistical parse results'
 
             print '\n'
+
+    @classmethod
+    def create_calculator(cls, parseset_index):
+        raise NotImplementedError()
+
+
+class LikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
+    @classmethod
+    def create_calculator(cls, parseset_index):
+        mongodb_connection = pymongo.Connection()
+        collection_map = {
+            1: mongodb_connection['trnltk']['wordUnigrams{}'.format(parseset_index)],
+            2: mongodb_connection['trnltk']['wordBigrams{}'.format(parseset_index)],
+            3: mongodb_connection['trnltk']['wordTrigrams{}'.format(parseset_index)]
+        }
+
+        return ContextParsingLikelihoodCalculator(collection_map)
+
+    def test_contextstats_with_parseset_001_with_1leading(self):
+        self._test_contextstats_with_parseset_n("001", 1, 0)
+
+    def test_contextstats_with_parseset_001(self):
+        self._test_contextstats_with_parseset_n("001", 2, 2)
+
+    def test_contextstats_with_parseset_002(self):
+        self._test_contextstats_with_parseset_n("002", 2, 2)
+
+    def test_contextstats_with_parseset_003(self):
+        self._test_contextstats_with_parseset_n("003", 2, 2)
+
+    def test_contextstats_with_parseset_004(self):
+        self._test_contextstats_with_parseset_n("004", 2, 2)
+
+    def test_contextstats_with_parseset_005(self):
+        self._test_contextstats_with_parseset_n("005", 2, 2)
+
+    def test_contextstats_with_parseset_999(self):
+        self._test_contextstats_with_parseset_n("999", 2, 2)
 
 if __name__ == '__main__':
     unittest.main()

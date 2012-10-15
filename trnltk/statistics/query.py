@@ -176,8 +176,9 @@ class QueryExecutor(object):
         for index, param in enumerate(self._params):
             mongo_query[self._query_execution_context.keys[index]] = param
 
-        logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
-        logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.log(logging.DEBUG, u'Using collection ' + self._query_execution_context.collection.full_name)
+            logger.log(logging.DEBUG, u'\tRunning query : ' + unicode(mongo_query))
         return mongo_query
 
 class CachingQueryExecutor(QueryExecutor):
@@ -204,6 +205,23 @@ class CachingQueryExecutor(QueryExecutor):
             query_cache_collection.insert({'query' : query_str, 'count' : count})
             return count
 
+class InMemoryCachingQueryExecutor(QueryExecutor):
+    query_cache = {}
+
+    def count(self):
+        query_with_params = self._build_query_with_params()
+
+        query_str = str(query_with_params)
+        cached_count = InMemoryCachingQueryExecutor.query_cache.get(query_str)
+
+        if cached_count is not None:
+            logger.log(logging.DEBUG, u'\tFound query in the cache, returning result {}'.format(cached_count))
+            return cached_count
+        else:
+            count = self._query_execution_context.collection.find(query_with_params).count()
+            logger.log(logging.DEBUG, u'\tPutting query into the cache, with result {}'.format(count))
+            InMemoryCachingQueryExecutor.query_cache[query_str] = count
+            return count
 
 class DatabaseIndexBuilder(object):
     def __init__(self, collection_map):

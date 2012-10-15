@@ -49,7 +49,8 @@ class ContextFreeMorphologicalParser(object):
             for root in roots_from_lexicon:
                 if self._predefined_paths and self._predefined_paths.has_paths(root):
                     predefined_morpheme_containers = self._predefined_paths.get_paths(root)
-                    logger.debug('Found predefined morpheme containers for root candidate "%s" : %s', root, predefined_morpheme_containers)
+                    if logger.isEnabledFor(logging.DEBUG):
+                        logger.debug('Found predefined morpheme containers for root candidate "%s" : %s', root, predefined_morpheme_containers)
                     for predefined_morpheme_container in predefined_morpheme_containers:
                         if input.startswith(predefined_morpheme_container.get_surface_so_far()):
                             logger.debug('Predefined morpheme_container is applicable %s', predefined_morpheme_container)
@@ -85,11 +86,13 @@ class ContextFreeMorphologicalParser(object):
                 if morpheme_container_for_candidate.get_last_state().type==State.TERMINAL:
                     if not morpheme_container_for_candidate.get_remaining_surface():
                         results.append(morpheme_container_for_candidate)
-                        logger.debug("Found a terminal result --------------------->")
-                        logger.debug(morpheme_container_for_candidate)
-                        logger.debug(formatter.format_morpheme_container_for_tests(morpheme_container_for_candidate))
+                        if logger.isEnabledFor(logging.DEBUG):
+                            logger.debug("Found a terminal result --------------------->")
+                            logger.debug(morpheme_container_for_candidate)
+                            logger.debug(formatter.format_morpheme_container_for_tests(morpheme_container_for_candidate))
                     else:
-                        logger.debug("Found a morpheme container with terminal state, but there is still something to parse. Remaining:%s MorphemeContainer:%s", morpheme_container_for_candidate.get_remaining_surface(), morpheme_container_for_candidate)
+                        if logger.isEnabledFor(logging.DEBUG):
+                            logger.debug("Found a morpheme container with terminal state, but there is still something to parse. Remaining:%s MorphemeContainer:%s", morpheme_container_for_candidate.get_remaining_surface(), morpheme_container_for_candidate)
                 else:
                     new_candidates.append(morpheme_container_for_candidate)
 
@@ -106,7 +109,8 @@ class ContextFreeMorphologicalParser(object):
 
         from_state = morpheme_container.get_last_state()
         state_applicable_suffixes = self.get_applicable_suffixes_of_state_for_morpheme_container(from_state, morpheme_container)
-        logger.debug('  Found applicable suffixes for morpheme_container from state %s: %s', from_state, state_applicable_suffixes)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('  Found applicable suffixes for morpheme_container from state %s: %s', from_state, state_applicable_suffixes)
 
         for (suffix, to_state) in state_applicable_suffixes:
             logger.debug('   Going to try suffix %s to state %s', suffix, to_state)
@@ -118,16 +122,19 @@ class ContextFreeMorphologicalParser(object):
         return new_candidates
 
     def get_applicable_suffixes_of_state_for_morpheme_container(self, from_state, morpheme_container):
-        logger.debug('  Finding applicable suffixes for morpheme_container from state %s: %s', from_state, morpheme_container)
-        logger.debug('   Found outputs %s', from_state.outputs)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('  Finding applicable suffixes for morpheme_container from state %s: %s', from_state, morpheme_container)
+            logger.debug('   Found outputs %s', from_state.outputs)
 
         # filter out suffixes which are already added since last derivation
         state_applicable_suffixes = filter(lambda t: t[0] not in morpheme_container.get_suffixes_since_derivation_suffix(), from_state.outputs)
-        logger.debug('   Filtered out the applied suffixes since last derivation %s : %s', morpheme_container.get_suffixes_since_derivation_suffix(),  state_applicable_suffixes)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('   Filtered out the applied suffixes since last derivation %s : %s', morpheme_container.get_suffixes_since_derivation_suffix(),  state_applicable_suffixes)
 
         # filter out suffixes if one of the suffixes of whose group is already added since last derivation
         state_applicable_suffixes = filter(lambda t: True if not t[0].group else t[0].group not in morpheme_container.get_suffix_groups_since_last_derivation(), state_applicable_suffixes)
-        logger.debug('   Filtered out the suffixes that has one applied in their groups: %s', state_applicable_suffixes)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('   Filtered out the suffixes that has one applied in their groups: %s', state_applicable_suffixes)
 
         return state_applicable_suffixes
 
@@ -146,7 +153,8 @@ class ContextFreeMorphologicalParser(object):
 
                     clone = try_suffix_form(candidate, Positive.get_suffix_form(u''), self._suffix_graph.get_state(u'VERB_WITH_POLARITY'), word)
                     if not clone:
-                        logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Positive.suffix_forms[0], candidate))
+                        if logger.isEnabledFor(logging.DEBUG):
+                            logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Positive.suffix_forms[0], candidate))
                         continue
 
                     # apply Progressive 'Iyor'
@@ -155,7 +163,8 @@ class ContextFreeMorphologicalParser(object):
 
                     clone = try_suffix_form(clone, Progressive.get_suffix_form(u'Iyor'), self._suffix_graph.get_state(u'VERB_WITH_TENSE'), word)
                     if not clone:
-                        logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Progressive.suffix_forms[0], candidate))
+                        if logger.isEnabledFor(logging.DEBUG):
+                            logger.debug('There is a progressive vowel drop, but suffix form "{}" cannot be applied to {}'.format(Progressive.suffix_forms[0], candidate))
                         continue
 
                     new_candidates.append(clone)

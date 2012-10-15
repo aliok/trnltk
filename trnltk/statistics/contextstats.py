@@ -3,7 +3,7 @@ import itertools
 import logging
 import numpy
 from trnltk.morphology.model import formatter
-from trnltk.statistics.query import WordNGramQueryContainer, QueryExecutor, DatabaseIndexBuilder, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext
+from trnltk.statistics.query import WordNGramQueryContainer, QueryExecutor, DatabaseIndexBuilder, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
@@ -294,6 +294,12 @@ class ContextParsingLikelihoodCalculator(object):
         index_builder.create_indexes(non_context_parsing_appender_matrix_row_2)
 
     def calculate_likelihood(self, target, leading_context, following_context):
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(u"  Calculating twoway likelihood of \n\t{0}\n\t{1}\n\t{2}".format(
+                [t[0].get_surface() if t else "<Unparsable>" for t in leading_context],
+                formatter.format_morpheme_container_for_simple_parseset(target),
+                [t[0].get_surface() if t else "<Unparsable>" for t in following_context]))
+
         likelihood = self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
                      self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
 
@@ -315,9 +321,9 @@ class ContextParsingLikelihoodCalculator(object):
 
         if logger.isEnabledFor(logging.DEBUG):
             if target_comes_after:
-                logger.debug("  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
+                logger.debug(u"  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
             else:
-                logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
+                logger.debug(u"  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
 
         cartesian_products_of_context_parse_results = self._get_cartesian_products_of_context_parse_results(context)
         logger.debug("  Going to check the usages with the following cartesian product of parse results: \n{}".format(
@@ -332,9 +338,9 @@ class ContextParsingLikelihoodCalculator(object):
             if logger.isEnabledFor(logging.DEBUG):
                 context_parse_result_str_list = [formatter.format_morpheme_container_for_simple_parseset_without_suffixes(t) for t in context_parse_results]
                 if target_comes_after:
-                    logger.debug("   Calculating oneway likelihood of {1}, {0}".format(target_morpheme_container_str, context_parse_result_str_list))
+                    logger.debug(u"   Calculating oneway likelihood of {1}, {0}".format(target_morpheme_container_str, context_parse_result_str_list))
                 else:
-                    logger.debug("   Calculating oneway likelihood of {0}, {1}".format(target_morpheme_container_str, context_parse_result_str_list))
+                    logger.debug(u"   Calculating oneway likelihood of {0}, {1}".format(target_morpheme_container_str, context_parse_result_str_list))
 
             context_counts = self._get_context_form_count_matrix(context_parse_results)
             logger.debug("       Context form counts: \n{}".format(context_counts))
@@ -462,3 +468,11 @@ class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculat
         query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
         caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection, self._query_cache_collection)
         return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
+
+class InMemoryCachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
+    def __init__(self, collection_map):
+        super(InMemoryCachingContextParsingLikelihoodCalculator, self).__init__(collection_map)
+
+    def _find_count_for_query(self, params, query_container, target_comes_after):
+        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
+        return InMemoryCachingQueryExecutor().query_execution_context(query_execution_context).params(*params).count()

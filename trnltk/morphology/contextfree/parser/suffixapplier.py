@@ -13,7 +13,9 @@ def try_suffix(morpheme_container, suffix, to_state, word):
 
     new_candidates = []
 
-    logger.debug('    Gonna try %d suffix forms : "%s"', len(suffix.suffix_forms), suffix.suffix_forms)
+    if logger.isEnabledFor(logging.DEBUG):
+        logger.debug('    Gonna try %d suffix forms : "%s"', len(suffix.suffix_forms), suffix.suffix_forms)
+
     for suffix_form in suffix.suffix_forms:
         logger.debug('     Gonna try suffix form "%s".', suffix_form)
 
@@ -25,8 +27,9 @@ def try_suffix(morpheme_container, suffix, to_state, word):
 
 def transition_allowed_for_suffix(morpheme_container, suffix):
     if suffix.group and suffix.group in morpheme_container.get_suffix_groups_since_last_derivation():
-        logger.debug('    Another suffix is already added on the same group(%s) since last derivation, skipping suffix.', suffix.group)
-        logger.debug('    Groups since last derivation are : %s', morpheme_container.get_suffix_groups_since_last_derivation())
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('    Another suffix is already added on the same group(%s) since last derivation, skipping suffix.', suffix.group)
+            logger.debug('    Groups since last derivation are : %s', morpheme_container.get_suffix_groups_since_last_derivation())
         return False
 
     if not suffix.allow_repetition and morpheme_container.get_last_derivation_suffix() and morpheme_container.get_last_derivation_suffix()==suffix:
@@ -55,7 +58,8 @@ def try_suffix_form(morpheme_container, suffix_form, to_state, word):
         clone.add_transition(SuffixFormApplication(suffix_form, actual_suffix_form_str, fitting_suffix_form), to_state)
 
         if morpheme_container.has_transitions() and morpheme_container.get_last_transition().suffix_form_application.suffix_form.postcondition and not morpheme_container.get_last_transition().suffix_form_application.suffix_form.postcondition.is_satisfied_by(clone):
-            logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', morpheme_container.get_last_transition().suffix_form_application.suffix_form.postcondition, formatter.format_transition(clone.get_last_transition()))
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug('      Suffix does not satisfy the postcondition "%s" of last transition suffix form "%s", skipping.', morpheme_container.get_last_transition().suffix_form_application.suffix_form.postcondition, formatter.format_transition(clone.get_last_transition()))
             return None
 
         if morpheme_container.has_transitions() and state_before_suffix_form_application.type==State.DERIVATIONAL:
@@ -76,7 +80,8 @@ def try_suffix_form(morpheme_container, suffix_form, to_state, word):
 
 def transition_allowed_for_suffix_form(morpheme_container, suffix_form):
     if suffix_form.precondition and not suffix_form.precondition.is_satisfied_by(morpheme_container):
-        logger.debug('      Precondition "%s" of suffix form "%s" is not satisfied with transitions %s, skipping.', suffix_form.form, suffix_form.precondition, morpheme_container)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('      Precondition "%s" of suffix form "%s" is not satisfied with transitions %s, skipping.', suffix_form.form, suffix_form.precondition, morpheme_container)
         return False
 
     if suffix_form.form and not Phonetics.expectations_satisfied(morpheme_container.get_phonetic_expectations(), suffix_form.form):
