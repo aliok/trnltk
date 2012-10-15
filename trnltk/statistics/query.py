@@ -15,6 +15,11 @@ class QueryExecutionIndexContext(object):
         self.index_name = index_name
         self.collection = collection
 
+class CachingQueryExecutionContext(QueryExecutionContext):
+    def __init__(self, keys, collection, query_cache_collection):
+        super(CachingQueryExecutionContext, self).__init__(keys, collection)
+        self.query_cache_collection = query_cache_collection
+
 class WordNGramQueryContainerItem(object):
     def __init__(self, str_type, include_syntactic_category):
         self.str_type = str_type

@@ -3,7 +3,7 @@ import itertools
 import logging
 import numpy
 from trnltk.morphology.model import formatter
-from trnltk.statistics.query import WordNGramQueryContainer, QueryExecutor, DatabaseIndexBuilder, CachingQueryExecutor, QueryExecutionContextBuilder
+from trnltk.statistics.query import WordNGramQueryContainer, QueryExecutor, DatabaseIndexBuilder, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
