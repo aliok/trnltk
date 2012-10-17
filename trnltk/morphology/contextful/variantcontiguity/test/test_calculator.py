@@ -19,9 +19,9 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.statistics.contextstats import NonContextParsingLikelihoodCalculator, ContextParsingLikelihoodCalculator
-from trnltk.statistics.contextstats import logger as context_stats_logger
-from trnltk.statistics.query import logger as query_logger
+from trnltk.morphology.contextful.variantcontiguity.calculator import NonContextParsingLikelihoodCalculator, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger
+from trnltk.morphology.contextful.variantcontiguity.calculator import query_logger
 
 class _LikelihoodCalculatorTest(object):
     @classmethod
@@ -29,7 +29,7 @@ class _LikelihoodCalculatorTest(object):
         super(_LikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 

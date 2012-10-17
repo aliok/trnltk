@@ -5,8 +5,8 @@ The tests are there for making sure there is no run time exceptions
 """
 import unittest
 import pymongo
-from trnltk.statistics.contextstats import   ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
-from trnltk.statistics.query import  DatabaseIndexBuilder
+from trnltk.morphology.contextful.variantcontiguity.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.variantcontiguity.hidden.appender import   ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
 
 class DatabaseIndexBuilderTest(unittest.TestCase):
     @classmethod
@@ -87,7 +87,6 @@ class DatabaseIndexBuilderTest(unittest.TestCase):
         index_builder.create_indexes(self.context_parsing_appender_matrix_ROW1)
         index_builder.create_indexes(self.context_parsing_appender_matrix_ROW2)
         index_builder.create_indexes(self.context_parsing_appender_matrix_ROW3)
-
 
 
     def test_create_noncontext_parsing_appender_index_for_unigram_collection(self):

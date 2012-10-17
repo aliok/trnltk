@@ -12,8 +12,8 @@ import pymongo
 import datetime
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
@@ -25,9 +25,8 @@ from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuff
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.ngrams.ngramgenerator import WordNGramGenerator
 from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding
-from trnltk.statistics.contextstats import  ContextParsingLikelihoodCalculator
-from trnltk.statistics.contextstats import logger as context_stats_logger
-from trnltk.statistics.query import logger as query_logger
+from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.variantcontiguity.calculator import logger as query_logger
 
 class MockContainerBuilder(object):
     def __init__(self, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
@@ -81,7 +80,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         super(_BaseLikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
@@ -100,7 +99,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.context_free_parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+        cls.contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
@@ -114,7 +113,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
 
         self.generator = self.create_calculator(parseset_index)
 
-        dom = parse(os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
+        dom = parse(os.path.join(os.path.dirname(__file__), '../../../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
         parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
         self.parse_set_word_list = []
         for sentence in parseset.sentences:
@@ -125,52 +124,6 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         end_time = datetime.datetime.today()
         print u'Done in {} seconds for {} words'.format(end_time-start_time, len(self.parse_set_word_list)-1)
         print u'Average in {} seconds'.format((end_time-start_time)/(len(self.parse_set_word_list)-1))
-
-    def _generate_likelihood(self, surface, leading_context=None, following_context=None):
-        assert leading_context or following_context
-
-        likelihoods = []
-        results = self.context_free_parser.parse(surface)
-        if surface[0].isupper():
-            results += self.context_free_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
-
-        if not results:
-            return None
-
-        if len(results)==1:
-            return [(formatter.format_morpheme_container_for_parseset(results[0]), 1.0)]
-
-        for result in results:
-            formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
-            likelihood = 0.0
-            if leading_context and following_context:
-                likelihood = self.generator.calculate_likelihood(result, leading_context, following_context)
-            elif leading_context:
-                likelihood = self.generator.calculate_oneway_likelihood(result, leading_context, True)
-            elif following_context:
-                likelihood = self.generator.calculate_oneway_likelihood(result, following_context, False)
-
-            likelihoods.append((formatted_parse_result, likelihood))
-
-        return likelihoods
-
-    def _create_mock_container(self, word):
-        if isinstance(word, UnparsableWordBinding):
-            print u'Previous word is unparsable, skipped : {}'.format(word.str)
-            return None
-
-        surface_str, surface_syntactic_category = word.str, word.syntactic_category
-        stem_str, stem_syntactic_category, stem_secondary_syntactic_category = WordNGramGenerator._get_stem(word)
-        lemma_root_str, lemma_root_syntactic_category = word.root.lemma_root, word.root.syntactic_category
-
-        if word.secondary_syntactic_category:
-            surface_syntactic_category += u'_' + word.secondary_syntactic_category
-        if stem_secondary_syntactic_category:
-            stem_syntactic_category += u'_' + stem_secondary_syntactic_category
-        if word.root.secondary_syntactic_category:
-            lemma_root_syntactic_category += u'_' + word.root.secondary_syntactic_category
-
-        return _container_builder(surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
 
     def _test_generate_likelihoods(self, leading_context_size, following_context_size):
         for index,word in enumerate(self.parse_set_word_list):
@@ -214,10 +167,56 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
             if word.parse_result in [t[0] for t in most_probable_parse_results]:
                 print u'Correct result is found in statistical parse results'
             else:
-#                 self.fail(u'Correct result is NOT found in statistical parse results')
+            #                 self.fail(u'Correct result is NOT found in statistical parse results')
                 print u'Correct result is NOT found in statistical parse results'
 
             print '\n'
+
+    def _generate_likelihood(self, surface, leading_context=None, following_context=None):
+        assert leading_context or following_context
+
+        likelihoods = []
+        results = self.contextless_parser.parse(surface)
+        if surface[0].isupper():
+            results += self.contextless_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
+
+        if not results:
+            return None
+
+        if len(results)==1:
+            return [(formatter.format_morpheme_container_for_parseset(results[0]), 1.0)]
+
+        for result in results:
+            formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
+            likelihood = 0.0
+            if leading_context and following_context:
+                likelihood = self.generator.calculate_likelihood(result, leading_context, following_context)
+            elif leading_context:
+                likelihood = self.generator.calculate_oneway_likelihood(result, leading_context, True)
+            elif following_context:
+                likelihood = self.generator.calculate_oneway_likelihood(result, following_context, False)
+
+            likelihoods.append((formatted_parse_result, likelihood))
+
+        return likelihoods
+
+    def _create_mock_container(self, word):
+        if isinstance(word, UnparsableWordBinding):
+            print u'Previous word is unparsable, skipped : {}'.format(word.str)
+            return None
+
+        surface_str, surface_syntactic_category = word.str, word.syntactic_category
+        stem_str, stem_syntactic_category, stem_secondary_syntactic_category = WordNGramGenerator._get_stem(word)
+        lemma_root_str, lemma_root_syntactic_category = word.root.lemma_root, word.root.syntactic_category
+
+        if word.secondary_syntactic_category:
+            surface_syntactic_category += u'_' + word.secondary_syntactic_category
+        if stem_secondary_syntactic_category:
+            stem_syntactic_category += u'_' + stem_secondary_syntactic_category
+        if word.root.secondary_syntactic_category:
+            lemma_root_syntactic_category += u'_' + word.root.secondary_syntactic_category
+
+        return _container_builder(surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
 
     @classmethod
     def create_calculator(cls, parseset_index):
@@ -227,7 +226,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
 class LikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
     @classmethod
     def create_calculator(cls, parseset_index):
-        mongodb_connection = pymongo.Connection()
+        mongodb_connection = pymongo.Connection(host='127.0.0.1')
         collection_map = {
             1: mongodb_connection['trnltk']['wordUnigrams{}'.format(parseset_index)],
             2: mongodb_connection['trnltk']['wordBigrams{}'.format(parseset_index)],

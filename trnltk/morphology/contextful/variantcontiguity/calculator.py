@@ -2,159 +2,25 @@
 import itertools
 import logging
 import numpy
+from trnltk.morphology.contextful.variantcontiguity.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.variantcontiguity.hidden import query
+from trnltk.morphology.contextful.variantcontiguity.hidden.appender import ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
 from trnltk.morphology.model import formatter
-from trnltk.statistics.query import WordNGramQueryContainer, QueryExecutor, DatabaseIndexBuilder, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
+from trnltk.morphology.contextful.variantcontiguity.hidden.query import WordNGramQueryContainer, QueryExecutor, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
 logger = logging.getLogger('contextstats')
+query_logger = query.logger
 
-class QueryFormAppender(object):
-    def append(self, container, query, params):
-        raise NotImplementedError()
+_context_word_appender = ContextWordAppender()
+_target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
+_target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
+_target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)
 
-    def append_index_key(self, index_container):
-        raise NotImplementedError()
-
-class ContextWordAppender(QueryFormAppender):
-    def append(self, context_item, query, params):
-        query.given_surface(False)
-        params.append(context_item)
-
-    def append_index_key(self, index_container):
-        index_container.given_surface(False)
-
-class ParseResultFormAppender(QueryFormAppender):
-    def __init__(self, add_syntactic_category, is_target):
-        self.add_syntactic_category = add_syntactic_category
-        self.is_target = is_target
-
-    def append(self, target, query, params):
-        raise NotImplementedError()
-
-    def append_index_key(self, index_container):
-        raise NotImplementedError()
-
-class ParseResultSurfaceAppender(ParseResultFormAppender):
-    def append(self, morpheme_container, query, params):
-        if self.is_target:
-            if self.add_syntactic_category:
-                query.target_surface(True)
-            else:
-                query.target_surface(False)
-        else:
-            if self.add_syntactic_category:
-                query.given_surface(True)
-            else:
-                query.given_surface(False)
-
-        surface = morpheme_container.get_surface()
-        if self.add_syntactic_category:
-            syntactic_category = morpheme_container.get_surface_syntactic_category()
-            secondary_syntactic_category = morpheme_container.get_surface_secondary_syntactic_category()
-            if secondary_syntactic_category:
-                syntactic_category += u'_' + secondary_syntactic_category
-
-            params.append(surface)
-            params.append(syntactic_category)
-        else:
-            params.append(surface)
-
-    def append_index_key(self, index_container):
-        if self.is_target:
-            if self.add_syntactic_category:
-                index_container.target_surface(True)
-            else:
-                index_container.target_surface(False)
-        else:
-            if self.add_syntactic_category:
-                index_container.given_surface(True)
-            else:
-                index_container.given_surface(False)
-
-
-class ParseResultStemAppender(ParseResultFormAppender):
-    def append(self, morpheme_container, query, params):
-        if self.is_target:
-            if self.add_syntactic_category:
-                query.target_stem(True)
-            else:
-                query.target_stem(False)
-        else:
-            if self.add_syntactic_category:
-                query.given_stem(True)
-            else:
-                query.given_stem(False)
-
-        stem = morpheme_container.get_stem()
-        if self.add_syntactic_category:
-            syntactic_category = morpheme_container.get_stem_syntactic_category()
-            secondary_syntactic_category = morpheme_container.get_stem_secondary_syntactic_category()
-            if secondary_syntactic_category:
-                syntactic_category += u'_' + secondary_syntactic_category
-
-            params.append(stem)
-            params.append(syntactic_category)
-        else:
-            params.append(stem)
-
-    def append_index_key(self, index_container):
-        if self.is_target:
-            if self.add_syntactic_category:
-                index_container.target_stem(True)
-            else:
-                index_container.target_stem(False)
-        else:
-            if self.add_syntactic_category:
-                index_container.given_stem(True)
-            else:
-                index_container.given_stem(False)
-
-class ParseResultLemmaRootAppender(ParseResultFormAppender):
-    def append(self, morpheme_container, query, params):
-        if self.is_target:
-            if self.add_syntactic_category:
-                query.target_lemma_root(True)
-            else:
-                query.target_lemma_root(False)
-        else:
-            if self.add_syntactic_category:
-                query.given_lemma_root(True)
-            else:
-                query.given_lemma_root(False)
-
-        lemma_root = morpheme_container.get_lemma_root()
-        if self.add_syntactic_category:
-            syntactic_category = morpheme_container.get_lemma_root_syntactic_category()
-            secondary_syntactic_category = morpheme_container.get_lemma_root_secondary_syntactic_category()
-            if secondary_syntactic_category:
-                syntactic_category += u'_' + secondary_syntactic_category
-
-            params.append(lemma_root)
-            params.append(syntactic_category)
-        else:
-            params.append(lemma_root)
-
-    def append_index_key(self, index_container):
-        if self.is_target:
-            if self.add_syntactic_category:
-                index_container.target_lemma_root(True)
-            else:
-                index_container.target_lemma_root(False)
-        else:
-            if self.add_syntactic_category:
-                index_container.given_lemma_root(True)
-            else:
-                index_container.given_lemma_root(False)
-
-context_word_appender = ContextWordAppender()
-target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
-target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
-target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)
-
-context_surface_syn_cat_appender = ParseResultSurfaceAppender(True, False)
-context_stem_syn_cat_appender = ParseResultStemAppender(True, False)
-context_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, False)
+_context_surface_syn_cat_appender = ParseResultSurfaceAppender(True, False)
+_context_stem_syn_cat_appender = ParseResultStemAppender(True, False)
+_context_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, False)
 
 class NonContextParsingLikelihoodCalculator(object):
     COEFFICIENT_SURFACE_GIVEN_CONTEXT = 0.55
@@ -171,12 +37,12 @@ class NonContextParsingLikelihoodCalculator(object):
         index_builder = DatabaseIndexBuilder(self._collection_map)
 
         non_context_parsing_appender_matrix = [
-            (target_surface_syn_cat_appender, context_word_appender),
-            (target_stem_syn_cat_appender, context_word_appender),
-            (target_lemma_root_syn_cat_appender, context_word_appender)
+            (_target_surface_syn_cat_appender, _context_word_appender),
+            (_target_stem_syn_cat_appender, _context_word_appender),
+            (_target_lemma_root_syn_cat_appender, _context_word_appender)
         ]
 
-        index_builder.create_indexes([(context_word_appender,)])
+        index_builder.create_indexes([(_context_word_appender,)])
         index_builder.create_indexes(non_context_parsing_appender_matrix)
 
     def calculate_likelihood(self, target, leading_context, following_context):
@@ -206,14 +72,14 @@ class NonContextParsingLikelihoodCalculator(object):
             else:
                 logger.debug("  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), context))
 
-        count_given_context = self._count_target_form_given_context(target, context, False, None, context_word_appender)
+        count_given_context = self._count_target_form_given_context(target, context, False, None, _context_word_appender)
 
         if not count_given_context:
             return 0
 
-        count_target_surface_given_context = self._count_target_form_given_context(target, context, target_comes_after, target_surface_syn_cat_appender, context_word_appender)
-        count_target_stem_given_context = self._count_target_form_given_context(target, context, target_comes_after, target_stem_syn_cat_appender, context_word_appender)
-        count_target_lexeme_given_context = self._count_target_form_given_context(target, context, target_comes_after, target_lemma_root_syn_cat_appender, context_word_appender)
+        count_target_surface_given_context = self._count_target_form_given_context(target, context, target_comes_after, _target_surface_syn_cat_appender, _context_word_appender)
+        count_target_stem_given_context = self._count_target_form_given_context(target, context, target_comes_after, _target_stem_syn_cat_appender, _context_word_appender)
+        count_target_lexeme_given_context = self._count_target_form_given_context(target, context, target_comes_after, _target_lemma_root_syn_cat_appender, _context_word_appender)
 
         logger.debug("    Found {} context occurrences".format(count_given_context))
         logger.debug("    Found {} target surface with context occurrences".format(count_target_surface_given_context))
@@ -271,24 +137,24 @@ class ContextParsingLikelihoodCalculator(object):
         index_builder = DatabaseIndexBuilder(self._collection_map)
 
         non_context_parsing_appender_matrix_row_0 = [
-            (target_surface_syn_cat_appender, context_surface_syn_cat_appender),
-            (target_surface_syn_cat_appender, context_stem_syn_cat_appender),
-            (target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender)
+            (_target_surface_syn_cat_appender, _context_surface_syn_cat_appender),
+            (_target_surface_syn_cat_appender, _context_stem_syn_cat_appender),
+            (_target_surface_syn_cat_appender, _context_lemma_root_syn_cat_appender)
         ]
 
         non_context_parsing_appender_matrix_row_1 = [
-            (target_stem_syn_cat_appender, context_surface_syn_cat_appender),
-            (target_stem_syn_cat_appender, context_stem_syn_cat_appender),
-            (target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
+            (_target_stem_syn_cat_appender, _context_surface_syn_cat_appender),
+            (_target_stem_syn_cat_appender, _context_stem_syn_cat_appender),
+            (_target_stem_syn_cat_appender, _context_lemma_root_syn_cat_appender)
         ]
 
         non_context_parsing_appender_matrix_row_2 = [
-            (target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender),
-            (target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender),
-            (target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender)
+            (_target_lemma_root_syn_cat_appender, _context_surface_syn_cat_appender),
+            (_target_lemma_root_syn_cat_appender, _context_stem_syn_cat_appender),
+            (_target_lemma_root_syn_cat_appender, _context_lemma_root_syn_cat_appender)
         ]
 
-        index_builder.create_indexes([(context_word_appender,)])
+        index_builder.create_indexes([(_context_word_appender,)])
         index_builder.create_indexes(non_context_parsing_appender_matrix_row_0)
         index_builder.create_indexes(non_context_parsing_appender_matrix_row_1)
         index_builder.create_indexes(non_context_parsing_appender_matrix_row_2)
@@ -347,21 +213,21 @@ class ContextParsingLikelihoodCalculator(object):
 
             appender_matrix = [
                 [
-                    (target_surface_syn_cat_appender, context_surface_syn_cat_appender),
-                    (target_surface_syn_cat_appender, context_stem_syn_cat_appender),
-                    (target_surface_syn_cat_appender, context_lemma_root_syn_cat_appender)
+                    (_target_surface_syn_cat_appender, _context_surface_syn_cat_appender),
+                    (_target_surface_syn_cat_appender, _context_stem_syn_cat_appender),
+                    (_target_surface_syn_cat_appender, _context_lemma_root_syn_cat_appender)
                 ]
                 ,
                 [
-                    (target_stem_syn_cat_appender, context_surface_syn_cat_appender),
-                    (target_stem_syn_cat_appender, context_stem_syn_cat_appender),
-                    (target_stem_syn_cat_appender, context_lemma_root_syn_cat_appender)
+                    (_target_stem_syn_cat_appender, _context_surface_syn_cat_appender),
+                    (_target_stem_syn_cat_appender, _context_stem_syn_cat_appender),
+                    (_target_stem_syn_cat_appender, _context_lemma_root_syn_cat_appender)
                 ]
                 ,
                 [
-                    (target_lemma_root_syn_cat_appender, context_surface_syn_cat_appender),
-                    (target_lemma_root_syn_cat_appender, context_stem_syn_cat_appender),
-                    (target_lemma_root_syn_cat_appender, context_lemma_root_syn_cat_appender)
+                    (_target_lemma_root_syn_cat_appender, _context_surface_syn_cat_appender),
+                    (_target_lemma_root_syn_cat_appender, _context_stem_syn_cat_appender),
+                    (_target_lemma_root_syn_cat_appender, _context_lemma_root_syn_cat_appender)
                 ]
             ]
 
@@ -400,9 +266,9 @@ class ContextParsingLikelihoodCalculator(object):
 
     def _get_context_form_count_matrix(self, context_parse_results):
         appender_matrix = [
-            context_surface_syn_cat_appender,
-            context_stem_syn_cat_appender,
-            context_lemma_root_syn_cat_appender
+            _context_surface_syn_cat_appender,
+            _context_stem_syn_cat_appender,
+            _context_lemma_root_syn_cat_appender
         ]
 
         context_form_counts = numpy.zeros(3, dtype=float)

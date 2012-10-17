@@ -22,9 +22,8 @@ from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenera
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.statistics.contextstats import  ContextParsingLikelihoodCalculator
-from trnltk.statistics.contextstats import logger as context_stats_logger
-from trnltk.statistics.query import logger as query_logger
+from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.variantcontiguity.calculator import logger as query_logger
 
 dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextless_statistics_sample_parseset.xml'))
 parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
@@ -84,7 +83,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         super(LikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
