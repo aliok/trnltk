@@ -9,8 +9,8 @@ from trnltk.morphology.model.lexeme import  SyntacticCategory, SecondarySyntacti
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
-from trnltk.morphology.contextfree.parser.parser import  logger as parser_logger
-from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextless.parser.parser import  logger as parser_logger
+from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
 class PredefinedPathsTest(unittest.TestCase):

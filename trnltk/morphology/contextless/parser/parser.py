@@ -2,12 +2,12 @@
 import logging
 from trnltk.morphology.model import formatter
 from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
-from trnltk.morphology.contextfree.parser.suffixapplier import *
+from trnltk.morphology.contextless.parser.suffixapplier import *
 from trnltk.morphology.model.morpheme import MorphemeContainer
 
 logger = logging.getLogger('parser')
 
-class ContextFreeMorphologicalParser(object):
+class ContextlessMorphologicalParser(object):
     def __init__(self, suffix_graph, predefined_paths, root_finders):
         self._suffix_graph = suffix_graph
         self._predefined_paths = predefined_paths

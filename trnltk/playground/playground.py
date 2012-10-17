@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
-from trnltk.morphology.contextfree.parser.rootfinder import *
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.rootfinder import *
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
 from trnltk.morphology.model import formatter
@@ -12,7 +12,7 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 
 
-context_free_parser = None
+contextless_parser = None
 
 def initialize():
     all_roots = []
@@ -35,18 +35,18 @@ def initialize():
     proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
     proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-    global context_free_parser
-    context_free_parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+    global contextless_parser
+    contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
         [word_root_finder, text_numeral_root_finder, digit_numeral_root_finder,
          proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
 initialize()
 
-def parse_context_free(word_str, *syntactic_categories):
+def parse_contextless(word_str, *syntactic_categories):
     if not isinstance(word_str, unicode) and isinstance(word_str, str):
         word_str = word_str.decode('utf-8')
 
-    parse_results = context_free_parser.parse(word_str)
+    parse_results = contextless_parser.parse(word_str)
     if syntactic_categories:
         parse_results = filter(lambda parse_result: parse_result.get_last_state().syntactic_category in syntactic_categories, parse_results)
 

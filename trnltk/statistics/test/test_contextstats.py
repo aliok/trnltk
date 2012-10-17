@@ -9,8 +9,8 @@ import unittest
 import pymongo
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
@@ -48,11 +48,11 @@ class _LikelihoodCalculatorTest(object):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.context_free_parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+        cls.contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
-        cls.mongodb_connection = pymongo.Connection()
+        cls.mongodb_connection = pymongo.Connection(host='127.0.0.1')
         cls.collection_map = {
             1: cls.mongodb_connection['trnltk']['wordUnigrams999'],
             2: cls.mongodb_connection['trnltk']['wordBigrams999'],
@@ -75,7 +75,7 @@ class _LikelihoodCalculatorTest(object):
         following_context = self._get_context(following_context)
 
         likelihoods = []
-        results = self.context_free_parser.parse(surface)
+        results = self.contextless_parser.parse(surface)
         for result in results:
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
             likelihood = 0.0
@@ -205,7 +205,7 @@ class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest
         super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 
     def _get_context(self, context):
-        return [self.context_free_parser.parse(cw) for cw in context] if context else []
+        return [self.contextless_parser.parse(cw) for cw in context] if context else []
 
 
 class ParseResultsCartesianProductTest(unittest.TestCase):

@@ -6,9 +6,9 @@ class StatisticalParseResult(object):
         self.parse_result_occurrences = dict()
         self.parse_results = dict()
 
-    def add_parse_result(self, context_free_parse_result, offsets):
-        parse_result_str = formatter.format_morpheme_container_for_parseset(context_free_parse_result)
-        self.parse_results[parse_result_str] = context_free_parse_result
+    def add_parse_result(self, contextless_parse_result, offsets):
+        parse_result_str = formatter.format_morpheme_container_for_parseset(contextless_parse_result)
+        self.parse_results[parse_result_str] = contextless_parse_result
         self.parse_result_occurrences[parse_result_str] = offsets
 
     # TODO: better naming is normalizing, probability
@@ -23,16 +23,16 @@ class StatisticalParseResult(object):
         return results_with_ratio
 
 class StatisticalParser(object):
-    def __init__(self, context_free_parser, parse_result_concordance_index):
-        self._context_free_parser = context_free_parser
+    def __init__(self, contextless_parser, parse_result_concordance_index):
+        self.contextless_parser = contextless_parser
         self._parse_result_concordance_index = parse_result_concordance_index
 
     def parse(self, word_str):
-        context_free_parse_results = self._context_free_parser.parse(word_str)
+        contextless_parse_results = self.contextless_parser.parse(word_str)
         statistical_parse_result = StatisticalParseResult()
-        for context_free_parse_result in context_free_parse_results:
+        for contextless_parse_result in contextless_parse_results:
             offsets_for_same_parse_result = self._parse_result_concordance_index.offsets(word_str)
-            statistical_parse_result.add_parse_result(context_free_parse_result, offsets_for_same_parse_result)
+            statistical_parse_result.add_parse_result(contextless_parse_result, offsets_for_same_parse_result)
 
         return statistical_parse_result
 

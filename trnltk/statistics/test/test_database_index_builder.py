@@ -13,7 +13,7 @@ class DatabaseIndexBuilderTest(unittest.TestCase):
     def setUpClass(cls):
         super(DatabaseIndexBuilderTest, cls).setUpClass()
 
-        mongodb_connection = pymongo.Connection()
+        mongodb_connection = pymongo.Connection(host='127.0.0.1')
 
         cls.collection_map_for_N_1 = {
             1: mongodb_connection['trnltk']['wordUnigramsIndexBuilderTest']

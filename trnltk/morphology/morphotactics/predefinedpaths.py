@@ -1,6 +1,6 @@
 # coding=utf-8
 from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
-from trnltk.morphology.contextfree.parser.suffixapplier import *
+from trnltk.morphology.contextless.parser.suffixapplier import *
 from trnltk.morphology.model.morpheme import SuffixForm, MorphemeContainer
 
 class PredefinedPaths(object):

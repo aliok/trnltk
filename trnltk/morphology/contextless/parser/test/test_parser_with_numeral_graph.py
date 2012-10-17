@@ -3,12 +3,12 @@ from copy import copy
 import logging
 import os
 import unittest
-from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
+from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, TextNumeralRootFinder
-from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextless.parser.rootfinder import DigitNumeralRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
@@ -42,7 +42,7 @@ class ParserTestWithNumeralGraph(ParserTest):
         text_numeral_root_finder = TextNumeralRootFinder(self.cloned_root_map)
         digit_numeral_root_finder = DigitNumeralRootFinder()
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [text_numeral_root_finder, digit_numeral_root_finder])
+        self.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths, [text_numeral_root_finder, digit_numeral_root_finder])
 
     def test_should_parse_numerals_to_adjective_derivations(self):
         self.assert_parse_correct(u'onlarca',

@@ -6,15 +6,15 @@ import os
 import unittest
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
-from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
+from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGenerator, RootMapGenerator
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
-from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
+from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
@@ -174,7 +174,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+        cls.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, text_numeral_root_finder, digit_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 

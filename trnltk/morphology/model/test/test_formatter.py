@@ -4,9 +4,9 @@ import unittest
 from hamcrest import *
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import  WordRootFinder
-from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextless.parser.rootfinder import  WordRootFinder
+from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
@@ -35,7 +35,7 @@ class FormatterTest(unittest.TestCase):
 
         word_root_finder = WordRootFinder(self.root_map)
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, None, [word_root_finder])
+        self.parser = ContextlessMorphologicalParser(suffix_graph, None, [word_root_finder])
 
     def test_should_format_for_simple_parseset(self):
         parse_result = self.parser.parse(u'kitaba')[0]

@@ -10,8 +10,8 @@ from xml.dom.minidom import parse
 import pymongo
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
@@ -26,7 +26,7 @@ from trnltk.statistics.contextstats import  ContextParsingLikelihoodCalculator
 from trnltk.statistics.contextstats import logger as context_stats_logger
 from trnltk.statistics.query import logger as query_logger
 
-dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextfree_statistics_sample_parseset.xml'))
+dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextless_statistics_sample_parseset.xml'))
 parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
 parse_set_word_list = []
 for sentence in parseset.sentences:
@@ -103,12 +103,12 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.context_free_parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+        cls.contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
 
-        mongodb_connection = pymongo.Connection()
+        mongodb_connection = pymongo.Connection(host='127.0.0.1')
         cls.collection_map = {
             1: mongodb_connection['trnltk']['wordUnigrams999'],
             2: mongodb_connection['trnltk']['wordBigrams999'],
@@ -126,9 +126,9 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         assert leading_context or following_context
 
         likelihoods = []
-        results = self.context_free_parser.parse(surface)
+        results = self.contextless_parser.parse(surface)
         if surface[0].isupper():
-            results += self.context_free_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
+            results += self.contextless_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
 
         for result in results:
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)

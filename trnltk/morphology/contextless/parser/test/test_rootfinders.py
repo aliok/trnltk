@@ -3,7 +3,7 @@ import unittest
 from hamcrest import *
 from mock import Mock
 from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
-from trnltk.morphology.contextfree.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, WordRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextless.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, WordRootFinder, TextNumeralRootFinder
 
 class WordRootFinderTest(unittest.TestCase):
 

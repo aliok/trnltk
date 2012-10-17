@@ -1,6 +1,6 @@
 from trnltk.morphology.model.morpheme import FreeTransitionSuffix
 
-class MorphemeContainerContextFreeProbabilityGenerator(object):
+class MorphemeContainerContextlessProbabilityGenerator(object):
     def __init__(self, first_suffix_transition_probability_matrix, suffix_transition_probability_matrix):
         self.first_suffix_transition_probability_matrix = first_suffix_transition_probability_matrix
         self.suffix_transition_probability_matrix = suffix_transition_probability_matrix

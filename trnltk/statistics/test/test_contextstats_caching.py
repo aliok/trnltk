@@ -3,10 +3,9 @@
 There is no verification -yet- in test of this class.
 The tests are there for making sure there is no run time exceptions
 """
-import logging
 import unittest
-from trnltk.statistics.contextstats import  ContextParsingLikelihoodCalculator, CachingNonContextParsingLikelihoodCalculator, CachingContextParsingLikelihoodCalculator
-from trnltk.statistics.query import logger as query_logger, QueryCacheCollectionCreator
+from trnltk.statistics.contextstats import   CachingNonContextParsingLikelihoodCalculator, CachingContextParsingLikelihoodCalculator
+from trnltk.statistics.query import  QueryCacheCollectionCreator
 from trnltk.statistics.test.test_contextstats import _LikelihoodCalculatorTest
 
 class CachingNonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest.TestCase):
@@ -92,7 +91,7 @@ class CachingContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, u
         super(CachingContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 
     def _get_context(self, context):
-        return [self.context_free_parser.parse(cw) for cw in context] if context else []
+        return [self.contextless_parser.parse(cw) for cw in context] if context else []
 
 if __name__ == '__main__':
     unittest.main()

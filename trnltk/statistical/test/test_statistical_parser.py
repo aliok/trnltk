@@ -9,8 +9,8 @@ from trnltk.statistical.parser import StatisticalParser
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.treebank.explorer import CompleteWordConcordanceIndex
 
@@ -41,7 +41,7 @@ class StatisticalParserTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        context_free_parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+        contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
         parseset_index = "001"
@@ -53,7 +53,7 @@ class StatisticalParserTest(unittest.TestCase):
 
         complete_word_concordance_index = CompleteWordConcordanceIndex(parse_set_word_list)
 
-        cls.parser = StatisticalParser(context_free_parser, complete_word_concordance_index)
+        cls.parser = StatisticalParser(contextless_parser, complete_word_concordance_index)
 
     def test_should_parse(self):
         result = self.parser.parse(u'verirsiniz')

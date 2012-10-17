@@ -3,13 +3,13 @@ from copy import copy
 import logging
 import os
 import unittest
-from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
+from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
 from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import  WordRootFinder
-from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextless.parser.rootfinder import  WordRootFinder
+from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
@@ -41,7 +41,7 @@ class ParserTestWithBasicGraph(ParserTest):
 
         word_root_finder = WordRootFinder(self.cloned_root_map)
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder])
+        self.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths, [word_root_finder])
 
     def test_should_parse_noun_cases(self):
         self.assert_parse_correct(u'sokak',            u'sokak(sokak)+Noun+A3sg+Pnon+Nom')
@@ -776,7 +776,6 @@ class ParserTestWithBasicGraph(ParserTest):
         )
         self.assert_parse_correct(u'bunlarsız',
             u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])',
-            u'bun(bun)+Noun+A3pl(lAr[lar])+Pnon+Nom+Adj+Without(sIz[sız])',
             u'bu(bu)+Pron+Demons+A3pl(nlar[nlar])+Pnon+Nom+Adj+Without(sIz[sız])+Noun+Zero+A3sg+Pnon+Nom'
         )
         self.assert_parse_correct(u'şunlarsız',

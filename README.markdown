@@ -89,8 +89,8 @@ lexeme : kitap + Noun
 Plan
 -----------------------
 
-1. [In Progress] A context free morphological parser to extract roots and suffixes out of surfaces
-2. A context free morphological generator that can generate surfaces from roots and suffixes by choosing the correct suffix form
+1. [In Progress] A contextless morphological parser to extract roots and suffixes out of surfaces
+2. A contextless morphological generator that can generate surfaces from roots and suffixes by choosing the correct suffix form
 3. A playground with a data set that provides
        * Concordance for surfaces
        * Concordance for roots
@@ -103,7 +103,7 @@ Plan
 6. A rule based and statistical lexical category determining tool for sentences
 
 
-1. Context Free Morphological Parser
+1. Contextless Morphological Parser
 ------------------------------------
 
 A finite state machine is used for parsing surfaces. Nodes with different states of words and edges as suffixes.

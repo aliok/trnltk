@@ -3,15 +3,15 @@ from copy import copy
 import logging
 import os
 import unittest
-from trnltk.morphology.contextfree.parser.test.parser_test import ParserTest
+from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
 from trnltk.morphology.model.lexeme import SyntacticCategory
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
-from trnltk.morphology.contextfree.parser.parser import ContextFreeMorphologicalParser, logger as parser_logger
-from trnltk.morphology.contextfree.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
-from trnltk.morphology.contextfree.parser.suffixapplier import logger as suffix_applier_logger
+from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder
+from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 
 class ParserTestWithExtendedGraph(ParserTest):
@@ -42,7 +42,7 @@ class ParserTestWithExtendedGraph(ParserTest):
 
         word_root_finder = WordRootFinder(self.cloned_root_map)
 
-        self.parser = ContextFreeMorphologicalParser(suffix_graph, predefined_paths,
+        self.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder])
 
     def test_should_parse_other_categories_to_verbs_zero_transition(self):

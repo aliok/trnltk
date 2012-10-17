@@ -6,14 +6,13 @@ The tests are there for making sure there is no run time exceptions
 import unittest
 import pymongo
 from trnltk.statistics.contextstats import   CachingContextParsingLikelihoodCalculator, InMemoryCachingContextParsingLikelihoodCalculator
-from trnltk.statistics.contextstats import logger as context_stats_logger
 from trnltk.statistics.query import  QueryCacheCollectionCreator
 from trnltk.statistics.test.test_contextstats_with_parsesets import _BaseLikelihoodCalculatorTest
 
 class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
     @classmethod
     def create_calculator(cls, parseset_index):
-        mongodb_connection = pymongo.Connection()
+        mongodb_connection = pymongo.Connection(host='127.0.0.1')
         collection_map = {
             1: mongodb_connection['trnltk']['wordUnigrams{}'.format(parseset_index)],
             2: mongodb_connection['trnltk']['wordBigrams{}'.format(parseset_index)],
@@ -48,7 +47,7 @@ class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
 class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
     @classmethod
     def create_calculator(cls, parseset_index):
-        mongodb_connection = pymongo.Connection()
+        mongodb_connection = pymongo.Connection(host='127.0.0.1')
         collection_map = {
             1: mongodb_connection['trnltk']['wordUnigrams{}'.format(parseset_index)],
             2: mongodb_connection['trnltk']['wordBigrams{}'.format(parseset_index)],
