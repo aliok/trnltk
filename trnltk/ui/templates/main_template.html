@@ -4,7 +4,8 @@
     <title>TRNLTK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/thirdparty/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/styles.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -21,96 +22,72 @@
         <h1>TRNLTK Supervised Morphological Parsing <small>Turkish Natural Language Toolkit</small></h1>
     </div>
 
-    <div class="well">
-        <h3 class="">
-            {{ leading_context_sentence }} <strong class="text-success">{{ target_surface }}</strong> {{ following_context_sentence }}
+    <div class="well" style="text-align: center;">
+        <h4 class="muted context-sentence" data-sentence-id="{{ previous_sentence.id }}">
+            {{ previous_sentence.str }}
+        </h4>
+        <h3>
+            {% for context_word in leading_context_words %}
+                {% set clazz = {True:'text-success', False : 'text-error'}[context_word.parsed] %}
+                <span class="context-word {{ clazz }}" data-word-id="{{ context_word.id }}"
+                      data-parse-result="{{ context_word.parse_result }}">
+                    {{ context_word.surface }}
+                </span>
+            {% endfor %}
+            <strong class="current-word">{{ target_surface }}</strong>
+            {% for context_word in following_context_words %}
+                {% set clazz = {True:'text-success', False : 'text-error'}[context_word.parsed] %}
+                <span class="context-word {{ clazz }}" data-word-id="{{ context_word.id }}"
+                      data-parse-result="{{ context_word.parse_result }}">
+                    {{ context_word.surface }}
+                </span>
+            {% endfor %}
         </h3>
+        <h4 class="muted context-sentence" data-sentence-id="{{ next_sentence.id }}">
+            {{ next_sentence.str }}
+        </h4>
     </div>
 
-    <div class="row">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>&nbsp;</th>
-                <th>Likelihood percentage</th>
-                <th>Likelihood value</th>
-                <th>Parse result</th>
-                <th>&nbsp;</th>
-            </tr>
-            </thead>
-            {% for parse_result_container in parse_result_containers %}
-            <tr>
-                <td style="width:100px;">
-                    <div class="progress progress-{{ parse_result_container.likelihood_percentage_color }} progress-striped">
-                        <div class="bar" style="width: {{ parse_result_container.likelihood_percentage }}%;"></div>
-                    </div>
-                </td>
-                <td>{{ parse_result_container.likelihood_percentage }}%</td>
-                <td><a href="#" class="btn btn-{{ parse_result_container.likelihood_value_color }} ajaxFocusPopover"
-                       rel="popover" data-load="index.html">{{ parse_result_container.likelihood_value }}</a></td>
-                <td>{{ parse_result_container.formatted_parse_result }}</td>
-                <td><button class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Mark as Correct</button></td>
-            </tr>
-            {% endfor %}
-            <!--<tr>-->
-                <!--<td style="width:100px;">-->
-                    <!--<div class="progress progress-warning progress-striped">-->
-                        <!--<div class="bar" style="width: 22%"></div>-->
-                    <!--</div>-->
-                <!--</td>-->
-                <!--<td>22%</td>-->
-                <!--<td><a href="#" class="btn btn-warning ajaxFocusPopover" rel="popover" data-load="index.html">0.141025</a></td>-->
-                <!--<td>masay+Noun+A3sg+Pnon+Dat</td>-->
-                <!--<td><button class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Mark as Correct</button></td>-->
-            <!--</tr>-->
-        </table>
-    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Likelihood percentage</th>
+            <th>Likelihood value</th>
+            <th>Parse result</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        {% for parse_result_container in parse_result_containers %}
+        <tr>
+            <td style="width:100px;">
+                <div class="progress progress-{{ parse_result_container.likelihood_percentage_color }} progress-striped">
+                    <div class="bar" style="width: {{ parse_result_container.likelihood_percentage }}%;"></div>
+                </div>
+            </td>
+            <td>{{ parse_result_container.likelihood_percentage }}%</td>
+            <td><a href="#" class="btn btn-{{ parse_result_container.likelihood_value_color }} ajaxFocusPopover"
+                   rel="popover" data-load="index.html">{{ parse_result_container.likelihood_value }}</a></td>
+            <td>{{ parse_result_container.formatted_parse_result }}</td>
+            <td><button class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Mark as Correct</button></td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <ul class="pager">
         <li class="previous {{ style_class_previous_button }}">
-            <a href="#">&larr; Previous</a>
+            <a href="#">&larr; Previous non-parsed word</a>
         </li>
-        <li><strong class="text-success">{{ index }} of {{ count_not_parsed }} not parsed</strong></li>
+        <li><strong class="text-success">{{ index }} of {{ count_not_parsed }} non-parsed</strong></li>
         <li class="next {{ style_class_next_button }}">
-            <a href="#">Next &rarr;</a>
+            <a href="#">Next non-parsed word&rarr;</a>
         </li>
     </ul>
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/thirdparty/js/bootstrap.min.js"></script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML.js"></script>
-<script>
-
-    var img = '	\
-	<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">	\
-			  <mi>x</mi> <mo>=</mo>	\
-			  <mrow>	\
-				<mfrac>	\
-				  <mrow>	\
-					<mo>&#x2212;</mo>	\
-					<mi>b</mi>	\
-					<mo>&#x00B1;</mo>	\
-					<msqrt>	\
-					  <msup><mi>b</mi><mn>2</mn></msup>	\
-					  <mo>&#x2212;</mo>	\
-					  <mn>4</mn><mi>a</mi><mi>c</mi> \
-					</msqrt> \
-				  </mrow> \
-				  <mrow> <mn>2</mn><mi>a</mi> </mrow> \
-				</mfrac> \
-			  </mrow> \
-			  <mtext>.</mtext> \
-			</math> \
-	'
-
-    $('.ajaxFocusPopover').popover({content: img, trigger:'manual', placement:'bottom'}).click(function(e) {
-        $(this).popover('toggle');
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-        e.preventDefault();
-    });
-
-</script>
-
+<script src="/resources/js/script.js"></script>
 
 </body>
 </html>

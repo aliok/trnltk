@@ -35,10 +35,39 @@ class Main(webapp2.RequestHandler):
 
         parse_result_containers = [parse_result_container_1, parse_result_container_2]
 
+
+        leading_context_word_1 = {'id':'1', 'surface' : u'Bilim', 'parsed':False}
+        leading_context_word_2 = {'id':'2', 'surface' : u'insanları', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        leading_context_word_3 = {'id':'3', 'surface' : u',', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        leading_context_word_4 = {'id':'4', 'surface' : u'balinadan', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        leading_context_word_5 = {'id':'5', 'surface' : u'dev', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        leading_context_word_6 = {'id':'6', 'surface' : u'ahtapota', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        leading_context_word_7 = {'id':'7', 'surface' : u'kadar', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+
+
+        leading_context_words = [leading_context_word_1, leading_context_word_2, leading_context_word_3, leading_context_word_4,
+                                 leading_context_word_5, leading_context_word_6, leading_context_word_7]
+
+        following_context_word_1 = {'id':'1', 'surface' : u'canlının', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        following_context_word_2 = {'id':'2', 'surface' : u'gözün', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        following_context_word_3 = {'id':'3', 'surface' : u'sahibi', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        following_context_word_4 = {'id':'4', 'surface' : u'olacağını', 'parsed':False}
+        following_context_word_5 = {'id':'5', 'surface' : u'öne', 'parsed':True, 'parse_result' : 'X+Y+Z+Abc'}
+        following_context_word_6 = {'id':'6', 'surface' : u'sürdü', 'parsed':False}
+        following_context_word_7 = {'id':'7', 'surface' : u'.', 'parse_result' : 'X+Y+Z+Abc'}
+
+        following_context_words = [following_context_word_1, following_context_word_2, following_context_word_3, following_context_word_4,
+                                   following_context_word_5, following_context_word_6, following_context_word_7]
+
+        previous_sentence = {'id' : '123123111', 'str' : u'Komisyon, Facebook ve Flickr sayfalarında, yapılan analizler hakkında bilgi paylaştı.'}
+        next_sentence = {'id' : '123123111', 'str' : u'İlk günden akıllara gelen en büyük aday kılıçbalığıydı.'}
+
         context = {
-            'leading_context_sentence' : u'Bilim insanları, balinadan dev ahtapota kadar',
+            'leading_context_words' : leading_context_words,
+            'following_context_words' : following_context_words,
             'target_surface' : u'birçok',
-            'following_context_sentence' : u'canlının gözün sahibi olacağını öne sürdü.',
+            'previous_sentence' : previous_sentence,
+            'next_sentence' : next_sentence,
 
             'index' : 3,
             'count_not_parsed' : 100,
