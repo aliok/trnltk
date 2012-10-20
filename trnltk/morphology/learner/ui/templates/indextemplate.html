@@ -12,16 +12,95 @@
     <div class="navbar">
         <div class="navbar-inner">
             <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="#">About</a></li>
+                <li class="active"><a href="index">Home</a></li>
+                <li><a href="help">Help</a></li>
+                <li><a href="about">About</a></li>
             </ul>
         </div>
     </div>
     <div class="page-header">
         <h1>TRNLTK Supervised Morphological Parsing <small>Turkish Natural Language Toolkit</small></h1>
     </div>
-    <a href="learner?corpusId=5081dbba49002441da000000&wordIndex=0">Go to learner for corpus 5081dbba49002441da000000</a>
+    <div class="well" style="text-align: center;">
+        <form>
+            <legend><h2 class="text-success">Create a new corpus</h2></legend>
+
+            <label>Corpus name</label>
+            <input class="input-xxlarge" name="corpusName" type="text" placeholder="Unique corpus name"/>
+
+            <label>Corpus Description</label>
+            <input class="input-xxlarge" name="corpusDescription" type="text"/>
+
+            <label>Content</label>
+            <textarea class="input-xxlarge" name="corpusContent" rows="5"></textarea>
+
+            <br/>
+            <button type="submit" class="btn btn-large btn-success">
+                <i class="icon-plus-sign icon-white"></i>
+                Create
+            </button>
+        </form>
+    </div>
+    <div style="text-align: center">
+        <h2>OR</h2>
+    </div>
+    <div class="well">
+        <table class="table table-striped">
+            <caption>
+                <legend>
+                    <h2 class="text-info">Train an existing one</h2>
+                </legend>
+            </caption>
+            <thead>
+            <tr>
+                <th>
+                    Corpus Id
+                </th>
+                <th>
+                    Corpus Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Number of words
+                </th>
+                <th>
+                    Parse percent
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    5081dbba49002441da000000
+                </td>
+                <td>
+                    name
+                </td>
+                <td>
+                    description
+                </td>
+                <td>
+                    100
+                </td>
+                <td>
+                    25.67
+                </td>
+                <td>
+                    <a href="learner?corpusId=5081dbba49002441da000000&wordIndex=0"
+                       class="btn btn-large btn-primary">
+                        <i class="icon-play icon-white"></i>
+                        Train
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script src="/resources/thirdparty/js/jquery.min.js"></script>
 <script src="/resources/thirdparty/js/bootstrap.min.js"></script>
