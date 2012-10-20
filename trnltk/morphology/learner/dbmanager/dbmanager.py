@@ -96,3 +96,9 @@ class DbManager(object):     # TODO: what about indexes?
         }
 
         return self.word_collection.find_one(query)
+
+    def get_all_corpora(self):
+        """
+        @rtype: Cursor
+        """
+        return self.corpus_collection.find()

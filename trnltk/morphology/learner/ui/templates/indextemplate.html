@@ -22,11 +22,11 @@
         <h1>TRNLTK Supervised Morphological Parsing <small>Turkish Natural Language Toolkit</small></h1>
     </div>
     <div class="well" style="text-align: center;">
-        <form>
+        <form action="corpusCreator" method="post">
             <legend><h2 class="text-success">Create a new corpus</h2></legend>
 
             <label>Corpus name</label>
-            <input class="input-xxlarge" name="corpusName" type="text" placeholder="Unique corpus name"/>
+            <input class="input-xxlarge" required="required" name="corpusName" type="text" placeholder="Unique corpus name"/>
 
             <label>Corpus Description</label>
             <input class="input-xxlarge" name="corpusDescription" type="text"/>
@@ -74,30 +74,36 @@
             </tr>
             </thead>
             <tbody>
+            {% if corpora is not defined %}
+                <tr><td colspan="6">No corpus found! Please add one above!</td></tr>
+            {% endif %}
+
+            {% for corpus in corpora %}
             <tr>
                 <td>
-                    5081dbba49002441da000000
+                    {{ corpus.id }}
                 </td>
                 <td>
-                    name
+                    {{ corpus.name }}
                 </td>
                 <td>
-                    description
+                    {{ corpus.description }}
                 </td>
                 <td>
-                    100
+                    {{ corpus.word_count }}
                 </td>
                 <td>
-                    25.67
+                    {{ corpus.parse_percent }}
                 </td>
                 <td>
-                    <a href="learner?corpusId=5081dbba49002441da000000&wordIndex=0"
+                    <a href="learner?corpusId={{ corpus.id }}&wordIndex=0"
                        class="btn btn-large btn-primary">
                         <i class="icon-play icon-white"></i>
                         Train
                     </a>
                 </td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
