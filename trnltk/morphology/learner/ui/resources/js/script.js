@@ -1,4 +1,4 @@
-function initializePage() {
+function initializeLearnerPage() {
     var img = '	\
 	<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">	\
 			  <mi>x</mi> <mo>=</mo>	\
