@@ -11556,7 +11556,6 @@ kaolin
 kaolinit [A:NoVoicing]
 kaos
 kap [A:Voicing]
-kap
 kâp [A:Voicing]
 kapacık
 kapak

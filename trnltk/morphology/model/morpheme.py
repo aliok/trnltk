@@ -141,6 +141,16 @@ class MorphemeContainer(object):
         self._transitions = []
         self._phonetic_expectations = root.phonetic_expectations
 
+    def __str__(self):
+        returnValue = '{}+{}'.format(self._root, self._root_state)
+        if self._transitions:
+            returnValue = returnValue + "+" + str(self._transitions)
+
+        return returnValue
+
+    def __repr__(self):
+        return self.__str__()
+
     def clone(self):
         clone = MorphemeContainer(self._root, self._root_state, self._remaining_surface)
         clone._surface_so_far = self._surface_so_far
@@ -317,16 +327,6 @@ class MorphemeContainer(object):
 
     def get_last_transition(self):
         return self._transitions[-1]
-
-    def __str__(self):
-        returnValue = '{}+{}'.format(self._root, self._root_state)
-        if self._transitions:
-            returnValue = returnValue + "+" + str(self._transitions)
-
-        return returnValue
-
-    def __repr__(self):
-        return self.__str__()
 
     def get_root(self):
         return self._root

@@ -166,8 +166,18 @@ class ContextParsingLikelihoodCalculator(object):
                 formatter.format_morpheme_container_for_simple_parseset(target),
                 [t[0].get_surface() if t else "<Unparsable>" for t in following_context]))
 
-        likelihood = self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
-                     self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
+        assert leading_context or following_context
+
+        likelihood = None
+        if leading_context and following_context:
+            likelihood = self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT   +\
+                         self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
+        elif leading_context:
+            likelihood = self.calculate_oneway_likelihood(target, leading_context  , True ) * self.WEIGHT_LEADING_CONTEXT
+        elif following_context:
+            likelihood = self.calculate_oneway_likelihood(target, following_context, False) * self.WEIGHT_FOLLOWING_CONTEXT
+
+
 
         logger.debug("  Calculated likelihood is {}".format(likelihood))
 

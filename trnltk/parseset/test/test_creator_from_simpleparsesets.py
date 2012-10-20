@@ -2,12 +2,11 @@
 import codecs
 import os
 import unittest
-from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset import xmlbindings
 from trnltk.parseset.creator import ParseSetCreator
 from trnltk.morphology.contextless.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
@@ -68,7 +67,7 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        self.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
+        self.parser = UpperCaseSupportingContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def test_should_create_parseset_001(self):
@@ -127,8 +126,6 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
 
     def _find_parse_result_matching_simple_parseset(self, word_part, parse_result_part):
         parse_results = self.parser.parse(word_part)
-        if word_part[0].isupper():
-            parse_results += self.parser.parse(TurkishAlphabet.lower(word_part[0])+word_part[1:])
 
         for parse_result in parse_results:
             parse_result_str = formatter.format_morpheme_container_for_simple_parseset(parse_result)

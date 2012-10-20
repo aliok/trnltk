@@ -4,6 +4,7 @@ from trnltk.morphology.model import formatter
 from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
 from trnltk.morphology.contextless.parser.suffixapplier import *
 from trnltk.morphology.model.morpheme import MorphemeContainer
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 
 logger = logging.getLogger('parser')
 
@@ -174,3 +175,14 @@ class ContextlessMorphologicalParser(object):
                 new_candidates.append(candidate)
 
         return new_candidates
+
+class UpperCaseSupportingContextlessMorphologicalParser(ContextlessMorphologicalParser):
+    def __init__(self, suffix_graph, predefined_paths, root_finders):
+        super(UpperCaseSupportingContextlessMorphologicalParser, self).__init__(suffix_graph, predefined_paths, root_finders)
+
+    def parse(self, input):
+        parse_results = super(UpperCaseSupportingContextlessMorphologicalParser, self).parse(input)
+        if input[0].isupper():
+            parse_results += super(UpperCaseSupportingContextlessMorphologicalParser, self).parse(TurkishAlphabet.lower(input[0]) + input[1:])
+
+        return parse_results

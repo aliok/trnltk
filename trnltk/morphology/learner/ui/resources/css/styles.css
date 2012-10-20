@@ -5,3 +5,9 @@
     margin: 10px;
     font-size: 130%
 }
+
+.parse-result {
+    word-wrap: break-word;
+    width: 30em;
+    font-size: 130%
+}

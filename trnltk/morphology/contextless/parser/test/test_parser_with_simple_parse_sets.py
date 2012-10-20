@@ -12,7 +12,7 @@ from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGene
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
-from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
+from trnltk.morphology.contextless.parser.parser import  logger as parser_logger, UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
@@ -174,7 +174,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
+        cls.parser = UpperCaseSupportingContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, text_numeral_root_finder, digit_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
@@ -269,7 +269,7 @@ class ParserTestWithSimpleParseSets(ParserTest):
                         unparsable +=1
                         logger.info(u'Unparsable : {} {} {}'.format(index, word, parse_result))
                 else:
-                    self.assert_parse_correct(lower(word), index, parse_result)
+                    self.assert_parse_correct(TurkishAlphabet.lower(word), index, parse_result)
 
                 index += 1
 
@@ -282,9 +282,6 @@ class ParserTestWithSimpleParseSets(ParserTest):
 
     def assert_parse_correct(self, word_to_parse, index, *args):
         parse_result = self.parse_result(word_to_parse)
-        if word_to_parse[0].isupper():
-            lower_word_to_parse = TurkishAlphabet.lower(word_to_parse)
-            parse_result += self.parse_result(lower_word_to_parse)
         assert_that(parse_result, IsParseResultMatches([a for a in args]), u'Error in word : {} at index {}'.format(repr(word_to_parse), index))
 
     def parse_result(self, word):

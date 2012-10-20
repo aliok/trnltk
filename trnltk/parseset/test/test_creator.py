@@ -4,12 +4,11 @@ import os
 import unittest
 from hamcrest.core.assert_that import assert_that
 from hamcrest.core.core.isequal import equal_to
-from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.copulasuffixgraph import CopulaSuffixGraph
 from trnltk.morphology.morphotactics.numeralsuffixgraph import NumeralSuffixGraph
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset.creator import ParseSetCreator
 from trnltk.morphology.contextless.parser.rootfinder import DigitNumeralRootFinder, WordRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
@@ -42,7 +41,7 @@ class ParseSetCreatorTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        self.parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
+        self.parser = UpperCaseSupportingContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder, proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
     def test_should_create_sentence_binding_from_morpheme_containers(self):
@@ -130,8 +129,6 @@ class ParseSetCreatorTest(unittest.TestCase):
 
     def _get_word_morpheme_container_tuple(self, seq, expected_result=None):
         res = self.parser.parse(seq)
-        if seq[0].isupper():
-            res += self.parser.parse(TurkishAlphabet.lower(seq))
 
         if res:
             if expected_result:

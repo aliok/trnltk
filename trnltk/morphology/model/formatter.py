@@ -2,7 +2,7 @@ from trnltk.morphology.model.lexeme import SyntacticCategory, SecondarySyntactic
 from trnltk.morphology.lexicon.rootgenerator import CircumflexConvertingRootGenerator
 from trnltk.morphology.model.morpheme import FreeTransitionSuffix
 
-def format_morpheme_container_for_parseset(result):
+def format_morpheme_container_for_parseset(result, add_space=False):
     """
     @return kitap+Noun+A3sg+Pnon+Dat for word 'kitaba'
     """
@@ -13,7 +13,10 @@ def format_morpheme_container_for_parseset(result):
     if result.has_transitions():
         non_free_transitions = filter(lambda t: not isinstance(t.suffix_form_application.suffix_form.suffix, FreeTransitionSuffix), result.get_transitions())
         if non_free_transitions:
-            returnValue = returnValue + u'+' + u'+'.join([format_transition(t, False) for t in non_free_transitions])
+            if add_space:
+                returnValue = returnValue + u' + ' + u' + '.join([format_transition(t, False) for t in non_free_transitions])
+            else:
+                returnValue = returnValue + u'+' + u'+'.join([format_transition(t, False) for t in non_free_transitions])
 
     return returnValue
 

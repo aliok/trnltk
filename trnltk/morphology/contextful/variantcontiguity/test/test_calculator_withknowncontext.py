@@ -8,9 +8,8 @@ import os
 import unittest
 from xml.dom.minidom import parse
 import pymongo
-from hamcrest import *
-from mock import Mock
-from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
@@ -20,7 +19,6 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.variantcontiguity.calculator import logger as query_logger
@@ -30,52 +28,6 @@ parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
 parse_set_word_list = []
 for sentence in parseset.sentences:
     parse_set_word_list.extend(sentence.words)
-
-class MockContainerBuilder(object):
-    def __init__(self, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
-        self.surface_str = surface_str
-        self.surface_syntactic_category = surface_syntactic_category
-        self.surface_secondary_syntactic_category = surface_secondary_syntactic_category
-        self.stem_str = None
-        self.stem_syntactic_category = None
-        self.stem_secondary_syntactic_category = None
-        self.lemma_root_str = None
-        self.lemma_root_syntactic_category = None
-        self.lemma_root_secondary_syntactic_category = None
-
-    def stem(self, stem_str, stem_syntactic_category=None, stem_secondary_syntactic_category=None):
-        self.stem_str = stem_str
-        self.stem_syntactic_category = stem_syntactic_category
-        self.stem_secondary_syntactic_category = stem_secondary_syntactic_category
-
-        return self
-
-    def lexeme(self, lemma_root_str, lemma_root_syntactic_category=None, lemma_root_secondary_syntactic_category=None):
-        self.lemma_root_str = lemma_root_str
-        self.lemma_root_syntactic_category = lemma_root_syntactic_category
-        self.lemma_root_secondary_syntactic_category = lemma_root_syntactic_category
-
-        return self
-
-    def build(self):
-        mock = Mock()
-
-        mock.get_surface.return_value  = self.surface_str
-        mock.get_surface_syntactic_category.return_value  = self.surface_syntactic_category
-        mock.get_surface_secondary_syntactic_category.return_value = self.surface_secondary_syntactic_category
-
-        mock.get_stem.return_value = self.stem_str if self.stem_str else self.surface_str
-        mock.get_stem_syntactic_category.return_value = self.stem_syntactic_category if self.stem_syntactic_category else self.surface_syntactic_category
-        mock.get_stem_secondary_syntactic_category.return_value = self.stem_secondary_syntactic_category if self.stem_syntactic_category else self.surface_secondary_syntactic_category
-
-        mock.get_lemma_root.return_value = self.lemma_root_str if self.lemma_root_str else self.surface_str
-        mock.get_lemma_root_syntactic_category.return_value = self.lemma_root_syntactic_category if self.lemma_root_syntactic_category else self.surface_syntactic_category
-        mock.get_lemma_root_secondary_syntactic_category.return_value = self.lemma_root_secondary_syntactic_category if self.lemma_root_syntactic_category else self.surface_secondary_syntactic_category
-
-        return mock
-
-def _container_builder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
-    return MockContainerBuilder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category)
 
 class LikelihoodCalculatorTest(unittest.TestCase):
     @classmethod
@@ -102,7 +54,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
+        cls.contextless_parser = UpperCaseSupportingContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
@@ -126,8 +78,6 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 
         likelihoods = []
         results = self.contextless_parser.parse(surface)
-        if surface[0].isupper():
-            results += self.contextless_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
 
         for result in results:
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
@@ -148,7 +98,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 #        query_logger.setLevel(logging.DEBUG)
 #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"bir", "Det").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -157,7 +107,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"bir", "Adj").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"bir", "Adj").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -166,7 +116,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u".", "Punc").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
         surface = u'Saçları'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -175,7 +125,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u".", "Punc").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
         surface = u'Kerem'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -184,7 +134,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"Kerem", "Noun", "Prop").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"Kerem", "Noun", "Prop").build()]]
         surface = u'ter'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -193,7 +143,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[_container_builder(u"bir", "Det").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -202,7 +152,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[_container_builder(u"bir", "Adj").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Adj").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -211,7 +161,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=None, following_context=context)
@@ -220,7 +170,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        context = [[_container_builder(u"girdi", "Noun").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Noun").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=None, following_context=context)
@@ -229,9 +179,9 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        leading_context = [[_container_builder(u"bir", "Det").build()]]
+        leading_context = [[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
         surface = u'erkek'
-        following_context = [[_container_builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
+        following_context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
 
         self._test_generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 
@@ -239,9 +189,9 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        context_stats_logger.setLevel(logging.DEBUG)
 
-        leading_context = [[_container_builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[_container_builder(u"bir", "Det").build()]]
+        leading_context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
         surface = u'erkek'
-        following_context = [[_container_builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()], [_container_builder(u".", "Punc").build()]]
+        following_context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()], [MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
 
         self._test_generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 

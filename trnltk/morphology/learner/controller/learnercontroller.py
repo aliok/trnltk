@@ -1,0 +1,129 @@
+from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+
+class LearnerController(object):
+    WORD_COUNT_TO_SHOW_IN_CONTEXT = 6
+    WORD_COUNT_TO_USE_AS_PARSE_CONTEXT = 2
+
+    def __init__(self, learnerview, dbmanager, sessionmanager, morphological_parser, likelihood_calculator, parse_context_creator):
+        """
+        @type learnerview: LearnerView
+        @type dbmanager : DbManager
+        @type sessionmanager : SessionManager
+        @type morphological_parser : ContextlessMorphologicalParser
+        @type likelihood_calculator : ContextParsingLikelihoodCalculator
+        @type parse_context_creator : ParseContextCreator
+        """
+        self.learnerview = learnerview
+        self.dbmanager = dbmanager
+        self.sessionmanager = sessionmanager
+        self.morphological_parser = morphological_parser
+        self.likelihoodCalculator = likelihood_calculator
+        self.parse_context_creator = parse_context_creator
+
+
+
+    def go_to_word(self, corpus_id, word_index):
+        assert LearnerController.WORD_COUNT_TO_SHOW_IN_CONTEXT >= LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT
+
+        assert corpus_id and word_index is not None
+
+        # set corpus id in the view
+        self.learnerview.set_corpus_id(corpus_id)
+
+        # find and set new word in view
+        word = self.dbmanager.get_word(corpus_id, word_index)
+        assert word
+        self.learnerview.set_current_word(word)
+
+        # find and set contexts (to be shown) in view
+        leading_start_index_to_show = word_index - LearnerController.WORD_COUNT_TO_SHOW_IN_CONTEXT
+        leading_end_index_to_show = word_index - 1
+
+        following_start_index_to_show = word_index + 1
+        following_end_index_to_show = word_index + LearnerController.WORD_COUNT_TO_SHOW_IN_CONTEXT
+
+        leading_words = self.dbmanager.get_words_in_range(corpus_id, leading_start_index_to_show, leading_end_index_to_show)
+        following_words = self.dbmanager.get_words_in_range(corpus_id, following_start_index_to_show, following_end_index_to_show)
+
+        self.learnerview.set_leading_words(leading_words)
+        self.learnerview.set_following_words(following_words)
+
+
+        # set counts and indices of the new word within counts in view
+        all_nonparsed_count = self.dbmanager.count_all_nonparsed(corpus_id)
+        prior_nonparsed_count = self.dbmanager.count_nonparsed_prior_to_index(corpus_id, word_index)
+
+        all_count = self.dbmanager.count_all(corpus_id)
+
+        if not word['parsed']:
+            self.learnerview.set_all_nonparsed_count(all_nonparsed_count)
+            self.learnerview.set_prior_nonparsed_count(prior_nonparsed_count)
+
+        self.learnerview.set_all_count(all_count)
+
+
+        # find previous and next nonparsed words and set the stuff on the ui
+        previous_nonparsed_word = self.dbmanager.find_previous_nonparsed_word(corpus_id, word_index)
+        next_nonparsed_word = self.dbmanager.find_next_nonparsed_word(corpus_id, word_index)
+
+        if previous_nonparsed_word:
+            self.learnerview.set_previous_nonparsed_word(previous_nonparsed_word)
+        if next_nonparsed_word:
+            self.learnerview.set_next_nonparsed_word(next_nonparsed_word)
+
+
+        # find parse context words
+        leading_parse_context_words = leading_words[-LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT:] if len(leading_words) >=LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT else leading_words[:]
+        following_parse_context_words = following_words[:LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT] if len(following_words) >= LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT else following_words[:]
+
+        leading_parse_context = self.parse_context_creator.create(leading_parse_context_words)
+        following_parse_context = self.parse_context_creator.create(following_parse_context_words)
+
+        # parse and set parse results in view
+        parse_results_with_likelihoods = []
+
+        parse_results = self.morphological_parser.parse(word['surface'])
+        for parse_result in parse_results:
+            likelihood = self.likelihoodCalculator.calculate_likelihood(parse_result, leading_parse_context, following_parse_context)
+            parse_results_with_likelihoods.append((parse_result, likelihood))
+
+        total_likelihood = sum([t[1] for t in parse_results_with_likelihoods])
+
+        # sort by likelihood then "shortness"
+        parse_results_with_likelihoods = sorted(parse_results_with_likelihoods, key=lambda tup : (tup[1], -len(tup[0].get_transitions())), reverse=True)
+
+        for parse_result, likelihood_value in parse_results_with_likelihoods:
+            uuid_for_parse_result = self.sessionmanager.put_parse_result_in_session(parse_result)
+            likelihood_percent = likelihood_value / total_likelihood * 100.0 if total_likelihood > 0.0 else 0.0
+            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, "#TBD") # TODO
+
+
+class ParseContextCreator(object):
+    def __init__(self, morphological_parser):
+        self.morphological_parser = morphological_parser
+
+    def create(self, parse_context_words):
+        return [self._build_parse_context_item_from_word(parse_context_word) for parse_context_word in parse_context_words]
+
+    def _build_parse_context_item_from_word(self, parse_context_word):
+        if parse_context_word['parsed']:
+            return [
+                MockMorphemeContainerBuilder(
+                    parse_context_word['surface'],
+                    parse_context_word['surface_syntactic_category'],
+                    parse_context_word['surface_secondary_syntactic_category']
+                )\
+                .stem(
+                    parse_context_word['stem'],
+                    parse_context_word['stem_syntactic_category'],
+                    parse_context_word['stem_secondary_syntactic_category'],
+                ).lexeme(
+                    parse_context_word['lemma_root'],
+                    parse_context_word['lemma_root_syntactic_category'],
+                    parse_context_word['lemma_root_secondary_syntactic_category']
+                )\
+                .build()
+            ]
+
+        else:
+            return self.morphological_parser.parse(parse_context_word['surface'])

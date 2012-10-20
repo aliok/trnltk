@@ -10,9 +10,8 @@ import unittest
 from xml.dom.minidom import parse
 import pymongo
 import datetime
-from hamcrest import *
-from mock import Mock
-from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
+from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
@@ -22,57 +21,10 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.ngrams.ngramgenerator import WordNGramGenerator
 from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding
 from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.variantcontiguity.calculator import logger as query_logger
-
-class MockContainerBuilder(object):
-    def __init__(self, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
-        self.surface_str = surface_str
-        self.surface_syntactic_category = surface_syntactic_category
-        self.surface_secondary_syntactic_category = surface_secondary_syntactic_category
-        self.stem_str = None
-        self.stem_syntactic_category = None
-        self.stem_secondary_syntactic_category = None
-        self.lemma_root_str = None
-        self.lemma_root_syntactic_category = None
-        self.lemma_root_secondary_syntactic_category = None
-
-    def stem(self, stem_str, stem_syntactic_category=None, stem_secondary_syntactic_category=None):
-        self.stem_str = stem_str
-        self.stem_syntactic_category = stem_syntactic_category
-        self.stem_secondary_syntactic_category = stem_secondary_syntactic_category
-
-        return self
-
-    def lexeme(self, lemma_root_str, lemma_root_syntactic_category=None, lemma_root_secondary_syntactic_category=None):
-        self.lemma_root_str = lemma_root_str
-        self.lemma_root_syntactic_category = lemma_root_syntactic_category
-        self.lemma_root_secondary_syntactic_category = lemma_root_syntactic_category
-
-        return self
-
-    def build(self):
-        mock = Mock()
-
-        mock.get_surface.return_value  = self.surface_str
-        mock.get_surface_syntactic_category.return_value  = self.surface_syntactic_category
-        mock.get_surface_secondary_syntactic_category.return_value = self.surface_secondary_syntactic_category
-
-        mock.get_stem.return_value = self.stem_str if self.stem_str else self.surface_str
-        mock.get_stem_syntactic_category.return_value = self.stem_syntactic_category if self.stem_syntactic_category else self.surface_syntactic_category
-        mock.get_stem_secondary_syntactic_category.return_value = self.stem_secondary_syntactic_category if self.stem_syntactic_category else self.surface_secondary_syntactic_category
-
-        mock.get_lemma_root.return_value = self.lemma_root_str if self.lemma_root_str else self.surface_str
-        mock.get_lemma_root_syntactic_category.return_value = self.lemma_root_syntactic_category if self.lemma_root_syntactic_category else self.surface_syntactic_category
-        mock.get_lemma_root_secondary_syntactic_category.return_value = self.lemma_root_secondary_syntactic_category if self.lemma_root_syntactic_category else self.surface_secondary_syntactic_category
-
-        return mock
-
-def _container_builder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
-    return MockContainerBuilder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category)
 
 class _BaseLikelihoodCalculatorTest(unittest.TestCase):
     @classmethod
@@ -99,7 +51,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         proper_noun_from_apostrophe_root_finder = ProperNounFromApostropheRootFinder()
         proper_noun_without_apostrophe_root_finder = ProperNounWithoutApostropheRootFinder()
 
-        cls.contextless_parser = ContextlessMorphologicalParser(suffix_graph, predefined_paths,
+        cls.contextless_parser = UpperCaseSupportingContextlessMorphologicalParser(suffix_graph, predefined_paths,
             [word_root_finder, digit_numeral_root_finder, text_numeral_root_finder,
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
@@ -177,8 +129,6 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
 
         likelihoods = []
         results = self.contextless_parser.parse(surface)
-        if surface[0].isupper():
-            results += self.contextless_parser.parse(TurkishAlphabet.lower(surface[0]) + surface[1:])
 
         if not results:
             return None
@@ -216,7 +166,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         if word.root.secondary_syntactic_category:
             lemma_root_syntactic_category += u'_' + word.root.secondary_syntactic_category
 
-        return _container_builder(surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
+        return MockMorphemeContainerBuilder.builder(surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
 
     @classmethod
     def create_calculator(cls, parseset_index):
