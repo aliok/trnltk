@@ -3,7 +3,7 @@ from trnltk.morphology.learner.controller.learnercontroller import LearnerContro
 from trnltk.morphology.learner.controller.sessionmanager import SessionManager
 from trnltk.morphology.learner.requesthandler.sessionawarerequesthandler import SessionAwareRequestHandler
 from trnltk.morphology.learner.ui.applicationcontext import application_context_instance
-from trnltk.morphology.learner.ui.learnerview import LearnerView
+from trnltk.morphology.learner.view.learnerview import LearnerView
 
 class LearnerHandler(SessionAwareRequestHandler):
     def get(self):
