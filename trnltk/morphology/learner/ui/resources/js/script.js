@@ -29,8 +29,22 @@ function initializeLearnerPage() {
 
     $('.context-word').each(function () {
         var self = $(this);
-        var content = '<p>' + self.data('parse-result') + '</p>';
-        content += '<a class="btn btn-primary" href="learner?wordId=' + self.data('word-id') + '">Go</button>';
+        var content = '';
+
+        var parseResult = self.data('parse-result');
+        if(parseResult){
+            content += '<div class="alert alert-block alert-success" style="text-align: center;">';
+            content += '<h3>' + parseResult + '</h3>';
+        }
+        else{
+            content += '<div class="alert alert-block alert-error" style="text-align: center;">';
+            content += '<h3>Not parsed yet</h3>';
+        }
+
+        content += '<a class="btn btn-large btn-primary" href="learner?wordId=' + self.data('word-id') + '"><i class="icon-arrow-right icon-white"></i> Go</button>';
+
+        content += '</div>'
+
         self.popover({content:content, trigger:'click', placement:'bottom'});
     });
 

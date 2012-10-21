@@ -15,6 +15,7 @@ class LearnerView(object):
         self._context['current_word_id'] = word['_id']
         self._context['current_surface'] = word['surface']
         self._context['current_index'] = word['index']
+        self._context['current_word_parsed'] = word['parsed']
 
     def set_previous_nonparsed_word(self, previous_nonparsed_word):
         self._context['previous_nonparsed_word_id'] = previous_nonparsed_word['_id']
@@ -37,7 +38,7 @@ class LearnerView(object):
     def set_all_count(self, all_count):
         self._context['all_count'] = all_count
 
-    def add_parse_result(self, uuid_for_parse_result, parse_result, likelihood_value, likelihood_percentage, likelihood_value_level):
+    def add_parse_result(self, uuid_for_parse_result, parse_result, likelihood_value, likelihood_percentage, likelihood_value_level, is_correct_parse_result):
         parse_result_containers = self._context.get('parse_results') or []
 
         parse_result_container = {
@@ -46,7 +47,8 @@ class LearnerView(object):
             'likelihood_value' : likelihood_value,
             'likelihood_percentage' : likelihood_percentage,
             'likelihood_value_color' : self._get_likelihood_value_color(likelihood_value_level),
-            'likelihood_percentage_color' : self._get_likelihood_percentage_color(likelihood_percentage)
+            'likelihood_percentage_color' : self._get_likelihood_percentage_color(likelihood_percentage),
+            'correct_parse_result' : is_correct_parse_result
         }
 
         parse_result_containers.append(parse_result_container)

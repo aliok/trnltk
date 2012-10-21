@@ -1,4 +1,5 @@
 from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.model import formatter
 
 class LearnerController(object):
     WORD_COUNT_TO_SHOW_IN_CONTEXT = 6
@@ -101,7 +102,8 @@ class LearnerController(object):
         for parse_result, likelihood_value in parse_results_with_likelihoods:
             uuid_for_parse_result = self.sessionmanager.put_parse_result_in_session(parse_result)
             likelihood_percent = likelihood_value / total_likelihood * 100.0 if total_likelihood > 0.0 else 0.0
-            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, "#TBD") # TODO
+            is_correct_parse_result = word['parsed'] and formatter.format_morpheme_container_for_parseset(parse_result)==word['parse_result']
+            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, "#TBD", is_correct_parse_result) # TODO
 
 
 class ParseContextCreator(object):

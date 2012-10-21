@@ -4,21 +4,30 @@
         <h3>
             {% for context_word in leading_words %}
                 {% set clazz = {True:'text-success', False : 'text-error'}[context_word.parsed] %}
+                {% set parse_result = {True:context_word.parse_result, False : ''}[context_word.parsed] %}
                 <span class="context-word {{ clazz }}" data-word-id="{{ context_word.id }}"
-                      data-parse-result="{{ context_word.parse_result }}">
+                      data-parse-result="{{ parse_result }}">
                     {{ context_word.surface }}
                 </span>
             {% endfor %}
             <strong class="current-word">{{ current_surface }}</strong>
             {% for context_word in following_words %}
                 {% set clazz = {True:'text-success', False : 'text-error'}[context_word.parsed] %}
+                {% set parse_result = {True:context_word.parse_result, False : ''}[context_word.parsed] %}
                 <span class="context-word {{ clazz }}" data-word-id="{{ context_word.id }}"
-                      data-parse-result="{{ context_word.parse_result }}">
+                      data-parse-result="{{ parse_result }}">
                     {{ context_word.surface }}
                 </span>
             {% endfor %}
         </h3>
     </div>
+
+    {% if current_word_parsed %}
+        <div class="alert alert-success" style="text-align: center;">
+            <i class="icon-info-sign"></i>
+            <strong>The word is already parsed!</strong>
+        </div>
+    {% endif %}
 
     {% if not parse_results %}
     <div class="alert alert-block" style="text-align: center;">
@@ -36,27 +45,39 @@
         </tr>
         </thead>
         {% for parse_result_container in parse_results %}
-        <tr>
-            <td style="width:100px;">
-                <div class="progress progress-{{ parse_result_container.likelihood_percentage_color }} progress-striped">
-                    <div class="bar" style="width: {{ parse_result_container.likelihood_percentage }}%;"></div>
-                </div>
-            </td>
-            <td>{{ parse_result_container.likelihood_percentage }}%</td>
-            <td><a href="#" class="btn btn-{{ parse_result_container.likelihood_value_color }} ajaxFocusPopover"
-                   rel="popover">{{ parse_result_container.likelihood_value }}</a></td>
-            <td>
-                <div class="parse-result">
-                    {{ parse_result_container.formatted_parse_result }}</td>
-                </div>
-            <td>
-                <a href="markParseResultAsCorrect?wordId={{ current_word_id }}&parseResultUUID={{ parse_result_container.uuid }}&nextWordId={{ next_nonparsed_word_id }}"
-                   class="btn btn-large btn-primary" style="min-width: 5em;" >
-                    <i class="icon-ok icon-white"></i>
-                    Select
-                </a>
-            </td>
-        </tr>
+            {% if parse_result_container.correct_parse_result %}
+            <tr class="success">
+            {% else %}
+            <tr>
+            {% endif %}
+                <td style="width:100px;">
+                    <div class="progress progress-{{ parse_result_container.likelihood_percentage_color }} progress-striped">
+                        <div class="bar" style="width: {{ parse_result_container.likelihood_percentage }}%;"></div>
+                    </div>
+                </td>
+                <td>{{ parse_result_container.likelihood_percentage }}%</td>
+                <td><a href="#" class="btn btn-{{ parse_result_container.likelihood_value_color }} ajaxFocusPopover"
+                       rel="popover">{{ parse_result_container.likelihood_value }}</a></td>
+                <td>
+                    <div class="parse-result">
+                        {{ parse_result_container.formatted_parse_result }}</td>
+                    </div>
+                <td>
+                    {% if parse_result_container.correct_parse_result %}
+                    <a href="markParseResultAsCorrect?wordId={{ current_word_id }}&parseResultUUID={{ parse_result_container.uuid }}&nextWordId={{ next_nonparsed_word_id }}"
+                       class="btn btn-large btn-success" style="min-width: 5em;" >
+                        <i class="icon-ok icon-white"></i>
+                        Select
+                    </a>
+                    {% else %}
+                    <a href="markParseResultAsCorrect?wordId={{ current_word_id }}&parseResultUUID={{ parse_result_container.uuid }}&nextWordId={{ next_nonparsed_word_id }}"
+                       class="btn btn-large btn-primary" style="min-width: 5em;" >
+                        <i class="icon-arrow-right icon-white"></i>
+                        Select
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
         {% endfor %}
     </table>
     {% endif %}

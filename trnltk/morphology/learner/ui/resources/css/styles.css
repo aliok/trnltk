@@ -11,3 +11,8 @@
     width: 30em;
     font-size: 130%
 }
+
+.popover {
+    width: inherit;
+    min-width: 236px;
+}

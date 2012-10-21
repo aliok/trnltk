@@ -143,7 +143,7 @@ class DbManager(object):     # TODO: what about indexes?
         word['parsed'] = 1
         word['parse_result'] = str_parse_result
 
-        word['surface'] = parse_result.get_surface()
+        #word['surface'] = parse_result.get_surface()       DON'T CHANGE THE SURFACE!
         word['surface_syntactic_category'] = parse_result.get_surface_syntactic_category()
         word['surface_secondary_syntactic_category'] = parse_result.get_surface_secondary_syntactic_category()
 
