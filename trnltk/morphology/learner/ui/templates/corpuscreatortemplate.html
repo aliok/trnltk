@@ -21,25 +21,26 @@
     <div class="page-header">
         <h1>TRNLTK Supervised Morphological Parsing <small>Turkish Natural Language Toolkit</small></h1>
     </div>
-    <div class="alert alert-block" style="text-align: center;">
-        {% if error_occurred %}
-            <legend><h1>An error occurred:</h1></legend>
-            <h3>{{ error_msg }}</h3>
-            <br/>
-            <button class="btn btn-large btn-danger" onclick="history.go(-1);">
-                <i class="icon-arrow-left icon-white"></i>
-                Go Back
-            </button>
-        {% else %}
-            <div class="alert alert-success">
-                <h3>Successfully created the corpus!</h3>
-            </div>
-            <a class="btn btn-large btn-success" href="index">
-                <i class="icon-arrow-left icon-white"></i>
-                Go Home
-            </a>
-        {% endif %}
+    {% if error_occurred %}
+    <div class="alert alert-block alert-error" style="text-align: center;">
+        <legend><h1>An error occurred:</h1></legend>
+        <h3>{{ error_msg }}</h3>
+        <br/>
+        <button class="btn btn-large btn-danger" onclick="history.go(-1);">
+            <i class="icon-arrow-left icon-white"></i>
+            Go Back
+        </button>
     </div>
+    {% else %}
+    <div class="alert alert-block alert-success" style="text-align: center;">
+        <h3>Successfully created the corpus!</h3>
+        <a class="btn btn-large btn-success" href="index">
+            <i class="icon-arrow-left icon-white"></i>
+            Go Home
+        </a>
+    </div>
+    {% endif %}
+
 </div>
 <script src="/resources/thirdparty/js/jquery.min.js"></script>
 <script src="/resources/thirdparty/js/bootstrap.min.js"></script>
