@@ -87,11 +87,14 @@ class DbManager(object):     # TODO: what about indexes?
 
 
     def get_word(self, corpus_id, word_index):
+        """
+        @type corpus_id: ObjectId
+        @type word_index: int
+        """
         assert corpus_id and word_index is not None
 
         query = {
             'corpus_id': corpus_id,
-            'parsed': 0,
             'index': word_index
         }
 
@@ -136,3 +139,26 @@ class DbManager(object):     # TODO: what about indexes?
         }
 
         return self.word_collection.insert(word)
+
+    def set_parse_result_for_word(self, word, str_parse_result, parse_result):
+        """
+        @type word: mongo db document
+        @type str_parse_result: str or unicode
+        @type parse_result: MorphemeContainer
+        """
+        word['parsed'] = 1
+        word['parse_result'] = str_parse_result
+
+        word['surface'] = parse_result.get_surface()
+        word['surface_syntactic_category'] = parse_result.get_surface_syntactic_category()
+        word['surface_secondary_syntactic_category'] = parse_result.get_surface_secondary_syntactic_category()
+
+        word['stem'] = parse_result.get_stem()
+        word['stem_syntactic_category'] = parse_result.get_stem_syntactic_category()
+        word['stem_secondary_syntactic_category'] = parse_result.get_stem_secondary_syntactic_category()
+
+        word['lemma_root'] = parse_result.get_lemma_root()
+        word['lemma_root_syntactic_category'] = parse_result.get_lemma_root_syntactic_category()
+        word['lemma_root_secondary_syntactic_category'] = parse_result.get_lemma_root_secondary_syntactic_category()
+
+        self.word_collection.save(word)

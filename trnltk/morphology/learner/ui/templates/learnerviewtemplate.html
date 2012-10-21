@@ -72,7 +72,9 @@
             </li>
         {% endif %}
         <li>
+            {% if prior_nonparsed_count is defined %}
             <strong class="text-success">{{ prior_nonparsed_count + 1 }} of {{ all_nonparsed_count }} non-parsed</strong>
+            {% endif %}
             <strong class="text-success">({{ current_index + 1 }} of {{ all_count }})</strong>
         </li>
         {% if next_nonparsed_word_index is not defined %}
