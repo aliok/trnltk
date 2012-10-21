@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRNLTK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/resources/thirdparty/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    {% block navbar %}
+    <div class="navbar">
+        <div class="navbar-inner">
+            <span class="brand">TRNLTK</span>
+            <ul class="nav">
+                <li id="navbar-item-index"><a href="index"><i class="icon-home"></i> Home</a></li>
+                <li id="navbar-item-help" ><a href="help"><i class="icon-question-sign"></i> Help</a></li>
+                <li id="navbar-item-about"><a href="about"><i class="icon-info-sign"></i> About</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endblock %}
+    <div class="page-header">
+        <h1>TRNLTK Supervised Morphological Parsing <small>Turkish Natural Language Toolkit</small></h1>
+    </div>
+
+    {% block content %}{% endblock %}
+
+</div>
+<script src="/resources/thirdparty/js/jquery.min.js"></script>
+<script src="/resources/thirdparty/js/bootstrap.min.js"></script>
+
+{% block script %}{% endblock %}
+
+</body>
+</html>

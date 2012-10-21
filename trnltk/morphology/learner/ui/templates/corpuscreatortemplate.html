@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TRNLTK</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="/resources/thirdparty/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/css/styles.css" rel="stylesheet">
-</head>
-<body>
-<div class="container">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <ul class="nav">
-                <li><a href="index">Home</a></li>
-                <li><a href="help">Help</a></li>
-                <li><a href="about">About</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="page-header">
-        <h1>TRNLTK Supervised Morphological Parsing <small>Turkish Natural Language Toolkit</small></h1>
-    </div>
+{% extends "basetemplate.html" %}
+{% block content %}
     {% if error_occurred %}
     <div class="alert alert-block alert-error" style="text-align: center;">
         <legend><h1>An error occurred:</h1></legend>
@@ -42,9 +21,4 @@
     {% endif %}
 
 </div>
-<script src="/resources/thirdparty/js/jquery.min.js"></script>
-<script src="/resources/thirdparty/js/bootstrap.min.js"></script>
-
-
-</body>
-</html>
+{% endblock %}
