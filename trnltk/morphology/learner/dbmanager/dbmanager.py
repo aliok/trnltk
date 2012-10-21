@@ -19,7 +19,7 @@ class DbManager(object):     # TODO: what about indexes?
         cursor = self.word_collection.find(query).sort('index', pymongo.ASCENDING).limit(1)
 
         count = cursor.count(with_limit_and_skip=True)
-        assert count <=1
+        assert count <= 1
 
         if count:
             return cursor[0]
@@ -38,7 +38,7 @@ class DbManager(object):     # TODO: what about indexes?
         cursor = self.word_collection.find(query).sort('index', pymongo.DESCENDING).limit(1)
 
         count = cursor.count(with_limit_and_skip=True)
-        assert count <=1
+        assert count <= 1
 
         if count:
             return cursor[0]
@@ -102,3 +102,37 @@ class DbManager(object):     # TODO: what about indexes?
         @rtype: Cursor
         """
         return self.corpus_collection.find()
+
+    def is_corpus_with_name_exist(self, corpus_name):
+        return self.corpus_collection.find({'name': corpus_name}).count() > 0
+
+    def create_corpus(self, corpus_name, corpus_desc):
+        """
+        @type corpus_name: str
+        @type corpus_desc: str
+        @rtype: ObjectId
+        """
+        corpus = {
+            'name': corpus_name,
+            'description': corpus_desc
+        }
+
+        self.corpus_collection.insert(corpus)
+
+        return corpus['_id']
+
+    def create_word(self, token, corpus_id, index):
+        """
+        @type token: str or unicode
+        @type corpus_id: ObjectId
+        @type index: int
+        @type: dict
+        """
+        word = {
+            "corpus_id": corpus_id,
+            "index": index,
+            "surface": token,
+            "parsed": 0
+        }
+
+        return self.word_collection.insert(word)
