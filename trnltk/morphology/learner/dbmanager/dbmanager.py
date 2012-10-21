@@ -86,19 +86,13 @@ class DbManager(object):     # TODO: what about indexes?
         return self.word_collection.find(query).count()
 
 
-    def get_word(self, corpus_id, word_index):
+    def get_word(self, word_id):
         """
-        @type corpus_id: ObjectId
-        @type word_index: int
+        @type word_id: ObjectId
         """
-        assert corpus_id and word_index is not None
+        assert word_id
 
-        query = {
-            'corpus_id': corpus_id,
-            'index': word_index
-        }
-
-        return self.word_collection.find_one(query)
+        return self.word_collection.find_one(word_id)
 
     def get_all_corpora(self):
         """
@@ -162,3 +156,10 @@ class DbManager(object):     # TODO: what about indexes?
         word['lemma_root_secondary_syntactic_category'] = parse_result.get_lemma_root_secondary_syntactic_category()
 
         self.word_collection.save(word)
+
+    def find_id_of_first_word_in_corpus(self, corpus_id):
+        val = self.word_collection.find_one({'corpus_id': corpus_id, 'index': 0}, {'_id': True})
+        if val and val['_id']:
+            return val['_id']
+        else:
+            raise Exception('Corpus {} doesnt have a word with index 0.'.format(corpus_id))

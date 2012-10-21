@@ -11,7 +11,10 @@ class IndexController(object):
         corpora_cursor = self.dbmanager.get_all_corpora()
         for corpus in corpora_cursor:
             corpus_id = corpus['_id']
+
+            id_of_first_word = self.dbmanager.find_id_of_first_word_in_corpus(corpus_id)
             number_of_words = self.dbmanager.count_all(corpus_id)
             number_of_nonparsed_words = self.dbmanager.count_all_nonparsed(corpus_id)
+
             parse_percent = 100.0 - (float(number_of_nonparsed_words) / float(number_of_words) * 100.0)
-            self.index_view.add_corpus(corpus, number_of_words, parse_percent)
+            self.index_view.add_corpus(corpus, id_of_first_word, number_of_words, parse_percent)

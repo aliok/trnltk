@@ -22,18 +22,24 @@ class LearnerController(object):
 
 
 
-    def go_to_word(self, corpus_id, word_index):
+    def go_to_word(self, word_id):
+        """
+        @type word_id: ObjectId
+        """
         assert LearnerController.WORD_COUNT_TO_SHOW_IN_CONTEXT >= LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT
 
-        assert corpus_id and word_index is not None
+        assert word_id
+
+        # find and set new word in view
+        word = self.dbmanager.get_word(word_id)
+        assert word
+        self.learnerview.set_current_word(word)
+
+        word_index = word['index']
+        corpus_id = word['corpus_id']
 
         # set corpus id in the view
         self.learnerview.set_corpus_id(corpus_id)
-
-        # find and set new word in view
-        word = self.dbmanager.get_word(corpus_id, word_index)
-        assert word
-        self.learnerview.set_current_word(word)
 
         # find and set contexts (to be shown) in view
         leading_start_index_to_show = word_index - LearnerController.WORD_COUNT_TO_SHOW_IN_CONTEXT

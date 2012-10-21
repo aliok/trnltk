@@ -12,14 +12,15 @@ class LearnerView(object):
         self._context['corpus_id'] = str_corpus_id
 
     def set_current_word(self, word):
+        self._context['current_word_id'] = word['_id']
         self._context['current_surface'] = word['surface']
         self._context['current_index'] = word['index']
 
     def set_previous_nonparsed_word(self, previous_nonparsed_word):
-        self._context['previous_nonparsed_word_index'] = previous_nonparsed_word['index']
+        self._context['previous_nonparsed_word_id'] = previous_nonparsed_word['_id']
 
     def set_next_nonparsed_word(self, next_nonparsed_word):
-        self._context['next_nonparsed_word_index'] = next_nonparsed_word['index']
+        self._context['next_nonparsed_word_id'] = next_nonparsed_word['_id']
 
     def set_leading_words(self, leading_words):
         self._context['leading_words'] = [self._create_context_word_dict(word) for word in leading_words]

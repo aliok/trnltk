@@ -7,17 +7,14 @@ from trnltk.morphology.learner.view.learnerview import LearnerView
 
 class LearnerHandler(SessionAwareRequestHandler):
     def get(self):
-        param_corpus_id = self.request.get('corpusId')
-        param_word_index = self.request.get('wordIndex')
+        param_word_id = self.request.get('wordId')
 
-        if not param_corpus_id:
+        if not param_word_id:
             self.redirect('/index')
 
-        param_word_index = int(param_word_index) if param_word_index else 0
+        self.go_to_word(ObjectId(param_word_id))
 
-        self.go_to_word(param_corpus_id, param_word_index)
-
-    def go_to_word(self, str_corpus_id, current_word_index):
+    def go_to_word(self, word_id):
         learnerview = LearnerView()
         dbmanager = application_context_instance.dbmanager
         sessionmanager = SessionManager(self.session)
@@ -27,9 +24,7 @@ class LearnerHandler(SessionAwareRequestHandler):
 
         controller = LearnerController(learnerview, dbmanager, sessionmanager, contextless_morphological_parser, likelihood_calculator, parse_context_creator)
 
-        corpus_id = ObjectId(str_corpus_id)
-
-        controller.go_to_word(corpus_id, current_word_index)
+        controller.go_to_word(word_id)
 
         view_context = learnerview.get_template_context()
 

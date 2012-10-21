@@ -50,7 +50,7 @@
                     {{ parse_result_container.formatted_parse_result }}</td>
                 </div>
             <td>
-                <a href="markParseResultAsCorrect?corpusId={{ corpus_id }}&wordIndex={{ current_index }}&parseResultUUID={{ parse_result_container.uuid }}&nextWordIndex={{ next_nonparsed_word_index }}"
+                <a href="markParseResultAsCorrect?wordId={{ current_word_id }}&parseResultUUID={{ parse_result_container.uuid }}&nextWordId={{ next_nonparsed_word_id }}"
                    class="btn btn-large btn-primary" style="min-width: 5em;" >
                     <i class="icon-ok icon-white"></i>
                     Select
@@ -62,13 +62,13 @@
     {% endif %}
 
     <ul class="pager">
-        {% if previous_nonparsed_word_index is not defined %}
+        {% if previous_nonparsed_word_id is not defined %}
             <li class="previous disabled">
                 <a href="#">&larr; Previous non-parsed word</a>
             </li>
         {% else %}
             <li class="previous">
-                <a href="learner?corpusId={{ corpus_id }}&wordIndex={{ previous_nonparsed_word_index }}">&larr; Previous non-parsed word</a>
+                <a href="learner?wordId={{ previous_nonparsed_word_id }}">&larr; Previous non-parsed word</a>
             </li>
         {% endif %}
         <li>
@@ -77,13 +77,13 @@
             {% endif %}
             <strong class="text-success">({{ current_index + 1 }} of {{ all_count }})</strong>
         </li>
-        {% if next_nonparsed_word_index is not defined %}
+        {% if next_nonparsed_word_id is not defined %}
             <li class="next disabled">
                 <a href="#">Next non-parsed word&rarr;</a>
             </li>
         {% else %}
             <li class="next">
-                <a href="learner?corpusId={{ corpus_id }}&wordIndex={{ next_nonparsed_word_index }}">Next non-parsed word&rarr;</a>
+                <a href="learner?wordId={{ next_nonparsed_word_id }}">Next non-parsed word&rarr;</a>
             </li>
         {% endif %}
     </ul>

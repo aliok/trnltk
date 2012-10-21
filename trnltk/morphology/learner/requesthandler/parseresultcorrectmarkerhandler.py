@@ -6,11 +6,10 @@ from trnltk.morphology.learner.ui import applicationcontext
 class ParseResultCorrectMarkerHandler(SessionAwareRequestHandler):
     def get(self):
 
-        # check corpus and word index
-        param_corpus_id = self.request.get('corpusId')
-        param_word_index = self.request.get('wordIndex')
+        # check word id
+        param_word_id = self.request.get('wordId')
 
-        assert param_corpus_id and param_word_index is not None
+        assert param_word_id
 
 
         # get parse result
@@ -20,20 +19,20 @@ class ParseResultCorrectMarkerHandler(SessionAwareRequestHandler):
 
         parse_result = self.session[parseResultUUID]
 
-        corpus_id = ObjectId(param_corpus_id)
-        word_index = int(param_word_index)
+        word_id = ObjectId(param_word_id)
 
         # run controller, which will save the result in the db
         dbmanager = applicationcontext.application_context_instance.dbmanager
         controller = ParseResultCorrectMarkerController(dbmanager)
-        controller.save_parse_result_for_word(corpus_id, word_index, parse_result)
+        controller.save_parse_result_for_word(word_id, parse_result)
 
 
         # get word index to go from request
-        param_next_word_index = self.request.get('nextWordIndex') or 0
+        param_next_word_id = self.request.get('nextWordId') or param_word_id
+        next_word_id = ObjectId(param_next_word_id)
 
 
         # redirect to "/nextNonParsedWord?corpusId=xx&wordIndex=yy"
-        return self.redirect("/learner?corpusId={}&wordIndex={}".format(param_corpus_id, param_next_word_index))
+        return self.redirect("/learner?wordId={}".format(next_word_id))
 
 

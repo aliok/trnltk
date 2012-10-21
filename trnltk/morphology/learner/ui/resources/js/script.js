@@ -30,7 +30,7 @@ function initializeLearnerPage() {
     $('.context-word').each(function () {
         var self = $(this);
         var content = '<p>' + self.data('parse-result') + '</p>';
-        content += '<button class="btn btn-primary">Go (' + self.data('word-id') + ')</button>';
+        content += '<a class="btn btn-primary" href="learner?wordId=' + self.data('word-id') + '">Go</button>';
         self.popover({content:content, trigger:'click', placement:'bottom'});
     });
 
