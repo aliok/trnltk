@@ -21,9 +21,36 @@ function initializeLearnerPage() {
 			</math> \
 	';
 
-    $('.ajaxFocusPopover').popover({content:img, trigger:'manual', placement:'bottom'}).click(function (e) {
-        $(this).popover('toggle');
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+//    $('.ajaxFocusPopover').click(function (e) {
+//        console.log('This should not be triggerred more than once');
+//        var self = $(this);
+//        var parseResultUUID = self.attr('data-parse-result-id');
+//        $.get('/index', {'parseResultUUID':parseResultUUID}, function(data){
+//            self.unbind('click');
+//            self.popover({content:data, trigger:'focus', placement:'bottom'});
+//            self.popover('toggle');
+//            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+//        });
+//        e.preventDefault();
+//    });
+
+    $('.ajaxFocusPopover').click(function (e) {
+        var self = $(this);
+        var parseResultUUID = self.data('parse-result-uuid');
+        var detailRow = $('#parse-result-detail-' + parseResultUUID);
+        if(!self.attr('fetched-parse-result-detail')){
+            $.get('/parseResultDetail', {'parseResultUUID':parseResultUUID}, function(data){
+                detailRow.find('td').html(data);
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                self.attr('fetched-parse-result-detail', true);
+                detailRow.toggle();
+            })
+            .error(function() { alert("Unable to fetch the parse result likelihood calculation detail!"); });
+        }
+        else{
+            detailRow.toggle();
+        }
+
         e.preventDefault();
     });
 

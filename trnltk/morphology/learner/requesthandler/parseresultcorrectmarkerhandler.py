@@ -1,5 +1,6 @@
 from bson.objectid import ObjectId
 from trnltk.morphology.learner.controller.parseresultcorrectmarkercontroller import ParseResultCorrectMarkerController
+from trnltk.morphology.learner.controller.sessionmanager import SessionManager
 from trnltk.morphology.learner.requesthandler.sessionawarerequesthandler import SessionAwareRequestHandler
 from trnltk.morphology.learner.ui import applicationcontext
 
@@ -13,18 +14,17 @@ class ParseResultCorrectMarkerHandler(SessionAwareRequestHandler):
 
 
         # get parse result
-        parseResultUUID = self.request.get('parseResultUUID')
-        if not parseResultUUID:
-            raise Exception(u"No parseResultUUID found for {}".format(parseResultUUID))
-
-        parse_result = self.session[parseResultUUID]
+        param_parse_result_uuid = self.request.get('parseResultUUID')
+        if not param_parse_result_uuid:
+            raise Exception(u"Missing parameter : parseResultUUID")
 
         word_id = ObjectId(param_word_id)
 
         # run controller, which will save the result in the db
         dbmanager = applicationcontext.application_context_instance.dbmanager
-        controller = ParseResultCorrectMarkerController(dbmanager)
-        controller.save_parse_result_for_word(word_id, parse_result)
+        sessionmanager = SessionManager(self.session)
+        controller = ParseResultCorrectMarkerController(dbmanager, sessionmanager)
+        controller.save_parse_result_for_word(word_id, param_parse_result_uuid)
 
 
         # get word index to go from request

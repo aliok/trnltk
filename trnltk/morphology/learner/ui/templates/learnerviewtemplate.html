@@ -1,5 +1,4 @@
 {% extends "basetemplate.html" %}
-{% import "matrixmacros.html" as matrixmacros %}
 {% block content %}
     <div class="well" style="text-align: center;">
         <h3>
@@ -58,7 +57,7 @@
                 </td>
                 <td>{{ parse_result_container.likelihood_percentage }}%</td>
                 <td><a href="#" class="btn btn-{{ parse_result_container.likelihood_value_color }} ajaxFocusPopover"
-                       rel="popover">{{ parse_result_container.likelihood_value }}</a></td>
+                       rel="popover" data-parse-result-uuid="{{ parse_result_container.uuid }}">{{ parse_result_container.likelihood_value }}</a></td>
                 <td>
                     <div class="parse-result">
                         {{ parse_result_container.formatted_parse_result }}
@@ -80,9 +79,8 @@
                     {% endif %}
                 </td>
             </tr>
-            <tr>
+            <tr id="parse-result-detail-{{ parse_result_container.uuid }}" style="display: None;">
                 <td colspan="6">
-                    {{ matrixmacros.likelihood_matrix(parse_result_container.calculation_context) }}
                 </td>
             </tr>
         {% endfor %}

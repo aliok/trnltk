@@ -2,17 +2,22 @@ from trnltk.morphology.model import formatter
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 
 class ParseResultCorrectMarkerController(object):
-    def __init__(self, dbmanager):
+    def __init__(self, dbmanager, sessionmanager):
         """
         @type dbmanager: DbManager
+        @type sessionmanager: SessionManager
         """
         self.dbmanager = dbmanager
+        self.sessionmanager = sessionmanager
 
-    def save_parse_result_for_word(self, word_id, parse_result):
+    def save_parse_result_for_word(self, word_id, parse_result_uuid):
         """
         @type word_id: ObjectId
-        @type parse_result: MorphemeContainer
+        @type parse_result_uuid: str or unicode
         """
+        parse_result = self.sessionmanager.get_parse_result(parse_result_uuid)
+        assert parse_result, "No parse result found with id {}".format(parse_result)
+
         word = self.dbmanager.get_word(word_id)
         if not word:
             raise Exception("Word not found for setting the correct parse result! {}".format(word_id))
