@@ -181,6 +181,15 @@ class MorphemeContainer(object):
 
         return word_secondary_syntactic_category
 
+    def get_surface_with_syntactic_categories(self):
+        surface = self.get_surface()
+        syntactic_category = self.get_surface_syntactic_category()
+        secondary_category = self.get_surface_secondary_syntactic_category()
+
+        if secondary_category:
+            return u"{}+{}+{}".format(surface, syntactic_category, secondary_category)
+        else:
+            return u"{}+{}".format(surface, syntactic_category)
 
     def get_stem(self):
         if not self._transitions:
@@ -216,6 +225,16 @@ class MorphemeContainer(object):
         else:
             return self._root.lexeme.secondary_syntactic_category
 
+    def get_stem_with_syntactic_categories(self):
+        stem = self.get_stem()
+        syntactic_category = self.get_stem_syntactic_category()
+        secondary_category = self.get_stem_secondary_syntactic_category()
+
+        if secondary_category:
+            return u"{}+{}+{}".format(stem, syntactic_category, secondary_category)
+        else:
+            return u"{}+{}".format(stem, syntactic_category)
+
     def get_lemma_root(self):
         return self._root.lexeme.root
 
@@ -224,6 +243,16 @@ class MorphemeContainer(object):
 
     def get_lemma_root_secondary_syntactic_category(self):
         return self._root.lexeme.secondary_syntactic_category
+
+    def get_lemma_root_with_syntactic_categories(self):
+        lemma_root = self.get_lemma_root()
+        syntactic_category = self.get_lemma_root_syntactic_category()
+        secondary_category = self.get_lemma_root_secondary_syntactic_category()
+
+        if secondary_category:
+            return u"{}+{}+{}".format(lemma_root, syntactic_category, secondary_category)
+        else:
+            return u"{}+{}".format(lemma_root, syntactic_category)
 
     def get_last_derivation_transition(self):
         for transition in reversed(self._transitions):

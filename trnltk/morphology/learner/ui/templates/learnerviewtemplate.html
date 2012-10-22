@@ -1,4 +1,5 @@
 {% extends "basetemplate.html" %}
+{% import "matrixmacros.html" as matrixmacros %}
 {% block content %}
     <div class="well" style="text-align: center;">
         <h3>
@@ -60,8 +61,9 @@
                        rel="popover">{{ parse_result_container.likelihood_value }}</a></td>
                 <td>
                     <div class="parse-result">
-                        {{ parse_result_container.formatted_parse_result }}</td>
+                        {{ parse_result_container.formatted_parse_result }}
                     </div>
+                </td>
                 <td>
                     {% if parse_result_container.correct_parse_result %}
                     <a href="markParseResultAsCorrect?wordId={{ current_word_id }}&parseResultUUID={{ parse_result_container.uuid }}&nextWordId={{ next_nonparsed_word_id }}"
@@ -76,6 +78,11 @@
                         Select
                     </a>
                     {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    {{ matrixmacros.likelihood_matrix(parse_result_container.calculation_context) }}
                 </td>
             </tr>
         {% endfor %}

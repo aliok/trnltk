@@ -38,7 +38,7 @@ class LearnerView(object):
     def set_all_count(self, all_count):
         self._context['all_count'] = all_count
 
-    def add_parse_result(self, uuid_for_parse_result, parse_result, likelihood_value, likelihood_percentage, likelihood_value_level, is_correct_parse_result):
+    def add_parse_result(self, uuid_for_parse_result, parse_result, likelihood_value, likelihood_percentage, likelihood_value_level, is_correct_parse_result, calculation_context):
         parse_result_containers = self._context.get('parse_results') or []
 
         parse_result_container = {
@@ -48,7 +48,8 @@ class LearnerView(object):
             'likelihood_percentage' : likelihood_percentage,
             'likelihood_value_color' : self._get_likelihood_value_color(likelihood_value_level),
             'likelihood_percentage_color' : self._get_likelihood_percentage_color(likelihood_percentage),
-            'correct_parse_result' : is_correct_parse_result
+            'correct_parse_result' : is_correct_parse_result,
+            'calculation_context' : calculation_context
         }
 
         parse_result_containers.append(parse_result_container)

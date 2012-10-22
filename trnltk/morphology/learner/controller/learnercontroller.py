@@ -1,3 +1,5 @@
+import json
+import pprint
 from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
 from trnltk.morphology.model import formatter
 
@@ -91,19 +93,24 @@ class LearnerController(object):
 
         parse_results = self.morphological_parser.parse(word['surface'])
         for parse_result in parse_results:
-            likelihood = self.likelihoodCalculator.calculate_likelihood(parse_result, leading_parse_context, following_parse_context)
-            parse_results_with_likelihoods.append((parse_result, likelihood))
+            calculation_context = {}
+            likelihood = self.likelihoodCalculator.calculate_likelihood(parse_result, leading_parse_context, following_parse_context, calculation_context)
+            parse_results_with_likelihoods.append((parse_result, likelihood, calculation_context))
 
         total_likelihood = sum([t[1] for t in parse_results_with_likelihoods])
 
         # sort by likelihood then "shortness"
         parse_results_with_likelihoods = sorted(parse_results_with_likelihoods, key=lambda tup : (tup[1], -len(tup[0].get_transitions())), reverse=True)
 
-        for parse_result, likelihood_value in parse_results_with_likelihoods:
+        for parse_result, likelihood_value, calculation_context in parse_results_with_likelihoods:
             uuid_for_parse_result = self.sessionmanager.put_parse_result_in_session(parse_result)
             likelihood_percent = likelihood_value / total_likelihood * 100.0 if total_likelihood > 0.0 else 0.0
             is_correct_parse_result = word['parsed'] and formatter.format_morpheme_container_for_parseset(parse_result)==word['parse_result']
-            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, "#TBD", is_correct_parse_result) # TODO
+            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, "#TBD", is_correct_parse_result, calculation_context) # TODO
+
+#            print formatter.format_morpheme_container_for_parseset(parse_result)
+#            print pprint.pprint(calculation_context)
+#            print '\n\n'
 
 
 class ParseContextCreator(object):

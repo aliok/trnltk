@@ -5,6 +5,7 @@ The tests are there for making sure there is no run time exceptions
 """
 import logging
 import os
+import pprint
 import unittest
 import pymongo
 from hamcrest import *
@@ -66,7 +67,7 @@ class _LikelihoodCalculatorTest(object):
         query_logger.setLevel(logging.INFO)
         context_stats_logger.setLevel(logging.INFO)
 
-    def _test_generate_likelihood(self, surface, leading_context=None, following_context=None):
+    def _test_generate_likelihood(self, surface, leading_context=None, following_context=None, create_calculation_context=False):
         self.generator.build_indexes()
 
         assert leading_context or following_context
@@ -77,28 +78,33 @@ class _LikelihoodCalculatorTest(object):
         likelihoods = []
         results = self.contextless_parser.parse(surface)
         for result in results:
+            calculation_context = None
+            if create_calculation_context:
+                calculation_context = {}
+
             formatted_parse_result = formatter.format_morpheme_container_for_parseset(result)
             likelihood = 0.0
             if leading_context and following_context:
-                likelihood = self.generator.calculate_likelihood(result, leading_context, following_context)
+                likelihood = self.generator.calculate_likelihood(result, leading_context, following_context, calculation_context)
             elif leading_context:
-                likelihood = self.generator.calculate_oneway_likelihood(result, leading_context, True)
+                likelihood = self.generator.calculate_oneway_likelihood(result, leading_context, True, calculation_context)
             elif following_context:
-                likelihood = self.generator.calculate_oneway_likelihood(result, following_context, False)
+                likelihood = self.generator.calculate_oneway_likelihood(result, following_context, False, calculation_context)
 
-            likelihoods.append((formatted_parse_result, likelihood))
+            likelihoods.append((formatted_parse_result, likelihood, calculation_context))
 
         for item in likelihoods:
-            print item
+            pprint.pprint(item)
 
     def _get_context(self, context):
         raise NotImplementedError()
 
-    def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
+    def test_generate_likelihood_of_one_word_given_one_leading_context_word(self
+    ):
         context = [u'bir']
         surface = u'erkek'
 
-        self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
+        self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None, create_calculation_context=True)
 
     def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
         context = [u'gençten', u'bir']
