@@ -1,38 +1,4 @@
 function initializeLearnerPage() {
-    var img = '	\
-	<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">	\
-			  <mi>x</mi> <mo>=</mo>	\
-			  <mrow>	\
-				<mfrac>	\
-				  <mrow>	\
-					<mo>&#x2212;</mo>	\
-					<mi>b</mi>	\
-					<mo>&#x00B1;</mo>	\
-					<msqrt>	\
-					  <msup><mi>b</mi><mn>2</mn></msup>	\
-					  <mo>&#x2212;</mo>	\
-					  <mn>4</mn><mi>a</mi><mi>c</mi> \
-					</msqrt> \
-				  </mrow> \
-				  <mrow> <mn>2</mn><mi>a</mi> </mrow> \
-				</mfrac> \
-			  </mrow> \
-			  <mtext>.</mtext> \
-			</math> \
-	';
-
-//    $('.ajaxFocusPopover').click(function (e) {
-//        console.log('This should not be triggerred more than once');
-//        var self = $(this);
-//        var parseResultUUID = self.attr('data-parse-result-id');
-//        $.get('/index', {'parseResultUUID':parseResultUUID}, function(data){
-//            self.unbind('click');
-//            self.popover({content:data, trigger:'focus', placement:'bottom'});
-//            self.popover('toggle');
-//            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-//        });
-//        e.preventDefault();
-//    });
 
     $('.ajaxFocusPopover').click(function (e) {
         var self = $(this);
@@ -70,7 +36,7 @@ function initializeLearnerPage() {
 
         content += '<a class="btn btn-large btn-primary" href="learner?wordId=' + self.data('word-id') + '"><i class="icon-arrow-right icon-white"></i> Go</button>';
 
-        content += '</div>'
+        content += '</div>';
 
         self.popover({content:content, trigger:'click', placement:'bottom'});
     });
