@@ -24,7 +24,7 @@ _context_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, False)
 
 class NonContextParsingLikelihoodCalculator(object):
     COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1,3)
-    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.55, 0.30, 0.15]).reshape(1,3)
+    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1,3)
 
     WEIGHT_LEADING_CONTEXT = 0.6
     WEIGHT_FOLLOWING_CONTEXT = 0.4
@@ -166,7 +166,7 @@ class ContextParsingLikelihoodCalculator(object):
     WEIGHT_FOLLOWING_CONTEXT = 0.4
 
     COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1,3)
-    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.55, 0.30, 0.15]).reshape(1,3)
+    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1,3)
 
     APPENDER_MATRIX = [
         [
