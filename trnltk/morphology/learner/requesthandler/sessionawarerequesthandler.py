@@ -26,6 +26,6 @@ class SessionAwareRequestHandler(webapp2.RequestHandler):
 
     def render_response(self, _template, **context):
         # Renders a template and writes the result to the response.
-        # TODO: how about streaming in template renderer?
+        # since the output is very small (<1MB), skip the streaming in template renderer?
         rv = self.jinja2.render_template(_template, **context)
         self.response.write(rv)
