@@ -2,6 +2,13 @@
 from trnltk.morphology.model import formatter
 
 class LearnerView(object):
+    LIKELIHOOD_PERCENTAGE_STYLE_MAP = {
+        0 : 'danger',
+        1 : 'warning',
+        2 : 'info',
+        3 : 'success', 4 : 'success'
+    }
+
     def __init__(self):
         self._context = {}
 
@@ -38,7 +45,7 @@ class LearnerView(object):
     def set_all_count(self, all_count):
         self._context['all_count'] = all_count
 
-    def add_parse_result(self, uuid_for_parse_result, parse_result, likelihood_value, likelihood_percentage, likelihood_value_level, is_correct_parse_result, calculation_context):
+    def add_parse_result(self, uuid_for_parse_result, parse_result, likelihood_value, likelihood_percentage, is_correct_parse_result, calculation_context):
         parse_result_containers = self._context.get('parse_results') or []
 
         parse_result_container = {
@@ -46,7 +53,6 @@ class LearnerView(object):
             'formatted_parse_result' : formatter.format_morpheme_container_for_parseset(parse_result, add_space=True),
             'likelihood_value' : likelihood_value,
             'likelihood_percentage' : likelihood_percentage,
-            'likelihood_value_color' : self._get_likelihood_value_color(likelihood_value_level),
             'likelihood_percentage_color' : self._get_likelihood_percentage_color(likelihood_percentage),
             'correct_parse_result' : is_correct_parse_result,
             'calculation_context' : calculation_context
@@ -63,10 +69,5 @@ class LearnerView(object):
             'parsed': bool(word['parsed']),
             'parse_result': word.get('parse_result')}
 
-    def _get_likelihood_value_color(self, likelihood_value):
-        return "warning"
-        #return self._likelihood_value_style_map(likelihood_level)     # TODO
-
     def _get_likelihood_percentage_color(self, likelihood_percentage):
-        return "warning"
-        #return self._likelihood_percentage_style_map(likelihood_percentage) # TODO
+        return LearnerView.LIKELIHOOD_PERCENTAGE_STYLE_MAP[int(likelihood_percentage/25)]

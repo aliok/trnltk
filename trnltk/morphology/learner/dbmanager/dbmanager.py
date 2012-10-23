@@ -1,11 +1,17 @@
 import pymongo
 
-class DbManager(object):     # TODO: what about indexes?
+class DbManager(object):
     def __init__(self, connection):
         db = connection['trnltk']
 
         self.corpus_collection = db['corpora']
         self.word_collection = db['words']
+
+    def build_indexes(self):
+        self.corpus_collection.ensure_index([('name', pymongo.ASCENDING)], unique=True)
+
+        self.word_collection.ensure_index([('corpus_id', pymongo.ASCENDING), ('index', pymongo.ASCENDING)], unique=True)
+        self.word_collection.ensure_index([('corpus_id', pymongo.ASCENDING), ('parsed', pymongo.ASCENDING), ('index', pymongo.ASCENDING)])
 
     def find_next_nonparsed_word(self, corpus_id, word_start_index):
         assert corpus_id and word_start_index is not None
@@ -84,7 +90,6 @@ class DbManager(object):     # TODO: what about indexes?
         }
 
         return self.word_collection.find(query).count()
-
 
     def get_word(self, word_id):
         """

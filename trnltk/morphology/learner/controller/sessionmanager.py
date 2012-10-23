@@ -25,6 +25,10 @@ class SessionManager(object):
     def get_calculation_context(self, parse_result_uuid):
         return self.session_map['calculation_contexts'][parse_result_uuid]
 
+    def delete_parse_results(self):
+        self.session_map['parse_results'] = {}
+        self.session_map['calculation_contexts'] = {}
+
     def _create_submaps(self):
         if not self.session_map.has_key('parse_results'):
             self.session_map['parse_results'] = {}

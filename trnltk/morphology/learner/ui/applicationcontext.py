@@ -48,6 +48,7 @@ class ApplicationContext(object):
              proper_noun_from_apostrophe_root_finder, proper_noun_without_apostrophe_root_finder])
 
         self.dbmanager = DbManager(mongodb_connection)
+        self.dbmanager.build_indexes()
 
         self.likelihood_calculator = self._create_likelihood_calculator(mongodb_connection)
 

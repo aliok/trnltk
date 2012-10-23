@@ -25,7 +25,6 @@ class LearnerController(object):
 
 
 
-    #TODO: first, clear session
     def go_to_word(self, word_id):
         """
         @type word_id: ObjectId
@@ -33,6 +32,8 @@ class LearnerController(object):
         assert LearnerController.WORD_COUNT_TO_SHOW_IN_CONTEXT >= LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT
 
         assert word_id
+
+        self.sessionmanager.delete_parse_results()
 
         # find and set new word in view
         word = self.dbmanager.get_word(word_id)
@@ -107,11 +108,7 @@ class LearnerController(object):
             uuid_for_parse_result = self.sessionmanager.put_parse_result_in_session(parse_result, calculation_context)
             likelihood_percent = likelihood_value / total_likelihood * 100.0 if total_likelihood > 0.0 else 0.0
             is_correct_parse_result = word['parsed'] and formatter.format_morpheme_container_for_parseset(parse_result)==word['parse_result']
-            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, "#TBD", is_correct_parse_result, calculation_context) # TODO
-
-#            print formatter.format_morpheme_container_for_parseset(parse_result)
-#            print pprint.pprint(calculation_context)
-#            print '\n\n'
+            self.learnerview.add_parse_result(uuid_for_parse_result, parse_result, likelihood_value, likelihood_percent, is_correct_parse_result, calculation_context)
 
 
 class ParseContextCreator(object):
