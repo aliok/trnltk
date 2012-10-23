@@ -7,7 +7,8 @@ function initializeLearnerPage() {
         if(!self.attr('fetched-parse-result-detail')){
             $.get('/parseResultDetail', {'parseResultUUID':parseResultUUID}, function(data){
                 detailRow.find('td').html(data);
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                if (window['MathJax'])
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 self.attr('fetched-parse-result-detail', true);
                 detailRow.toggle();
             })
