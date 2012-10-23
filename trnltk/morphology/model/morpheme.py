@@ -201,6 +201,7 @@ class MorphemeContainer(object):
             stem_so_far = self._root.str
             for i in range(0, index_of_last_derivational_suffix + 1):
                 stem_so_far += self._transitions[i].suffix_form_application.fitting_suffix_form
+            return stem_so_far
         else:
             return self._root.lexeme.root
 

@@ -89,7 +89,7 @@ class MockMorphemeContainerBuilder(object):
     def lexeme(self, lemma_root_str, lemma_root_syntactic_category=None, lemma_root_secondary_syntactic_category=None):
         self.lemma_root_str = lemma_root_str
         self.lemma_root_syntactic_category = lemma_root_syntactic_category
-        self.lemma_root_secondary_syntactic_category = lemma_root_syntactic_category
+        self.lemma_root_secondary_syntactic_category = lemma_root_secondary_syntactic_category
 
         return self
 

@@ -7,8 +7,13 @@ function initializeLearnerPage() {
         if(!self.attr('fetched-parse-result-detail')){
             $.get('/parseResultDetail', {'parseResultUUID':parseResultUUID}, function(data){
                 detailRow.find('td').html(data);
-                if (window['MathJax'])
+
+                var ua = $.browser;
+                if (!ua.mozilla && window['MathJax']){  // don't trigger MathJax for Firefox since it supports MathMl natively
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                }
+
+
                 self.attr('fetched-parse-result-detail', true);
                 detailRow.toggle();
             })

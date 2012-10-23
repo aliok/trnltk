@@ -1,35 +1,46 @@
-{% macro likelihood_matrix(calculation_context) -%}
+{% macro likelihood_matrix(calculation_context, parse_result_uuid) -%}
 <div xmlns="http://www.w3.org/1999/html">
-    <!--{% if calculation_context.leading %}-->
-        <!--{{ _render_one_way_likelihood_matrix(calculation_context.leading, True) }}-->
-    <!--{% endif %}-->
-    <!--{% if calculation_context.following %}-->
-        <!--{{ _render_one_way_likelihood_matrix(calculation_context.following, False) }}-->
-    <!--{% endif %}-->
 
-    {% if calculation_context.leading %}
-        <span style="font-size: large;">
-        {{ _render_one_way_likelihood_possibility_sum(calculation_context.leading, True) }}
-        </span>
-
-        {{ _render_one_way_likelihood_matrix(calculation_context.leading, True) }}
-    {% endif %}
-    <span style="font-size: large;">
-        {{ _render_one_way_likelihood_possibility_sum(calculation_context.leading, True) }}
-    </span>
-
-    {% if calculation_context.following %}
-        <span style="font-size: large;">
-            {{ _render_one_way_likelihood_possibility_sum(calculation_context.following, False) }}
-        </span>
-
-        {{ _render_one_way_likelihood_matrix(calculation_context.following, False) }}
-    {% endif %}
+    {{ _render_one_way_details_accordion(calculation_context.leading, "leading-" ~ parse_result_uuid, True) }}
+    {{ _render_one_way_details_accordion(calculation_context.following, "following-" ~ parse_result_uuid, False) }}
 
     <span style="font-size: larger;">
-    {{ _render_two_way_sum(calculation_context) }}
+        {{ _render_two_way_sum(calculation_context) }}
     </span>
 
+</div>
+{%- endmacro %}
+
+{% macro _render_one_way_details_accordion(one_way_calculation_context, unique_identifier, is_leading) -%}
+<div class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div style="font-size: large;">
+                            {{ _render_one_way_likelihood_possibility_sum(one_way_calculation_context, is_leading) }}
+                        </div>
+                    </td>
+                    {% if one_way_calculation_context %}
+                    <td style="vertical-align: middle;">
+                        <button type="button" class="btn btn-info" style="float: right;" data-toggle="collapse" data-target="#context-detail-{{ unique_identifier }}">
+                            <i class="icon-chevron-right icon-white"></i>
+                            Details
+                        </button>
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+            {% if one_way_calculation_context %}
+            <div id="context-detail-{{ unique_identifier }}" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    {{ _render_one_way_likelihood_matrix(one_way_calculation_context, is_leading) }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {%- endmacro %}
 
@@ -79,7 +90,7 @@
 {%- endmacro %}
 
 {% macro _render_one_way_likelihood_matrix(one_way_calculation_context, is_leading) -%}
-    <table>
+    <table class="table table-condensed">
     {% for one_way_calculation_context_item_key in one_way_calculation_context['possibilities'] %}
         <tr>
         <td>{{ _render_one_way_likelihood_possibility_contexts(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key]) }}</td>
@@ -125,17 +136,22 @@
 {%- endmacro %}
 
 {% macro _render_one_way_likelihood_possibility_contexts(one_way_calculation_context_item) -%}
-    <ul>
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Surface</th>
+                <th>Stem</th>
+                <th>Lexeme</th>
+            </tr>
+        </thead>
     {% for context_word_key in one_way_calculation_context_item['context_words'] %}
-        <li>
-            <ul>
-                <li>{{ one_way_calculation_context_item['context_words'][context_word_key]['surface'] }}</li>
-                <li>{{ one_way_calculation_context_item['context_words'][context_word_key]['stem'] }}</li>
-                <li>{{ one_way_calculation_context_item['context_words'][context_word_key]['lexeme'] }}</li>
-            </ul>
-        </li>
+        <tr>
+            <td>{{ one_way_calculation_context_item['context_words'][context_word_key]['surface'] }}</td>
+            <td>{{ one_way_calculation_context_item['context_words'][context_word_key]['stem'] }}</td>
+            <td>{{ one_way_calculation_context_item['context_words'][context_word_key]['lexeme'] }}</td>
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 {%- endmacro %}
 
 {% macro _render_one_way_likelihood_possibility_matrix(one_way_calculation_context_item, item_index, is_leading) -%}
@@ -241,4 +257,4 @@
 {%- endmacro %}
 
 
-{{ likelihood_matrix(calculation_context) }}
+{{ likelihood_matrix(calculation_context, parse_result_uuid) }}

@@ -13,4 +13,4 @@ class ParseResultDetailHandler(SessionAwareRequestHandler):
         controller = ParseResultDetailController(sessionmanager)
         calculation_context = controller.get_calculation_context(param_parse_result_uuid)
 
-        self.render_response("parseresultdetailtemplate.html", **{'calculation_context' : calculation_context})
+        self.render_response("parseresultdetailtemplate.html", **{'calculation_context' : calculation_context, 'parse_result_uuid' : param_parse_result_uuid})
