@@ -4,7 +4,7 @@ import logging
 import numpy
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import DatabaseIndexBuilder
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden import query
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import _context_word_appender, _target_surface_syn_cat_appender, _target_stem_syn_cat_appender, _target_lemma_root_syn_cat_appender, _context_surface_syn_cat_appender, _context_stem_syn_cat_appender, _context_lemma_root_syn_cat_appender
 from trnltk.morphology.model import formatter
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutor, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
 
@@ -13,18 +13,9 @@ numpy.seterr(divide='ignore', invalid='ignore')
 logger = logging.getLogger('contextstats')
 query_logger = query.logger
 
-_context_word_appender = ContextWordAppender()
-_target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
-_target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
-_target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)
-
-_context_surface_syn_cat_appender = ParseResultSurfaceAppender(True, False)
-_context_stem_syn_cat_appender = ParseResultStemAppender(True, False)
-_context_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, False)
-
 class NonContextParsingLikelihoodCalculator(object):
-    COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1,3)
-    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1,3)
+    COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1, 3)
+    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1, 3)
 
     WEIGHT_LEADING_CONTEXT = 0.6
     WEIGHT_FOLLOWING_CONTEXT = 0.4
@@ -46,13 +37,14 @@ class NonContextParsingLikelihoodCalculator(object):
 
     def calculate_likelihood(self, target, leading_context, following_context, calculation_context=None):
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug("Calculating likelihood of {1}, {0}, {2}".format(formatter.format_morpheme_container_for_simple_parseset(target), leading_context, following_context))
+            logger.debug("Calculating likelihood of {1}, {0}, {2}".format(formatter.format_morpheme_container_for_simple_parseset(target), leading_context,
+                following_context))
 
         calculation_context_leading = {} if calculation_context is not None else None
         calculation_context_following = {} if calculation_context is not None else None
 
-        likelihood =  self.calculate_oneway_likelihood(target, leading_context  , True , calculation_context_leading  ) * self.WEIGHT_LEADING_CONTEXT   +\
-                      self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
+        likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT +\
+                     self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
 
         if calculation_context is not None:
             calculation_context['leading'] = calculation_context_leading
@@ -87,12 +79,12 @@ class NonContextParsingLikelihoodCalculator(object):
             return 0.0
 
         if calculation_context is not None:
-            for i,context_item in enumerate(context):
+            for i, context_item in enumerate(context):
                 calculation_context[i] = {
-                    'surface' : context_item
+                    'surface': context_item
                 }
 
-        target_form_given_context_counts = numpy.zeros((3,1), dtype=float)
+        target_form_given_context_counts = numpy.zeros((3, 1), dtype=float)
 
         for i, appender_matrix_row in enumerate(self.APPENDER_MATRIX):
             target_appender, context_appender = appender_matrix_row
@@ -103,8 +95,8 @@ class NonContextParsingLikelihoodCalculator(object):
         logger.debug("    Found {} context occurrences".format(count_given_context))
 
         target_form_probabilities = target_form_given_context_counts / count_given_context
-        target_form_probabilities[numpy.isinf(target_form_probabilities)]=0.0
-        target_form_probabilities[numpy.isnan(target_form_probabilities)]=0.0
+        target_form_probabilities[numpy.isinf(target_form_probabilities)] = 0.0
+        target_form_probabilities[numpy.isnan(target_form_probabilities)] = 0.0
 
         if calculation_context is not None:
             calculation_context['target_form_probabilities'] = target_form_probabilities
@@ -116,13 +108,13 @@ class NonContextParsingLikelihoodCalculator(object):
             calculation_context['target_form_probabilities_with_context_form_weights'] = target_form_probabilities
         logger.debug("    Target form probabilities with context form weights: \n{}".format(target_form_probabilities))
 
-        target_form_probabilities = numpy.dot(target_form_probabilities, numpy.ones((3,1), dtype=float))
+        target_form_probabilities = numpy.dot(target_form_probabilities, numpy.ones((3, 1), dtype=float))
         if calculation_context is not None:
             calculation_context['summed_target_form_probabilities'] = target_form_probabilities
         logger.debug("    Summed target form probabilities: \n{}".format(target_form_probabilities))
 
         weight_summed_target_probability = numpy.dot(self.COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT, target_form_probabilities)
-        assert numpy.shape(weight_summed_target_probability) == (1,1)
+        assert numpy.shape(weight_summed_target_probability) == (1, 1)
         if calculation_context is not None:
             calculation_context['coefficients_target_form_given_context'] = self.COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT
             calculation_context['weight_summed_target_probability'] = weight_summed_target_probability
@@ -157,7 +149,8 @@ class CachingNonContextParsingLikelihoodCalculator(NonContextParsingLikelihoodCa
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
         query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
-        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection, self._query_cache_collection)
+        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection,
+            self._query_cache_collection)
         return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
 
 
@@ -165,8 +158,8 @@ class ContextParsingLikelihoodCalculator(object):
     WEIGHT_LEADING_CONTEXT = 0.6
     WEIGHT_FOLLOWING_CONTEXT = 0.4
 
-    COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1,3)
-    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1,3)
+    COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1, 3)
+    COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1, 3)
 
     APPENDER_MATRIX = [
         [
@@ -214,13 +207,12 @@ class ContextParsingLikelihoodCalculator(object):
             calculation_context['leading_context_length'] = len(leading_context)
             calculation_context['following_context_length'] = len(following_context)
 
-
         likelihood = None
         if leading_context and following_context:
-            likelihood = self.calculate_oneway_likelihood(target, leading_context  , True , calculation_context_leading  ) * self.WEIGHT_LEADING_CONTEXT   +\
+            likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT +\
                          self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
         elif leading_context:
-            likelihood = self.calculate_oneway_likelihood(target, leading_context  , True , calculation_context_leading  ) * self.WEIGHT_LEADING_CONTEXT
+            likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT
         elif following_context:
             likelihood = self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
 
@@ -251,13 +243,16 @@ class ContextParsingLikelihoodCalculator(object):
 
         if logger.isEnabledFor(logging.DEBUG):
             if target_comes_after:
-                logger.debug(u"  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
+                logger.debug(u"  Calculating oneway likelihood of {1}, {0}".format(formatter.format_morpheme_container_for_simple_parseset(target),
+                    [t[0].get_surface() if t else "<Unparsable>" for t in context]))
             else:
-                logger.debug(u"  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target), [t[0].get_surface() if t else "<Unparsable>" for t in context]))
+                logger.debug(u"  Calculating oneway likelihood of {0}, {1}".format(formatter.format_morpheme_container_for_simple_parseset(target),
+                    [t[0].get_surface() if t else "<Unparsable>" for t in context]))
 
         cartesian_products_of_context_parse_results = self._get_cartesian_products_of_context_parse_results(context)
         logger.debug("  Going to check the usages with the following cartesian product of parse results: \n{}".format(
-            [[formatter.format_morpheme_container_for_simple_parseset_without_suffixes(mc) for mc in product_item] for product_item in cartesian_products_of_context_parse_results]))
+            [[formatter.format_morpheme_container_for_simple_parseset_without_suffixes(mc) for mc in product_item] for product_item in
+                                                                                                                   cartesian_products_of_context_parse_results]))
 
         if not cartesian_products_of_context_parse_results or not any(cartesian_products_of_context_parse_results):
             return 0.0
@@ -284,25 +279,26 @@ class ContextParsingLikelihoodCalculator(object):
 
             if calculation_context is not None:
                 word_calc_context['context_words'] = {}
-                for i,context_item in enumerate(context_parse_results):
+                for i, context_item in enumerate(context_parse_results):
                     word_calc_context['context_words'][i] = {
-                        'surface' : context_item.get_surface_with_syntactic_categories(),
-                        'stem' : context_item.get_stem_with_syntactic_categories(),
-                        'lexeme' : context_item.get_lemma_root_with_syntactic_categories()
+                        'surface': context_item.get_surface_with_syntactic_categories(),
+                        'stem': context_item.get_stem_with_syntactic_categories(),
+                        'lexeme': context_item.get_lemma_root_with_syntactic_categories()
                     }
 
-            target_form_given_context_counts = numpy.zeros((3,3), dtype=float)
+            target_form_given_context_counts = numpy.zeros((3, 3), dtype=float)
 
             for i, appender_matrix_row in enumerate(self.APPENDER_MATRIX):
                 for j, (target_appender, context_appender) in enumerate(appender_matrix_row):
-                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
+                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender,
+                        context_appender)
                     target_form_given_context_counts[i][j] = target_form_given_count
 
             logger.debug("       Target form counts given context forms: \n{}".format(target_form_given_context_counts))
 
             target_form_probabilities = target_form_given_context_counts / context_counts
-            target_form_probabilities[numpy.isinf(target_form_probabilities)]=0.0
-            target_form_probabilities[numpy.isnan(target_form_probabilities)]=0.0
+            target_form_probabilities[numpy.isinf(target_form_probabilities)] = 0.0
+            target_form_probabilities[numpy.isnan(target_form_probabilities)] = 0.0
 
             if calculation_context is not None:
                 word_calc_context['target_form_probabilities'] = target_form_probabilities
@@ -314,13 +310,13 @@ class ContextParsingLikelihoodCalculator(object):
                 word_calc_context['target_form_probabilities_with_context_form_weights'] = target_form_probabilities
             logger.debug("       Target form probabilities with context form weights: \n{}".format(target_form_probabilities))
 
-            target_form_probabilities = numpy.dot(target_form_probabilities, numpy.ones((3,1), dtype=float))
+            target_form_probabilities = numpy.dot(target_form_probabilities, numpy.ones((3, 1), dtype=float))
             if calculation_context is not None:
                 word_calc_context['summed_target_form_probabilities'] = target_form_probabilities
             logger.debug("       Summed target form probabilities: \n{}".format(target_form_probabilities))
 
             weight_summed_target_probability = numpy.dot(self.COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT, target_form_probabilities)
-            assert numpy.shape(weight_summed_target_probability) == (1,1)
+            assert numpy.shape(weight_summed_target_probability) == (1, 1)
             if calculation_context is not None:
                 word_calc_context['coefficients_target_form_given_context'] = self.COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT
                 word_calc_context['weight_summed_target_probability'] = weight_summed_target_probability
@@ -389,7 +385,8 @@ class ContextParsingLikelihoodCalculator(object):
             else:
                 cartesian_products_of_context_parse_results = itertools.product(cartesian_products_of_context_parse_results, context_item_morpheme_containers)
                 cartesian_products_of_context_parse_results = list(cartesian_products_of_context_parse_results)
-                cartesian_products_of_context_parse_results = [(x[0] if isinstance(x[0], list) else [x[0]]) + [x[1]] for x in cartesian_products_of_context_parse_results]
+                cartesian_products_of_context_parse_results = [(x[0] if isinstance(x[0], list) else [x[0]]) + [x[1]] for x in
+                                                               cartesian_products_of_context_parse_results]
 
         # cartesian product results in tuples, but if there is nothing to product we must return something iterable
         cartesian_product_list = list(cartesian_products_of_context_parse_results)
@@ -406,8 +403,10 @@ class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculat
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
         query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
-        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection, self._query_cache_collection)
+        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection,
+            self._query_cache_collection)
         return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
+
 
 class InMemoryCachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
     def __init__(self, collection_map):

@@ -137,3 +137,13 @@ class ParseResultLemmaRootAppender(ParseResultFormAppender):
                 index_container.given_lemma_root(True)
             else:
                 index_container.given_lemma_root(False)
+
+
+_context_word_appender = ContextWordAppender()
+_target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
+_target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
+_target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)
+
+_context_surface_syn_cat_appender = ParseResultSurfaceAppender(True, False)
+_context_stem_syn_cat_appender = ParseResultStemAppender(True, False)
+_context_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, False)
