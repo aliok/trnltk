@@ -10,7 +10,7 @@ import unittest
 from xml.dom.minidom import parse
 import pymongo
 import datetime
-from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
@@ -23,8 +23,8 @@ from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenera
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.ngrams.ngramgenerator import WordNGramGenerator
 from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding
-from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.variantcontiguity.calculator import logger as query_logger
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import logger as query_logger
 
 class _BaseLikelihoodCalculatorTest(unittest.TestCase):
     @classmethod

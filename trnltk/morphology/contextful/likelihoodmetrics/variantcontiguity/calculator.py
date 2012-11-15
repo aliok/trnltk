@@ -2,11 +2,11 @@
 import itertools
 import logging
 import numpy
-from trnltk.morphology.contextful.variantcontiguity.hidden.database import DatabaseIndexBuilder
-from trnltk.morphology.contextful.variantcontiguity.hidden import query
-from trnltk.morphology.contextful.variantcontiguity.hidden.appender import ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden import query
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.appender import ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
 from trnltk.morphology.model import formatter
-from trnltk.morphology.contextful.variantcontiguity.hidden.query import WordNGramQueryContainer, QueryExecutor, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.query import WordNGramQueryContainer, QueryExecutor, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
 
 numpy.seterr(divide='ignore', invalid='ignore')
 

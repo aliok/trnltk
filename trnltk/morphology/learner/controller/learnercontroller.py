@@ -1,6 +1,4 @@
-import json
-import pprint
-from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
 from trnltk.morphology.model import formatter
 
 class LearnerController(object):

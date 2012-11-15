@@ -8,7 +8,7 @@ import os
 import unittest
 from xml.dom.minidom import parse
 import pymongo
-from trnltk.morphology.contextful.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.parsecontext import MockMorphemeContainerBuilder
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
@@ -20,8 +20,8 @@ from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.morphology.contextful.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.variantcontiguity.calculator import logger as query_logger
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import logger as query_logger
 
 dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextless_statistics_sample_parseset.xml'))
 parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
