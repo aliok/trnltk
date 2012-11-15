@@ -9,13 +9,40 @@ from trnltk.ngrams.ngramgenerator import NGramGenerator, WordNGramGenerator
 from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding, WordBinding, RootBinding
 from hamcrest import *
 
+def _count_distinct_ngrams(collection, keys, filter_criteria):
+    mapper = Code("""
+            function(){
+                emit({
+                    """ + keys + """
+                }, {count: 1});
+            }
+        """)
+
+    reducer = Code("""
+            function(key,values){
+                var total = 0;
+                for (var i = 0; i < values.length; i++) {
+                    total += values[i].count
+                }
+
+                return {count:total};
+            }
+        """)
+
+    result = collection.map_reduce(mapper, reducer, "_temporary")
+
+    if filter_criteria:
+        result = result.find(filter_criteria)
+
+    return result.count()
+
 class WordUnigramMongodbGeneratorTest(unittest.TestCase):
     BULK_INSERT_SIZE = 500
 
     @classmethod
     def setUpClass(cls):
         super(WordUnigramMongodbGeneratorTest, cls).setUpClass()
-        connection = pymongo.Connection()
+        connection = pymongo.Connection(host="127.0.0.1")
         cls.db = connection['trnltk']
 
     def test_create_unigrams_for_parseset_001(self):
@@ -36,6 +63,24 @@ class WordUnigramMongodbGeneratorTest(unittest.TestCase):
     def test_create_unigrams_for_parseset_999(self):
         self._create_unigrams_for_parseset_n("999")
 
+
+    def test_inspect_unigrams_for_parseset_001(self):
+        self._inspect_unigrams_for_parseset_n("001")
+
+    def test_inspect_unigrams_for_parseset_002(self):
+        self._inspect_unigrams_for_parseset_n("002")
+
+    def test_inspect_unigrams_for_parseset_003(self):
+        self._inspect_unigrams_for_parseset_n("003")
+
+    def test_inspect_unigrams_for_parseset_004(self):
+        self._inspect_unigrams_for_parseset_n("004")
+
+    def test_inspect_unigrams_for_parseset_005(self):
+        self._inspect_unigrams_for_parseset_n("005")
+
+    def test_inspect_unigrams_for_parseset_999(self):
+        self._inspect_unigrams_for_parseset_n("999")
 
     def _create_unigrams_for_parseset_n(self, parseset_index):
         print "Parsing parse set {} and generating unigrams with occurrence counts".format(parseset_index)
@@ -68,9 +113,68 @@ class WordUnigramMongodbGeneratorTest(unittest.TestCase):
 
         collection.insert(bulk_insert_buffer)
 
-        unigram_count = collection.count()
-        print "Generated {} unigrams".format(unigram_count)
+        self._inspect_unigrams_for_parseset_n(parseset_index)
 
+
+    def _inspect_unigrams_for_parseset_n(self, parseset_index):
+        collection = self.db['wordUnigrams{}'.format(parseset_index)]
+
+        unigram_count = collection.count()
+        print "Found {} unigrams".format(unigram_count)
+
+        distinct_surface_unigram_count = self._count_distinct_surface_unigrams(collection)
+        print "Found {} distinct surface unigrams".format(distinct_surface_unigram_count)
+
+        distinct_surface_unigram_with_multiple_occurrences_count = self._count_distinct_surface_unigrams_with_multiple_occurrences(collection)
+        print "Found {} distinct surface unigrams with multiple occurrences".format(distinct_surface_unigram_with_multiple_occurrences_count)
+
+        distinct_stem_unigram_count = self._count_distinct_stem_unigrams(collection)
+        print "Found {} distinct stem unigrams".format(distinct_stem_unigram_count)
+
+        distinct_stem_unigram_with_multiple_occurrences_count = self._count_distinct_stem_unigrams_with_multiple_occurrences(collection)
+        print "Found {} distinct stem unigrams with multiple occurrences".format(distinct_stem_unigram_with_multiple_occurrences_count)
+
+        distinct_lexeme_unigram_count = self._count_distinct_lexeme_unigrams(collection)
+        print "Found {} distinct lexeme unigrams".format(distinct_lexeme_unigram_count)
+
+        distinct_lexeme_unigram_with_multiple_occurrences_count = self._count_distinct_lexeme_unigrams_with_multiple_occurrences(collection)
+        print "Found {} distinct lexeme unigrams with multiple occurrences".format(distinct_lexeme_unigram_with_multiple_occurrences_count)
+
+    @classmethod
+    def _count_distinct_surface_unigrams(cls, collection):
+        keys = "a:this.item_0.word.surface.value,                 b:this.item_0.word.surface.syntactic_category"
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_surface_unigrams_with_multiple_occurrences(cls, collection):
+        keys = "a:this.item_0.word.surface.value,                 b:this.item_0.word.surface.syntactic_category"
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_stem_unigrams(cls, collection):
+        keys = "a:this.item_0.word.stem.value,                 b:this.item_0.word.stem.syntactic_category"
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_stem_unigrams_with_multiple_occurrences(cls, collection):
+        keys = "a:this.item_0.word.stem.value,                 b:this.item_0.word.stem.syntactic_category"
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_lexeme_unigrams(cls, collection):
+        keys = "a:this.item_0.word.lemma_root.value,                 b:this.item_0.word.lemma_root.syntactic_category"
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_lexeme_unigrams_with_multiple_occurrences(cls, collection):
+        keys = "a:this.item_0.word.lemma_root.value,                 b:this.item_0.word.lemma_root.syntactic_category"
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
 class WordBigramMongodbGeneratorTest(unittest.TestCase):
     BULK_INSERT_SIZE = 500
@@ -78,7 +182,7 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(WordBigramMongodbGeneratorTest, cls).setUpClass()
-        connection = pymongo.Connection()
+        connection = pymongo.Connection(host="127.0.0.1")
         cls.db = connection['trnltk']
 
     def test_create_bigrams_for_parseset_001(self):
@@ -98,6 +202,25 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
 
     def test_create_bigrams_for_parseset_999(self):
         self._create_bigrams_for_parseset_n("999")
+
+
+    def test_inspect_bigrams_for_parseset_001(self):
+        self._inspect_bigrams_for_parseset_n("001")
+
+    def test_inspect_bigrams_for_parseset_002(self):
+        self._inspect_bigrams_for_parseset_n("002")
+
+    def test_inspect_bigrams_for_parseset_003(self):
+        self._inspect_bigrams_for_parseset_n("003")
+
+    def test_inspect_bigrams_for_parseset_004(self):
+        self._inspect_bigrams_for_parseset_n("004")
+
+    def test_inspect_bigrams_for_parseset_005(self):
+        self._inspect_bigrams_for_parseset_n("005")
+
+    def test_inspect_bigrams_for_parseset_999(self):
+        self._inspect_bigrams_for_parseset_n("999")
 
 
     def _create_bigrams_for_parseset_n(self, parseset_index):
@@ -132,174 +255,203 @@ class WordBigramMongodbGeneratorTest(unittest.TestCase):
 
         collection.insert(bulk_insert_buffer)
 
+        self._inspect_bigrams_for_parseset_n(parseset_index)
+
+    def _inspect_bigrams_for_parseset_n(self, parseset_index):
+        collection = self.db['wordBigrams{}'.format(parseset_index)]
+
         bigram_count = collection.count()
-        print "Generated {} bigrams".format(bigram_count)
+        print "Found {} bigrams".format(bigram_count)
 
-        print "{} are distinct-surface bigrams".format(self._calculate_distinct_surface_bigrams(collection))
-        print "{} distinct-surface bigrams have more than one occurrence".format(self._calculate_distinct_surface_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct surface-surface bigrams".format(self._calculate_distinct_surface_surface_bigrams(collection))
+        print "Found {} distinct surface-surface bigrams with multiple occurrences".format(self._calculate_distinct_surface_surface_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct surface-stem bigrams".format(self._calculate_distinct_surface_stem_bigrams(collection))
+        print "Found {} distinct surface-stem bigrams with multiple occurrences".format(self._calculate_distinct_surface_stem_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct surface-lexeme bigrams".format(self._calculate_distinct_surface_lexeme_bigrams(collection))
+        print "Found {} distinct surface-lexeme bigrams with multiple occurrences".format(self._calculate_distinct_surface_lexeme_bigrams_with_multiple_occurrences(collection))
 
-        print "{} are distinct-stem bigrams".format(self._calculate_distinct_stem_bigrams(collection))
-        print "{} distinct-stem bigrams have more than one occurrence".format(self._calculate_distinct_stem_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct stem-surface bigrams".format(self._calculate_distinct_stem_surface_bigrams(collection))
+        print "Found {} distinct stem-surface bigrams with multiple occurrences".format(self._calculate_distinct_stem_surface_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct stem-stem bigrams".format(self._calculate_distinct_stem_stem_bigrams(collection))
+        print "Found {} distinct stem-stem bigrams with multiple occurrences".format(self._calculate_distinct_stem_stem_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct stem-lexeme bigrams".format(self._calculate_distinct_stem_lexeme_bigrams(collection))
+        print "Found {} distinct stem-lexeme bigrams with multiple occurrences".format(self._calculate_distinct_stem_lexeme_bigrams_with_multiple_occurrences(collection))
 
-        print "{} are distinct-lexeme bigrams".format(self._calculate_distinct_lexeme_bigrams(collection))
-        print "{} distinct-lemma bigrams have more than one occurrence".format(self._calculate_distinct_lexeme_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct lexeme-surface bigrams".format(self._calculate_distinct_lexeme_surface_bigrams(collection))
+        print "Found {} distinct lexeme-surface bigrams with multiple occurrences".format(self._calculate_distinct_lexeme_surface_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct lexeme-stem bigrams".format(self._calculate_distinct_lexeme_stem_bigrams(collection))
+        print "Found {} distinct lexeme-stem bigrams with multiple occurrences".format(self._calculate_distinct_lexeme_stem_bigrams_with_multiple_occurrences(collection))
+        print "Found {} distinct lexeme-lexeme bigrams".format(self._calculate_distinct_lexeme_lexeme_bigrams(collection))
+        print "Found {} distinct lexeme-lexeme bigrams with multiple occurrences".format(self._calculate_distinct_lexeme_lexeme_bigrams_with_multiple_occurrences(collection))
 
-
-    @classmethod
-    def _calculate_distinct_surface_bigrams(cls, collection):
-        mapper = Code("""
-            function(){
-                emit({
-                    a:this.item_0.word.surface.value,                 b:this.item_1.word.surface.value,
-                    c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.surface.syntactic_category,
-                }, {count: 1});
-            }
-        """)
-
-        reducer = Code("""
-            function(key,values){
-                var total = 0;
-                for (var i = 0; i < values.length; i++) {
-                    total += values[i].count
-                }
-
-                return {count:total};
-            }
-        """)
-
-        result = collection.map_reduce(mapper, reducer, "_temporary")
-
-        return result.count()
+    ####################################################################
 
     @classmethod
-    def _calculate_distinct_surface_bigrams_with_multiple_occurrences(cls, collection):
-        mapper = Code("""
-            function(){
-                emit({
-                    a:this.item_0.word.surface.value,                 b:this.item_1.word.surface.value,
-                    c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.surface.syntactic_category,
-                }, {count: 1});
-            }
-        """)
-
-        reducer = Code("""
-            function(key,values){
-                var total = 0;
-                for (var i = 0; i < values.length; i++) {
-                    total += values[i].count
-                }
-
-                return {count:total};
-            }
-        """)
-
-        result = collection.map_reduce(mapper, reducer, "_temporary")
-
-        return result.find({"value.count": {"$gt": 1}}).count()
+    def _calculate_distinct_surface_surface_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.surface.value,                 b:this.item_1.word.surface.value,
+        c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.surface.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
     @classmethod
-    def _calculate_distinct_stem_bigrams(cls, collection):
-        mapper = Code("""
-            function(){
-                emit({
-                    a:this.item_0.word.stem.value,                 b:this.item_1.word.stem.value,
-                    c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.stem.syntactic_category,
-                }, {count: 1});
-            }
-        """)
-
-        reducer = Code("""
-            function(key,values){
-                var total = 0;
-                for (var i = 0; i < values.length; i++) {
-                    total += values[i].count
-                }
-
-                return {count:total};
-            }
-        """)
-
-        result = collection.map_reduce(mapper, reducer, "_temporary")
-
-        return result.count()
+    def _calculate_distinct_surface_surface_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.surface.value,                 b:this.item_1.word.surface.value,
+        c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.surface.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
     @classmethod
-    def _calculate_distinct_stem_bigrams_with_multiple_occurrences(cls, collection):
-        mapper = Code("""
-            function(){
-                emit({
-                    a:this.item_0.word.stem.value,                 b:this.item_1.word.stem.value,
-                    c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.stem.syntactic_category,
-                }, {count: 1});
-            }
-        """)
-
-        reducer = Code("""
-            function(key,values){
-                var total = 0;
-                for (var i = 0; i < values.length; i++) {
-                    total += values[i].count
-                }
-
-                return {count:total};
-            }
-        """)
-
-        result = collection.map_reduce(mapper, reducer, "_temporary")
-
-        return result.find({"value.count": {"$gt": 1}}).count()
+    def _calculate_distinct_surface_stem_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.surface.value,                 b:this.item_1.word.stem.value,
+        c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.stem.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
     @classmethod
-    def _calculate_distinct_lexeme_bigrams(cls, collection):
-        mapper = Code("""
-            function(){
-                emit({
-                    a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.lemma_root.value,
-                    c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category,
-                }, {count: 1});
-            }
-        """)
-
-        reducer = Code("""
-            function(key,values){
-                var total = 0;
-                for (var i = 0; i < values.length; i++) {
-                    total += values[i].count
-                }
-
-                return {count:total};
-            }
-        """)
-
-        result = collection.map_reduce(mapper, reducer, "_temporary")
-
-        return result.count()
+    def _calculate_distinct_surface_stem_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.surface.value,                 b:this.item_1.word.stem.value,
+        c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.stem.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
     @classmethod
-    def _calculate_distinct_lexeme_bigrams_with_multiple_occurrences(cls, collection):
-        mapper = Code("""
-            function(){
-                emit({
-                    a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.lemma_root.value,
-                    c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category,
-                }, {count: 1});
-            }
-        """)
+    def _calculate_distinct_surface_lexeme_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.surface.value,                 b:this.item_1.word.lemma_root.value,
+        c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
-        reducer = Code("""
-            function(key,values){
-                var total = 0;
-                for (var i = 0; i < values.length; i++) {
-                    total += values[i].count
-                }
+    @classmethod
+    def _calculate_distinct_surface_lexeme_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.surface.value,                 b:this.item_1.word.lemma_root.value,
+        c:this.item_0.word.surface.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
-                return {count:total};
-            }
-        """)
+    ####################################################################
 
-        result = collection.map_reduce(mapper, reducer, "_temporary")
+    @classmethod
+    def _calculate_distinct_stem_surface_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.stem.value,                 b:this.item_1.word.surface.value,
+        c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.surface.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
-        return result.find({"value.count": {"$gt": 1}}).count()
+    @classmethod
+    def _calculate_distinct_stem_surface_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.stem.value,                 b:this.item_1.word.surface.value,
+        c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.surface.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_stem_stem_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.stem.value,                 b:this.item_1.word.stem.value,
+        c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.stem.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_stem_stem_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.stem.value,                 b:this.item_1.word.stem.value,
+        c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.stem.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_stem_lexeme_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.stem.value,                 b:this.item_1.word.lemma_root.value,
+        c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_stem_lexeme_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.stem.value,                 b:this.item_1.word.lemma_root.value,
+        c:this.item_0.word.stem.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    ####################################################################
+
+    @classmethod
+    def _calculate_distinct_lexeme_surface_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.surface.value,
+        c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.surface.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_lexeme_surface_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.surface.value,
+        c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.surface.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_lexeme_stem_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.stem.value,
+        c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.stem.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_lexeme_stem_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.stem.value,
+        c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.stem.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_lexeme_lexeme_bigrams(cls, collection):
+        keys = """
+        a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.lemma_root.value,
+        c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category
+        """
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _calculate_distinct_lexeme_lexeme_bigrams_with_multiple_occurrences(cls, collection):
+        keys = """
+        a:this.item_0.word.lemma_root.value,                 b:this.item_1.word.lemma_root.value,
+        c:this.item_0.word.lemma_root.syntactic_category,    d:this.item_1.word.lemma_root.syntactic_category
+        """
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
 
 
 class WordTrigramMongodbGeneratorTest(unittest.TestCase):
