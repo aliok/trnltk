@@ -4,8 +4,9 @@ There is no verification -yet- in test of this class.
 The tests are there for making sure there is no run time exceptions
 """
 import unittest
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import CachingNonContextParsingLikelihoodCalculator, CachingContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import  CachingContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import  QueryCacheCollectionCreator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.noncontextparsingcalculator import CachingNonContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.test.test_calculator import _LikelihoodCalculatorTest
 
 class CachingNonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest.TestCase):

@@ -3,7 +3,7 @@ import numpy
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden import query
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import _target_surface_syn_cat_appender, _context_word_appender, _target_stem_syn_cat_appender, _target_lemma_root_syn_cat_appender
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import DatabaseIndexBuilder
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutionContextBuilder, QueryExecutor
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutionContextBuilder, QueryExecutor, CachingQueryExecutionContext, CachingQueryExecutor
 from trnltk.morphology.model import formatter
 
 numpy.seterr(divide='ignore', invalid='ignore')
@@ -12,6 +12,10 @@ logger = logging.getLogger('contextstats')
 query_logger = query.logger
 
 class NonContextParsingLikelihoodCalculator(object):
+    """
+    @deprecated Not really used -yet- and not really maintained
+    """
+
     COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1, 3)
     COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1, 3)
 
@@ -138,3 +142,19 @@ class NonContextParsingLikelihoodCalculator(object):
     def _find_count_for_query(self, params, query_container, target_comes_after):
         query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
         return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
+
+
+class CachingNonContextParsingLikelihoodCalculator(NonContextParsingLikelihoodCalculator):
+    """
+    @deprecated Not really used -yet- and not really maintained
+    """
+
+    def __init__(self, collection_map, query_cache_collection):
+        super(CachingNonContextParsingLikelihoodCalculator, self).__init__(collection_map)
+        self._query_cache_collection = query_cache_collection
+
+    def _find_count_for_query(self, params, query_container, target_comes_after):
+        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
+        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection,
+            self._query_cache_collection)
+        return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
