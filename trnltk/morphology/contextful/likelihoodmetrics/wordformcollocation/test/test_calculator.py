@@ -10,6 +10,7 @@ import unittest
 import pymongo
 from hamcrest import *
 from mock import Mock
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.noncontextparsingcalculator import NonContextParsingLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
@@ -20,9 +21,9 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import NonContextParsingLikelihoodCalculator, ContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import logger as context_stats_logger
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import query_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import  ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as context_stats_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import query_logger
 
 class _LikelihoodCalculatorTest(object):
     @classmethod

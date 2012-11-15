@@ -20,8 +20,8 @@ from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.parseset.xmlbindings import ParseSetBinding
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import logger as query_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as query_logger
 
 dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextless_statistics_sample_parseset.xml'))
 parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])

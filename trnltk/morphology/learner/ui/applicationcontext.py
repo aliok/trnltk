@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import InMemoryCachingContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import InMemoryCachingContextParsingLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import ProperNounWithoutApostropheRootFinder, ProperNounFromApostropheRootFinder, WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder
 from trnltk.morphology.learner.controller.learnercontroller import ParseContextCreator
