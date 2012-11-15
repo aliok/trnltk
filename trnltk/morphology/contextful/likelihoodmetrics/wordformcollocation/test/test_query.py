@@ -2,7 +2,7 @@
 import unittest
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.query import WordNGramQueryContainer, QueryExecutor, QueryExecutionContext, QueryExecutionContextBuilder, QueryExecutionIndexContextBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutor, QueryExecutionContext, QueryExecutionContextBuilder, QueryExecutionIndexContextBuilder
 
 class WordNGramQueryContainerTest(unittest.TestCase):
     @classmethod

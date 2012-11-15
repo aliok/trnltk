@@ -20,9 +20,9 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import NonContextParsingLikelihoodCalculator, ContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import logger as context_stats_logger
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import query_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import NonContextParsingLikelihoodCalculator, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import logger as context_stats_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import query_logger
 
 class _LikelihoodCalculatorTest(object):
     @classmethod

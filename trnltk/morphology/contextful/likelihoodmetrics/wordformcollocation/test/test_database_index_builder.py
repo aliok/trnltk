@@ -5,8 +5,8 @@ The tests are there for making sure there is no run time exceptions
 """
 import unittest
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.database import DatabaseIndexBuilder
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.appender import   ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import   ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
 
 class DatabaseIndexBuilderTest(unittest.TestCase):
     @classmethod

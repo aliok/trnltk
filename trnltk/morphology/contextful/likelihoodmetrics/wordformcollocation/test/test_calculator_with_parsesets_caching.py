@@ -5,9 +5,9 @@ The tests are there for making sure there is no run time exceptions
 """
 import unittest
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.calculator import CachingContextParsingLikelihoodCalculator, InMemoryCachingContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.hidden.database import QueryCacheCollectionCreator
-from trnltk.morphology.contextful.likelihoodmetrics.variantcontiguity.test.test_calculator_with_parsesets import _BaseLikelihoodCalculatorTest
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.calculator import CachingContextParsingLikelihoodCalculator, InMemoryCachingContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import QueryCacheCollectionCreator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.test.test_calculator_with_parsesets import _BaseLikelihoodCalculatorTest
 
 class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
     @classmethod
