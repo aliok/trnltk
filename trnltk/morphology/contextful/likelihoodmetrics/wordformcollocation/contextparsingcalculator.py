@@ -41,8 +41,9 @@ class ContextParsingLikelihoodCalculator(object):
         ]
     ]
 
-    def __init__(self, collection_map):
+    def __init__(self, collection_map, ngram_frequency_smoother):
         self._collection_map = collection_map
+        self._ngram_frequency_smoother = ngram_frequency_smoother
 
     def build_indexes(self):
         index_builder = DatabaseIndexBuilder(self._collection_map)
@@ -156,7 +157,17 @@ class ContextParsingLikelihoodCalculator(object):
 
             logger.debug("       Target form counts given context forms: \n{}".format(target_form_given_context_counts))
 
-            target_form_probabilities = target_form_given_context_counts / context_counts
+            if calculation_context is not None:
+                word_calc_context['target_form_counts'] = target_form_given_context_counts
+            logger.debug("       Target form counts: \n{}".format(target_form_given_context_counts))
+
+            smoothed_target_form_given_context_counts = self._smooth_cooccurrence_counts(target_form_given_context_counts)
+
+            if calculation_context is not None:
+                word_calc_context['smoothed_target_form_counts'] = smoothed_target_form_given_context_counts
+            logger.debug("       Smoothed target form counts: \n{}".format(smoothed_target_form_given_context_counts))
+
+            target_form_probabilities = smoothed_target_form_given_context_counts / context_counts
             target_form_probabilities[numpy.isinf(target_form_probabilities)] = 0.0
             target_form_probabilities[numpy.isnan(target_form_probabilities)] = 0.0
 
@@ -254,6 +265,15 @@ class ContextParsingLikelihoodCalculator(object):
             return [[context_parse_result] for context_parse_result in cartesian_product_list]
 
         return cartesian_product_list
+
+    def _smooth_cooccurrence_counts(self, target_form_given_context_counts):
+        smoothed_counts = numpy.zeros((3, 3), dtype=float)
+
+        for i, row in enumerate(target_form_given_context_counts):
+            for j, count in enumerate(row):
+                smoothed_counts[i][j] = self._ngram_frequency_smoother.smooth(target_form_given_context_counts)
+
+        return smoothed_counts
 
 
 class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
