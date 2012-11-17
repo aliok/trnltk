@@ -1,3 +1,4 @@
+from __future__ import division
 from bson.code import Code
 from collections import defaultdict
 import operator
@@ -27,14 +28,14 @@ class NGramFrequencySmoother(object):
 
         self._frequencies_of_ngram_frequencies = defaultdict(lambda: defaultdict(int))
 
-        vocabulary_sizes_for_ngram_item_types = self._find_vocabulary_sizes(ngram_item_types)
+        self._vocabulary_sizes_for_ngram_item_types = self._find_vocabulary_sizes(ngram_item_types)
 
         for frequency in range(0, self._smoothing_upper_count + 2):
             if self._ngram_length == 1:
                 for target_type in ngram_item_types:
                     ngram_type = [target_type]
                     type_key = '_'.join(ngram_type)
-                    frequency_of_frequency = self._find_frequency_of_frequency(ngram_type, frequency, vocabulary_sizes_for_ngram_item_types)
+                    frequency_of_frequency = self._find_frequency_of_frequency(ngram_type, frequency)
                     self._frequencies_of_ngram_frequencies[type_key][frequency] = frequency_of_frequency
             else:
                 for context_type in ngram_item_types:
@@ -44,13 +45,14 @@ class NGramFrequencySmoother(object):
                             ngram_type = (context_ngram_type + [target_type]) if context_is_leading else ([target_type] + context_ngram_type)
 
                             type_key = '_'.join(ngram_type)
-                            frequency_of_frequency = self._find_frequency_of_frequency(ngram_type, frequency, vocabulary_sizes_for_ngram_item_types)
+                            frequency_of_frequency = self._find_frequency_of_frequency(ngram_type, frequency)
                             self._frequencies_of_ngram_frequencies[type_key][frequency] = frequency_of_frequency
 
-    def _find_frequency_of_frequency(self, ngram_type, frequency, vocabulary_sizes):
-        if frequency == 0:      # special treatment for frequency 0
+    def _find_frequency_of_frequency(self, ngram_type, frequency):
+        if frequency == 0:      # special treatment for frequency 0, estimate missing mass
             distinct_ngram_count_for_ngram_type = self._find_frequency_from_database(self._collection, ngram_type, None)
-            possible_ngram_count_for_ngram_type = reduce(operator.mul, [vocabulary_sizes[ngram_type_item] for ngram_type_item in ngram_type])
+            possible_ngram_count_for_ngram_type = reduce(operator.mul,
+                [self._vocabulary_sizes_for_ngram_item_types[ngram_type_item] for ngram_type_item in ngram_type])
             frequency_of_frequency_0 = possible_ngram_count_for_ngram_type - distinct_ngram_count_for_ngram_type
             return frequency_of_frequency_0
         else:
@@ -72,7 +74,9 @@ class NGramFrequencySmoother(object):
     def _find_frequency_from_database(cls, collection, ngram_type, frequency=None):
         """
         Finds the frequency of given frequency, if frequency is provided.
+
         If frequency is None, then frequency control is ignored; thus count of distinct items for ngram_type is returned.
+
         For frequency 0, this method should not be used!
         @type ngram_type: list
         @type frequency: None or int
@@ -123,13 +127,21 @@ class NGramFrequencySmoother(object):
         smoothed_count = 0
 
         if count == 0:
-            smoothed_count = (count + 1) * (self._frequencies_of_ngram_frequencies[type_key][1] / self._frequencies_of_ngram_frequencies[type_key][0])
-            #TODO: divide by unseen vocabulary count?
-        elif count <= K:
-            a = (count + 1) * (self._frequencies_of_ngram_frequencies[type_key][1] / self._frequencies_of_ngram_frequencies[type_key][0])
-            b = (count * (K + 1) * self._frequencies_of_ngram_frequencies[type_key][K + 1]) / self._frequencies_of_ngram_frequencies[type_key][1]
+            # total probability of unseen (from definition) : N1 / N
+            # total count of unseen : (N1 / N) * N = N1
+            # since we're not calculating the probability, but the estimated count:
+            # count of _one_ unseen : N1 / N0
+            smoothed_count = (self._frequencies_of_ngram_frequencies[type_key][1] / self._frequencies_of_ngram_frequencies[type_key][0])
+        elif count <= K:        # apply smoothing up to K. for bigger, the result is reliable enough
+            N_c = self._frequencies_of_ngram_frequencies[type_key][count]
+            N_c1 = self._frequencies_of_ngram_frequencies[type_key][count + 1]
+            N_k_1 = self._frequencies_of_ngram_frequencies[type_key][K + 1]
+            N_1 = self._frequencies_of_ngram_frequencies[type_key][1]
 
-            smoothed_count = (a - b) / (1 - b)
+            a = (N_c1 / N_c) if N_c > 0 else 0
+            b = ((K + 1) * N_k_1 / N_1) if N_1 > 0 else 0
+
+            smoothed_count = ((count + 1) * a - count * b) / (1 - b)
         else:
             smoothed_count = count
 
