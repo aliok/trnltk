@@ -41,6 +41,12 @@ class ContextParsingLikelihoodCalculator(object):
         ]
     ]
 
+    CONTEXT_APPENDER_VECTOR = [
+        _context_surface_syn_cat_appender,
+        _context_stem_syn_cat_appender,
+        _context_lemma_root_syn_cat_appender
+    ]
+
     def __init__(self, collection_map, ngram_frequency_smoother):
         self._collection_map = collection_map
         self._ngram_frequency_smoother = ngram_frequency_smoother
@@ -138,6 +144,11 @@ class ContextParsingLikelihoodCalculator(object):
             context_counts = self._get_context_form_count_matrix(context_parse_results)
             logger.debug("       Context form counts: \n{}".format(context_counts))
 
+            smoothed_context_counts = self._smooth_context_cooccurrence_counts(context_counts, context_parse_results)
+            if calculation_context is not None:
+                word_calc_context['smoothed_context_counts'] = smoothed_context_counts
+            logger.debug("       Smoothed context form counts: \n{}".format(smoothed_context_counts))
+
             if calculation_context is not None:
                 word_calc_context['context_words'] = {}
                 for i, context_item in enumerate(context_parse_results):
@@ -160,13 +171,13 @@ class ContextParsingLikelihoodCalculator(object):
                 word_calc_context['target_form_counts'] = target_form_given_context_counts
             logger.debug("       Target form counts: \n{}".format(target_form_given_context_counts))
 
-            smoothed_target_form_given_context_counts = self._smooth_cooccurrence_counts(target_form_given_context_counts, target, context_parse_results, target_comes_after)
+            smoothed_target_form_given_context_counts = self._smooth_target_context_cooccurrence_counts(target_form_given_context_counts, target, context_parse_results, target_comes_after)
 
             if calculation_context is not None:
                 word_calc_context['smoothed_target_form_counts'] = smoothed_target_form_given_context_counts
             logger.debug("       Smoothed target form counts: \n{}".format(smoothed_target_form_given_context_counts))
 
-            target_form_probabilities = smoothed_target_form_given_context_counts / context_counts
+            target_form_probabilities = smoothed_target_form_given_context_counts / smoothed_context_counts
             target_form_probabilities[numpy.isinf(target_form_probabilities)] = 0.0
             target_form_probabilities[numpy.isnan(target_form_probabilities)] = 0.0
 
@@ -205,15 +216,9 @@ class ContextParsingLikelihoodCalculator(object):
         return likelihood
 
     def _get_context_form_count_matrix(self, context_parse_results):
-        appender_matrix = [
-            _context_surface_syn_cat_appender,
-            _context_stem_syn_cat_appender,
-            _context_lemma_root_syn_cat_appender
-        ]
-
         context_form_counts = numpy.zeros(3, dtype=float)
 
-        for i, context_appender in enumerate(appender_matrix):
+        for i, context_appender in enumerate(self.CONTEXT_APPENDER_VECTOR):
             # target_comes_after doesn't matter, since there is no target
             context_form_count = self._count_target_form_given_context(None, context_parse_results, False, None, context_appender)
             context_form_counts[i] = context_form_count
@@ -265,7 +270,22 @@ class ContextParsingLikelihoodCalculator(object):
 
         return cartesian_product_list
 
-    def _smooth_cooccurrence_counts(self, target_form_given_context_counts, target, context_parse_results, target_comes_after):
+    def _smooth_context_cooccurrence_counts(self, context_counts, context_parse_results):
+        smoothed_counts = numpy.zeros(3, dtype=float)
+
+        for i, count in enumerate(context_counts):
+            context_appender = self.CONTEXT_APPENDER_VECTOR[i]
+            context_ngram_type_item = context_appender.get_ngram_type_item()
+
+            context_len = len(context_parse_results)
+
+            ngram_type = context_len * [context_ngram_type_item]
+
+            smoothed_counts[i] = self._ngram_frequency_smoother.smooth(context_counts[i], ngram_type)
+
+        return smoothed_counts
+
+    def _smooth_target_context_cooccurrence_counts(self, target_form_given_context_counts, target, context_parse_results, target_comes_after):
         smoothed_counts = numpy.zeros((3, 3), dtype=float)
 
         for i, row in enumerate(target_form_given_context_counts):

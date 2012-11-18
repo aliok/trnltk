@@ -162,6 +162,13 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
         cls.mongodb_connection = pymongo.Connection(host='127.0.0.1')
 
 
+    def test_smooth_with_unigrams(self):
+        N = 1
+        K = 5
+        parseset_index = "999"
+
+        self._test_smooth_with_ngrams(N, K, parseset_index)
+
     def test_smooth_with_bigrams(self):
         N = 2
         K = 5

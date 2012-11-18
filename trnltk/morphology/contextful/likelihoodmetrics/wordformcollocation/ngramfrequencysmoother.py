@@ -217,6 +217,10 @@ class CachedSimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
         if count > 5:
             return count
 
+        if len(ngram_type) == 1:
+            # We cannot determine the vocabulary size and thus N_0. So, smoothing cannot be applied for unigrams.
+            return count
+
         key = '_'.join(ngram_type) + '_' + str(int(count))
         if len(ngram_type) == 2:
             return self._bigram_smoothed_frequencies[key]
@@ -228,7 +232,7 @@ class CachedSimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
 
 class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
     """
-    "Simple Good-Turing" smoothing: For N_p's where p>smoothing_upper_count, c is not smoothed.
+    "Simple Good-Turing" smoothing with threshold. For N_p's where p>smoothing_threshold, c is not smoothed.
 
     Uses loglinregression if Nc=0, while calculating Nc+1.
 
@@ -239,16 +243,16 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
      -- ngram types : calculations for e.g. NGrams with types <stem,stem,surface> and <lexeme,lexeme,surface> are different
     """
 
-    def __init__(self, ngram_length, smoothing_upper_count, collection, unigram_collection):
+    def __init__(self, ngram_length, smoothing_threshold, collection, unigram_collection):
         super(SimpleGoodTuringNGramFrequencySmoother, self).__init__()
 
         self._ngram_length = ngram_length
-        self._smoothing_upper_count = smoothing_upper_count
+        self._smoothing_threshold = smoothing_threshold
         self._collection = collection
         self._unigram_collection = unigram_collection
 
         assert ngram_length >= 1
-        assert smoothing_upper_count > 1
+        assert smoothing_threshold > 1
 
         self._ngram_item_types = ['surface', 'stem', 'lemma_root']
 
@@ -271,7 +275,7 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
     def _calculate_frequencies_of_ngram_frequencies(self):
         self._frequencies_of_ngram_frequencies = defaultdict(lambda: defaultdict(int))
 
-        for frequency in range(0, self._smoothing_upper_count + 2):
+        for frequency in range(0, self._smoothing_threshold + 2):
             if self._ngram_length == 1:
                 for target_type in self._ngram_item_types:
                     ngram_type, type_key = self._get_ngram_type_and_key(True, [], target_type)
@@ -425,10 +429,15 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
         return m, c
 
     def smooth(self, count, ngram_type):
-        K = self._smoothing_upper_count
+        K = self._smoothing_threshold
         type_key = '_'.join(ngram_type)       # something like "surface_surface_stem"
 
         logger.debug("Smoothing c value for c={}, ngram_type={}".format(count, str(ngram_type)))
+
+        if len(ngram_type) == 1:
+            # We cannot determine the vocabulary size and thus N_0. So, smoothing cannot be applied for unigrams.
+            logger.debug("Smoothing cannot be applied for unigrams, returning the count")
+            return count
 
         smoothed_count = 0
 
