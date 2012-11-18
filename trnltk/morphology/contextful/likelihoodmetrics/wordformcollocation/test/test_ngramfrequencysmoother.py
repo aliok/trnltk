@@ -28,7 +28,7 @@ class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
         cls._create_sample_data(unigram_collection, bigram_collection)
 
         cls.smoother = NGramFrequencySmoother(cls._N, cls._K, bigram_collection, unigram_collection)
-        cls.smoother.calculate_frequencies_of_ngram_frequencies()
+        cls.smoother.initialize()
 
     @classmethod
     def _create_sample_data(cls, unigram_collection, bigram_collection):
@@ -183,7 +183,7 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
 
         smoother = NGramFrequencySmoother(N, K, collection, unigram_collection)
 
-        smoother.calculate_frequencies_of_ngram_frequencies()
+        smoother.initialize()
 
         pprint(json.loads(json.dumps(smoother._frequencies_of_ngram_frequencies)))
         pprint(json.loads(json.dumps(smoother._vocabulary_sizes_for_ngram_item_types)))

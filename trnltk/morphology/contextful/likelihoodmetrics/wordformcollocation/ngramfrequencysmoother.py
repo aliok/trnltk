@@ -1,11 +1,15 @@
 from __future__ import division
 from bson.code import Code
 from collections import defaultdict
+from numpy.linalg import linalg
 import operator
+import numpy
 
 class NGramFrequencySmoother(object):
     """
     "Simple Good-Turing" smoothing: For N_p's where p>smoothing_upper_count, c is not smoothed.
+
+    Uses loglinregression if Nc=0, while calculating Nc+1.
 
     What is different:
 
@@ -23,28 +27,28 @@ class NGramFrequencySmoother(object):
         assert ngram_length >= 1
         assert smoothing_upper_count > 1
 
-    def calculate_frequencies_of_ngram_frequencies(self):
-        ngram_item_types = ['surface', 'stem', 'lemma_root']
+        self._ngram_item_types = ['surface', 'stem', 'lemma_root']
 
+    def initialize(self):
+        self._calculate_frequencies_of_ngram_frequencies()
+        self._calculate_loglinregression_coefficients()
+
+    def _calculate_frequencies_of_ngram_frequencies(self):
         self._frequencies_of_ngram_frequencies = defaultdict(lambda: defaultdict(int))
 
-        self._vocabulary_sizes_for_ngram_item_types = self._find_vocabulary_sizes(ngram_item_types)
+        self._vocabulary_sizes_for_ngram_item_types = self._find_vocabulary_sizes(self._ngram_item_types)
 
         for frequency in range(0, self._smoothing_upper_count + 2):
             if self._ngram_length == 1:
-                for target_type in ngram_item_types:
-                    ngram_type = [target_type]
-                    type_key = '_'.join(ngram_type)
+                for target_type in self._ngram_item_types:
+                    ngram_type, type_key = self._get_ngram_type_and_key(True, [], target_type)
                     frequency_of_frequency = self._find_frequency_of_frequency(ngram_type, frequency)
                     self._frequencies_of_ngram_frequencies[type_key][frequency] = frequency_of_frequency
             else:
-                for context_type in ngram_item_types:
+                for context_type in self._ngram_item_types:
                     for context_is_leading in (True, False):
-                        for target_type in ngram_item_types:
-                            context_ngram_type = (self._ngram_length - 1) * [context_type]
-                            ngram_type = (context_ngram_type + [target_type]) if context_is_leading else ([target_type] + context_ngram_type)
-
-                            type_key = '_'.join(ngram_type)
+                        for target_type in self._ngram_item_types:
+                            ngram_type, type_key = self._get_ngram_type_and_key(context_is_leading, context_type, target_type)
                             frequency_of_frequency = self._find_frequency_of_frequency(ngram_type, frequency)
                             self._frequencies_of_ngram_frequencies[type_key][frequency] = frequency_of_frequency
 
@@ -120,6 +124,34 @@ class NGramFrequencySmoother(object):
 
         return result.count()
 
+    def _calculate_loglinregression_coefficients(self):
+        self._loglinregression_a = {}
+        self._loglinregression_b = {}
+
+        if self._ngram_length == 1:
+            for target_type in self._ngram_item_types:
+                ngram_type, type_key = self._get_ngram_type_and_key(True, [], target_type)
+                self._calculate_loglinregression_coefficients_for_ngram_type(type_key)
+        else:
+            for context_type in self._ngram_item_types:
+                for context_is_leading in (True, False):
+                    for target_type in self._ngram_item_types:
+                        ngram_type, type_key = self._get_ngram_type_and_key(context_is_leading, context_type, target_type)
+                        self._calculate_loglinregression_coefficients_for_ngram_type(type_key)
+
+
+    def _calculate_loglinregression_coefficients_for_ngram_type(self, type_key):
+        cs = self._frequencies_of_ngram_frequencies[type_key].keys()[1:]    # skip c=0
+        Ns = self._frequencies_of_ngram_frequencies[type_key].values()[1:]  # skip c=0
+        a, b = self._loglinregression(cs, Ns)
+        self._loglinregression_a[type_key] = a
+        self._loglinregression_b[type_key] = b
+
+    def _loglinregression(self, x, y):
+        a, b = linalg.lstsq(numpy.vstack([numpy.log(x), numpy.ones(len(x))]).T, y)[0]
+        # if slope (a) is bigger than -1, then it is not log linear. but do nothing about it
+        return a, b
+
     def smooth(self, count, ngram_type):
         K = self._smoothing_upper_count
         type_key = '_'.join(ngram_type)       # something like "surface_surface_stem"
@@ -138,11 +170,29 @@ class NGramFrequencySmoother(object):
             N_k_1 = self._frequencies_of_ngram_frequencies[type_key][K + 1]
             N_1 = self._frequencies_of_ngram_frequencies[type_key][1]
 
-            a = (N_c1 / N_c) if N_c > 0 else 0
-            b = ((K + 1) * N_k_1 / N_1) if N_1 > 0 else 0
+            N_c = self._map_c_to_Nc(type_key, count) if N_c == 0 else N_c
+            N_c1 = self._map_c_to_Nc(type_key, count + 1) if N_c1 == 0 else N_c1
+            N_k_1 = self._map_c_to_Nc(type_key, K + 1) if N_k_1 == 0 else N_k_1
+            N_1 = self._map_c_to_Nc(type_key, 1) if N_1 == 0 else N_1
+
+            a = (N_c1 / N_c)
+            b = (K + 1) * N_k_1 / N_1
 
             smoothed_count = ((count + 1) * a - count * b) / (1 - b)
         else:
             smoothed_count = count
 
         return smoothed_count
+
+    def _map_c_to_Nc(self, ngram_type_key, count):
+        a = self._loglinregression_a[ngram_type_key]
+        b = self._loglinregression_b[ngram_type_key]
+        Nc = numpy.exp([a + b * numpy.log(count)])[0]
+
+        return Nc
+
+    def _get_ngram_type_and_key(self, context_is_leading, context_type, target_type):
+        context_ngram_type = (self._ngram_length - 1) * [context_type]
+        ngram_type = (context_ngram_type + [target_type]) if context_is_leading else ([target_type] + context_ngram_type)
+        type_key = '_'.join(ngram_type)
+        return ngram_type, type_key
