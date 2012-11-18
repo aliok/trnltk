@@ -245,7 +245,7 @@ class NGramFrequencySmoother(object):
             if logger.isEnabledFor(logging.DEBUG):
                 Nc_values = {
                     'N_{}'.format(count): N_c,
-                    'N_{}_1'.format(count): N_c_1,
+                    'N_{}'.format(count+1): N_c_1,
                     'N_k_1': N_k_1,
                     'N_1': N_1,
                     }
@@ -260,8 +260,17 @@ class NGramFrequencySmoother(object):
 
         else:
             smoothed_count = count
-
-        logger.debug(" Smoothed_count={}".format(smoothed_count))
+#        below is normal Good Turing.
+#        else:
+#            N_c = self._frequencies_of_ngram_frequencies[type_key][count]
+#            N_c_1 = self._frequencies_of_ngram_frequencies[type_key][count + 1]
+#
+#            N_c = self._map_c_to_Nc(type_key, count) if N_c == 0 else N_c
+#            N_c_1 = self._map_c_to_Nc(type_key, count + 1) if N_c_1 == 0 else N_c_1
+#
+#            smoothed_count = (count + 1) * N_c_1 / N_c
+#
+#        logger.debug(" Smoothed_count={}".format(smoothed_count))
 
         return smoothed_count
 

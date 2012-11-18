@@ -165,7 +165,14 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
     def test_smooth_with_bigrams(self):
         N = 2
         K = 5
-        parseset_index = "001"
+        parseset_index = "999"
+
+        self._test_smooth_with_ngrams(N, K, parseset_index)
+
+    def test_smooth_with_trigrams(self):
+        N = 3
+        K = 5
+        parseset_index = "999"
 
         self._test_smooth_with_ngrams(N, K, parseset_index)
 
