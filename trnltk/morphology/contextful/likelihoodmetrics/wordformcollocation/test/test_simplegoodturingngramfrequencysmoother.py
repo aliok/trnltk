@@ -8,7 +8,7 @@ import logging
 from pprint import pprint
 import unittest
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import NGramFrequencySmoother, logger as smoother_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import SimpleGoodTuringNGramFrequencySmoother, logger as smoother_logger
 
 class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
     @classmethod
@@ -28,7 +28,7 @@ class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
 
         cls._create_sample_data(unigram_collection, bigram_collection)
 
-        cls.smoother = NGramFrequencySmoother(cls._N, cls._K, bigram_collection, unigram_collection)
+        cls.smoother = SimpleGoodTuringNGramFrequencySmoother(cls._N, cls._K, bigram_collection, unigram_collection)
         cls.smoother.initialize()
 
     @classmethod
@@ -192,14 +192,14 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
         else:
             raise Exception("N>3 is not supported in tests!")
 
-        smoother = NGramFrequencySmoother(N, K, collection, unigram_collection)
+        smoother = SimpleGoodTuringNGramFrequencySmoother(N, K, collection, unigram_collection)
 
         smoother.initialize()
 
         types = ['surface', 'stem', 'lemma_root']
         up = K + 4
 
-        debug_lines = []
+        smoothed_count_map = {}
 
         for i, ngram_item_type_0 in enumerate(types):
             for j, ngram_item_type_1 in enumerate(types):
@@ -208,11 +208,9 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
                         ngram_type = (([ngram_item_type_0] * (N - 1)) + [ngram_item_type_1]) if leading else (
                         [ngram_item_type_1] + ([ngram_item_type_0] * (N - 1)))
                         smooth_c = smoother.smooth(c, ngram_type)
-                        debug_lines.append("c={}, type={} ==> c*={}".format(c, ngram_type, smooth_c))
-                    debug_lines.append("\n")
+                        smoothed_count_map['_'.join(ngram_type) + u'_' + str(c)] = smooth_c
 
-        for line in debug_lines:
-            print line
+        pprint(smoothed_count_map)
 
 if __name__ == '__main__':
     unittest.main()
