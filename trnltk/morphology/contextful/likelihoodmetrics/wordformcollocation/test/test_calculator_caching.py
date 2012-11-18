@@ -6,6 +6,7 @@ The tests are there for making sure there is no run time exceptions
 import unittest
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import  CachingContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import  QueryCacheCollectionCreator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.noncontextparsingcalculator import CachingNonContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.test.test_calculator import _LikelihoodCalculatorTest
 
@@ -59,7 +60,9 @@ class CachingContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, u
 
         query_cache_collection = QueryCacheCollectionCreator(database).build(drop=True)
 
-        self.generator = CachingContextParsingLikelihoodCalculator(self.collection_map, query_cache_collection)
+        ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
+
+        self.generator = CachingContextParsingLikelihoodCalculator(self.collection_map, query_cache_collection, ngram_frequency_smoother)
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
 #        query_logger.setLevel(logging.DEBUG)

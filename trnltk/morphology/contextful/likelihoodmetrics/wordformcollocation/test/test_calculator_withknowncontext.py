@@ -8,6 +8,7 @@ import os
 import unittest
 from xml.dom.minidom import parse
 import pymongo
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.parsecontext import MockMorphemeContainerBuilder
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
@@ -66,7 +67,8 @@ class LikelihoodCalculatorTest(unittest.TestCase):
             3: mongodb_connection['trnltk']['wordTrigrams999']
         }
 
-        cls.generator = ContextParsingLikelihoodCalculator(cls.collection_map)
+        ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
+        cls.generator = ContextParsingLikelihoodCalculator(cls.collection_map, ngram_frequency_smoother)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)

@@ -7,6 +7,7 @@ import unittest
 import pymongo
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import CachingContextParsingLikelihoodCalculator, InMemoryCachingContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import QueryCacheCollectionCreator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.test.test_calculator_with_parsesets import _BaseLikelihoodCalculatorTest
 
 class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
@@ -21,7 +22,9 @@ class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
 
         query_cache_collection = QueryCacheCollectionCreator(mongodb_connection['trnltk']).build(drop=False)
 
-        return CachingContextParsingLikelihoodCalculator(collection_map, query_cache_collection)
+        ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
+
+        return CachingContextParsingLikelihoodCalculator(collection_map, query_cache_collection, ngram_frequency_smoother)
 
     def test_contextstats_with_parseset_001_with_1leading(self):
         self._test_contextstats_with_parseset_n("001", 1, 0)
@@ -44,6 +47,7 @@ class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
     def test_contextstats_with_parseset_999(self):
         self._test_contextstats_with_parseset_n("999", 2, 2)
 
+
 class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
     @classmethod
     def create_calculator(cls, parseset_index):
@@ -54,7 +58,8 @@ class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
             3: mongodb_connection['trnltk']['wordTrigrams{}'.format(parseset_index)]
         }
 
-        return InMemoryCachingContextParsingLikelihoodCalculator(collection_map)
+        ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
+        return InMemoryCachingContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
 
     def test_contextstats_with_parseset_001_with_1leading(self):
         self._test_contextstats_with_parseset_n("001", 1, 0)

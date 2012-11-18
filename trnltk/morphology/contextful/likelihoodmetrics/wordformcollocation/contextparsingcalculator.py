@@ -151,8 +151,7 @@ class ContextParsingLikelihoodCalculator(object):
 
             for i, appender_matrix_row in enumerate(self.APPENDER_MATRIX):
                 for j, (target_appender, context_appender) in enumerate(appender_matrix_row):
-                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender,
-                        context_appender)
+                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
                     target_form_given_context_counts[i][j] = target_form_given_count
 
             logger.debug("       Target form counts given context forms: \n{}".format(target_form_given_context_counts))
@@ -161,7 +160,7 @@ class ContextParsingLikelihoodCalculator(object):
                 word_calc_context['target_form_counts'] = target_form_given_context_counts
             logger.debug("       Target form counts: \n{}".format(target_form_given_context_counts))
 
-            smoothed_target_form_given_context_counts = self._smooth_cooccurrence_counts(target_form_given_context_counts)
+            smoothed_target_form_given_context_counts = self._smooth_cooccurrence_counts(target_form_given_context_counts, target, context_parse_results, target_comes_after)
 
             if calculation_context is not None:
                 word_calc_context['smoothed_target_form_counts'] = smoothed_target_form_given_context_counts
@@ -266,19 +265,27 @@ class ContextParsingLikelihoodCalculator(object):
 
         return cartesian_product_list
 
-    def _smooth_cooccurrence_counts(self, target_form_given_context_counts):
+    def _smooth_cooccurrence_counts(self, target_form_given_context_counts, target, context_parse_results, target_comes_after):
         smoothed_counts = numpy.zeros((3, 3), dtype=float)
 
         for i, row in enumerate(target_form_given_context_counts):
             for j, count in enumerate(row):
-                smoothed_counts[i][j] = self._ngram_frequency_smoother.smooth(target_form_given_context_counts)
+                target_appender, context_appender = self.APPENDER_MATRIX[i][j]
+                target_ngram_type_item = target_appender.get_ngram_type_item()
+                context_ngram_type_item = context_appender.get_ngram_type_item()
+
+                context_len = len(context_parse_results)
+
+                ngram_type = [target_ngram_type_item] + context_len * [context_ngram_type_item] if target_comes_after else context_len * [context_ngram_type_item] + [target_ngram_type_item]
+
+                smoothed_counts[i][j] = self._ngram_frequency_smoother.smooth(target_form_given_context_counts[i][j], ngram_type)
 
         return smoothed_counts
 
 
 class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
-    def __init__(self, collection_map, query_cache_collection):
-        super(CachingContextParsingLikelihoodCalculator, self).__init__(collection_map)
+    def __init__(self, collection_map, query_cache_collection, ngram_frequency_smoother):
+        super(CachingContextParsingLikelihoodCalculator, self).__init__(collection_map, ngram_frequency_smoother)
         self._query_cache_collection = query_cache_collection
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
@@ -289,8 +296,8 @@ class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculat
 
 
 class InMemoryCachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
-    def __init__(self, collection_map):
-        super(InMemoryCachingContextParsingLikelihoodCalculator, self).__init__(collection_map)
+    def __init__(self, collection_map, ngram_frequency_smoother):
+        super(InMemoryCachingContextParsingLikelihoodCalculator, self).__init__(collection_map, ngram_frequency_smoother)
 
     def _find_count_for_query(self, params, query_container, target_comes_after):
         query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)

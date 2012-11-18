@@ -10,6 +10,7 @@ import unittest
 from xml.dom.minidom import parse
 import pymongo
 import datetime
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.parsecontext import MockMorphemeContainerBuilder
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
@@ -183,7 +184,8 @@ class LikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
             3: mongodb_connection['trnltk']['wordTrigrams{}'.format(parseset_index)]
         }
 
-        return ContextParsingLikelihoodCalculator(collection_map)
+        ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
+        return ContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
 
     def test_contextstats_with_parseset_001_with_1leading(self):
         self._test_contextstats_with_parseset_n("001", 1, 0)

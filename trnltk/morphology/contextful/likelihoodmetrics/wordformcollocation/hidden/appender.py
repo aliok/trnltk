@@ -26,6 +26,9 @@ class ParseResultFormAppender(QueryFormAppender):
     def append_index_key(self, index_container):
         raise NotImplementedError()
 
+    def get_ngram_type_item(self):
+        raise NotImplementedError()
+
 class ParseResultSurfaceAppender(ParseResultFormAppender):
     def append(self, morpheme_container, query, params):
         if self.is_target:
@@ -63,6 +66,8 @@ class ParseResultSurfaceAppender(ParseResultFormAppender):
             else:
                 index_container.given_surface(False)
 
+    def get_ngram_type_item(self):
+        return 'surface'
 
 class ParseResultStemAppender(ParseResultFormAppender):
     def append(self, morpheme_container, query, params):
@@ -101,6 +106,9 @@ class ParseResultStemAppender(ParseResultFormAppender):
             else:
                 index_container.given_stem(False)
 
+    def get_ngram_type_item(self):
+        return 'stem'
+
 class ParseResultLemmaRootAppender(ParseResultFormAppender):
     def append(self, morpheme_container, query, params):
         if self.is_target:
@@ -138,6 +146,8 @@ class ParseResultLemmaRootAppender(ParseResultFormAppender):
             else:
                 index_container.given_lemma_root(False)
 
+    def get_ngram_type_item(self):
+        return 'lemma_root'
 
 _context_word_appender = ContextWordAppender()
 _target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)

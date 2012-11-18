@@ -191,12 +191,12 @@ class CachedSimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
             'stem_lemma_root_lemma_root_4': 2.86320962549,
             'stem_lemma_root_lemma_root_5': 3.20384010593,
 
-            'lemma_root_surface_0': 3.3573280622e-08,
-            'lemma_root_surface_1': 0.0378749147921,
-            'lemma_root_surface_2': 0.497538057059,
-            'lemma_root_surface_3': 1.09560828421,
-            'lemma_root_surface_4': 2.85568215016,
-            'lemma_root_surface_5': 2.49680470348,
+            'lemma_root_surface_surface_0': 3.3573280622e-08,
+            'lemma_root_surface_surface_1': 0.0378749147921,
+            'lemma_root_surface_surface_2': 0.497538057059,
+            'lemma_root_surface_surface_3': 1.09560828421,
+            'lemma_root_surface_surface_4': 2.85568215016,
+            'lemma_root_surface_surface_5': 2.49680470348,
 
             'lemma_root_stem_stem_0': 1.3152470358e-07,
             'lemma_root_stem_stem_1': 0.0542902949509,
@@ -211,13 +211,19 @@ class CachedSimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
         pass
 
     def smooth(self, count, ngram_type):
-        key = '_'.join(ngram_type) + '_' + str(count)
+        assert int(count) == count        # should be integer (could be int, stored in float)
+        assert count >= 0
+
+        if count > 5:
+            return count
+
+        key = '_'.join(ngram_type) + '_' + str(int(count))
         if len(ngram_type) == 2:
             return self._bigram_smoothed_frequencies[key]
         elif len(ngram_type) == 3:
             return self._trigram_smoothed_frequencies[key]
         else:
-            return count
+            raise Exception("{}-grams are not supported".format(len(ngram_type)))
 
 
 class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
