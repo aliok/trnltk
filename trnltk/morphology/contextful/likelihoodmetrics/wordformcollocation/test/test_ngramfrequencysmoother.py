@@ -4,10 +4,11 @@ There is no verification -yet- in test of this class.
 The tests are there for making sure there is no run time exceptions
 """
 import json
+import logging
 from pprint import pprint
 import unittest
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import NGramFrequencySmoother
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import NGramFrequencySmoother, logger as smoother_logger
 
 class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
     @classmethod
@@ -155,6 +156,9 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
     def setUpClass(cls):
         super(NGramFrequencySmootherTestWithDatabase, cls).setUpClass()
 
+        logging.basicConfig(level=logging.INFO)
+        smoother_logger.setLevel(logging.DEBUG)
+
         cls.mongodb_connection = pymongo.Connection(host='127.0.0.1')
 
 
@@ -172,11 +176,11 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
 
         collection = None
 
-        if N==1:
+        if N == 1:
             collection = unigram_collection
-        elif N==2:
+        elif N == 2:
             collection = bigram_collection
-        elif N==3:
+        elif N == 3:
             collection = trigram_collection
         else:
             raise Exception("N>3 is not supported in tests!")
@@ -185,23 +189,23 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
 
         smoother.initialize()
 
-        pprint(json.loads(json.dumps(smoother._frequencies_of_ngram_frequencies)))
-        pprint(json.loads(json.dumps(smoother._vocabulary_sizes_for_ngram_item_types)))
-
-        print
-
         types = ['surface', 'stem', 'lemma_root']
         up = K + 4
+
+        debug_lines = []
 
         for i, ngram_item_type_0 in enumerate(types):
             for j, ngram_item_type_1 in enumerate(types):
                 for leading in [True, False]:
                     for c in range(0, up + 1):
-                        ngram_type = (([ngram_item_type_0] * (N - 1)) + [ngram_item_type_1]) if leading else ([ngram_item_type_1] + ([ngram_item_type_0] * (N - 1)))
+                        ngram_type = (([ngram_item_type_0] * (N - 1)) + [ngram_item_type_1]) if leading else (
+                        [ngram_item_type_1] + ([ngram_item_type_0] * (N - 1)))
                         smooth_c = smoother.smooth(c, ngram_type)
-                        print "c={}, type={} ==> c*={}".format(c, ngram_type, smooth_c)
-                    print '\n'
+                        debug_lines.append("c={}, type={} ==> c*={}".format(c, ngram_type, smooth_c))
+                    debug_lines.append("\n")
 
+        for line in debug_lines:
+            print line
 
 if __name__ == '__main__':
     unittest.main()
