@@ -10,14 +10,62 @@ from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.q
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
-logger = logging.getLogger('contextstats')
+logger = logging.getLogger('contextParsingCollocationLikelihoodCalculatorLogger')
 query_logger = query.logger
 
-
-class ContextParsingLikelihoodCalculator(object):
+class BaseContextParsingLikelihoodCalculator(object):
     WEIGHT_LEADING_CONTEXT = 0.6
     WEIGHT_FOLLOWING_CONTEXT = 0.4
 
+    def calculate_likelihood(self, target, leading_context, following_context, calculation_context=None):
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(u"  Calculating twoway likelihood of \n\t{0}\n\t{1}\n\t{2}".format(
+                [t[0].get_surface() if t else "<Unparsable>" for t in leading_context],
+                formatter.format_morpheme_container_for_simple_parseset(target),
+                [t[0].get_surface() if t else "<Unparsable>" for t in following_context]))
+
+        assert leading_context or following_context
+
+        calculation_context_leading = {} if calculation_context is not None else None
+        calculation_context_following = {} if calculation_context is not None else None
+
+        if calculation_context is not None:
+            calculation_context['leading_context_length'] = len(leading_context)
+            calculation_context['following_context_length'] = len(following_context)
+
+        likelihood = None
+        if leading_context and following_context:
+            likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT +\
+                         self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
+        elif leading_context:
+            likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT
+        elif following_context:
+            likelihood = self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
+
+        if calculation_context is not None:
+            calculation_context['leading'] = calculation_context_leading
+            calculation_context['following'] = calculation_context_following
+            calculation_context['weight_leading_context'] = self.WEIGHT_LEADING_CONTEXT
+            calculation_context['weight_following_context'] = self.WEIGHT_FOLLOWING_CONTEXT
+
+        if calculation_context is not None:
+            calculation_context['sum_likelihood'] = likelihood
+
+        logger.debug("  Calculated likelihood is {}".format(likelihood))
+
+        return likelihood
+
+    def calculate_oneway_likelihood(self, target, context, target_comes_after, calculation_context=None):
+        """
+        @type target: WordFormContainer
+        @type context: list of WordFormContainer
+        @type target_comes_after: bool
+        @rtype: float
+        """
+        raise NotImplementedError()
+
+
+class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator):
     COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1, 3)
     COEFFICIENTS_TARGET_FORM_GIVEN_CONTEXT = numpy.array([0.60, 0.30, 0.10]).reshape(1, 3)
 
@@ -57,44 +105,6 @@ class ContextParsingLikelihoodCalculator(object):
         index_builder.create_indexes([(_context_word_appender,)])
         for appender_matrix_row in self.APPENDER_MATRIX:
             index_builder.create_indexes(appender_matrix_row)
-
-    def calculate_likelihood(self, target, leading_context, following_context, calculation_context=None):
-        if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(u"  Calculating twoway likelihood of \n\t{0}\n\t{1}\n\t{2}".format(
-                [t[0].get_surface() if t else "<Unparsable>" for t in leading_context],
-                formatter.format_morpheme_container_for_simple_parseset(target),
-                [t[0].get_surface() if t else "<Unparsable>" for t in following_context]))
-
-        assert leading_context or following_context
-
-        calculation_context_leading = {} if calculation_context is not None else None
-        calculation_context_following = {} if calculation_context is not None else None
-
-        if calculation_context is not None:
-            calculation_context['leading_context_length'] = len(leading_context)
-            calculation_context['following_context_length'] = len(following_context)
-
-        likelihood = None
-        if leading_context and following_context:
-            likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT +\
-                         self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
-        elif leading_context:
-            likelihood = self.calculate_oneway_likelihood(target, leading_context, True, calculation_context_leading) * self.WEIGHT_LEADING_CONTEXT
-        elif following_context:
-            likelihood = self.calculate_oneway_likelihood(target, following_context, False, calculation_context_following) * self.WEIGHT_FOLLOWING_CONTEXT
-
-        if calculation_context is not None:
-            calculation_context['leading'] = calculation_context_leading
-            calculation_context['following'] = calculation_context_following
-            calculation_context['weight_leading_context'] = self.WEIGHT_LEADING_CONTEXT
-            calculation_context['weight_following_context'] = self.WEIGHT_FOLLOWING_CONTEXT
-
-        if calculation_context is not None:
-            calculation_context['sum_likelihood'] = likelihood
-
-        logger.debug("  Calculated likelihood is {}".format(likelihood))
-
-        return likelihood
 
     def calculate_oneway_likelihood(self, target, context, target_comes_after, calculation_context=None):
         """
@@ -162,7 +172,8 @@ class ContextParsingLikelihoodCalculator(object):
 
             for i, appender_matrix_row in enumerate(self.APPENDER_MATRIX):
                 for j, (target_appender, context_appender) in enumerate(appender_matrix_row):
-                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender, context_appender)
+                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender,
+                        context_appender)
                     target_form_given_context_counts[i][j] = target_form_given_count
 
             logger.debug("       Target form counts given context forms: \n{}".format(target_form_given_context_counts))
@@ -171,7 +182,8 @@ class ContextParsingLikelihoodCalculator(object):
                 word_calc_context['target_form_counts'] = target_form_given_context_counts
             logger.debug("       Target form counts: \n{}".format(target_form_given_context_counts))
 
-            smoothed_target_form_given_context_counts = self._smooth_target_context_cooccurrence_counts(target_form_given_context_counts, target, context_parse_results, target_comes_after)
+            smoothed_target_form_given_context_counts = self._smooth_target_context_cooccurrence_counts(target_form_given_context_counts, target,
+                context_parse_results, target_comes_after)
 
             if calculation_context is not None:
                 word_calc_context['smoothed_target_form_counts'] = smoothed_target_form_given_context_counts
@@ -296,7 +308,8 @@ class ContextParsingLikelihoodCalculator(object):
 
                 context_len = len(context_parse_results)
 
-                ngram_type = [target_ngram_type_item] + context_len * [context_ngram_type_item] if target_comes_after else context_len * [context_ngram_type_item] + [target_ngram_type_item]
+                ngram_type = [target_ngram_type_item] + context_len * [context_ngram_type_item] if target_comes_after else context_len * [
+                    context_ngram_type_item] + [target_ngram_type_item]
 
                 smoothed_counts[i][j] = self._ngram_frequency_smoother.smooth(target_form_given_context_counts[i][j], ngram_type)
 

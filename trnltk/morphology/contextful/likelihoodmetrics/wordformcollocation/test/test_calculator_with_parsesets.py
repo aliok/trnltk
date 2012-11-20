@@ -24,7 +24,7 @@ from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenera
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.ngrams.ngramgenerator import WordNGramGenerator
 from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as context_stats_logger, ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as collocation_likelihood_calculator_logger, ContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as query_logger
 
 class _BaseLikelihoodCalculatorTest(unittest.TestCase):
@@ -59,9 +59,9 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
         query_logger.setLevel(logging.INFO)
-        context_stats_logger.setLevel(logging.INFO)
+        collocation_likelihood_calculator_logger.setLevel(logging.INFO)
 
-    def _test_contextstats_with_parseset_n(self, parseset_index, leading_context_size, following_context_size):
+    def _test_calculate_with_parseset_n(self, parseset_index, leading_context_size, following_context_size):
         start_time = datetime.datetime.today()
 
         self.generator = self.create_calculator(parseset_index)
@@ -187,26 +187,26 @@ class LikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
         return ContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
 
-    def test_contextstats_with_parseset_001_with_1leading(self):
-        self._test_contextstats_with_parseset_n("001", 1, 0)
+    def test_calculate_with_parseset_001_with_1leading(self):
+        self._test_calculate_with_parseset_n("001", 1, 0)
 
-    def test_contextstats_with_parseset_001(self):
-        self._test_contextstats_with_parseset_n("001", 2, 2)
+    def test_calculate_with_parseset_001(self):
+        self._test_calculate_with_parseset_n("001", 2, 2)
 
-    def test_contextstats_with_parseset_002(self):
-        self._test_contextstats_with_parseset_n("002", 2, 2)
+    def test_calculate_with_parseset_002(self):
+        self._test_calculate_with_parseset_n("002", 2, 2)
 
-    def test_contextstats_with_parseset_003(self):
-        self._test_contextstats_with_parseset_n("003", 2, 2)
+    def test_calculate_with_parseset_003(self):
+        self._test_calculate_with_parseset_n("003", 2, 2)
 
-    def test_contextstats_with_parseset_004(self):
-        self._test_contextstats_with_parseset_n("004", 2, 2)
+    def test_calculate_with_parseset_004(self):
+        self._test_calculate_with_parseset_n("004", 2, 2)
 
-    def test_contextstats_with_parseset_005(self):
-        self._test_contextstats_with_parseset_n("005", 2, 2)
+    def test_calculate_with_parseset_005(self):
+        self._test_calculate_with_parseset_n("005", 2, 2)
 
-    def test_contextstats_with_parseset_999(self):
-        self._test_contextstats_with_parseset_n("999", 2, 2)
+    def test_calculate_with_parseset_999(self):
+        self._test_calculate_with_parseset_n("999", 2, 2)
 
 if __name__ == '__main__':
     unittest.main()

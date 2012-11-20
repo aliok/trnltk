@@ -26,26 +26,26 @@ class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
 
         return CachingContextParsingLikelihoodCalculator(collection_map, query_cache_collection, ngram_frequency_smoother)
 
-    def test_contextstats_with_parseset_001_with_1leading(self):
-        self._test_contextstats_with_parseset_n("001", 1, 0)
+    def test_calculate_with_parseset_001_with_1leading(self):
+        self._test_calculate_with_parseset_n("001", 1, 0)
 
-    def test_contextstats_with_parseset_001(self):
-        self._test_contextstats_with_parseset_n("001", 2, 2)
+    def test_calculate_with_parseset_001(self):
+        self._test_calculate_with_parseset_n("001", 2, 2)
 
-    def test_contextstats_with_parseset_002(self):
-        self._test_contextstats_with_parseset_n("002", 2, 2)
+    def test_calculate_with_parseset_002(self):
+        self._test_calculate_with_parseset_n("002", 2, 2)
 
-    def test_contextstats_with_parseset_003(self):
-        self._test_contextstats_with_parseset_n("003", 2, 2)
+    def test_calculate_with_parseset_003(self):
+        self._test_calculate_with_parseset_n("003", 2, 2)
 
-    def test_contextstats_with_parseset_004(self):
-        self._test_contextstats_with_parseset_n("004", 2, 2)
+    def test_calculate_with_parseset_004(self):
+        self._test_calculate_with_parseset_n("004", 2, 2)
 
-    def test_contextstats_with_parseset_005(self):
-        self._test_contextstats_with_parseset_n("005", 2, 2)
+    def test_calculate_with_parseset_005(self):
+        self._test_calculate_with_parseset_n("005", 2, 2)
 
-    def test_contextstats_with_parseset_999(self):
-        self._test_contextstats_with_parseset_n("999", 2, 2)
+    def test_calculate_with_parseset_999(self):
+        self._test_calculate_with_parseset_n("999", 2, 2)
 
 
 class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
@@ -61,26 +61,26 @@ class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
         return InMemoryCachingContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
 
-    def test_contextstats_with_parseset_001_with_1leading(self):
-        self._test_contextstats_with_parseset_n("001", 1, 0)
+    def test_calculate_with_parseset_001_with_1leading(self):
+        self._test_calculate_with_parseset_n("001", 1, 0)
 
-    def test_contextstats_with_parseset_001(self):
-        self._test_contextstats_with_parseset_n("001", 2, 2)
+    def test_calculate_with_parseset_001(self):
+        self._test_calculate_with_parseset_n("001", 2, 2)
 
-    def test_contextstats_with_parseset_002(self):
-        self._test_contextstats_with_parseset_n("002", 2, 2)
+    def test_calculate_with_parseset_002(self):
+        self._test_calculate_with_parseset_n("002", 2, 2)
 
-    def test_contextstats_with_parseset_003(self):
-        self._test_contextstats_with_parseset_n("003", 2, 2)
+    def test_calculate_with_parseset_003(self):
+        self._test_calculate_with_parseset_n("003", 2, 2)
 
-    def test_contextstats_with_parseset_004(self):
-        self._test_contextstats_with_parseset_n("004", 2, 2)
+    def test_calculate_with_parseset_004(self):
+        self._test_calculate_with_parseset_n("004", 2, 2)
 
-    def test_contextstats_with_parseset_005(self):
-        self._test_contextstats_with_parseset_n("005", 2, 2)
+    def test_calculate_with_parseset_005(self):
+        self._test_calculate_with_parseset_n("005", 2, 2)
 
-    def test_contextstats_with_parseset_999(self):
-        self._test_contextstats_with_parseset_n("999", 2, 2)
+    def test_calculate_with_parseset_999(self):
+        self._test_calculate_with_parseset_n("999", 2, 2)
 
 if __name__ == '__main__':
     unittest.main()

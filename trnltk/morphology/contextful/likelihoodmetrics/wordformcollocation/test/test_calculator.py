@@ -23,7 +23,7 @@ from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import  ContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as context_stats_logger
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as collocation_likelihood_calculator_logger
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import query_logger
 
 class _LikelihoodCalculatorTest(object):
@@ -67,7 +67,7 @@ class _LikelihoodCalculatorTest(object):
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
         query_logger.setLevel(logging.INFO)
-        context_stats_logger.setLevel(logging.INFO)
+        collocation_likelihood_calculator_logger.setLevel(logging.INFO)
 
     def _test_generate_likelihood(self, surface, leading_context=None, following_context=None, create_calculation_context=False):
         self.generator.build_indexes()
@@ -144,31 +144,31 @@ class NonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unitt
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_leading_context_word()
 
     def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_leading_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_following_context_word()
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(NonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 
@@ -185,31 +185,31 @@ class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
         #        query_logger.setLevel(logging.DEBUG)
-        #        context_stats_logger.setLevel(logging.DEBUG)
+        #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_leading_context_word()
 
     def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_leading_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_following_context_word()
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(ContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 

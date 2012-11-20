@@ -21,31 +21,31 @@ class CachingNonContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingNonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingNonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_leading_context_word()
 
     def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingNonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_leading_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingNonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_following_context_word()
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
 #        query_logger.setLevel(logging.DEBUG)
-#        context_stats_logger.setLevel(logging.DEBUG)
+#        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingNonContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 
@@ -66,31 +66,31 @@ class CachingContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, u
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
 #        query_logger.setLevel(logging.DEBUG)
-        #        context_stats_logger.setLevel(logging.DEBUG)
+        #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_leading_context_word()
 
     def test_generate_likelihood_of_one_word_given_two_leading_context_words(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_two_leading_context_words()
 
     def test_generate_likelihood_of_one_word_given_one_following_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_following_context_word()
 
     def test_generate_likelihood_of_one_word_given_one_context_word(self):
     #        query_logger.setLevel(logging.DEBUG)
-    #        context_stats_logger.setLevel(logging.DEBUG)
+    #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
         # don't override anything. added for better IDE support while running individual tests
         super(CachingContextParsingLikelihoodCalculatorTest, self).test_generate_likelihood_of_one_word_given_one_context_word()
 

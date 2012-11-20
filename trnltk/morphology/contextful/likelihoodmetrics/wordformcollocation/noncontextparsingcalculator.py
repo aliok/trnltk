@@ -8,7 +8,7 @@ from trnltk.morphology.model import formatter
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
-logger = logging.getLogger('contextstats')
+logger = logging.getLogger('noncontextParsingCollocationLikelihoodCalculatorLogger')
 query_logger = query.logger
 
 class NonContextParsingLikelihoodCalculator(object):
