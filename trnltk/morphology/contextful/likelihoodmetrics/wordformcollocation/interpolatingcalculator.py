@@ -26,7 +26,7 @@ class InterpolatingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator):
         context_len = len(context)
 
         if calculation_context is not None:
-            calculation_context['interpolation'] = {'context_length': context_len, 'likelihood': {}, 'weight': {}, 'item': {}}
+            calculation_context['interpolation'] = {'context_length': context_len, 'likelihood': {}, 'weight': {}, 'item': {}, 'part_weight': {}}
 
         interpolation_weights = self._calculate_interpolation_weights(context_len)
 
@@ -37,12 +37,17 @@ class InterpolatingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator):
 
             context_part = context[context_len - i - 1:] if target_comes_after else context[0: i + 1]
             part_likelihood = self._wrapped_calculator.calculate_oneway_likelihood(target, context_part, target_comes_after, calculation_context_item)
-            total_likelihood += part_likelihood * interpolation_weights[i]
+            part_weight = part_likelihood * interpolation_weights[i]
+            total_likelihood += part_weight
 
             if calculation_context is not None:
                 calculation_context['interpolation']['item'][i] = calculation_context_item
                 calculation_context['interpolation']['likelihood'][i] = part_likelihood
                 calculation_context['interpolation']['weight'][i] = interpolation_weights[i]
+                calculation_context['interpolation']['part_weight'][i] = part_weight
+
+        if calculation_context is not None:
+            calculation_context['sum_likelihood'] = total_likelihood
 
         return total_likelihood
 

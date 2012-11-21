@@ -2,6 +2,7 @@
 import os
 import pymongo
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import InMemoryCachingContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.interpolatingcalculator import InterpolatingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import ProperNounWithoutApostropheRootFinder, ProperNounFromApostropheRootFinder, WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder
@@ -66,7 +67,8 @@ class ApplicationContext(object):
         }
 
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        return InMemoryCachingContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
+        wrapped_container = InMemoryCachingContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
+        return InterpolatingLikelihoodCalculator(wrapped_container)
 
 
 application_context_instance = ApplicationContext()
