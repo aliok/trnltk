@@ -63,6 +63,9 @@ class WordNGramQueryContainer(object):
     def given_lemma_root(self, include_syntactic_category=False):
         return self._add_given('lemma_root', include_syntactic_category)
 
+    def target_parse_result(self):
+        return self._add_target('parse_result', False)
+
     def target_surface(self, include_syntactic_category=False):
         return self._add_target('surface', include_syntactic_category)
 

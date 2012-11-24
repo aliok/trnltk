@@ -1,16 +1,14 @@
-from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
 from trnltk.morphology.contextful.likelihoodmetrics.hidden.querykeyappender import _word_parse_result_appender, _word_surface_appender
 
 
 class ContextlessDistributionCalculator(object):
-    def __init__(self, unigram_collection):
-        self._unigram_collection = unigram_collection
+    def __init__(self, database_index_builder, target_form_given_context_counter):
+        self._database_index_builder = database_index_builder
+        self._target_form_given_context_counter = target_form_given_context_counter
 
     def build_indexes(self):
-        index_builder = DatabaseIndexBuilder({1: self._unigram_collection})
-
-        index_builder.create_indexes([(_word_parse_result_appender,)])
-        index_builder.create_indexes([(_word_surface_appender,)])
+        self._database_index_builder.create_indexes([(_word_parse_result_appender,)])
+        self._database_index_builder.create_indexes([(_word_surface_appender,)])
 
     def calculate(self, target):
         """
@@ -19,4 +17,11 @@ class ContextlessDistributionCalculator(object):
 
         @type target: WordFormContainer
         """
-        pass
+        surface_occurrence_count = self._target_form_given_context_counter._count_target_form_given_context(None, [target.get_surface()], False, None,
+            _word_surface_appender)
+        if not surface_occurrence_count:
+            return 0.0
+        else:
+            parse_result_occurrence_count = self._target_form_given_context_counter._count_target_form_given_context(None, [target], False, None,
+                _word_parse_result_appender)
+            return parse_result_occurrence_count / surface_occurrence_count

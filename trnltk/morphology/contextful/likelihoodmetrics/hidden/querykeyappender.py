@@ -37,6 +37,30 @@ class ParseResultFormAppender(QueryKeyAppender):
     def get_ngram_type_item(self):
         raise NotImplementedError()
 
+
+class ParseResulResultAppender(ParseResultFormAppender):
+    def append(self, morpheme_container, query, params):
+        if self.is_target:
+            query.target_parse_result()
+        else:
+            query.given_parse_result()
+
+        parse_result_str = morpheme_container.format()
+        if self.add_syntactic_category:
+            raise Exception('Syntactic category is not supported for parse results')
+        else:
+            params.append(parse_result_str)
+
+    def append_index_key(self, index_container):
+        if self.is_target:
+            index_container.target_parse_result()
+        else:
+            index_container.given_parse_result()
+
+    def get_ngram_type_item(self):
+        return 'parse_result'
+
+
 class ParseResultSurfaceAppender(ParseResultFormAppender):
     def append(self, morpheme_container, query, params):
         if self.is_target:
@@ -158,7 +182,7 @@ class ParseResultLemmaRootAppender(ParseResultFormAppender):
         return 'lemma_root'
 
 _word_surface_appender = _context_word_appender = WordSurfaceAppender()
-_word_parse_result_appender = WordParseResultAppender()
+_word_parse_result_appender = ParseResulResultAppender(False, False)
 
 _target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
 _target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
