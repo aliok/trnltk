@@ -1,6 +1,6 @@
 import logging
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutionIndexContextBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.query import WordNGramQueryContainer, QueryExecutionIndexContextBuilder
 
 logger = logging.getLogger('database')
 

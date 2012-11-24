@@ -1,7 +1,8 @@
 # coding=utf-8
 from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
 from trnltk.morphology.contextless.parser.suffixapplier import *
-from trnltk.morphology.model.morpheme import SuffixForm, MorphemeContainer
+from trnltk.morphology.model.morpheme import SuffixForm
+from trnltk.morphology.model.morphemecontainer import MorphemeContainer
 
 class PredefinedPaths(object):
     def __init__(self, root_map, suffix_graph):

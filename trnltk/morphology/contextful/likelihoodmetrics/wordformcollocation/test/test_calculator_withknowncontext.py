@@ -8,8 +8,11 @@ import os
 import unittest
 from xml.dom.minidom import parse
 import pymongo
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import TargetFormGivenContextCounter
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import UniformSequenceLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
@@ -36,7 +39,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
         super(LikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
@@ -67,8 +70,12 @@ class LikelihoodCalculatorTest(unittest.TestCase):
             3: mongodb_connection['trnltk']['wordTrigrams999']
         }
 
+        database_index_builder = DatabaseIndexBuilder(cls.collection_map)
+        target_form_given_context_counter = TargetFormGivenContextCounter(cls.collection_map)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        cls.generator = ContextParsingLikelihoodCalculator(cls.collection_map, ngram_frequency_smoother)
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator()
+
+        cls.generator = ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother, sequence_likelihood_calculator)
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
@@ -100,7 +107,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
 #        query_logger.setLevel(logging.DEBUG)
 #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"bir", "Det").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -109,7 +116,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"bir", "Adj").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"bir", "Adj").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -118,7 +125,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u".", "Punc").build()]]
         surface = u'Saçları'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -127,7 +134,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u".", "Punc").build()]]
         surface = u'Kerem'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -136,7 +143,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"Kerem", "Noun", "Prop").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"Kerem", "Noun", "Prop").build()]]
         surface = u'ter'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -145,7 +152,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"gençten", "Noun").stem(u"genç", "Noun").lexeme(None, u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(None, u"bir", "Det").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -154,7 +161,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Adj").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"gençten", "Noun").stem(u"genç", "Noun").lexeme(None, u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(None, u"bir", "Adj").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=context, following_context=None)
@@ -163,7 +170,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=None, following_context=context)
@@ -172,7 +179,7 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Noun").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"girdi", "Noun").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
         surface = u'erkek'
 
         self._test_generate_likelihood(surface=surface, leading_context=None, following_context=context)
@@ -181,9 +188,9 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        leading_context = [[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
+        leading_context = [[MockMorphemeContainerBuilder.builder(None, u"bir", "Det").build()]]
         surface = u'erkek'
-        following_context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
+        following_context = [[MockMorphemeContainerBuilder.builder(None, u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()]]
 
         self._test_generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 
@@ -191,9 +198,9 @@ class LikelihoodCalculatorTest(unittest.TestCase):
     #        query_logger.setLevel(logging.DEBUG)
     #        collocation_likelihood_calculator_logger.setLevel(logging.DEBUG)
 
-        leading_context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
+        leading_context = [[MockMorphemeContainerBuilder.builder(None, u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(None, u"bir", "Det").build()]]
         surface = u'erkek'
-        following_context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()], [MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
+        following_context = [[MockMorphemeContainerBuilder.builder(None, u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()], [MockMorphemeContainerBuilder.builder(None, u".", "Punc").build()]]
 
         self._test_generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
 

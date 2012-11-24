@@ -5,12 +5,14 @@ The tests are there for making sure there is no run time exceptions
 """
 import unittest
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import CachingContextParsingLikelihoodCalculator, InMemoryCachingContextParsingLikelihoodCalculator
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import QueryCacheCollectionCreator
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import CachingTargetFormGivenContextCounter, InMemoryCachingTargetFormGivenContextCounter
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import  ContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import QueryCacheCollectionCreator, DatabaseIndexBuilder
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.test.test_calculator_with_parsesets import _BaseLikelihoodCalculatorTest
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import UniformSequenceLikelihoodCalculator
 
-class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
+class LikelihoodCalculatorCachingTest(_BaseLikelihoodCalculatorTest):
     @classmethod
     def create_calculator(cls, parseset_index):
         mongodb_connection = pymongo.Connection(host='127.0.0.1')
@@ -22,9 +24,13 @@ class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
 
         query_cache_collection = QueryCacheCollectionCreator(mongodb_connection['trnltk']).build(drop=False)
 
+        database_index_builder = DatabaseIndexBuilder(collection_map)
+        target_form_given_context_counter = CachingTargetFormGivenContextCounter(collection_map, query_cache_collection)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator()
 
-        return CachingContextParsingLikelihoodCalculator(collection_map, query_cache_collection, ngram_frequency_smoother)
+        return ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother,
+            sequence_likelihood_calculator)
 
     def test_calculate_with_parseset_001_with_1leading(self):
         self._test_calculate_with_parseset_n("001", 1, 0)
@@ -48,7 +54,7 @@ class CachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
         self._test_calculate_with_parseset_n("999", 2, 2)
 
 
-class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
+class LikelihoodCalculatorInMemoryCachingTest(_BaseLikelihoodCalculatorTest):
     @classmethod
     def create_calculator(cls, parseset_index):
         mongodb_connection = pymongo.Connection(host='127.0.0.1')
@@ -58,8 +64,13 @@ class InMemoryCachingLikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
             3: mongodb_connection['trnltk']['wordTrigrams{}'.format(parseset_index)]
         }
 
+        database_index_builder = DatabaseIndexBuilder(collection_map)
+        target_form_given_context_counter = InMemoryCachingTargetFormGivenContextCounter(collection_map)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        return InMemoryCachingContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator()
+
+        return ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother,
+            sequence_likelihood_calculator)
 
     def test_calculate_with_parseset_001_with_1leading(self):
         self._test_calculate_with_parseset_n("001", 1, 0)

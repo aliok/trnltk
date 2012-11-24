@@ -11,11 +11,14 @@ from xml.dom.minidom import parse
 from mockito import *
 from hamcrest import *
 import pymongo
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import  InMemoryCachingTargetFormGivenContextCounter
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as query_logger
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import logger as collocation_likelihood_calculator_logger, ContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.interpolatingcalculator import InterpolatingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import UniformSequenceLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
@@ -40,7 +43,7 @@ class InterpolatingLikelihoodCalculatorTest(unittest.TestCase):
 
         wrapped_calculator = mock()
 
-        calculation_context = mock()
+        calculation_context = None
 
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_0], True, calculation_context).thenReturn(0.5)
 
@@ -61,7 +64,7 @@ class InterpolatingLikelihoodCalculatorTest(unittest.TestCase):
 
         wrapped_calculator = mock()
 
-        calculation_context = mock()
+        calculation_context = None
 
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_0], False, calculation_context).thenReturn(0.5)
 
@@ -83,7 +86,7 @@ class InterpolatingLikelihoodCalculatorTest(unittest.TestCase):
 
         wrapped_calculator = mock()
 
-        calculation_context = mock()
+        calculation_context = None
 
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_1], True, calculation_context).thenReturn(0.5)
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_0, mock_context_item_1], True, calculation_context).thenReturn(0.2)
@@ -107,7 +110,7 @@ class InterpolatingLikelihoodCalculatorTest(unittest.TestCase):
 
         wrapped_calculator = mock()
 
-        calculation_context = mock()
+        calculation_context = None
 
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_0], False, calculation_context).thenReturn(0.5)
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_0, mock_context_item_1], False, calculation_context).thenReturn(0.2)
@@ -133,7 +136,7 @@ class InterpolatingLikelihoodCalculatorTest(unittest.TestCase):
 
         wrapped_calculator = mock()
 
-        calculation_context = mock()
+        calculation_context = None
 
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_2], True, calculation_context).thenReturn(0.5)
         when(wrapped_calculator).calculate_oneway_likelihood(target, [mock_context_item_1, mock_context_item_2], True, calculation_context).thenReturn(0.2)
@@ -194,8 +197,13 @@ class InterpolatingLikelihoodCalculatorCalculationContextTest(unittest.TestCase)
             3: mongodb_connection['trnltk']['wordTrigrams999']
         }
 
+        database_index_builder = DatabaseIndexBuilder(cls.collection_map)
+        target_form_given_context_counter = InMemoryCachingTargetFormGivenContextCounter(cls.collection_map)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        wrapped_generator = ContextParsingLikelihoodCalculator(cls.collection_map, ngram_frequency_smoother)
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator()
+
+        wrapped_generator = ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother, sequence_likelihood_calculator)
+
         cls.generator = InterpolatingLikelihoodCalculator(wrapped_generator)
 
     def setUp(self):
@@ -225,7 +233,7 @@ class InterpolatingLikelihoodCalculatorCalculationContextTest(unittest.TestCase)
             print item
 
     def test_generate_likelihood_of_one_word_given_one_leading_context_word(self):
-        context = [[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
+        context = [[MockMorphemeContainerBuilder.builder(None, u"bir", "Det").build()]]
         surface = u'erkek'
 
         calculation_context = {}
@@ -235,9 +243,9 @@ class InterpolatingLikelihoodCalculatorCalculationContextTest(unittest.TestCase)
         pprint.pprint(calculation_context)
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
-        leading_context = [[MockMorphemeContainerBuilder.builder(u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(u"bir", "Det").build()]]
+        leading_context = [[MockMorphemeContainerBuilder.builder(None, u"gençten", "Noun").stem(u"genç", "Noun").lexeme(u"genç", "Adj").build()],[MockMorphemeContainerBuilder.builder(None, u"bir", "Det").build()]]
         surface = u'erkek'
-        following_context = [[MockMorphemeContainerBuilder.builder(u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()], [MockMorphemeContainerBuilder.builder(u".", "Punc").build()]]
+        following_context = [[MockMorphemeContainerBuilder.builder(None, u"girdi", "Verb").stem(u"gir", "Verb").lexeme(u"gir", "Verb").build()], [MockMorphemeContainerBuilder.builder(None, u".", "Punc").build()]]
 
         calculation_context = {}
 

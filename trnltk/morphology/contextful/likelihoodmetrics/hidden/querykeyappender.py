@@ -1,21 +1,29 @@
 # coding=utf-8
 
-class QueryFormAppender(object):
+class QueryKeyAppender(object):
     def append(self, container, query, params):
         raise NotImplementedError()
 
     def append_index_key(self, index_container):
         raise NotImplementedError()
 
-class ContextWordAppender(QueryFormAppender):
-    def append(self, context_item, query, params):
+class WordSurfaceAppender(QueryKeyAppender):
+    def append(self, word, query, params):
         query.given_surface(False)
-        params.append(context_item)
+        params.append(word)
 
     def append_index_key(self, index_container):
         index_container.given_surface(False)
 
-class ParseResultFormAppender(QueryFormAppender):
+class WordParseResultAppender(QueryKeyAppender):
+    def append(self, morpheme_container, query, params):
+        query.given_parse_result()
+        params.append(morpheme_container.format())
+
+    def append_index_key(self, index_container):
+        index_container.given_parse_result()
+
+class ParseResultFormAppender(QueryKeyAppender):
     def __init__(self, add_syntactic_category, is_target):
         self.add_syntactic_category = add_syntactic_category
         self.is_target = is_target
@@ -149,7 +157,9 @@ class ParseResultLemmaRootAppender(ParseResultFormAppender):
     def get_ngram_type_item(self):
         return 'lemma_root'
 
-_context_word_appender = ContextWordAppender()
+_word_surface_appender = _context_word_appender = WordSurfaceAppender()
+_word_parse_result_appender = WordParseResultAppender()
+
 _target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
 _target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
 _target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)

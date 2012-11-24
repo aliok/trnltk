@@ -127,6 +127,6 @@ class WordUnigramWithParseResultGenerator(WordNGramGenerator):
         parse_result_str = word_binding.parse_result
 
         ngram_item = super(WordUnigramWithParseResultGenerator, cls)._extract_ngram_item(word_binding)
-        ngram_item['word']['parse_result'] = parse_result_str
+        ngram_item['word']['parse_result'] = {'value': parse_result_str}
 
         return ngram_item

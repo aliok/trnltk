@@ -1,9 +1,12 @@
 # coding=utf-8
 import os
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import InMemoryCachingContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import InMemoryCachingTargetFormGivenContextCounter
+from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import  ContextParsingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.interpolatingcalculator import InterpolatingLikelihoodCalculator
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import UniformSequenceLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import ProperNounWithoutApostropheRootFinder, ProperNounFromApostropheRootFinder, WordRootFinder, DigitNumeralRootFinder, TextNumeralRootFinder
 from trnltk.morphology.learner.controller.learnercontroller import ParseContextCreator
@@ -66,8 +69,13 @@ class ApplicationContext(object):
             3: mongodb_connection['trnltk']['wordTrigrams{}'.format(ApplicationContext.PARSESET_INDEX)]
         }
 
+        database_index_builder = DatabaseIndexBuilder(collection_map)
+        target_form_given_context_counter = InMemoryCachingTargetFormGivenContextCounter(collection_map)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        wrapped_container = InMemoryCachingContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator() #TODO
+        wrapped_container = ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother,
+            sequence_likelihood_calculator)
+
         return InterpolatingLikelihoodCalculator(wrapped_container)
 
 

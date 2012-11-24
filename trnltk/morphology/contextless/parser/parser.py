@@ -3,7 +3,7 @@ import logging
 from trnltk.morphology.model import formatter
 from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
 from trnltk.morphology.contextless.parser.suffixapplier import *
-from trnltk.morphology.model.morpheme import MorphemeContainer
+from trnltk.morphology.model.morphemecontainer import MorphemeContainer
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 
 logger = logging.getLogger('parser')

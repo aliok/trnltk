@@ -2,11 +2,10 @@
 import itertools
 import logging
 import numpy
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import DatabaseIndexBuilder
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden import query
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import _context_word_appender, _target_surface_syn_cat_appender, _target_stem_syn_cat_appender, _target_lemma_root_syn_cat_appender, _context_surface_syn_cat_appender, _context_stem_syn_cat_appender, _context_lemma_root_syn_cat_appender
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.querykeyappender import _context_word_appender, _target_surface_syn_cat_appender, _target_stem_syn_cat_appender, _target_lemma_root_syn_cat_appender, _context_surface_syn_cat_appender, _context_stem_syn_cat_appender, _context_lemma_root_syn_cat_appender
+from trnltk.morphology.contextful.likelihoodmetrics.hidden import query
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import SequenceLikelihoodCalculator
 from trnltk.morphology.model import formatter
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutor, CachingQueryExecutor, QueryExecutionContextBuilder, CachingQueryExecutionContext, InMemoryCachingQueryExecutor
 
 numpy.seterr(divide='ignore', invalid='ignore')
 
@@ -95,16 +94,22 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
         _context_lemma_root_syn_cat_appender
     ]
 
-    def __init__(self, collection_map, ngram_frequency_smoother):
-        self._collection_map = collection_map
+    def __init__(self, database_index_builder, target_form_given_context_counter, ngram_frequency_smoother, sequence_likelihood_calculator):
+        """
+        @type database_index_builder: DatabaseIndexBuilder
+        @type target_form_given_context_counter: TargetFormGivenContextCounter
+        @type ngram_frequency_smoother: NGramFrequencySmoother
+        @type sequence_likelihood_calculator: SequenceLikelihoodCalculator
+        """
+        self._database_index_builder = database_index_builder
         self._ngram_frequency_smoother = ngram_frequency_smoother
+        self._sequence_likelihood_calculator = sequence_likelihood_calculator
+        self._target_form_given_context_counter = target_form_given_context_counter
 
     def build_indexes(self):
-        index_builder = DatabaseIndexBuilder(self._collection_map)
-
-        index_builder.create_indexes([(_context_word_appender,)])
+        self._database_index_builder.create_indexes([(_context_word_appender,)])
         for appender_matrix_row in self.APPENDER_MATRIX:
-            index_builder.create_indexes(appender_matrix_row)
+            self._database_index_builder.create_indexes(appender_matrix_row)
 
     def calculate_oneway_likelihood(self, target, context, target_comes_after, calculation_context=None):
         """
@@ -134,10 +139,11 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
         if not cartesian_products_of_context_parse_results or not any(cartesian_products_of_context_parse_results):
             return 0.0
 
-        likelihood = 0.0
-
         if calculation_context is not None:
             calculation_context['possibilities'] = {}
+
+        target_likelihoods_for_context_parse_results = []
+        context_parse_results_likelihoods = []
 
         for index, context_parse_results in enumerate(cartesian_products_of_context_parse_results):
             word_calc_context = None
@@ -172,7 +178,7 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
 
             for i, appender_matrix_row in enumerate(self.APPENDER_MATRIX):
                 for j, (target_appender, context_appender) in enumerate(appender_matrix_row):
-                    target_form_given_count = self._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender,
+                    target_form_given_count = self._target_form_given_context_counter._count_target_form_given_context(target, context_parse_results, target_comes_after, target_appender,
                         context_appender)
                     target_form_given_context_counts[i][j] = target_form_given_count
 
@@ -217,9 +223,43 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
 
             item_likelihood = weight_summed_target_probability[0][0]
 
+            target_likelihoods_for_context_parse_results.append(item_likelihood)
+
             logger.debug("      Calculated oneway likelihood for target given context item is {}".format(item_likelihood))
 
-            likelihood += item_likelihood
+            # say, target_comes_after=True, context={c1,c2} and target=t
+            # until now, we looked at collocation of (c1, c2, t) and (c2,t)
+            # now we look collocation of (c1,c2)
+            # which makes complete sense while calculating the weight for current cartesian product item
+            context_sequence_likelihood_calculation_direction = SequenceLikelihoodCalculator.HIGHEST_WEIGHT_ON_LAST if target_comes_after else SequenceLikelihoodCalculator.HIGHEST_WEIGHT_ON_FIRST
+            context_likelihood = self._sequence_likelihood_calculator.calculate(context, context_sequence_likelihood_calculation_direction)
+
+            context_parse_results_likelihoods.append(context_likelihood)
+
+            logger.debug("      Context likelihood is {}".format(context_likelihood))
+
+        likelihood = 0.0
+
+        # normalize but don't smooth. weights are already smoothed
+        total_context_parse_results_weights = sum(context_parse_results_likelihoods)
+        normalized_context_parse_results_weights = []
+        if total_context_parse_results_weights:
+            normalized_context_parse_results_weights = [context_parse_results_item_weight/total_context_parse_results_weights for context_parse_results_item_weight in context_parse_results_likelihoods]
+        else:
+            normalized_context_parse_results_weights = [0.0 for context_parse_results_item_weight in context_parse_results_likelihoods]
+        logger.debug("     Normalized context parse results weights are {}".format(normalized_context_parse_results_weights))
+
+        for index, context_parse_results in enumerate(cartesian_products_of_context_parse_results):
+            target_likelihood_for_context_parse_results_item = target_likelihoods_for_context_parse_results[index]
+            context_parse_results_item_likelihood = normalized_context_parse_results_weights[index]
+            weighted_parse_result_possibility_likelihood = context_parse_results_item_likelihood * target_likelihood_for_context_parse_results_item
+            likelihood += weighted_parse_result_possibility_likelihood
+            if calculation_context is not None:
+                word_calc_context = calculation_context['possibilities'][index]
+                word_calc_context['context_likelihood'] = context_parse_results_item_likelihood
+                word_calc_context['weighted_parse_result_possibility_likelihood'] = weighted_parse_result_possibility_likelihood
+
+            logger.debug("      Weighted context parse result likelihood is {} for context : {}".format(weighted_parse_result_possibility_likelihood, context_parse_results))
 
         if calculation_context is not None:
             calculation_context['sum_likelihood'] = likelihood
@@ -232,25 +272,10 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
 
         for i, context_appender in enumerate(self.CONTEXT_APPENDER_VECTOR):
             # target_comes_after doesn't matter, since there is no target
-            context_form_count = self._count_target_form_given_context(None, context_parse_results, False, None, context_appender)
+            context_form_count = self._target_form_given_context_counter._count_target_form_given_context(None, context_parse_results, False, None, context_appender)
             context_form_counts[i] = context_form_count
 
         return context_form_counts
-
-    def _count_target_form_given_context(self, target, context, target_comes_after, target_appender, context_appender):
-        query_container = WordNGramQueryContainer(len(context) + 1) if target_appender else WordNGramQueryContainer(len(context))
-        params = []
-
-        if target_appender:
-            target_appender.append(target, query_container, params)
-        for context_item in context:
-            context_appender.append(context_item, query_container, params)
-
-        return self._find_count_for_query(params, query_container, target_comes_after)
-
-    def _find_count_for_query(self, params, query_container, target_comes_after):
-        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
-        return QueryExecutor().query_execution_context(query_execution_context).params(*params).count()
 
     def _get_cartesian_products_of_context_parse_results(self, context):
         # context is in form:
@@ -314,24 +339,3 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
                 smoothed_counts[i][j] = self._ngram_frequency_smoother.smooth(target_form_given_context_counts[i][j], ngram_type)
 
         return smoothed_counts
-
-
-class CachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
-    def __init__(self, collection_map, query_cache_collection, ngram_frequency_smoother):
-        super(CachingContextParsingLikelihoodCalculator, self).__init__(collection_map, ngram_frequency_smoother)
-        self._query_cache_collection = query_cache_collection
-
-    def _find_count_for_query(self, params, query_container, target_comes_after):
-        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
-        caching_query_execution_context = CachingQueryExecutionContext(query_execution_context.keys, query_execution_context.collection,
-            self._query_cache_collection)
-        return CachingQueryExecutor().query_execution_context(caching_query_execution_context).params(*params).count()
-
-
-class InMemoryCachingContextParsingLikelihoodCalculator(ContextParsingLikelihoodCalculator):
-    def __init__(self, collection_map, ngram_frequency_smoother):
-        super(InMemoryCachingContextParsingLikelihoodCalculator, self).__init__(collection_map, ngram_frequency_smoother)
-
-    def _find_count_for_query(self, params, query_container, target_comes_after):
-        query_execution_context = QueryExecutionContextBuilder(self._collection_map).create_context(query_container, target_comes_after)
-        return InMemoryCachingQueryExecutor().query_execution_context(query_execution_context).params(*params).count()

@@ -10,8 +10,11 @@ import unittest
 from xml.dom.minidom import parse
 import pymongo
 import datetime
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import TargetFormGivenContextCounter
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.parsecontext import MockMorphemeContainerBuilder
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import UniformSequenceLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import  UpperCaseSupportingContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
@@ -33,7 +36,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         super(_BaseLikelihoodCalculatorTest, cls).setUpClass()
         all_roots = []
 
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
+        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../../resources/master_dictionary.txt'))
         for di in lexemes:
             all_roots.extend(RootGenerator.generate(di))
 
@@ -66,7 +69,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
 
         self.generator = self.create_calculator(parseset_index)
 
-        dom = parse(os.path.join(os.path.dirname(__file__), '../../../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
+        dom = parse(os.path.join(os.path.dirname(__file__), '../../../../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
         parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
         self.parse_set_word_list = []
         for sentence in parseset.sentences:
@@ -167,7 +170,7 @@ class _BaseLikelihoodCalculatorTest(unittest.TestCase):
         if word.root.secondary_syntactic_category:
             lemma_root_syntactic_category += u'_' + word.root.secondary_syntactic_category
 
-        return MockMorphemeContainerBuilder.builder(surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
+        return MockMorphemeContainerBuilder.builder(word.format(), surface_str, surface_syntactic_category).stem(stem_str, stem_syntactic_category).lexeme(lemma_root_str, lemma_root_syntactic_category).build()
 
     @classmethod
     def create_calculator(cls, parseset_index):
@@ -184,8 +187,14 @@ class LikelihoodCalculatorTest(_BaseLikelihoodCalculatorTest):
             3: mongodb_connection['trnltk']['wordTrigrams{}'.format(parseset_index)]
         }
 
+        database_index_builder = DatabaseIndexBuilder(collection_map)
+        target_form_given_context_counter = TargetFormGivenContextCounter(collection_map)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        return ContextParsingLikelihoodCalculator(collection_map, ngram_frequency_smoother)
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator()
+
+        generator = ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother, sequence_likelihood_calculator)
+
+        return generator
 
     def test_calculate_with_parseset_001_with_1leading(self):
         self._test_calculate_with_parseset_n("001", 1, 0)

@@ -5,8 +5,8 @@ The tests are there for making sure there is no run time exceptions
 """
 import unittest
 import pymongo
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import DatabaseIndexBuilder
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import   ContextWordAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.querykeyappender import   WordSurfaceAppender, ParseResultSurfaceAppender, ParseResultStemAppender, ParseResultLemmaRootAppender
 
 class DatabaseIndexBuilderTest(unittest.TestCase):
     @classmethod
@@ -30,7 +30,7 @@ class DatabaseIndexBuilderTest(unittest.TestCase):
             3: mongodb_connection['trnltk']['wordTrigramsIndexBuilderTest']
         }
 
-        context_word_appender = ContextWordAppender()
+        context_word_appender = WordSurfaceAppender()
         target_surface_syn_cat_appender = ParseResultSurfaceAppender(True, True)
         target_stem_syn_cat_appender = ParseResultStemAppender(True, True)
         target_lemma_root_syn_cat_appender = ParseResultLemmaRootAppender(True, True)

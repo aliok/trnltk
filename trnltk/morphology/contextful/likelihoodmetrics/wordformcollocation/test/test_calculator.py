@@ -10,8 +10,11 @@ import unittest
 import pymongo
 from hamcrest import *
 from mock import Mock
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import TargetFormGivenContextCounter
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import CachedSimpleGoodTuringNGramFrequencySmoother
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.noncontextparsingcalculator import NonContextParsingLikelihoodCalculator
+from trnltk.morphology.contextful.parser.sequencelikelihoodcalculator import SequenceLikelihoodCalculator, UniformSequenceLikelihoodCalculator
 from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser
 from trnltk.morphology.contextless.parser.rootfinder import WordRootFinder, DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, TextNumeralRootFinder
 from trnltk.morphology.model import formatter
@@ -180,8 +183,12 @@ class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest
     def setUpClass(cls):
         super(ContextParsingLikelihoodCalculatorTest, cls).setUpClass()
 
+        database_index_builder = DatabaseIndexBuilder(cls.collection_map)
+        target_form_given_context_counter = TargetFormGivenContextCounter(cls.collection_map)
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        cls.generator = ContextParsingLikelihoodCalculator(cls.collection_map, ngram_frequency_smoother)
+        sequence_likelihood_calculator = UniformSequenceLikelihoodCalculator()
+
+        cls.generator = ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother, sequence_likelihood_calculator)
 
     def test_generate_likelihood_of_one_word_given_two_context_words(self):
         #        query_logger.setLevel(logging.DEBUG)
@@ -220,7 +227,7 @@ class ContextParsingLikelihoodCalculatorTest(_LikelihoodCalculatorTest, unittest
 class ParseResultsCartesianProductTest(unittest.TestCase):
     def setUp(self):
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
-        self.generator = ContextParsingLikelihoodCalculator(None, ngram_frequency_smoother)
+        self.generator = ContextParsingLikelihoodCalculator(None, None, ngram_frequency_smoother, None)
 
     def test_should_get_cartesian_products_of_parse_results_when_context_is_empty(self):
         assert_that(self.generator._get_cartesian_products_of_context_parse_results(None), equal_to([]))

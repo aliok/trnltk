@@ -120,6 +120,7 @@ class ParseContextCreator(object):
         if parse_context_word['parsed']:
             return [
                 MockMorphemeContainerBuilder(
+                    parse_context_word.get('parse_result'),
                     parse_context_word['surface'],
                     parse_context_word['surface_syntactic_category'],
                     parse_context_word['surface_secondary_syntactic_category']

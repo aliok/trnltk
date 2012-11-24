@@ -108,6 +108,9 @@ class WordBinding (Binding):
 
         return word_node
 
+    def format(self):
+        return self.parse_result
+
 
 class SuffixBinding (Binding):
     def __init__(self, id, name, form, application, actual, word, matched_word, to_syntactic_category):

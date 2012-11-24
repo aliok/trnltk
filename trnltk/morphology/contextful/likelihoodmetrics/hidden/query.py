@@ -51,6 +51,9 @@ class WordNGramQueryContainer(object):
         self.target_item = WordNGramQueryContainerItem(type, include_syntactic_category)
         return self
 
+    def given_parse_result(self):
+        return self._add_given('parse_result', False)
+
     def given_surface(self, include_syntactic_category=False):
         return self._add_given('surface', include_syntactic_category)
 

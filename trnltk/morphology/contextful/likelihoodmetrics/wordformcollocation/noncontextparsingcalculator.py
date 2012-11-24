@@ -1,9 +1,9 @@
 import logging
 import numpy
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden import query
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.appender import _target_surface_syn_cat_appender, _context_word_appender, _target_stem_syn_cat_appender, _target_lemma_root_syn_cat_appender
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.database import DatabaseIndexBuilder
-from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.hidden.query import WordNGramQueryContainer, QueryExecutionContextBuilder, QueryExecutor, CachingQueryExecutionContext, CachingQueryExecutor
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.querykeyappender import _target_surface_syn_cat_appender, _context_word_appender, _target_stem_syn_cat_appender, _target_lemma_root_syn_cat_appender
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.query import WordNGramQueryContainer, QueryExecutionContextBuilder, QueryExecutor, CachingQueryExecutionContext, CachingQueryExecutor
+from trnltk.morphology.contextful.likelihoodmetrics.hidden import query
 from trnltk.morphology.model import formatter
 
 numpy.seterr(divide='ignore', invalid='ignore')

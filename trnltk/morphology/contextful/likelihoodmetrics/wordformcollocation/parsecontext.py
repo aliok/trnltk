@@ -1,5 +1,6 @@
 class MockMorphemeContainer(object):
     def __init__(self):
+        self.parse_result_str = None
         self.surface_str = None
         self.surface_syntactic_category = None
         self.surface_secondary_syntactic_category = None
@@ -9,6 +10,9 @@ class MockMorphemeContainer(object):
         self.lemma_root_str = None
         self.lemma_root_syntactic_category = None
         self.lemma_root_secondary_syntactic_category = None
+
+    def get_parse_result(self):
+        return self.parse_result_str
 
     def get_surface(self):
         return self.surface_str
@@ -67,8 +71,12 @@ class MockMorphemeContainer(object):
         else:
             return u"{}+{}".format(lemma_root, syntactic_category)
 
+    def format(self, add_space=False):
+        return self.parse_result_str
+
 class MockMorphemeContainerBuilder(object):
-    def __init__(self, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
+    def __init__(self, parse_result_str, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
+        self.parse_result_str = parse_result_str
         self.surface_str = surface_str
         self.surface_syntactic_category = surface_syntactic_category
         self.surface_secondary_syntactic_category = surface_secondary_syntactic_category
@@ -99,6 +107,8 @@ class MockMorphemeContainerBuilder(object):
         """
         mock = MockMorphemeContainer()
 
+        mock.parse_result_str = self.parse_result_str
+
         mock.surface_str = self.surface_str
         mock.surface_syntactic_category = self.surface_syntactic_category
         mock.surface_secondary_syntactic_category = self.surface_secondary_syntactic_category
@@ -114,5 +124,5 @@ class MockMorphemeContainerBuilder(object):
         return mock
 
     @classmethod
-    def builder(cls, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
-        return MockMorphemeContainerBuilder(surface_str, surface_syntactic_category, surface_secondary_syntactic_category)
+    def builder(cls, parse_result_str, surface_str, surface_syntactic_category, surface_secondary_syntactic_category=None):
+        return MockMorphemeContainerBuilder(parse_result_str, surface_str, surface_syntactic_category, surface_secondary_syntactic_category)

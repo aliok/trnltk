@@ -1,4 +1,4 @@
-from trnltk.morphology.model.morpheme import MorphemeContainer
+from trnltk.morphology.model.morphemecontainer import MorphemeContainer
 
 class TransitionGenerator(object):
 
