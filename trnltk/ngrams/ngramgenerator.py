@@ -110,3 +110,23 @@ class WordNGramGenerator(NGramGenerator):
             return word_binding.suffixes[index_of_last_derivational_suffix].word, word_binding.suffixes[index_of_last_derivational_suffix].to_syntactic_category, None
         else:
             return word_binding.root.lemma_root, word_binding.root.syntactic_category, word_binding.root.secondary_syntactic_category
+
+class WordUnigramWithParseResultGenerator(WordNGramGenerator):
+
+    def __init__(self):
+        super(WordUnigramWithParseResultGenerator, self).__init__(1)
+
+
+    @classmethod
+    def _extract_ngram_item(cls, word_binding):
+        """
+        @type word_binding: WordBinding
+        @return:
+        """
+
+        parse_result_str = word_binding.parse_result
+
+        ngram_item = super(WordUnigramWithParseResultGenerator, cls)._extract_ngram_item(word_binding)
+        ngram_item['word']['parse_result'] = parse_result_str
+
+        return ngram_item

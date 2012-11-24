@@ -3,11 +3,9 @@ from bson.code import Code
 import os
 import unittest
 from xml.dom.minidom import parse
-from hamcrest.core.assert_that import assert_that
 import pymongo
-from trnltk.ngrams.ngramgenerator import NGramGenerator, WordNGramGenerator
-from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding, WordBinding, RootBinding
-from hamcrest import *
+from trnltk.ngrams.ngramgenerator import  WordNGramGenerator, WordUnigramWithParseResultGenerator
+from trnltk.parseset.xmlbindings import ParseSetBinding, UnparsableWordBinding
 
 def _count_distinct_ngrams(collection, keys, filter_criteria):
     mapper = Code("""
@@ -518,79 +516,144 @@ class WordTrigramMongodbGeneratorTest(unittest.TestCase):
         trigram_count = collection.count()
         print "Generated {} trigrams".format(trigram_count)
 
+class WordUnigramWithParseResultGeneratorMongodbTest(unittest.TestCase):
+    BULK_INSERT_SIZE = 500
 
-class GenericGramGeneratorTest(unittest.TestCase):
-    root1 = RootBinding("root1", "lemma1", "lemma_root1", "root_synt_cat1", None)
-    root2 = RootBinding("root2", "lemma2", "lemma_root2", "root_synt_cat2", None)
-    root4 = RootBinding("root4", "lemma4", "lemma_root4", "root_synt_cat4", None)
-    root5 = RootBinding("root5", "lemma5", "lemma_root5", "root_synt_cat5", None)
+    @classmethod
+    def setUpClass(cls):
+        super(WordUnigramWithParseResultGeneratorMongodbTest, cls).setUpClass()
+        connection = pymongo.Connection(host="127.0.0.1")
+        cls.db = connection['trnltk']
 
-    word1 = WordBinding("surface_1", "word1_parse_result", root1, "word1_synt_cat", None, None)
-    word2 = WordBinding("surface_2", "word2_parse_result", root2, "word2_synt_cat", None, None)
-    word3 = UnparsableWordBinding("surface_1")
-    word4 = WordBinding("surface_4", "word4_parse_result", root4, "word4_synt_cat", None, None)
-    word5 = WordBinding("surface_5", "word5_parse_result", root5, "word5_synt_cat", None, None)
+    def test_create_unigrams_for_parseset_001(self):
+        self._create_unigrams_for_parseset_n("001")
 
-    words = [word1, word2, word3, word4, word5]
+    def test_create_unigrams_for_parseset_002(self):
+        self._create_unigrams_for_parseset_n("002")
 
-    def test_create_unigrams(self):
-        extractor = lambda word_binding: (word_binding.root.lemma_root, word_binding.root.syntactic_category)
-        generator = NGramGenerator(1, extractor, ("<s>", "<s>"), ("</s>", "</s>"))
-        ngrams = generator.get_ngrams(self.words)
+    def test_create_unigrams_for_parseset_003(self):
+        self._create_unigrams_for_parseset_n("003")
 
-        assert_that(ngrams, has_length(4))
+    def test_create_unigrams_for_parseset_004(self):
+        self._create_unigrams_for_parseset_n("004")
 
-        lexeme1 = ("lemma_root1", "root_synt_cat1")
-        lexeme2 = ("lemma_root2", "root_synt_cat2")
-        lexeme4 = ("lemma_root4", "root_synt_cat4")
-        lexeme5 = ("lemma_root5", "root_synt_cat5")
+    def test_create_unigrams_for_parseset_005(self):
+        self._create_unigrams_for_parseset_n("005")
 
-        assert_that(ngrams, has_item(lexeme1))
-        assert_that(ngrams, has_item(lexeme2))
-        assert_that(ngrams, has_item(lexeme4))
-        assert_that(ngrams, has_item(lexeme5))
+    def test_create_unigrams_for_parseset_999(self):
+        self._create_unigrams_for_parseset_n("999")
 
-    def test_create_bigrams(self):
-        extractor = lambda word_binding: (word_binding.root.lemma_root, word_binding.root.syntactic_category)
-        generator = NGramGenerator(2, extractor, ("<s>", "<s>"), ("</s>", "</s>"))
-        ngrams = generator.get_ngrams(self.words)
 
-        assert_that(ngrams, has_length(5))
+    def test_inspect_unigrams_for_parseset_001(self):
+        self._inspect_unigrams_for_parseset_n("001")
 
-        start_lexeme = ("<s>", "<s>")
-        lexeme1 = ("lemma_root1", "root_synt_cat1")
-        lexeme2 = ("lemma_root2", "root_synt_cat2")
-        lexeme4 = ("lemma_root4", "root_synt_cat4")
-        lexeme5 = ("lemma_root5", "root_synt_cat5")
-        end_lexeme = ("</s>", "</s>")
+    def test_inspect_unigrams_for_parseset_002(self):
+        self._inspect_unigrams_for_parseset_n("002")
 
-        assert_that(ngrams, has_item((start_lexeme, lexeme1)))
-        assert_that(ngrams, has_item((lexeme1, lexeme2)))
-        assert_that(ngrams, has_item((lexeme2, lexeme4)))
-        assert_that(ngrams, has_item((lexeme4, lexeme5)))
-        assert_that(ngrams, has_item((lexeme5, end_lexeme)))
+    def test_inspect_unigrams_for_parseset_003(self):
+        self._inspect_unigrams_for_parseset_n("003")
 
-    def test_create_trigrams(self):
-        extractor = lambda word_binding: (word_binding.root.lemma_root, word_binding.root.syntactic_category)
-        generator = NGramGenerator(3, extractor, ("<s>", "<s>"), ("</s>", "</s>"))
-        ngrams = generator.get_ngrams(self.words)
+    def test_inspect_unigrams_for_parseset_004(self):
+        self._inspect_unigrams_for_parseset_n("004")
 
-        assert_that(ngrams, has_length(6))
+    def test_inspect_unigrams_for_parseset_005(self):
+        self._inspect_unigrams_for_parseset_n("005")
 
-        start_lexeme = ("<s>", "<s>")
-        lexeme1 = ("lemma_root1", "root_synt_cat1")
-        lexeme2 = ("lemma_root2", "root_synt_cat2")
-        lexeme4 = ("lemma_root4", "root_synt_cat4")
-        lexeme5 = ("lemma_root5", "root_synt_cat5")
-        end_lexeme = ("</s>", "</s>")
+    def test_inspect_unigrams_for_parseset_999(self):
+        self._inspect_unigrams_for_parseset_n("999")
 
-        assert_that(ngrams, has_item((start_lexeme, start_lexeme, lexeme1)))
-        assert_that(ngrams, has_item((start_lexeme, lexeme1, lexeme2)))
-        assert_that(ngrams, has_item((lexeme1, lexeme2, lexeme4)))
-        assert_that(ngrams, has_item((lexeme2, lexeme4, lexeme5)))
-        assert_that(ngrams, has_item((lexeme4, lexeme5, end_lexeme)))
-        assert_that(ngrams, has_item((lexeme5, end_lexeme, end_lexeme)))
+    def _create_unigrams_for_parseset_n(self, parseset_index):
+        print "Parsing parse set {} and generating unigrams with occurrence counts and parse results".format(parseset_index)
 
+        dom = parse(os.path.join(os.path.dirname(__file__), '../../testresources/parsesets/parseset{}.xml'.format(parseset_index)))
+        parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
+
+        print "Found {} sentences".format(len(parseset.sentences))
+        words = [word for sentence in parseset.sentences for word in sentence.words]
+        print "Found {} words".format(len(words))
+        print "Found {} parsable words".format(
+            len(filter(lambda word: not isinstance(word, UnparsableWordBinding), words)))
+
+        generator = WordUnigramWithParseResultGenerator()
+
+        collection = self.db['wordUnigrams{}'.format(parseset_index)]
+
+        # delete everything in the collection
+        collection.remove({})
+
+        bulk_insert_buffer = []
+        for unigram in generator.iter_ngrams(words):
+            entity = {
+                'item_0': unigram
+            }
+            bulk_insert_buffer.append(entity)
+            if len(bulk_insert_buffer) % self.BULK_INSERT_SIZE == 0:
+                collection.insert(bulk_insert_buffer)
+                bulk_insert_buffer = []
+
+        collection.insert(bulk_insert_buffer)
+
+        self._inspect_unigrams_for_parseset_n(parseset_index)
+
+    def _inspect_unigrams_for_parseset_n(self, parseset_index):
+        collection = self.db['wordUnigrams{}'.format(parseset_index)]
+
+        unigram_count = collection.count()
+        print "Found {} unigrams".format(unigram_count)
+
+        distinct_surface_unigram_count = self._count_distinct_surface_unigrams(collection)
+        print "Found {} distinct surface unigrams".format(distinct_surface_unigram_count)
+
+        distinct_surface_unigram_with_multiple_occurrences_count = self._count_distinct_surface_unigrams_with_multiple_occurrences(collection)
+        print "Found {} distinct surface unigrams with multiple occurrences".format(distinct_surface_unigram_with_multiple_occurrences_count)
+
+        distinct_stem_unigram_count = self._count_distinct_stem_unigrams(collection)
+        print "Found {} distinct stem unigrams".format(distinct_stem_unigram_count)
+
+        distinct_stem_unigram_with_multiple_occurrences_count = self._count_distinct_stem_unigrams_with_multiple_occurrences(collection)
+        print "Found {} distinct stem unigrams with multiple occurrences".format(distinct_stem_unigram_with_multiple_occurrences_count)
+
+        distinct_lexeme_unigram_count = self._count_distinct_lexeme_unigrams(collection)
+        print "Found {} distinct lexeme unigrams".format(distinct_lexeme_unigram_count)
+
+        distinct_lexeme_unigram_with_multiple_occurrences_count = self._count_distinct_lexeme_unigrams_with_multiple_occurrences(collection)
+        print "Found {} distinct lexeme unigrams with multiple occurrences".format(distinct_lexeme_unigram_with_multiple_occurrences_count)
+
+    @classmethod
+    def _count_distinct_surface_unigrams(cls, collection):
+        keys = "a:this.item_0.word.surface.value,                 b:this.item_0.word.surface.syntactic_category"
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_surface_unigrams_with_multiple_occurrences(cls, collection):
+        keys = "a:this.item_0.word.surface.value,                 b:this.item_0.word.surface.syntactic_category"
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_stem_unigrams(cls, collection):
+        keys = "a:this.item_0.word.stem.value,                 b:this.item_0.word.stem.syntactic_category"
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_stem_unigrams_with_multiple_occurrences(cls, collection):
+        keys = "a:this.item_0.word.stem.value,                 b:this.item_0.word.stem.syntactic_category"
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_lexeme_unigrams(cls, collection):
+        keys = "a:this.item_0.word.lemma_root.value,                 b:this.item_0.word.lemma_root.syntactic_category"
+        filter_criteria = None
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
+
+    @classmethod
+    def _count_distinct_lexeme_unigrams_with_multiple_occurrences(cls, collection):
+        keys = "a:this.item_0.word.lemma_root.value,                 b:this.item_0.word.lemma_root.syntactic_category"
+        filter_criteria = {"value.count": {"$gt": 1}}
+        return _count_distinct_ngrams(collection, keys, filter_criteria)
 
 if __name__ == '__main__':
     unittest.main()
