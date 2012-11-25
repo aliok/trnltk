@@ -33,7 +33,20 @@ class ContextfulMorphologicalParser(object):
         """
         target_parse_results = self._contextless_parser.parse(target_surface)
 
-        return self._contextful_likelihood_calculator.calculate_likelihood(target_parse_results, leading_context, following_context)
+        if not target_parse_results:
+            return None
+
+        elif len(target_parse_results) == 1:
+            return [(target_parse_results[0], 1.0)]
+
+        else:
+            likelihoods = []
+            for target_parse_result in target_parse_results:
+                likelihood_for_item = self._contextful_likelihood_calculator.calculate_likelihood(target_parse_result, leading_context, following_context)
+                likelihoods.append((target_parse_result, likelihood_for_item))
+
+            return likelihoods
+
 
 class ContextfulMorphologicalParserFactory(object):
     @classmethod
@@ -80,7 +93,8 @@ class ContextfulMorphologicalParserFactory(object):
 
         contextless_distribution_metric_calculator = ContextlessDistributionCalculator(database_index_builder, target_form_given_context_counter)
 
-        contextful_likelihood_calculator = ContextfulLikelihoodCalculator(interpolating_collocation_metric_calculator, contextless_distribution_metric_calculator)
+        contextful_likelihood_calculator = ContextfulLikelihoodCalculator(interpolating_collocation_metric_calculator,
+            contextless_distribution_metric_calculator)
 
         sequence_likelihood_calculator._contextful_likelihood_calculator = contextful_likelihood_calculator
 
