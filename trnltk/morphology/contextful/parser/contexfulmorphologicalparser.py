@@ -38,6 +38,11 @@ class ContextfulMorphologicalParser(object):
 class ContextfulMorphologicalParserFactory(object):
     @classmethod
     def create(cls, master_dictionary_path, ngram_collection_map):
+        """
+        @type master_dictionary_path: str or unicode
+        @param ngram_collection_map: list<Collection>
+        @rtype ContextfulMorphologicalParser
+        """
         all_roots = []
 
         lexemes = LexiconLoader.load_from_file(master_dictionary_path)
