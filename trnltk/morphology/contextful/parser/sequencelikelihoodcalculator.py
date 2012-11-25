@@ -9,11 +9,11 @@ class SequenceLikelihoodCalculator(object):
     _WEIGHT_FOR_1 = 1 / (_ALPHA + 1)
     _WEIGHT_FOR_2 = _ALPHA / (_ALPHA + 1)
 
-    def __init__(self, contextful_parser):
+    def __init__(self, contextful_likelihood_calculator):
         """
-        @type contextful_parser: ContextfulParser
+        @type contextful_likelihood_calculator: ContextfulLikelihoodCalculator
         """
-        self._contextful_parser = contextful_parser
+        self._contextful_likelihood_calculator = contextful_likelihood_calculator
 
     def calculate(self, context, direction=None):
         """
@@ -33,7 +33,7 @@ class SequenceLikelihoodCalculator(object):
 
         context_len = len(context)
         if context_len == 1:
-            return self._contextful_parser.calculate_likelihood(context)
+            return self._contextful_likelihood_calculator.calculate_likelihood_single(context[0])
         elif context_len == 2:
             assert direction in [self.HIGHEST_WEIGHT_ON_FIRST, self.HIGHEST_WEIGHT_ON_LAST]
 
@@ -43,9 +43,9 @@ class SequenceLikelihoodCalculator(object):
                 B = context[1]
                 target_comes_after = True
 
-                P_A = self.calculate(A)    # P(A)
-                P_B = self.calculate(B)    # P(B)
-                P_B_GIVEN_A = self._contextful_parser.calculate_oneway_likelihood(B, [A], target_comes_after)
+                P_A = self.calculate([A])    # P(A)
+                P_B = self.calculate([B])    # P(B)
+                P_B_GIVEN_A = self._contextful_likelihood_calculator.calculate_oneway_likelihood(B, [[A]], target_comes_after)
                 P_AB = P_A * P_B * P_B_GIVEN_A      # P(AB) = P(A) * P(B) * P(B|A)
 
                 return P_A * self._WEIGHT_FOR_1 + P_AB * self._WEIGHT_FOR_2
@@ -55,9 +55,9 @@ class SequenceLikelihoodCalculator(object):
                 B = context[1]
                 target_comes_after = False
 
-                P_A = self.calculate(A)    # P(A)
-                P_B = self.calculate(B)    # P(B)
-                P_A_GIVEN_B = self._contextful_parser.calculate_oneway_likelihood(A, [B], target_comes_after)
+                P_A = self.calculate([A])    # P(A)
+                P_B = self.calculate([B])    # P(B)
+                P_A_GIVEN_B = self._contextful_likelihood_calculator.calculate_oneway_likelihood(A, [[B]], target_comes_after)
                 P_AB = P_A * P_B * P_A_GIVEN_B      # P(AB) = P(A) * P(B) * P(A|B). we use P(A|B) here and that is not a mistake
 
                 return P_B * self._WEIGHT_FOR_1 + P_AB * self._WEIGHT_FOR_2
