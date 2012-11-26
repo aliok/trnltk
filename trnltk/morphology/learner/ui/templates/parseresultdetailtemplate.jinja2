@@ -5,6 +5,12 @@
 <script src="/resources/js/script.js"></script>
 <script>
     $(document).ready(function () {
-        initializeLikelihoodDetails();
+        if (window['initializedLikelihoodButtons']) {
+            //do nothing
+        }
+        else {
+            initializeLikelihoodButtons();
+            window['initializedLikelihoodButtons'] = true;
+        }
     });
 </script>

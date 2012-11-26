@@ -56,7 +56,7 @@ function initializeLearnerPage() {
     });
 }
 
-function initializeLikelihoodDetails() {
+function initializeLikelihoodButtons() {
 
     $('.collocation_detail_button').live('click', function (e) {
         var self = $(this);
