@@ -20,12 +20,12 @@ class ApplicationContext(object):
             3: mongodb_connection['trnltk']['wordTrigrams{}'.format(ApplicationContext.PARSESET_INDEX)]
         }
 
-        self.contextful_parser = ContextfulMorphologicalParserFactory.create(master_dictionary_path, ngram_collection_map)
+        self.contextful_morphological_parser = ContextfulMorphologicalParserFactory.create(master_dictionary_path, ngram_collection_map)
 
         self.dbmanager = DbManager(mongodb_connection)
         self.dbmanager.build_indexes()
 
-        self.parse_context_creator = ParseContextCreator(self.contextful_parser._contextless_parser)
+        self.parse_context_creator = ParseContextCreator(self.contextful_morphological_parser._contextless_parser)
 
         self.sessions = {}
 

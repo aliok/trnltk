@@ -18,11 +18,10 @@ class LearnerHandler(SessionAwareRequestHandler):
         learnerview = LearnerView()
         dbmanager = application_context_instance.dbmanager
         sessionmanager = SessionManager(self.session)
-        contextless_morphological_parser = application_context_instance.contextless_morphological_parser
-        likelihood_calculator = application_context_instance.likelihood_calculator
+        contextful_morphological_parser = application_context_instance.contextful_morphological_parser
         parse_context_creator = application_context_instance.parse_context_creator
 
-        controller = LearnerController(learnerview, dbmanager, sessionmanager, contextless_morphological_parser, likelihood_calculator, parse_context_creator)
+        controller = LearnerController(learnerview, dbmanager, sessionmanager, contextful_morphological_parser, parse_context_creator)
 
         controller.go_to_word(word_id)
 

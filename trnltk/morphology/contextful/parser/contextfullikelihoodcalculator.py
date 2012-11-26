@@ -28,7 +28,7 @@ class ContextfulLikelihoodCalculator(object):
         @type target: MorphemeContainer
         @type leading_context: list<list<MorphemeContainer>>
         @type following_context: list<list<MorphemeContainer>>
-        @type calculation_context: dict
+        @type calculation_context: dict or None
         @rtype: float
         """
         total = 0.0

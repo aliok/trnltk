@@ -5,20 +5,18 @@ class LearnerController(object):
     WORD_COUNT_TO_SHOW_IN_CONTEXT = 6
     WORD_COUNT_TO_USE_AS_PARSE_CONTEXT = 2
 
-    def __init__(self, learnerview, dbmanager, sessionmanager, morphological_parser, likelihood_calculator, parse_context_creator):
+    def __init__(self, learnerview, dbmanager, sessionmanager, contextful_morphological_parser, parse_context_creator):
         """
         @type learnerview: LearnerView
         @type dbmanager : DbManager
         @type sessionmanager : SessionManager
-        @type morphological_parser : ContextlessMorphologicalParser
-        @type likelihood_calculator : ContextParsingLikelihoodCalculator
+        @type contextful_morphological_parser : ContextfulMorphologicalParser
         @type parse_context_creator : ParseContextCreator
         """
         self.learnerview = learnerview
         self.dbmanager = dbmanager
         self.sessionmanager = sessionmanager
-        self.morphological_parser = morphological_parser
-        self.likelihoodCalculator = likelihood_calculator
+        self.contextful_morphological_parser = contextful_morphological_parser
         self.parse_context_creator = parse_context_creator
 
 
@@ -91,11 +89,13 @@ class LearnerController(object):
         # parse and set parse results in view
         parse_results_with_likelihoods = []
 
-        parse_results = self.morphological_parser.parse(word['surface'])
-        for parse_result in parse_results:
-            calculation_context = {}
-            likelihood = self.likelihoodCalculator.calculate_likelihood(parse_result, leading_parse_context, following_parse_context, calculation_context)
-            parse_results_with_likelihoods.append((parse_result, likelihood, calculation_context))
+        calculation_context = {}
+        parse_results = self.contextful_morphological_parser.parse_with_likelihoods(word['surface'], leading_parse_context, following_parse_context, calculation_context)
+        if not parse_results:
+            return
+
+        for parse_result_index, (parse_result, likelihood) in enumerate(parse_results):
+            parse_results_with_likelihoods.append((parse_result, likelihood, calculation_context[parse_result_index]))
 
         total_likelihood = sum([t[1] for t in parse_results_with_likelihoods])
 

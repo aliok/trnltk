@@ -25,25 +25,28 @@ class ContextfulMorphologicalParser(object):
         self._contextless_parser = contextless_parser
         self._contextful_likelihood_calculator = contextful_likelihood_calculator
 
-    def parse_with_likelihoods(self, target_surface, leading_context, following_context):
+    def parse_with_likelihoods(self, target_surface, leading_context, following_context, calculation_context=None):
         """
         @type target_surface: str or unicode
         @type leading_context: list<list<MorphemeContainer>>
         @type following_context: list<list<MorphemeContainer>>
+        @type calculation_context: dict
         """
         target_parse_results = self._contextless_parser.parse(target_surface)
 
         if not target_parse_results:
             return None
-
-        elif len(target_parse_results) == 1:
-            return [(target_parse_results[0], 1.0)]
-
         else:
             likelihoods = []
-            for target_parse_result in target_parse_results:
-                likelihood_for_item = self._contextful_likelihood_calculator.calculate_likelihood(target_parse_result, leading_context, following_context)
+            for index, target_parse_result in enumerate(target_parse_results):
+                item_calculation_context = {} if calculation_context is not None else None
+
+                likelihood_for_item = self._contextful_likelihood_calculator.calculate_likelihood(target_parse_result, leading_context, following_context,
+                    item_calculation_context)
                 likelihoods.append((target_parse_result, likelihood_for_item))
+
+                if item_calculation_context:
+                    calculation_context[index] = item_calculation_context
 
             return likelihoods
 

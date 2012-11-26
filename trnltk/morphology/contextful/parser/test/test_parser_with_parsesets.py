@@ -98,10 +98,13 @@ class ContextfulMorphologicalParserTest(unittest.TestCase):
                 continue
 
             surface = word.str
-            likelihoods = self._generate_likelihood(surface=surface, leading_context=leading_context, following_context=following_context)
+            calculation_context = {}
+            likelihoods = self._generate_likelihood(surface, leading_context, following_context, calculation_context)
 
-            for item in likelihoods:
+            for result_index, item in enumerate(likelihoods):
                 print u'\t' + str(item)
+                if calculation_context:
+                    print calculation_context[result_index]
 
             most_probable_parse_result = max(likelihoods, key=itemgetter(1))
             most_probable_parse_results = filter(lambda t: t[1] == most_probable_parse_result[1], likelihoods)
@@ -114,8 +117,8 @@ class ContextfulMorphologicalParserTest(unittest.TestCase):
 
             print '\n'
 
-    def _generate_likelihood(self, surface, leading_context=None, following_context=None):
-        results = self.contextful_morphological_parser.parse_with_likelihoods(surface, leading_context, following_context)
+    def _generate_likelihood(self, surface, leading_context=None, following_context=None, calculation_context=None):
+        results = self.contextful_morphological_parser.parse_with_likelihoods(surface, leading_context, following_context, calculation_context)
 
         if results:
             results = [(c.format(), l) for (c, l) in results]
