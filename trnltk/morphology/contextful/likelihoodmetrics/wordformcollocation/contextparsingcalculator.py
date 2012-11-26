@@ -232,7 +232,11 @@ class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator)
             # now we look collocation of (c1,c2)
             # which makes complete sense while calculating the weight for current cartesian product item
             context_sequence_likelihood_calculation_direction = SequenceLikelihoodCalculator.HIGHEST_WEIGHT_ON_LAST if target_comes_after else SequenceLikelihoodCalculator.HIGHEST_WEIGHT_ON_FIRST
-            context_likelihood = self._sequence_likelihood_calculator.calculate(context_parse_results, context_sequence_likelihood_calculation_direction)
+            sequence_likelihood_context = {} if calculation_context is not None else None
+            context_likelihood = self._sequence_likelihood_calculator.calculate(context_parse_results, context_sequence_likelihood_calculation_direction, sequence_likelihood_context)
+
+            if calculation_context is not None:
+                word_calc_context['context_sequence_likelihood'] = sequence_likelihood_context
 
             context_parse_results_likelihoods.append(context_likelihood)
 

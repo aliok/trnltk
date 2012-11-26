@@ -1,0 +1,207 @@
+{% macro sequence_likelihood_details(context_sequence_likelihood, is_leading, item_index) -%}
+    {% if context_sequence_likelihood['sequence_length']==1 %}
+        {{ contextless_distributions.contextless_distribution_likelihood_matrix(context_sequence_likelihood) }}
+    {% else %}
+        {% if context_sequence_likelihood['direction']=='HIGHEST_WEIGHT_ON_LAST' %}
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mi>A</mi>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_A'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mi>B</mi>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_B'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mrow>
+                            <mi>B</mi>
+                            <mo>|</mo>
+                            <mi>A</mi>
+                        </mrow>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_B_GIVEN_A'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mrow>
+                            <mi>A</mi>
+                            <mi>B</mi>
+                        </mrow>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mfenced>
+                            <mrow>
+                                <mi>B</mi>
+                                <mo>|</mo>
+                                <mi>A</mi>
+                            </mrow>
+                        </mfenced>
+                    </mrow>
+                    <mo>*</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mfenced>
+                            <mi>A</mi>
+                        </mfenced>
+                    </mrow>
+                    <mo>*</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mfenced>
+                            <mi>B</mi>
+                        </mfenced>
+                    </mrow>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_AB'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <msub>
+                        <mi>W</mi>
+                        <mi>{{ {True:'leading', False:'following'}[is_leading] }}Context{{ item_index }}</mi>
+                    </msub>
+                    <mo>=</mo>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mi>A</mi>
+                    </mfenced>
+                    <mo>*</mo>
+                    <mn>{{ context_sequence_likelihood['weight_A'] }}</mn>
+                    <mo>+</mo>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mrow>
+                            <mi>A</mi>
+                            <mi>B</mi>
+                        </mrow>
+                    </mfenced>
+                    <mo>*</mo>
+                    <mn>{{ context_sequence_likelihood['weight_AB'] }}</mn>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['weighted_likelihood'] }}</mn>
+                </mrow>
+            </math>
+        {% else %}
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mi>A</mi>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_A'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mi>B</mi>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_B'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mrow>
+                            <mi>A</mi>
+                            <mo>|</mo>
+                            <mi>B</mi>
+                        </mrow>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_A_GIVEN_B'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mrow>
+                            <mi>A</mi>
+                            <mi>B</mi>
+                        </mrow>
+                    </mfenced>
+                    <mo>=</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mfenced>
+                            <mrow>
+                                <mi>A</mi>
+                                <mo>|</mo>
+                                <mi>B</mi>
+                            </mrow>
+                        </mfenced>
+                    </mrow>
+                    <mo>*</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mfenced>
+                            <mi>A</mi>
+                        </mfenced>
+                    </mrow>
+                    <mo>*</mo>
+                    <mrow>
+                        <mi>P</mi>
+                        <mfenced>
+                            <mi>B</mi>
+                        </mfenced>
+                    </mrow>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['P_AB'] }}</mn>
+                </mrow>
+            </math>
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                    <msub>
+                        <mi>W</mi>
+                        <mi>{{ {True:'leading', False:'following'}[is_leading] }}Context{{ item_index }}</mi>
+                    </msub>
+                    <mo>=</mo>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mi>B</mi>
+                    </mfenced>
+                    <mo>*</mo>
+                    <mn>{{ context_sequence_likelihood['weight_B'] }}</mn>
+                    <mo>+</mo>
+                    <mi>P</mi>
+                    <mfenced>
+                        <mrow>
+                            <mi>A</mi>
+                            <mi>B</mi>
+                        </mrow>
+                    </mfenced>
+                    <mo>*</mo>
+                    <mn>{{ context_sequence_likelihood['weight_AB'] }}</mn>
+                    <mo>=</mo>
+                    <mn>{{ context_sequence_likelihood['weighted_likelihood'] }}</mn>
+                </mrow>
+            </math>
+        {% endif %}
+    {% endif %}
+{%- endmacro %}

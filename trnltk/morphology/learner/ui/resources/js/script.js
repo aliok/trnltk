@@ -81,4 +81,11 @@ function initializeLikelihoodDetails() {
         detailRow.toggle();
         e.preventDefault();
     });
+
+    $('.possibility_context_detail_button').live('click', function (e) {
+        var self = $(this);
+        self.parents('table:first').find('tr.possibility-context-likelihood-details').toggle();
+        e.preventDefault();
+    });
+
 }

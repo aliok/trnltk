@@ -1,3 +1,17 @@
-{% macro contextless_distribution_likelihood_matrix(calculation_context, parse_result_uuid) -%}
-    TO BE ADDED with occurrences of PR / occurrences of surface
+{% macro contextless_distribution_likelihood_matrix(calculation_context) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+            <msub>
+                <mi>&Lscr;</mi>
+                <mi>ContextLessDistribution</mi>
+            </msub>
+            <mo>=</mo>
+            <mfrac>
+                <mn>{{ calculation_context['parse_result_occurrence_count'] }}</mn>
+                <mn>{{ calculation_context['surface_occurrence_count'] }}</mn>
+            </mfrac>
+            <mo>=</mo>
+            <mn>{{ calculation_context['likelihood'] }}</mn>
+        </mrow>
+    </math>
 {%- endmacro %}

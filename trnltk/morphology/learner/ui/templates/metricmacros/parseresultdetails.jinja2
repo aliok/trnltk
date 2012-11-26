@@ -1,0 +1,125 @@
+{% import "metricmacros/collocations.jinja2" as collocations with context %}
+{% import "metricmacros/contextlessdistributions.jinja2" as contextless_distributions with context%}
+
+{% macro likelihood_matrix(calculation_context, parse_result_uuid) -%}
+    <table>
+        <tr>
+            <td style="font-size: large;">
+                {{ print_collocation_summary(calculation_context, parse_result_uuid) }}
+            </td>
+            <td style="vertical-align: middle;">
+                <button type="button" class="btn btn-info collocation_detail_button" style="float: right;"
+                        data-parse-result-id="{{ parse_result_uuid }}">
+                    <i class="icon-chevron-right icon-white"></i>
+                    Collocation Likelihood Details
+                </button>
+            </td>
+        </tr>
+        <tr style="display: none;" id="collocation-details-{{ parse_result_uuid }}">
+            <td colspan="2">
+                {{ collocations.collocation_likelihood_matrix(calculation_context['collocation'], parse_result_uuid) }}
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: large;">
+                {{ print_contextless_distribution_summary(calculation_context, parse_result_uuid) }}
+            </td>
+            <td style="vertical-align: middle;">
+                <button type="button" class="btn btn-info contextless_distribution_detail_button" style="float: right;"
+                        data-parse-result-id="{{ parse_result_uuid }}">
+                    <i class="icon-chevron-right icon-white"></i>
+                    Contextless Distribution Likelihood Details
+                </button>
+            </td>
+        </tr>
+        <tr style="display: none;" id="contextless-distribution-details-{{ parse_result_uuid }}">
+            <td colspan="2">
+                {{ contextless_distributions.contextless_distribution_likelihood_matrix(calculation_context['contextless_distribution']) }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-size: larger;">
+                {{ print_likelihood_summary(calculation_context, parse_result_uuid) }}
+            </td>
+        </tr>
+    </table>
+
+{%- endmacro %}
+
+{% macro print_likelihood_summary(calculation_context, parse_result_uuid) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+          xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+        <mrow>
+            <mi>&Lscr;</mi>
+            <mo>=</mo>
+            <mfenced close="]" open="[">
+                <mtable>
+                    <mtr>
+                        <mtd>
+                            <msub>
+                                <mi>&Lscr;</mi>
+                                <mi>Collocation</mi>
+                            </msub>
+                        </mtd>
+                    </mtr>
+                    <mtr>
+                        <mtd>
+                            <msub>
+                                <mi>&Lscr;</mi>
+                                <mi>ContextlessDistribution</mi>
+                            </msub>
+                        </mtd>
+                    </mtr>
+                </mtable>
+            </mfenced>
+            <mo>&#x22c5;</mo>
+            <msup>
+                <mfenced close="]" open="[">
+                    <mtable>
+                        <mtr>
+                            <mtd>
+                                <mn>{{ calculation_context['collocation_metric_weight'] }}</mn>
+                            </mtd>
+                        </mtr>
+                        <mtr>
+                            <mtd>
+                                <mn>{{ calculation_context['contextless_distribution_metric_weight'] }}</mn>
+                            </mtd>
+                        </mtr>
+                    </mtable>
+                </mfenced>
+                <mo>T</mo>
+            </msup>
+            <mo>=</mo>
+            <mn>{{ calculation_context['total_likelihood'] }}</mn>
+        </mrow>
+    </math>
+{%- endmacro %}
+
+{% macro print_collocation_summary(calculation_context, parse_result_uuid) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+          xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+        <mrow>
+            <msub>
+                <mi>&Lscr;</mi>
+                <mi>Collocation</mi>
+            </msub>
+            <mo>=</mo>
+            <mn>{{ calculation_context['collocation']['sum_likelihood'] }}</mn>
+        </mrow>
+    </math>
+{%- endmacro %}
+
+{% macro print_contextless_distribution_summary(calculation_context, parse_result_uuid) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
+          xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+        <mrow>
+            <msub>
+                <mi>&Lscr;</mi>
+                <mi>ContextlessDistribution</mi>
+            </msub>
+            <mo>=</mo>
+            <mn>{{ calculation_context['contextless_distribution']['likelihood'] }}</mn>
+        </mrow>
+    </math>
+{%- endmacro %}

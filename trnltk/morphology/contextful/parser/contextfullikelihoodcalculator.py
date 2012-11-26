@@ -17,9 +17,7 @@ class ContextfulLikelihoodCalculator(object):
         @rtype: float
         """
 
-        contextless_distribution_calculation_context = None if calculation_context is None else {}
-
-        contextless_distribution_likelihood = self._contextless_distribution_metric_calculator.calculate(target, contextless_distribution_calculation_context)
+        contextless_distribution_likelihood = self._contextless_distribution_metric_calculator.calculate(target, calculation_context)
 
         return self._WEIGHT_CONTEXTLESS_DISTRIBUTION_METRIC_CALCULATOR * contextless_distribution_likelihood
 
@@ -58,7 +56,7 @@ class ContextfulLikelihoodCalculator(object):
         """
         @type target: MorphemeContainer
         @type context: list<list<MorphemeContainer>>
-        @type calculation_context: dict
+        @type calculation_context: dict or None
         @rtype: float
         """
         total = 0.0
