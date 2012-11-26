@@ -47,6 +47,11 @@ class ContextfulLikelihoodCalculator(object):
             calculation_context['collocation'] = collocation_calculation_context
             calculation_context['contextless_distribution'] = contextless_distribution_calculation_context
 
+            calculation_context['collocation_metric_weight'] = self._WEIGHT_COLLOCATION_METRIC_CALCULATOR
+            calculation_context['contextless_distribution_metric_weight'] = self._WEIGHT_CONTEXTLESS_DISTRIBUTION_METRIC_CALCULATOR
+
+            calculation_context['total_likelihood'] = total
+
         return total
 
     def calculate_oneway_likelihood(self, target, context, target_comes_after, calculation_context=None):

@@ -1,8 +1,8 @@
-{% macro likelihood_matrix(calculation_context, parse_result_uuid) -%}
+{% macro collocation_likelihood_matrix(calculation_context, parse_result_uuid) -%}
 <div xmlns="http://www.w3.org/1999/html">
 
-    {{ _render_one_way_details_accordion(calculation_context.leading, "leading-" ~ parse_result_uuid, True) }}
-    {{ _render_one_way_details_accordion(calculation_context.following, "following-" ~ parse_result_uuid, False) }}
+    {{ _render_one_way_details_accordion(calculation_context['leading'], "leading-" ~ parse_result_uuid, True) }}
+    {{ _render_one_way_details_accordion(calculation_context['following'], "following-" ~ parse_result_uuid, False) }}
 
     <span style="font-size: larger;">
         {{ _render_two_way_sum(calculation_context) }}
@@ -18,7 +18,7 @@
             <table width="100%">
                 <tr>
                     <td>
-                        <div style="font-size: large;">
+                        <div>
                             {{ _render_one_way_likelihood_possibility_sum(one_way_calculation_context, is_leading) }}
                         </div>
                     </td>
@@ -47,7 +47,7 @@
 
 {% macro _render_two_way_sum(calculation_context) -%}
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
-      xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+        >
     <mrow>
         <mi>&Lscr;</mi>
         <mo>=</mo>
@@ -99,7 +99,7 @@
             <td>NGram length : {{ loop.index }}</td>
             <td>
                 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
-                      xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+                        >
                     <mrow>
                         <mn>{{ interpolation_context['likelihood'][loop.index0] }}</mn>
                         <mo>*</mo>
@@ -132,6 +132,10 @@
         <td>{{ _render_one_way_likelihood_possibility_contexts(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key]) }}</td>
         <td>{{ _render_one_way_likelihood_possibility_matrix(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key], loop.index0, is_leading) }}</td>
     </tr>
+    <tr>
+        <td>{{ _render_one_way_likelihood_possibility_context_likelihood(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key], loop.index0, is_leading) }}</td>
+        <td>{{ _render_one_way_likelihood_possibility_item_sum(one_way_calculation_context['possibilities'][one_way_calculation_context_item_key], loop.index0, is_leading) }}</td>
+    </tr>
     {% endfor %}
 </table>
 {%- endmacro %}
@@ -139,7 +143,7 @@
 
 {% macro _render_one_way_likelihood_possibility_sum(one_way_calculation_context, is_leading) -%}
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
-      xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+        >
     <mrow>
         <msub>
             <mi>&Lscr;</mi>
@@ -193,7 +197,7 @@
 
 {% macro _render_one_way_likelihood_possibility_matrix(one_way_calculation_context_item, item_index, is_leading) -%}
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"
-      xmlns:schemaLocation="http://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd">
+        >
     <mrow>
         <msub>
             <mi>&Lscr;</mi>
@@ -293,12 +297,43 @@
 
 {%- endmacro %}
 
+{% macro _render_one_way_likelihood_possibility_context_likelihood(one_way_calculation_context_item, item_index, is_leading) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+            <msub>
+                <mi>W</mi>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}Context{{ item_index }}</mi>
+            </msub>
+            <mo>=</mo>
+            <mn>{{ one_way_calculation_context_item['context_likelihood'] }}</mn>
+        </mrow>
+    </math>
 
-{{ likelihood_matrix(calculation_context, parse_result_uuid) }}
+{%- endmacro %}
 
-<script src="/resources/js/script.js"></script>
-<script>
-    $(document).ready(function() {
-        initializeInterpolationContextView();
-    });
-</script>
+{% macro _render_one_way_likelihood_possibility_item_sum(one_way_calculation_context_item, item_index, is_leading) -%}
+    <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+            <msub>
+                <msup>
+                    <mi>&Lscr;</mi>
+                    <mi>'</mi>
+                </msup>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}{{ item_index }}</mi>
+            </msub>
+            <mo>=</mo>
+            <msub>
+                <mi>&Lscr;</mi>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}{{ item_index }}</mi>
+            </msub>
+            <mo>*</mo>
+            <msub>
+                <mi>W</mi>
+                <mi>{{ {True:'leading', False:'following'}[is_leading] }}Context{{ item_index }}</mi>
+            </msub>
+            <mo>=</mo>
+            <mn>{{ one_way_calculation_context_item['weighted_parse_result_possibility_likelihood'] }}</mn>
+        </mrow>
+    </math>
+
+{%- endmacro %}

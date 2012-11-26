@@ -1,5 +1,5 @@
+from __future__ import division
 from trnltk.morphology.contextful.likelihoodmetrics.hidden.querykeyappender import _word_parse_result_appender, _word_surface_appender
-
 
 class ContextlessDistributionCalculator(object):
     def __init__(self, database_index_builder, target_form_given_context_counter):

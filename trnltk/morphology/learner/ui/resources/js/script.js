@@ -56,7 +56,23 @@ function initializeLearnerPage() {
     });
 }
 
-function initializeInterpolationContextView() {
+function initializeLikelihoodDetails() {
+
+    $('.collocation_detail_button').live('click', function (e) {
+        var self = $(this);
+        var parseResultId = self.data('parse-result-id');
+        var detailRow = $('#collocation-details-' + parseResultId);
+        detailRow.toggle();
+        e.preventDefault();
+    });
+
+    $('.contextless_distribution_detail_button').live('click', function (e) {
+        var self = $(this);
+        var parseResultId = self.data('parse-result-id');
+        var detailRow = $('#contextless-distribution-details-' + parseResultId);
+        detailRow.toggle();
+        e.preventDefault();
+    });
 
     $('.interpolation_context_detail_button').live('click', function (e) {
         var self = $(this);

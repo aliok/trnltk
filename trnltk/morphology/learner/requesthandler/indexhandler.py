@@ -18,4 +18,4 @@ class IndexHandler(SessionAwareRequestHandler):
 
         view_context = index_view.get_template_context()
 
-        self.render_response("indextemplate.html", **view_context)
+        self.render_response("indextemplate.jinja2", **view_context)

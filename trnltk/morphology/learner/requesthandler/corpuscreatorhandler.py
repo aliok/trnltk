@@ -23,4 +23,4 @@ class CorpusCreatorHandler(SessionAwareRequestHandler):
 
         view_context = corpus_creator_view.get_template_context()
 
-        self.render_response("corpuscreatortemplate.html", **view_context)
+        self.render_response("corpuscreatortemplate.jinja2", **view_context)

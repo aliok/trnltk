@@ -27,4 +27,4 @@ class LearnerHandler(SessionAwareRequestHandler):
 
         view_context = learnerview.get_template_context()
 
-        self.render_response("learnerviewtemplate.html", **view_context)
+        self.render_response("learnerviewtemplate.jinja2", **view_context)
