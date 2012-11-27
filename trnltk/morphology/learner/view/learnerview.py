@@ -30,6 +30,9 @@ class LearnerView(object):
     def set_next_nonparsed_word(self, next_nonparsed_word):
         self._context['next_nonparsed_word_id'] = next_nonparsed_word['_id']
 
+    def set_next_word(self, next_word):
+        self._context['next_word_id'] = next_word['_id']
+
     def set_leading_words(self, leading_words):
         self._context['leading_words'] = [self._create_context_word_dict(word) for word in leading_words]
 

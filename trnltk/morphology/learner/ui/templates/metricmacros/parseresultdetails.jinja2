@@ -3,6 +3,7 @@
 
 {% macro likelihood_matrix(calculation_context, parse_result_uuid) -%}
     <table>
+        {% if calculation_context['collocation'] %}
         <tr>
             <td style="font-size: large;">
                 {{ print_collocation_summary(calculation_context, parse_result_uuid) }}
@@ -20,6 +21,7 @@
                 {{ collocations.collocation_likelihood_matrix(calculation_context['collocation'], parse_result_uuid) }}
             </td>
         </tr>
+        {% endif %}
         <tr>
             <td style="font-size: large;">
                 {{ print_contextless_distribution_summary(calculation_context, parse_result_uuid) }}

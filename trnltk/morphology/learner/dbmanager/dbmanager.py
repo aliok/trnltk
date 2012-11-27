@@ -61,6 +61,16 @@ class DbManager(object):
 
         return [word for word in self.word_collection.find(query).sort('index', pymongo.ASCENDING)]
 
+    def get_word_by_index(self, corpus_id, word_index):
+        assert corpus_id and word_index is not None
+
+        query = {
+            'corpus_id': corpus_id,
+            'index': word_index
+        }
+
+        return self.word_collection.find_one(query)
+
     def count_all_nonparsed(self, corpus_id):
         assert corpus_id
 
@@ -168,3 +178,79 @@ class DbManager(object):
             return val['_id']
         else:
             raise Exception('Corpus {} doesnt have a word with index 0.'.format(corpus_id))
+
+    def insert_word_at_index(self, corpus_id, surface, index):
+        # super bad implementation, but nvm...
+
+        self.increase_word_indexes(corpus_id, index)
+        self.create_word(surface, corpus_id, index)
+
+    def delete_word(self, word):
+        # super bad implementation, same with method 'insert_word_at_index'
+        corpus_id = word['corpus_id']
+        word_index = word['index']
+
+        last_index = self.count_all(corpus_id) - 1
+
+        self.word_collection.remove(word)
+        self.decrease_word_indexes(corpus_id, word_index + 1, last_index + 1)
+
+    def increase_word_indexes(self, corpus_id, index):
+        # super bad implementation, but nvm...
+        last_index = self.count_all(corpus_id) - 1
+        for i in range(last_index, index - 1, -1):
+            word_by_index = self.get_word_by_index(corpus_id, i)
+            if not word_by_index:
+                # this stupid implementation of splitting and word indexes require indexes to be contiguous
+                raise Exception('No word found for index {}!'.format(i))
+            word_by_index['index'] = i + 1
+            self.word_collection.save(word_by_index)
+
+    def decrease_word_indexes(self, corpus_id, from_index, to_index):
+        # super bad implementation, but nvm...
+        for i in range(from_index, to_index, 1):
+            word_by_index = self.get_word_by_index(corpus_id, i)
+            if not word_by_index:
+                # this stupid implementation of splitting and word indexes require indexes to be contiguous
+                raise Exception('No word found for index {}!'.format(i))
+            word_by_index['index'] = i - 1
+            self.word_collection.save(word_by_index)
+
+
+    def update_word(self, word, surface_first_part):
+        word['surface'] = surface_first_part       #update the surface
+        word['parsed'] = 0
+
+        if word.get('parse_result') is not None:
+            del word['parse_result']
+
+        if word.get('surface_syntactic_category') is not None:
+            del word['surface_syntactic_category']
+        if word.get('surface_secondary_syntactic_category') is not None:
+            del word['surface_secondary_syntactic_category']
+
+        if word.get('stem') is not None:
+            del word['stem']
+        if word.get('stem_syntactic_category') is not None:
+            del word['stem_syntactic_category']
+        if word.get('stem_secondary_syntactic_category') is not None:
+            del word['stem_secondary_syntactic_category']
+
+        if word.get('lemma_root') is not None:
+            del word['lemma_root']
+        if word.get('lemma_root_syntactic_category') is not None:
+            del word['lemma_root_syntactic_category']
+        if word.get('lemma_root_secondary_syntactic_category') is not None:
+            del word['lemma_root_secondary_syntactic_category']
+
+        self.word_collection.save(word)
+
+    def find_next_word(self, corpus_id, word):
+        val = self.get_word_by_index(corpus_id, word['index'] + 1)
+        if val:
+            return val
+        else:
+            return self.get_word(self.find_id_of_first_word_in_corpus(corpus_id))
+
+    def delete_corpus(self, corpus_id):
+        self.corpus_collection.remove(corpus_id)

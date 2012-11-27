@@ -87,6 +87,10 @@
     </table>
     {% endif %}
 
+    <div style="text-align: center;">
+        <a href="editWord?wordId={{ current_word_id }}&nextWordId={{ next_word_id }}" class="btn btn-primary btn-large">Edit/Delete Word</a>
+    </div>
+
     <ul class="pager">
         {% if previous_nonparsed_word_id is not defined %}
             <li class="previous disabled">

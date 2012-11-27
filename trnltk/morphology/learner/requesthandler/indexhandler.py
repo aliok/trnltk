@@ -1,7 +1,7 @@
 from trnltk.morphology.learner.controller.indexcontroller import IndexController
 from trnltk.morphology.learner.requesthandler.sessionawarerequesthandler import SessionAwareRequestHandler
 from trnltk.morphology.learner.ui import applicationcontext
-from trnltk.morphology.learner.view.Indexview import IndexView
+from trnltk.morphology.learner.view.indexview import IndexView
 
 class ContextRootHandler(SessionAwareRequestHandler):
     def get(self):

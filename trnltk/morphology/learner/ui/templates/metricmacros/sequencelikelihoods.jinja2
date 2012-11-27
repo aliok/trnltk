@@ -1,6 +1,6 @@
 {% macro sequence_likelihood_details(context_sequence_likelihood, is_leading, item_index) -%}
     {% if context_sequence_likelihood['sequence_length']==1 %}
-        {{ contextless_distributions.contextless_distribution_likelihood_matrix(context_sequence_likelihood) }}
+        {{ contextless_distributions.contextless_distribution_likelihood_matrix(context_sequence_likelihood['contextless_distribution']) }}
     {% else %}
         {% if context_sequence_likelihood['direction']=='HIGHEST_WEIGHT_ON_LAST' %}
             <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">

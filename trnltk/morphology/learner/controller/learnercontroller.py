@@ -78,6 +78,10 @@ class LearnerController(object):
         if next_nonparsed_word:
             self.learnerview.set_next_nonparsed_word(next_nonparsed_word)
 
+        next_word = self.dbmanager.find_next_word(corpus_id, word)
+        if next_word:
+            self.learnerview.set_next_word(next_word)
+
 
         # find parse context words
         leading_parse_context_words = leading_words[-LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT:] if len(leading_words) >=LearnerController.WORD_COUNT_TO_USE_AS_PARSE_CONTEXT else leading_words[:]
