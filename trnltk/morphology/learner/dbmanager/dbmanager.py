@@ -254,3 +254,12 @@ class DbManager(object):
 
     def delete_corpus(self, corpus_id):
         self.corpus_collection.remove(corpus_id)
+
+    def get_corpus(self, corpus_id):
+        return self.corpus_collection.find_one(corpus_id)
+
+    def get_words_of_corpus(self, corpus_id):
+        query = {
+            'corpus_id': corpus_id
+        }
+        return self.word_collection.find(query)

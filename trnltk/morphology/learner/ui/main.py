@@ -1,6 +1,7 @@
 # coding=utf-8
 import webapp2
 from trnltk.morphology.learner.requesthandler.corpuscreatorhandler import CorpusCreatorHandler
+from trnltk.morphology.learner.requesthandler.corpusreaderhandler import CorpusReaderHandler
 from trnltk.morphology.learner.requesthandler.editwordhandler import EditWordHandler
 from trnltk.morphology.learner.requesthandler.indexhandler import IndexHandler, ContextRootHandler
 from trnltk.morphology.learner.requesthandler.learnerhandler import LearnerHandler
@@ -19,6 +20,7 @@ app = webapp2.WSGIApplication([
     ('/markParseResultAsCorrect', ParseResultCorrectMarkerHandler),
     ('/parseResultDetail', ParseResultDetailHandler),
     ('/editWord', EditWordHandler),
+    ('/corpusReader', CorpusReaderHandler),
     (r'/resources/(.+)', StaticFileHandler),
     ('/', ContextRootHandler)
 ], debug=True, config=config)
