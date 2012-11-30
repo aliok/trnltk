@@ -1464,3 +1464,204 @@ Zühre
 Zülcelâl
 Zülfikar
 Zümrüdüanka
+Âdem
+Âdemcilik
+Çağatay
+Çağatayca
+Çağlayancerit
+Çal
+Çaldıran
+Çamardı [P:Noun, Prop; A:NounConsInsert_n]
+Çamaş
+Çameli [P:Noun, Prop; A:NounConsInsert_n]
+Çamlıyayla
+Çamoluk
+Çan
+Çanakçı
+Çanakkale
+Çandır
+Çankaya
+Çankırı
+Çapakçur
+Çardak
+Çarşamba
+Çarşıbaşı [P:Noun, Prop; A:NounConsInsert_n]
+Çat
+Çatak
+Çatalca
+Çatalpınar
+Çatalzeytin
+Çavdarhisar
+Çavdır
+Çay
+Çaybaşı [P:Noun, Prop; A:NounConsInsert_n]
+Çaycuma
+Çayeli [P:Noun, Prop; A:NounConsInsert_n]
+Çayıralan
+Çayırlı
+Çaykara
+Çeçen
+Çeçence
+Çek
+Çekçe
+Çekerek
+Çekoslovak
+Çekoslovakya
+Çekoslovakyalı
+Çelebi
+Çelikhan
+Çeltik
+Çeltikçi
+Çemişgezek
+Çerkeş
+Çerkez
+Çerkezce
+Çerkezköy
+Çermik
+Çeşme
+Çıfıt
+Çıldır
+Çınar
+Çınarcık
+Çiçekdağı [P:Noun, Prop; A:NounConsInsert_n]
+Çifteler
+Çiftlik
+Çiftlikköy
+Çigan
+Çiğli
+Çilimli
+Çin
+Çince
+Çine
+Çingen
+Çingene
+Çingenece
+Çinli
+Çivril
+Çobanlar
+Çolpan
+Çorlu
+Çoruh
+Çorum
+Çölemerik
+Çubuk
+Çukurca
+Çukurova
+Çulpan
+Çumra
+Çuvaş
+Çuvaşça
+Çüngüş
+İbradı
+İbranca
+İbranî [A:NoQuote]
+İbranîce
+İçel
+İdil
+İhsangazi
+İhsaniye
+İkizce
+İkizdere
+İkizler
+İliç
+İmamoğlu [P:Noun, Prop; A:NounConsInsert_n]
+İmraniye
+İmranlı
+İmroz
+İncesu
+İncil
+İncirlik
+İncirliova
+İnebolu
+İnegöl
+İngiliz
+İngilizce
+İngiltere
+İnhisar
+İnönü [P:Noun, Prop; A:NounConsInsert_n]
+İnternet [A:NoVoicing]
+İpsala
+İran
+İrlanda
+İsa
+İscehisar
+İsevî [A:NoQuote]
+İskandinav
+İskandinavya
+İskenderun
+İskilip
+İskitçe
+İskoç
+İskoçça
+İslâhiye
+İslâm [A:NoQuote]
+İslâmî [A:NoQuote]
+İslâmiyet [A:NoQuote]
+İslâv
+İslâvca
+İslâvist [A:NoQuote]
+İslâvistik [A:NoQuote]
+İspanya
+İspanyol [A:NoQuote]
+İspanyolca
+İspir
+İsrafil
+İsrail
+İstanbul
+İsveç
+İsveççe
+İsviçre
+İtalya
+İtalyan [A:NoQuote]
+İtalyanca
+İvrindi
+İyidere
+İzmir
+İzmit
+İznik
+Ödemiş
+Ömerli
+Özalp
+Özbek
+Özbekçe
+Özbekistan
+Özvatan
+Şabanözü [P:Noun, Prop; A:NounConsInsert_n]
+Şafiî
+Şahinbey
+Şalpazarı [P:Noun, Prop; A:NounConsInsert_n]
+Şamanî [A:NoQuote]
+Şamanist [A:NoQuote]
+Şamanizm [A:NoQuote]
+Şaphane
+Şarkışla
+Şarkîkaraağaç
+Şarköy
+Şavşat
+Şebinkarahisar
+Şefaatli
+Şehitkâmil
+Şemdinli
+Şenkaya
+Şenpazar
+Şereflikoçhisar
+Şırnak
+Şia [A:NoQuote]
+Şiî [A:NoQuote]
+Şile
+Şintocu [A:NoQuote]
+Şintoizm [A:NoQuote]
+Şiran
+Şirvan
+Şişhane
+Şişli
+Şuhut
+Şûrayıdevlet [A:NoVoicing]
+Üçkardeş
+Ülker
+Ümraniye
+Ünye
+Ürdün
+Ürgüp
+Üsküdar
+Üzümlü

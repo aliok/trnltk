@@ -177,8 +177,6 @@ adedî [P:Adv]
 adedimürettep
 adem
 âdem
-Âdem
-Âdemcilik
 âdemelması [A:CompoundP3sg; R:âdemelma ]
 ademimerkeziyet [A:NoVoicing]
 ademiyet [A:NoVoicing]
@@ -4159,8 +4157,6 @@ cüzzam
 çağa
 çağanak
 çağanoz
-Çağatay
-Çağatayca
 çağcıl [P:Adj]
 çağdaş [P:Adj]
 çağıldamak
@@ -4172,7 +4168,6 @@ cüzzam
 çağlamak
 çağlar
 çağlayan
-Çağlayancerit
 çağmak
 çağnak
 çağrı
@@ -4207,7 +4202,6 @@ cüzzam
 çakmak
 çakşır
 çaktırmak
-Çal
 çal
 çala [P:Adj]
 çalak [P:Adj]
@@ -4221,7 +4215,6 @@ cüzzam
 çalar
 çalarmak
 çalçene [P:Adj]
-Çaldıran
 çalgı
 çalgıç
 çalgıhane
@@ -4249,37 +4242,26 @@ cüzzam
 çaltı
 çalyaka
 çam
-Çamardı [P:Noun, Prop; A:NounConsInsert_n]
-Çamaş
 çamaşır
 çamaşırhane
 çamat
 çamça
 çamçak
-Çameli [P:Noun, Prop; A:NounConsInsert_n]
 çamgiller
-Çamlıyayla
-Çamoluk
 çamuka
 çamur
 çamur [P:Adj]
 çamurcuk
 çamurlamak
 çan
-Çan
 çanak
 çanak [P:Adj]
 çanakçı
-Çanakçı
-Çanakkale
 çandı
 çandır
 çandır [P:Adj]
-Çandır
 çangal
 çangırtı
-Çankaya
-Çankırı
 çanta
 çap
 çap [P:Adj]
@@ -4287,7 +4269,6 @@ cüzzam
 çapa
 çapaçul [P:Adj]
 çapak
-Çapakçur
 çapalamak
 çapanoğlu
 çapar
@@ -4316,7 +4297,6 @@ cüzzam
 çarçabuk [P:Adv]
 çarçur
 çardak
-Çardak
 çardaş
 çare
 çareviç [A:NoVoicing]
@@ -4347,22 +4327,15 @@ cüzzam
 çarşaf
 çarşaflamak
 çarşamba
-Çarşamba
 çarşı
-Çarşıbaşı [P:Noun, Prop; A:NounConsInsert_n]
 çasar
 çaşıt
 çaşıtlamak
 çat
-Çat
 çatak
 çatak [P:Adj]
-Çatak
 çatal
 çatal [P:Adj]
-Çatalca
-Çatalpınar
-Çatalzeytin
 çatana
 çatapat [A:NoVoicing]
 çatı
@@ -4384,9 +4357,7 @@ cüzzam
 çav
 çavalye
 çavdar
-Çavdarhisar
 çavdarmahmuzu
-Çavdır
 çavela
 çavlan
 çavlanmak
@@ -4395,37 +4366,26 @@ cüzzam
 çavun
 çavuş
 çay
-Çay
-Çaybaşı [P:Noun, Prop; A:NounConsInsert_n]
-Çaycuma
 çaydanlık
-Çayeli [P:Noun, Prop; A:NounConsInsert_n]
 çaygiller
 çayhane
 çayır
-Çayıralan
 çayırgüzeli [A:CompoundP3sg; R:çayırgüzel]
 çayırlamak
-Çayırlı
 çayırsedefi [A:CompoundP3sg; R:çayırsedef]
 çaykara
-Çaykara
 çaylak
 çaylak [P:Adj]
 çebiç
 çecik
 çeç
 çeçe
-Çeçen
-Çeçence
 çedene
 çedik
 çeğmel [P:Adj]
 çehre
 çek
-Çek
 çekberi
-Çekçe
 çekçek
 çekecek
 çekek
@@ -4434,7 +4394,6 @@ cüzzam
 çekelez
 çekememek
 çeker
-Çekerek
 çeki
 çekici
 çekici [P:Adj]
@@ -4464,21 +4423,16 @@ cüzzam
 çekme [P:Adj]
 çekmece
 çekmek
-Çekoslovak
-Çekoslovakya
-Çekoslovakyalı
 çekül
 çekyat [A:NoVoicing]
 çelebi
 çelebi [P:Adj]
-Çelebi
 çelek
 çelen
 çelenk
 çelgi
 çelik
 çelik [P:Adj]
-Çelikhan
 çelikhane
 çeliklemek
 çelim
@@ -4493,8 +4447,6 @@ cüzzam
 çelmik
 çeltek
 çeltik
-Çeltik
-Çeltikçi
 çembalo
 çember
 çemberlemek
@@ -4502,7 +4454,6 @@ cüzzam
 çemen
 çemenlemek
 çemiç
-Çemişgezek
 çemkirmek
 çençen [P:Adj]
 çene
@@ -4534,12 +4485,7 @@ cüzzam
 çerge
 çeri
 çeribaşı
-Çerkeş
-Çerkez
-Çerkezce
-Çerkezköy
 çermik
-Çermik
 çerviş
 çeşit
 çeşit [P:Adj]
@@ -4547,7 +4493,6 @@ cüzzam
 çeşitlemek
 çeşitli
 çeşme
-Çeşme
 çeşmibülbül
 çeşni
 çeşnicibaşı [A:CompoundP3sg; R:çeşnicibaş]
@@ -4587,7 +4532,6 @@ cüzzam
 çıbanbaşı
 çıdamak
 çıfıt [P:Adj;A:NoVoicing]
-Çıfıt
 çığ
 çığa
 çığıltı
@@ -4626,7 +4570,6 @@ cüzzam
 çıktı
 çılan
 çılbır
-Çıldır
 çıldırmak
 çılgın [P:Adj]
 çılgıncasına [P:Adv]
@@ -4635,8 +4578,6 @@ cüzzam
 çımkırmak
 çın [P:Adj]
 çınar
-Çınar
-Çınarcık
 çınargiller
 çınayaz
 çıngar
@@ -4693,7 +4634,6 @@ cüzzam
 çıyan [P:Adj]
 çiçeğigiller
 çiçek
-Çiçekdağı [P:Noun, Prop; A:NounConsInsert_n]
 çiçeklemek
 çiçeksever [P:Adj]
 çift
@@ -4703,21 +4643,16 @@ cüzzam
 çifte [P:Adj]
 çiftehane
 çiftelemek
-Çifteler
 çifter
 çiftetelli
 çiftlemek
 çiftlik
-Çiftlik
-Çiftlikköy
 çiftteker
-Çigan
 çiğ [P:Adj]
 çiğde
 çiğdem
 çiğin
 çiğit
-Çiğli
 çiğlik
 çiğnek
 çiğnem
@@ -4730,7 +4665,6 @@ cüzzam
 çilek
 çilekeş [P:Adj]
 çilemek
-Çilimli
 çilingir
 çim
 çimbali
@@ -4744,24 +4678,17 @@ cüzzam
 çimento
 çimentolamak
 çimmek
-Çin
-Çince
 çinçilya
 çinçilyagiller
-Çine
 çinakop [A:NoVoicing]
 çinekop [A:NoVoicing]
-Çingen
 çingene
-Çingene
-Çingenece
 çini
 çini [P:Adj]
 çinko
 çinko [P:Adj]
 çinko [P:Interj]
 çinkograf
-Çinli
 çintiyan
 çip
 çipil [P:Adj]
@@ -4801,7 +4728,6 @@ cüzzam
 çivilemek
 çivit
 çivitlemek
-Çivril
 çiy
 çiylemek
 çizelge
@@ -4824,7 +4750,6 @@ cüzzam
 çobandeğneği [A:CompoundP3sg, Voicing; R:çobandeğnek]
 çobandüdüğü [A:CompoundP3sg, Voicing; R:çobandüdük]
 çobaniğnesi [A:CompoundP3sg; R:çobaniğne]
-Çobanlar
 çobanpüskülü [A:CompoundP3sg; R:çobanpüskül]
 çobanpüskülügiller
 çobansüzgeci [A:CompoundP3sg, Voicing; R:çobansüzgeç]
@@ -4862,7 +4787,6 @@ cüzzam
 çoksatar
 çolak [P:Adj]
 çolpa [P:Adj]
-Çolpan
 çoluk [P:Noun, Dup]
 çomak [P:Noun]
 çomaklamak
@@ -4876,10 +4800,7 @@ cüzzam
 çorap
 çorba
 çorlu [P:Adj]
-Çorlu
 çorman [P:Noun, Dup]
-Çoruh
-Çorum
 çotanak
 çotira
 çotiragiller
@@ -4903,7 +4824,6 @@ cüzzam
 çökük [P:Adj]
 çöküntü
 çöl
-Çölemerik
 çömçe
 çömelmek
 çömez
@@ -4934,7 +4854,6 @@ cüzzam
 çözüş
 çözüşmek
 çubuk
-Çubuk
 çubuklamak
 çucu
 çuha
@@ -4942,17 +4861,13 @@ cüzzam
 çuhçuh
 çuka
 çukur
-Çukurca
-Çukurova
 çul
 çulha
 çullamak
 çulluk
 çullukgiller
-Çulpan
 çulsuz [P:Adj]
 çultar
-Çumra
 çungul [P:Noun, Dup]
 çungur [P:Noun, Dup]
 çupra
@@ -4964,12 +4879,9 @@ cüzzam
 çuval
 çuvaldız
 çuvallamak
-Çuvaş
-Çuvaşça
 çük
 çükündür
 çükür
-Çüngüş
 çünkü [P:Conj]
 çürük
 çürük [P:Adj]
@@ -10015,11 +9927,7 @@ iblâğ
 iblis
 ibne
 ibra
-İbradı
 ibraname
-İbranca
-İbranî [A:NoQuote]
-İbranîce
 ibraz
 ibre
 ibret [A:NoVoicing]
@@ -10044,7 +9952,6 @@ iç
 iç [P:Adj]
 içbükey
 içecek
-İçel
 içeri [A:RootChange]
 içeri [P:Adj]
 içeri [P:Adv]
@@ -10095,7 +10002,6 @@ identik
 ideolog
 ideoloji
 idil
-İdil
 idiopati
 idman
 idrak [A:InverseHarmony]
@@ -10152,8 +10058,6 @@ ihraç
 ihram
 ihraz
 ihsan
-İhsangazi
-İhsaniye
 ihsas
 ihtar
 ihtarname
@@ -10215,10 +10119,7 @@ ikircik
 ikircil
 ikiyüzlü [P:Adj]
 ikiz [P:Adj]
-İkizce
-İkizdere
 ikizkenar
-İkizler
 iklim
 iklimlemek
 ikmal [A:InverseHarmony]
@@ -10281,7 +10182,6 @@ ilginç [P:Adj]
 ilhak [A:NoVoicing]
 ilham
 ilhan
-İliç
 ilik
 iliklemek
 ilim [A:LastVowelDrop]
@@ -10344,7 +10244,6 @@ imam
 imambayıldı
 imame
 imamet [A:NoVoicing]
-İmamoğlu [P:Noun, Prop; A:NounConsInsert_n]
 iman
 imar
 imaret [A:NoVoicing]
@@ -10370,12 +10269,9 @@ immünoloji
 imparator
 imparatoriçe
 imrahor
-İmraniye
-İmranlı
 imren
 imrenmek
 imrenti
-İmroz
 imsak [A:InverseHarmony]
 imsakiye
 imtihan
@@ -10401,14 +10297,10 @@ ince [P:Adj]
 incelemek
 incelmek
 incerek [P:Adj]
-İncesu
 inci
 incik
-İncil
 incinmek
 incir
-İncirlik
-İncirliova
 incitmebeni
 incitmek
 inç
@@ -10431,9 +10323,7 @@ indiyum
 indükleç
 indüklemek
 indüksiyon
-İnebolu
 ineç
-İnegöl
 inek
 inekhane
 ineklemek
@@ -10446,9 +10336,6 @@ infirak [A:NoVoicing]
 infirat
 infisah
 informatik
-İngiliz
-İngilizce
-İngiltere
 ingin
 inha
 inhidam
@@ -10457,7 +10344,6 @@ inhimak [P:Noun; A:InverseHarmony]
 inhina
 inhiraf
 inhisar
-İnhisar
 inhitat [A:NoVoicing]
 ini
 inik [P:Adj]
@@ -10481,7 +10367,6 @@ inlemek
 inme
 inmek
 inorganik
-İnönü [P:Noun, Prop; A:NounConsInsert_n]
 insaf
 insan
 insancıl
@@ -10514,7 +10399,6 @@ interferometre
 interferometri
 interkinez
 intermezzo
-İnternet [A:NoVoicing]
 intiba
 intibah
 intibak [A:NoVoicing]
@@ -10550,7 +10434,6 @@ ipnotize
 ipnotizma
 ipnoz
 ipotek
-İpsala
 ipsiz
 iptal [A:InverseHarmony]
 iptida
@@ -10562,7 +10445,6 @@ irade
 iradımesel
 iradî
 iradiye
-İran
 irap
 irat
 irca
@@ -10577,7 +10459,6 @@ iriş
 irkilmek
 irkinti
 irkmek
-İrlanda
 irmik
 ironi
 ironik [P:Adj]
@@ -10604,15 +10485,12 @@ irtikâp
 irtisam
 irtişa
 is
-İsa
 isabet [A:NoVoicing]
 isaf
 isal [A:InverseHarmony]
 isale
-İscehisar
 ise [P:Part]
 ise [P:Conj]
-İsevî [A:NoQuote]
 isfendan
 ishal [A:InverseHarmony]
 isilik
@@ -10621,35 +10499,20 @@ iskalârya
 iskambil
 iskân
 iskandil
-İskandinav
-İskandinavya
 iskarpelâ
 iskarpin
 iskarto
 iskele
 iskelet [A:NoVoicing]
 iskemle
-İskenderun
 iskerlet [A:NoVoicing]
 iskete
-İskilip
-İskitçe
-İskoç
-İskoçça
 iskonto
 iskorbüt [A:NoVoicing]
 iskorçina
 iskorpit [A:NoVoicing]
 iskorpitgiller
 iskota
-İslâhiye
-İslâm [A:NoQuote]
-İslâmî [A:NoQuote]
-İslâmiyet [A:NoQuote]
-İslâv
-İslâvca
-İslâvist [A:NoQuote]
-İslâvistik [A:NoQuote]
 islemek
 islim
 ismen
@@ -10658,9 +10521,6 @@ isnaden
 isnat
 ispalya
 ispanya
-İspanya
-İspanyol [A:NoQuote]
-İspanyolca
 ispanyolet [A:NoVoicing]
 ispat [A:NoVoicing]
 ispatlamak
@@ -10671,7 +10531,6 @@ ispermeçet [A:NoVoicing]
 ispinoz
 ispinozgiller
 ispir
-İspir
 ispiralya
 ispirto
 ispit [A:NoVoicing]
@@ -10679,11 +10538,8 @@ ispiyon
 ispiyonlamak
 ispritizma
 israf
-İsrafil
-İsrail
 istadya
 istafilina
-İstanbul
 istanbulin
 istasyon
 istatistik
@@ -10785,9 +10641,6 @@ istizan
 istop [A:NoVoicing]
 istralya
 istrongilos
-İsveç
-İsveççe
-İsviçre
 isyan
 isyankâr [P:Adj]
 iş
@@ -10844,9 +10697,6 @@ ita
 itaat [A:InverseHarmony]
 itaatkâr
 italik
-İtalya
-İtalyan [A:NoQuote]
-İtalyanca
 itap
 itboğan
 itburnu
@@ -10899,12 +10749,10 @@ ivme
 ivmek
 ivmeölçer
 ivmeyazar
-İvrindi
 iye
 iyi [P:Adj]
 iyicene
 iyicil
-İyidere
 iyilikbilir [P:Adj]
 iyiliksever [P:Adj]
 iyimser [P:Adj]
@@ -10946,9 +10794,6 @@ izlenim
 izmarit [A:NoVoicing]
 izmaritgiller
 izmihlâl [A:InverseHarmony]
-İzmir
-İzmit
-İznik
 izobar
 izohips
 izolâsyon
@@ -16819,7 +16664,6 @@ ozuga
 öd
 ödem
 ödemek
-Ödemiş
 ödenek
 ödenti
 ödev
@@ -16885,7 +16729,6 @@ ozuga
 ölüm
 ölümcül [P:Adj]
 ölümsek
-Ömerli
 ömrübillâh [P:Adv]
 ömür [A:LastVowelDrop]
 ön
@@ -16985,10 +16828,6 @@ ozuga
 öylelikle [P:Adv]
 öylemesine [P:Adv]
 öz [P:Adj]
-Özalp
-Özbek
-Özbekçe
-Özbekistan
 özbeöz [P:Adj]
 özdek
 özdeş [P:Adj]
@@ -17027,7 +16866,6 @@ ozuga
 özür [A:LastVowelDrop]
 özürlü [P:Adj]
 özüt [A:NoVoicing]
-Özvatan
 özveren
 özveri
 pabuç
@@ -20189,12 +20027,10 @@ süzmek
 süzük
 süzülmek
 şaban
-Şabanözü [P:Noun, Prop; A:NounConsInsert_n]
 şablon
 şad
 şadırvan
 şafak
-Şafiî
 şaft
 şaful
 şah
@@ -20207,7 +20043,6 @@ süzülmek
 şahıs [A:LastVowelDrop]
 şahika
 şahin
-Şahinbey
 şahit
 şahmerdan
 şahne
@@ -20250,16 +20085,12 @@ süzülmek
 şalgam
 şali
 şallak
-Şalpazarı [P:Noun, Prop; A:NounConsInsert_n]
 şalter
 şalupa
 şalvar
 şama
 şaman
 şamandıra
-Şamanî [A:NoQuote]
-Şamanist [A:NoQuote]
-Şamanizm [A:NoQuote]
 şamar
 şamarlamak
 şamata
@@ -20291,7 +20122,6 @@ süzülmek
 şantung
 şap
 şaphane
-Şaphane
 şapır [P:Adj, Dup]
 şapırdamak
 şapırtı
@@ -20314,11 +20144,8 @@ süzülmek
 şark
 şarkadak [P:Adv]
 şarkı
-Şarkışla
 şarkî
-Şarkîkaraağaç
 şarkiyat [A:NoVoicing]
-Şarköy
 şarküteri
 şarlamak
 şarlatan
@@ -20346,7 +20173,6 @@ süzülmek
 şavalak
 şavk [P:Adj]
 şavkımak
-Şavşat
 şavul
 şavullamak
 şayak
@@ -20363,7 +20189,6 @@ süzülmek
 şebek
 şebeke
 şebiarus
-Şebinkarahisar
 şebiyelda
 şebnem
 şecaat [A:InverseHarmony]
@@ -20376,7 +20201,6 @@ süzülmek
 şedit
 şef
 şefaat [A:InverseHarmony]
-Şefaatli
 şeffaf [P:Adj]
 şefik [A:NoVoicing]
 şefkat [A:InverseHarmony]
@@ -20387,7 +20211,6 @@ süzülmek
 şehevî
 şehir [A:LastVowelDrop]
 şehit
-Şehitkâmil
 şehlâ
 şehname
 şehnaz
@@ -20419,7 +20242,6 @@ süzülmek
 şema
 şemail
 şematik
-Şemdinli
 şempanze
 şems
 şemse
@@ -20431,9 +20253,7 @@ süzülmek
 şenelmek
 şeni
 şeniyet [A:NoVoicing]
-Şenkaya
 şenlik
-Şenpazar
 şer [A:Doubling]
 şeran [P:Adv]
 şerî [P:Adj]
@@ -20444,7 +20264,6 @@ süzülmek
 şerç [A:Voicing]
 şeref
 şerefiye
-Şereflikoçhisar
 şerefyap
 şergil
 şerh
@@ -20518,9 +20337,7 @@ süzülmek
 şırınga
 şırlağan
 şırlamak
-Şırnak
 şıvgın
-Şia [A:NoQuote]
 şiar
 şiddet [A:NoVoicing]
 şif
@@ -20533,7 +20350,6 @@ süzülmek
 şifoniyer
 şifre
 şifrelemek
-Şiî [A:NoQuote]
 şiir
 şikâr
 şikâyet [A:NoVoicing]
@@ -20543,7 +20359,6 @@ süzülmek
 şikesiz
 şikeste
 şile
-Şile
 şilem
 şilep
 şilin
@@ -20563,12 +20378,9 @@ süzülmek
 şinanay
 şinik
 şiniklemek
-Şintocu [A:NoQuote]
-Şintoizm [A:NoQuote]
 şip
 şipşak
 şipşirin [P:Adj]
-Şiran
 şiraze
 şirden
 şirin [P:Adj]
@@ -20576,7 +20388,6 @@ süzülmek
 şirket [A:NoVoicing]
 şirpençe
 şirret [P:Adj; A:NoVoicing]
-Şirvan
 şiryan
 şist
 şiş
@@ -20584,12 +20395,10 @@ süzülmek
 şişek
 şişelemek
 şişhane
-Şişhane
 şişinmek
 şişkin [P:Adj]
 şişko [P:Adj]
 şişlemek
-Şişli
 şişman [P:Adj]
 şişmanlamak
 şişmek [A:Causative_Ir]
@@ -20641,7 +20450,6 @@ süzülmek
 şube
 şufa
 şuh [P:Adj]
-Şuhut
 şukur [P:Adj, Dup]
 şunca [P:Adj]
 şunca [P:Adv]
@@ -20650,7 +20458,6 @@ süzülmek
 şupur [P:Adj, Dup]
 şura [P:Pron; A:RootChange]
 şûra
-Şûrayıdevlet [A:NoVoicing]
 şurup
 şut
 şuur
@@ -22612,7 +22419,6 @@ uzviyet [A:NoVoicing]
 üçgen
 üçgül
 üçkâğıt
-Üçkardeş
 üçlemek
 üçtaş
 üçteker
@@ -22631,7 +22437,6 @@ uzviyet [A:NoVoicing]
 ülfet [A:NoVoicing]
 ülger
 ülke
-Ülker
 ülkü
 ülküdaş
 ülser
@@ -22642,7 +22447,6 @@ uzviyet [A:NoVoicing]
 ümmet [A:NoVoicing]
 ümmî
 ümran
-Ümraniye
 ümük
 ün
 üniforma
@@ -22653,12 +22457,8 @@ uzviyet [A:NoVoicing]
 üniversite
 ünlem
 ünlemek
-ünlü
-ünsüz
-Ünye
 ürat [A:NoVoicing]
 ürbanizm
-Ürdün
 üre
 ürem
 üremek
@@ -22666,7 +22466,6 @@ uzviyet [A:NoVoicing]
 üretim
 üretken [P:Adj]
 üretmek
-Ürgüp
 ürkek [P:Adj]
 ürkmek [A:Causative_It]
 ürkü
@@ -22683,7 +22482,6 @@ uzviyet [A:NoVoicing]
 üryanî
 üs [A:Doubling]
 üsera
-Üsküdar
 üsküf
 üsküre
 üslup
@@ -22740,7 +22538,6 @@ uzviyet [A:NoVoicing]
 üzre [P:Part]
 üzülmek
 üzüm
-Üzümlü
 üzünç
 üzüntü
 vaat [P:Noun; A:Voicing, InverseHarmony]
