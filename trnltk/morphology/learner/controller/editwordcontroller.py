@@ -29,6 +29,12 @@ class EditWordController(object):
         word = self.dbmanager.get_word(word_id)
         assert word
 
+        if surface_first_part:
+            surface_first_part = surface_first_part.strip()
+
+        if surface_second_part:
+            surface_second_part = surface_second_part.strip()
+
         if surface_first_part and surface_second_part:
             word_index = word['index']
             self.dbmanager.update_word(word, surface_first_part)

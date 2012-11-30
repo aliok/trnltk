@@ -44,10 +44,11 @@ class ProperNounFromApostropheRootFinder(RootFinder):
     def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         if partial_input.endswith(self.APOSTROPHE):
             proper_noun_candidate = partial_input[:-1]
-            if proper_noun_candidate.isupper():
-                return [AbbreviationRoot(partial_input[:-1])]
-            elif proper_noun_candidate[0].isupper():
-                return [ProperNounRoot(partial_input[:-1])]
+            if proper_noun_candidate:
+                if proper_noun_candidate.isupper():
+                    return [AbbreviationRoot(partial_input[:-1])]
+                elif proper_noun_candidate[0].isupper():
+                    return [ProperNounRoot(partial_input[:-1])]
 
         return []
 
