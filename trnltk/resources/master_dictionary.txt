@@ -2454,7 +2454,6 @@ batar
 batarya
 bateri
 baterist [A:NoVoicing]
-batı
 batı [P:Adj]
 batık
 batıl
@@ -5926,7 +5925,6 @@ doğrultmaç
 doğrultu
 doğrusu [P:Adv]
 doğrusuz [P:Adj]
-doğu
 doğu [P:Adj]
 doğum
 doğumevi [A:CompoundP3sg; R:doğumev]
@@ -8728,11 +8726,8 @@ güneğik
 güneş
 güneşlemek
 güneştopu [A:CompoundP3sg; R:güneştop]
-güney
 güney [P:Adj]
-güneybatı
 güneybatı [P:Adj]
-güneydoğu
 güneydoğu [P:Adj]
 güngörmez
 güngörmüş
@@ -13292,11 +13287,8 @@ kuyumcu
 kuyut [P:Adj, Dup]
 kuz
 kuzen
-kuzey
 kuzey [P:Adj]
-kuzeybatı
 kuzeybatı [P:Adj]
-kuzeydoğu
 kuzeydoğu [P:Adj]
 kuzgun
 kuzgunî
@@ -16483,7 +16475,7 @@ organ
 organik
 organizasyon
 organizatör
-organize
+organize [P:Adj]
 organizma
 organze
 orgazm
@@ -23966,3 +23958,4 @@ züyuf
 " [P:Punc]
 ( [P:Punc]
 ) [P:Punc]
+- [P:Punc]

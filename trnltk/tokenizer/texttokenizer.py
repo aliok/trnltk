@@ -3,7 +3,7 @@ class TextTokenizer(object):
     Splits the text into words.
     """
 
-    PUNC_CHARS = [u'.', u',', u'..', u'...', u'-', u'!', u'?', u':', u'"', u'(', u')']     #  " ' " is not included
+    PUNC_CHARS = [u'.', u',', u',', u'..', u'...', u'-', u'!', u'?', u':', u'-', u'"', u'(', u')']     #  " ' " is not included
 
     def tokenize(self, text):
         """
