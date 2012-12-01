@@ -3,12 +3,12 @@
 There is no verification -yet- in test of this class.
 The tests are there for making sure there is no run time exceptions
 """
-import json
 import logging
 from pprint import pprint
 import unittest
 import pymongo
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.ngramfrequencysmoother import SimpleGoodTuringNGramFrequencySmoother, logger as smoother_logger
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.simplegoodturing import logger as sgt_logger
 
 class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
     @classmethod
@@ -30,6 +30,11 @@ class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
 
         cls.smoother = SimpleGoodTuringNGramFrequencySmoother(cls._N, cls._K, bigram_collection, unigram_collection)
         cls.smoother.initialize()
+
+    def setUp(self):
+        logging.basicConfig(level=logging.INFO)
+        smoother_logger.setLevel(logging.INFO)
+        sgt_logger.setLevel(logging.INFO)
 
     @classmethod
     def _create_sample_data(cls, unigram_collection, bigram_collection):
@@ -134,11 +139,6 @@ class NGramFrequencySmootherTestWithSampleData(unittest.TestCase):
         })
 
     def test_smooth(self):
-        pprint(json.loads(json.dumps(self.smoother._frequencies_of_ngram_frequencies)))
-        pprint(json.loads(json.dumps(self.smoother._vocabulary_sizes_for_ngram_item_types)))
-
-        print
-
         types = ['surface', 'stem', 'lemma_root']
         up = self._K + 4
 
@@ -156,11 +156,12 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
     def setUpClass(cls):
         super(NGramFrequencySmootherTestWithDatabase, cls).setUpClass()
 
-        logging.basicConfig(level=logging.INFO)
-        smoother_logger.setLevel(logging.DEBUG)
-
         cls.mongodb_connection = pymongo.Connection(host='127.0.0.1')
 
+    def setUp(self):
+        logging.basicConfig(level=logging.INFO)
+        smoother_logger.setLevel(logging.INFO)
+        sgt_logger.setLevel(logging.INFO)
 
     def test_smooth_with_unigrams(self):
         N = 1
