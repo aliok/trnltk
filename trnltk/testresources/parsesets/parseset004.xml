@@ -340,7 +340,7 @@
 		<word parse_result="var+Adj" str="var" syntactic_category="Adj">
 			<root lemma="var" lemma_root="var" str="var" syntactic_category="Adj"/>
 		</word>
-		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
+		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Verb">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" to_syntactic_category="Ques" word="mı"/>
@@ -890,7 +890,7 @@
 				<inflectionalSuffix actual="n" application="n" form="n" id="A2Sg_Verb" matched_word="sakinleştin" name="A2sg" to_syntactic_category="Verb" word="sakinleştin"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -2047,7 +2047,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="içer" name="A3sg" to_syntactic_category="Verb" word="içer"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Pres+A2sg" str="misin" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A2sg" str="misin" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -2524,7 +2524,7 @@
 				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="anlattım" name="A1sg" to_syntactic_category="Verb" word="anlattım"/>
 			</suffixes>
 		</word>
-		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
+		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Verb">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" to_syntactic_category="Ques" word="mı"/>
@@ -2545,7 +2545,7 @@
 				<inflectionalSuffix actual="m" application="m" form="+Im" id="A1Sg_Verb" matched_word="anlattım" name="A1sg" to_syntactic_category="Verb" word="anlattım"/>
 			</suffixes>
 		</word>
-		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
+		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Verb">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" to_syntactic_category="Ques" word="mı"/>
@@ -2626,7 +2626,7 @@
 		<word parse_result="öyle+Adv" str="Öyle" syntactic_category="Adv">
 			<root lemma="öyle" lemma_root="öyle" str="öyle" syntactic_category="Adv"/>
 		</word>
-		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -2815,7 +2815,7 @@
 				<inflectionalSuffix actual="yu" application="yu" form="+yI" id="Acc_Noun" matched_word="tutkuyu" name="Acc" to_syntactic_category="Noun" word="tutkuyu"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -5314,7 +5314,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="doyum" name="Nom" to_syntactic_category="Noun" word="doyum"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -5337,7 +5337,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="doyumsuzluk" name="Nom" to_syntactic_category="Noun" word="doyumsuzluk"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -6921,7 +6921,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Pron" matched_word="sen" name="Nom" to_syntactic_category="Pron" word="sen"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Past+A2sg" str="miydin" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Past+A2sg" str="miydin" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="ydi" application="ydi" form="ydi" id="Past_Ques" matched_word="miydi" name="Past" to_syntactic_category="Ques" word="miydi"/>
@@ -8860,7 +8860,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="beğenecek" name="A3sg" to_syntactic_category="Verb" word="beğenecek"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Pres+A2sg" str="misin" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A2sg" str="misin" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -9291,7 +9291,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="biliyor" name="A3sg" to_syntactic_category="Verb" word="biliyor"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -9440,7 +9440,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="biliyor" name="A3sg" to_syntactic_category="Verb" word="biliyor"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A2sg" str="musun" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -10549,7 +10549,7 @@
 		<word parse_result="değil+Conj" str="değil" syntactic_category="Conj">
 			<root lemma="değil" lemma_root="değil" str="değil" syntactic_category="Conj"/>
 		</word>
-		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -10932,14 +10932,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="yüzeyi" name="Nom" to_syntactic_category="Noun" word="yüzeyi"/>
 			</suffixes>
 		</word>
-		<word parse_result="aydınlan+Verb+Pos+Aor+A3sg" str="aydınlanır" syntactic_category="Verb">
-			<root lemma="aydınlanmak" lemma_root="aydınlan" str="aydınlan" syntactic_category="Verb"/>
-			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="Pos" matched_word="aydınlan" name="Pos" to_syntactic_category="Verb" word="aydınlan"/>
-				<inflectionalSuffix actual="ır" application="ır" form="+Ir" id="Aor" matched_word="aydınlanır" name="Aor" to_syntactic_category="Verb" word="aydınlanır"/>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="aydınlanır" name="A3sg" to_syntactic_category="Verb" word="aydınlanır"/>
-			</suffixes>
-		</word>
+		<unparsable_word str="aydınlanır"/>
 		<unparsable_word str="gibiydi"/>
 		<word parse_result=".+Punc" str="." syntactic_category="Punc">
 			<root lemma="." lemma_root="." str="." syntactic_category="Punc"/>
@@ -11887,7 +11880,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="geldi" name="A3sg" to_syntactic_category="Verb" word="geldi"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -13456,7 +13449,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="biliyor" name="A3sg" to_syntactic_category="Verb" word="biliyor"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A2pl" str="musunuz" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A2pl" str="musunuz" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -13484,7 +13477,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="değişti" name="A3sg" to_syntactic_category="Verb" word="değişti"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A3sg" str="mi" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -13983,7 +13976,7 @@
 				<inflectionalSuffix actual="nüz" application="nüz" form="nIz" id="A2Pl_Verb" matched_word="gördünüz" name="A2pl" to_syntactic_category="Verb" word="gördünüz"/>
 			</suffixes>
 		</word>
-		<word parse_result="mü+Ques+Pres+A3sg" str="mü" syntactic_category="Ques">
+		<word parse_result="mü+Ques+Pres+A3sg" str="mü" syntactic_category="Verb">
 			<root lemma="mü" lemma_root="mü" str="mü" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mü" name="Pres" to_syntactic_category="Ques" word="mü"/>
@@ -14407,7 +14400,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="gelir" name="A3sg" to_syntactic_category="Verb" word="gelir"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Pres+A2pl" str="misiniz" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Pres+A2pl" str="misiniz" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mi" name="Pres" to_syntactic_category="Ques" word="mi"/>
@@ -20450,7 +20443,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="biliyor" name="A3sg" to_syntactic_category="Verb" word="biliyor"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A2pl" str="musunuz" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A2pl" str="musunuz" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -20546,7 +20539,7 @@
 				<inflectionalSuffix actual="nuz" application="nuz" form="nIz" id="A2Pl_Verb" matched_word="okudunuz" name="A2pl" to_syntactic_category="Verb" word="okudunuz"/>
 			</suffixes>
 		</word>
-		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Ques">
+		<word parse_result="mu+Ques+Pres+A3sg" str="mu" syntactic_category="Verb">
 			<root lemma="mu" lemma_root="mu" str="mu" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mu" name="Pres" to_syntactic_category="Ques" word="mu"/>
@@ -20589,7 +20582,7 @@
 				<inflectionalSuffix actual="a" application="a" form="+yA" id="Dat_Noun" matched_word="sınava" name="Dat" to_syntactic_category="Noun" word="sınava"/>
 			</suffixes>
 		</word>
-		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
+		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Verb">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" to_syntactic_category="Ques" word="mı"/>
@@ -20635,7 +20628,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Verb" matched_word="yayınlandı" name="A3sg" to_syntactic_category="Verb" word="yayınlandı"/>
 			</suffixes>
 		</word>
-		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
+		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Verb">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" to_syntactic_category="Ques" word="mı"/>
@@ -20966,12 +20959,12 @@
 		<word parse_result=",+Punc" str="," syntactic_category="Punc">
 			<root lemma="," lemma_root="," str="," syntactic_category="Punc"/>
 		</word>
-		<word parse_result="güneydoğu+Noun+A3sg+Pnon+Nom" str="Güneydoğu" syntactic_category="Noun">
-			<root lemma="güneydoğu" lemma_root="güneydoğu" str="güneydoğu" syntactic_category="Noun"/>
+		<word parse_result="Güneydoğu+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Güneydoğu" syntactic_category="Noun">
+			<root lemma="Güneydoğu" lemma_root="Güneydoğu" secondary_syntactic_category="Prop" str="Güneydoğu" syntactic_category="Noun"/>
 			<suffixes>
-				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Noun" matched_word="güneydoğu" name="A3sg" to_syntactic_category="Noun" word="güneydoğu"/>
-				<inflectionalSuffix actual="" application="" form="" id="Pnon_Noun" matched_word="güneydoğu" name="Pnon" to_syntactic_category="Noun" word="güneydoğu"/>
-				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="güneydoğu" name="Nom" to_syntactic_category="Noun" word="güneydoğu"/>
+				<inflectionalSuffix actual="" application="" form="" id="A3Sg_Proper_Noun" matched_word="Güneydoğu" name="A3sg" to_syntactic_category="Noun" word="Güneydoğu"/>
+				<inflectionalSuffix actual="" application="" form="" id="Pnon_Proper_Noun" matched_word="Güneydoğu" name="Pnon" to_syntactic_category="Noun" word="Güneydoğu"/>
+				<inflectionalSuffix actual="" application="" form="" id="Nom_Proper_Noun" matched_word="Güneydoğu" name="Nom" to_syntactic_category="Noun" word="Güneydoğu"/>
 			</suffixes>
 		</word>
 		<word parse_result="kaygı+Noun+A3sg+P3sg+Nom" str="kaygısı" syntactic_category="Noun">
@@ -21020,7 +21013,7 @@
 				<inflectionalSuffix actual="da" application="da" form="dA" id="Loc_Noun" matched_word="İstanbul'da" name="Loc" to_syntactic_category="Noun" word="İstanbul'da"/>
 			</suffixes>
 		</word>
-		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Ques">
+		<word parse_result="mı+Ques+Pres+A3sg" str="mı" syntactic_category="Verb">
 			<root lemma="mı" lemma_root="mı" str="mı" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="" application="" form="" id="Pres_Ques" matched_word="mı" name="Pres" to_syntactic_category="Ques" word="mı"/>
@@ -21252,7 +21245,7 @@
 				<inflectionalSuffix actual="" application="" form="" id="Nom_Noun" matched_word="evliliği" name="Nom" to_syntactic_category="Noun" word="evliliği"/>
 			</suffixes>
 		</word>
-		<word parse_result="mi+Ques+Past+A3sg" str="miydi" syntactic_category="Ques">
+		<word parse_result="mi+Ques+Past+A3sg" str="miydi" syntactic_category="Verb">
 			<root lemma="mi" lemma_root="mi" str="mi" syntactic_category="Ques"/>
 			<suffixes>
 				<inflectionalSuffix actual="ydi" application="ydi" form="ydi" id="Past_Ques" matched_word="miydi" name="Past" to_syntactic_category="Ques" word="miydi"/>
