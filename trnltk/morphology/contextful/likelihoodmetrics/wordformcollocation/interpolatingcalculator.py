@@ -14,6 +14,9 @@ class InterpolatingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator):
         """
         self._wrapped_calculator = wrapped_calculator
 
+    def build_indexes(self):
+        self._wrapped_calculator.build_indexes()
+
     def calculate_oneway_likelihood(self, target, context, target_comes_after, calculation_context=None):
         if logger.isEnabledFor(logging.DEBUG):
             if target_comes_after:

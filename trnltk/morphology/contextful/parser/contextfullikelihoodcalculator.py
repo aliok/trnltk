@@ -10,6 +10,10 @@ class ContextfulLikelihoodCalculator(object):
         self._collocation_metric_calculator = collocation_metric_calculator
         self._contextless_distribution_metric_calculator = contextless_distribution_metric_calculator
 
+    def build_indexes(self):
+        self._collocation_metric_calculator.build_indexes()
+        self._contextless_distribution_metric_calculator.build_indexes()
+
     def calculate_likelihood_single(self, target, calculation_context=None):
         """
         @type target: MorphemeContainer

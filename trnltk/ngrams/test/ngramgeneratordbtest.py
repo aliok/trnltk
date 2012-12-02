@@ -458,7 +458,7 @@ class WordTrigramMongodbGeneratorTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         super(WordTrigramMongodbGeneratorTest, cls).setUpClass()
-        connection = pymongo.Connection()
+        connection = pymongo.Connection(host="127.0.0.1")
         cls.db = connection['trnltk']
 
     def test_create_trigrams_for_parseset_001(self):

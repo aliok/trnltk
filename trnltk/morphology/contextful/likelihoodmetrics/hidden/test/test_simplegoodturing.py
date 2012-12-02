@@ -45,6 +45,13 @@ class SimpleGoodTuringSmootherTest(unittest.TestCase):
         for i in range(0, K + 5):
             logger.info("c_{} : {}, \t c*_{} : {}".format(i, i, i, smoother.smooth(i)))
 
+    def test_with_larger_values_sc_2(self):
+        smoother = SimpleGoodTuringSmoother(K, {1: 16181, 2: 2213, 3: 870, 4: 431, 5: 304, 6: 202}, 2111251811)
+        smoother.initialize()
+
+        for i in range(0, K + 5):
+            logger.info("c_{} : {}, \t c*_{} : {}".format(i, i, i, smoother.smooth(i)))
+
     def test_with_zero_frequencies_in_between(self):
         smoother = SimpleGoodTuringSmoother(K, {1: 268, 2: 0, 3: 70, 4: 0, 5: 24, 6: 14, 7: 15, 400: 1, 1918: 1}, 1000)
         smoother.initialize()

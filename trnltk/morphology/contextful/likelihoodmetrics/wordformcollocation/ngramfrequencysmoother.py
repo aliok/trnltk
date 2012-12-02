@@ -1,9 +1,9 @@
 from __future__ import division
-from bson.code import Code
 import json
 import logging
 import operator
 import pprint
+from trnltk.morphology.contextful.likelihoodmetrics.hidden.ngramtypefrequencyfinder import NgramTypeFrequencyFinder
 from trnltk.morphology.contextful.likelihoodmetrics.hidden.simplegoodturing import SimpleGoodTuringSmoother
 
 logger = logging.getLogger('ngramfrequencysmoother')
@@ -250,6 +250,7 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
         self._smoothing_threshold = smoothing_threshold
         self._collection = collection
         self._unigram_collection = unigram_collection
+        self._ngram_type_frequency_finder = NgramTypeFrequencyFinder()
 
         assert ngram_length >= 2
         assert smoothing_threshold > 1
@@ -272,7 +273,7 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
                         # stuff already calculated, smoother already created!
                         continue
 
-                    distinct_ngram_count_for_ngram_type = self._find_frequency_from_database(self._collection, ngram_type, None)
+                    distinct_ngram_count_for_ngram_type = NgramTypeFrequencyFinder.find_distinct_count(self._collection, ngram_type)
                     possible_ngram_count_for_ngram_type = reduce(operator.mul,
                         [self._vocabulary_sizes_for_ngram_item_types[ngram_type_item] for ngram_type_item in ngram_type])
                     frequency_of_frequency_0 = possible_ngram_count_for_ngram_type - distinct_ngram_count_for_ngram_type
@@ -305,7 +306,7 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
     def _find_frequency_of_frequency(self, ngram_type, frequency):
         assert frequency > 0 and ngram_type
         logger.debug(" Finding freq of freq for freq={}, ngram_type={}".format(frequency, ngram_type))
-        frequency_from_database = self._find_frequency_from_database(self._collection, ngram_type, frequency)
+        frequency_from_database = NgramTypeFrequencyFinder.find_frequency_of_frequency(self._collection, ngram_type, frequency)
         logger.debug("  Frequency of frequency = " + str(frequency_from_database))
         return frequency_from_database
 
@@ -316,60 +317,10 @@ class SimpleGoodTuringNGramFrequencySmoother(NGramFrequencySmoother):
         """
         vocabulary_sizes_for_types = {}
         for ngram_item_type in ngram_item_types:
-            vocabulary_size_for_type = self._find_frequency_from_database(self._unigram_collection, [ngram_item_type], None)
+            vocabulary_size_for_type = NgramTypeFrequencyFinder.find_distinct_count(self._unigram_collection, [ngram_item_type])
             vocabulary_sizes_for_types[ngram_item_type] = vocabulary_size_for_type
 
         return vocabulary_sizes_for_types
-
-    @classmethod
-    def _find_frequency_from_database(cls, collection, ngram_type, frequency=None):
-        """
-        Finds the frequency of given frequency, if frequency is provided.
-
-        If frequency is None, then frequency control is ignored; thus count of distinct items for ngram_type is returned.
-
-        For frequency 0, this method should not be used!
-        @type ngram_type: list
-        @type frequency: None or int
-        @rtype: int
-        """
-        assert frequency is None or frequency > 0
-
-        emission_keys = ''
-        for i, ngram_type_item in enumerate(ngram_type):
-            emission_keys += "emission_key_val{}:this.item_{}.word.{}.value, ".format(i, i, ngram_type_item)
-            emission_keys += "emission_key_cat{}:this.item_{}.word.{}.syntactic_category, ".format(i, i, ngram_type_item)
-
-            # will be something like
-            #emission_key_val0:this.item_0.word.surface.value, emission_key_cat0:this.item_0.word.surface.syntactic_category
-            #emission_key_val1:this.item_1.word.surface.value, emission_key_cat1:this.item_1.word.surface.syntactic_category
-            #emission_key_val2:this.item_2.word.stem.value,    emission_key_cat2:this.item_2.word.stem.syntactic_category
-
-        filter_criteria = {"value.count": frequency} if frequency is not None else None
-        mapper = Code("""
-                    function(){
-                        emit({
-                            """ + emission_keys + """
-                        }, {count: 1});
-                    }
-                """)
-        reducer = Code("""
-                    function(key,values){
-                        var total = 0;
-                        for (var i = 0; i < values.length; i++) {
-                            total += values[i].count
-                        }
-
-                        return {count:total};
-                    }
-                """)
-
-        result = collection.map_reduce(mapper, reducer, "_temporary")
-
-        if filter_criteria:
-            result = result.find(filter_criteria)
-
-        return result.count()
 
     def smooth(self, count, ngram_type):
         logger.debug("Smoothing c value for c={}, ngram_type={}".format(count, str(ngram_type)))

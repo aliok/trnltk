@@ -63,6 +63,9 @@ class BaseContextParsingLikelihoodCalculator(object):
         """
         raise NotImplementedError()
 
+    def build_indexes(self):
+        raise NotImplementedError()
+
 
 class ContextParsingLikelihoodCalculator(BaseContextParsingLikelihoodCalculator):
     COEFFICIENTS_TARGET_GIVEN_CONTEXT_FORM = numpy.array([0.55, 0.30, 0.15]).reshape(1, 3)

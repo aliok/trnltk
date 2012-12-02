@@ -21,6 +21,7 @@ class ApplicationContext(object):
         }
 
         self.contextful_morphological_parser = ContextfulMorphologicalParserFactory.create(master_dictionary_path, ngram_collection_map)
+        self.contextful_morphological_parser.build_indexes()
 
         self.dbmanager = DbManager(mongodb_connection)
         self.dbmanager.build_indexes()

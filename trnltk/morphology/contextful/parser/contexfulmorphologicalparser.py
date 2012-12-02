@@ -1,4 +1,5 @@
 from trnltk.morphology.contextful.likelihoodmetrics.contextlessdistribution.contextlessdistributioncalculator import ContextlessDistributionCalculator
+from trnltk.morphology.contextful.likelihoodmetrics.contextlessdistribution.contextlessdistributionsmoother import CachedContextlessDistributionSmoother
 from trnltk.morphology.contextful.likelihoodmetrics.hidden.database import DatabaseIndexBuilder
 from trnltk.morphology.contextful.likelihoodmetrics.hidden.targetformgivencontextcounter import InMemoryCachingTargetFormGivenContextCounter
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import ContextParsingLikelihoodCalculator
@@ -25,6 +26,9 @@ class ContextfulMorphologicalParser(object):
         self._contextless_parser = contextless_parser
         self._contextful_likelihood_calculator = contextful_likelihood_calculator
 
+    def build_indexes(self):
+        self._contextful_likelihood_calculator.build_indexes()
+
     def parse_with_likelihoods(self, target_surface, leading_context, following_context, calculation_context=None):
         """
         @type target_surface: str or unicode
@@ -41,7 +45,8 @@ class ContextfulMorphologicalParser(object):
             for index, target_parse_result in enumerate(target_parse_results):
                 item_calculation_context = {} if calculation_context is not None else None
 
-                likelihood_for_item = self._contextful_likelihood_calculator.calculate_likelihood(target_parse_result, leading_context, following_context,
+                likelihood_for_item = self._contextful_likelihood_calculator.calculate_likelihood(target_parse_result,
+                    leading_context, following_context,
                     item_calculation_context)
                 likelihoods.append((target_parse_result, likelihood_for_item))
 
@@ -89,18 +94,22 @@ class ContextfulMorphologicalParserFactory(object):
         ngram_frequency_smoother = CachedSimpleGoodTuringNGramFrequencySmoother()
         sequence_likelihood_calculator = SequenceLikelihoodCalculator(None)
 
-        collocation_metric_calculator = ContextParsingLikelihoodCalculator(database_index_builder, target_form_given_context_counter, ngram_frequency_smoother,
+        collocation_metric_calculator = ContextParsingLikelihoodCalculator(database_index_builder,
+            target_form_given_context_counter, ngram_frequency_smoother,
             sequence_likelihood_calculator)
 
         interpolating_collocation_metric_calculator = InterpolatingLikelihoodCalculator(collocation_metric_calculator)
 
-        contextless_distribution_metric_calculator = ContextlessDistributionCalculator(database_index_builder, target_form_given_context_counter)
+        cached_contextless_distribution_smoother = CachedContextlessDistributionSmoother()
+        contextless_distribution_metric_calculator = ContextlessDistributionCalculator(database_index_builder,
+            target_form_given_context_counter, cached_contextless_distribution_smoother)
 
         contextful_likelihood_calculator = ContextfulLikelihoodCalculator(interpolating_collocation_metric_calculator,
             contextless_distribution_metric_calculator)
 
         sequence_likelihood_calculator._contextful_likelihood_calculator = contextful_likelihood_calculator
 
-        contextful_morphological_parser = ContextfulMorphologicalParser(contextless_parser, contextful_likelihood_calculator)
+        contextful_morphological_parser = ContextfulMorphologicalParser(contextless_parser,
+            contextful_likelihood_calculator)
 
         return contextful_morphological_parser

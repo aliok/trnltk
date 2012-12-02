@@ -7,11 +7,11 @@
             </msub>
             <mo>=</mo>
             <mfrac>
-                <mn>{{ calculation_context['parse_result_occurrence_count'] }}</mn>
-                <mn>{{ calculation_context['surface_occurrence_count'] }}</mn>
+                <mn>{{ calculation_context['smooth_parse_result_occurrence_count'] }}</mn>
+                <mn>{{ calculation_context['smooth_word_occurrence_count'] }}</mn>
             </mfrac>
             <mo>=</mo>
-            <mn>{{ calculation_context['likelihood'] }}</mn>
+            <mn>{{ calculation_context['smooth_likelihood'] }}</mn>
         </mrow>
     </math>
 {%- endmacro %}
