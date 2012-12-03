@@ -1,6 +1,6 @@
 class ContextfulLikelihoodCalculator(object):
-    _WEIGHT_CONTEXTLESS_DISTRIBUTION_METRIC_CALCULATOR = 0.05
-    _WEIGHT_COLLOCATION_METRIC_CALCULATOR = 0.95
+    _WEIGHT_CONTEXTLESS_DISTRIBUTION_METRIC_CALCULATOR = 0.01
+    _WEIGHT_COLLOCATION_METRIC_CALCULATOR = 0.99
 
     def __init__(self, collocation_metric_calculator, contextless_distribution_metric_calculator):
         """
