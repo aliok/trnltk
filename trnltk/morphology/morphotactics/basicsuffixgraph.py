@@ -931,15 +931,15 @@ class BasicSuffixGraph(SuffixGraphDecorator):
 
     def _register_question_tenses(self):
         # Question tenses are all predefined
-        self.QUESTION_ROOT.add_out_suffix(self.Pres_Ques, self.QUESTION_WITH_AGREEMENT)
-        self.QUESTION_ROOT.add_out_suffix(self.Narr_Ques, self.QUESTION_WITH_AGREEMENT)
-        self.QUESTION_ROOT.add_out_suffix(self.Past_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_ROOT.add_out_suffix(self.Pres_Ques, self.QUESTION_WITH_TENSE)
+        self.QUESTION_ROOT.add_out_suffix(self.Narr_Ques, self.QUESTION_WITH_TENSE)
+        self.QUESTION_ROOT.add_out_suffix(self.Past_Ques, self.QUESTION_WITH_TENSE)
 
     def _register_question_agreements(self):
         # Question agreements are all predefined
-        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A1Sg_Ques, self.VERB_TERMINAL_TRANSFER)
-        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A2Sg_Ques, self.VERB_TERMINAL_TRANSFER)
-        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A3Sg_Ques, self.VERB_TERMINAL_TRANSFER)
-        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A1Pl_Ques, self.VERB_TERMINAL_TRANSFER)
-        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A2Pl_Ques, self.VERB_TERMINAL_TRANSFER)
-        self.QUESTION_WITH_AGREEMENT.add_out_suffix(self.A3Pl_Ques, self.VERB_TERMINAL_TRANSFER)
+        self.QUESTION_WITH_TENSE.add_out_suffix(self.A1Sg_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_WITH_TENSE.add_out_suffix(self.A2Sg_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_WITH_TENSE.add_out_suffix(self.A3Sg_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_WITH_TENSE.add_out_suffix(self.A1Pl_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_WITH_TENSE.add_out_suffix(self.A2Pl_Ques, self.QUESTION_WITH_AGREEMENT)
+        self.QUESTION_WITH_TENSE.add_out_suffix(self.A3Pl_Ques, self.QUESTION_WITH_AGREEMENT)

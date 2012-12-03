@@ -32,6 +32,8 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
         self.DECORATED_PRONOUN_TERMINAL_TRANSFER    = self.get_state('PRONOUN_TERMINAL_TRANSFER')
         self.DECORATED_VERB_TERMINAL_TRANSFER       = self.get_state('VERB_TERMINAL_TRANSFER')
 
+        self.DECORATED_QUESTION_WITH_AGREEMENT      = self.get_state('QUESTION_WITH_AGREEMENT')
+
     def _find_default_root_state(self, root):
         if root.lexeme.syntactic_category==SyntacticCategory.VERB and root.str==u'değil':
             return self.VERB_DEGIL_ROOT
@@ -75,6 +77,7 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
 
         ############ Explicit Copula
         self.Cop_Verb = self._register_suffix("Cop_Verb", pretty_name="Cop")
+        self.Cop_Ques = self._register_suffix("Cop_Ques", pretty_name="Cop")
 
 
         # from decorated
@@ -82,6 +85,7 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
         self.Decorated_Past   = self.get_suffix(u'Past')
         self.Decorated_Cond = self.get_suffix(u'Cond')
         self.Decorated_Narr_Ques = self.get_suffix(u'Narr_Ques')
+        self.Decorated_Pres_Ques = self.get_suffix(u'Pres_Ques')
         self.Decorated_Past_Ques = self.get_suffix(u'Past_Ques')
         self.Decorated_Imp = self.get_suffix(u'Imp')
         self.Decorated_Opt = self.get_suffix(u'Opt')
@@ -91,6 +95,7 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
         self._register_copula_agreements()
         self._register_copula_tenses_to_other_categories()
         self._register_verb_explicit_copula()
+        self._register_ques_explicit_copula()
 
     def _register_copula_tenses(self):
         self.VERB_COPULA_WITHOUT_TENSE.add_out_suffix(self.Pres_Cop, self.VERB_COPULA_WITH_TENSE)
@@ -146,6 +151,12 @@ class CopulaSuffixGraph(SuffixGraphDecorator):
         explicit_verb_copula_precondition &= doesnt_come_after(self.Cond_Cop) & doesnt_come_after(self.Cond_Cop_Secondary) & doesnt_come_after(self.Past_Cop) & doesnt_come_after(self.Narr_Cop)
         explicit_verb_copula_precondition &= doesnt_come_after(self.Decorated_Narr_Ques) & doesnt_come_after(self.Decorated_Past_Ques)
 
-
         self.DECORATED_VERB_TERMINAL_TRANSFER.add_out_suffix(self.Cop_Verb, self.DECORATED_VERB_TERMINAL_TRANSFER)
         self.Cop_Verb.add_suffix_form("dIr", precondition=explicit_verb_copula_precondition)
+
+    def _register_ques_explicit_copula(self):
+
+        explicit_ques_copula_precondition = comes_after(self.Decorated_Pres_Ques)
+
+        self.DECORATED_QUESTION_WITH_AGREEMENT.add_out_suffix(self.Cop_Verb, self.DECORATED_QUESTION_WITH_AGREEMENT)
+        self.Cop_Ques.add_suffix_form("dIr", precondition=explicit_ques_copula_precondition)
