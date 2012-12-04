@@ -1,4 +1,19 @@
 # coding=utf-8
+"""
+Copyright [2012] [Ali Ok <aliokATapacheDOTorg>]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from trnltk.morphology.model.graphmodel import State
 from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
 from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category, comes_after_derivation, comes_after_last_non_blank_derivation
