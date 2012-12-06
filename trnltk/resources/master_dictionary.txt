@@ -3934,7 +3934,6 @@ catering
 cavalacoz [P:Adj]
 cavlak [P:Adj]
 cavlamak
-caydırmak
 caygın [P:Adj]
 cayır [P:Adj, Dup]
 cayırdamak
@@ -5432,7 +5431,6 @@ defterikebir
 degaj
 degaje [P:Adj]
 degajman
-değdirmek
 değeç
 değer
 değerbilir [P:Adj]
@@ -5468,7 +5466,7 @@ değiştirgeç
 değiştirim
 değme
 değme [P:Adj]
-değmek [A:Passive_In]
+değmek [A:Passive_In, Causative_dIr]
 değnek
 değnekçi
 değneklemek
@@ -9487,7 +9485,7 @@ halayık
 halaza
 halazade
 hâlbuki [P:Conj]
-haldır [P:Dup]
+haldır [P:Adj, Dup]
 hale
 halef
 halel
@@ -19011,7 +19009,7 @@ pıtır [P:Adj, Dup]
 pıtırdamak
 pıtırtı
 pıtrak
-pıyrım [P:Dup]
+pıyrım [P:Adj, Dup]
 pi
 pianta
 piç
@@ -20544,7 +20542,6 @@ say
 saya
 sayaç
 saydam [P:Adj]
-saydırmak
 saye
 sayeban
 sayesinde [P:Adv]
@@ -21613,7 +21610,6 @@ söylence
 söylenmek
 söylenti
 söyleşi
-söyleşmek
 söylev
 söz
 sözcü
@@ -25429,7 +25425,6 @@ yanay
 yanaz [P:Adj]
 yandaş
 yandık
-yandırmak
 yangı
 yangın
 yanıbaşı [A:CompoundP3sg; R:yanıbaş]
