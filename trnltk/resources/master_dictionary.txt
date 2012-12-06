@@ -22059,11 +22059,13 @@ süzüntü
 şahika
 şahin
 şahit
+şahmeran
 şahmerdan
 şahne
 şahniş
+şahnişin
 şahsen [P:Adv]
-şahsî [P:Adj]
+şahsî  [P:Adj]
 şahsiyat [A:NoVoicing]
 şahsiyet [A:NoVoicing]
 şahtere
@@ -22072,11 +22074,15 @@ süzüntü
 şaibe
 şair
 şairane [P:Adj]
+şaire
 şak [A:Doubling]
 şak [P:Adj, Dup]
 şaka
+şakacıktan [P:Adv]
+şakadan [P:Adv]
 şakak
 şakayık
+şakıldak
 şakımak
 şakır [P:Adj, Dup]
 şakırdamak
@@ -22100,16 +22106,20 @@ süzüntü
 şalgam
 şali
 şallak
+şalt
 şalter
 şalupa
 şalvar
 şama
 şaman
 şamandıra
+şamandıralamak
 şamar
 şamarlamak
+şamaroğlanı
 şamata
 şambaba
+şambabası
 şambrel
 şamdan
 şamil
@@ -22120,6 +22130,7 @@ süzüntü
 şampuanlamak
 şan
 şandel
+şandellemek
 şangır [P:Adj, Dup]
 şangırdamak
 şangırtı
@@ -22135,17 +22146,22 @@ süzüntü
 şantör
 şantöz
 şantung
+şanzıman
 şap
+şapadanak [P:Adv]
+şapel
 şaphane
 şapır [P:Adj, Dup]
 şapırdamak
 şapırtı
+şapirograf
 şapka
 şaplak
 şaplamak
 şappadak [P:Adv]
 şapşal [P:Adj]
-şarabî
+şapşalak [P:Adj]
+şarabî [P:Adj]
 şarampol [A:InverseHarmony]
 şarap
 şaraphane
@@ -22159,11 +22175,12 @@ süzüntü
 şark
 şarkadak [P:Adv]
 şarkı
-şarkî
+şarkî [P:Adj]
 şarkiyat [A:NoVoicing]
 şarküteri
 şarlamak
 şarlatan
+şarpi
 şart [A:NoVoicing]
 şartlamak
 şartname
@@ -22178,6 +22195,7 @@ süzüntü
 şaşkaloz
 şaşkın [P:Adj]
 şaşmak
+şaşmaz [P:Adj]
 şat
 şataf
 şatafat [A:NoVoicing]
@@ -22192,11 +22210,13 @@ süzüntü
 şavullamak
 şayak
 şayan
+şayeste [P:Adj]
 şayet [P:Conj]
 şayi
 şayia
 şayka
 şaz
+şe
 şeamet [A:NoVoicing]
 şeb
 şebabet [A:NoVoicing]
@@ -22223,7 +22243,7 @@ süzüntü
 şehadet [A:NoVoicing]
 şehadetname
 şehbender
-şehevî
+şehevî [P:Adj]
 şehir [A:LastVowelDrop]
 şehit
 şehlâ
@@ -22233,7 +22253,7 @@ süzüntü
 şehremaneti [A:CompoundP3sg; R:şehremanet]
 şehremini
 şehriye
-şehvanî
+şehvanî [P:Adj]
 şehvaniyet [A:NoVoicing]
 şehvet [A:NoVoicing]
 şehvetperest [A:NoVoicing]
@@ -22242,25 +22262,28 @@ süzüntü
 şekavet [A:NoVoicing]
 şekel
 şeker
+şekerciboyası
 şekerleme
 şekerlemek
 şekerpare
 şekerrenk
 şekil [A:LastVowelDrop]
 şekildaş
+şekilperest [P:Adj]
 şeklen
-şeklî
+şeklî [P:Adj]
 şekva
 şelâle
 şelek
 şelf
+şem
 şema
 şemail
 şematik
 şempanze
 şems
 şemse
-şemsî
+şemsî [P:Adj]
 şemsiye
 şen [P:Adj]
 şenaat [A:InverseHarmony]
@@ -22269,32 +22292,35 @@ süzüntü
 şeni
 şeniyet [A:NoVoicing]
 şenlik
+şepit
 şer [A:Doubling]
-şeran [P:Adv]
-şerî [P:Adj]
 şerait [A:NoVoicing, Plural]
+şeran [P:Adv]
 şerare
 şerbet [A:NoVoicing]
 şerbetlemek
 şerç [A:Voicing]
 şeref
+şerefe
 şerefiye
 şerefyap
 şergil
 şerh
 şerha
+şerî [P:Adj]
 şeriat [A:NoVoicing]
 şerif
 şerik
 şerir
 şerit
-şeritgiller
 şeritlemek
+şeriye [P:Adj]
 şeş
 şeşbeş
 şeşcihar
 şeşidü
 şeşper
+şeşüdü
 şeşüse
 şeşyek
 şet [P:Noun; A:Voicing, Doubling]
@@ -22302,6 +22328,7 @@ süzüntü
 şetim [A:LastVowelDrop]
 şetlant
 şev
+şevahit
 şevk
 şevkefza
 şevket [A:NoVoicing]
@@ -22313,7 +22340,8 @@ süzüntü
 şeytanarabası [A:CompoundP3sg; R:şeytanaraba]
 şeytanet [A:NoVoicing]
 şeytanfeneri [A:CompoundP3sg; R:şeytanfener]
-şeytanî
+şeytanılain
+şeytanî [P:Adj]
 şeytaniğnesi [A:CompoundP3sg; R:şeytaniğne]
 şeytaniğnesigiller
 şeytanminaresi [A:CompoundP3sg; R:şeytanminare]
@@ -22325,14 +22353,17 @@ süzüntü
 şıkır [P:Adj, Dup]
 şıkırdamak
 şıkırtı
+şıkşık
 şıldır [P:Adj, Dup]
 şıllık [P:Adj]
 şımarık [P:Adj]
 şımarmak
 şınav
+şınfırtı
+şıngıl
 şıngır [P:Adj, Dup]
 şıngırdamak
-şınfırtı
+şıngırtı
 şıp
 şıpıdık
 şıpır [P:Adj, Dup]
@@ -22345,11 +22376,13 @@ süzüntü
 şıra
 şırak
 şırakkadak [P:Adv]
+şıraölçer
 şırfıntı
 şırıl [P:Adj, Dup]
 şırıldamak
 şırıltı
 şırınga
+şırıngalamak
 şırlağan
 şırlamak
 şıvgın
@@ -22363,9 +22396,11 @@ süzüntü
 şiflemek
 şifon
 şifoniyer
+şifonyer
 şifre
 şifrelemek
 şiir
+şiiriyet
 şikâr
 şikâyet [A:NoVoicing]
 şikâyetname
@@ -22380,10 +22415,13 @@ süzüntü
 şilt [A:Voicing]
 şilte
 şimal [A:InverseHarmony]
-şimalî
+şimalî [P:Adj]
 şimdi [P:Noun, Time]
 şimdi [P:Adv, Time]
+şimdiden [P:Adv]
 şimdilik [P:Adv]
+şimdilerde [P:Adv]
+şimdileyin [P:Adv]
 şimendifer
 şimiotaksi
 şimiotropizm
@@ -22410,6 +22448,7 @@ süzüntü
 şişek
 şişelemek
 şişhane
+şişik [P:Adj]
 şişinmek
 şişkin [P:Adj]
 şişko [P:Adj]
@@ -22420,9 +22459,11 @@ süzüntü
 şita
 şitaiye
 şive
+şivekâr [P:Adj]
 şizofren
 şizofreni
 şizofrenik [P:Adj]
+şlempe
 şnitzel
 şnorkel
 şofben
@@ -22456,8 +22497,8 @@ süzüntü
 şöyle [P:Adj]
 şöyle [P:Adv]
 şöylesine [P:Adv]
-şu [P:Pron, Demons]
 şu [P:Det]
+şu [P:Pron, Demons]
 şua
 şuara
 şubara
@@ -22466,6 +22507,7 @@ süzüntü
 şufa
 şuh [P:Adj]
 şukur [P:Adj, Dup]
+şule
 şunca [P:Adj]
 şunca [P:Adv]
 şuncacık [P:Adj]
@@ -22473,8 +22515,10 @@ süzüntü
 şupur [P:Adj, Dup]
 şura [P:Pron; A:RootChange]
 şûra
+şuracıkta [P:Adv]
 şurup
 şut
+şutlamak
 şuur
 şuuraltı [A:CompoundP3sg; R:şuuralt]
 şüheda
@@ -22486,6 +22530,7 @@ süzüntü
 şüphe
 şürekâ
 şüyu
+şvester
 ta [P:Adv]
 taaccüp
 taaddüt
@@ -22504,6 +22549,7 @@ taassup
 taaşşuk
 taayyün
 taayyüş
+tab
 taba
 tabaat [A:NoVoicing]
 tababet [A:NoVoicing]
@@ -22524,6 +22570,7 @@ tabi [P:Interj]
 tâbi
 tâbi [P:Adj]
 tabiat [A:NoVoicing]
+tabiatıyla [P:Adv]
 tabiatüstü
 tabiî [P:Adj]
 tabiî [P:Adv]
@@ -22532,6 +22579,7 @@ tabip
 tabir
 tabirname
 tabiye
+tabl
 tabla
 tablakâr
 tabldot [A:NoVoicing]
@@ -22542,6 +22590,7 @@ tabu
 tabur
 tabure
 tabut [A:NoVoicing]
+tabütüvan
 tabya
 tacil
 tacir
@@ -22562,6 +22611,7 @@ tagallüp
 tagayyür
 tağşiş
 tağyir
+tahaccüm
 tahaccür
 tahaffuz
 tahaffuzhane
@@ -22569,6 +22619,7 @@ tahakkuk [A:NoVoicing]
 tahakküm
 tahammuz
 tahammül
+tahammülfersa [P:Adj]
 tahammür
 taharet [A:NoVoicing]
 taharetlenme
@@ -22586,7 +22637,7 @@ tahdit
 tahfif
 tahıl
 tahin
-tahinî
+tahinî [P:Adj]
 tahirbuselik
 tahkik [A:NoVoicing]
 tahkikat [A:NoVoicing]
@@ -22596,14 +22647,15 @@ tahkir
 tahkiye
 tahlif
 tahlil
-tahlilî
+tahlilî  [P:Adj]
 tahlis
 tahlisiye
 tahliye
 tahmil
 tahmin
 tahminen [P:Adj]
-tahminî
+tahminî  [P:Adj; Ref:tahmini_Adj]
+tahmini  [P:Adj]
 tahmis
 tahnit
 tahra
@@ -22618,13 +22670,14 @@ tahripkâr
 tahrir
 tahrirat [A:NoVoicing]
 tahriren [P:Adv]
-tahrirî
+tahrirî [P:Adj]
 tahriş
 tahsil
 tahsilât [A:NoVoicing]
 tahsildar
 tahsis
 tahsisat [A:NoVoicing]
+tahsisatımesture
 tahşiye
 taht
 tahta
@@ -22639,8 +22692,8 @@ tahtırevan
 tahvil
 tahvilât [A:NoVoicing]
 taife
-tak [P:Adj, Dup]
 tak
+tak [P:Adj, Dup]
 taka
 takaddüm
 takallüs
@@ -22661,6 +22714,7 @@ takdirname
 takdis
 takeometre
 takı
+takık [P:Adj]
 takılgan
 takılmak
 takım
@@ -22679,7 +22733,7 @@ takigraf
 takim
 takimetre
 takip
-takipsizlik
+takiye
 takkadak [P:Adv]
 takke
 takla
@@ -22690,6 +22744,7 @@ taklip
 taklit
 takma [P:Adj]
 takmak
+takograf
 takometre
 takoz
 takozlamak
@@ -22720,6 +22775,7 @@ takyit
 tal
 talâk [A:NoVoicing]
 talâkat [A:NoVoicing]
+talakıselase
 talan
 talanlamak
 talaş
@@ -22727,6 +22783,7 @@ talaşlamak
 talaz
 talebe
 talep
+talepkâr [P:Adj]
 talepname
 tali
 talih
@@ -22734,8 +22791,10 @@ talik [A:InverseHarmony]
 talika
 talil
 talim
+talimar
 talimat [A:NoVoicing]
 talimatname
+talimgâh
 talimhane
 talimname
 talip
@@ -22753,6 +22812,7 @@ tamahkâr [P:Adj]
 tamam [P:Adj]
 tamam [P:Interj]
 tamamen [P:Adv]
+tamamıyla [P:Adv]
 tamamiyet [A:NoVoicing]
 tamamlamak
 tamanit
@@ -22764,6 +22824,7 @@ tamim
 tamir
 tamirat [A:NoVoicing]
 tamirhane
+tamlamak
 tampon
 tamponlamak
 tamtakır
@@ -22772,17 +22833,23 @@ tamu
 tamzara
 tan
 tanassur
+tandans
+tandem
 tandır
 tandırname
 tane
+tanecil [P:Adj]
 tanelemek
+tanen
 tangır [P:Adj, Dup]
 tangırdamak
 tangırtı
 tango
 tanı
+tanıdık [P:Adj]
 tanık
 tanık [P:Adj]
+tanıklamak
 tanılamak
 tanım
 tanımak
@@ -22791,6 +22858,7 @@ tanış
 tanışık [P:Adj]
 tanışmak
 tanıt [A:NoVoicing]
+tanıtı
 tanıtım
 tanıtlamak
 tanin
@@ -22799,10 +22867,12 @@ tank [A:NoVoicing]
 tanker
 tanksavar
 tanlamak
+tannan [P:Adj]
 tanrı
 tanrıça
 tanrıtanımaz
 tansık
+tansiyometre
 tansiyon
 tantal
 tantana
@@ -22814,13 +22884,16 @@ tapa
 tapalamak
 tapan
 tapanlamak
+tapı
 tapıklamak
 tapınak
+tapıncak
 tapınmak
 tapır [P:Adj, Dup]
 tapırdamak
 tapırtı
 tapışlamak
+tapi
 tapir
 tapirgiller
 tapmak
@@ -22835,12 +22908,15 @@ taraça
 taraf
 tarafeyn
 tarafgir
+tarafından [P:Adv]
 taraftar
 tarak
 taraklamak
 taralı [P:Adj]
 taramak
 taranga
+tarantı
+tarantula
 tarassut
 taraş
 taraşlamak
@@ -22860,6 +22936,7 @@ tarif
 tarife
 tarih
 tarihçe
+tarihen [P:Adv]
 tarihî [P:Adj]
 tarihlemek
 tarik
@@ -22869,13 +22946,16 @@ tarla
 tarlakoz
 tarlatan
 tarpan
-tart [A:Voicing]
+tarsin
 tart
 tartaklamak
+tartar
 tartarat [A:NoVoicing]
 tartarik
 tartı
 tartılmak
+tartım
+tartış
 tartışmak
 tartmak
 tartura
@@ -22887,6 +22967,7 @@ tasa
 tasallut [A:NoVoicing]
 tasallüp
 tasannu
+tasar
 tasarı
 tasarım
 tasarımlamak
@@ -22919,25 +23000,35 @@ tasvir
 tasvirî
 taş
 taşak
+taşçıl [P:Adj]
+taşemen
 taşeron
+taşıl
 taşım [P:Adj]
 taşımak
 taşınmak
+taşıntı
 taşırmak
 taşıt [A:NoVoicing]
 taşikardi
+taşizm
 taşkın [P:Adj]
+taşkıran
 taşkırangiller
 taşlamak
 taşmak
 taşra
+taşsarımsağı
 tat [A:Voicing]
 tatar
+tatarı [P:Adj]
+tatava
 tatbik [A:NoVoicing]
 tatbikat [A:NoVoicing]
 tatbikî
 tatil
 tatlı [P:Adj]
+tatlısu
 tatmak [A:Voicing]
 tatmin
 tatminkâr
@@ -22956,6 +23047,7 @@ tavhane
 tavır [A:LastVowelDrop]
 tavik [A:InverseHarmony]
 taviz
+tavizkâr [P:Adj]
 tavla
 tavlamak
 tavsamak
@@ -22973,6 +23065,7 @@ tavşankanı [A:CompoundP3sg; R:tavşankan]
 tavşankulağı [A:CompoundP3sg, Voicing; R:tavşankulak]
 tavşanmemesi [A:CompoundP3sg; R:tavşanmeme]
 tavuk
+tavukayağı
 tavukgiller
 tavukgöğsü [A:CompoundP3sg, LastVowelDrop; R:tavukgöğüs]
 tavukgötü [A:CompoundP3sg; R:tavukgöt]
@@ -22997,6 +23090,8 @@ tayın
 tayin
 tayip
 taylak
+taylamak
+tayt
 tayyar
 tayyare
 tayyetmek [A:Voicing, Aorist_A]
@@ -23016,6 +23111,7 @@ taziz
 tazmin
 tazminat [A:NoVoicing]
 tazyik [A:NoVoicing]
+te
 teadül
 teakup
 teali
@@ -23030,6 +23126,7 @@ tebarüz
 tebcil
 tebdil
 tebdilihava
+tebdilimekân
 tebeddül
 tebeddülât [A:NoVoicing]
 tebelleş
@@ -23068,6 +23165,7 @@ tecezzi
 tecil
 tecim
 tecimen
+tecimevi
 tecrit
 tecrübe
 tecrübî
@@ -23085,6 +23183,7 @@ tedariklemek
 tedavi
 tedavül
 tedbir
+tedbiren [P:Adv]
 tedenni
 tedfin
 tedhiş
@@ -23098,6 +23197,7 @@ tedris
 tedrisat [A:NoVoicing]
 tedvin
 tedvir
+tedviren [P:Adv]
 teeddüp
 teehhül
 teehhür
@@ -23105,9 +23205,11 @@ teemmül
 teenni
 teessüf
 teessür
+teessürat
 teessüs
 teeyyüt
 tef
+tefahhus
 tefahür
 tefarik
 tefavüt
@@ -23121,6 +23223,7 @@ teferruat [A:NoVoicing]
 teferrüç
 teferrüt
 tefessüh
+tefeül
 tefevvuk
 tefeyyüz
 tefhim
@@ -23128,6 +23231,7 @@ teflon
 tefrik [A:InverseHarmony]
 tefrika
 tefriş
+tefrişat
 tefrit
 tefsir
 teftih
@@ -23148,10 +23252,12 @@ tehevvür
 teheyyüç
 tehi
 tehir
+tehiriicra
 tehlike
 tehyiç
 tehzil
 tein
+teist [P:Adj]
 teizm
 tek [P:Adj]
 tekabül
@@ -23180,12 +23286,16 @@ tekerleme
 tekerlemek
 tekerrür
 tekesakalı [A:CompoundP3sg; R:tekesakal]
+tekesemek
 tekessür
 tekevvün
 tekfin
 tekfir
 tekfur
+tekgövde [P:Adj]
+tekiden [P:Adv]
 tekil [P:Adj]
+tekila
 tekin [P:Adj]
 tekir
 tekit
@@ -23203,23 +23313,28 @@ teknik
 teknik [P:Adj]
 tekniker
 teknisyen
+teknokent [A:NoVoicing]
 teknokrasi
 teknokrat [A:NoVoicing]
+teknolog
 teknoloji
+teknolojik [P:Adj]
+teknopark [A:NoVoicing]
 tekrar
 tekrar [P:Adv]
+tekraren [P:Adv]
 tekrarlamak
 tekrir
 teksif
 teksir
 tekst
 tekstil
+tektaş [P:Adj]
 tektonik
 tekvando
 tekvin
 tekzip
 tel
-telin
 telâ
 telâffuz
 telâfi
@@ -23249,6 +23364,9 @@ telem
 teleme
 telemetre
 telemetri
+teleobjektif
+teleoloji
+teleolojik [P:Adj]
 telepati
 telepatik [P:Adj]
 teleradar
@@ -23259,6 +23377,8 @@ telesimek
 telesine
 telesinema
 telesiyej
+teleskobik
+teleskobik [P:Adj]
 teleskop
 teleskopik
 televizyon
@@ -23267,20 +23387,25 @@ telgraf
 telgrafhane
 telhis
 telif
+telin
 telis
-telkârî
+telkârî [P:Adj]
 telkih
 telkin
 tellâk
 tellâl
+tellaliye
 tellemek
 tellür
 telmih
 telmihen
+telsi [P:Adj]
 telsiz
 teltik
 telve
+telvis
 telyazı
+telyazısı
 tem
 tema
 temadi
@@ -23293,6 +23418,7 @@ temayüz
 tembel
 tembelhane
 tembih
+tembihat
 tembihlemek
 tembul
 temcit
@@ -23317,7 +23443,7 @@ teminat [A:NoVoicing]
 temiz [P:Adj]
 temizlemek
 temkin
-temlik
+temlik [A:NoVoicing]
 temlikname
 temmuz
 tempo
@@ -23325,6 +23451,7 @@ temren
 temrin
 temriye
 temsil
+temsil [P:Postp]
 temsilen [P:Adv]
 temsilî
 temyiz
@@ -23338,14 +23465,18 @@ tenasüp
 tenazur
 tencere
 tender
+tendon
 tendürüst [A:NoVoicing]
 teneffüs
+teneffüshane
 teneke
+tenekelemek
 teneşir
 tenevvü
 tenevvür
 tenezzüh
 tenezzül
+tenge
 tenha [P:Adj]
 tenis
 tenkidî
@@ -23370,7 +23501,10 @@ tenya
 tenzih
 tenzil
 tenzilât [A:NoVoicing]
+tenzilirütbe
+teogoni
 teokrasi
+teokrat
 teokratik
 teolog
 teoloji
@@ -23380,6 +23514,7 @@ teori
 teorik [P:Adj]
 teorisyen
 tepe
+tepebaşı
 tepecik
 tepegöz
 tepelemek
@@ -23398,6 +23533,7 @@ tepişmek
 tepke
 tepki
 tepkimek
+tepkin [P:Adj]
 tepmek
 tepsermek
 tepsi
@@ -23417,6 +23553,7 @@ terazi
 terazilemek
 terbi
 terbiye
+terbiyelemek
 terbiyevî
 terbiyum
 tercih
@@ -23427,6 +23564,7 @@ tercüman
 tercüme
 tercümeihâl [A:InverseHarmony]
 tere
+terebentin
 tereci
 tereddi
 tereddüt
@@ -23447,6 +23585,8 @@ terfik
 tergal [A:InverseHarmony]
 terhin
 terhis
+terilen
+terilen [P:Adj]
 terim
 terk
 terki
@@ -23454,18 +23594,23 @@ terkibî
 terkibibent
 terkin
 terkip
+terkiphane
 terlemek
 terlik
+terliksi [P:Adj]
 termal [A:InverseHarmony]
 terme
 termik
+termin
 terminal [A:InverseHarmony]
 terminoloji
+terminolojik [P:Adj]
 termit [A:NoVoicing]
 termiye
 termodinamik
 termoelektrik
 termofor
+termograf
 termokimya
 termometre
 termonükleer
@@ -23481,6 +23626,7 @@ ters
 ters [P:Adj]
 tersane
 tersim
+tersine [P:Adv]
 tersinir [P:Adj]
 tersinmek
 tersiyer
@@ -23494,7 +23640,6 @@ terviç
 terzi
 terzihane
 terzil
-tesit
 tesadüf
 tesadüfen [P:Adv]
 tesadüfî
@@ -23504,6 +23649,7 @@ tesanüt
 tesbih
 tescil
 tescillemek
+tesdis
 teselli
 tesellüm
 teselsül
@@ -23515,6 +23661,7 @@ teshir
 tesir
 tesis
 tesisat [A:NoVoicing]
+tesit
 teskere
 teskin
 teslim
@@ -23533,6 +23680,7 @@ testis
 testosteron
 tesvit
 tesviye
+tesviyeruhu
 teşbih
 teşci
 teşdit
@@ -23551,6 +23699,8 @@ teşne
 teşri
 teşrif
 teşrifat [A:NoVoicing]
+teşrih
+teşrihhane
 teşriî
 teşrik
 teşrikimesai
@@ -23596,17 +23746,21 @@ teverrüm
 tevessü
 tevessül
 tevettür
+tevfik
 tevfikan
 tevhit
 tevil
 tevki
 tevkif
+tevkifat [A:NoVoicing]
 tevkifhane
 tevkil
 tevlit
 tevliyet [A:NoVoicing]
 tevriye
 tevsi
+tevsik  [A:NoVoicing]
+tevşih
 tevzi
 tevziat [A:NoVoicing]
 teyakkuz
@@ -23641,23 +23795,30 @@ tezpişti
 tezvir
 tezvirat [A:NoVoicing]
 tezyif
+tezyifkâr [P:Adj]
 tezyin
+tezyinat
 tezyinî
 tezyit
 tıbben
 tıbbî
 tıbbiye
 tıfıl [P:Adj]
+tıgala
 tığ
 tıkaç
+tıkalı [P:Adj]
 tıkaçlamak
 tıkamak
 tıkanık [P:Adj]
+tıkım
 tıkınmak
 tıkır [P:Adj, Dup]
 tıkırdamak
+tıkırında [P:Adj]
 tıkırtı
 tıkış [P:Adj, Dup]
+tıkışık [P:Adj]
 tıkız
 tıklamak [A:Causative_t]
 tıklım [P:Adj, Dup]
@@ -23670,7 +23831,11 @@ tılsım
 tımar
 tımarhane
 tımarlamak
+tımtıkız [P:Adj]
 tın
+tınaz
+tıngadak [P:Adv]
+tıngıldamak
 tıngır
 tıngır [P:Adj, Dup]
 tıngırdamak
@@ -23678,6 +23843,8 @@ tıngırtı
 tını
 tınlamak
 tınmak
+tınnet
+tıntın [P:Adj]
 tıp [A:Voicing, Doubling]
 tıpa
 tıpalamak
@@ -23687,10 +23854,10 @@ tıpırdamak
 tıpırtı
 tıpış [P:Adj, Dup]
 tıpışlamak
-tıpkı
-tıpkı [P:Adv]
+tıpkı [P:Adj]
 tıpkıbasım
 tıpkıçekim
+tır
 tırabzan
 tırak
 tıraş
@@ -23698,7 +23865,10 @@ tıraşlamak
 tırık
 tırıl
 tırıllamak
+tırınk
 tırıs
+tırışka [P:Adj]
+tırıvırı
 tırkaz
 tırkazlamak
 tırmalamak
@@ -23731,6 +23901,7 @@ tifüs
 tik
 tike
 tikel
+tiksinç [P:Adj]
 tiksinmek
 tiksinti
 tilâvet [A:NoVoicing]
@@ -23749,9 +23920,12 @@ tipi
 tipik [P:Adj]
 tipilemek
 tiplemek
+tipo
 tipografi
+tipografik [P:Adj]
 tipografya
 tipoloji
+tipolojik [P:Adj]
 tir [P:Adj, Dup]
 tiraj
 tiramola
@@ -23764,14 +23938,17 @@ tirfil
 tirhandil
 tirhos
 tiril [P:Adj, Dup]
+tirildemek
 tirit
 tiriz
+tirle
 tirlin
 tiroit
 tirokalsitonin
 tiroksin
 tirpidin
 tirpit
+tirsi
 tirşe
 tiryak
 tiryaki [P:Adj]
@@ -23781,12 +23958,15 @@ titanyum
 titiz [P:Adj]
 titr
 titrek
+titrem
 titremek
 titremlemek
 titreşim
 titreşmek
 tiyatro
 tiz
+tofu
+toht
 tohum
 tohumlamak
 tok [P:Adj]
@@ -23796,13 +23976,16 @@ tokaçlamak
 tokat
 tokatlamak
 tokmak [P:Noun]
+tokmakbaş
 tokmaklamak
 toksik [A:NoVoicing]
 toksikolog
 toksikoloji
+toksikolojik [P:Adj]
 toksikoman
 toksikomani
 toksin
+tokurcun
 tokurdamak
 tokurtu
 tokuş [P:Adj, Dup]
@@ -23811,17 +23994,22 @@ tokuz
 tokyo
 tol
 tolerans
+tolere
 tolga
+tolkşov
 tolüen
+tomahavk
 tomak [P:Noun]
 tomar
 tombak
 tombala
 tombalak
 tombaz
+tombik
 tombil
 tombilik
 tombilika
+tombilya
 tombul [P:Adj]
 tomografi
 tomruk
@@ -23830,9 +24018,12 @@ tomurcuk
 tomurmak
 ton
 tonaj
+tonalite
+toner
 tonga
 tonik
 tonilâto
+tonla [P:Adj]
 tonlamak
 tonmayster
 tonoz
@@ -23844,6 +24035,7 @@ topaklamak
 topal
 topalak
 topallamak
+topaltı
 topar [P:Adj, Dup]
 toparlacık [P:Adj]
 toparlak [P:Adj]
@@ -23857,6 +24049,7 @@ topik
 toplaç
 toplam
 toplamak
+toplanık [P:Adj]
 toplantı
 toplardamar
 toplu
@@ -23864,15 +24057,24 @@ topluluk
 toplum
 toplumdaş
 topoğraf
+topoğrafik [P:Adj]
 topoğrafya
 topoloji
 topolojik [P:Adj]
+toponimi
 toprak
+toprakbastı
+toprakçıl
 topraklamak
+topraksı [P:Adj]
 toptan [P:Adj]
 toptan [P:Adv]
+topu
 topuk
+topukdöven
 topuklamak
+topur
+toput
 topuz
 topyekûn [P:Adj]
 tor
@@ -23883,12 +24085,14 @@ torbalamak
 toreador
 torero
 torik
+tork
 torlak
 torluk
 torna
 tornado
 tornalamak
 tornavida
+tornet
 tornistan
 torpido
 torpidobot [A:NoVoicing]
@@ -23914,10 +24118,12 @@ totemizm
 toto
 toy [P:Adj]
 toyaka
+toydan
 toyga
 toygar
 toynak
 toz
+tozan
 tozarmak
 tozkoparan
 tozmak
@@ -23927,6 +24133,7 @@ tozuntu
 tozutmak
 töhmet [A:NoVoicing]
 tökezlemek
+tökezmek
 tömbeki
 tör
 töre
@@ -23943,6 +24150,7 @@ tövbekâr
 töz
 tözel
 tradisyon
+tradisyonel [P:Adj]
 trafik
 trafo
 tragedya
@@ -23952,7 +24160,9 @@ trajik
 trajikomedi
 trajikomik
 trake
+trakeit
 trakit
+traksiyon
 traktör
 trakunya
 trampa
@@ -23960,6 +24170,7 @@ trampet [A:NoVoicing]
 tramplen
 tramvay
 trança
+trankilizan
 trans
 transandantal [A:InverseHarmony]
 transandantalizm
@@ -23973,7 +24184,6 @@ transistör
 transit [A:NoVoicing]
 transkripsiyon
 transliterasyon
-transmisyon
 transmisyon
 transparan
 transplantasyon
@@ -23989,13 +24199,18 @@ travers
 traverten
 travesti
 travma
+travmatik [P:Adj]
 travmatoloji
+travmatolojik [P:Adj]
+trekking
 tremolit
 tren
 trençkot [A:NoVoicing]
 trend
+tretuvar
 treyler
 trias
+triatlon
 tribün
 triftong
 trigonometri
@@ -24016,17 +24231,21 @@ triptik
 trişin
 triton
 trityum
+triyas
 trok
 trol [A:InverseHarmony]
 trolcü
 troleybüs
 trombon
+trombosit [A:NoVoicing]
+tromboz
 tromp [A:NoVoicing]
 trompet [A:NoVoicing]
 tropik [P:Adj]
 tropika
 tropikal [P:Adj; A:InverseHarmony]
 tropizm
+troplar
 troposfer
 trotinet [A:NoVoicing]
 trotuvar
@@ -24037,7 +24256,9 @@ trubadur
 trup
 trük
 tsunami
+tu [P:Interj]
 tuba
+tubeless [P:Adj]
 tufan
 tufeylî
 tugay
@@ -24056,7 +24277,7 @@ tukur [P:Adj, Dup]
 tul [A:InverseHarmony]
 tulânî
 tulû
-tulûat [A:NoVoicing; R:tuluat]
+tulûat [A:NoVoicing]
 tuluk
 tulum
 tulumba
@@ -24074,11 +24295,14 @@ tunçlamak
 tundra
 tungsten
 tungur [P:Adj, Dup]
+tunik
 tur
 tura
 turaç
 turalamak
 turba
+turbo [P:Adj]
+turfa [P:Adj]
 turfalamak
 turfanda
 turgay
@@ -24096,6 +24320,7 @@ turnagiller
 turnagözü [A:CompoundP3sg; R:turnagöz]
 turne
 turnike
+turno
 turnusol [A:InverseHarmony]
 turnuva
 turp
@@ -24103,6 +24328,7 @@ turpgiller
 turşu
 turta
 turuncu [P:Adj]
+turuncumtırak [P:Adj]
 turunç
 turunçgiller
 tuş
@@ -24116,6 +24342,9 @@ tutamak [P:Noun]
 tutamlamak
 tutanak
 tutar
+tutarak
+tutarga
+tutarık
 tutarlı [P:Adj]
 tutkal
 tutkallamak
@@ -24124,23 +24353,34 @@ tutkun [P:Adj]
 tutmaç
 tutmak [A:Causative_dIr]
 tutsak
+tutsat
+tutturabildiğine [P:Adv]
+tutturaç
+tutturgaç
 tutu
 tutuk
+tutukevi [A:CompoundP3sg; R:tutukev]
 tutuklamak
 tutuklu
 tutulmak
+tutulum
 tutum
 tutunmak
+tuturuk [P:Adj]
 tutuşmak
 tutuşturmak
 tutya
 tuval [A:InverseHarmony]
 tuvalet [A:NoVoicing]
+tuyuğ
 tuz
 tuzak
 tuzaklamak
+tuzcul [P:Adj]
 tuzla
+tuzlak [P:Adj]
 tuzlamak
+tüberkülin
 tüberküloz
 tüccar
 tüf
@@ -24148,27 +24388,33 @@ tüfek
 tüfekhane
 tüh
 tük
+tükenik [P:Adj]
+tükenik [P:Adv]
 tükenmek
-tüketmek
 tüketim
+tüketmek
 tükürmek
 tükürük
 tükürüklemek
 tül
 tülbent
-tüm
+tüm [P:Adj]
 tüm [P:Det]
 tümamiral [A:InverseHarmony]
 tümbek
 tümce
+tümden [P:Adv]
+tümdengelim
 tümel
 tümen
 tümevarım
 tümgeneral [A:InverseHarmony]
 tümleç
 tümlemek
+tümleşik [P:Adj]
 tümör
 tümsek
+tümselmek
 tümür
 tümüyle [P:Adv]
 tün
@@ -24177,6 +24423,7 @@ tünek
 tüneklemek
 tünel
 tünemek
+tünmek
 tüp
 tüplemek
 tür
@@ -24185,12 +24432,16 @@ türban
 türbe
 türbedar
 türbin
+türbülans
 türdeş
 türe
 türel
 türemek
+türenti
 türetim
 türev
+türkkıyması
+türkkupası
 türkuaz
 türkü
 türkülemek
@@ -24213,9 +24464,12 @@ tüyo
 tüze
 tüzel
 tüzük
+tvist
+ubudiyet [A:NoVoicing]
 ucube
 ucuz [P:Adj]
 ucuzlamak
+ucuzuna [P:Adv]
 uç [A:Voicing]
 uçak
 uçaksavar
@@ -24227,6 +24481,7 @@ uçkurutan
 uçlanmak
 uçmak
 uçmak [P:Noun]
+uçman
 uçuk
 uçuklamak
 uçurmak
@@ -24250,12 +24505,15 @@ uğra
 uğrak [P:Adj]
 uğralamak
 uğramak
+uğranmak
 uğraş
 uğraşı
 uğraşmak
 uğratmak
 uğru
 uğrulamak
+uğrun [P:Adv]
+uğrunda [P:Adv]
 uğul [P:Adj, Dup]
 uğuldamak
 uğultu
@@ -24271,11 +24529,13 @@ uhuvvet [A:NoVoicing]
 ukalâ [P:Adj]
 ukde
 uknum
+ukubet [P:Adj]
 ulaç
 ulak
 ulam
 ulamak
 ulan [P:Interj]
+ulantı
 ulaşım
 ulaşmak
 ulema [A:Plural]
@@ -24283,26 +24543,33 @@ ultramodern
 ultrason
 ultraviyole
 ulu [P:Adj]
+ulufe
+uluhiyet [A:NoVoicing]
 ululamak
+ulum
 ulûm
 ulumak
 ulus
 ulusal [P:Adj]
 uluslararası [P:Adj]
-ulussever
+ulusötesi [P:Adj]
+ulussever [P:Adj]
 uluşmak
-ulvî [P:Adj]
+ulvî
 ulviyet [A:NoVoicing]
 umacı
 umar
+umde
 ummadık [P:Adj]
 ummak
 umman
 umre
+umu
 umum
 umumhane
 umumî [P:Adj]
 umumiyet [A:NoVoicing]
+umumiyetle [P:Adv]
 umur
 umursamak
 umut
@@ -24321,14 +24588,18 @@ ur
 urağan
 uran
 uranyum
+uray
 urba
+urbanizm
 urgan
+urodel
 uruk
 urup
 us
 usanç
 usangın
 usanmak
+usantı
 usare
 uskumru
 uskumrugiller
@@ -24341,6 +24612,7 @@ uslu [P:Adj]
 usta
 usta [P:Adj]
 ustabaşı
+ustalıkla [P:Adv]
 ustunç
 ustura
 usturlâp
@@ -24350,6 +24622,8 @@ usturuplu
 usul [A:InverseHarmony]
 usul [P:Adj]
 usulcacık [P:Adv]
+usuldan [P:Adv]
+usulen [P:Adv]
 uşak
 uşakkapan
 uşkun
@@ -24360,6 +24634,7 @@ utangaç [P:Adj]
 utangan
 utanmak
 utanmaz [P:Adj]
+uterus
 utku
 utmak
 uvertür
@@ -24372,6 +24647,7 @@ uyarınca [P:Adv]
 uyarlaç
 uyarlamak
 uyarmak
+uyartı
 uydu
 uydurma [P:Adj]
 uydurmaca [P:Adj]
@@ -24381,9 +24657,9 @@ uyduruk [P:Adj]
 uygar [P:Adj]
 uygulama
 uygulamak
-uygun
 uygun [P:Adj]
 uyku
+uylaşım
 uylaşmak
 uyluk
 uymak
@@ -24392,8 +24668,12 @@ uysal [P:Adj]
 uyuklamak
 uyum
 uyumak
+uyuntu [P:Adj]
+uyur [P:Adj]
 uyurgezer
+uyuşkan [P:Adj]
 uyuşmak
+uyuşturmak
 uyuşturucu
 uyuşuk [P:Adj]
 uyuşum
@@ -24402,21 +24682,24 @@ uyuz [P:Adj]
 uz
 uzadıya [P:Adv]
 uzak [P:Adj]
-uzaklık
 uzaksamak
+uzaktan [P:Adv]
+uzam
 uzamak
 uzanım
 uzanmak
 uzantı
+uzatım
 uzatmak
 uzay
 uzgören
 uzgörür
 uzlaşı
+uzlaşım
 uzlaşmak
 uzlet [A:NoVoicing]
-uzman
 uzman [P:Adj]
+uzo
 uzun [P:Adj]
 uzunçalar
 uzuneşek
@@ -24431,13 +24714,16 @@ uzviyet [A:NoVoicing]
 ücretlemek
 üç [P:Num, Card; A:NoVoicing]
 üçayak
+üçer [P:Adj]
 üçgen
 üçgül
 üçkâğıt
 üçlemek
+üçler
 üçtaş
 üçteker
 üçüncü [P:Num, Ord]
+üçüncül [P:Adj]
 üçüz [P:Adj]
 üdeba
 üfleç
@@ -24447,8 +24733,10 @@ uzviyet [A:NoVoicing]
 üfürük
 üfürüm
 üğrüm
+ülen
 üleş
 üleşmek
+üleştirim
 ülfet [A:NoVoicing]
 ülger
 ülke
@@ -24459,11 +24747,13 @@ uzviyet [A:NoVoicing]
 ülûhiyet [A:NoVoicing]
 ümera
 ümit
+ümitvar [P:Adj]
 ümmet [A:NoVoicing]
 ümmî
 ümran
 ümük
 ün
+ündeş
 üniforma
 ünik
 ünite
@@ -24472,36 +24762,46 @@ uzviyet [A:NoVoicing]
 üniversite
 ünlem
 ünlemek
+ünsiyet
 ürat [A:NoVoicing]
 ürbanizm
 üre
 ürem
 üremek
+üremi
+üremik [P:Adj]
 üreteç
 üretim
+üretimevi [A:CompoundP3sg; R:üretimev]
 üretken [P:Adj]
 üretmek
+üretra
 ürkek [P:Adj]
 ürkmek [A:Causative_It]
 ürkü
 ürkünç
 ürküntü
+ürokültür
 ürolog
 üroloji
+ürolojik [P:Adj]
 ürpermek
 ürperti
 ürtiker
 ürümek
 ürün
+ürüşmek
 üryan
 üryanî
 üs [A:Doubling]
 üsera
 üsküf
 üsküre
+üslenmek
 üslup
-üst [P:Adj]
 üst
+üst [P:Adj]
+üstadane [P:Adv]
 üstat
 üstçavuş
 üste
@@ -24510,15 +24810,20 @@ uzviyet [A:NoVoicing]
 üstelemek
 üstelik [P:Adv]
 üstenmek
+üstlenim
 üstlenmek
 üstsubay
+üstten [P:Adv]
 üstübeç
 üstün [P:Adj]
+üstüne [P:Adv]
 üstünkörü [P:Adv]
+üstünsemek
 üstüpü
 üstüpülemek
 üstüvane
 üstüvanî
+üstyapı
 üşenç
 üşengeç
 üşengen
@@ -24526,11 +24831,13 @@ uzviyet [A:NoVoicing]
 üşmek
 üşniye
 üşümek
+üşüntü
 üşürmek
 üşüşmek
 üşütük [P:Adj]
 ütmek
 ütopik
+ütopist [P:Adj]
 ütopya
 ütü
 ütülemek
@@ -24543,9 +24850,12 @@ uzviyet [A:NoVoicing]
 üye [P:Adj]
 üzengi
 üzengilemek
+üzenti
 üzere [P:Adv]
 üzere [P:Part]
 üzeri
+üzerinde [P:Adv]
+üzerine [P:Adv]
 üzgü
 üzgün [P:Adj]
 üzme
@@ -24601,7 +24911,10 @@ vakıfname
 vaki
 vakit [A:LastVowelDrop, NoVoicing]
 vaklamak
+vaks
 vaktaki
+vaktinde [P:Adv]
+vaktiyle [P:Adv]
 vaktizamanında [P:Adv]
 vakum
 vakumlamak
@@ -24613,6 +24926,7 @@ valf
 vali
 valide
 valiz
+vallaha [P:Interj]
 vallahi [P:Interj]
 valör
 vals [A:InverseHarmony]
@@ -24658,6 +24972,7 @@ varoluş
 varoluşçu
 varoş
 varsağı
+varsanı
 varsayım
 varsaymak [A:Aorist_A]
 varsıl
@@ -24668,12 +24983,14 @@ varyemez [P:Adj]
 varyete
 varyos
 vasat [P:Adj; A:NoVoicing]
-vasat [A:NoVoicing]
-vasatî
+vasatî [P:Adj]
+vasektomi
 vasıf [A:LastVowelDrop]
 vasıl
 vasıta
+vasıtasıyla [P:Adv]
 vasi
+vâsi [P:Adj]
 vasistas
 vasiyet [A:NoVoicing]
 vasiyetname
@@ -24687,17 +25004,19 @@ vatansever
 vatka
 vatman
 vatoz
+vatvat
 vaveylâ
 vay [P:Interj]
-vazıhamil [A:LastVowelDrop]
+vaz
 vazelin
 vazelinlemek
 vazetmek [A:Voicing, Aorist_A]
 vazgeçirmek
 vazgeçmek [A:Aorist_A]
-vazı
+vazgelmek
 vazı
 vazıh
+vazıhamil [A:LastVowelDrop]
 vazııkanun
 vazife
 vazifeşinas
@@ -24721,6 +25040,7 @@ vefakâr
 vefat [A:NoVoicing]
 vefiyat [A:NoVoicing]
 vehim [A:LastVowelDrop]
+vehleten [P:Adv]
 vehmetmek [A:Voicing, Aorist_A]
 vejetalin
 vejetalizm
@@ -24734,9 +25054,11 @@ vekil
 vekilharç
 vektör
 velâdet [A:NoVoicing]
+velakin [P:Conj]
 velâyet [A:NoVoicing]
 velâyetname
 veledizina
+veledrom
 velense
 velespit
 velet
@@ -24748,40 +25070,51 @@ veli
 veliaht
 velinimet [A:NoVoicing]
 veliyullah
+velur
 velûr
 velût
+velut [P:Adj]
 velvele
+vena
 venüsçarığı [A:CompoundP3sg, Voicing; R:venüsçarık]
 veranda
 veraset [A:NoVoicing]
+verdi
 vere
 verem
 verese
 veresiye
 verev
+verevine [P:Adv]
 vergi
 vergilemek
 veri
 verici
 verim
+verimkâr [P:Adj]
 veriştirmek
 verit
-verkaç
+verkaç [A:NoVoicing]
 vermek [A:Aorist_I]
 vermut
 vernik
 verniklemek
+verniye
 veronika
 versiyon
+vertigo
 veryansın
 vesaik [A:InverseHarmony]
+vesair [P:Adj]
 vesaire
 vesait
+vesaitinakliye
 vesayet [A:NoVoicing]
 vesika
 vesile
 vesselâm [P:Adv]
 vestiyer
+veston
 vesvese
 veteriner
 vetire
@@ -24789,6 +25122,7 @@ veto
 veya [P:Conj]
 veyahut [P:Conj]
 vezaret [A:NoVoicing]
+vezikül
 vezin [A:LastVowelDrop]
 vezir
 veziriazam
@@ -24799,8 +25133,12 @@ vıcık
 vıcıklamak
 vıcırdamak
 vık [P:Adj, Dup]
+vın
+vınıltı
 vınlamak
 vır [P:Adj, Dup]
+vırıldamak
+vırıltı
 vırlamak
 vırt [P:Adj, Dup]
 vız
@@ -24809,10 +25147,10 @@ vızıldamak
 vızıltı
 vızır [P:Adj, Dup]
 vızırdamak
-vızıltı
 vızlamak
 vibrasyon
 vibratör
+vibriyo
 vibriyon
 vicahen
 vicahî [P:Adj]
@@ -24846,13 +25184,18 @@ virdizeban
 vire
 virgül
 virman
+virolog
 viroloji
+virolojik [P:Adj]
 virt [A:Voicing]
 virtüoz
+virtüöz
 virüs
+virütik [P:Adj]
 visal [A:InverseHarmony]
 visamiral [A:InverseHarmony]
 viski
+viskonsül
 viskoz
 viskozite
 vişnap
@@ -24863,12 +25206,14 @@ vitellüs
 vites
 vitir [A:LastVowelDrop]
 vitray
+vitrifiye [P:Adj]
 vitrin
 vitrinlemek
 viya
 viyadük
 viyak
 viyaklamak
+viyol
 viyola
 viyolonist [A:NoVoicing]
 viyolonsel
@@ -24877,6 +25222,7 @@ vize
 vizite
 viziyer
 vizon
+vizör
 vizyon
 vodvil
 vokabüler
@@ -24899,10 +25245,12 @@ voltmetre
 vombat [A:NoVoicing]
 vonoz
 votka
+voyvo [P:Interj]
 voyvoda
 vuku
 vukuat [A:NoVoicing]
 vukuf
+vulgarize [P:Adj]
 vulva
 vuraç
 vurdulu [P:Adj, Dup]
@@ -24913,6 +25261,8 @@ vurgun
 vurmak [A:Aorist_I]
 vurtut
 vuru
+vuruk [P:Adj]
+vuruntu
 vuruşkan
 vuruşmak
 vuslat [A:NoVoicing]
@@ -24925,8 +25275,8 @@ vürut
 vüsat [A:InverseHarmony]
 vüzera
 ya [P:Conj]
-ya [P:Part]
 ya [P:Interj]
+ya [P:Part]
 yaba
 yabalamak
 yaban
@@ -24938,6 +25288,7 @@ yabanıl
 yabanî
 yabansımak
 yabantırak
+yabgu
 yâd
 yadımlamak
 yadırgamak
@@ -24950,6 +25301,8 @@ yağ
 yağcı
 yağdanlık
 yağhane
+yağı
+yağıltı
 yağır
 yağışölçer
 yağız [P:Adj]
@@ -24969,14 +25322,18 @@ yahşi
 yahu [P:Interj]
 yahut [P:Conj]
 yaka
+yakacak
 yakalamak
 yakamoz
 yakarı
 yakarmak
+yakaza
 yakı
 yakım
 yakın [P:Adj]
-yakında [P:Adv, Time]
+yakında [P:Adv]
+yakından [P:Adv]
+yakınlarda [P:Adv]
 yakınmak
 yakınsak
 yakınsamak
@@ -24995,16 +25352,23 @@ yakmak
 yakut [A:NoVoicing]
 yal
 yalabık
+yalabımak
 yalak
 yalaka
 yalamak
+yalamuk
 yalan
+yalancıktan [P:Adv]
+yalandan [P:Adv]
 yalanlamak
 yalap [P:Adj, Dup]
 yalapşap [P:Adv]
+yalavaç
 yalaz
+yalaza
 yalazlamak
 yalçın [P:Adj]
+yaldırak [P:Adj]
 yaldız
 yaldızlamak
 yalelli
@@ -25024,13 +25388,14 @@ yalıtmak
 yalız
 yallah [P:Interj]
 yalman
-yalnız [P:Conj]
 yalnız [P:Adj]
 yalnız [P:Adv]
+yalnız [P:Conj]
 yalnızca [P:Adv]
 yalpa
 yalpak
 yalpalamak
+yalpı
 yalpık
 yaltak [P:Adj]
 yalvaç
@@ -25040,8 +25405,10 @@ yamaç
 yamak [P:Noun]
 yamalak [P:Adj, Dup]
 yamalamak
+yamalmak
 yamamak
 yaman [P:Adj]
+yamanmak
 yampiri [P:Adj]
 yamru
 yamrulmak
@@ -25059,9 +25426,11 @@ yanardöner
 yanaşık
 yanaşmak
 yanay
+yanaz [P:Adj]
 yandaş
+yandık
 yandırmak
-yangılanmak
+yangı
 yangın
 yanıbaşı [A:CompoundP3sg; R:yanıbaş]
 yanık
@@ -25070,19 +25439,23 @@ yanıkara
 yanılgı
 yanılmak
 yanılsama
+yanıltı
 yanıltmaç
+yanında [P:Adv]
+yanışölçer
 yanıt [A:NoVoicing]
 yanıtlamak
 yani [P:Conj]
 yankesici
 yankı
 yankılamak
+yankılanım
 yanlamak
 yanlamasına [P:Adj]
 yanlı [P:Adj]
-yanlış
 yanlış [P:Adj]
 yanlışlamak
+yanlışlıkla [P:Adv]
 yanmak
 yansı
 yansılamak
@@ -25090,24 +25463,32 @@ yansımak
 yansıtaç
 yanşak
 yanşamak
+yantutmaz [P:Adj]
 yapadurmak
 yapağı
 yapak
+yapalak
 yapay
 yapayalnız [P:Adj]
 yapboz
 yapı
 yapık
+yapılanmak
 yapım
+yapımevi [A:CompoundP3sg; R:yapımev]
+yapıncak
+yapınmak
 yapıntı
 yapışık [P:Adj]
-yapışkan
 yapışkan [P:Adj]
 yapışmak
 yapıt [A:NoVoicing]
 yapmacık
 yapmak
 yaprak
+yaprakçıl [P:Adj]
+yaprakkurusu
+yaprakkurusu [P:Adj]
 yapsatçı
 yaptırım
 yapyakın [P:Adj]
@@ -25117,6 +25498,7 @@ yâr [A:InverseHarmony]
 yara
 yarabbi
 yaradılış
+yaradılıştan [P:Adv]
 yarak
 yaralamak
 yaramak
@@ -25126,20 +25508,22 @@ yaranmak
 yarar
 yarasa
 yaraşık
+yaraşır [P:Adj]
 yaraşmak
 yaratı
 yaratık
+yaratım
 yaratmak
 yarbay
 yarda
 yardak
 yardım
-yardımcı
 yardımsever
 yâren
 yârenbaşı [A:CompoundP3sg; R:yârenbaş]
 yargı
 yargıç
+yargıevi [A:CompoundP3sg; R:yargıev]
 yargılamak
 yargıtay
 yarı
@@ -25148,18 +25532,20 @@ yarıçap [A:NoVoicing]
 yarık
 yarık [P:Adj]
 yarılamak
-yarım
 yarım [P:Adj]
 yarımada
 yarımlamak
 yarımşar
 yarın [P:Noun, Time]
 yarın [P:Adv, Time]
+yarıntı
 yarış
+yarışım
 yarışmak
 yarıyıl
 yarka
 yarkurul
+yarlıgamak
 yarma
 yarmak
 yarmalamak
@@ -25179,12 +25565,15 @@ yasmık
 yassı [P:Adj]
 yassılamak
 yastağaç
+yastamak
 yastık
 yaş
 yaşam
 yaşamak
 yaşantı
 yaşarmak
+yaşasın [P:Interj]
+yaşatkan [P:Adj]
 yaşıt [A:NoVoicing]
 yaşmak [P:Noun]
 yaşmaklamak
@@ -25197,6 +25586,7 @@ yatay
 yatı
 yatık [P:Adj]
 yatılı [P:Adj]
+yatım
 yatır
 yatırım
 yatırmak
@@ -25214,9 +25604,11 @@ yave
 yaver
 yavru
 yavruağzı
+yavrucağız
 yavrucak
 yavrukurt
 yavrulamak
+yavsı
 yavşak
 yavşan
 yavuklamak
@@ -25235,10 +25627,12 @@ yayılmak
 yayım
 yayımlamak
 yayın
+yayınevi [A:CompoundP3sg; R:yayınev]
 yayınık
 yayınım
 yayınispî
 yayınlamak
+yayıntı
 yayla
 yaylagüzeli [A:CompoundP3sg; R:yaylagüzel]
 yaylak
@@ -25250,15 +25644,16 @@ yaz [P:Noun, Time]
 yaz [P:Adv, Time]
 yazanak
 yazar
+yazarçizer [P:Adj]
 yazboz
 yazgı
 yazı
 yazıhane
 yazık [P:Adv]
 yazık [P:Interj]
-yazıklanmak
 yazılamak
 yazılım
+yazım
 yazın [P:Adj]
 yazıt [A:NoVoicing]
 yazlamak
@@ -25271,34 +25666,42 @@ yedeklemek
 yedi [P:Num, Card]
 yediemin
 yedigen
+yediler
 yedinci [P:Num, Ord]
 yediveren
 yediz [P:Adj]
 yedmek
 yegâh
+yegân
 yegâne [P:Adj]
 yeğ
 yeğen
 yeğin [P:Adj]
 yeğlemek
 yeğni [P:Adj]
+yeğnilemek
 yeğnisemek
 yeğrek
 yeis
 yek
+yekdiğeri
+yeke
 yekinmek
 yeknesak [A:NoVoicing]
 yekpare [P:Adj]
 yeksan
 yekta
+yekten [P:Adv]
 yekûn
 yekvücut
 yel
 yele
 yeleç
 yelek
+yeleken [P:Adj]
 yeleklemek
 yelengeç
+yelin
 yelken
 yelkenlemek
 yelkesen
@@ -25307,33 +25710,44 @@ yelkovan
 yellemek
 yelloz
 yelmek
+yelölçer
 yelpaze
 yelpazelemek
 yelpik
+yelpirdemek
 yelsemek
 yeltek
 yeltenmek
 yelve
 yelyazar
+yelyutan
 yem
 yemek [A:RootChange, Passive_In, Passive_InIl, Causative_dIr]
 yemek [P:Noun]
+yemekaltı
 yemekhane
 yemeni
 yemin
 yemiş
+yemişçil [P:Adj]
+yemişen
 yemlemek
 yemyeşil [P:Adj]
 yen
 yenge [P:Adj]
 yengeç
+yengeçvari [P:Adv]
+yengen
+yengi
 yeni [P:Adj]
 yenibahar
 yeniçeri
 yeniden [P:Adv]
+yenidoğan
 yenidünya
 yenik [P:Adj]
 yenilemek
+yenilerde [P:Adv]
 yenilgi
 yenilik
 yenişmek
@@ -25344,17 +25758,22 @@ yer
 yeraltı [A:CompoundP3sg; R:yeralt]
 yerberi
 yerdegezen
+yerdeş
 yeregeçen
 yerel
+yereşeği
 yerey
 yergi
+yeridir
+yerinde [P:Adj]
+yerine
+yerine [P:Adv]
 yerinmek
 yerküre
 yerleşik [P:Adj]
+yerleşim
 yerleşke
 yerleşmek [A:Causative_dIr]
-yerleşim
-yerleşmek
 yerli [P:Adj]
 yermek
 yeröte
@@ -25368,8 +25787,10 @@ yeşilbağa
 yeşilbaş
 yeşilbiber
 yeşilçekirge
+yeşilfasulye
 yeşilimtırak
 yeşilkertenkele
+yeşilsazan
 yeşilzeytin
 yeşim
 yetenek
@@ -25386,9 +25807,11 @@ yetimhane
 yetingen
 yetinmek
 yetirmek
-yetişkin
+yetişek
+yetişim
 yetişkin [P:Adj]
 yetişmek
+yetiştirim
 yetke
 yetki
 yetkilemek
@@ -25400,31 +25823,36 @@ yevmî
 yevmiye
 yeygi
 yezit [P:Adj]
+yığılım
 yığın
 yığınak
+yığınla [P:Adj]
 yığıntı
+yığışık [P:Adj]
+yığışım
 yığmak
-yığışmak
 yıkamak
 yıkı
 yıkık
 yıkım
 yıkıntı
 yıkışmak
+yıkkın [P:Adj]
 yıkmak
 yıl [P:Noun, Time]
 yıl [P:Adv, Time]
 yılan
+yılanbaşı
 yılancıl
 yılandili [A:CompoundP3sg; R:yılandil]
 yılangiller
 yılaniğnesi
 yılankavi
-yılanyastığıgiller
 yılanyastığı [A:CompoundP3sg, Voicing; R:yılanyastık]
-yılbaşı
+yılbaşı [A:CompoundP3sg; R:yılbaş]
 yıldırak
 yıldırım
+yıldırımkıran
 yıldırımsavar
 yıldız
 yıldızlamak
@@ -25432,11 +25860,15 @@ yılgı
 yılgın [P:Adj]
 yılık
 yılışık
+yılışkan [P:Adj]
 yılışmak
+yılkı
 yıllamak
+yıllığına [P:Adv]
 yılmak
 yılmaz
 yıprak
+yıpramak
 yıpranmak
 yıpratmak
 yır
@@ -25449,9 +25881,11 @@ yırtlak
 yırtmaç
 yırtmak
 yısa
+yıvışık [P:Adj]
 yıvışmak
 yiğit [P:Adj]
 yiğitbaşı [A:CompoundP3sg; R:yiğitbaş]
+yilbik
 yine [P:Adv]
 yinelemek
 yirik
@@ -25466,14 +25900,20 @@ yivaçar
 yivlemek
 yiyecek
 yiyici
+yiyim
+yiyinti
+yo [P:Interj]
 yobaz
 yoga
 yogi
 yoğ
+yoğalmak
+yoğaltım
 yoğrulmak
 yoğrum
 yoğun [P:Adj]
 yoğunlaç
+yoğunlukölçer
 yoğurmak
 yoğurt
 yoğurthane
@@ -25485,23 +25925,26 @@ yok [P:Conj]
 yok [P:Part]
 yok [P:Interj]
 yoklamak
+yokoğluyok
 yoksa [P:Conj]
 yoksul [P:Adj]
 yoksun [P:Adj]
 yoksunmak
+yokum
 yokumsamak
 yokuş [P:Adj]
 yol
 yolak
 yolcu
-yolculuk
 yoldaş
+yoldüzler
 yolkesen
 yollamak
 yolluk
 yolmak
 yolsuz [P:Adj]
 yoluk
+yoluyla [P:Adv]
 yolüstü [A:CompoundP3sg; R:yolüst]
 yom
 yoma
@@ -25526,13 +25969,15 @@ yorum
 yorumlamak
 yosma
 yosun
+yosuncul [P:Adj]
 yoz
 yön
 yöndeş
-yönelik
+yönelik [P:Postp]
 yönelim
 yönelmek
 yönelteç
+yöneltim
 yöneltmek
 yönerge
 yönetim
@@ -25543,8 +25988,8 @@ yönetsel
 yöneylem
 yöntem
 yöre
+yörekent [A:NoVoicing]
 yörünge
-yudum
 yudum [P:Adj]
 yudumlamak
 yuf
@@ -25568,14 +26013,17 @@ yumrulmak
 yumuk [P:Adj]
 yumurcak
 yumurta
+yumurtakökü
 yumurtlamak
 yumuşacık [P:Adj]
 yumuşak [P:Adj]
 yumuşakça
 yumuşamak
+yuna
 yunak
 yunmak
 yunus
+yurdu
 yurt [A:Voicing]
 yurtdışı [P:Noun; A:CompoundP3sg; R:yurtdış]
 yurtsamak
@@ -25588,6 +26036,7 @@ yutak
 yutkunmak
 yutmak
 yutturmak
+yutum
 yuva
 yuvak
 yuvalamak
@@ -25598,13 +26047,18 @@ yuvarölçer
 yuvgu
 yuvgulamak
 yüce [P:Adj]
+yücelim
 yücelmek
 yüğrük
 yük
 yüklem
 yüklemek
 yüksek [P:Adj]
+yükseklikölçer
+yüksekokul
+yükseköğrenim
 yükseköğretim
+yükselim
 yükselmek
 yükselteç
 yükseltgemek
@@ -25616,12 +26070,19 @@ yükünmek
 yülgü
 yülük
 yülümek
+yülünmek
 yün
+yüpürmek
 yürek
+yürekten [P:Adv]
 yürük
 yürümek
+yürünmek
+yürürçalar
 yürürlük
 yürüteç
+yürütmek
+yürütüm
 yüsrü
 yüz
 yüz [P:Num, Card]
@@ -25636,16 +26097,17 @@ yüzlemek
 yüzleşmek
 yüzmek
 yüznumara
+yüzsuyu
 yüzsüz [P:Adj]
 yüzük
 yüzükoyun [P:Adj]
 yüzüncü [P:Num, Ord]
+yüzünden [P:Adv]
 yüzüstü [P:Adj]
 yüzyıl [P:Noun, Time]
 yüzyıl [P:Adv, Time]
 zaaf
-zabıt [A:LastVowelDrop]
-zabıt [A:Voicing, LastVowelDrop]
+zabıt [A:NoVoicing, LastVowelDrop]
 zabıta
 zabıtname
 zabit [A:NoVoicing]
@@ -25655,12 +26117,14 @@ zade
 zadegân
 zafer
 zafiyet [A:NoVoicing]
+zafran
 zağ
 zağanos
 zağar
 zağara
 zağlamak
 zahir
+zahirde [P:Adv]
 zahire
 zahiren [P:Adv]
 zahirî
@@ -25670,15 +26134,15 @@ zahter
 zail
 zait
 zakkum
-zakkumgiller
-zalim
 zalim [P:Adj]
 zalimane [P:Adv]
 zam [A:Doubling]
 zaman
 zaman [P:Noun, Time]
 zaman [P:Adv, Time]
+zamandaş
 zamane
+zamanında [P:Adv]
 zamanlamak
 zamazingo
 zambak
@@ -25711,11 +26175,14 @@ zapturapt [A:NoVoicing]
 zar
 zarafet [A:NoVoicing]
 zarar
+zararına [P:Adv]
 zarf
 zarf-fiil
+zarfında [P:Adv]
 zarflamak
 zargana
 zarif [P:Adj]
+zarifane [P:Adv]
 zart [P:Adj, Dup]
 zarta
 zaruret [A:NoVoicing]
@@ -25730,6 +26197,7 @@ zatülcenp
 zatürre
 zavallı [P:Adj]
 zaviye
+zaviyevi [P:Adj]
 zayıf [P:Adj]
 zayıflamak
 zayi
@@ -25774,10 +26242,12 @@ zencefil
 zencefilgiller
 zenci
 zencir
+zencirek
 zendost [A:NoVoicing]
 zengin [P:Adj]
 zenginlemek
 zenne
+zephiye
 zeplin
 zer
 zeravent
@@ -25799,6 +26269,7 @@ zeveban
 zevk
 zevkiselim
 zevkusefa
+zevküsefa
 zevzek [P:Adj]
 zeybek
 zeyil [A:LastVowelDrop]
@@ -25817,6 +26288,7 @@ zımba
 zımbalamak
 zımbırtı
 zımnen
+zımnında [P:Adv]
 zımnî
 zımpara
 zımparalamak
@@ -25832,6 +26304,7 @@ zınk
 zıp
 zıpçıktı
 zıpır
+zıpka
 zıpkın
 zıpkınlamak
 zıplamak
@@ -25859,11 +26332,13 @@ zıya
 zıypak
 zibidi
 zifaf
+zifin
 zifir
 zifirî
 zifos
 zift
 ziftlemek
+zigon
 zigot [A:NoVoicing]
 zihaf
 zihayat [A:NoVoicing]
@@ -25883,6 +26358,8 @@ zilhicce
 zilkade
 zillet [A:NoVoicing]
 zilyet
+zilzurna [P:Adj]
+zilzurna [P:Adv]
 zimamdar
 zimmet [A:NoVoicing]
 zimmî
@@ -25906,6 +26383,7 @@ zivircik
 ziya
 ziyadar
 ziyade [P:Adj]
+ziyadesiyle [P:Adv]
 ziyafet [A:NoVoicing]
 ziyan
 ziyankâr
@@ -25923,6 +26401,7 @@ zonk [P:Adj, Dup]
 zonklamak
 zoolog
 zooloji
+zoolojik [P:Adj]
 zoospor
 zootekni
 zor [P:Adj]
@@ -25931,6 +26410,7 @@ zorba
 zorgu
 zorla
 zorlamak
+zorlukla [P:Adv]
 zorunlu [P:Adj]
 zorunluk
 zuhur
@@ -25946,7 +26426,8 @@ zurna
 zurnazen
 zurt [P:Adj, Dup]
 zübde
-zücaciye
+züccaciye
+züccaciye [P:Adj]
 züğürt
 züğürtlemek
 zührevî
@@ -25962,23 +26443,24 @@ zülüf [A:LastVowelDrop]
 zümre
 zümrüdî
 zümrüt
-züppe
 züppe [P:Adj]
 zürafa
 zürafagiller
+zürefa
 zürra
 zürriyet [A:NoVoicing]
 züyuf
 . [P:Punc]
 , [P:Punc]
-! [P:Punc]
 ? [P:Punc]
-: [P:Punc]
-; [P:Punc]
-.. [P:Punc]
-... [P:Punc]
-- [P:Punc]
+! [P:Punc]
+' [P:Punc]
 " [P:Punc]
+/ [P:Punc]
++ [P:Punc]
+- [P:Punc]
 ( [P:Punc]
 ) [P:Punc]
 - [P:Punc]
+.. [P:Punc]
+... [P:Punc]
