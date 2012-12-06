@@ -1652,7 +1652,7 @@ aşhane
 aşı
 aşı [P:Adj]
 aşık [A:NoVoicing]
-âşık [P:Adj, A:NoVoicing]
+âşık [P:Adj; A:NoVoicing]
 âşıkane [P:Adj]
 âşıkane [P:Adv]
 âşıktaş
@@ -3188,7 +3188,7 @@ biperva [P:Adv]
 bir [P:Adj]
 bir [P:Adv]
 bir [P:Det]
-bir [P:Num]
+bir [P:Num, Card]
 bira
 birader
 birader [P:Interj]
