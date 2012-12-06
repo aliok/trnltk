@@ -26453,6 +26453,5 @@ züyuf
 % [P:Punc]
 ; [P:Punc]
 : [P:Punc]
-- [P:Punc]
 .. [P:Punc]
 ... [P:Punc]
