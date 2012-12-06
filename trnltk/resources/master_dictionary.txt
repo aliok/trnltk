@@ -424,7 +424,7 @@ aidiyet [A:NoVoicing]
 aile
 ailecek [P:Adv]
 ailevi [P:Adj]
-ait [P:Postp; A:NoVoicing]
+ait [P:Adj; A:NoVoicing]
 ajan
 ajanda
 ajans
@@ -1637,7 +1637,7 @@ asyön
 aş
 aşağı
 aşağı [P:Adj]
-aşağı [P:Postp]
+aşağı [P:Adv]
 aşağılamak
 aşağısamak
 aşama
@@ -1681,7 +1681,6 @@ aşiyan
 aşk
 aşkefza
 aşkın [P:Adj]
-aşkın [P:Postp]
 aşmak
 aşoz
 aşure
@@ -1720,7 +1719,7 @@ ateşin [P:Adj]
 ateşkes
 ateşlemek
 ateşperest [P:Adj; A:NoVoicing]
-atfen [P:Postp]
+atfen [P:Adv]
 atfetmek [A:Voicing, Aorist_A]
 atgiller
 atıf [A:LastVowelDrop]
@@ -2826,7 +2825,7 @@ benzol [A:Doubling]
 beraat [A:NoVoicing, InverseHarmony]
 beraatızimmet [A:NoVoicing]
 beraber [P:Adj]
-beraber [P:Postp]
+beraber [P:Adv]
 beraberinde [P:Adv]
 berat [A:NoVoicing]
 berbat [P:Adj; A:NoVoicing]
@@ -3165,7 +3164,6 @@ bilyon
 bin [P:Num, Card]
 bina
 binaen [P:Adv]
-binaen [P:Postp]
 binaenaleyh [P:Adv]
 bînamaz
 binbaşı
@@ -3234,7 +3232,6 @@ birleşim
 birleşmek
 birlik
 birlikte [P:Adv]
-birlikte [P:Postp]
 birliktelik
 birsam
 birşey [P:Pron]
@@ -3482,7 +3479,7 @@ boynuzluteke
 boyoz
 boyun [A:LastVowelDrop]
 boyuna [P:Adv]
-boyunca [P:Postp]
+boyunca [P:Adv]
 boyunduruk
 boyut [A:NoVoicing]
 boz
@@ -5167,7 +5164,7 @@ daim [P:Adj]
 daim [P:Adv]
 daima [P:Adv]
 daimî [P:Adj]
-dair [P:Postp]
+dair [P:Adj]
 daire
 dairevi
 dakik [P:Adj]
@@ -5556,7 +5553,7 @@ demir [P:Adj]
 demirbaş
 demirbaş [P:Adj]
 demirhane
-demirhindi [A:CompoundP3sg, Voicing; R:demirhind]
+demirhindi [A:CompoundP3sg; R:demirhind]
 demirî [P:Adj]
 demirkapan
 demirlemek
@@ -6594,7 +6591,6 @@ düşün
 düşünce
 düşüncel [P:Adj]
 düşündeş
-düşündürmek
 düşünmek [A:Causative_dIr]
 düşüntülü [P:Adj]
 düşünüm
@@ -8665,7 +8661,6 @@ gelincikgiller
 gelinfeneri [A:CompoundP3sg; R:gelinfener]
 gelinkuşağı
 gelinlik
-gelinmek
 gelinparmağı [P:Noun; A:CompoundP3sg, Voicing; R:gelinparmak]
 gelir
 gelişigüzel
@@ -9472,7 +9467,7 @@ hakuran
 hal [A:Doubling, InverseHarmony]
 hal [A:InverseHarmony]
 hâl [A:InverseHarmony]
-hal [Index:2]
+hal
 hala
 hâlâ [P:Adv, Time]
 halaoğlu
@@ -9799,7 +9794,7 @@ havaî
 havaiyat [A:NoVoicing, Plural]
 havalanmak
 havale
-havalimanı [A:CompoundP3sg; Roots:hava-liman]
+havalimanı [A:CompoundP3sg; R:havaliman]
 havan
 havarî
 havas
@@ -10256,7 +10251,7 @@ hiş
 hişt [P:Interj]
 hit
 hitabe
-hitaben [P:Postp]
+hitaben [P:Adv]
 hitabet [A:NoVoicing]
 hitam
 hitan
@@ -10424,7 +10419,7 @@ huy
 huylanmak
 huzme
 huzur
-huzurevi [A:CompoundP3sg; Roots:huzur-ev]
+huzurevi [A:CompoundP3sg; R:huzurev]
 hüccet [A:NoVoicing]
 hücre
 hücum
@@ -10459,7 +10454,7 @@ hünsa
 hür
 hürle
 hürmet [A:NoVoicing]
-hürmeten [P:Postp]
+hürmeten [P:Adv]
 hürmetkâr
 hürmetkârane [P:Adv]
 hürriyet [A:NoVoicing]
@@ -10942,7 +10937,7 @@ ilistir
 ilişik
 ilişken
 ilişki
-ilişkin [P:Postp]
+ilişkin [P:Adv]
 ilişmek
 ilk [P:Adj]
 ilkah
@@ -11506,7 +11501,7 @@ iterbiyum
 itfa
 itfaiye
 ithaf
-ithafen [P:Postp]
+ithafen [P:Adv]
 ithal [A:InverseHarmony]
 ithalat [A:NoVoicing]
 itham
@@ -11572,7 +11567,7 @@ izabe
 izaç
 izafe
 izafet [A:NoVoicing]
-izafeten [P:Postp]
+izafeten [P:Adv]
 izafî [P:Adj]
 izafiye
 izafiyet [A:NoVoicing]
@@ -11892,7 +11887,7 @@ kâkül
 kâküllü
 kal
 kala
-kala [P:Postp]
+kala [P:Adv]
 kalaazar
 kalaba
 kalabalık
@@ -15107,7 +15102,7 @@ mahrum
 mahrumiyet [A:NoVoicing]
 mahrut [A:NoVoicing]
 mahrutî [P:Adj]
-mahsuben [P:Postp]
+mahsuben [P:Adv]
 mahsul [A:InverseHarmony]
 mahsulât [A:NoVoicing]
 mahsuldar
@@ -16559,7 +16554,7 @@ muit
 mujik
 mukaar
 mukabele
-mukabil [P:Postp]
+mukabil [P:Adv]
 mukaddem
 mukaddema
 mukaddeme
@@ -19540,7 +19535,7 @@ radyobiyolojik [P:Adj]
 radyodifüzyon
 radyoelektrik
 radyoelektronik
-radyoevi [A:CompoundP3sg; Roots:radyo-ev]
+radyoevi [A:CompoundP3sg; R:radyoev]
 radyofizik
 radyofizyoloji
 radyofoni
@@ -20831,7 +20826,7 @@ serasker
 serazat [P:Adj; A:NoVoicing]
 serbaz
 serbest [P:Adj; A:NoVoicing]
-serbestî [A:NoVoicing,Ext;]
+serbestî [A:NoVoicing]
 serbestlemek
 serçe
 serçegiller
@@ -20937,7 +20932,7 @@ sevişmek
 seviye
 sevk
 sevkıtabiî
-sevkıyat [A:NoVoicing; Ref:sevkiyat]
+sevkıyat [A:NoVoicing]
 sevkitabii
 sevkiyat [A:NoVoicing]
 sevkulceyş
@@ -21221,7 +21216,6 @@ silo
 silolamak
 silsile
 silsileimeratip
-siluet [A:NoVoicing; Ref:silüet]
 silüet [A:NoVoicing]
 silüryen
 sim
@@ -22650,8 +22644,7 @@ tahliye
 tahmil
 tahmin
 tahminen [P:Adj]
-tahminî  [P:Adj; Ref:tahmini_Adj]
-tahmini  [P:Adj]
+tahminî  [P:Adj]
 tahmis
 tahnit
 tahra
@@ -23447,7 +23440,6 @@ temren
 temrin
 temriye
 temsil
-temsil [P:Postp]
 temsilen [P:Adv]
 temsilî
 temyiz
@@ -25968,7 +25960,7 @@ yosuncul [P:Adj]
 yoz
 yön
 yöndeş
-yönelik [P:Postp]
+yönelik [P:Adv]
 yönelim
 yönelmek
 yönelteç
@@ -26456,8 +26448,6 @@ züyuf
 - [P:Punc]
 ( [P:Punc]
 ) [P:Punc]
-[ [P:Punc]
-] [P:Punc]
 { [P:Punc]
 } [P:Punc]
 % [P:Punc]
