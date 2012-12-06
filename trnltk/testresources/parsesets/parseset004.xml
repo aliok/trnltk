@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
 Copyright  2012  Ali Ok (aliokATapacheDOTorg)
 
@@ -13,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<?xml version="1.0"?>
 <parseset xmlns="http://trnltk.org/parseset">
 	<sentence>
 		<word parse_result="Kerem+Noun+Prop+A3sg+Pnon+Nom" secondary_syntactic_category="Prop" str="Kerem" syntactic_category="Noun">

@@ -16,6 +16,11 @@ limitations under the License.
 from trnltk.morphology.model.morpheme import FreeTransitionSuffix
 
 class MorphemeContainerContextlessProbabilityGenerator(object):
+    """
+    Deprecated
+    @deprecated
+    """
+
     def __init__(self, first_suffix_transition_probability_matrix, suffix_transition_probability_matrix):
         self.first_suffix_transition_probability_matrix = first_suffix_transition_probability_matrix
         self.suffix_transition_probability_matrix = suffix_transition_probability_matrix

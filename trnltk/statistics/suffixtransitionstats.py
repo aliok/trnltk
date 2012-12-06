@@ -17,6 +17,11 @@ from collections import defaultdict
 from trnltk.parseset.xmlbindings import UnparsableWordBinding
 
 class SuffixTransitionProbabilityGenerator(object):
+    """
+    Deprecated
+    @deprecated
+    """
+
     def __init__(self, word_bindings):
         self.suffix_transition_count_matrix = defaultdict(lambda: defaultdict(int))
         self.suffix_transition_probability_matrix = defaultdict(lambda: defaultdict(float))

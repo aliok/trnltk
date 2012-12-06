@@ -24,8 +24,8 @@ class Root(object):
         """
         @type root: unicode
         @type lexeme: Lexeme
-        @type phonetic_expectations: list
-        @type phonetic_attributes: list
+        @type phonetic_expectations: set of str or None
+        @type phonetic_attributes: set of str or None
         """
         self.str = root
         self.lexeme = lexeme

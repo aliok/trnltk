@@ -33,7 +33,11 @@ class RootGenerator(object):
     @classmethod
     def generate(cls, lexeme):
         if any(x in lexeme.attributes for x in RootGenerator._modifiers):
-            return RootGenerator._generate_modified_root_nodes(lexeme)
+            try:
+                return RootGenerator._generate_modified_root_nodes(lexeme)
+            except:
+                print u'Error generating roots for lexeme : {}'.format(lexeme)
+                raise
         else:
             phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(lexeme.root)
             root = Root(lexeme.root, lexeme, None, phonetic_attributes)
@@ -109,56 +113,56 @@ class RootGenerator(object):
 
         ##TODO: de-ye
         if lexeme.lemma==u'ben':
-            root_ben = Root(u'ben', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
-            root_ban = Root(u'ban', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
+            root_ben = Root(u'ben', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
+            root_ban = Root(u'ban', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
             return [root_ben, root_ban]
         elif lexeme.lemma==u'sen':
-            root_sen = Root(u'sen', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
-            root_san = Root(u'san', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
+            root_sen = Root(u'sen', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
+            root_san = Root(u'san', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))
             return [root_sen, root_san]
         elif lexeme.lemma==u'demek':
-            root_di = Root(u'di', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'di'))
-            root_de = Root(u'de', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'de'))
+            root_di = Root(u'di', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'di'))
+            root_de = Root(u'de', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'de'))
             return [root_di, root_de]
         elif lexeme.lemma==u'yemek':
-            root_yi = Root(u'yi', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'yi'))
-            root_ye = Root(u'ye', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ye'))
+            root_yi = Root(u'yi', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'yi'))
+            root_ye = Root(u'ye', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ye'))
             return [root_yi, root_ye]
         elif lexeme.lemma==u'hepsi':
-            root_hep = Root(u'hep', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hep'))
-            root_hepsi = Root(u'hepsi', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hepsi'))
+            root_hep = Root(u'hep', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hep'))
+            root_hepsi = Root(u'hepsi', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'hepsi'))
             return [root_hep, root_hepsi]
         elif lexeme.lemma==u'ora':
-            root_or = Root(u'or', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'or'))
-            root_ora = Root(u'ora', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ora'))
+            root_or = Root(u'or', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'or'))
+            root_ora = Root(u'ora', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ora'))
             return [root_or, root_ora]
         elif lexeme.lemma==u'bura':
-            root_bur = Root(u'bur', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'bur'))
-            root_bura = Root(u'bura', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'bura'))
+            root_bur = Root(u'bur', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'bur'))
+            root_bura = Root(u'bura', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'bura'))
             return [root_bur, root_bura]
         elif lexeme.lemma==u'şura':
-            root_sur = Root(u'şur', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şur'))
-            root_sura = Root(u'şura', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şura'))
+            root_sur = Root(u'şur', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şur'))
+            root_sura = Root(u'şura', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'şura'))
             return [root_sur, root_sura]
         elif lexeme.lemma==u'nere':
-            root_ner = Root(u'ner', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
-            root_nere = Root(u'nere', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
+            root_ner = Root(u'ner', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
+            root_nere = Root(u'nere', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
             return [root_ner, root_nere]
         elif lexeme.lemma==u'nere':
-            root_ner = Root(u'ner', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
-            root_nere = Root(u'nere', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
+            root_ner = Root(u'ner', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ner'))
+            root_nere = Root(u'nere', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'nere'))
             return [root_ner, root_nere]
         elif lexeme.lemma==u'içeri':
-            root_icer = Root(u'içer', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'içer'))
-            root_iceri = Root(u'içeri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'içeri'))
+            root_icer = Root(u'içer', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'içer'))
+            root_iceri = Root(u'içeri', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'içeri'))
             return [root_icer, root_iceri]
         elif lexeme.lemma==u'dışarı':
-            root_disar = Root(u'dışar', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'dışar'))
-            root_disari = Root(u'dışarı', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'dışarı'))
+            root_disar = Root(u'dışar', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'dışar'))
+            root_disari = Root(u'dışarı', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'dışarı'))
             return [root_disar, root_disari]
         elif lexeme.lemma==u'birbiri':
-            root_birbir = Root(u'birbir', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbir'))
-            root_birbiri = Root(u'birbiri', lexeme, [], Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbiri'))
+            root_birbir = Root(u'birbir', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbir'))
+            root_birbiri = Root(u'birbiri', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'birbiri'))
             return [root_birbir, root_birbiri]
         else:
             raise Exception('Unhandled root change : {} !'.format(lexeme))

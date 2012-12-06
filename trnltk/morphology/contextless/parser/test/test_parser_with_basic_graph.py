@@ -524,6 +524,8 @@ class ParserTestWithBasicGraph(ParserTest):
         self.cloned_root_map[u'ona'] = []
         self.cloned_root_map[u'bend'] = []
         self.cloned_root_map[u'bun'] = []
+        self.cloned_root_map[u'bizle'] = []
+        self.cloned_root_map[u'se'] = []
         self.cloned_root_map[u'bur'] = []
         self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
         self.cloned_root_map[u'ban'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ban'])
@@ -612,7 +614,7 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct(u'nere',              u'nere(nere)+Pron+Ques+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'nereyi',            u'nere(nere)+Pron+Ques+A3sg+Pnon+Acc(+yI[yi])')
         self.assert_parse_correct(u'nereye',            u'nere(nere)+Pron+Ques+A3sg+Pnon+Dat(+yA[ye])')
-        self.assert_parse_correct(u'nerede',            u'nere(nere)+Pron+Ques+A3sg+Pnon+Loc(dA[de])')
+        self.assert_parse_correct(u'nerede',            u'nere(nere)+Pron+Ques+A3sg+Pnon+Loc(dA[de])', u'nerede(nerede)+Interj')
         self.assert_parse_correct(u'nereden',           u'nere(nere)+Pron+Ques+A3sg+Pnon+Abl(dAn[den])')
         self.assert_parse_correct(u'nerenin',           u'nere(nere)+Pron+Ques+A3sg+Pnon+Gen(+nIn[nin])', u'nere(nere)+Pron+Ques+A3sg+P2sg(+In[n])+Gen(+nIn[in])')
         self.assert_parse_correct(u'nereyle',           u'nere(nere)+Pron+Ques+A3sg+Pnon+Ins(+ylA[yle])')
@@ -686,6 +688,7 @@ class ParserTestWithBasicGraph(ParserTest):
         self.cloned_root_map[u'bend'] = []
         self.cloned_root_map[u'on'] = []
         self.cloned_root_map[u'yar'] = []
+        self.cloned_root_map[u'bizle'] = []
         self.cloned_root_map[u'ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'ben'])
         self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
 
@@ -736,6 +739,7 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct(u'oradakine',              u'ora(ora)+Pron+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Dat(nA[ne])')
         self.assert_parse_correct(u'oradakilerden',          u'ora(ora)+Pron+A3sg+Pnon+Loc(dA[da])+Adj+PointQual(ki[ki])+Noun+Zero+A3pl(lAr[ler])+Pnon+Abl(dAn[den])')
         self.assert_parse_correct(u'bendekinin',             u'ben(ben)+Pron+Pers+A1sg+Pnon+Loc(de[de])+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Gen(+nIn[nin])')
+        self.assert_parse_correct(u'ankini',                 u'an(an)+Adv+Time+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Acc(nI[ni])')
         self.assert_parse_correct(u'günkünde',               u'gün(gün)+Adv+Time+Adj+PointQual(kü[kü])+Noun+Zero+A3sg+Pnon+Loc(ndA[nde])')
         self.assert_parse_correct(u'dünkünden',              u'dün(dün)+Adv+Adj+PointQual(kü[kü])+Noun+Zero+A3sg+Pnon+Abl(ndAn[nden])')
         self.assert_parse_correct(u'zamankini',              u'zaman(zaman)+Adv+Time+Adj+PointQual(ki[ki])+Noun+Zero+A3sg+Pnon+Acc(nI[ni])')
@@ -748,6 +752,7 @@ class ParserTestWithBasicGraph(ParserTest):
 
     def test_should_parse_pronoun_derivations(self):
         self.cloned_root_map[u'on'] = []
+        self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
 
         self.assert_parse_correct(u'bensiz',
             u'ben(ben)+Pron+Pers+A1sg+Pnon+Nom+Adj+Without(sIz[siz])',
@@ -799,9 +804,12 @@ class ParserTestWithBasicGraph(ParserTest):
         )
 
     def test_should_parse_some_imperatives(self):
+        self.cloned_root_map[u'gelin'] = []
+        self.cloned_root_map[u'ge'] = []
+
         self.assert_parse_correct_for_verb(u'gel',               u'gel(gelmek)+Verb+Pos+Imp+A2sg')
         self.assert_parse_correct_for_verb(u'gelsin',            u'gel(gelmek)+Verb+Pos+Imp+A3sg(sIn[sin])')
-        self.assert_parse_correct_for_verb(u'gelin',             u'gel(gelmek)+Verb+Pos+Imp+A2pl(+yIn[in])', u'gelin(gelin)+Noun+A3sg+Pnon+Nom', u'gel(gelmek)+Verb+Verb+Pass(+In[in])+Pos+Imp+A2sg')
+        self.assert_parse_correct_for_verb(u'gelin',             u'gel(gelmek)+Verb+Pos+Imp+A2pl(+yIn[in])', u'gel(gelmek)+Verb+Verb+Pass(+In[in])+Pos+Imp+A2sg')
         self.assert_parse_correct_for_verb(u'geliniz',           u'gel(gelmek)+Verb+Pos+Imp+A2pl(+yInIz[iniz])')
         self.assert_parse_correct_for_verb(u'gelsinler',         u'gel(gelmek)+Verb+Pos+Imp+A3pl(sInlAr[sinler])')
 
@@ -1010,7 +1018,7 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct(u'kendilerinizde',     u'kendi(kendi)+Pron+Reflex+A2pl(ler[ler])+P2pl(iniz[iniz])+Loc(de[de])')
 
         self.assert_parse_correct(u'kendimden',          u'kendi(kendi)+Pron+Reflex+A1sg+P1sg(m[m])+Abl(den[den])')
-        self.assert_parse_correct(u'kendinden',          u'kendi(kendi)+Pron+Reflex+A2sg+P2sg(n[n])+Abl(den[den])', u'kendi(kendi)+Pron+Reflex+A3sg+P3sg+Abl(nden[nden])')
+        self.assert_parse_correct(u'kendinden',          u'kendi(kendi)+Pron+Reflex+A2sg+P2sg(n[n])+Abl(den[den])', u'kendi(kendi)+Pron+Reflex+A3sg+P3sg+Abl(nden[nden])', u'kendinden(kendinden)+Adv')
         self.assert_parse_correct(u'kendimizden',        u'kendi(kendi)+Pron+Reflex+A1pl+P1pl(miz[miz])+Abl(den[den])')
         self.assert_parse_correct(u'kendinizden',        u'kendi(kendi)+Pron+Reflex+A2pl+P2pl(niz[niz])+Abl(den[den])')
         self.assert_parse_correct(u'kendilerinden',      u'kendi(kendi)+Pron+Reflex+A3pl(leri[leri])+P3pl+Abl(nden[nden])')
@@ -1111,6 +1119,7 @@ class ParserTestWithBasicGraph(ParserTest):
 
     def test_should_parse_adj_to_adj_derivations(self):
         self.cloned_root_map[u'koy'] = []
+        self.cloned_root_map[u'kırmız'] = []
 
         self.assert_parse_correct(u'kırmızımsı',          u'kırmızı(kırmızı)+Adj+Adj+JustLike(+ImsI[msı])', u'kırmızı(kırmızı)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msı])', u'kırmızı(kırmızı)+Adj+Adj+JustLike(+ImsI[msı])+Noun+Zero+A3sg+Pnon+Nom', u'kırmızı(kırmızı)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[msı])+Noun+Zero+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'yeşilimsi',           u'yeşil(yeşil)+Adj+Adj+JustLike(+ImsI[imsi])', u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])', u'yeşil(yeşil)+Adj+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom', u'yeşil(yeşil)+Adj+Noun+Zero+A3sg+Pnon+Nom+Adj+JustLike(+ImsI[imsi])+Noun+Zero+A3sg+Pnon+Nom')
@@ -1226,6 +1235,7 @@ class ParserTestWithBasicGraph(ParserTest):
         self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
         self.cloned_root_map[u'on'] = []
         self.cloned_root_map[u'onca'] = []
+        self.cloned_root_map[u'bizle'] = []
         self.assert_parse_correct(u'bence',         u'ben(ben)+Pron+Pers+A1sg+Pnon+AccordingTo(ce[ce])')
         self.assert_parse_correct(u'sence',         u'sen(sen)+Pron+Pers+A2sg+Pnon+AccordingTo(ce[ce])')
         self.assert_parse_correct(u'onca',          u'o(o)+Pron+Pers+A3sg+Pnon+AccordingTo(nca[nca])')
@@ -1427,7 +1437,7 @@ class ParserTestWithBasicGraph(ParserTest):
         self.assert_parse_correct(u'havliyle',                u'havl(havil)+Noun+A3sg+P3sg(+sI[i])+Ins(+ylA[yle])')
         self.assert_parse_correct(u'savruldu',                u'savr(savurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
         self.assert_parse_correct(u'kavruldu',                u'kavr(kavurmak)+Verb+Verb+Pass(+nIl[ul])+Pos+Past(dI[du])+A3sg')
-        self.assert_parse_correct(u'sıyrılıyor',              u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg', u'sıyrıl(sıyrılmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg')
+        self.assert_parse_correct(u'sıyrılıyor',              u'sıyr(sıyırmak)+Verb+Verb+Pass(+nIl[ıl])+Pos+Prog(Iyor[ıyor])+A3sg')
 
     def test_should_parse_pronouns_with_implicit_possession(self):
         self.assert_parse_exists(u'bazıları',                   u'bazıları(bazıları)+Pron+A3sg+P3sg+Nom')
@@ -1522,6 +1532,9 @@ class ParserTestWithBasicGraph(ParserTest):
 
     def test_should_parse_relative_pronouns(self):
         self.cloned_root_map[u'on'] = []
+        self.cloned_root_map[u'se'] = []
+        self.cloned_root_map[u'bizle'] = []
+        self.cloned_root_map[u'biz'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map[u'biz'])
 
         self.assert_parse_correct(u'masamınki',            u'masa(masa)+Noun+A3sg+P1sg(+Im[m])+Gen(+nIn[ın])+Pron+A3sg(ki[ki])+Pnon+Nom')
         self.assert_parse_correct(u'masanınki',            u'masa(masa)+Noun+A3sg+Pnon+Gen(+nIn[nın])+Pron+A3sg(ki[ki])+Pnon+Nom', u'masa(masa)+Noun+A3sg+P2sg(+In[n])+Gen(+nIn[ın])+Pron+A3sg(ki[ki])+Pnon+Nom')

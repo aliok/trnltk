@@ -37,37 +37,37 @@ class RootGeneratorTest(unittest.TestCase):
         lexeme = Lexeme("elma", "elma", SyntacticCategory.NOUN, None, None)
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(1))
-        assert_that(generated_roots, has_item(Root('elma', lexeme, None, {LVB, LLV, LLNotVless, LVU})))
+        assert_that(generated_roots, has_item(Root(u'elma', lexeme, None, {LVB, LLV, LLNotVless, LVU})))
 
         lexeme = Lexeme("kek", "kek", SyntacticCategory.NOUN, None, [RootAttribute.NoVoicing])
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(1))
-        assert_that(generated_roots, has_item(Root('kek', lexeme, None, {LVF, LLC, LLVless, LLVlessStop, LVU})))
+        assert_that(generated_roots, has_item(Root(u'kek', lexeme, None, {LVF, LLC, LLVless, LLVlessStop, LVU})))
 
     def test_should_generate_with_voicing(self):
         lexeme = Lexeme("armut", "armut", SyntacticCategory.NOUN, None, [RootAttribute.Voicing])
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(2))
-        assert_that(generated_roots, has_item(Root('armut', lexeme, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLVless, LLVlessStop, LVR})))
-        assert_that(generated_roots, has_item(Root('armud', lexeme, {PhoneticExpectation.VowelStart}, {LVB, LLC, LLVless, LVR})))
+        assert_that(generated_roots, has_item(Root(u'armut', lexeme, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLVless, LLVlessStop, LVR})))
+        assert_that(generated_roots, has_item(Root(u'armud', lexeme, {PhoneticExpectation.VowelStart}, {LVB, LLC, LLVless, LVR})))
 
         lexeme = Lexeme("kapak", "kapak", SyntacticCategory.NOUN, None, [RootAttribute.Voicing])
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(2))
-        assert_that(generated_roots, has_item(Root('kapak', lexeme, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLVless, LLVlessStop, LVU})))
+        assert_that(generated_roots, has_item(Root(u'kapak', lexeme, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLVless, LLVlessStop, LVU})))
         assert_that(generated_roots, has_item(Root(u'kapağ', lexeme, {PhoneticExpectation.VowelStart}, {LVB, LLC, LLVless, LVU})))
 
         lexeme = Lexeme("cenk", "cenk", SyntacticCategory.NOUN, None, [RootAttribute.Voicing])
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(2))
-        assert_that(generated_roots, has_item(Root('cenk', lexeme, {PhoneticExpectation.ConsonantStart}, {LVF, LLC, LLVless, LLVlessStop, LVU})))
-        assert_that(generated_roots, has_item(Root('ceng', lexeme, {PhoneticExpectation.VowelStart}, {LVF, LLC, LLVless, LVU})))
+        assert_that(generated_roots, has_item(Root(u'cenk', lexeme, {PhoneticExpectation.ConsonantStart}, {LVF, LLC, LLVless, LLVlessStop, LVU})))
+        assert_that(generated_roots, has_item(Root(u'ceng', lexeme, {PhoneticExpectation.VowelStart}, {LVF, LLC, LLVless, LVU})))
 
         lexeme = Lexeme("kap", "kap", SyntacticCategory.NOUN, None, [RootAttribute.Voicing])
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(2))
-        assert_that(generated_roots, has_item(Root('kap', lexeme, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLVless, LLVlessStop, LVU})))
-        assert_that(generated_roots, has_item(Root('kab', lexeme, {PhoneticExpectation.VowelStart}, {LVB, LLC, LLVless, LVU})))
+        assert_that(generated_roots, has_item(Root(u'kap', lexeme, {PhoneticExpectation.ConsonantStart}, {LVB, LLC, LLVless, LLVlessStop, LVU})))
+        assert_that(generated_roots, has_item(Root(u'kab', lexeme, {PhoneticExpectation.VowelStart}, {LVB, LLC, LLVless, LVU})))
 
     def test_should_generate_with_last_vowel_drop(self):
         lexeme = Lexeme(u"ağız", u"ağız", SyntacticCategory.NOUN, None, [RootAttribute.LastVowelDrop])

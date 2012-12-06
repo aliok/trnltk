@@ -58,6 +58,8 @@ class ParserTestWithProperNouns(ParserTest):
         parser_logger.setLevel(logging.DEBUG)
         suffix_applier_logger.setLevel(logging.DEBUG)
 
+        # TODO: implementing these features is almost impossible without context and historical data
+
         # tests based on TDK
         # http://www.tdk.gov.tr/index.php?option=com_content&view=article&id=187:Noktalama-Isaretleri-Aciklamalar&catid=50:yazm-kurallar&Itemid=132
 

@@ -17,6 +17,11 @@ import itertools
 from trnltk.morphology.model import formatter
 
 class StatisticalParseResult(object):
+    """
+    Deprecated
+    @deprecated
+    """
+
     def __init__(self):
         self.parse_result_occurrences = dict()
         self.parse_results = dict()
@@ -38,6 +43,11 @@ class StatisticalParseResult(object):
         return results_with_ratio
 
 class StatisticalParser(object):
+    """
+    Deprecated
+    @deprecated
+    """
+
     def __init__(self, contextless_parser, parse_result_concordance_index):
         self.contextless_parser = contextless_parser
         self._parse_result_concordance_index = parse_result_concordance_index

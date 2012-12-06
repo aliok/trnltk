@@ -62,7 +62,10 @@ class LexiconLoader(object):
         lemma = root = str_root
 
         str_meta = str_meta.strip() if str_meta else None
+        assert str_meta is None or '[' not in str_meta
+
         str_meta = str_meta[:-1].strip() if str_meta else None
+        assert str_meta is None or ']' not in str_meta
 
         if str_meta:
             str_metas = str_meta.split(';')

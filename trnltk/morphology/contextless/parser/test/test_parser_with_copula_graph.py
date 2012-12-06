@@ -65,6 +65,7 @@ class ParserTestWithExtendedGraph(ParserTest):
         self.cloned_root_map['elmas'] = []
         self.cloned_root_map['bent'] = []
         self.cloned_root_map['bend'] = []
+        self.cloned_root_map['se'] = []
         self.cloned_root_map['oy'] = []
         self.cloned_root_map['ben'] = filter(lambda root : root.lexeme.syntactic_category==SyntacticCategory.PRONOUN, self.cloned_root_map['ben'])
 
@@ -151,6 +152,7 @@ class ParserTestWithExtendedGraph(ParserTest):
     def test_should_parse_copula_derivations(self):
         self.cloned_root_map['elmas'] = []
         self.cloned_root_map['on'] = []
+        self.cloned_root_map['se'] = []
 
         self.assert_parse_correct_for_verb(u'elmayken',            u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+Pnon+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
         self.assert_parse_correct_for_verb(u'elmasıyken',          u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])', u'elma(elma)+Noun+A3sg+P3sg(+sI[sı])+Nom+Verb+Zero+Adv+While(+yken[yken])+Verb+Zero+Pres+A3sg')
