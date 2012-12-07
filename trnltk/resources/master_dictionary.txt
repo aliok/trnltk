@@ -1,5 +1,5 @@
 #
-# Copyright [2012] [Zemberek3 Developers <http://code.google.com/p/zemberek3/>] (Original work)
+# Copyright  2012  Zemberek3 Developers <http://code.google.com/p/zemberek3/> (Original work)
 # Copyright  2012  Ali Ok (aliokATapacheDOTorg) (Derivative work)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+- [P:Punc]
+, [P:Punc]
+; [P:Punc]
+: [P:Punc]
+! [P:Punc]
+? [P:Punc]
+/ [P:Punc]
+. [P:Punc]
+.. [P:Punc]
+... [P:Punc]
+' [P:Punc]
+" [P:Punc]
+( [P:Punc]
+) [P:Punc]
+{ [P:Punc]
+} [P:Punc]
+% [P:Punc]
++ [P:Punc]
 a [P:Interj]
 ab
 aba
@@ -792,8 +810,8 @@ ali [P:Adj]
 alicenap [P:Adj]
 alifatik [P:Adj]
 alil [P:Adj]
-âlim
 alim [P:Adj]
+âlim [P:Adj]
 alimallah [P:Interj]
 âlimane [P:Adj]
 âlimane [P:Adv]
@@ -892,8 +910,8 @@ alyon [P:Adj]
 alyuvar
 alzaymır
 am
-âmâ [P:Adj]
 ama [P:Conj]
+âmâ [P:Adj]
 amabile [P:Adv]
 amaç
 amaçlamak
@@ -1738,7 +1756,6 @@ atik [P:Adj]
 atkı
 atkılamak
 atkuyruğu
-atkuyruğugiller
 atkuyruğu [A:CompoundP3sg, Voicing; R:atkuyruk]
 atlamak
 atlambaç
@@ -1833,8 +1850,8 @@ ayaküstü [P:Adv]
 ayaküzeri [P:Adv]
 ayakyolu [A:CompoundP3sg; R:ayakyolu]
 ayal [A:InverseHarmony]
-âyan [P:Adj]
 ayan [P:Adj]
+âyan [P:Adj]
 ayandon
 ayar
 ayarlamak
@@ -1946,8 +1963,8 @@ az [P:Adv]
 aza
 azade [P:Adj]
 azade [P:Adv]
-azalmak [A:Causative_t]
 azalım
+azalmak [A:Causative_t]
 azaltım
 azamet [A:NoVoicing]
 azami [P:Adj]
@@ -2056,9 +2073,9 @@ bağıl
 bağıl [P:Adj]
 bağıldak
 bağım
+bağımlamak
 bağımlı [P:Adj]
 bağımsız [P:Adj]
-bağımlamak
 bağın
 bağıntı
 bağır [A:LastVowelDrop]
@@ -2550,8 +2567,8 @@ baterist [A:NoVoicing]
 batı [P:Adj]
 batık
 batıl [P:Adj]
-bâtın
 batın [A:LastVowelDrop]
+bâtın [P:Adj]
 bâtıni
 bâtıni [P:Adj]
 batırık
@@ -2623,8 +2640,8 @@ baz [P:Adj]
 baza
 bazal [P:Adj; A:InverseHarmony]
 bazalt [A:NoVoicing]
-bazen [P:Adv]
 bazan [P:Adv]
+bazen [P:Adv]
 bazı [P:Adj]
 bazı [P:Adv]
 bazıları [P:Pron]
@@ -2758,8 +2775,8 @@ belirmek
 belirsiz [P:Adj]
 belirteç
 belirti
-belirtim
 belirtik
+belirtim
 belirtke
 belirtken
 belirtmek
@@ -3145,8 +3162,7 @@ bilişsel [P:Adj]
 billahi [P:Interj]
 billboard
 billur
-billûrî
-billuri [P:Adj]
+billûrî [P:Adj]
 billuriye
 billuriye [P:Adj]
 billursu
@@ -5149,10 +5165,10 @@ dah [P:Interj]
 daha [P:Noun, Time]
 daha [P:Adv]
 dahası
-dâhi [P:Adj]
 dahi [P:Conj]
-dâhil
+dâhi [P:Adj]
 dahil [A:LastVowelDrop]
+dâhil
 dâhil [P:Adv]
 dâhilen [P:Adv]
 dâhilî
@@ -6223,7 +6239,6 @@ dokunmatik [P:Adj]
 dokunum
 dokurcuk
 dokurcun
-dokunmak
 dokuz [P:Num, Card]
 dokuzgen
 dokuzlu
@@ -8602,9 +8617,9 @@ gecelemek
 geceleyin
 gecesefası
 gecesefasıgiller
-gecikmek
 geceyarısı [P:Noun, Time; A:CompoundP3sg; R:geceyarı]
 geceyarısı [P:Adv, Time]
+gecikmek
 geciktirim
 geç
 geç [P:Adj]
@@ -9373,7 +9388,6 @@ hacıağa
 hacılarkuşağı
 hacılaryolu [A:CompoundP3sg; R:hacılaryol]
 hacıyatmaz [A:Compound]
-hacılaryolu [A:CompoundP3sg; R:hacılaryol]
 hacim [A:LastVowelDrop]
 hacir [A:LastVowelDrop]
 haciz [A:LastVowelDrop]
@@ -9466,8 +9480,8 @@ haktanır
 hakuran
 hal [A:Doubling, InverseHarmony]
 hal [A:InverseHarmony]
-hâl [A:InverseHarmony]
 hal
+hâl [A:InverseHarmony]
 hala
 hâlâ [P:Adv, Time]
 halaoğlu
@@ -9517,8 +9531,8 @@ hallaç
 hallenmek
 halleşmek
 halletmek [A:Voicing, Aorist_A]
-hallihamur
 hallice [P:Adj]
+hallihamur
 hallolmak
 halojen
 halt
@@ -9632,8 +9646,7 @@ hararet [A:NoVoicing]
 haraşo
 haraza
 harbe
-harbî
-harbi [P:Adj]
+harbî [P:Adj]
 harbiye
 harcamak
 harcıâlem
@@ -10012,9 +10025,9 @@ herifçioğlu [A:CompoundP3sg, LastVowelDrop; R:herifçioğul]
 herik
 herk
 herkes [P:Pron]
-herşey [P:Pron]
 hermafrodit
 hermetik [P:Adj]
+herşey [P:Pron]
 hertz
 herze
 herzevekil
@@ -10428,9 +10441,9 @@ hükmen
 hükmetmek [A:Voicing, Aorist_A]
 hükmî
 hükmolmak
+hükûmet [A:NoVoicing]
 hüküm [A:LastVowelDrop]
 hükümdar
-hükûmet [A:NoVoicing]
 hükümet [A:NoVoicing]
 hükümran
 hülasa
@@ -12540,9 +12553,6 @@ kaşmir
 kaşpusiye
 kat
 kat [A:InverseHarmony]
-katî
-katiyen [P:Adv]
-katiyet [A:NoVoicing]
 katabolizma
 katafalk [A:NoVoicing]
 katafot [A:NoVoicing]
@@ -14856,8 +14866,8 @@ lisani [P:Adj]
 lisaniyat [A:NoVoicing]
 lisanlamak
 lisans
-lisanslamak
 lisansiyer
+lisanslamak
 lisansüstü
 lise
 liste
@@ -15910,8 +15920,8 @@ methiye
 methüsena
 metil
 metilen
-metîn [P:Adj]
 metin [A:LastVowelDrop]
+metîn [P:Adj]
 metis
 metneryum
 metodik
@@ -15934,8 +15944,8 @@ metropol [A:InverseHarmony]
 metropolit
 metropoliten
 metroseksüel [P:Adj]
-metrûk [A:InverseHarmony]
 metruk [P:Adj]
+metrûk [A:InverseHarmony]
 metrûkât [A:NoVoicing]
 metruke
 metrukiyet [A:NoVoicing]
@@ -17272,8 +17282,8 @@ nakış [A:LastVowelDrop]
 nakışlamak
 nakız [A:LastVowelDrop]
 nakibüleşraf
-nâkil
 nakil [A:LastVowelDrop]
+nâkil
 nakip
 nakisa
 nakit [A:Voicing, LastVowelDrop]
@@ -17398,8 +17408,8 @@ nazarî  [P:Adj]
 nazariyat [A:NoVoicing, Plural]
 nazariye
 nazenin
-nâzım
 nazım [A:LastVowelDrop]
+nâzım
 nazır
 nazik [P:Adj]
 nazikâne
@@ -17486,9 +17496,9 @@ neozoik
 nepotist
 nepotizm
 neptünyum
+nerdeyse [P:Adv]
 nere [P:Pron, Ques; A:RootChange]
 nerede [P:Interj]
-nerdeyse [P:Adv]
 neredeyse [P:Adv]
 nergis
 nergisgiller
@@ -17723,8 +17733,8 @@ nüks
 nüksetmek [A:Voicing, Aorist_A]
 nükte
 nüktedan
-nükûl
 nükul [A:InverseHarmony]
+nükûl
 nümayiş
 nümayişkâr [P:Adj]
 nüsha
@@ -19297,7 +19307,6 @@ poyra
 poyraz
 poyrazlamak
 poz
-pozlamak
 pozisyon
 pozitif
 pozitif [P:Adj]
@@ -19307,6 +19316,7 @@ poziton
 pozitonyum
 pozitron
 pozitronyum
+pozlamak
 pöç
 pöçük
 pöf
@@ -19575,8 +19585,8 @@ rahat [P:Adj; A:NoVoicing]
 rahatlamak
 rahatlıkla [P:Adv]
 rahibe
-rahîm
 rahim [A:LastVowelDrop]
+rahîm
 rahip
 rahle
 rahman
@@ -20074,8 +20084,8 @@ sadet
 sadeyağ
 sadık [P:Adj]
 sadıkane [P:Adj]
-sâdır
 sadır [A:LastVowelDrop]
+sâdır
 sadik
 sadist [A:NoVoicing]
 sadizm
@@ -22044,8 +22054,8 @@ süzüntü
 şahbaz
 şaheser
 şahım [A:LastVowelDrop]
-şâhıs
 şahıs [A:LastVowelDrop]
+şâhıs
 şahika
 şahin
 şahit
@@ -22409,9 +22419,9 @@ süzüntü
 şimdi [P:Noun, Time]
 şimdi [P:Adv, Time]
 şimdiden [P:Adv]
-şimdilik [P:Adv]
 şimdilerde [P:Adv]
 şimdileyin [P:Adv]
+şimdilik [P:Adv]
 şimendifer
 şimiotaksi
 şimiotropizm
@@ -23795,8 +23805,8 @@ tıfıl [P:Adj]
 tıgala
 tığ
 tıkaç
-tıkalı [P:Adj]
 tıkaçlamak
+tıkalı [P:Adj]
 tıkamak
 tıkanık [P:Adj]
 tıkım
@@ -25060,8 +25070,8 @@ velinimet [A:NoVoicing]
 veliyullah
 velur
 velûr
-velût
 velut [P:Adj]
+velût
 velvele
 vena
 venüsçarığı [A:CompoundP3sg, Voicing; R:venüsçarık]
@@ -26178,8 +26188,8 @@ zat
 zaten [P:Adv]
 zatıâlileri
 zatıâliniz
-zatî [P:Adj]
 zati [P:Adv]
+zatî [P:Adj]
 zatülcenp
 zatürre
 zavallı [P:Adj]
@@ -26437,21 +26447,3 @@ zürefa
 zürra
 zürriyet [A:NoVoicing]
 züyuf
-. [P:Punc]
-, [P:Punc]
-? [P:Punc]
-! [P:Punc]
-' [P:Punc]
-" [P:Punc]
-/ [P:Punc]
-+ [P:Punc]
-- [P:Punc]
-( [P:Punc]
-) [P:Punc]
-{ [P:Punc]
-} [P:Punc]
-% [P:Punc]
-; [P:Punc]
-: [P:Punc]
-.. [P:Punc]
-... [P:Punc]
