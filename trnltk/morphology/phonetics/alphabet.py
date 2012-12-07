@@ -64,39 +64,39 @@ class TurkishLetter(object):
         return hash((self.char_value, self.upper_case_char_value))
 
 class TurkishAlphabet(object):
-    L_a = TurkishLetter(u'a', u'A', 1, vowel=True)
-    L_b = TurkishLetter(u'b', u'B', 2)
-    L_c = TurkishLetter(u'c', u'C', 3)
+    L_a =  TurkishLetter(u'a', u'A', 1, vowel=True)
+    L_b =  TurkishLetter(u'b', u'B', 2)
+    L_c =  TurkishLetter(u'c', u'C', 3)
     L_cc = TurkishLetter(u'ç', u'Ç', 4, in_ascii=False, voiceless=True, stop_consonant=True, english_equivalent_char=u'c')
-    L_d = TurkishLetter(u'd', u'D', 5)
-    L_e = TurkishLetter(u'e', u'E', 6, vowel=True, frontal=True)
-    L_f = TurkishLetter(u'f', u'F', 7, voiceless=True)
-    L_g = TurkishLetter(u'g', u'G', 8)
+    L_d =  TurkishLetter(u'd', u'D', 5)
+    L_e =  TurkishLetter(u'e', u'E', 6, vowel=True, frontal=True)
+    L_f =  TurkishLetter(u'f', u'F', 7, voiceless=True)
+    L_g =  TurkishLetter(u'g', u'G', 8)
     L_gg = TurkishLetter(u'ğ', u'Ğ', 9, in_ascii=False, english_equivalent_char=u'g')
-    L_h = TurkishLetter(u'h', u'H', 10, voiceless=True)
+    L_h =  TurkishLetter(u'h', u'H', 10, voiceless=True)
     L_ii = TurkishLetter(u'ı', u'I', 11, vowel=True, in_ascii=False, english_equivalent_char=u'i')
-    L_i = TurkishLetter(u'i', u'İ', 12, vowel=True, frontal=True)
-    L_j = TurkishLetter(u'j', u'J', 13)
-    L_k = TurkishLetter(u'k', u'K', 14, voiceless=True, stop_consonant=True)
-    L_l = TurkishLetter(u'l', u'L', 15)
-    L_m = TurkishLetter(u'm', u'M', 16)
-    L_n = TurkishLetter(u'n', u'N', 17)
-    L_o = TurkishLetter(u'o', u'O', 18, vowel=True, rounded=True)
+    L_i =  TurkishLetter(u'i', u'İ', 12, vowel=True, frontal=True)
+    L_j =  TurkishLetter(u'j', u'J', 13)
+    L_k =  TurkishLetter(u'k', u'K', 14, voiceless=True, stop_consonant=True)
+    L_l =  TurkishLetter(u'l', u'L', 15)
+    L_m =  TurkishLetter(u'm', u'M', 16)
+    L_n =  TurkishLetter(u'n', u'N', 17)
+    L_o =  TurkishLetter(u'o', u'O', 18, vowel=True, rounded=True)
     L_oo = TurkishLetter(u'ö', u'Ö', 19, vowel=True, frontal=True, rounded=True, in_ascii=False, english_equivalent_char=u'o')
-    L_p = TurkishLetter(u'p', u'P', 20, voiceless=True, stop_consonant=True)
-    L_r = TurkishLetter(u'r', u'R', 21)
-    L_s = TurkishLetter(u's', u'S', 22, voiceless=True)
+    L_p =  TurkishLetter(u'p', u'P', 20, voiceless=True, stop_consonant=True)
+    L_r =  TurkishLetter(u'r', u'R', 21)
+    L_s =  TurkishLetter(u's', u'S', 22, voiceless=True)
     L_ss = TurkishLetter(u'ş', u'Ş', 23, in_ascii=False, voiceless=True, english_equivalent_char=u's')
-    L_t = TurkishLetter(u't', u'T', 24, voiceless=True, stop_consonant=True)
-    L_u = TurkishLetter(u'u', u'U', 25, vowel=True, rounded=True)
+    L_t =  TurkishLetter(u't', u'T', 24, voiceless=True, stop_consonant=True)
+    L_u =  TurkishLetter(u'u', u'U', 25, vowel=True, rounded=True)
     L_uu = TurkishLetter(u'ü', u'Ü', 26, vowel=True, rounded=True, frontal=True, in_ascii=False, english_equivalent_char=u'u')
-    L_v = TurkishLetter(u'v', u'V', 27)
-    L_y = TurkishLetter(u'y', u'Y', 28)
-    L_z = TurkishLetter(u'z', u'Z', 29)
+    L_v =  TurkishLetter(u'v', u'V', 27)
+    L_y =  TurkishLetter(u'y', u'Y', 28)
+    L_z =  TurkishLetter(u'z', u'Z', 29)
 
-    L_q = TurkishLetter(u'q', u'Q', 30, foreign=True)
-    L_w = TurkishLetter(u'w', u'W', 31, foreign=True)
-    L_x = TurkishLetter(u'x', u'X', 32, foreign=True)
+    L_q =  TurkishLetter(u'q', u'Q', 30, foreign=True)
+    L_w =  TurkishLetter(u'w', u'W', 31, foreign=True)
+    L_x =  TurkishLetter(u'x', u'X', 32, foreign=True)
 
     L_ac = TurkishLetter(u'â', u'Â', 33, vowel=True, in_ascii=False, english_equivalent_char=u'a')
     L_ic = TurkishLetter(u'î', u'Î', 34, vowel=True, frontal=True, in_ascii=False, english_equivalent_char=u'i')
@@ -120,6 +120,9 @@ class TurkishAlphabet(object):
         @type char: str or unicode
         @rtype: TurkishLetter
         """
+
+        assert char and len(char)==1
+
         if TurkishAlphabet.Lower_Case_Letter_Map.has_key(char):
             return TurkishAlphabet.Lower_Case_Letter_Map[char]
 
