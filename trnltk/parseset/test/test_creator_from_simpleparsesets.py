@@ -32,6 +32,24 @@ from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
 END_OF_SENTENCE_MARKER = '#END#OF#SENTENCE#'
+PARSESET_HEADER = """
+<!--
+<?xml version="1.0"?>
+Copyright  2012  Ali Ok (aliokATapacheDOTorg)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+""".strip()
 
 def modify_treebank_parse_result_strs_to_look_like_trnltk(parse_result_str):
     #TODO
@@ -135,7 +153,8 @@ class ParseSetCreatorWithSimpleParsesetsTest(unittest.TestCase):
         parseset_dom = parseset_binding.to_dom()
         parseset_dom.setAttribute("xmlns", xmlbindings.NAMESPACE)
         with codecs.open(destination_file_path, mode='w', encoding='utf-8') as output:
-            output.write('<?xml version="1.0"?>\n')
+            output.write(PARSESET_HEADER)
+            output.write('\n')
             output.write(parseset_dom.toprettyxml())
 
 

@@ -18,7 +18,7 @@ import unittest
 from hamcrest import *
 from mock import Mock
 from trnltk.morphology.model.lexeme import SecondarySyntacticCategory, SyntacticCategory
-from trnltk.morphology.contextless.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, WordRootFinder, TextNumeralRootFinder, BruteForceRootFinder
+from trnltk.morphology.contextless.parser.rootfinder import DigitNumeralRootFinder, ProperNounFromApostropheRootFinder, ProperNounWithoutApostropheRootFinder, WordRootFinder, TextNumeralRootFinder
 
 class WordRootFinderTest(unittest.TestCase):
 
@@ -87,15 +87,15 @@ class TextNumeralRootFinderTest(unittest.TestCase):
         self.root_finder = TextNumeralRootFinder(lexeme_map)
 
     def test_should_find_roots(self):
-        roots = self.root_finder.find_roots_for_partial_input(u"root1", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"root1")
         assert_that(roots, has_length(2))
         assert_that(roots, has_items(self.mock_root1_1, self.mock_root1_2))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"root2", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"root2")
         assert_that(roots, has_length(1))
         assert_that(roots, has_items(self.mock_root2_1))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"UNDEFINED", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"UNDEFINED")
         assert_that(roots, has_length(0))
 
 class DigitNumeralRootFinderTest(unittest.TestCase):
@@ -104,26 +104,26 @@ class DigitNumeralRootFinderTest(unittest.TestCase):
         self.root_finder = DigitNumeralRootFinder()
 
     def test_should_recognize_number_roots(self):
-        roots = self.root_finder.find_roots_for_partial_input('3', None)
-        assert_that(roots[0].str, equal_to('3'))
+        roots = self.root_finder.find_roots_for_partial_input(u'3')
+        assert_that(roots[0].str, equal_to(u'3'))
 
-        roots = self.root_finder.find_roots_for_partial_input('0', None)
-        assert_that(roots[0].str, equal_to('0'))
+        roots = self.root_finder.find_roots_for_partial_input(u'0')
+        assert_that(roots[0].str, equal_to(u'0'))
 
-        roots = self.root_finder.find_roots_for_partial_input('-1', None)
-        assert_that(roots[0].str, equal_to('-1'))
+        roots = self.root_finder.find_roots_for_partial_input(u'-1')
+        assert_that(roots[0].str, equal_to(u'-1'))
 
-        roots = self.root_finder.find_roots_for_partial_input('+3', None)
-        assert_that(roots[0].str, equal_to('+3'))
+        roots = self.root_finder.find_roots_for_partial_input(u'+3')
+        assert_that(roots[0].str, equal_to(u'+3'))
 
-        roots = self.root_finder.find_roots_for_partial_input('3,5', None)
-        assert_that(roots[0].str, equal_to('3,5'))
+        roots = self.root_finder.find_roots_for_partial_input(u'3,5')
+        assert_that(roots[0].str, equal_to(u'3,5'))
 
-        roots = self.root_finder.find_roots_for_partial_input('-999999999999,12345678901', None)
-        assert_that(roots[0].str, equal_to('-999999999999,12345678901'))
+        roots = self.root_finder.find_roots_for_partial_input(u'-999999999999,12345678901')
+        assert_that(roots[0].str, equal_to(u'-999999999999,12345678901'))
 
-        roots = self.root_finder.find_roots_for_partial_input('+2.999.999.999.999,12345678901', None)
-        assert_that(roots[0].str, equal_to('+2.999.999.999.999,12345678901'))
+        roots = self.root_finder.find_roots_for_partial_input(u'+2.999.999.999.999,12345678901')
+        assert_that(roots[0].str, equal_to(u'+2.999.999.999.999,12345678901'))
 
 class ProperNounFromApostropheRootFinderTest(unittest.TestCase):
 
@@ -131,88 +131,88 @@ class ProperNounFromApostropheRootFinderTest(unittest.TestCase):
         self.root_finder = ProperNounFromApostropheRootFinder()
 
     def test_should_recognize_abbreviations(self):
-        roots = self.root_finder.find_roots_for_partial_input(u"TR'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"TR'")
         assert_that(roots[0].str, equal_to(u'TR'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"MB'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"MB'")
         assert_that(roots[0].str, equal_to(u'MB'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"POL'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"POL'")
         assert_that(roots[0].str, equal_to(u'POL'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"KAFA1500'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"KAFA1500'")
         assert_that(roots[0].str, equal_to(u'KAFA1500'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"1500KAFA'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"1500KAFA'")
         assert_that(roots[0].str, equal_to(u'1500KAFA'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"İŞÇĞÜÖ'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"İŞÇĞÜÖ'")
         assert_that(roots[0].str, equal_to(u'İŞÇĞÜÖ'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.ABBREVIATION))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"123'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"123'")
         assert_that(roots, has_length(0))
 
 
     def test_should_recognize_proper_nouns(self):
-        roots = self.root_finder.find_roots_for_partial_input(u"Ahmet'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"Ahmet'")
         assert_that(roots[0].str, equal_to(u'Ahmet'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Mehmed'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"Mehmed'")
         assert_that(roots[0].str, equal_to(u'Mehmed'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"A123a'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"A123a'")
         assert_that(roots[0].str, equal_to(u'A123a'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"AvA'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"AvA'")
         assert_that(roots[0].str, equal_to(u'AvA'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"AAxxAA'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"AAxxAA'")
         assert_that(roots[0].str, equal_to(u'AAxxAA'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"İstanbul'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"İstanbul'")
         assert_that(roots[0].str, equal_to(u'İstanbul'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Çanakkale'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"Çanakkale'")
         assert_that(roots[0].str, equal_to(u'Çanakkale'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Ömer'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"Ömer'")
         assert_that(roots[0].str, equal_to(u'Ömer'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Şaban'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"Şaban'")
         assert_that(roots[0].str, equal_to(u'Şaban'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"Ümmühan'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"Ümmühan'")
         assert_that(roots[0].str, equal_to(u'Ümmühan'))
         assert_that(roots[0].lexeme.secondary_syntactic_category, equal_to(SecondarySyntacticCategory.PROPER_NOUN))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"aaa'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"aaa'")
         assert_that(roots, has_length(0))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"aAAAA'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"aAAAA'")
         assert_that(roots, has_length(0))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"1aa'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"1aa'")
         assert_that(roots, has_length(0))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"a111'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"a111'")
         assert_that(roots, has_length(0))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"şaa'", None)
+        roots = self.root_finder.find_roots_for_partial_input(u"şaa'")
         assert_that(roots, has_length(0))
 
 class ProperNounWithoutApostropheRootFinderTest(unittest.TestCase):

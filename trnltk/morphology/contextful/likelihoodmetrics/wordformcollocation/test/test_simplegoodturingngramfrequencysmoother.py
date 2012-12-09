@@ -178,21 +178,42 @@ class NGramFrequencySmootherTestWithDatabase(unittest.TestCase):
         smoother_logger.setLevel(logging.INFO)
         sgt_logger.setLevel(logging.INFO)
 
-    def test_smooth_with_unigrams(self):
+    def test_smooth_with_unigrams_parseset_001(self):
+        N = 1
+        K = 5
+        parseset_index = "001"
+
+        self._test_smooth_with_ngrams(N, K, parseset_index)
+
+    def test_smooth_with_bigrams_parseset_001(self):
+        N = 2
+        K = 5
+        parseset_index = "001"
+
+        self._test_smooth_with_ngrams(N, K, parseset_index)
+
+    def test_smooth_with_trigrams_parseset_001(self):
+        N = 3
+        K = 5
+        parseset_index = "001"
+
+        self._test_smooth_with_ngrams(N, K, parseset_index)
+
+    def test_smooth_with_unigrams_parseset_999(self):
         N = 1
         K = 5
         parseset_index = "999"
 
         self._test_smooth_with_ngrams(N, K, parseset_index)
 
-    def test_smooth_with_bigrams(self):
+    def test_smooth_with_bigrams_parseset_999(self):
         N = 2
         K = 5
         parseset_index = "999"
 
         self._test_smooth_with_ngrams(N, K, parseset_index)
 
-    def test_smooth_with_trigrams(self):
+    def test_smooth_with_trigrams_parseset_999(self):
         N = 3
         K = 5
         parseset_index = "999"

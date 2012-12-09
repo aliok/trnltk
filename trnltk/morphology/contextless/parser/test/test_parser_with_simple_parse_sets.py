@@ -215,12 +215,12 @@ class ParserTestWithSimpleParseSets(ParserTest):
 #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_simple_parse_set("003")
 
-    def test_should_parse_simple_parse_set_004(self):
+    def test_should_parse_simple_parse_set_004_SLOW(self):
 #        parser_logger.setLevel(logging.DEBUG)
 #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_simple_parse_set("004")
 
-    def test_should_parse_simple_parse_set_005(self):
+    def test_should_parse_simple_parse_set_005_SLOW(self):
     #        parser_logger.setLevel(logging.DEBUG)
     #        suffix_applier_logger.setLevel(logging.DEBUG)
         self._test_should_parse_simple_parse_set("005")

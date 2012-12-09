@@ -216,18 +216,21 @@ class PhoneticExpectationsTest(unittest.TestCase):
         LVF = PhoneticAttributes.LastVowelFrontal
         LVB = PhoneticAttributes.LastVowelBack
 
+        LLCont =  PhoneticAttributes.LastLetterContinuant
+        LLNotCont =  PhoneticAttributes.LastLetterNotContinuant
+
         LLVless =  PhoneticAttributes.LastLetterVoiceless
         LLVlessStop = PhoneticAttributes.LastLetterVoicelessStop
         LLNotVless =  PhoneticAttributes.LastLetterNotVoiceless
 
-        self.assertEqual({LLV, LVU, LVF, LLNotVless}, cpa(u"e"))
-        self.assertEqual({LLC, LVU, LVF, LLNotVless}, cpa(u"el"))
-        self.assertEqual({LLC, LVU, LVF, LLVless, LLVlessStop}, cpa(u"ek"))
-        self.assertEqual({LLC, LVU, LVF, LLVless}, cpa(u"eh"))
-        self.assertEqual({LLC, LVU, LVF, LLNotVless}, cpa(u"elm"))
-        self.assertEqual({LLC, LVU, LVF, LLVless, LLVlessStop}, cpa(u"elk"))
-        self.assertEqual({LLV, LVU, LVB, LLNotVless}, cpa(u"elma"))
-        self.assertEqual({LLV, LVR, LVB, LLNotVless}, cpa(u"elmo"))
+        self.assertEqual({LLNotCont, LLV, LVU, LVF, LLNotVless}, cpa(u"e"))
+        self.assertEqual({LLCont, LLC, LVU, LVF, LLNotVless}, cpa(u"el"))
+        self.assertEqual({LLNotCont, LLC, LVU, LVF, LLVless, LLVlessStop}, cpa(u"ek"))
+        self.assertEqual({LLCont, LLC, LVU, LVF, LLVless}, cpa(u"eh"))
+        self.assertEqual({LLCont, LLC, LVU, LVF, LLNotVless}, cpa(u"elm"))
+        self.assertEqual({LLNotCont, LLC, LVU, LVF, LLVless, LLVlessStop}, cpa(u"elk"))
+        self.assertEqual({LLNotCont, LLV, LVU, LVB, LLNotVless}, cpa(u"elma"))
+        self.assertEqual({LLNotCont, LLV, LVR, LVB, LLNotVless}, cpa(u"elmo"))
 
     def test_should_match_application(self):
         self.assertTrue(am(u'elma', u'elma', True))

@@ -27,7 +27,7 @@ from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 from trnltk.parseset.xmlbindings import ParseSetBinding
 from trnltk.statistics.suffixtransitionstats import SuffixTransitionProbabilityGenerator
 
-dom = parse(os.path.join(os.path.dirname(__file__), 'morphology_contextless_statistics_sample_parseset.xml'))
+dom = parse(os.path.join(os.path.dirname(__file__), '../../morphology/contextful/likelihoodmetrics/wordformcollocation/test/morphology_contextless_statistics_sample_parseset.xml'))
 parseset = ParseSetBinding.build(dom.getElementsByTagName("parseset")[0])
 parse_set_word_list = []
 for sentence in parseset.sentences:

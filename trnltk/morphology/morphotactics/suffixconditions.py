@@ -48,7 +48,7 @@ class AndSpecification(Specification):
         return True
 
     def __str__(self):
-        return u' & '.join(repr(c) for c in self._specifications)
+        return u' & '.join([unicode(c) for c in self._specifications])
 
     def __repr__(self):
         return self.__str__()
@@ -65,7 +65,7 @@ class OrSpecification(Specification):
         return False
 
     def __str__(self):
-        return u' | '.join(repr(c) for c in self._specifications)
+        return u' | '.join([unicode(c) for c in self._specifications])
 
     def __repr__(self):
         return self.__str__()
@@ -78,7 +78,7 @@ class NotSpecification(Specification):
         return not self._wrapped.is_satisfied_by(obj)
 
     def __str__(self):
-        return u'~{}'.format(repr(self._wrapped))
+        return u'~{}'.format(unicode(self._wrapped))
 
     def __repr__(self):
         return self.__str__()

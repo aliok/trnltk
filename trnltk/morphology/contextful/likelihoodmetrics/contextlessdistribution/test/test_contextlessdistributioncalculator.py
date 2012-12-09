@@ -14,6 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from trnltk.morphology.contextful.likelihoodmetrics.contextlessdistribution.contextlessdistributionsmoother import SimpleGoodTuringContextlessDistributionSmoother, CachedContextlessDistributionSmoother
+
 """
 There is no verification -yet- in test of this class.
 The tests are there for making sure there is no run time exceptions
@@ -38,10 +40,9 @@ from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenera
 from trnltk.morphology.morphotactics.propernounsuffixgraph import ProperNounSuffixGraph
 from trnltk.morphology.contextful.likelihoodmetrics.wordformcollocation.contextparsingcalculator import query_logger
 
-class ContextlessDistributionCalculatorTest(unittest.TestCase):
+class BaseContextlessDistributionCalculatorTest(object):
     @classmethod
     def setUpClass(cls):
-        super(ContextlessDistributionCalculatorTest, cls).setUpClass()
         all_roots = []
 
         lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../../resources/master_dictionary.txt'))
@@ -69,20 +70,22 @@ class ContextlessDistributionCalculatorTest(unittest.TestCase):
 
         mongodb_connection = pymongo.Connection(host='127.0.0.1')
         collection_map = {
-            1: mongodb_connection['trnltk']['wordUnigrams999']
+            1: mongodb_connection['trnltk']['wordUnigrams{}'.format(cls.parseset_index)]
         }
 
         database_index_builder = DatabaseIndexBuilder(collection_map)
         target_form_given_context_counter = TargetFormGivenContextCounter(collection_map)
+        smoother = CachedContextlessDistributionSmoother()
+        smoother.initialize()
 
-        cls.calculator = ContextlessDistributionCalculator(database_index_builder, target_form_given_context_counter)
+        cls.calculator = ContextlessDistributionCalculator(database_index_builder, target_form_given_context_counter, smoother)
         cls.calculator.build_indexes()
 
     def setUp(self):
         logging.basicConfig(level=logging.INFO)
         query_logger.setLevel(logging.INFO)
 
-    def _test_calculate(self, surface, shouldnt_have_ambiguity=False, expected_likelihood_sum=1.0, expected_likelihood_for_one=None):
+    def _test_calculate(self, surface):
         results = self.contextless_parser.parse(surface)
 
         likelihoods = []
@@ -94,28 +97,10 @@ class ContextlessDistributionCalculatorTest(unittest.TestCase):
 
         pprint.pprint(likelihoods)
 
-        likelihood_sum = sum([t[1] for t in likelihoods])
-        assert likelihood_sum == 1 or likelihood_sum == 0
-        if not likelihood_sum:
-            print "likelihood_sum is 0!"
-
-        if expected_likelihood_sum is not None:
-            assert expected_likelihood_sum == likelihood_sum
-
-        non_zero_likelihoods = filter(lambda t: t[1] != 0, likelihoods)
-
-        if shouldnt_have_ambiguity and likelihood_sum != 0:
-            assert len(non_zero_likelihoods) == 1
-
-        if expected_likelihood_for_one is not None:
-            all([non_zero_likelihood == expected_likelihood_for_one for non_zero_likelihood in non_zero_likelihoods])
-
-        print '\n'
-
     def test_calculate_without_ambiguity(self):
-        self._test_calculate(u'masa', True)
-        self._test_calculate(u'kitap', True)
-        self._test_calculate(u'deri', True)
+        self._test_calculate(u'masa')
+        self._test_calculate(u'kitap')
+        self._test_calculate(u'deri')
 
     def test_calculate_with_ambiguity(self):
         self._test_calculate(u'onun')
@@ -123,10 +108,35 @@ class ContextlessDistributionCalculatorTest(unittest.TestCase):
         self._test_calculate(u'bir')
 
     def test_calculate_with_unparsable(self):
-        self._test_calculate(u'asdasd', expected_likelihood_sum=0.0)
+        self._test_calculate(u'asdasd')
 
     def test_calculate_with_non_existing(self):
-        self._test_calculate(u'gelircesine', expected_likelihood_sum=0.0)
+        self._test_calculate(u'gelircesine')
+
+class ContextlessDistributionCalculatorTestForParseSet001(unittest.TestCase, BaseContextlessDistributionCalculatorTest):
+    @classmethod
+    def setUpClass(cls):
+        BaseContextlessDistributionCalculatorTest.parseset_index = "001"
+        BaseContextlessDistributionCalculatorTest.setUpClass()
+
+    def test_calculate_with_unparsable(self):
+        super(ContextlessDistributionCalculatorTestForParseSet001, self).test_calculate_with_unparsable()
+
+    def test_calculate_with_ambiguity(self):
+        super(ContextlessDistributionCalculatorTestForParseSet001, self).test_calculate_with_ambiguity()
+
+    def test_calculate_without_ambiguity(self):
+        super(ContextlessDistributionCalculatorTestForParseSet001, self).test_calculate_without_ambiguity()
+
+    def test_calculate_with_non_existing(self):
+        super(ContextlessDistributionCalculatorTestForParseSet001, self).test_calculate_with_non_existing()
+
+
+class ContextlessDistributionCalculatorTestForParseSet999(unittest.TestCase, BaseContextlessDistributionCalculatorTest):
+    @classmethod
+    def setUpClass(cls):
+        BaseContextlessDistributionCalculatorTest.parseset_index = "999"
+        BaseContextlessDistributionCalculatorTest.setUpClass()
 
 
 if __name__ == '__main__':

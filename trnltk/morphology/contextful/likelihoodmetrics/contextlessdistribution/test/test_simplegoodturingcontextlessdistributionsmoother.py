@@ -38,9 +38,27 @@ class SimpleGoodTuringContextlessDistributionSmootherTestWithDatabase(unittest.T
         logger.setLevel(logging.DEBUG)
         sgt_logger.setLevel(logging.INFO)
 
-        self.unigram_collection = self.mongodb_connection['trnltk']['wordUnigrams999']
+    def test_smooth_for_parseset001(self):
+        self._test_smooth("001")
 
-    def test_smooth(self):
+    def test_smooth_for_parseset002(self):
+        self._test_smooth("002")
+
+    def test_smooth_for_parseset003(self):
+        self._test_smooth("003")
+
+    def test_smooth_for_parseset004(self):
+        self._test_smooth("004")
+
+    def test_smooth_for_parseset005(self):
+        self._test_smooth("005")
+
+    def test_smooth_for_parseset999(self):
+        self._test_smooth("999")
+
+    def _test_smooth(self, parseset_index):
+        self.unigram_collection = self.mongodb_connection['trnltk']['wordUnigrams{}'.format(parseset_index)]
+
         K = 5
 
         smoother = SimpleGoodTuringContextlessDistributionSmoother(K, self.unigram_collection)

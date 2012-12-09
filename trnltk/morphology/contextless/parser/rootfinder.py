@@ -20,10 +20,10 @@ from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticAttributes
 
 class RootFinder(object):
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
-        @type whole_surface: unicode
+        @type whole_surface: unicode or None
         @rtype: list of Root
         """
         raise NotImplementedError()
@@ -33,10 +33,10 @@ class WordRootFinder(RootFinder):
     def __init__(self, lexeme_map):
         self.lexeme_map = lexeme_map
 
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
-        @type whole_surface: unicode
+        @type whole_surface: unicode or None
         @rtype: list of Root
         """
         if self.lexeme_map.has_key(partial_input):
@@ -50,10 +50,10 @@ class TextNumeralRootFinder(RootFinder):
     def __init__(self, lexeme_map):
         self.lexeme_map = lexeme_map
 
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
-        @type whole_surface: unicode
+        @type whole_surface: unicode or None
         @rtype: list of Root
         """
         if self.lexeme_map.has_key(partial_input):
@@ -66,10 +66,10 @@ class TextNumeralRootFinder(RootFinder):
 class DigitNumeralRootFinder(RootFinder):
     NUMBER_REGEXES = [re.compile(u'^[-+]?\d+(,\d)?\d*$'), re.compile(u'^[-+]?(\d{1,3}\.)+\d{3}(,\d)?\d*$')]
 
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
-        @type whole_surface: unicode
+        @type whole_surface: unicode or None
         @rtype: list of Root
         """
         for regex in self.NUMBER_REGEXES:
@@ -82,10 +82,10 @@ class DigitNumeralRootFinder(RootFinder):
 class ProperNounFromApostropheRootFinder(RootFinder):
     APOSTROPHE = u"'"
 
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
-        @type whole_surface: unicode
+        @type whole_surface: unicode or None
         @rtype: list of Root
         """
         if partial_input.endswith(self.APOSTROPHE):
@@ -102,7 +102,7 @@ class ProperNounFromApostropheRootFinder(RootFinder):
 class ProperNounWithoutApostropheRootFinder(RootFinder):
     APOSTROPHE = u"'"
 
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
         @type whole_surface: unicode
@@ -128,7 +128,7 @@ class ProperNounWithoutApostropheRootFinder(RootFinder):
 
 
 class BruteForceNounRootFinder(RootFinder):
-    def find_roots_for_partial_input(self, partial_input, whole_surface):
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
         @type whole_surface: unicode

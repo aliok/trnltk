@@ -54,13 +54,13 @@ class ContextfulMorphologicalParserTest(unittest.TestCase):
     def test_calculate_with_parseset_002(self):
         self._test_calculate_with_parseset_n("002", 2, 2)
 
-    def test_calculate_with_parseset_003(self):
+    def test_calculate_with_parseset_003_SLOW(self):
         self._test_calculate_with_parseset_n("003", 2, 2)
 
-    def test_calculate_with_parseset_004(self):
+    def test_calculate_with_parseset_004_SLOW(self):
         self._test_calculate_with_parseset_n("004", 2, 2)
 
-    def test_calculate_with_parseset_005(self):
+    def test_calculate_with_parseset_005_SLOW(self):
         self._test_calculate_with_parseset_n("005", 2, 2)
 
     def test_calculate_with_parseset_999(self):
