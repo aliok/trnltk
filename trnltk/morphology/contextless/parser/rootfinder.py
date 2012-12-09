@@ -165,6 +165,20 @@ class BruteForceNounRootFinder(RootFinder):
         if last_char.isupper() or first_char_after_partial_input.isupper():
             return [no_orthographics_root]
 
+        roots = self._get_voicing_and_doubling_roots(partial_input, last_char, first_char_after_partial_input,
+            no_orthographics_root)
+
+        first_vowel_letter_after_partial_input = self._get_first_vowel(whole_surface[len(partial_input) - 1:])
+        if first_vowel_letter_after_partial_input:
+            if last_vowel.frontal != first_vowel_letter_after_partial_input.frontal:
+                for r in roots:
+                    r.lexeme.attributes = set(r.lexeme.attributes)
+                    r.lexeme.attributes.add(RootAttribute.InverseHarmony)
+
+        return roots
+
+    def _get_voicing_and_doubling_roots(self, partial_input, last_char, first_char_after_partial_input,
+                                        no_orthographics_root):
         last_letter = TurkishAlphabet.get_letter_for_char(last_char)
         first_letter_after_partial_input = TurkishAlphabet.get_letter_for_char(first_char_after_partial_input)
 
@@ -172,15 +186,22 @@ class BruteForceNounRootFinder(RootFinder):
         voicing_might_have_happened = last_letter in TurkishAlphabet.Inverse_Voicing_Map and first_letter_after_partial_input.vowel
         doubling_might_have_happened = len(partial_input) > 2 and\
                                        not last_letter.vowel and\
-                                       partial_input[-1] == partial_input[-2]
+                                       partial_input[-1] == partial_input[-2] and\
+                                       first_letter_after_partial_input.vowel
 
         if doubling_might_have_happened:
             if no_voicing_rule_applies:
-                pass
+                doubling_root = self._create_doubling_root(no_orthographics_root, last_char)
+                no_orthographics_root.lexeme.attributes = {RootAttribute.NoVoicing}
+                doubling_root.lexeme.attributes.add(RootAttribute.NoVoicing)
+                return [no_orthographics_root, doubling_root]
             elif voicing_might_have_happened:
-                pass
+                inverse_devoicing_roots = self._inverse_devoice_last_letter(no_orthographics_root, last_letter)
+                devoicing_doubling_roots = [self._create_doubling_root(r, r.lexeme.root[-1]) for r in inverse_devoicing_roots]
+                doubling_root = self._create_doubling_root(no_orthographics_root, last_char)
+                return [no_orthographics_root] + [doubling_root] + devoicing_doubling_roots
             else:
-                pass
+                return [no_orthographics_root] + [self._create_doubling_root(no_orthographics_root, last_char)]
         else:
             if no_voicing_rule_applies:
                 no_orthographics_root.lexeme.attributes = {RootAttribute.NoVoicing}
@@ -200,3 +221,20 @@ class BruteForceNounRootFinder(RootFinder):
             inverse_devoiced_roots.append(voicing_root)
 
         return inverse_devoiced_roots
+
+    def _create_doubling_root(self, no_orthographics_root, last_char):
+        doubling_root = no_orthographics_root._clone(True)
+        doubling_root.lexeme.root = doubling_root.lexeme.root[:-2] + last_char
+        doubling_root.lexeme.lemma = doubling_root.lexeme.root
+        doubling_root.lexeme.attributes = set(doubling_root.lexeme.attributes)
+        doubling_root.lexeme.attributes.add(RootAttribute.Doubling)
+        return doubling_root
+
+
+    def _get_first_vowel(self, seq):
+        for s in seq:
+            letter = TurkishAlphabet.get_letter_for_char(s)
+            if letter and letter.vowel:
+                return letter
+
+        return None
