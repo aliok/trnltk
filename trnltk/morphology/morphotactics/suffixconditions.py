@@ -207,9 +207,9 @@ class LastSuffixGoesToState(Specification):
 
 
 
-class HasRootAttributes(Specification):
-    def __init__(self, root_attrs):
-        self._root_attrs = root_attrs
+class HasLexemeAttributes(Specification):
+    def __init__(self, lexeme_attrs):
+        self._lexeme_attrs = lexeme_attrs
 
     def is_satisfied_by(self, morpheme_container):
         if not morpheme_container:
@@ -226,18 +226,18 @@ class HasRootAttributes(Specification):
         if not morpheme_container.get_root().lexeme.attributes:
             return False
 
-        return all(r in morpheme_container.get_root().lexeme.attributes for r in self._root_attrs)
+        return all(r in morpheme_container.get_root().lexeme.attributes for r in self._lexeme_attrs)
 
     def __str__(self):
-        return u'has_root_attributes({})'.format(self._root_attrs)
+        return u'has_lexeme_attributes({})'.format(self._lexeme_attrs)
 
     def __repr__(self):
         return self.__str__()
 
 
-class DoesntHaveRootAttributes(Specification):
-    def __init__(self, root_attrs):
-        self._root_attrs = root_attrs
+class DoesntHaveLexemeAttributes(Specification):
+    def __init__(self, lexeme_attrs):
+        self._lexeme_attrs = lexeme_attrs
 
     def is_satisfied_by(self, morpheme_container):
         if not morpheme_container:
@@ -254,10 +254,10 @@ class DoesntHaveRootAttributes(Specification):
         if not morpheme_container.get_root().lexeme.attributes:
             return True
 
-        return not any(r in morpheme_container.get_root().lexeme.attributes for r in self._root_attrs)
+        return not any(r in morpheme_container.get_root().lexeme.attributes for r in self._lexeme_attrs)
 
     def __str__(self):
-        return u'doesnt_have_root_attributes({})'.format(self._root_attrs)
+        return u'doesnt_have_lexeme_attributes({})'.format(self._lexeme_attrs)
 
     def __repr__(self):
         return self.__str__()
@@ -334,17 +334,17 @@ def applies_to_root(root_str):
 def root_has_secondary_syntactic_category(secondary_syntactic_category):
     return RootHasSecondarySyntacticCategory(secondary_syntactic_category)
 
-def has_root_attributes(root_attrs):
-    return HasRootAttributes(root_attrs)
+def has_lexeme_attributes(lexeme_attrs):
+    return HasLexemeAttributes(lexeme_attrs)
 
-def has_root_attribute(root_attr):
-    return has_root_attributes([root_attr])
+def has_lexeme_attribute(lexeme_attr):
+    return has_lexeme_attributes([lexeme_attr])
 
-def doesnt_have_root_attributes(root_attrs):
-    return DoesntHaveRootAttributes(root_attrs)
+def doesnt_have_lexeme_attributes(lexeme_attrs):
+    return DoesntHaveLexemeAttributes(lexeme_attrs)
 
-def doesnt_have_root_attribute(root_attr):
-    return doesnt_have_root_attributes([root_attr])
+def doesnt_have_lexeme_attribute(lexeme_attr):
+    return doesnt_have_lexeme_attributes([lexeme_attr])
 
 def comes_after_last_non_blank_derivation(suffix, form_str=None):
     return HasLastNonBlankDerivation(suffix, form_str)

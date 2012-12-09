@@ -15,7 +15,7 @@ limitations under the License.
 """
 import codecs
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.model.lexeme import Lexeme, SyntacticCategory, SecondarySyntacticCategory, RootAttribute
+from trnltk.morphology.model.lexeme import Lexeme, SyntacticCategory, SecondarySyntacticCategory, LexemeAttribute
 
 class LexiconLoader(object):
 
@@ -110,56 +110,56 @@ class LexiconLoader(object):
         last_letter = TurkishAlphabet.get_letter_for_char(item_root[-1])
 
         if lexeme.syntactic_category==SyntacticCategory.VERB:
-            if last_letter.vowel and RootAttribute.Passive_NotApplicable not in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.ProgressiveVowelDrop)
-                lexeme.attributes.append(RootAttribute.Passive_In)
+            if last_letter.vowel and LexemeAttribute.Passive_NotApplicable not in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.ProgressiveVowelDrop)
+                lexeme.attributes.append(LexemeAttribute.Passive_In)
 
-            if root_vowel_count>1 and RootAttribute.Aorist_A not in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.Aorist_I)
+            if root_vowel_count>1 and LexemeAttribute.Aorist_A not in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.Aorist_I)
 
-            if root_vowel_count==1 and RootAttribute.Aorist_I not in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.Aorist_A)
+            if root_vowel_count==1 and LexemeAttribute.Aorist_I not in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.Aorist_A)
 
-            if last_letter==TurkishAlphabet.L_l and RootAttribute.Passive_NotApplicable not in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.Passive_In)
+            if last_letter==TurkishAlphabet.L_l and LexemeAttribute.Passive_NotApplicable not in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.Passive_In)
 
-            if all(a not in lexeme.attributes for a in RootAttribute.CAUSATIVES):
+            if all(a not in lexeme.attributes for a in LexemeAttribute.CAUSATIVES):
                 if last_letter.vowel or (last_letter in [TurkishAlphabet.L_l, TurkishAlphabet.L_r]) and root_vowel_count>1:
-                    lexeme.attributes.append(RootAttribute.Causative_t)
+                    lexeme.attributes.append(LexemeAttribute.Causative_t)
                 elif last_letter==TurkishAlphabet.L_t and root_vowel_count<2:
-                    lexeme.attributes.append(RootAttribute.Causative_Ir)
+                    lexeme.attributes.append(LexemeAttribute.Causative_Ir)
                 else:
-                    lexeme.attributes.append(RootAttribute.Causative_dIr)
+                    lexeme.attributes.append(LexemeAttribute.Causative_dIr)
 
-            if RootAttribute.ProgressiveVowelDrop in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.NoVoicing)
+            if LexemeAttribute.ProgressiveVowelDrop in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.NoVoicing)
 
-            if RootAttribute.Voicing not in lexeme.attributes and RootAttribute.NoVoicing not in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.NoVoicing)
+            if LexemeAttribute.Voicing not in lexeme.attributes and LexemeAttribute.NoVoicing not in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.NoVoicing)
 
-        elif lexeme.syntactic_category==SyntacticCategory.NOUN and RootAttribute.CompoundP3sg in lexeme.attributes:
-            if RootAttribute.VoicingOpt in lexeme.attributes:
-                if RootAttribute.Voicing in lexeme.attributes:
-                    lexeme.attributes.remove(RootAttribute.Voicing)
-                if RootAttribute.NoVoicing in lexeme.attributes:
-                    lexeme.attributes.remove(RootAttribute.NoVoicing)
-            elif RootAttribute.Voicing not in lexeme.attributes:
-                lexeme.attributes.append(RootAttribute.NoVoicing)
+        elif lexeme.syntactic_category==SyntacticCategory.NOUN and LexemeAttribute.CompoundP3sg in lexeme.attributes:
+            if LexemeAttribute.VoicingOpt in lexeme.attributes:
+                if LexemeAttribute.Voicing in lexeme.attributes:
+                    lexeme.attributes.remove(LexemeAttribute.Voicing)
+                if LexemeAttribute.NoVoicing in lexeme.attributes:
+                    lexeme.attributes.remove(LexemeAttribute.NoVoicing)
+            elif LexemeAttribute.Voicing not in lexeme.attributes:
+                lexeme.attributes.append(LexemeAttribute.NoVoicing)
 
         elif lexeme.syntactic_category in [SyntacticCategory.NOUN, SyntacticCategory.ADJECTIVE]:
-            if RootAttribute.VoicingOpt in lexeme.attributes:
-                if RootAttribute.Voicing in lexeme.attributes:
-                    lexeme.attributes.remove(RootAttribute.Voicing)
-                if RootAttribute.NoVoicing in lexeme.attributes:
-                    lexeme.attributes.remove(RootAttribute.NoVoicing)
+            if LexemeAttribute.VoicingOpt in lexeme.attributes:
+                if LexemeAttribute.Voicing in lexeme.attributes:
+                    lexeme.attributes.remove(LexemeAttribute.Voicing)
+                if LexemeAttribute.NoVoicing in lexeme.attributes:
+                    lexeme.attributes.remove(LexemeAttribute.NoVoicing)
             else:
-                if root_vowel_count>1 and last_letter.voiceless and not last_letter.continuant and RootAttribute.NoVoicing not in lexeme.attributes \
-                and RootAttribute.InverseHarmony not in lexeme.attributes:
-                    lexeme.attributes.append(RootAttribute.Voicing)
+                if root_vowel_count>1 and last_letter.voiceless and not last_letter.continuant and LexemeAttribute.NoVoicing not in lexeme.attributes \
+                and LexemeAttribute.InverseHarmony not in lexeme.attributes:
+                    lexeme.attributes.append(LexemeAttribute.Voicing)
                 elif item_root.endswith('nk') or item_root.endswith('og') or item_root.endswith('rt'):
-                    lexeme.attributes.append(RootAttribute.Voicing)
-                elif RootAttribute.Voicing not in lexeme.attributes:
-                    lexeme.attributes.append(RootAttribute.NoVoicing)
+                    lexeme.attributes.append(LexemeAttribute.Voicing)
+                elif LexemeAttribute.Voicing not in lexeme.attributes:
+                    lexeme.attributes.append(LexemeAttribute.NoVoicing)
 
     @classmethod
     def _vowel_count(cls, seq):

@@ -17,7 +17,7 @@ from exceptions import Exception
 from trnltk.morphology.model import formatter
 import trnltk.morphology.model.formatter
 from trnltk.morphology.model.graphmodel import State
-from trnltk.morphology.model.lexeme import SyntacticCategory, RootAttribute
+from trnltk.morphology.model.lexeme import SyntacticCategory, LexemeAttribute
 from trnltk.morphology.model.morpheme import Transition
 from trnltk.morphology.model.root import NumeralRoot
 from trnltk.morphology.phonetics.phonetics import Phonetics
@@ -216,12 +216,12 @@ class MorphemeContainer(object):
 
         return None
 
-    def get_attributes(self):
+    def get_lexeme_attributes(self):
         if self._transitions and any(t.suffix_form_application.actual_suffix_form for t in self._transitions):
             #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
             if self.get_last_state().syntactic_category == SyntacticCategory.VERB and (
                 self.get_last_state().type == State.DERIVATIONAL or not self._transitions[-1].suffix_form_application.actual_suffix_form):
-                return [RootAttribute.NoVoicing]
+                return [LexemeAttribute.NoVoicing]
             else:
                 return None
         else:
@@ -233,7 +233,7 @@ class MorphemeContainer(object):
             if not suffix_so_far or suffix_so_far.isspace() or not suffix_so_far.isalnum():
                 return self._root.phonetic_attributes
             else:
-                return Phonetics.calculate_phonetic_attributes(self.get_surface_so_far(), self.get_attributes())
+                return Phonetics.calculate_phonetic_attributes(self.get_surface_so_far(), self.get_lexeme_attributes())
         else:
             return self._root.phonetic_attributes
 

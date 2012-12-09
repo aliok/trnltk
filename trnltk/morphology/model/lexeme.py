@@ -14,64 +14,63 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 class SyntacticCategory(object):
-    NOUN = "Noun"
-    ADJECTIVE = "Adj"
-    ADVERB = "Adv"
-    CONJUNCTION = "Conj"
-    INTERJECTION = "Interj"
-    VERB = "Verb"
-    PRONOUN = "Pron"
-    NUMERAL = "Num"
-    DETERMINER = "Det"
-    PARTICLE = "Part"
-    QUESTION = "Ques"
-    PUNCTUATION = "Punc"
+    NOUN = u"Noun"
+    ADJECTIVE = u"Adj"
+    ADVERB = u"Adv"
+    CONJUNCTION = u"Conj"
+    INTERJECTION = u"Interj"
+    VERB = u"Verb"
+    PRONOUN = u"Pron"
+    NUMERAL = u"Num"
+    DETERMINER = u"Det"
+    PARTICLE = u"Part"
+    QUESTION = u"Ques"
+    PUNCTUATION = u"Punc"
 
     ALL = sorted({NOUN, ADJECTIVE, ADVERB, CONJUNCTION, INTERJECTION, VERB, PRONOUN, NUMERAL, DETERMINER, PARTICLE, QUESTION, PUNCTUATION})
 
 class SecondarySyntacticCategory(object):
-    DUPLICATOR = "Dup"
-    POST_POSITIVE = "Postp"
-    QUESTION = "Ques"
-    DEMONSTRATIVE = "Demons"
-    REFLEXIVE = "Reflex"
-    PERSONAL = "Pers"
-    TIME = "Time"
-    PROPER_NOUN = "Prop"
-    ABBREVIATION = "Abbr"
+    DUPLICATOR = u"Dup"
+    POST_POSITIVE = u"Postp"
+    QUESTION = u"Ques"
+    DEMONSTRATIVE = u"Demons"
+    REFLEXIVE = u"Reflex"
+    PERSONAL = u"Pers"
+    TIME = u"Time"
+    PROPER_NOUN = u"Prop"
+    ABBREVIATION = u"Abbr"
 
-    CARD = "Card"
-    ORD = "Ord"
-    DIGITS = "Digits"
+    CARD = u"Card"
+    ORD = u"Ord"
+    DIGITS = u"Digits"
 
     ALL = sorted({DUPLICATOR, POST_POSITIVE, QUESTION, DEMONSTRATIVE, REFLEXIVE, PERSONAL, TIME, PROPER_NOUN, ABBREVIATION, CARD, ORD})
 
 #    NONE = "None"
 
-class RootAttribute(object):
-    Voicing = "Voicing"
-    VoicingOpt = "VoicingOpt"
-    NoVoicing = "NoVoicing"
-    InverseHarmony = "InverseHarmony"
-    LastVowelDrop = "LastVowelDrop"
-    Doubling = "Doubling"
-    RootChange = "RootChange"
-    NounConsInsert = "NounConsInsert"
-    NounConsInsert_n = "NounConsInsert_n"
-    NoQuote = "NoQuote"
-    Plural = "Plural"
-    ProgressiveVowelDrop = "ProgressiveVowelDrop"
-    Aorist_I = "Aorist_I"
-    Aorist_A = "Aorist_A"
-    NonTransitive = "NonTransitive"
-    Passive_In = "Passive_In"
-    Passive_InIl = "Passive_InIl"
-    Passive_NotApplicable = "Passive_NotApplicable"
-    CompoundP3sg = "CompoundP3sg"
-    Compound = "Compound"
-    Reflexive = "Reflexive"
-    Reciprocal = "Reciprocal"
-    NoSuffix = "NoSuffix"
+class LexemeAttribute(object):
+    Voicing = u"Voicing"
+    VoicingOpt = u"VoicingOpt"
+    NoVoicing = u"NoVoicing"
+    InverseHarmony = u"InverseHarmony"
+    LastVowelDrop = u"LastVowelDrop"
+    Doubling = u"Doubling"
+    RootChange = u"RootChange"
+    NounConsInsert = u"NounConsInsert"
+    NounConsInsert_n = u"NounConsInsert_n"
+    NoQuote = u"NoQuote"
+    Plural = u"Plural"
+    ProgressiveVowelDrop = u"ProgressiveVowelDrop"
+    Aorist_I = u"Aorist_I"
+    Aorist_A = u"Aorist_A"
+    NonTransitive = u"NonTransitive"
+    Passive_In = u"Passive_In"
+    Passive_InIl = u"Passive_InIl"
+    Passive_NotApplicable = u"Passive_NotApplicable"
+    CompoundP3sg = u"CompoundP3sg"
+    Reflexive = u"Reflexive"
+    Reciprocal = u"Reciprocal"
+    NoSuffix = u"NoSuffix"
 
     Causative_t = "Causative_t"
     Causative_Ir = "Causative_Ir"
@@ -82,7 +81,7 @@ class RootAttribute(object):
     ALL = sorted({
         Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, RootChange, NounConsInsert, NounConsInsert_n,
         NoQuote, Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, NonTransitive, Passive_In, Passive_InIl, Passive_NotApplicable,
-        CompoundP3sg, Compound, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, Reflexive, Reciprocal, NoSuffix
+        CompoundP3sg, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, Reflexive, Reciprocal, NoSuffix
     })
 
     CAUSATIVES = sorted({
@@ -92,6 +91,13 @@ class RootAttribute(object):
 class Lexeme(object):
     #TODO: make this and similar classes immutable
     def __init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes):
+        """
+        @type lemma: unicode
+        @type root: unicode
+        @type syntactic_category: unicode
+        @type secondary_syntactic_category: unicode or None
+        @type attributes: list of unicode
+        """
         self.lemma = lemma
         self.root = root
         self.syntactic_category = syntactic_category

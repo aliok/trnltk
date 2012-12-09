@@ -17,9 +17,9 @@ limitations under the License.
 import unittest
 from hamcrest import *
 from mock import Mock
-from trnltk.morphology.model.lexeme import RootAttribute
+from trnltk.morphology.model.lexeme import LexemeAttribute
 from trnltk.morphology.contextless.parser.parser import SuffixFormApplication
-from trnltk.morphology.morphotactics.suffixconditions import comes_after, has_root_attributes
+from trnltk.morphology.morphotactics.suffixconditions import comes_after, has_lexeme_attributes
 from trnltk.morphology.morphotactics.basicsuffixgraph import Suffix
 from trnltk.morphology.model.morpheme import SuffixForm, Transition
 
@@ -92,24 +92,24 @@ class SuffixConditionsTest(unittest.TestCase):
         self.assert_suffixes_matches    ( comes_after(s1, f11), [(s1, f11), (s1, f12)])
         self.assert_suffixes_matches    (~comes_after(s2, f21), [(s1, f11), (s1, f12)])
 
-    def test_requires_root_attributes(self):
-        C_T = RootAttribute.Causative_t
-        C_AR = RootAttribute.Causative_Ar
+    def test_requires_lexeme_attributes(self):
+        C_T = LexemeAttribute.Causative_t
+        C_AR = LexemeAttribute.Causative_Ar
 
-        self.assert_root_attr_matches_not(has_root_attributes([C_T]), None)
-        self.assert_root_attr_matches_not(has_root_attributes([C_T]), [])
-        self.assert_root_attr_matches_not(has_root_attributes([C_T]), [C_AR])
-        self.assert_root_attr_matches    (has_root_attributes([C_T]), [C_T])
-        self.assert_root_attr_matches    (has_root_attributes([C_T]), [C_T, C_AR])
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T]), None)
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T]), [])
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T]), [C_AR])
+        self.assert_lexeme_attr_matches    (has_lexeme_attributes([C_T]), [C_T])
+        self.assert_lexeme_attr_matches    (has_lexeme_attributes([C_T]), [C_T, C_AR])
 
-        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), None)
-        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), [])
-        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), [C_AR])
-        self.assert_root_attr_matches_not(has_root_attributes([C_T, C_AR]), [C_T])
-        self.assert_root_attr_matches    (has_root_attributes([C_T, C_AR]), [C_T, C_AR])
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T, C_AR]), None)
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T, C_AR]), [])
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T, C_AR]), [C_AR])
+        self.assert_lexeme_attr_matches_not(has_lexeme_attributes([C_T, C_AR]), [C_T])
+        self.assert_lexeme_attr_matches    (has_lexeme_attributes([C_T, C_AR]), [C_T, C_AR])
 
-        self.assert_root_attr_matches    (~has_root_attributes([C_T, C_AR]), [C_T])
-        self.assert_root_attr_matches_not(~has_root_attributes([C_T, C_AR]), [C_T, C_AR])
+        self.assert_lexeme_attr_matches    (~has_lexeme_attributes([C_T, C_AR]), [C_T])
+        self.assert_lexeme_attr_matches_not(~has_lexeme_attributes([C_T, C_AR]), [C_T, C_AR])
 
 
     def assert_suffixes_matches(self, condition, suffix_form_tuples):
@@ -143,13 +143,13 @@ class SuffixConditionsTest(unittest.TestCase):
         assert_that(condition.is_satisfied_by(mock), equal_to(val))
 
 
-    def assert_root_attr_matches(self, condition, attrs):
-        self.do_assert_root_attr_matches(condition, attrs, True)
+    def assert_lexeme_attr_matches(self, condition, attrs):
+        self.do_assert_lexeme_attr_matches(condition, attrs, True)
 
-    def assert_root_attr_matches_not(self, condition, attrs):
-        self.do_assert_root_attr_matches(condition, attrs, False)
+    def assert_lexeme_attr_matches_not(self, condition, attrs):
+        self.do_assert_lexeme_attr_matches(condition, attrs, False)
 
-    def do_assert_root_attr_matches(self, condition, attrs, val):
+    def do_assert_lexeme_attr_matches(self, condition, attrs, val):
         morpheme_container = Mock()
         root = Mock()
         lexeme = Mock()

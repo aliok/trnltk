@@ -16,7 +16,7 @@ limitations under the License.
 """
 import logging
 from trnltk.morphology.model import formatter
-from trnltk.morphology.model.lexeme import  SyntacticCategory, RootAttribute
+from trnltk.morphology.model.lexeme import  SyntacticCategory, LexemeAttribute
 from trnltk.morphology.contextless.parser.suffixapplier import *
 from trnltk.morphology.model.morphemecontainer import MorphemeContainer
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
@@ -158,7 +158,7 @@ class ContextlessMorphologicalParser(object):
         new_candidates = []
         for candidate in candidates:
             if candidate.get_root().lexeme.syntactic_category==SyntacticCategory.VERB:
-                if RootAttribute.ProgressiveVowelDrop in candidate.get_root().lexeme.attributes and len(candidate.get_root().str)==len(candidate.get_root().lexeme.root)-1:
+                if LexemeAttribute.ProgressiveVowelDrop in candidate.get_root().lexeme.attributes and len(candidate.get_root().str)==len(candidate.get_root().lexeme.root)-1:
                     # apply Positive + Progressive 'Iyor'
                     Positive = self._suffix_graph.get_suffix(u'Pos')
                     Progressive = self._suffix_graph.get_suffix(u'Prog')

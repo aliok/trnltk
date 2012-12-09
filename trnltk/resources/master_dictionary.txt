@@ -873,17 +873,17 @@ altı [P:Num, Card]
 altıgen
 altıgen [P:Adj]
 altık
-altıkardeş [A:Compound]
+altıkardeş
 altılı
 altın
 altın [P:Adj]
 altınbaş
 altıncı [P:Num, Ord]
-altınoluk [A:Compound]
-altıntop [A:NoVoicing, Compound]
+altınoluk
+altıntop [A:NoVoicing]
 altıparmak [P:Noun]
-altıpas [A:Compound]
-altıpatlar [A:Compound]
+altıpas
+altıpatlar
 altışar [P:Adj]
 altız [P:Adj]
 altimetre
@@ -1007,7 +1007,7 @@ ampütasyon
 amudi [P:Adj]
 amudufıkari
 amut
-amyant [A:Compound]
+amyant
 an [P:Noun, Time]
 an [P:Adv, Time]
 ana
@@ -9387,7 +9387,7 @@ hacı
 hacıağa
 hacılarkuşağı
 hacılaryolu [A:CompoundP3sg; R:hacılaryol]
-hacıyatmaz [A:Compound]
+hacıyatmaz
 hacim [A:LastVowelDrop]
 hacir [A:LastVowelDrop]
 haciz [A:LastVowelDrop]
@@ -13530,7 +13530,7 @@ koca
 koca [P:Adj]
 kocabaş
 kocabaşı [A:CompoundP3sg; R:kocabaş]
-kocakarı [A:Compound]
+kocakarı
 kocalak
 kocalmak
 kocamak
@@ -17918,7 +17918,7 @@ ondüle
 onejit
 ongen
 ongun
-onikiparmak [P:Noun; A:Compound]
+onikiparmak [P:Noun]
 oniks
 onkoloji
 onkolojik [P:Adj]
@@ -20435,7 +20435,7 @@ sarıhani
 sarık
 sarıkanat
 sarıkız
-sarıkuyruk [A:Compound]
+sarıkuyruk
 sarılgan [P:Adj]
 sarılık
 sarılışmak

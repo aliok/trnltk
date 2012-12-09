@@ -16,7 +16,7 @@ limitations under the License.
 """
 import unittest
 from hamcrest import *
-from trnltk.morphology.model.lexeme import SyntacticCategory, RootAttribute
+from trnltk.morphology.model.lexeme import SyntacticCategory, LexemeAttribute
 from trnltk.morphology.contextless.parser.rootfinder import BruteForceNounRootFinder
 
 class BruteForceNounRootFinderTest(unittest.TestCase):
@@ -161,7 +161,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ap'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ap'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"at", u"atana")
         assert_that(roots, has_length(1))
@@ -169,7 +169,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'at'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'at'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"ak", u"aka")
         assert_that(roots, has_length(1))
@@ -177,7 +177,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ak'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ak'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"aç", u"açarak")
         assert_that(roots, has_length(1))
@@ -185,7 +185,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'aç'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'aç'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing}))
 
     def test_should_create_roots_with_inverse_harmony_when_vowel_is_next_letter(self):
         roots = self.root_finder.find_roots_for_partial_input(u"ab", u"abe")
@@ -194,12 +194,12 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ab'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ab'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
         assert_that(roots[1].str, equal_to(u'ab'))
         assert_that(roots[1].lexeme.root, equal_to(u'ap'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'ap'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[1].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"hal", u"halimden")
         assert_that(roots, has_length(1))
@@ -207,7 +207,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'hal'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'hal'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"oy", u"oyümü")
         assert_that(roots, has_length(1))
@@ -215,7 +215,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'oy'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'oy'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"yup", u"yupö")
         assert_that(roots, has_length(1))
@@ -223,7 +223,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'yup'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'yup'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony, RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing}))
 
     def test_should_create_roots_with_inverse_harmony_when_vowel_is_the_letter_after_next_letter(self):
         roots = self.root_finder.find_roots_for_partial_input(u"ab", u"abdeki")
@@ -232,7 +232,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ab'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ab'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"hal", u"haldik")
         assert_that(roots, has_length(1))
@@ -240,7 +240,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'hal'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'hal'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"oy", u"oypü")
         assert_that(roots, has_length(1))
@@ -248,7 +248,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'oy'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'oy'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"yup", u"yupsö")
         assert_that(roots, has_length(1))
@@ -256,7 +256,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'yup'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'yup'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
     def test_should_create_roots_with_inverse_harmony_when_vowel_is_the_letter_two_after_next_letter(self):
         ## the ones below doesn't make sense, since no suffix can have the form
@@ -269,7 +269,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ab'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ab'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"hal", u"haltdi")
         assert_that(roots, has_length(1))
@@ -277,7 +277,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'hal'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'hal'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"oy", u"oykpüxyz")
         assert_that(roots, has_length(1))
@@ -285,7 +285,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'oy'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'oy'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"yup", u"yuzfsö")
         assert_that(roots, has_length(1))
@@ -293,7 +293,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'yup'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'yup'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
     def test_should_create_roots_with_inverse_harmony_and_explicit_no_voicing(self):
         roots = self.root_finder.find_roots_for_partial_input(u"ap", u"ape")
@@ -302,7 +302,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ap'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ap'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony, RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"yot", u"yotüne")
         assert_that(roots, has_length(1))
@@ -310,7 +310,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'yot'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'yot'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony, RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"ak", u"akimi")
         assert_that(roots, has_length(1))
@@ -318,7 +318,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'ak'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ak'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony, RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"kuç", u"kuçö")
         assert_that(roots, has_length(1))
@@ -326,7 +326,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'kuç'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'kuç'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony, RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing}))
 
 
     def test_should_create_roots_with_doubling(self):
@@ -342,7 +342,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[1].lexeme.root, equal_to(u'his'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'his'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[1].lexeme.attributes, equal_to({RootAttribute.Doubling}))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Doubling}))
 
         # doubling with Voicing and NoVoicing
         roots = self.root_finder.find_roots_for_partial_input(u"tıbb", u"tıbbın")
@@ -356,12 +356,12 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[1].lexeme.root, equal_to(u'tıb'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'tıb'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[1].lexeme.attributes, equal_to({RootAttribute.Doubling}))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Doubling}))
         assert_that(roots[2].str, equal_to(u'tıbb'))
         assert_that(roots[2].lexeme.root, equal_to(u'tıp'))
         assert_that(roots[2].lexeme.lemma, equal_to(u'tıp'))
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[2].lexeme.attributes, equal_to({RootAttribute.Doubling}))
+        assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Doubling}))
 
         # doubling with NoVoicing
         roots = self.root_finder.find_roots_for_partial_input(u"hakk", u"hakka")
@@ -370,12 +370,12 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'hakk'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'hakk'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.NoVoicing}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing}))
         assert_that(roots[1].str, equal_to(u'hakk'))
         assert_that(roots[1].lexeme.root, equal_to(u'hak'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'hak'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[1].lexeme.attributes, equal_to({RootAttribute.NoVoicing, RootAttribute.Doubling}))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.Doubling}))
 
         # doubling with no {Voicing and NoVoicing} and InverseHarmony
         roots = self.root_finder.find_roots_for_partial_input(u"hall", u"hallini")
@@ -384,12 +384,12 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'hall'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'hall'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
         assert_that(roots[1].str, equal_to(u'hall'))
         assert_that(roots[1].lexeme.root, equal_to(u'hal'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'hal'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[1].lexeme.attributes, equal_to({RootAttribute.Doubling, RootAttribute.InverseHarmony}))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony}))
 
         # doubling with {Voicing and NoVoicing} and {InverseHarmony}
         # ignore the case "serhadt"
@@ -399,17 +399,17 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.root, equal_to(u'serhadd'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'serhadd'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[0].lexeme.attributes, equal_to({RootAttribute.InverseHarmony}))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
         assert_that(roots[1].str, equal_to(u'serhadd'))
         assert_that(roots[1].lexeme.root, equal_to(u'serhad'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'serhad'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[1].lexeme.attributes, equal_to({RootAttribute.Doubling, RootAttribute.InverseHarmony}))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony}))
         assert_that(roots[2].str, equal_to(u'serhadd'))
         assert_that(roots[2].lexeme.root, equal_to(u'serhat'))
         assert_that(roots[2].lexeme.lemma, equal_to(u'serhat'))
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-        assert_that(roots[2].lexeme.attributes, equal_to({RootAttribute.Doubling, RootAttribute.InverseHarmony}))
+        assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony}))
 
 
 

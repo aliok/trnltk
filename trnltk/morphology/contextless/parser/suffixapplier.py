@@ -60,11 +60,11 @@ def try_suffix_form(morpheme_container, suffix_form, to_state, word):
         return None
 
     so_far = morpheme_container.get_surface_so_far()
-    morpheme_container_root_attributes = morpheme_container.get_attributes()
+    morpheme_container_lexeme_attributes = morpheme_container.get_lexeme_attributes()
 
     morpheme_container_phonetic_attributes = morpheme_container.get_phonetic_attributes()
 
-    modified_word, fitting_suffix_form = Phonetics.apply(so_far, morpheme_container_phonetic_attributes, suffix_form.form, morpheme_container_root_attributes)
+    modified_word, fitting_suffix_form = Phonetics.apply(so_far, morpheme_container_phonetic_attributes, suffix_form.form, morpheme_container_lexeme_attributes)
     applied_str =  modified_word + fitting_suffix_form
     if Phonetics.application_matches(word, applied_str, to_state.name!='VERB_ROOT'):
         actual_suffix_form_str = word[len(so_far):len(applied_str)]

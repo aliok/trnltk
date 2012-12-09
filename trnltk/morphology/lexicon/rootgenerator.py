@@ -15,19 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory
+from trnltk.morphology.model.lexeme import LexemeAttribute, SyntacticCategory
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 from trnltk.morphology.model.root import Root
 
 class RootGenerator(object):
     _modifiers = {
-        RootAttribute.Doubling,
-        RootAttribute.LastVowelDrop,
-        RootAttribute.ProgressiveVowelDrop,
-        RootAttribute.InverseHarmony,
-        RootAttribute.Voicing,
-        RootAttribute.VoicingOpt,
-        RootAttribute.RootChange
+        LexemeAttribute.Doubling,
+        LexemeAttribute.LastVowelDrop,
+        LexemeAttribute.ProgressiveVowelDrop,
+        LexemeAttribute.InverseHarmony,
+        LexemeAttribute.Voicing,
+        LexemeAttribute.VoicingOpt,
+        LexemeAttribute.RootChange
     }
 
     @classmethod
@@ -45,7 +45,7 @@ class RootGenerator(object):
 
     @classmethod
     def _generate_modified_root_nodes(cls, lexeme):
-        if RootAttribute.RootChange in lexeme.attributes:
+        if LexemeAttribute.RootChange in lexeme.attributes:
             special_roots = cls._handle_special_roots(lexeme)
             if special_roots:
                 return special_roots
@@ -57,7 +57,7 @@ class RootGenerator(object):
         original_phonetic_expectations = set()
         modified_phonetic_expectations = set()
 
-        if RootAttribute.Voicing in lexeme.attributes or RootAttribute.VoicingOpt in lexeme.attributes:
+        if LexemeAttribute.Voicing in lexeme.attributes or LexemeAttribute.VoicingOpt in lexeme.attributes:
             last_letter = TurkishAlphabet.get_letter_for_char(modified_seq[-1])
             modified_letter = TurkishAlphabet.voice(last_letter)
             assert modified_letter is not None
@@ -66,22 +66,22 @@ class RootGenerator(object):
             modified_seq = modified_seq[:-1] + modified_letter.char_value
             if PhoneticAttributes.LastLetterVoicelessStop in modified_attributes:
                 modified_attributes.remove(PhoneticAttributes.LastLetterVoicelessStop)
-            if RootAttribute.VoicingOpt not in lexeme.attributes:
+            if LexemeAttribute.VoicingOpt not in lexeme.attributes:
                 original_phonetic_expectations.add(PhoneticExpectation.ConsonantStart)
             modified_phonetic_expectations.add(PhoneticExpectation.VowelStart)
 
-        if RootAttribute.Doubling in lexeme.attributes:
+        if LexemeAttribute.Doubling in lexeme.attributes:
             modified_seq = modified_seq + modified_seq[-1]
             original_phonetic_expectations.add(PhoneticExpectation.ConsonantStart)
             modified_phonetic_expectations.add(PhoneticExpectation.VowelStart)
 
-        if RootAttribute.LastVowelDrop in lexeme.attributes:
+        if LexemeAttribute.LastVowelDrop in lexeme.attributes:
             modified_seq = modified_seq[:-2] + modified_seq[-1]
             if lexeme.syntactic_category!=SyntacticCategory.VERB:
                 original_phonetic_expectations.add(PhoneticExpectation.ConsonantStart)
             modified_phonetic_expectations.add(PhoneticExpectation.VowelStart)
 
-        if RootAttribute.InverseHarmony in lexeme.attributes:
+        if LexemeAttribute.InverseHarmony in lexeme.attributes:
             original_attributes.add(PhoneticAttributes.LastVowelFrontal)
             if PhoneticAttributes.LastVowelBack in original_attributes:
                 original_attributes.remove(PhoneticAttributes.LastVowelBack)
@@ -89,7 +89,7 @@ class RootGenerator(object):
             if PhoneticAttributes.LastVowelBack in modified_attributes:
                 modified_attributes.remove(PhoneticAttributes.LastVowelBack)
 
-        if RootAttribute.ProgressiveVowelDrop in lexeme.attributes:
+        if LexemeAttribute.ProgressiveVowelDrop in lexeme.attributes:
             modified_seq = modified_seq[:-1]
             if RootGenerator._has_vowel(modified_seq):
                 modified_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(modified_seq)
@@ -109,7 +109,7 @@ class RootGenerator(object):
 
     @classmethod
     def _handle_special_roots(cls, lexeme):
-        lexeme.attributes.remove(RootAttribute.RootChange)
+        lexeme.attributes.remove(LexemeAttribute.RootChange)
 
         if lexeme.lemma==u'ben':
             root_ben = Root(u'ben', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))

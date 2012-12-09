@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
-from trnltk.morphology.model.lexeme import RootAttribute
+from trnltk.morphology.model.lexeme import LexemeAttribute
 
 class PhoneticExpectation(object):
     VowelStart = 'VowelStart'
@@ -97,7 +97,7 @@ class Phonetics(object):
                 return True
 
     @classmethod
-    def apply(cls, word, phonetic_attributes, form_str, root_attributes=None):
+    def apply(cls, word, phonetic_attributes, form_str, lexeme_attributes=None):
         """
         Applies a suffix form to a word, considering the phonetics and root attributes given.
         @param word: Surface
@@ -106,8 +106,8 @@ class Phonetics(object):
         @type phonetic_attributes: list
         @param form_str: Suffix form
         @type form_str: unicode
-        @param root_attributes: Provided root attributes of the root of surface
-        @type root_attributes: list
+        @param lexeme_attributes: Provided lexeme attributes of the root of surface
+        @type lexeme_attributes: list
         @return: Tuple (word, applied suffix form)
         @rtype: tuple
         """
@@ -128,32 +128,32 @@ class Phonetics(object):
                 #+iyor, +ar, +im
                 if PhoneticAttributes.LastLetterVowel in phonetic_attributes:
                     # ata, dana
-                    return cls.apply(word, phonetic_attributes, form_str[2:], root_attributes)
+                    return cls.apply(word, phonetic_attributes, form_str[2:], lexeme_attributes)
                 else:
                     # yap, kitap
-                    return cls._handle_phonetics(word, phonetic_attributes, form_str[1:], root_attributes)
+                    return cls._handle_phonetics(word, phonetic_attributes, form_str[1:], lexeme_attributes)
 
             else:
                 # +yacak, +yi, +yla
                 if PhoneticAttributes.LastLetterVowel in phonetic_attributes:
                     #ata, dana
-                    return cls._handle_phonetics(word, phonetic_attributes, form_str[1:], root_attributes)
+                    return cls._handle_phonetics(word, phonetic_attributes, form_str[1:], lexeme_attributes)
                 else:
                     # yap, kitap
-                    return cls.apply(word, phonetic_attributes, form_str[2:], root_attributes)
+                    return cls.apply(word, phonetic_attributes, form_str[2:], lexeme_attributes)
 
         else:
-            return cls._handle_phonetics(word, phonetic_attributes, form_str, root_attributes)
+            return cls._handle_phonetics(word, phonetic_attributes, form_str, lexeme_attributes)
 
     @classmethod
-    def _handle_phonetics(cls, word, phonetic_attributes, form_str, root_attributes=None):
-        root_attributes = root_attributes or []
+    def _handle_phonetics(cls, word, phonetic_attributes, form_str, lexeme_attributes=None):
+        lexeme_attributes = lexeme_attributes or []
         phonetic_attributes = phonetic_attributes or []
 
         first_letter_of_form = TurkishAlphabet.get_letter_for_char(form_str[0])
 
         # first apply voicing if possible
-        if RootAttribute.NoVoicing not in root_attributes and PhoneticAttributes.LastLetterVoicelessStop in phonetic_attributes and first_letter_of_form.vowel:
+        if LexemeAttribute.NoVoicing not in lexeme_attributes and PhoneticAttributes.LastLetterVoicelessStop in phonetic_attributes and first_letter_of_form.vowel:
             voiced_letter = TurkishAlphabet.voice(TurkishAlphabet.get_letter_for_char(word[-1]))
             if voiced_letter:
                 word = word[:-1] + voiced_letter.char_value
@@ -247,16 +247,16 @@ class Phonetics(object):
             raise Exception('Unknown phonetic_expectation', phonetic_expectation)
 
     @classmethod
-    def calculate_phonetic_attributes(cls, word, root_attributes):
+    def calculate_phonetic_attributes(cls, word, lexeme_attributes):
         """
         Calculates the phonetic attributes of a word, considering the root attributes of it.
         @type word: unicode
-        @type root_attributes: list
+        @type lexeme_attributes: list
         @rtype: set
         """
 
         phonetic_attributes = cls.calculate_phonetic_attributes_of_plain_sequence(word)
-        if root_attributes and RootAttribute.InverseHarmony in root_attributes:
+        if lexeme_attributes and LexemeAttribute.InverseHarmony in lexeme_attributes:
             if PhoneticAttributes.LastVowelBack in phonetic_attributes:
                 phonetic_attributes.remove(PhoneticAttributes.LastVowelBack)
                 phonetic_attributes.add(PhoneticAttributes.LastVowelFrontal)
@@ -322,13 +322,13 @@ class Phonetics(object):
         """
         Checks if a suffix applied word is matched by a surface.
 
-            >>> application_matches('armudunu', 'armut', True)
+            >>> Phonetics.application_matches(u'armudunu', u'armut', True)
             True
-            >>> application_matches('armudunu', 'armut', False)
+            >>> Phonetics.application_matches(u'armudunu', u'armut', False)
             False
-            >>> application_matches('armudunu', 'armudu', True)
+            >>> Phonetics.application_matches(u'armudunu', u'armudu', True)
             True
-            >>> application_matches('armudunu', 'armudu', False)
+            >>> Phonetics.application_matches(u'armudunu', u'armudu', False)
             True
 
         @param word: The full word (surface)

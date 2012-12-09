@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import re
-from trnltk.morphology.model.lexeme import SyntacticCategory, DynamicLexeme, RootAttribute
+from trnltk.morphology.model.lexeme import SyntacticCategory, DynamicLexeme, LexemeAttribute
 from trnltk.morphology.model.root import NumeralRoot, AbbreviationRoot, ProperNounRoot, DynamicRoot
 from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticAttributes
@@ -142,10 +142,10 @@ class BruteForceNounRootFinder(RootFinder):
         lemma_root = lemma
         syntactic_category = SyntacticCategory.NOUN
         secondary_syntactic_category = None
-        lexeme_root_attributes = set()
+        lexeme_attributes = set()
 
         lexeme = DynamicLexeme(lemma, lemma_root, syntactic_category, secondary_syntactic_category,
-            lexeme_root_attributes)
+            lexeme_attributes)
 
         phonetic_expectations = set()
         phonetic_attributes = set()
@@ -173,7 +173,7 @@ class BruteForceNounRootFinder(RootFinder):
             if last_vowel.frontal != first_vowel_letter_after_partial_input.frontal:
                 for r in roots:
                     r.lexeme.attributes = set(r.lexeme.attributes)
-                    r.lexeme.attributes.add(RootAttribute.InverseHarmony)
+                    r.lexeme.attributes.add(LexemeAttribute.InverseHarmony)
 
         return roots
 
@@ -192,8 +192,8 @@ class BruteForceNounRootFinder(RootFinder):
         if doubling_might_have_happened:
             if no_voicing_rule_applies:
                 doubling_root = self._create_doubling_root(no_orthographics_root, last_char)
-                no_orthographics_root.lexeme.attributes = {RootAttribute.NoVoicing}
-                doubling_root.lexeme.attributes.add(RootAttribute.NoVoicing)
+                no_orthographics_root.lexeme.attributes = {LexemeAttribute.NoVoicing}
+                doubling_root.lexeme.attributes.add(LexemeAttribute.NoVoicing)
                 return [no_orthographics_root, doubling_root]
             elif voicing_might_have_happened:
                 inverse_devoicing_roots = self._inverse_devoice_last_letter(no_orthographics_root, last_letter)
@@ -204,7 +204,7 @@ class BruteForceNounRootFinder(RootFinder):
                 return [no_orthographics_root] + [self._create_doubling_root(no_orthographics_root, last_char)]
         else:
             if no_voicing_rule_applies:
-                no_orthographics_root.lexeme.attributes = {RootAttribute.NoVoicing}
+                no_orthographics_root.lexeme.attributes = {LexemeAttribute.NoVoicing}
                 return [no_orthographics_root]
             elif voicing_might_have_happened:
                 return [no_orthographics_root] + self._inverse_devoice_last_letter(no_orthographics_root, last_letter)
@@ -227,7 +227,7 @@ class BruteForceNounRootFinder(RootFinder):
         doubling_root.lexeme.root = doubling_root.lexeme.root[:-2] + last_char
         doubling_root.lexeme.lemma = doubling_root.lexeme.root
         doubling_root.lexeme.attributes = set(doubling_root.lexeme.attributes)
-        doubling_root.lexeme.attributes.add(RootAttribute.Doubling)
+        doubling_root.lexeme.attributes.add(LexemeAttribute.Doubling)
         return doubling_root
 
 

@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from trnltk.morphology.model.graphmodel import State
-from trnltk.morphology.model.lexeme import RootAttribute, SyntacticCategory, SecondarySyntacticCategory
-from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_root_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_root_attribute, root_has_secondary_syntactic_category, comes_after_derivation, comes_after_last_non_blank_derivation
+from trnltk.morphology.model.lexeme import LexemeAttribute, SyntacticCategory, SecondarySyntacticCategory
+from trnltk.morphology.morphotactics.suffixconditions import comes_after, followed_by, applies_to_root, doesnt_come_after, doesnt, followed_by_suffix_goes_to, has_lexeme_attribute, doesnt_come_after_derivation, followed_by_derivation, followed_by_one_from_group, doesnt_have_lexeme_attribute, root_has_secondary_syntactic_category, comes_after_derivation, comes_after_last_non_blank_derivation
 from trnltk.morphology.model.morpheme import *
 from trnltk.morphology.morphotactics.suffixgraph import  SuffixGraphDecorator, EmptySuffixGraph
 
@@ -94,7 +94,7 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         @rtype: State
         """
         if not root.lexeme.syntactic_category or root.lexeme.syntactic_category==SyntacticCategory.NOUN:
-            if RootAttribute.CompoundP3sg in root.lexeme.attributes:
+            if LexemeAttribute.CompoundP3sg in root.lexeme.attributes:
                 return self.NOUN_COMPOUND_ROOT
             else:
                 return self.NOUN_ROOT
@@ -594,7 +594,7 @@ class BasicSuffixGraph(SuffixGraphDecorator):
     def _register_verb_tenses(self):
         followed_by_A1Sg_A1Pl = followed_by(self.A1Sg_Verb, u'+Im') | followed_by(self.A1Pl_Verb, u'yIz')
 
-        self.Aorist.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I) & doesnt_come_after(self.Negative))
+        self.Aorist.add_suffix_form(u"+Ir", has_lexeme_attribute(LexemeAttribute.Aorist_I) & doesnt_come_after(self.Negative))
         self.Aorist.add_suffix_form(u"+Ar", doesnt_come_after(self.Negative))
         self.Aorist.add_suffix_form(u"z", comes_after(self.Negative), doesnt(followed_by_A1Sg_A1Pl))    # gel-me-z or gel-me-z-sin
         self.Aorist.add_suffix_form(u"", comes_after(self.Negative), followed_by_A1Sg_A1Pl)     # gel-me-m or gel-me-yiz
@@ -689,22 +689,22 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Hastily, self.VERB_ROOT)
         self.Hastily.add_suffix_form(u"+yIver")
 
-        root_can_have_passive = doesnt_have_root_attribute(RootAttribute.Passive_NotApplicable)
-        passive_Il = doesnt_have_root_attribute(RootAttribute.Passive_In) & doesnt_have_root_attribute(RootAttribute.Passive_InIl)
+        root_can_have_passive = doesnt_have_lexeme_attribute(LexemeAttribute.Passive_NotApplicable)
+        passive_Il = doesnt_have_lexeme_attribute(LexemeAttribute.Passive_In) & doesnt_have_lexeme_attribute(LexemeAttribute.Passive_InIl)
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
-        self.Pass.add_suffix_form(u"+In", root_can_have_passive & has_root_attribute(RootAttribute.Passive_In))
+        self.Pass.add_suffix_form(u"+In", root_can_have_passive & has_lexeme_attribute(LexemeAttribute.Passive_In))
         self.Pass.add_suffix_form(u"+nIl", root_can_have_passive & passive_Il)
-        self.Pass.add_suffix_form(u"+InIl", root_can_have_passive & has_root_attribute(RootAttribute.Passive_InIl))
+        self.Pass.add_suffix_form(u"+InIl", root_can_have_passive & has_lexeme_attribute(LexemeAttribute.Passive_InIl))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)
         self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)) | followed_by_derivation(self.Caus, u'dIr'))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Caus, self.VERB_ROOT)
-        self.Caus.add_suffix_form(u"t",  has_root_attribute(RootAttribute.Causative_t) & doesnt_come_after_derivation(self.Caus, "t") & doesnt_come_after_derivation(self.Caus, "It"))
-        self.Caus.add_suffix_form(u"Ir", has_root_attribute(RootAttribute.Causative_Ir) & doesnt_come_after_derivation(self.Able))
-        self.Caus.add_suffix_form(u"It", has_root_attribute(RootAttribute.Causative_It) & doesnt_come_after_derivation(self.Able))
-        self.Caus.add_suffix_form(u"Ar", has_root_attribute(RootAttribute.Causative_Ar) & doesnt_come_after_derivation(self.Able))
-        self.Caus.add_suffix_form(u"dIr", has_root_attribute(RootAttribute.Causative_dIr))
+        self.Caus.add_suffix_form(u"t",  has_lexeme_attribute(LexemeAttribute.Causative_t) & doesnt_come_after_derivation(self.Caus, "t") & doesnt_come_after_derivation(self.Caus, "It"))
+        self.Caus.add_suffix_form(u"Ir", has_lexeme_attribute(LexemeAttribute.Causative_Ir) & doesnt_come_after_derivation(self.Able))
+        self.Caus.add_suffix_form(u"It", has_lexeme_attribute(LexemeAttribute.Causative_It) & doesnt_come_after_derivation(self.Able))
+        self.Caus.add_suffix_form(u"Ar", has_lexeme_attribute(LexemeAttribute.Causative_Ar) & doesnt_come_after_derivation(self.Able))
+        self.Caus.add_suffix_form(u"dIr", has_lexeme_attribute(LexemeAttribute.Causative_dIr))
 
     def _register_verb_to_noun_derivations(self):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Inf, self.NOUN_ROOT)
@@ -762,7 +762,7 @@ class BasicSuffixGraph(SuffixGraphDecorator):
 
 
         self.VERB_WITH_POLARITY.add_out_suffix(self.Aorist_to_Adj, self.VERB_TENSE_ADJ_DERIV)
-        self.Aorist_to_Adj.add_suffix_form(u"+Ir", has_root_attribute(RootAttribute.Aorist_I))
+        self.Aorist_to_Adj.add_suffix_form(u"+Ir", has_lexeme_attribute(LexemeAttribute.Aorist_I))
         self.Aorist_to_Adj.add_suffix_form(u"+Ar")
         self.Aorist_to_Adj.add_suffix_form(u"z", comes_after(self.Negative))    # gel-me-z
 

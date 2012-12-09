@@ -15,17 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import unittest
-from trnltk.morphology.model.lexeme import RootAttribute
+from trnltk.morphology.model.lexeme import LexemeAttribute
 from trnltk.morphology.phonetics.phonetics import Phonetics, PhoneticExpectation, PhoneticAttributes
 
 ac = Phonetics.is_suffix_form_applicable
-def ap(word, form_str, root_attributes=None):
-    phonetic_attributes = Phonetics.calculate_phonetic_attributes(word, root_attributes)
-    word, application = Phonetics.apply(word, phonetic_attributes, form_str, root_attributes)
+def ap(word, form_str, lexeme_attributes=None):
+    phonetic_attributes = Phonetics.calculate_phonetic_attributes(word, lexeme_attributes)
+    word, application = Phonetics.apply(word, phonetic_attributes, form_str, lexeme_attributes)
     return word + application
 
 def apnv(word, form_str):
-    return ap(word, form_str, [RootAttribute.NoVoicing])
+    return ap(word, form_str, [LexemeAttribute.NoVoicing])
 
 es = Phonetics.expectations_satisfied
 V = PhoneticExpectation.VowelStart
@@ -139,7 +139,7 @@ class PhoneticExpectationsTest(unittest.TestCase):
         self.assertEqual(ap(u'ata', u'dIk'), u'atadık')
         self.assertEqual(ap(u'ata', u'm'), u'atam')
         self.assertEqual(ap(u'ata', u'+Ar'), u'atar')
-        self.assertEqual(ap(u'at', u'+IyOr', [RootAttribute.NoVoicing]), u'atıyor')
+        self.assertEqual(ap(u'at', u'+IyOr', [LexemeAttribute.NoVoicing]), u'atıyor')
 
         self.assertEqual(ap(u'bul', u'mAlI'), u'bulmalu')
         self.assertEqual(ap(u'bul', u'mAlI!'), u'bulmalı')
