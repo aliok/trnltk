@@ -61,7 +61,7 @@ class RootGenerator(object):
             last_letter = TurkishAlphabet.get_letter_for_char(modified_seq[-1])
             modified_letter = TurkishAlphabet.voice(last_letter)
             assert modified_letter is not None
-            if lexeme.lemma.endswith("nk"):
+            if lexeme.lemma.endswith(u"nk"):
                 modified_letter = TurkishAlphabet.L_g
             modified_seq = modified_seq[:-1] + modified_letter.char_value
             if PhoneticAttributes.LastLetterVoicelessStop in modified_attributes:
@@ -111,7 +111,6 @@ class RootGenerator(object):
     def _handle_special_roots(cls, lexeme):
         lexeme.attributes.remove(RootAttribute.RootChange)
 
-        ##TODO: de-ye
         if lexeme.lemma==u'ben':
             root_ben = Root(u'ben', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ben'))
             root_ban = Root(u'ban', lexeme, None, Phonetics.calculate_phonetic_attributes_of_plain_sequence(u'ban'))

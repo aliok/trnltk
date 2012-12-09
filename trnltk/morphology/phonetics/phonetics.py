@@ -33,6 +33,10 @@ class PhoneticAttributes(object):
 
     LastLetterVoiceless = "LastLetterVoiceless"
     LastLetterNotVoiceless = "LastLetterNotVoiceless"
+    LastLetterContinuant = "LastLetterContinuant"
+    LastLetterNotContinuant = "LastLetterNotContinuant"
+
+    LastLetterVoicedStop = "LastLetterVoicedStop"
     LastLetterVoicelessStop = "LastLetterVoicelessStop"
 
     FirstLetterVowel = "FirstLetterVowel"
@@ -272,7 +276,7 @@ class Phonetics(object):
         """
         attrs = []
 
-        last_vowel = cls._get_last_vowel(seq)
+        last_vowel = cls.get_last_vowel(seq)
         last_letter = TurkishAlphabet.get_letter_for_char(seq[-1])
         if last_vowel:
             if last_vowel.rounded:
@@ -292,15 +296,22 @@ class Phonetics(object):
 
         if last_letter.voiceless:
             attrs.append(PhoneticAttributes.LastLetterVoiceless)
-            if last_letter.stop_consonant:
+            if not last_letter.continuant:
                 attrs.append(PhoneticAttributes.LastLetterVoicelessStop)
         else:
             attrs.append(PhoneticAttributes.LastLetterNotVoiceless)
+            if not last_letter.continuant:
+                attrs.append(PhoneticAttributes.LastLetterVoicedStop)
+
+        if last_letter.continuant:
+            attrs.append(PhoneticAttributes.LastLetterContinuant)
+        else:
+            attrs.append(PhoneticAttributes.LastLetterNotContinuant)
 
         return set(attrs)
 
     @classmethod
-    def _get_last_vowel(cls, seq):
+    def get_last_vowel(cls, seq):
         for s in reversed(seq):
             turkish_letter = TurkishAlphabet.get_letter_for_char(s)
             if turkish_letter.vowel:

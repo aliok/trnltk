@@ -17,7 +17,7 @@ limitations under the License.
 
 class TurkishLetter(object):
     def __init__(self, char_value, upper_case_char_value, alphabetic_index, vowel=False, frontal=False, rounded=False, voiceless=False,
-                 stop_consonant=False, in_ascii=True, foreign=False, english_equivalent_char=None):
+                 continuant=False, in_ascii=True, foreign=False, ascii_equivalent_char=None):
         """
         @type char_value: unicode
         @type upper_case_char_value: unicode
@@ -26,10 +26,9 @@ class TurkishLetter(object):
         @type frontal: bool
         @type rounded: bool
         @type voiceless: bool
-        @type stop_consonant: bool
         @type in_ascii: bool
         @type foreign: bool
-        @type english_equivalent_char: unicode
+        @type ascii_equivalent_char: unicode
         """
         self.char_value = char_value
         self.upper_case_char_value = upper_case_char_value
@@ -38,15 +37,15 @@ class TurkishLetter(object):
         self.frontal = frontal
         self.rounded = rounded
         self.voiceless = voiceless
-        self.stop_consonant = stop_consonant
+        self.continuant = continuant
         self.in_ascii = in_ascii
         self.foreign = foreign
-        self.english_equivalent_char = english_equivalent_char if english_equivalent_char else char_value
+        self.ascii_equivalent_char = ascii_equivalent_char if ascii_equivalent_char else char_value
 
         self._check_consistency()
 
     def _check_consistency(self):
-        if ((self.voiceless or self.stop_consonant) and self.vowel) or (
+        if ((self.voiceless or self.continuant) and self.vowel) or (
             not self.vowel and (self.frontal or self.rounded)):
             raise Exception("Letter seems to have both vowel and Consonant attributes")
         elif (not self.in_ascii) and ('a' > self.char_value > 'z'):
@@ -65,42 +64,42 @@ class TurkishLetter(object):
 
 class TurkishAlphabet(object):
     L_a =  TurkishLetter(u'a', u'A', 1, vowel=True)
-    L_b =  TurkishLetter(u'b', u'B', 2)
-    L_c =  TurkishLetter(u'c', u'C', 3)
-    L_cc = TurkishLetter(u'ç', u'Ç', 4, in_ascii=False, voiceless=True, stop_consonant=True, english_equivalent_char=u'c')
-    L_d =  TurkishLetter(u'd', u'D', 5)
+    L_b =  TurkishLetter(u'b', u'B', 2, continuant=False)
+    L_c =  TurkishLetter(u'c', u'C', 3, continuant=False)
+    L_cc = TurkishLetter(u'ç', u'Ç', 4, continuant=False, voiceless=True, in_ascii=False, ascii_equivalent_char=u'c')
+    L_d =  TurkishLetter(u'd', u'D', 5, continuant=False)
     L_e =  TurkishLetter(u'e', u'E', 6, vowel=True, frontal=True)
-    L_f =  TurkishLetter(u'f', u'F', 7, voiceless=True)
-    L_g =  TurkishLetter(u'g', u'G', 8)
-    L_gg = TurkishLetter(u'ğ', u'Ğ', 9, in_ascii=False, english_equivalent_char=u'g')
-    L_h =  TurkishLetter(u'h', u'H', 10, voiceless=True)
-    L_ii = TurkishLetter(u'ı', u'I', 11, vowel=True, in_ascii=False, english_equivalent_char=u'i')
+    L_f =  TurkishLetter(u'f', u'F', 7, continuant=True, voiceless=True)
+    L_g =  TurkishLetter(u'g', u'G', 8, continuant=False)
+    L_gg = TurkishLetter(u'ğ', u'Ğ', 9, continuant=True, in_ascii=False, ascii_equivalent_char=u'g')
+    L_h =  TurkishLetter(u'h', u'H', 10, continuant=True, voiceless=True)
+    L_ii = TurkishLetter(u'ı', u'I', 11, vowel=True, in_ascii=False, ascii_equivalent_char=u'i')
     L_i =  TurkishLetter(u'i', u'İ', 12, vowel=True, frontal=True)
-    L_j =  TurkishLetter(u'j', u'J', 13)
-    L_k =  TurkishLetter(u'k', u'K', 14, voiceless=True, stop_consonant=True)
-    L_l =  TurkishLetter(u'l', u'L', 15)
-    L_m =  TurkishLetter(u'm', u'M', 16)
-    L_n =  TurkishLetter(u'n', u'N', 17)
+    L_j =  TurkishLetter(u'j', u'J', 13, continuant=True)
+    L_k =  TurkishLetter(u'k', u'K', 14, continuant=False, voiceless=True)
+    L_l =  TurkishLetter(u'l', u'L', 15, continuant=True)
+    L_m =  TurkishLetter(u'm', u'M', 16, continuant=True)
+    L_n =  TurkishLetter(u'n', u'N', 17, continuant=True)
     L_o =  TurkishLetter(u'o', u'O', 18, vowel=True, rounded=True)
-    L_oo = TurkishLetter(u'ö', u'Ö', 19, vowel=True, frontal=True, rounded=True, in_ascii=False, english_equivalent_char=u'o')
-    L_p =  TurkishLetter(u'p', u'P', 20, voiceless=True, stop_consonant=True)
-    L_r =  TurkishLetter(u'r', u'R', 21)
-    L_s =  TurkishLetter(u's', u'S', 22, voiceless=True)
-    L_ss = TurkishLetter(u'ş', u'Ş', 23, in_ascii=False, voiceless=True, english_equivalent_char=u's')
-    L_t =  TurkishLetter(u't', u'T', 24, voiceless=True, stop_consonant=True)
+    L_oo = TurkishLetter(u'ö', u'Ö', 19, vowel=True, frontal=True, rounded=True, in_ascii=False, ascii_equivalent_char=u'o')
+    L_p =  TurkishLetter(u'p', u'P', 20, continuant=False, voiceless=True)
+    L_r =  TurkishLetter(u'r', u'R', 21, continuant=True)
+    L_s =  TurkishLetter(u's', u'S', 22, continuant=True, voiceless=True)
+    L_ss = TurkishLetter(u'ş', u'Ş', 23, continuant=True, voiceless=True, in_ascii=False, ascii_equivalent_char=u's')
+    L_t =  TurkishLetter(u't', u'T', 24, continuant=False, voiceless=True)
     L_u =  TurkishLetter(u'u', u'U', 25, vowel=True, rounded=True)
-    L_uu = TurkishLetter(u'ü', u'Ü', 26, vowel=True, rounded=True, frontal=True, in_ascii=False, english_equivalent_char=u'u')
-    L_v =  TurkishLetter(u'v', u'V', 27)
-    L_y =  TurkishLetter(u'y', u'Y', 28)
-    L_z =  TurkishLetter(u'z', u'Z', 29)
+    L_uu = TurkishLetter(u'ü', u'Ü', 26, vowel=True, rounded=True, frontal=True, in_ascii=False, ascii_equivalent_char=u'u')
+    L_v =  TurkishLetter(u'v', u'V', 27, continuant=True)
+    L_y =  TurkishLetter(u'y', u'Y', 28, continuant=True)
+    L_z =  TurkishLetter(u'z', u'Z', 29, continuant=True)
 
     L_q =  TurkishLetter(u'q', u'Q', 30, foreign=True)
     L_w =  TurkishLetter(u'w', u'W', 31, foreign=True)
     L_x =  TurkishLetter(u'x', u'X', 32, foreign=True)
 
-    L_ac = TurkishLetter(u'â', u'Â', 33, vowel=True, in_ascii=False, english_equivalent_char=u'a')
-    L_ic = TurkishLetter(u'î', u'Î', 34, vowel=True, frontal=True, in_ascii=False, english_equivalent_char=u'i')
-    L_uc = TurkishLetter(u'û', u'Û', 35, vowel=True, rounded=True, in_ascii=False, english_equivalent_char=u'u')
+    L_ac = TurkishLetter(u'â', u'Â', 33, vowel=True, in_ascii=False, ascii_equivalent_char=u'a')
+    L_ic = TurkishLetter(u'î', u'Î', 34, vowel=True, frontal=True, in_ascii=False, ascii_equivalent_char=u'i')
+    L_uc = TurkishLetter(u'û', u'Û', 35, vowel=True, rounded=True, in_ascii=False, ascii_equivalent_char=u'u')
 
     Turkish_Letters = {L_a, L_b, L_c, L_cc, L_d, L_e, L_f, L_g,
                        L_gg, L_h, L_ii, L_i, L_j, L_k, L_l, L_m,
@@ -108,8 +107,13 @@ class TurkishAlphabet(object):
                        L_u, L_uu, L_v, L_y, L_z, L_q, L_w, L_x,
                        L_ac, L_ic, L_uc}
 
-    Devoicing_Map = {L_b: L_p, L_c: L_cc, L_d: L_t, L_g: L_k, L_gg: L_k}
+    Consonants = set([l for l in Turkish_Letters if not l.vowel])
+    Vowels = set([l for l in Turkish_Letters if l.vowel])
+
+    Devoicing_Map = {L_b: L_p, L_c: L_cc, L_d: L_t, L_g: L_k}
     Voicing_Map =   {L_p: L_b, L_cc: L_c, L_t: L_d, L_g: L_gg, L_k: L_gg}
+
+    Inverse_Voicing_Map = {L_b: {L_p}, L_c: {L_cc}, L_d: {L_t}, L_g: {L_k}, L_gg : {L_g, L_k}}
 
     Lower_Case_Letter_Map = None
     Upper_Case_Letter_Map = None

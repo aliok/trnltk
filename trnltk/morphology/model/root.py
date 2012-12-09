@@ -49,14 +49,31 @@ class Root(object):
     def __repr__(self):
         return self.__str__()
 
-    def _clone(self):
+    def _clone(self, deep=False):
         return Root(
             self.str,
-            self.lexeme,
+            self.lexeme.clone() if deep else self.lexeme,
             copy.copy(self.phonetic_expectations) if self.phonetic_expectations else None,
             copy.copy(self.phonetic_attributes) if self.phonetic_attributes else None)
 
-class NumeralRoot(Root):
+class DynamicRoot(Root):
+    def __init__(self, root, lexeme, phonetic_expectations, phonetic_attributes):
+        """
+        @type root: unicode
+        @type lexeme: Lexeme
+        @type phonetic_expectations: set of str or None
+        @type phonetic_attributes: set of str or None
+        """
+        super(DynamicRoot, self).__init__(root, lexeme, phonetic_expectations, phonetic_attributes)
+
+    def _clone(self, deep=False):
+        return DynamicRoot(
+            self.str,
+            self.lexeme.clone() if deep else self.lexeme,
+            copy.copy(self.phonetic_expectations) if self.phonetic_expectations else None,
+            copy.copy(self.phonetic_attributes) if self.phonetic_attributes else None)
+
+class NumeralRoot(DynamicRoot):
     def __init__(self, numeral):
         root = numeral
         lexeme = DynamicLexeme(numeral, numeral, SyntacticCategory.NUMERAL, SecondarySyntacticCategory.DIGITS, None)
@@ -64,7 +81,10 @@ class NumeralRoot(Root):
         phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(DigitsToNumberConverter.convert_digits_to_words(numeral))
         super(NumeralRoot, self).__init__(root, lexeme, phonetic_expectations, phonetic_attributes)
 
-class AbbreviationRoot(Root):
+    def _clone(self, deep=False):
+        return NumeralRoot(self.str)
+
+class AbbreviationRoot(DynamicRoot):
     def __init__(self, abbr):
         root = abbr
         lexeme = DynamicLexeme(abbr, abbr, SyntacticCategory.NOUN, SecondarySyntacticCategory.ABBREVIATION, None)
@@ -79,10 +99,16 @@ class AbbreviationRoot(Root):
         phonetic_expectations = None
         super(AbbreviationRoot, self).__init__(root, lexeme, phonetic_expectations, phonetic_attributes)
 
-class ProperNounRoot(Root):
+    def _clone(self, deep=False):
+        return AbbreviationRoot(self.str)
+
+class ProperNounRoot(DynamicRoot):
     def __init__(self, noun):
         root = noun
         lexeme = DynamicLexeme(noun, noun, SyntacticCategory.NOUN, SecondarySyntacticCategory.PROPER_NOUN, None)
         phonetic_attributes = Phonetics.calculate_phonetic_attributes_of_plain_sequence(noun)
         phonetic_expectations = None
         super(ProperNounRoot, self).__init__(root, lexeme, phonetic_expectations, phonetic_attributes)
+
+    def _clone(self, deep=False):
+        return ProperNounRoot(self.str)

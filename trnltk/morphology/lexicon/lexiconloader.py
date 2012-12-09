@@ -153,7 +153,7 @@ class LexiconLoader(object):
                 if RootAttribute.NoVoicing in lexeme.attributes:
                     lexeme.attributes.remove(RootAttribute.NoVoicing)
             else:
-                if root_vowel_count>1 and last_letter.stop_consonant and RootAttribute.NoVoicing not in lexeme.attributes \
+                if root_vowel_count>1 and last_letter.voiceless and not last_letter.continuant and RootAttribute.NoVoicing not in lexeme.attributes \
                 and RootAttribute.InverseHarmony not in lexeme.attributes:
                     lexeme.attributes.append(RootAttribute.Voicing)
                 elif item_root.endswith('nk') or item_root.endswith('og') or item_root.endswith('rt'):
