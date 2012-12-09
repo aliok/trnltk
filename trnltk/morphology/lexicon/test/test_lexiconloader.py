@@ -33,31 +33,31 @@ class LexiconLoaderTest(unittest.TestCase):
         assert_that(item, equal_to(Lexeme(u"abadî", u"abadî", None, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'abat [P:Adj; A:NoVoicing]')
-        assert_that(item, equal_to(Lexeme(u"abat", u"abat", SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
+        assert_that(item, equal_to(Lexeme(u"abat", u"abat", SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'Abdal')
         assert_that(item, equal_to(Lexeme(u"Abdal", u"Abdal", None, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'abdest [A:NoVoicing]')
-        assert_that(item, equal_to(Lexeme(u"abdest", u"abdest", None, None, [LexemeAttribute.NoVoicing])))
+        assert_that(item, equal_to(Lexeme(u"abdest", u"abdest", None, None, {LexemeAttribute.NoVoicing})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'abes [P:Adv]')
         assert_that(item, equal_to(Lexeme(u"abes", u"abes", SyntacticCategory.ADVERB, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'ablak [P:Adj; A:NoVoicing]')
-        assert_that(item, equal_to(Lexeme(u"ablak", u"ablak", SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
+        assert_that(item, equal_to(Lexeme(u"ablak", u"ablak", SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'abuk [P:Adj, Dup;A:NoVoicing, NoSuffix]')
-        assert_that(item, equal_to(Lexeme(u"abuk", u"abuk", SyntacticCategory.ADJECTIVE, SecondarySyntacticCategory.DUPLICATOR, [LexemeAttribute.NoVoicing, LexemeAttribute.NoSuffix])))
+        assert_that(item, equal_to(Lexeme(u"abuk", u"abuk", SyntacticCategory.ADJECTIVE, SecondarySyntacticCategory.DUPLICATOR, {LexemeAttribute.NoVoicing, LexemeAttribute.NoSuffix})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'acemborusu [A:CompoundP3sg; R:acemboru]')
-        assert_that(item, equal_to(Lexeme(u"acemborusu", u"acemboru", None, None, [LexemeAttribute.CompoundP3sg])))
+        assert_that(item, equal_to(Lexeme(u"acemborusu", u"acemboru", None, None, {LexemeAttribute.CompoundP3sg})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'acembuselik')
         assert_that(item, equal_to(Lexeme(u"acembuselik", u"acembuselik", None, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'aciz [A: LastVowelDrop]')
-        assert_that(item, equal_to(Lexeme(u"aciz", u"aciz", None, None, [LexemeAttribute.LastVowelDrop])))
+        assert_that(item, equal_to(Lexeme(u"aciz", u"aciz", None, None, {LexemeAttribute.LastVowelDrop})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'âciz [P:Adj]')
         assert_that(item, equal_to(Lexeme(u"âciz", u"âciz", SyntacticCategory.ADJECTIVE, None, None)))
@@ -69,16 +69,16 @@ class LexiconLoaderTest(unittest.TestCase):
         assert_that(item, equal_to(Lexeme(u"ad", u"ad", None, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'ad [P:Noun; A:Doubling, InverseHarmony]')
-        assert_that(item, equal_to(Lexeme(u"ad", u"ad", SyntacticCategory.NOUN, None, [LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony])))
+        assert_that(item, equal_to(Lexeme(u"ad", u"ad", SyntacticCategory.NOUN, None, {LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'addetmek [A:Voicing, Aorist_A]')
-        assert_that(item, equal_to(Lexeme(u"addetmek", u"addetmek", None, None, [LexemeAttribute.Voicing, LexemeAttribute.Aorist_A])))
+        assert_that(item, equal_to(Lexeme(u"addetmek", u"addetmek", None, None, {LexemeAttribute.Voicing, LexemeAttribute.Aorist_A})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'addolmak')
         assert_that(item, equal_to(Lexeme(u"addolmak", u"addolmak", None, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'ahlat [A:NoVoicing, Plural]')
-        assert_that(item, equal_to(Lexeme(u"ahlat", u"ahlat", None, None, [LexemeAttribute.NoVoicing, LexemeAttribute.Plural])))
+        assert_that(item, equal_to(Lexeme(u"ahlat", u"ahlat", None, None, {LexemeAttribute.NoVoicing, LexemeAttribute.Plural})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'akşam [P:Noun, Time]')
         assert_that(item, equal_to(Lexeme(u"akşam", u"akşam", SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, None)))
@@ -90,13 +90,13 @@ class LexiconLoaderTest(unittest.TestCase):
         assert_that(item, equal_to(Lexeme(u"yemek", u"yemek", None, None, None)))
 
         item = LexiconLoader._crate_lexeme_from_line(u'ürkmek [A:Causative_It]')
-        assert_that(item, equal_to(Lexeme(u"ürkmek", u"ürkmek", None, None, [LexemeAttribute.Causative_It])))
+        assert_that(item, equal_to(Lexeme(u"ürkmek", u"ürkmek", None, None, {LexemeAttribute.Causative_It})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'akşamsefası [A:CompoundP3sg; R:akşamsefa]')
-        assert_that(item, equal_to(Lexeme(u"akşamsefası", u"akşamsefa", None, None, [LexemeAttribute.CompoundP3sg])))
+        assert_that(item, equal_to(Lexeme(u"akşamsefası", u"akşamsefa", None, None, {LexemeAttribute.CompoundP3sg})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'akşamüstü [P:Noun, Time; A:CompoundP3sg; R:akşamüst]')
-        assert_that(item, equal_to(Lexeme(u"akşamüstü", u"akşamüst", SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, [LexemeAttribute.CompoundP3sg])))
+        assert_that(item, equal_to(Lexeme(u"akşamüstü", u"akşamüst", SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, {LexemeAttribute.CompoundP3sg})))
 
         item = LexiconLoader._crate_lexeme_from_line(u'mi [P:Ques]')
         assert_that(item, equal_to(Lexeme(u"mi", u"mi", SyntacticCategory.QUESTION, None, None)))
@@ -155,41 +155,41 @@ class LexiconLoaderTest(unittest.TestCase):
         C_AR = LexemeAttribute.Causative_Ar
         C_DIR = LexemeAttribute.Causative_dIr
 
-        item = Lexeme(u'gitmek', u'git', SyntacticCategory.VERB, None, [VO, C_DIR])
+        item = Lexeme(u'gitmek', u'git', SyntacticCategory.VERB, None, {VO, C_DIR})
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'gitmek', u'git', SyntacticCategory.VERB, None, [VO, C_DIR, AA])))
+        assert_that(item, equal_to(Lexeme(u'gitmek', u'git', SyntacticCategory.VERB, None, {VO, C_DIR, AA})))
 
-        item = Lexeme(u'gelmek', u'gel', SyntacticCategory.VERB, None, [AI, C_DIR])
+        item = Lexeme(u'gelmek', u'gel', SyntacticCategory.VERB, None, {AI, C_DIR})
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'gelmek', u'gel', SyntacticCategory.VERB, None, [AI, C_DIR, PI, NVO])))
+        assert_that(item, equal_to(Lexeme(u'gelmek', u'gel', SyntacticCategory.VERB, None, {AI, C_DIR, PI, NVO})))
 
-        item = Lexeme(u'atmak', u'at', SyntacticCategory.VERB, None, [NVO, C_DIR])
+        item = Lexeme(u'atmak', u'at', SyntacticCategory.VERB, None, {NVO, C_DIR})
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'atmak', u'at', SyntacticCategory.VERB, None, [NVO, C_DIR, AA])))
+        assert_that(item, equal_to(Lexeme(u'atmak', u'at', SyntacticCategory.VERB, None, {NVO, C_DIR, AA})))
 
         item = Lexeme(u'atamak', u'ata', SyntacticCategory.VERB, None, None)
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'atamak', u'ata', SyntacticCategory.VERB, None, [PVD, PI, AI, C_T, NVO])))
+        assert_that(item, equal_to(Lexeme(u'atamak', u'ata', SyntacticCategory.VERB, None, {PVD, PI, AI, C_T, NVO})))
 
         item = Lexeme(u'dolamak', u'dola', SyntacticCategory.VERB, None, None)
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'dolamak', u'dola', SyntacticCategory.VERB, None, [PVD, PI, AI, C_T, NVO])))
+        assert_that(item, equal_to(Lexeme(u'dolamak', u'dola', SyntacticCategory.VERB, None, {PVD, PI, AI, C_T, NVO})))
 
-        item = Lexeme(u'tanımak', u'tanı', SyntacticCategory.VERB, None, [AI])
+        item = Lexeme(u'tanımak', u'tanı', SyntacticCategory.VERB, None, {AI})
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'tanımak', u'tanı', SyntacticCategory.VERB, None, [AI, PVD, PI, AI, C_T, NVO])))
+        assert_that(item, equal_to(Lexeme(u'tanımak', u'tanı', SyntacticCategory.VERB, None, {AI, PVD, PI, AI, C_T, NVO})))
 
-        item = Lexeme(u'getirmek', u'getir', SyntacticCategory.VERB, None, [AI])
+        item = Lexeme(u'getirmek', u'getir', SyntacticCategory.VERB, None, {AI})
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'getirmek', u'getir', SyntacticCategory.VERB, None, [AI, AI, C_T, NVO])))
+        assert_that(item, equal_to(Lexeme(u'getirmek', u'getir', SyntacticCategory.VERB, None, {AI, AI, C_T, NVO})))
 
-        item = Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, [C_IT])
+        item = Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, {C_IT})
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, [C_IT, AA, NVO])))
+        assert_that(item, equal_to(Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, {C_IT, AA, NVO})))
 
         item = Lexeme(u'ağlamak', u'ağla', SyntacticCategory.VERB, None, None)
         LexiconLoader._infer_morphemic_attributes(item)
-        assert_that(item, equal_to(Lexeme(u'ağlamak', u'ağla', SyntacticCategory.VERB, None, [PVD, PI, AI, C_T, NVO])))
+        assert_that(item, equal_to(Lexeme(u'ağlamak', u'ağla', SyntacticCategory.VERB, None, {PVD, PI, AI, C_T, NVO})))
 
     def test_should_load_lexicon_from_str(self):
         dictionary_content = u'''
@@ -228,30 +228,30 @@ class LexiconLoaderTest(unittest.TestCase):
         assert_that(lexemes, has_length(len(dictionary_lines)), str(len(lexemes)-len(dictionary_lines)))
 
         assert_that(lexemes, has_item(Lexeme(u'a', u'a', SyntacticCategory.INTERJECTION, None, None)))
-        assert_that(lexemes, has_item(Lexeme(u'aba', u'aba', SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'abadî', u'abadî', SyntacticCategory.NOUN, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'abat', u'abat', SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'Abdal', u'Abdal', SyntacticCategory.NOUN, SecondarySyntacticCategory.PROPER_NOUN, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'abdest', u'abdest', SyntacticCategory.NOUN, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'abes', u'abes', SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
+        assert_that(lexemes, has_item(Lexeme(u'aba', u'aba', SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'abadî', u'abadî', SyntacticCategory.NOUN, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'abat', u'abat', SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'Abdal', u'Abdal', SyntacticCategory.NOUN, SecondarySyntacticCategory.PROPER_NOUN, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'abdest', u'abdest', SyntacticCategory.NOUN, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'abes', u'abes', SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
         assert_that(lexemes, has_item(Lexeme(u'abes', u'abes', SyntacticCategory.ADVERB, None, None)))
-        assert_that(lexemes, has_item(Lexeme(u'ablak', u'ablak', SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'abuk', u'abuk', SyntacticCategory.ADJECTIVE, SecondarySyntacticCategory.DUPLICATOR, [LexemeAttribute.NoSuffix, LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'acemborusu', u'acemboru', SyntacticCategory.NOUN, None, [LexemeAttribute.CompoundP3sg, LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'acembuselik', u'acembuselik', SyntacticCategory.NOUN, None, [LexemeAttribute.Voicing])))
-        assert_that(lexemes, has_item(Lexeme(u'aciz', u'aciz', SyntacticCategory.NOUN, None, [LexemeAttribute.LastVowelDrop, LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'âciz', u'âciz', SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'açık', u'açık', SyntacticCategory.ADJECTIVE, None, [LexemeAttribute.Voicing])))
-        assert_that(lexemes, has_item(Lexeme(u'ad', u'ad', SyntacticCategory.NOUN, None, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'ad', u'ad', SyntacticCategory.NOUN, None, [LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'addetmek', u'addet', SyntacticCategory.VERB, None, [LexemeAttribute.Aorist_A, LexemeAttribute.Causative_dIr, LexemeAttribute.Voicing])))
-        assert_that(lexemes, has_item(Lexeme(u'addolmak', u'addol', SyntacticCategory.VERB, None, [LexemeAttribute.Aorist_I, LexemeAttribute.Causative_dIr, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In])))
-        assert_that(lexemes, has_item(Lexeme(u'ahlat', u'ahlat', SyntacticCategory.NOUN, None, [LexemeAttribute.NoVoicing, LexemeAttribute.Plural])))
-        assert_that(lexemes, has_item(Lexeme(u'akşam', u'akşam', SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, [LexemeAttribute.NoVoicing])))
-        assert_that(lexemes, has_item(Lexeme(u'atamak', u'ata', SyntacticCategory.VERB, None, [LexemeAttribute.Aorist_I, LexemeAttribute.Causative_It, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In, LexemeAttribute.ProgressiveVowelDrop])))
-        assert_that(lexemes, has_item(Lexeme(u'yemek', u'yemek', SyntacticCategory.NOUN, None, [LexemeAttribute.Voicing])))
-        assert_that(lexemes, has_item(Lexeme(u'yemek', u'ye', SyntacticCategory.VERB, None, [LexemeAttribute.Aorist_A, LexemeAttribute.Causative_dIr, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In, LexemeAttribute.ProgressiveVowelDrop])))
-        assert_that(lexemes, has_item(Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, [LexemeAttribute.Aorist_A, LexemeAttribute.Causative_It, LexemeAttribute.NoVoicing])))
+        assert_that(lexemes, has_item(Lexeme(u'ablak', u'ablak', SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'abuk', u'abuk', SyntacticCategory.ADJECTIVE, SecondarySyntacticCategory.DUPLICATOR, {LexemeAttribute.NoSuffix, LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'acemborusu', u'acemboru', SyntacticCategory.NOUN, None, {LexemeAttribute.CompoundP3sg, LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'acembuselik', u'acembuselik', SyntacticCategory.NOUN, None, {LexemeAttribute.Voicing})))
+        assert_that(lexemes, has_item(Lexeme(u'aciz', u'aciz', SyntacticCategory.NOUN, None, {LexemeAttribute.LastVowelDrop, LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'âciz', u'âciz', SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'açık', u'açık', SyntacticCategory.ADJECTIVE, None, {LexemeAttribute.Voicing})))
+        assert_that(lexemes, has_item(Lexeme(u'ad', u'ad', SyntacticCategory.NOUN, None, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'ad', u'ad', SyntacticCategory.NOUN, None, {LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'addetmek', u'addet', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_A, LexemeAttribute.Causative_dIr, LexemeAttribute.Voicing})))
+        assert_that(lexemes, has_item(Lexeme(u'addolmak', u'addol', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_I, LexemeAttribute.Causative_dIr, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In})))
+        assert_that(lexemes, has_item(Lexeme(u'ahlat', u'ahlat', SyntacticCategory.NOUN, None, {LexemeAttribute.NoVoicing, LexemeAttribute.Plural})))
+        assert_that(lexemes, has_item(Lexeme(u'akşam', u'akşam', SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, {LexemeAttribute.NoVoicing})))
+        assert_that(lexemes, has_item(Lexeme(u'atamak', u'ata', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_I, LexemeAttribute.Causative_It, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In, LexemeAttribute.ProgressiveVowelDrop})))
+        assert_that(lexemes, has_item(Lexeme(u'yemek', u'yemek', SyntacticCategory.NOUN, None, {LexemeAttribute.Voicing})))
+        assert_that(lexemes, has_item(Lexeme(u'yemek', u'ye', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_A, LexemeAttribute.Causative_dIr, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In, LexemeAttribute.ProgressiveVowelDrop})))
+        assert_that(lexemes, has_item(Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_A, LexemeAttribute.Causative_It, LexemeAttribute.NoVoicing})))
 
 
     def test_should_validate_master_dict(self):

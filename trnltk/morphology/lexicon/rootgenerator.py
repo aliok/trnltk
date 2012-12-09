@@ -66,6 +66,14 @@ class RootGenerator(object):
             modified_seq = modified_seq[:-1] + modified_letter.char_value
             if PhoneticAttributes.LastLetterVoicelessStop in modified_attributes:
                 modified_attributes.remove(PhoneticAttributes.LastLetterVoicelessStop)
+            if modified_letter.continuant:
+                if PhoneticAttributes.LastLetterNotContinuant in modified_attributes :
+                    modified_attributes.remove(PhoneticAttributes.LastLetterNotContinuant)
+                modified_attributes.add(PhoneticAttributes.LastLetterContinuant)
+            else:
+                if PhoneticAttributes.LastLetterContinuant in modified_attributes:
+                    modified_attributes.remove(PhoneticAttributes.LastLetterContinuant)
+                modified_attributes.add(PhoneticAttributes.LastLetterNotContinuant)
             if LexemeAttribute.VoicingOpt not in lexeme.attributes:
                 original_phonetic_expectations.add(PhoneticExpectation.ConsonantStart)
             modified_phonetic_expectations.add(PhoneticExpectation.VowelStart)

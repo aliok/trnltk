@@ -46,8 +46,6 @@ class SecondarySyntacticCategory(object):
 
     ALL = sorted({DUPLICATOR, POST_POSITIVE, QUESTION, DEMONSTRATIVE, REFLEXIVE, PERSONAL, TIME, PROPER_NOUN, ABBREVIATION, CARD, ORD})
 
-#    NONE = "None"
-
 class LexemeAttribute(object):
     Voicing = u"Voicing"
     VoicingOpt = u"VoicingOpt"
@@ -72,11 +70,11 @@ class LexemeAttribute(object):
     Reciprocal = u"Reciprocal"
     NoSuffix = u"NoSuffix"
 
-    Causative_t = "Causative_t"
-    Causative_Ir = "Causative_Ir"
-    Causative_It = "Causative_It"
-    Causative_Ar = "Causative_Ar"
-    Causative_dIr = "Causative_dIr"
+    Causative_t = u"Causative_t"
+    Causative_Ir = u"Causative_Ir"
+    Causative_It = u"Causative_It"
+    Causative_Ar = u"Causative_Ar"
+    Causative_dIr = u"Causative_dIr"
 
     ALL = sorted({
         Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, RootChange, NounConsInsert, NounConsInsert_n,
@@ -96,16 +94,16 @@ class Lexeme(object):
         @type root: unicode
         @type syntactic_category: unicode
         @type secondary_syntactic_category: unicode or None
-        @type attributes: list of unicode
+        @type attributes: set of unicode or None
         """
         self.lemma = lemma
         self.root = root
         self.syntactic_category = syntactic_category
         self.secondary_syntactic_category = secondary_syntactic_category
-        self.attributes = attributes if attributes else []
+        self.attributes = attributes if attributes else set()
 
     def clone(self):
-        return Lexeme(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category, self.attributes[:])
+        return Lexeme(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category, set(self.attributes))
 
     def __str__(self):
         return u'{}({})+{}+{} R_ATTR:{}'.format(repr(self.lemma), repr(self.root), self.syntactic_category, self.secondary_syntactic_category, self.attributes)

@@ -220,8 +220,8 @@ class MorphemeContainer(object):
         if self._transitions and any(t.suffix_form_application.actual_suffix_form for t in self._transitions):
             #TODO:!!!!  necessary for the case yurutemeyecekmisim !-> yurudemeyecekmisim
             if self.get_last_state().syntactic_category == SyntacticCategory.VERB and (
-                self.get_last_state().type == State.DERIVATIONAL or not self._transitions[-1].suffix_form_application.actual_suffix_form):
-                return [LexemeAttribute.NoVoicing]
+                self.get_last_state().type == State.DERIVATIONAL or not self.get_last_transition().suffix_form_application.actual_suffix_form):
+                return {LexemeAttribute.NoVoicing}
             else:
                 return None
         else:
