@@ -14,17 +14,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from copy import copy
 import logging
-import os
 import unittest
-from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder, BruteForceCompoundNounRootFinder
+from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder
 from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
-from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
-from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator
 from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
-from trnltk.morphology.morphotactics.predefinedpaths import PredefinedPaths
 from trnltk.morphology.morphotactics.basicsuffixgraph import BasicSuffixGraph
 
 class ParserTestWithBruteForceNounRootFinder(ParserTest):
@@ -32,13 +27,6 @@ class ParserTestWithBruteForceNounRootFinder(ParserTest):
     @classmethod
     def setUpClass(cls):
         super(ParserTestWithBruteForceNounRootFinder, cls).setUpClass()
-        all_roots = []
-
-        lexemes = LexiconLoader.load_from_file(os.path.join(os.path.dirname(__file__), '../../../../resources/master_dictionary.txt'))
-        for di in lexemes:
-            all_roots.extend(RootGenerator.generate(di))
-
-        cls._org_root_map = (RootMapGenerator()).generate(all_roots)
 
 
     def setUp(self):
@@ -48,10 +36,6 @@ class ParserTestWithBruteForceNounRootFinder(ParserTest):
 
         suffix_graph = BasicSuffixGraph()
         suffix_graph.initialize()
-
-        self.cloned_root_map = copy(self._org_root_map)
-        predefined_paths = PredefinedPaths(self.cloned_root_map, suffix_graph)
-        predefined_paths.create_predefined_paths()
 
         self.mock_brute_force_noun_root_finder = BruteForceNounRootFinder()
 
