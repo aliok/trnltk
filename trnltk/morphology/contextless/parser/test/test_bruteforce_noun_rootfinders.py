@@ -16,7 +16,7 @@ limitations under the License.
 """
 import unittest
 from hamcrest import *
-from trnltk.morphology.contextless.parser.bruteforcerootfinder import BruteForceNounRootFinder
+from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder
 from trnltk.morphology.model.lexeme import SyntacticCategory, LexemeAttribute
 
 class BruteForceNounRootFinderTest(unittest.TestCase):
