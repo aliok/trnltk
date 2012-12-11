@@ -21,6 +21,13 @@ from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.morphology.phonetics.phonetics import Phonetics
 
 class BruteForceNounRootFinder(RootFinder):
+    """
+    Tries to find the root by brute force.
+
+    Checks for the signs of the orthographic changes, and finds roots according to that.
+    Checks for possible inverse harmony, doubling, voicing (except nk->nG voicing) and explicit no voicing.
+    Doesn't check possible vowel drops.
+    """
     def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
