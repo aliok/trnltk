@@ -689,12 +689,11 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Hastily, self.VERB_ROOT)
         self.Hastily.add_suffix_form(u"+yIver")
 
-        root_can_have_passive = doesnt_have_lexeme_attribute(LexemeAttribute.Passive_NotApplicable)
         passive_Il = doesnt_have_lexeme_attribute(LexemeAttribute.Passive_In) & doesnt_have_lexeme_attribute(LexemeAttribute.Passive_InIl)
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
-        self.Pass.add_suffix_form(u"+In", root_can_have_passive & has_lexeme_attribute(LexemeAttribute.Passive_In))
-        self.Pass.add_suffix_form(u"+nIl", root_can_have_passive & passive_Il)
-        self.Pass.add_suffix_form(u"+InIl", root_can_have_passive & has_lexeme_attribute(LexemeAttribute.Passive_InIl))
+        self.Pass.add_suffix_form(u"+In", has_lexeme_attribute(LexemeAttribute.Passive_In))
+        self.Pass.add_suffix_form(u"+nIl", passive_Il)
+        self.Pass.add_suffix_form(u"+InIl", has_lexeme_attribute(LexemeAttribute.Passive_InIl))
 
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Recip, self.VERB_ROOT)
         self.Recip.add_suffix_form(u"+Iş", post_derivation_condition=doesnt(followed_by_derivation(self.Caus)) | followed_by_derivation(self.Caus, u'dIr'))

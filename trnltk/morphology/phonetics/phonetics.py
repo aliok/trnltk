@@ -251,7 +251,7 @@ class Phonetics(object):
         """
         Calculates the phonetic attributes of a word, considering the root attributes of it.
         @type word: unicode
-        @type lexeme_attributes: list
+        @type lexeme_attributes: set of str
         @rtype: set
         """
 

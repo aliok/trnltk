@@ -472,7 +472,7 @@ akar
 akarca
 akaret [A:NoVoicing]
 akarlar
-akarsu [A:NounConsInsert]
+akarsu
 akaryakıt [A:NoVoicing]
 akasma
 akasya
@@ -4148,7 +4148,7 @@ cıvata
 cıvatalamak
 cıvık [P:Adj]
 cıvıl [P:Adj, Dup]
-cıvıldamak [A:Reciprocal]
+cıvıldamak
 cıvıltı
 cıvımak
 cıvmak
@@ -18308,7 +18308,7 @@ ozuga
 önoloji
 önsezi
 önünden [P:Adv]
-öpmek [A:Reciprocal]
+öpmek
 öpücük
 örcin
 ördek
@@ -21752,7 +21752,7 @@ strüktüralist [A:NoVoicing]
 strüktüralizm
 strüktürel
 stüdyo
-su [A:NounConsInsert]
+su
 sual [A:InverseHarmony]
 suare
 subasar

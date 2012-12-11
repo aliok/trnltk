@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 class SyntacticCategory(object):
     NOUN = u"Noun"
     ADJECTIVE = u"Adj"
@@ -27,7 +28,10 @@ class SyntacticCategory(object):
     QUESTION = u"Ques"
     PUNCTUATION = u"Punc"
 
-    ALL = sorted({NOUN, ADJECTIVE, ADVERB, CONJUNCTION, INTERJECTION, VERB, PRONOUN, NUMERAL, DETERMINER, PARTICLE, QUESTION, PUNCTUATION})
+    ALL = sorted(
+        {NOUN, ADJECTIVE, ADVERB, CONJUNCTION, INTERJECTION, VERB, PRONOUN, NUMERAL, DETERMINER, PARTICLE, QUESTION,
+         PUNCTUATION})
+
 
 class SecondarySyntacticCategory(object):
     DUPLICATOR = u"Dup"
@@ -44,9 +48,13 @@ class SecondarySyntacticCategory(object):
     ORD = u"Ord"
     DIGITS = u"Digits"
 
-    ALL = sorted({DUPLICATOR, POST_POSITIVE, QUESTION, DEMONSTRATIVE, REFLEXIVE, PERSONAL, TIME, PROPER_NOUN, ABBREVIATION, CARD, ORD})
+    ALL = sorted(
+        {DUPLICATOR, POST_POSITIVE, QUESTION, DEMONSTRATIVE, REFLEXIVE, PERSONAL, TIME, PROPER_NOUN, ABBREVIATION, CARD,
+         ORD})
+
 
 class LexemeAttribute(object):
+    # attributes applicable to all
     Voicing = u"Voicing"
     VoicingOpt = u"VoicingOpt"
     NoVoicing = u"NoVoicing"
@@ -54,37 +62,34 @@ class LexemeAttribute(object):
     LastVowelDrop = u"LastVowelDrop"
     Doubling = u"Doubling"
     RootChange = u"RootChange"
-    NounConsInsert = u"NounConsInsert"
-    NounConsInsert_n = u"NounConsInsert_n"
-    NoQuote = u"NoQuote"
     Plural = u"Plural"
+    NoSuffix = u"NoSuffix"
+
+    # noun attributes
+    CompoundP3sg = u"CompoundP3sg"
+
+    # verb attributes
     ProgressiveVowelDrop = u"ProgressiveVowelDrop"
     Aorist_I = u"Aorist_I"
     Aorist_A = u"Aorist_A"
-    NonTransitive = u"NonTransitive"
-    Passive_In = u"Passive_In"
-    Passive_InIl = u"Passive_InIl"
-    Passive_NotApplicable = u"Passive_NotApplicable"
-    CompoundP3sg = u"CompoundP3sg"
-    Reflexive = u"Reflexive"
-    Reciprocal = u"Reciprocal"
-    NoSuffix = u"NoSuffix"
-
     Causative_t = u"Causative_t"
     Causative_Ir = u"Causative_Ir"
     Causative_It = u"Causative_It"
     Causative_Ar = u"Causative_Ar"
     Causative_dIr = u"Causative_dIr"
+    Passive_In = u"Passive_In"
+    Passive_InIl = u"Passive_InIl"
 
     ALL = sorted({
-        Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, RootChange, NounConsInsert, NounConsInsert_n,
-        NoQuote, Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, NonTransitive, Passive_In, Passive_InIl, Passive_NotApplicable,
-        CompoundP3sg, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, Reflexive, Reciprocal, NoSuffix
+        Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, RootChange,
+        Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, Passive_In, Passive_InIl,
+        CompoundP3sg, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, NoSuffix
     })
 
     CAUSATIVES = sorted({
         Causative_t, Causative_Ir, Causative_It, Causative_Ar, Causative_dIr
     })
+
 
 class Lexeme(object):
     #TODO: make this and similar classes immutable
@@ -103,10 +108,12 @@ class Lexeme(object):
         self.attributes = attributes if attributes else set()
 
     def clone(self):
-        return Lexeme(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category, set(self.attributes))
+        return Lexeme(self.lemma, self.root, self.syntactic_category, self.secondary_syntactic_category,
+            set(self.attributes))
 
     def __str__(self):
-        return u'{}({})+{}+{} R_ATTR:{}'.format(repr(self.lemma), repr(self.root), self.syntactic_category, self.secondary_syntactic_category, self.attributes)
+        return u'{}({})+{}+{} R_ATTR:{}'.format(repr(self.lemma), repr(self.root), self.syntactic_category,
+            self.secondary_syntactic_category, self.attributes)
 
     def __repr__(self):
         return self.__str__()
@@ -124,6 +131,7 @@ class Lexeme(object):
                        self.secondary_syntactic_category,
                        tuple(sorted(self.attributes))))
         return result
+
 
 class DynamicLexeme(Lexeme):
     def __init__(self, lemma, root, syntactic_category, secondary_syntactic_category, attributes):

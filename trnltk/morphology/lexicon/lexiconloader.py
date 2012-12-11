@@ -113,7 +113,7 @@ class LexiconLoader(object):
         last_letter = TurkishAlphabet.get_letter_for_char(item_root[-1])
 
         if lexeme.syntactic_category==SyntacticCategory.VERB:
-            if last_letter.vowel and LexemeAttribute.Passive_NotApplicable not in lexeme.attributes:
+            if last_letter.vowel:
                 lexeme.attributes.add(LexemeAttribute.ProgressiveVowelDrop)
                 lexeme.attributes.add(LexemeAttribute.Passive_In)
 
@@ -123,7 +123,7 @@ class LexiconLoader(object):
             if root_vowel_count==1 and LexemeAttribute.Aorist_I not in lexeme.attributes:
                 lexeme.attributes.add(LexemeAttribute.Aorist_A)
 
-            if last_letter==TurkishAlphabet.L_l and LexemeAttribute.Passive_NotApplicable not in lexeme.attributes:
+            if last_letter==TurkishAlphabet.L_l:
                 lexeme.attributes.add(LexemeAttribute.Passive_In)
 
             if all(a not in lexeme.attributes for a in LexemeAttribute.CAUSATIVES):
