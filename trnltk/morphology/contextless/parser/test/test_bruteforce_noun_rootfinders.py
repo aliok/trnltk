@@ -16,36 +16,41 @@ limitations under the License.
 """
 import unittest
 from hamcrest import *
+from trnltk.morphology.contextless.parser.bruteforcerootfinder import BruteForceNounRootFinder
 from trnltk.morphology.model.lexeme import SyntacticCategory, LexemeAttribute
-from trnltk.morphology.contextless.parser.rootfinder import BruteForceNounRootFinder
 
 class BruteForceNounRootFinderTest(unittest.TestCase):
-
     def setUp(self):
         self.root_finder = BruteForceNounRootFinder()
 
     def test_should_check_invalid_cases(self):
-        f = lambda : self.root_finder.find_roots_for_partial_input(None, None)
+        f = lambda: self.root_finder.find_roots_for_partial_input(None, None)
         self.assertRaises(AssertionError, f)
 
-        f = lambda : self.root_finder.find_roots_for_partial_input("", None)
+        f = lambda: self.root_finder.find_roots_for_partial_input("", None)
         self.assertRaises(AssertionError, f)
 
-        f = lambda : self.root_finder.find_roots_for_partial_input(None, "")
+        f = lambda: self.root_finder.find_roots_for_partial_input(None, "")
         self.assertRaises(AssertionError, f)
 
-        f = lambda : self.root_finder.find_roots_for_partial_input("", "")
+        f = lambda: self.root_finder.find_roots_for_partial_input("", "")
         self.assertRaises(AssertionError, f)
 
-        f = lambda : self.root_finder.find_roots_for_partial_input(u"a", None)
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"a", None)
         self.assertRaises(AssertionError, f)
 
-        f = lambda : self.root_finder.find_roots_for_partial_input(u"a", u"")
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"a", u"")
         self.assertRaises(AssertionError, f)
 
-        f = lambda : self.root_finder.find_roots_for_partial_input(u"ab", u"a")
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"a")
         self.assertRaises(AssertionError, f)
 
+    def test_should_create_no_roots(self):
+        roots = self.root_finder.find_roots_for_partial_input(u'b', u'be')
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u'b', u'ben')
+        assert_that(roots, has_length(0))
 
 
     def test_should_create_roots_without_orthographic_changes(self):
@@ -57,20 +62,6 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
 
         roots = self.root_finder.find_roots_for_partial_input(u"b", u"b")
-        assert_that(roots, has_length(1))
-        assert_that(roots[0].str, equal_to(u'b'))
-        assert_that(roots[0].lexeme.root, equal_to(u'b'))
-        assert_that(roots[0].lexeme.lemma, equal_to(u'b'))
-        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-
-        roots = self.root_finder.find_roots_for_partial_input(u"a", u"ab")
-        assert_that(roots, has_length(1))
-        assert_that(roots[0].str, equal_to(u'a'))
-        assert_that(roots[0].lexeme.root, equal_to(u'a'))
-        assert_that(roots[0].lexeme.lemma, equal_to(u'a'))
-        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
-
-        roots = self.root_finder.find_roots_for_partial_input(u"b", u"ba")
         assert_that(roots, has_length(1))
         assert_that(roots[0].str, equal_to(u'b'))
         assert_that(roots[0].lexeme.root, equal_to(u'b'))
@@ -89,6 +80,13 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].str, equal_to(u'ba'))
         assert_that(roots[0].lexeme.root, equal_to(u'ba'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ba'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"atağ", u"atağ")
+        assert_that(roots, has_length(1))
+        assert_that(roots[0].str, equal_to(u'atağ'))
+        assert_that(roots[0].lexeme.root, equal_to(u'atağ'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'atağ'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
 
         roots = self.root_finder.find_roots_for_partial_input(u"abc", u"abc")
@@ -127,6 +125,18 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[1].lexeme.root, equal_to(u'at'))
         assert_that(roots[1].lexeme.lemma, equal_to(u'at'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+
+        # skipped the case where nK voices to nG as in cenk->cengi
+        #roots = self.root_finder.find_roots_for_partial_input(u"ang", u"anga")
+        #assert_that(roots, has_length(2))
+        #assert_that(roots[0].str, equal_to(u'ang'))
+        #assert_that(roots[0].lexeme.root, equal_to(u'ang'))
+        #assert_that(roots[0].lexeme.lemma, equal_to(u'ang'))
+        #assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        #assert_that(roots[1].str, equal_to(u'ank'))
+        #assert_that(roots[1].lexeme.root, equal_to(u'ank'))
+        #assert_that(roots[1].lexeme.lemma, equal_to(u'ank'))
+        #assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
 
         roots = self.root_finder.find_roots_for_partial_input(u"ağ", u"ağa")
         assert_that(roots, has_length(3))
@@ -410,7 +420,6 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[2].lexeme.lemma, equal_to(u'serhat'))
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
         assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony}))
-
 
 
 if __name__ == '__main__':
