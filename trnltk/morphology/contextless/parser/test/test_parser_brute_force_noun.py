@@ -18,7 +18,7 @@ from copy import copy
 import logging
 import os
 import unittest
-from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder
+from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder, BruteForceCompoundNounRootFinder
 from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
 from trnltk.morphology.lexicon.lexiconloader import LexiconLoader
 from trnltk.morphology.lexicon.rootgenerator import RootGenerator, RootMapGenerator

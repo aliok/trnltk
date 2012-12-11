@@ -16,7 +16,7 @@ limitations under the License.
 """
 import unittest
 from hamcrest import *
-from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder
+from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder, BruteForceCompoundNounRootFinder
 from trnltk.morphology.model.lexeme import SyntacticCategory, LexemeAttribute
 
 class BruteForceNounRootFinderTest(unittest.TestCase):
@@ -421,6 +421,250 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
         assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Doubling, LexemeAttribute.InverseHarmony}))
 
+
+class BruteForceCompoundNounRootFinderTest(unittest.TestCase):
+    def setUp(self):
+        self.root_finder = BruteForceCompoundNounRootFinder()
+
+    def test_should_check_invalid_cases(self):
+        f = lambda: self.root_finder.find_roots_for_partial_input(None, None)
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input("", None)
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(None, "")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input("", "")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"a", None)
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"a", u"")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"a")
+        self.assertRaises(AssertionError, f)
+
+    def test_should_find_no_roots(self):
+        roots = self.root_finder.find_roots_for_partial_input(u"abc", u"abcdef")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"a", u"anu")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"an", u"anu")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"anu", u"anu")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"a", u"anun")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"an", u"anun")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"anu", u"anun")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"anun", u"anun")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"t", u"tatın")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"ta", u"tatın")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"tat", u"tatın")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"tatı", u"tatın")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"tatın", u"tatın")
+        assert_that(roots, has_length(0))
+
+        roots = self.root_finder.find_roots_for_partial_input(u"suborusu", u"suborusun")
+        assert_that(roots, has_length(0))
+
+    def test_should_create_roots_without_consontant_insertion_s(self):
+        # most of the following words are made up!
+
+        # no orthographic changes, no consontant insertion 's'
+        roots = self.root_finder.find_roots_for_partial_input(u"bacakkalemi", u"bacakkalemini")
+        assert_that(roots, has_length(1))
+        assert_that(roots[0].str, equal_to(u'bacakkalem'))
+        assert_that(roots[0].lexeme.root, equal_to(u'bacakkalemi'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'bacakkalemi'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+
+        # with explicit NoVoicing
+        roots = self.root_finder.find_roots_for_partial_input(u"adamotu", u"adamotunu")
+        assert_that(roots, has_length(1))
+        assert_that(roots[0].str, equal_to(u'adamot'))
+        assert_that(roots[0].lexeme.root, equal_to(u'adamotu'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'adamotu'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.NoVoicing}))
+
+        # with possible voicing
+        roots = self.root_finder.find_roots_for_partial_input(u"aslankuyruğu", u"aslankuyruğundan")
+        assert_that(roots, has_length(3))
+        assert_that(roots[0].str, equal_to(u'aslankuyruğ'))
+        assert_that(roots[0].lexeme.root, equal_to(u'aslankuyruğu'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'aslankuyruğu'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+        assert_that(roots[1].str, equal_to(u'aslankuyrug'))
+        assert_that(roots[1].lexeme.root, equal_to(u'aslankuyruğu'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'aslankuyruğu'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+        assert_that(roots[2].str, equal_to(u'aslankuyruk'))
+        assert_that(roots[2].lexeme.root, equal_to(u'aslankuyruğu'))
+        assert_that(roots[2].lexeme.lemma, equal_to(u'aslankuyruğu'))
+        assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+
+        # with InverseHarmony
+        roots = self.root_finder.find_roots_for_partial_input(u"dünyahali", u"dünyahaline")
+        assert_that(roots, has_length(1))
+        assert_that(roots[0].str, equal_to(u'dünyahal'))
+        assert_that(roots[0].lexeme.root, equal_to(u'dünyahali'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'dünyahali'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
+
+        # with InverseHarmony and possible voicing
+        roots = self.root_finder.find_roots_for_partial_input(u"abcvaadi", u"abcvaadini")
+        assert_that(roots, has_length(2))
+        assert_that(roots[0].str, equal_to(u'abcvaad'))
+        assert_that(roots[0].lexeme.root, equal_to(u'abcvaadi'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'abcvaadi'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
+        assert_that(roots[1].str, equal_to(u'abcvaat'))
+        assert_that(roots[1].lexeme.root, equal_to(u'abcvaadi'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'abcvaadi'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
+
+        # with InverseHarmony and explicit NoVoicing
+        roots = self.root_finder.find_roots_for_partial_input(u"anaşefkati", u"anaşefkatini")
+        assert_that(roots, has_length(1))
+        assert_that(roots[0].str, equal_to(u'anaşefkat'))
+        assert_that(roots[0].lexeme.root, equal_to(u'anaşefkati'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'anaşefkati'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony, LexemeAttribute.NoVoicing}))
+
+        # with doubling
+        roots = self.root_finder.find_roots_for_partial_input(u"gönülsırrı", u"gönülsırrına")
+        assert_that(roots, has_length(2))
+        assert_that(roots[0].str, equal_to(u'gönülsırr'))
+        assert_that(roots[0].lexeme.root, equal_to(u'gönülsırrı'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'gönülsırrı'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+        assert_that(roots[1].str, equal_to(u'gönülsır'))
+        assert_that(roots[1].lexeme.root, equal_to(u'gönülsırrı'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'gönülsırrı'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.Doubling}))
+
+        # with doubling and explicit NoVoicing
+        roots = self.root_finder.find_roots_for_partial_input(u"müşterihakkı", u"müşterihakkına")
+        assert_that(roots, has_length(2))
+        assert_that(roots[0].str, equal_to(u'müşterihakk'))
+        assert_that(roots[0].lexeme.root, equal_to(u'müşterihakkı'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'müşterihakkı'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.NoVoicing}))
+        assert_that(roots[1].str, equal_to(u'müşterihak'))
+        assert_that(roots[1].lexeme.root, equal_to(u'müşterihakkı'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'müşterihakkı'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.NoVoicing, LexemeAttribute.Doubling}))
+
+        # with doubling and InverseHarmony
+        roots = self.root_finder.find_roots_for_partial_input(u"olaymahalli", u"olaymahalline")
+        assert_that(roots, has_length(2))
+        assert_that(roots[0].str, equal_to(u'olaymahall'))
+        assert_that(roots[0].lexeme.root, equal_to(u'olaymahalli'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'olaymahalli'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
+        assert_that(roots[1].str, equal_to(u'olaymahal'))
+        assert_that(roots[1].lexeme.root, equal_to(u'olaymahalli'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'olaymahalli'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony, LexemeAttribute.Doubling}))
+
+        # with doubling, possible voicing and inverse harmony
+        roots = self.root_finder.find_roots_for_partial_input(u"yaşhaddi", u"yaşhaddinden")
+        assert_that(roots, has_length(3))
+        assert_that(roots[0].str, equal_to(u'yaşhadd'))
+        assert_that(roots[0].lexeme.root, equal_to(u'yaşhaddi'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'yaşhaddi'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
+        assert_that(roots[1].str, equal_to(u'yaşhad'))
+        assert_that(roots[1].lexeme.root, equal_to(u'yaşhaddi'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'yaşhaddi'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony, LexemeAttribute.Doubling}))
+        assert_that(roots[2].str, equal_to(u'yaşhat'))
+        assert_that(roots[2].lexeme.root, equal_to(u'yaşhaddi'))
+        assert_that(roots[2].lexeme.lemma, equal_to(u'yaşhaddi'))
+        assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[2].lexeme.attributes,
+            equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony, LexemeAttribute.Doubling}))
+
+    def test_should_create_roots_with_consontant_insertion_s(self):
+        # most of the following words are made up!
+        roots = self.root_finder.find_roots_for_partial_input(u"suborusu", u"suborusuna")
+        assert_that(roots, has_length(2))
+        assert_that(roots[0].str, equal_to(u'suborus'))
+        assert_that(roots[0].lexeme.root, equal_to(u'suborusu'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'suborusu'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+        assert_that(roots[1].str, equal_to(u'suboru'))
+        assert_that(roots[1].lexeme.root, equal_to(u'suborusu'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'suborusu'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg}))
+
+        # InverseHarmony and consonant 's' doesn't work together.
+        # Compound gets the 's' if it ends with a vowel.
+        # However, a word ending with a vowel cannot have InverseHarmony.
+        # Thus, this is an invalid case!
+        #roots = self.root_finder.find_roots_for_partial_input(u"abcdesı", u"abcdesına")
+        #assert_that(roots, has_length(2))
+        #assert_that(roots[0].str, equal_to(u'abcdes'))
+        #assert_that(roots[0].lexeme.root, equal_to(u'abcdesı'))
+        #assert_that(roots[0].lexeme.lemma, equal_to(u'abcdesı'))
+        #assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        #assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
+        #assert_that(roots[1].str, equal_to(u'abcde'))
+        #assert_that(roots[1].lexeme.root, equal_to(u'abcdesı'))
+        #assert_that(roots[1].lexeme.lemma, equal_to(u'abcdesı'))
+        #assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
+        #assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.CompoundP3sg, LexemeAttribute.InverseHarmony}))
 
 if __name__ == '__main__':
     unittest.main()

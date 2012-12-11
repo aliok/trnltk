@@ -146,3 +146,115 @@ class BruteForceNounRootFinder(RootFinder):
                 return letter
 
         return None
+
+
+class BruteForceCompoundNounRootFinder(RootFinder):
+    """
+    Finds roots that seem like a compoundP3sg noun.
+
+    A compoundP3sg noun is for example 'acemborusu' or 'keçiboynuzu', but not 'akarsu'.
+
+    This class is basically trying to explain why a noun would get Accusative form -nI
+    when the root is not in the dictionary.
+
+    These are supported:
+
+    bacakkalemi, adamotu, aslankuyruğu, dünyahali, yaşhaddi etc.
+
+    These are not supported:
+
+    * soboruları
+    * soborum
+    * çeşmesuyunu
+    * ademoğlunu
+
+    >>> rf = BruteForceCompoundNounRootFinder()
+    >>> rf.find_roots_for_partial_input(u'suborusu', u'suborusuna')
+
+    <Root:u'suboru', Lexeme:u'soburusu'>
+    """
+
+    def __init__(self):
+        self.brute_force_noun_root_finder = BruteForceNounRootFinder()
+
+    def find_roots_for_partial_input(self, partial_input, whole_surface=None):
+        """
+        @type partial_input: unicode
+        @type whole_surface: unicode
+        @rtype: list of Root
+        """
+        assert partial_input and whole_surface
+        assert len(partial_input) <= len(whole_surface)
+
+        # no compound should be found an input shorter than sth like "atsu-yu". even that doesn't make sense
+        if len(partial_input) < 5:
+            return []
+
+        if whole_surface == partial_input:
+            return []
+
+        last_char = partial_input[-1]
+        previous_char = partial_input[-2]
+
+        if last_char.isupper() or previous_char.isupper():
+            return []
+
+        last_letter = TurkishAlphabet.get_letter_for_char(last_char)
+
+        if last_letter!=TurkishAlphabet.L_i and last_letter!=TurkishAlphabet.L_u and\
+           last_letter!=TurkishAlphabet.L_ii and last_letter!=TurkishAlphabet.L_uu:
+            return []
+
+        first_char_after_partial_input = whole_surface[len(partial_input)]
+
+        if first_char_after_partial_input.isupper():
+            return []
+
+        first_letter_after_partial_input = TurkishAlphabet.get_letter_for_char(first_char_after_partial_input)
+
+        if first_letter_after_partial_input != TurkishAlphabet.L_n:
+            return []
+
+        if len(whole_surface) < len(partial_input) + 2: # need a char after char 'n'
+            return []
+
+        compound_results = []
+
+        results_with_partial_input_one_char_missing = self.brute_force_noun_root_finder.find_roots_for_partial_input(partial_input[:-1], whole_surface)
+
+        # illustrate:
+        # partial_input = suborusu, whole_surface = suborusuna
+        # results_with_partial_input_one_char_missing : <'suborus','suborus'>
+        # partial_input = bacakkalemi, whole_surface = bacakkalemini
+        # results_with_partial_input_one_char_missing : <'bacakkalem','bacakkalem'>
+
+        for normal_noun_result in results_with_partial_input_one_char_missing:
+            clone_result = normal_noun_result._clone(True)
+            clone_result.str = clone_result.lexeme.root
+            clone_result.lexeme.root = partial_input
+            clone_result.lexeme.lemma = partial_input
+
+            compound_results.append(clone_result)
+
+
+        previous_letter = TurkishAlphabet.get_letter_for_char(previous_char)
+
+        if previous_letter==TurkishAlphabet.L_s:
+            results_with_partial_input_two_chars_missing = self.brute_force_noun_root_finder.find_roots_for_partial_input(partial_input[:-2], whole_surface)
+
+            # illustrate:
+            # partial_input = suborusu, whole_surface = suborusuna
+            # results_with_partial_input_two_chars_missing : <'suboru','suboru'>
+
+            for normal_noun_result in results_with_partial_input_two_chars_missing:
+                clone_result = normal_noun_result._clone(True)
+                clone_result.lexeme.root = partial_input
+                clone_result.lexeme.lemma = partial_input
+
+                compound_results.append(clone_result)
+
+
+        for compound_result in compound_results:
+            compound_result.lexeme.attributes.add(LexemeAttribute.CompoundP3sg)
+
+        return compound_results
