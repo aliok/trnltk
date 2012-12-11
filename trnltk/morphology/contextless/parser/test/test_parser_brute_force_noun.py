@@ -16,7 +16,7 @@ limitations under the License.
 """
 import logging
 import unittest
-from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder
+from trnltk.morphology.contextless.parser.bruteforcenounrootfinders import BruteForceNounRootFinder, BruteForceCompoundNounRootFinder
 from trnltk.morphology.contextless.parser.test.parser_test import ParserTest
 from trnltk.morphology.contextless.parser.parser import ContextlessMorphologicalParser, logger as parser_logger
 from trnltk.morphology.contextless.parser.suffixapplier import logger as suffix_applier_logger
@@ -98,6 +98,140 @@ class ParserTestWithBruteForceNounRootFinder(ParserTest):
         self.assert_parse_correct(u'hakka',         u'hakk(hakk)+Noun+A3sg+Pnon+Dat(+yA[a])', u'hakk(hak)+Noun+A3sg+Pnon+Dat(+yA[a])', u'hakka(hakka)+Noun+A3sg+Pnon+Nom')
         self.assert_parse_correct(u'hallini',       u'hall(hall)+Noun+A3sg+P2sg(+In[in])+Acc(+yI[i])', u'hall(hall)+Noun+A3sg+P3sg(+sI[i])+Acc(nI[ni])', u'hall(hal)+Noun+A3sg+P2sg(+In[in])+Acc(+yI[i])', u'hall(hal)+Noun+A3sg+P3sg(+sI[i])+Acc(nI[ni])', u'halli(halli)+Noun+A3sg+P2sg(+In[n])+Acc(+yI[i])', u'hallin(hallin)+Noun+A3sg+Pnon+Acc(+yI[i])', u'hallin(hallin)+Noun+A3sg+P3sg(+sI[i])+Nom', u'hallini(hallini)+Noun+A3sg+Pnon+Nom', u'hal(hal)+Noun+A3sg+Pnon+Nom+Adj+With(lI[li])+Noun+Zero+A3sg+P2sg(+In[n])+Acc(+yI[i])')
         self.assert_parse_correct(u'serhaddime',    u'serhadd(serhadd)+Noun+A3sg+P1sg(+Im[im])+Dat(+yA[e])', u'serhadd(serhad)+Noun+A3sg+P1sg(+Im[im])+Dat(+yA[e])', u'serhadd(serhat)+Noun+A3sg+P1sg(+Im[im])+Dat(+yA[e])', u'serhaddi(serhaddi)+Noun+A3sg+P1sg(+Im[m])+Dat(+yA[e])', u'serhaddim(serhaddim)+Noun+A3sg+Pnon+Dat(+yA[e])', u'serhaddime(serhaddime)+Noun+A3sg+Pnon+Nom')
+
+class ParserTestWithBruteForceCompoundNounRootFinder(ParserTest):
+
+    @classmethod
+    def setUpClass(cls):
+        super(ParserTestWithBruteForceCompoundNounRootFinder, cls).setUpClass()
+
+
+    def setUp(self):
+        logging.basicConfig(level=logging.INFO)
+        parser_logger.setLevel(logging.INFO)
+        suffix_applier_logger.setLevel(logging.INFO)
+
+        suffix_graph = BasicSuffixGraph()
+        suffix_graph.initialize()
+
+        self.mock_brute_force_noun_compound_root_finder = BruteForceCompoundNounRootFinder()
+
+        self.parser = ContextlessMorphologicalParser(suffix_graph, None, [self.mock_brute_force_noun_compound_root_finder])
+
+    def test_should_not_parse_some_cases_without_consontant_S_insertion(self):
+        # used imaginary compound "ateli" to keep it short
+        self.assert_not_parsable(u'a')
+        self.assert_not_parsable(u'an')
+        self.assert_not_parsable(u'anu')
+
+        self.assert_not_parsable(u'at')
+        self.assert_not_parsable(u'atn')
+        self.assert_not_parsable(u'atnu')
+
+        self.assert_not_parsable(u'ate')
+        self.assert_not_parsable(u'aten')
+        self.assert_not_parsable(u'ateni')
+
+        self.assert_not_parsable(u'atel')
+        self.assert_not_parsable(u'ateli')
+        self.assert_not_parsable(u'atelni')
+
+        self.assert_not_parsable(u'ateli')
+        self.assert_not_parsable(u'atelin')
+        # following is parsable, which is correct!
+        self.assert_parse_correct(u'atelini',            u'atel(ateli)+Noun+A3sg+P3sg(+sI[i])+Acc(nI[ni])')
+
+        self.assert_not_parsable(u'ateleni')
+        self.assert_not_parsable(u'atelani')
+        self.assert_not_parsable(u'ateluni')
+        self.assert_not_parsable(u'atelüni')
+        self.assert_not_parsable(u'ateloni')
+        self.assert_not_parsable(u'atelöni')
+
+        self.assert_not_parsable(u'atsdefani')
+        self.assert_not_parsable(u'atsdefoni')
+        self.assert_not_parsable(u'atsdefuni')
+        self.assert_not_parsable(u'atsdefüni')
+
+        self.assert_not_parsable(u'atsdefanu')
+        self.assert_not_parsable(u'atsdefonu')
+        self.assert_not_parsable(u'atsdefunu')
+        self.assert_not_parsable(u'atsdefünu')
+
+    def test_should_not_parse_some_cases_with_consontant_S_insertion(self):
+        # used imaginary compound "suağası" to keep it short
+        self.assert_not_parsable(u's')
+        self.assert_not_parsable(u'sn')
+        self.assert_not_parsable(u'snu')
+
+        self.assert_not_parsable(u'su')
+        self.assert_not_parsable(u'sun')
+        self.assert_not_parsable(u'sunu')
+
+        self.assert_not_parsable(u'sua')
+        self.assert_not_parsable(u'suan')
+        self.assert_not_parsable(u'suanı')
+
+        self.assert_not_parsable(u'suağ')
+        self.assert_not_parsable(u'suağı')
+        self.assert_not_parsable(u'suağnı')
+
+        self.assert_not_parsable(u'suağa')
+        self.assert_not_parsable(u'suağan')
+        self.assert_not_parsable(u'suağanı')        # actually, this is also compound, but this case is not supported
+
+        self.assert_not_parsable(u'suağas')
+        self.assert_not_parsable(u'suağası')
+        self.assert_not_parsable(u'suağasnı')
+
+        self.assert_not_parsable(u'suağası')
+        self.assert_not_parsable(u'suağasın')
+        # following is parsable, which is correct!
+        self.assert_parse_correct(u'suağasını',     u'suağas(suağası)+Noun+A3sg+P3sg(+sI[ı])+Acc(nI[nı])', u'suağa(suağası)+Noun+A3sg+P3sg(+sI[sı])+Acc(nI[nı])')
+
+        self.assert_not_parsable(u'suağassn')
+
+        self.assert_not_parsable(u'suağasanı')
+        self.assert_not_parsable(u'suağasenı')
+        self.assert_not_parsable(u'suağasunı')
+        self.assert_not_parsable(u'suağasünı')
+        self.assert_not_parsable(u'suağasonı')
+        self.assert_not_parsable(u'suağasönı')
+
+        self.assert_not_parsable(u'suağasanu')
+        self.assert_not_parsable(u'suağasenu')
+        self.assert_not_parsable(u'suağasunu')
+        self.assert_not_parsable(u'suağasünu')
+        self.assert_not_parsable(u'suağasonu')
+        self.assert_not_parsable(u'suağasönu')
+
+
+    def test_should_parse_simple_compounds(self):
+        self.assert_parse_correct(u'bacakkalemini',        u'bacakkalem(bacakkalemi)+Noun+A3sg+P3sg(+sI[i])+Acc(nI[ni])')
+        self.assert_parse_correct(u'suborusuna',           u'suborus(suborusu)+Noun+A3sg+P3sg(+sI[u])+Dat(nA[na])', u'suboru(suborusu)+Noun+A3sg+P3sg(+sI[su])+Dat(nA[na])')
+
+    def test_should_parse_with_possible_voicing(self):
+        self.assert_parse_correct(u'kuzukulağını',         u'kuzukulağ(kuzukulağı)+Noun+A3sg+P3sg(+sI[ı])+Acc(nI[nı])')
+        self.assert_parse_correct(u'eczadolabında',        u'eczadolab(eczadolabı)+Noun+A3sg+P3sg(+sI[ı])+Loc(ndA[nda])')
+        self.assert_parse_correct(u'kafakağıdından',       u'kafakağıd(kafakağıdı)+Noun+A3sg+P3sg(+sI[ı])+Abl(ndAn[ndan])')
+
+    def test_should_parse_with_explicit_no_voicing(self):
+        self.assert_parse_correct(u'adamotuna',          u'adamot(adamotu)+Noun+A3sg+P3sg(+sI[u])+Dat(nA[na])')
+        self.assert_parse_correct(u'kaleiçinden',        u'kaleiç(kaleiçi)+Noun+A3sg+P3sg(+sI[i])+Abl(ndAn[nden])')
+        self.assert_parse_correct(u'uykuhapını',         u'uykuhap(uykuhapı)+Noun+A3sg+P3sg(+sI[ı])+Acc(nI[nı])')
+        self.assert_parse_correct(u'anaerkine',          u'anaerk(anaerki)+Noun+A3sg+P3sg(+sI[i])+Dat(nA[ne])')
+
+    def test_should_parse_with_explicit_inverse_harmony(self):
+        self.assert_parse_correct(u'dünyahaline',          u'dünyahal(dünyahali)+Noun+A3sg+P3sg(+sI[i])+Dat(nA[ne])')
+        self.assert_parse_correct(u'doğuekolünü',          u'doğuekol(doğuekolü)+Noun+A3sg+P3sg(+sI[ü])+Acc(nI[nü])')
+        self.assert_parse_correct(u'adamkatlini',          u'adamkatl(adamkatli)+Noun+A3sg+P3sg(+sI[i])+Acc(nI[ni])')
+
+    def test_should_parse_with_possible_voicing_and_explicit_inverse_harmony(self):
+        self.assert_parse_correct(u'saçmakelime_abine',    u'saçmakelime_ab(saçmakelime_abi)+Noun+A3sg+P3sg(+sI[i])+Dat(nA[ne])')
+
+    def test_should_parse_with_doubling(self):
+        self.assert_parse_correct(u'yaşhaddinden',         u'yaşhadd(yaşhaddi)+Noun+A3sg+P3sg(+sI[i])+Abl(ndAn[nden])')
+
 
 if __name__ == '__main__':
     unittest.main()
