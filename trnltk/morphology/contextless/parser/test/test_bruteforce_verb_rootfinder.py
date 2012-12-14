@@ -46,18 +46,122 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
         f = lambda : self.root_finder.find_roots_for_partial_input(u"ab", u"a")
         self.assertRaises(AssertionError, f)
 
+        f = lambda : self.root_finder.find_roots_for_partial_input(u"ab", u"ad")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda : self.root_finder.find_roots_for_partial_input(u"ab", u"ada")
+        self.assertRaises(AssertionError, f)
+
+
+    def test_should_return_no_results_for_short_verbs(self):
+        assert_that(self.root_finder.find_roots_for_partial_input(u"d", u"de"), has_length(0))
+
+
+    def test_should_return_no_results_for_invalid_verbs(self):
+        assert_that(self.root_finder.find_roots_for_partial_input(u"db", u"dbe"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"abcd", u"abcde"), has_length(0))
+
+        # yontmak, ürkmek, büyütlmek is fine
+
+        # simple cases
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyt", u"yoytacak"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoly", u"yolyacak"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yolz", u"yolzacak"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yomd", u"yomdacak"), has_length(0))
+
+
+        # invalid verb and progressive vowel drop
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoly", u"yolyuyor"), has_length(1)) # has len 1, since yolyamak is valid
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyb", u"yoybuyor"), has_length(1)) # has len 1, since yoybamak is valid
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyh", u"yoyhuyor"), has_length(1)) # has len 1, since yoyhamak is valid
+        #........ with voicing
+        # Voicing + ProgressiveVowelDrop is not supported!
+
+
+        # invalid verb and aorist_A
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yonl", u"yonlar"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoğt", u"yoğtar"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoğğ", u"yoğğar"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoğd", u"yoğdar"), has_length(0))
+
+        # invalid verb and aorist_I
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yanl", u"yanlur"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yağt", u"yağtır"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yağğ", u"yağğır"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yağd", u"yağdır"), has_length(0))
+
+
+        # invalid verb and causative_t
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yorz", u"yorztrmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yozg", u"yozgtrmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yozz", u"yozztrmaz"), has_length(0))
+
+        # invalid verb and causative_Ir
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzırmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgırmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzırmaz"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazd", u"yazdırmaz"), has_length(0))
+
+        # invalid verb and causative_It
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzıtmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgıtmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzıtmaz"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazd", u"yazdıtmaz"), has_length(0))
+
+        # invalid verb and causative_Ar
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yorz", u"yorzarmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yozg", u"yozgarmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yozz", u"yozzarmaz"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yozd", u"yozdarmaz"), has_length(0))
+
+        # invalid verb and causative_dIr
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzdırmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgdırmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzdırmaz"), has_length(0))
+        #........ with DeVoicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yapttırmaz"), has_length(0))
+
+        # invalid verb and causative_Il
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzlmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazglmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzlmaz"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yaptılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yaptlmaz"), has_length(0))
+
+        # invalid verb and causative_In
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzınmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgınmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzınmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarznmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgnmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazznmaz"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yaptınmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yaptnmaz"), has_length(0))
+
+        # invalid verb and causative_InIl
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarzınılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgınılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazzınılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yarz", u"yarznılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazg", u"yazgnılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yazz", u"yazznılmaz"), has_length(0))
+        #........ with voicing
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yaptınılmaz"), has_length(0))
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yapt", u"yaptnılmaz"), has_length(0))
 
 
     def test_should_create_roots_without_orthographic_changes_and_no_lexeme_attributes(self):
-    #TODO
-#        roots = self.root_finder.find_roots_for_partial_input(u"s", u"saldı")
-#        assert_that(roots, has_length(1))
-#        assert_that(roots[0].str, equal_to(u'sal'))
-#        assert_that(roots[0].lexeme.root, equal_to(u'sal'))
-#        assert_that(roots[0].lexeme.lemma, equal_to(u'salmak'))
-#        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
-#        assert_that(roots[0].lexeme.attributes, equal_to(set()))
-
         roots = self.root_finder.find_roots_for_partial_input(u"al", u"al")
         assert_that(roots, has_length(1))
         assert_that(roots[0].str, equal_to(u'al'))
@@ -204,6 +308,22 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
         assert_that(roots[2].lexeme.lemma, equal_to(u'gelmek'))
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Causative_Ir}))
+
+        # no Aorist_I for -ur, -ür
+        roots = self.root_finder.find_roots_for_partial_input(u"zop", u"zopuracak")
+        roots = sorted(roots, key=lambda r : r.lexeme.attributes)
+        assert_that(roots, has_length(2))
+        assert_that(roots[0].str, equal_to(u'zop'))
+        assert_that(roots[0].lexeme.root, equal_to(u'zop'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'zopmak'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[0].lexeme.attributes, equal_to(set()))
+        assert_that(roots[1].str, equal_to(u'zop'))
+        assert_that(roots[1].lexeme.root, equal_to(u'zop'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'zopmak'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Causative_Ir}))
+
 
     def test_should_create_roots_with_causative_t(self):
         roots = self.root_finder.find_roots_for_partial_input(u"kapa", u"kapattım")
@@ -408,6 +528,25 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
         assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Voicing}))
 
         # skip progressive vowel drop and voicing
+        roots = self.root_finder.find_roots_for_partial_input(u"yeld", u"yeldiyorum")
+        roots = sorted(roots, key=lambda r : r.lexeme.attributes)
+        assert_that(roots, has_length(3))
+        assert_that(roots[0].str, equal_to(u'yeld'))
+        assert_that(roots[0].lexeme.root, equal_to(u'yeld'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'yeldmek'))
+        assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[0].lexeme.attributes, equal_to(set()))
+        assert_that(roots[1].str, equal_to(u'yeld'))
+        assert_that(roots[1].lexeme.root, equal_to(u'yelt'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'yeltmek'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Voicing}))
+        assert_that(roots[2].str, equal_to(u'yeld'))
+        assert_that(roots[2].lexeme.root, equal_to(u'yelde'))
+        assert_that(roots[2].lexeme.lemma, equal_to(u'yeldemek'))
+        assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.ProgressiveVowelDrop}))
+        # NOTE: there is also "yeltemek", but doesn't seem likely. skipping it!
 
         # voicing and aorist_A and causative_Ar (ok, gidermek is not really git+Caus)
         roots = self.root_finder.find_roots_for_partial_input(u"gid", u"giderdi")
@@ -446,29 +585,40 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
 
         # voicing and aorist_I and causative_Ir
         # couldn't find an example, but lets support it until we find out that it is impossible
-        roots = self.root_finder.find_roots_for_partial_input(u"abd", u"abdırmış") ##TODO
+        # imaginary verb "zantmak"
+        roots = self.root_finder.find_roots_for_partial_input(u"zand", u"zandırmış") ##TODO
         roots = sorted(roots, key=lambda r : r.lexeme.attributes)
-        assert_that(roots, has_length(4))
-        assert_that(roots[0].str, equal_to(u'abd'))
-        assert_that(roots[0].lexeme.root, equal_to(u'abd'))
-        assert_that(roots[0].lexeme.lemma, equal_to(u'abdmak'))
+        assert_that(roots, has_length(6))
+        assert_that(roots[0].str, equal_to(u'zand'))
+        assert_that(roots[0].lexeme.root, equal_to(u'zand'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'zandmak'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
-        assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.Aorist_I}))
-        assert_that(roots[1].str, equal_to(u'abd'))
-        assert_that(roots[1].lexeme.root, equal_to(u'abt'))
-        assert_that(roots[1].lexeme.lemma, equal_to(u'abtmak'))
+        assert_that(roots[0].lexeme.attributes, equal_to(set()))
+        assert_that(roots[1].str, equal_to(u'zand'))
+        assert_that(roots[1].lexeme.root, equal_to(u'zant'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'zantmak'))
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
-        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Voicing, LexemeAttribute.Aorist_I}))
-        assert_that(roots[2].str, equal_to(u'abd'))
-        assert_that(roots[2].lexeme.root, equal_to(u'abd'))
-        assert_that(roots[2].lexeme.lemma, equal_to(u'abdmak'))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Voicing}))
+        assert_that(roots[2].str, equal_to(u'zand'))
+        assert_that(roots[2].lexeme.root, equal_to(u'zand'))
+        assert_that(roots[2].lexeme.lemma, equal_to(u'zandmak'))
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
-        assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Causative_Ir}))
-        assert_that(roots[3].str, equal_to(u'abd'))
-        assert_that(roots[3].lexeme.root, equal_to(u'abt'))
-        assert_that(roots[3].lexeme.lemma, equal_to(u'abtmak'))
+        assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.Aorist_I}))
+        assert_that(roots[3].str, equal_to(u'zand'))
+        assert_that(roots[3].lexeme.root, equal_to(u'zant'))
+        assert_that(roots[3].lexeme.lemma, equal_to(u'zantmak'))
         assert_that(roots[3].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
-        assert_that(roots[3].lexeme.attributes, equal_to({LexemeAttribute.Voicing, LexemeAttribute.Causative_Ir}))
+        assert_that(roots[3].lexeme.attributes, equal_to({LexemeAttribute.Voicing, LexemeAttribute.Aorist_I}))
+        assert_that(roots[4].str, equal_to(u'zand'))
+        assert_that(roots[4].lexeme.root, equal_to(u'zand'))
+        assert_that(roots[4].lexeme.lemma, equal_to(u'zandmak'))
+        assert_that(roots[4].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[4].lexeme.attributes, equal_to({LexemeAttribute.Causative_Ir}))
+        assert_that(roots[5].str, equal_to(u'zand'))
+        assert_that(roots[5].lexeme.root, equal_to(u'zant'))
+        assert_that(roots[5].lexeme.lemma, equal_to(u'zantmak'))
+        assert_that(roots[5].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[5].lexeme.attributes, equal_to({LexemeAttribute.Voicing, LexemeAttribute.Causative_Ir}))
 
         # skip {Causative_t, Causative_It, Causative_dIr} and voicing
 

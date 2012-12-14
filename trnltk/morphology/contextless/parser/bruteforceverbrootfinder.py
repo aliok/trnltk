@@ -29,9 +29,12 @@ class BruteForceVerbRootFinder(RootFinder):
         """
         assert partial_input and whole_surface
         assert len(partial_input) <= len(whole_surface)
-        assert whole_surface.startswith(partial_input) ##TODO: addtest
-        if len(whole_surface) == len(partial_input): ##TODO: addtest
+        assert whole_surface.startswith(partial_input)
+        if len(whole_surface) == len(partial_input):
             assert whole_surface == partial_input
+
+        if len(partial_input) < 2:      # not possible except (d,diyor) and (y,yiyor). but they are already in the dictionary
+            return []
 
         last_vowel = Phonetics.get_last_vowel(partial_input)
 
@@ -59,12 +62,7 @@ class BruteForceVerbRootFinder(RootFinder):
         last_char = partial_input[-1]
         last_letter = TurkishAlphabet.get_letter_for_char(last_char)
 
-        previous_char = partial_input[-2]
-        previous_letter = TurkishAlphabet.get_letter_for_char(previous_char)
-
-        partial_surface_can_be_root_of_a_verb = last_letter.vowel or previous_letter.vowel or\
-                                                (any([previous_letter==l for l in [TurkishAlphabet.L_l, TurkishAlphabet.L_r, TurkishAlphabet.L_n]])
-                                                 and last_letter.voiceless)
+        partial_surface_can_be_root_of_a_verb = self._seems_like_a_valid_verb_root(partial_input)
 
         if whole_surface==partial_input:
             return [no_attr_root] if partial_surface_can_be_root_of_a_verb else []
@@ -84,6 +82,7 @@ class BruteForceVerbRootFinder(RootFinder):
         might_have_Aorist_A = not last_letter.vowel and \
                               (whole_surface.startswith(partial_input + u'ar') or whole_surface.startswith(partial_input + u'er'))
 
+        # no Aorist_I for -ur, -ür
         might_have_Aorist_I = not last_letter.vowel and\
                               (whole_surface.startswith(partial_input + u'ır') or whole_surface.startswith(partial_input + u'ir'))
 
@@ -106,11 +105,10 @@ class BruteForceVerbRootFinder(RootFinder):
 
         generated_roots = set()
 
-        if partial_surface_can_be_root_of_a_verb:
-            generated_roots.add(no_attr_root)
+        generated_roots.add(no_attr_root)
 
-        if partial_surface_can_be_root_of_a_verb and voicing_might_have_happened:
-                generated_roots.add(self._get_possible_voicing_root(no_attr_root))
+        if voicing_might_have_happened:
+            generated_roots.add(self._get_possible_voicing_root(no_attr_root))
 
         generated_roots = generated_roots.union(possible_progressive_vowel_drop_roots)
         generated_roots = generated_roots.union(possible_aorist_A_roots)
@@ -121,7 +119,11 @@ class BruteForceVerbRootFinder(RootFinder):
         self._set_phonetic_attributes(generated_roots)
         self._set_lemma(generated_roots)
 
-        return list(generated_roots)
+        generated_roots = list(generated_roots)
+
+        generated_roots = filter(lambda r: self._seems_like_a_valid_verb_root(r.lexeme.root), generated_roots)
+
+        return generated_roots
 
     def _get_progressive_vowel_drop_roots(self, partial_input, whole_surface, no_attr_root, last_vowel):
         # başla - +Iyor --> başlıyor
@@ -228,6 +230,7 @@ class BruteForceVerbRootFinder(RootFinder):
         assert root.str[-1]==u'd', "This is weird! This method should have been called after possible voicing was already checked."
 
         clone = root._clone(deep=True)
+        # ignoring Voicing+ProgressiveVowelDrop
         clone.lexeme.lemma = clone.lexeme.root[:-1] + TurkishAlphabet.L_t.char_value
         clone.lexeme.root = clone.lexeme.lemma
         clone.lexeme.attributes = {LexemeAttribute.Voicing}.union(clone.lexeme.attributes)
@@ -251,3 +254,14 @@ class BruteForceVerbRootFinder(RootFinder):
                 r.lexeme.attributes)
             assert word and applied_suffix_form
             r.lexeme.lemma = word + applied_suffix_form
+
+    def _seems_like_a_valid_verb_root(self, seq):
+        last_char = seq[-1]
+        last_letter = TurkishAlphabet.get_letter_for_char(last_char)
+
+        previous_char = seq[-2]
+        previous_letter = TurkishAlphabet.get_letter_for_char(previous_char)
+
+        return last_letter.vowel or previous_letter.vowel or\
+               (any([previous_letter == l for l in [TurkishAlphabet.L_l, TurkishAlphabet.L_r, TurkishAlphabet.L_n]])
+                and not last_letter.continuant)
