@@ -103,11 +103,11 @@ class Phonetics(object):
         @param word: Surface
         @type word: unicode
         @param phonetic_attributes: Provided phonetics of the surface
-        @type phonetic_attributes: list
+        @type phonetic_attributes: set of unicode
         @param form_str: Suffix form
         @type form_str: unicode
         @param lexeme_attributes: Provided lexeme attributes of the root of surface
-        @type lexeme_attributes: list
+        @type lexeme_attributes: set of unicode
         @return: Tuple (word, applied suffix form)
         @rtype: tuple
         """
@@ -251,7 +251,7 @@ class Phonetics(object):
         """
         Calculates the phonetic attributes of a word, considering the root attributes of it.
         @type word: unicode
-        @type lexeme_attributes: set of str
+        @type lexeme_attributes: set of unicode
         @rtype: set
         """
 

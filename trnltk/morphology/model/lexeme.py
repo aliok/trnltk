@@ -77,12 +77,13 @@ class LexemeAttribute(object):
     Causative_It = u"Causative_It"
     Causative_Ar = u"Causative_Ar"
     Causative_dIr = u"Causative_dIr"
+    Passive_Il = u"Passive_Il"
     Passive_In = u"Passive_In"
     Passive_InIl = u"Passive_InIl"
 
     ALL = sorted({
         Voicing, VoicingOpt, NoVoicing, InverseHarmony, LastVowelDrop, Doubling, RootChange,
-        Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, Passive_In, Passive_InIl,
+        Plural, ProgressiveVowelDrop, Aorist_I, Aorist_A, Passive_Il, Passive_In, Passive_InIl,
         CompoundP3sg, Causative_t, Causative_It, Causative_Ir, Causative_Ar, Causative_dIr, NoSuffix
     })
 

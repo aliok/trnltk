@@ -689,7 +689,7 @@ class BasicSuffixGraph(SuffixGraphDecorator):
         self.VERB_POLARITY_DERIV.add_out_suffix(self.Hastily, self.VERB_ROOT)
         self.Hastily.add_suffix_form(u"+yIver")
 
-        passive_Il = doesnt_have_lexeme_attribute(LexemeAttribute.Passive_In) & doesnt_have_lexeme_attribute(LexemeAttribute.Passive_InIl)
+        passive_Il = has_lexeme_attribute(LexemeAttribute.Passive_Il) | (doesnt_have_lexeme_attribute(LexemeAttribute.Passive_In) & doesnt_have_lexeme_attribute(LexemeAttribute.Passive_InIl))
         self.VERB_PLAIN_DERIV.add_out_suffix(self.Pass, self.VERB_ROOT)
         self.Pass.add_suffix_form(u"+In", has_lexeme_attribute(LexemeAttribute.Passive_In))
         self.Pass.add_suffix_form(u"+nIl", passive_Il)

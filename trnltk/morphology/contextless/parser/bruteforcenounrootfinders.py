@@ -36,6 +36,9 @@ class BruteForceNounRootFinder(RootFinder):
         """
         assert partial_input and whole_surface
         assert len(partial_input) <= len(whole_surface)
+        assert whole_surface.startswith(partial_input) ##TODO: addtest
+        if len(whole_surface) == len(partial_input): ##TODO: addtest
+            assert whole_surface == partial_input
 
         root = partial_input
         lemma = root
@@ -185,6 +188,9 @@ class BruteForceCompoundNounRootFinder(RootFinder):
         """
         assert partial_input and whole_surface
         assert len(partial_input) <= len(whole_surface)
+        assert whole_surface.startswith(partial_input) ##TODO: addtest
+        if len(whole_surface) == len(partial_input): ##TODO: addtest
+            assert whole_surface == partial_input
 
         # no compound should be found an input shorter than sth like "atsu-yu". even that doesn't make sense
         if len(partial_input) < 5:

@@ -16,11 +16,12 @@ limitations under the License.
 """
 import codecs
 import os
+from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 
 def print_proper_nouns():
     dictionary_file_path = os.path.join(os.path.dirname(__file__), '../resources/master_dictionary.txt')
-    with codecs.open(dictionary_file_path, mode='r', encoding='utf-8') as parse_set_file:
-        for line in parse_set_file:
+    with codecs.open(dictionary_file_path, mode='r', encoding='utf-8') as dictionary_file:
+        for line in dictionary_file:
             line = line.strip()
             if line.startswith('#'):
                 continue
@@ -43,6 +44,22 @@ def remove_proper_nouns():
                     out.write(line)
                     out.write('\n')
 
+
+def print_verbs_with_double_consonant_ending():
+    dictionary_file_path = os.path.join(os.path.dirname(__file__), '../resources/master_dictionary.txt')
+    with codecs.open(dictionary_file_path, mode='r', encoding='utf-8') as dictionary_file:
+        for line in dictionary_file:
+            line = line.strip()
+            if line.startswith('#'):
+                continue
+            item = line
+            if u'[' in line:
+                item,meta = line.split(u'[')
+            item = item.strip()
+            if item.endswith(u'mak') or item.endswith(u'mek'):
+                verb_root = item[:-3]
+                if not TurkishAlphabet.get_letter_for_char(verb_root[-1]).vowel and not TurkishAlphabet.get_letter_for_char(verb_root[-2]).vowel:
+                    print verb_root
 
 def test_Turkish_char_sorting():
     import locale
@@ -117,4 +134,5 @@ if __name__ == '__main__':
 #    print_proper_nouns()
 #    remove_proper_nouns()
 #    test_Turkish_char_sorting()
-    generate_sorted_dictionary()
+#    generate_sorted_dictionary()
+    print_verbs_with_double_consonant_ending()
