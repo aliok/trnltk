@@ -586,7 +586,7 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
         # voicing and aorist_I and causative_Ir
         # couldn't find an example, but lets support it until we find out that it is impossible
         # imaginary verb "zantmak"
-        roots = self.root_finder.find_roots_for_partial_input(u"zand", u"zandırmış") ##TODO
+        roots = self.root_finder.find_roots_for_partial_input(u"zand", u"zandırmış")
         roots = sorted(roots, key=lambda r : r.lexeme.attributes)
         assert_that(roots, has_length(6))
         assert_that(roots[0].str, equal_to(u'zand'))

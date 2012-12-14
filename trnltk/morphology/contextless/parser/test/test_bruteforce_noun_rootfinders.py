@@ -45,6 +45,12 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"a")
         self.assertRaises(AssertionError, f)
 
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"ad")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"ada")
+        self.assertRaises(AssertionError, f)
+
     def test_should_create_no_roots(self):
         roots = self.root_finder.find_roots_for_partial_input(u'b', u'be')
         assert_that(roots, has_length(0))
@@ -297,7 +303,7 @@ class BruteForceNounRootFinderTest(unittest.TestCase):
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.NOUN))
         assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.InverseHarmony}))
 
-        roots = self.root_finder.find_roots_for_partial_input(u"yup", u"yuzfsö")
+        roots = self.root_finder.find_roots_for_partial_input(u"yup", u"yupfsö")
         assert_that(roots, has_length(1))
         assert_that(roots[0].str, equal_to(u'yup'))
         assert_that(roots[0].lexeme.root, equal_to(u'yup'))
@@ -446,6 +452,12 @@ class BruteForceCompoundNounRootFinderTest(unittest.TestCase):
         self.assertRaises(AssertionError, f)
 
         f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"a")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"ad")
+        self.assertRaises(AssertionError, f)
+
+        f = lambda: self.root_finder.find_roots_for_partial_input(u"ab", u"ada")
         self.assertRaises(AssertionError, f)
 
     def test_should_find_no_roots(self):
