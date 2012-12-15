@@ -72,9 +72,9 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
 
 
         # invalid verb and progressive vowel drop
-        assert_that(self.root_finder.find_roots_for_partial_input(u"yoly", u"yolyuyor"), has_length(1)) # has len 1, since yolyamak is valid
-        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyb", u"yoybuyor"), has_length(1)) # has len 1, since yoybamak is valid
-        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyh", u"yoyhuyor"), has_length(1)) # has len 1, since yoyhamak is valid
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoly", u"yolyuyor"), has_length(2)) # has len 2, since yolyamak and yolyumak are valid
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyb", u"yoybuyor"), has_length(2)) # has len 2, since yoybamak and yoybumak are valid
+        assert_that(self.root_finder.find_roots_for_partial_input(u"yoyh", u"yoyhuyor"), has_length(2)) # has len 2, since yoyhamak and yoyhumak are valid
         #........ with voicing
         # Voicing + ProgressiveVowelDrop is not supported!
 
@@ -196,36 +196,56 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
 
     def test_should_create_roots_with_progressive_vowel_drop(self):
         roots = self.root_finder.find_roots_for_partial_input(u"başl", u"başlıyor")
-        assert_that(roots, has_length(1))
+        assert_that(roots, has_length(2))
         assert_that(roots[0].str, equal_to(u'başl'))
         assert_that(roots[0].lexeme.root, equal_to(u'başla'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'başlamak'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
+        assert_that(roots[0].str, equal_to(u'başl'))
+        assert_that(roots[1].lexeme.root, equal_to(u'başlı'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'başlımak'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"ell", u"elliyorduk")
-        assert_that(roots, has_length(1))
+        assert_that(roots, has_length(2))
         assert_that(roots[0].str, equal_to(u'ell'))
         assert_that(roots[0].lexeme.root, equal_to(u'elle'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'ellemek'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
+        assert_that(roots[1].str, equal_to(u'ell'))
+        assert_that(roots[1].lexeme.root, equal_to(u'elli'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'ellimek'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"oyn", u"oynuyorlar")
-        assert_that(roots, has_length(1))
+        assert_that(roots, has_length(2))
         assert_that(roots[0].str, equal_to(u'oyn'))
         assert_that(roots[0].lexeme.root, equal_to(u'oyna'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'oynamak'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
+        assert_that(roots[1].str, equal_to(u'oyn'))
+        assert_that(roots[1].lexeme.root, equal_to(u'oynu'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'oynumak'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
 
         roots = self.root_finder.find_roots_for_partial_input(u"söyl", u"söylüyorsun")
-        assert_that(roots, has_length(1))
+        assert_that(roots, has_length(2))
         assert_that(roots[0].str, equal_to(u'söyl'))
-        assert_that(roots[0].lexeme.root, equal_to(u'söyle'))
-        assert_that(roots[0].lexeme.lemma, equal_to(u'söylemek'))
+        assert_that(roots[0].lexeme.root, equal_to(u'söylü'))
+        assert_that(roots[0].lexeme.lemma, equal_to(u'söylümek'))
         assert_that(roots[0].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[0].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
+        assert_that(roots[1].str, equal_to(u'söyl'))
+        assert_that(roots[1].lexeme.root, equal_to(u'söyle'))
+        assert_that(roots[1].lexeme.lemma, equal_to(u'söylemek'))
+        assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.NoVoicing, LexemeAttribute.ProgressiveVowelDrop}))
 
     def test_should_create_roots_with_aorist_A_and_causative_Ar(self):
         # each Aorist_A case is also a Causative_Ar case
@@ -530,7 +550,7 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
         # skip progressive vowel drop and voicing
         roots = self.root_finder.find_roots_for_partial_input(u"yeld", u"yeldiyorum")
         roots = sorted(roots, key=lambda r : r.lexeme.attributes)
-        assert_that(roots, has_length(3))
+        assert_that(roots, has_length(4))
         assert_that(roots[0].str, equal_to(u'yeld'))
         assert_that(roots[0].lexeme.root, equal_to(u'yeld'))
         assert_that(roots[0].lexeme.lemma, equal_to(u'yeldmek'))
@@ -542,11 +562,16 @@ class BruteForceVerbRootFinderTest(unittest.TestCase):
         assert_that(roots[1].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[1].lexeme.attributes, equal_to({LexemeAttribute.Voicing}))
         assert_that(roots[2].str, equal_to(u'yeld'))
-        assert_that(roots[2].lexeme.root, equal_to(u'yelde'))
-        assert_that(roots[2].lexeme.lemma, equal_to(u'yeldemek'))
+        assert_that(roots[2].lexeme.root, equal_to(u'yeldi'))
+        assert_that(roots[2].lexeme.lemma, equal_to(u'yeldimek'))
         assert_that(roots[2].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
         assert_that(roots[2].lexeme.attributes, equal_to({LexemeAttribute.ProgressiveVowelDrop, LexemeAttribute.NoVoicing}))
-        # NOTE: there is also "yeltemek", but doesn't seem likely. skipping it!
+        assert_that(roots[3].str, equal_to(u'yeld'))
+        assert_that(roots[3].lexeme.root, equal_to(u'yelde'))
+        assert_that(roots[3].lexeme.lemma, equal_to(u'yeldemek'))
+        assert_that(roots[3].lexeme.syntactic_category, equal_to(SyntacticCategory.VERB))
+        assert_that(roots[3].lexeme.attributes, equal_to({LexemeAttribute.ProgressiveVowelDrop, LexemeAttribute.NoVoicing}))
+        # NOTE: there is also "yeltemek" and "yeltimek", but doesn't seem likely. skipping it!
 
         # voicing and aorist_A and causative_Ar (ok, gidermek is not really git+Caus)
         roots = self.root_finder.find_roots_for_partial_input(u"gid", u"giderdi")

@@ -21,6 +21,19 @@ from trnltk.morphology.phonetics.alphabet import TurkishAlphabet
 from trnltk.morphology.phonetics.phonetics import Phonetics
 
 class BruteForceVerbRootFinder(RootFinder):
+    """
+    Finds the possible roots by brute force.
+
+    Checks for the signs of the orthographic changes, and finds roots according to that.
+    Considers progressive vowel drop (başla+ıyor -> başlıyor), voicing (git+er -> gider), aorist A (yap+ar), aorist I (gel+ir),
+    causatives and passives.
+
+    Returns phonetically valid verbs. For example 'ürk' and 'büyült' are valid, but 'zanh' is not valid.
+
+    In verbs voicing only occurs on roots ending with 't', so others (pçk) are ignored.
+    Ignores inverse harmony, since verbs don't have it.
+    """
+
     def find_roots_for_partial_input(self, partial_input, whole_surface=None):
         """
         @type partial_input: unicode
@@ -130,17 +143,40 @@ class BruteForceVerbRootFinder(RootFinder):
         # elle  - +Iyor --> elliyor
         # oyna  - +Iyor --> oynuyor
         # söyle - +Iyor --> söylüyor
-        generated_root = no_attr_root._clone(True)
+        # kazı  - +Iyor --> kazıyor
+        # kaz   - +Iyor --> kazıyor
+
+        # başıyor   : başlamak or başlımak (skip başlumak)
+        # elliyor   : ellemek or ellimek (skip ellümek)
+        # oynuyor   : oynamak or oynumak (skip oynımak)
+        # söylüyor  : söylemek or söylümek (skip söylimek)
+        # kazıyor   : kazamak or kazımak (skip kazumak)
+
+        dropped_vowels = []
 
         # since there is no inverse harmony in verbs
         if not last_vowel.frontal:
-            generated_root.lexeme.root += u'a'
+            dropped_vowels.append(u'a')
+            if not last_vowel.rounded:
+                dropped_vowels.append(u'ı')
+            else:
+                dropped_vowels.append(u'u')
         else:
-            generated_root.lexeme.root += u'e'
+            dropped_vowels.append(u'e')
+            if not last_vowel.rounded:
+                dropped_vowels.append(u'i')
+            else:
+                dropped_vowels.append(u'ü')
 
-        generated_root.lexeme.attributes.add(LexemeAttribute.ProgressiveVowelDrop)
+        generated_roots = set()
 
-        return {generated_root}
+        for vowel in dropped_vowels:
+            generated_root = no_attr_root._clone(True)
+            generated_root.lexeme.root += vowel
+            generated_root.lexeme.attributes.add(LexemeAttribute.ProgressiveVowelDrop)
+            generated_roots.add(generated_root)
+
+        return generated_roots
 
 
     def _get_aorist_A_roots(self, no_attr_root):

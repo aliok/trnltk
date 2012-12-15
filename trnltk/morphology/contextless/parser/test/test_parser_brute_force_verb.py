@@ -59,7 +59,10 @@ class ParserTestWithBruteForceVerbRootFinder(ParserTest):
 
         self.assert_parse_correct(u'sok',          u'sok(sokmak)+Verb+Pos+Imp+A2sg')
 
-        self.assert_parse_correct(u'deyip',        u'deyip(deyipmek)+Verb+Pos+Imp+A2sg', u'de(demek)+Verb+Pos+Adv+AfterDoingSo(+yIp[yip])', u'dey(deymek)+Verb+Pos+Adv+AfterDoingSo(+yIp[ip])')
+        self.assert_parse_correct(u'deyip',
+            u'deyip(deyipmek)+Verb+Pos+Imp+A2sg',
+            u'de(demek)+Verb+Pos+Adv+AfterDoingSo(+yIp[yip])',
+            u'dey(deymek)+Verb+Pos+Adv+AfterDoingSo(+yIp[ip])')
 
         self.assert_parse_correct(u'sokacak',
             u'sok(sokmak)+Verb+Pos+Fut(+yAcAk[acak])+A3sg',
@@ -74,6 +77,7 @@ class ParserTestWithBruteForceVerbRootFinder(ParserTest):
     def test_should_parse_verbs_with_progressive_vowel_drop(self):
         self.assert_parse_correct(u'başlıyor',
             u'başl(başlamak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg',
+            u'başl(başlımak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg',
             u'başlıyo(başlıyomak)+Verb+Pos+Aor(+Ar[r])+A3sg',
             u'başlıyor(başlıyormak)+Verb+Pos+Imp+A2sg',
             u'başlıyo(başlıyomak)+Verb+Pos+Aor(+Ar[r])+Adj+Zero',
@@ -81,6 +85,7 @@ class ParserTestWithBruteForceVerbRootFinder(ParserTest):
 
         self.assert_parse_correct(u'elliyorduk',
             u'ell(ellemek)+Verb+Pos+Prog(Iyor[iyor])+Past(dI[du])+A1pl(k[k])',
+            u'ell(ellimek)+Verb+Pos+Prog(Iyor[iyor])+Past(dI[du])+A1pl(k[k])',
             u'elliyor(elliyormak)+Verb+Pos+Past(dI[du])+A1pl(k[k])',
             u'elliyorduk(elliyordukmak)+Verb+Pos+Imp+A2sg',
             u'elliyo(elliyomak)+Verb+Pos+Aor(+Ar[r])+Past(dI[du])+A1pl(k[k])',
@@ -89,6 +94,7 @@ class ParserTestWithBruteForceVerbRootFinder(ParserTest):
 
         self.assert_parse_correct(u'oynuyorlar',
             u'oyn(oynamak)+Verb+Pos+Prog(Iyor[uyor])+A3pl(lAr[lar])',
+            u'oyn(oynumak)+Verb+Pos+Prog(Iyor[uyor])+A3pl(lAr[lar])',
             u'oynuyo(oynuyomak)+Verb+Pos+Aor(+Ar[r])+A3pl(lAr[lar])',
             u'oynuyorla(oynuyorlamak)+Verb+Pos+Aor(+Ar[r])+A3sg',
             u'oynuyorlar(oynuyorlarmak)+Verb+Pos+Imp+A2sg',
@@ -98,6 +104,7 @@ class ParserTestWithBruteForceVerbRootFinder(ParserTest):
 
         self.assert_parse_correct(u'söylüyorsun',
             u'söyl(söylemek)+Verb+Pos+Prog(Iyor[üyor])+A2sg(sIn[sun])',
+            u'söyl(söylümek)+Verb+Pos+Prog(Iyor[üyor])+A2sg(sIn[sun])',
             u'söylüyo(söylüyomak)+Verb+Pos+Aor(+Ar[r])+A2sg(sIn[sun])',
             u'söylüyor(söylüyormak)+Verb+Pos+Imp+A3sg(sIn[sun])',
             u'söylüyorsun(söylüyorsunmak)+Verb+Pos+Imp+A2sg',
@@ -105,8 +112,27 @@ class ParserTestWithBruteForceVerbRootFinder(ParserTest):
 
         self.assert_parse_correct(u'atlıyorsunuz',
             u'atl(atlamak)+Verb+Pos+Prog(Iyor[ıyor])+A2pl(sInIz[sunuz])',
+            u'atl(atlımak)+Verb+Pos+Prog(Iyor[ıyor])+A2pl(sInIz[sunuz])',
             u'atlıyo(atlıyomak)+Verb+Pos+Aor(+Ar[r])+A2pl(sInIz[sunuz])',
             u'atlıyorsunuz(atlıyorsunuzmak)+Verb+Pos+Imp+A2sg')
+
+        self.assert_parse_correct(u'kazıyor',
+            u'kaz(kazmak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg',
+            u'kaz(kazamak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg',
+            u'kaz(kazımak)+Verb+Pos+Prog(Iyor[ıyor])+A3sg',
+            u'kazıyo(kazıyomak)+Verb+Pos+Aor(+Ar[r])+A3sg',
+            u'kazıyor(kazıyormak)+Verb+Pos+Imp+A2sg',
+            u'kazıyo(kazıyomak)+Verb+Pos+Aor(+Ar[r])+Adj+Zero',
+            u'kazıyo(kazıyomak)+Verb+Pos+Aor(+Ar[r])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
+
+        self.assert_parse_correct(u'koruyor',
+            u'kor(kormak)+Verb+Pos+Prog(Iyor[uyor])+A3sg',
+            u'kor(koramak)+Verb+Pos+Prog(Iyor[uyor])+A3sg',
+            u'kor(korumak)+Verb+Pos+Prog(Iyor[uyor])+A3sg',
+            u'koruyo(koruyomak)+Verb+Pos+Aor(+Ar[r])+A3sg',
+            u'koruyor(koruyormak)+Verb+Pos+Imp+A2sg',
+            u'koruyo(koruyomak)+Verb+Pos+Aor(+Ar[r])+Adj+Zero',
+            u'koruyo(koruyomak)+Verb+Pos+Aor(+Ar[r])+Adj+Zero+Noun+Zero+A3sg+Pnon+Nom')
 
     def test_should_parse_verbs_with_aorist_A_and_causative_Ar(self):
         self.assert_parse_correct(u'çıkar',
