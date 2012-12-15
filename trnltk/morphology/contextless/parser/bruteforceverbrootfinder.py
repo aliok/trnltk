@@ -56,7 +56,7 @@ class BruteForceVerbRootFinder(RootFinder):
 
         no_attr_root = DynamicRoot(root, lexeme, phonetic_expectations, phonetic_attributes)
 
-        self._set_phonetic_attributes([no_attr_root])
+        self._set_lexeme_and_phonetic_attributes([no_attr_root])
         self._set_lemma([no_attr_root])
 
         last_char = partial_input[-1]
@@ -116,7 +116,7 @@ class BruteForceVerbRootFinder(RootFinder):
         generated_roots = generated_roots.union(possible_causative_roots)
         generated_roots = generated_roots.union(possible_passive_roots)
 
-        self._set_phonetic_attributes(generated_roots)
+        self._set_lexeme_and_phonetic_attributes(generated_roots)
         self._set_lemma(generated_roots)
 
         generated_roots = list(generated_roots)
@@ -244,9 +244,18 @@ class BruteForceVerbRootFinder(RootFinder):
 
         return None
 
-    def _set_phonetic_attributes(self, generated_roots):
+    def _set_lexeme_and_phonetic_attributes(self, generated_roots):
         for r in generated_roots:
             r.phonetic_attributes = Phonetics.calculate_phonetic_attributes(r.str, r.lexeme.attributes)
+            if r.str.endswith(u'd') and r.lexeme.root.endswith(u't'):
+                if LexemeAttribute.NoVoicing in r.lexeme.attributes:
+                    r.lexeme.attributes.remove(LexemeAttribute.NoVoicing)
+                r.lexeme.attributes.add(LexemeAttribute.Voicing)
+            else:
+                if LexemeAttribute.Voicing in r.lexeme.attributes:
+                    r.lexeme.attributes.remove(LexemeAttribute.Voicing)
+                r.lexeme.attributes.add(LexemeAttribute.NoVoicing)
+
 
     def _set_lemma(self, generated_roots):
         for r in generated_roots:
