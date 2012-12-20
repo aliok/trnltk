@@ -141,6 +141,18 @@ class RootGeneratorTest(unittest.TestCase):
         assert_that(generated_roots, has_item(Root(u"Adem", lexeme, None, {LLCont,LVF, LLC, LLNotVless, LVU})))
         assert_that(generated_roots, has_item(Root(u"Âdem", lexeme, None, {LLCont,LVF, LLC, LLNotVless, LVU})))
 
+    def test_should_generate_verbs_with_voicing_and_novoicing(self):
+        lexeme = Lexeme(u"gitmek", u"git", SyntacticCategory.VERB, None, {LexemeAttribute.Voicing})
+        generated_roots = RootGenerator.generate(lexeme)
+        assert_that(generated_roots, has_length(2))
+        assert_that(generated_roots, has_item(Root(u'git', lexeme, {PhoneticExpectation.ConsonantStart}, {LLNotCont, LVF, LLC, LLVless, LLVlessStop, LVU})))
+        assert_that(generated_roots, has_item(Root(u'gid', lexeme, {PhoneticExpectation.VowelStart}, {LLNotCont, LVF, LLC, LLVless, LVU})))
+
+        lexeme = Lexeme(u"sürtmek", u"sürt", SyntacticCategory.VERB, None, None)
+        generated_roots = RootGenerator.generate(lexeme)
+        assert_that(generated_roots, has_length(1))
+        assert_that(generated_roots, has_item(Root(u'sürt', lexeme, None, {LLNotCont, LVF, LLC, LLVless, LLVlessStop, LVR})))
+
 
 if __name__ == '__main__':
     unittest.main()
