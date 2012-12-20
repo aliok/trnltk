@@ -89,6 +89,9 @@ class LexiconLoaderTest(unittest.TestCase):
         item = LexiconLoader._crate_lexeme_from_line(u'yemek')
         assert_that(item, equal_to(Lexeme(u"yemek", u"yemek", None, None, None)))
 
+        item = LexiconLoader._crate_lexeme_from_line(u'sürtmek')
+        assert_that(item, equal_to(Lexeme(u"sürtmek", u"sürtmek", None, None, None)))
+
         item = LexiconLoader._crate_lexeme_from_line(u'ürkmek [A:Causative_It]')
         assert_that(item, equal_to(Lexeme(u"ürkmek", u"ürkmek", None, None, {LexemeAttribute.Causative_It})))
 
@@ -215,6 +218,7 @@ class LexiconLoaderTest(unittest.TestCase):
             ahlat [A:NoVoicing, Plural]
             akşam [P:Noun, Time]
             atamak [A:Causative_It]
+            sürtmek
             yemek [P:Noun]
             yemek [A:Causative_dIr]
             ürkmek [A:Causative_It]
@@ -249,6 +253,7 @@ class LexiconLoaderTest(unittest.TestCase):
         assert_that(lexemes, has_item(Lexeme(u'ahlat', u'ahlat', SyntacticCategory.NOUN, None, {LexemeAttribute.NoVoicing, LexemeAttribute.Plural})))
         assert_that(lexemes, has_item(Lexeme(u'akşam', u'akşam', SyntacticCategory.NOUN, SecondarySyntacticCategory.TIME, {LexemeAttribute.NoVoicing})))
         assert_that(lexemes, has_item(Lexeme(u'atamak', u'ata', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_I, LexemeAttribute.Causative_It, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In, LexemeAttribute.ProgressiveVowelDrop})))
+        assert_that(lexemes, has_item(Lexeme(u'sürtmek', u'sürt', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_A, LexemeAttribute.Causative_Ir, LexemeAttribute.NoVoicing})))
         assert_that(lexemes, has_item(Lexeme(u'yemek', u'yemek', SyntacticCategory.NOUN, None, {LexemeAttribute.Voicing})))
         assert_that(lexemes, has_item(Lexeme(u'yemek', u'ye', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_A, LexemeAttribute.Causative_dIr, LexemeAttribute.NoVoicing, LexemeAttribute.Passive_In, LexemeAttribute.ProgressiveVowelDrop})))
         assert_that(lexemes, has_item(Lexeme(u'ürkmek', u'ürk', SyntacticCategory.VERB, None, {LexemeAttribute.Aorist_A, LexemeAttribute.Causative_It, LexemeAttribute.NoVoicing})))

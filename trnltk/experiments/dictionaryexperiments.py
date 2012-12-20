@@ -44,6 +44,21 @@ def remove_proper_nouns():
                     out.write(line)
                     out.write('\n')
 
+def remove_numerals():
+    out_file = os.path.join(os.path.dirname(__file__), '../resources/new_master_dictionary.txt')
+    dictionary_file = os.path.join(os.path.dirname(__file__), '../resources/master_dictionary.txt')
+    with codecs.open(dictionary_file, 'r', 'utf-8') as src:
+        with codecs.open(out_file, 'w', encoding='utf-8') as out:
+            for line in src:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                elif "P:Num" in line:
+                    print line
+                else:
+                    out.write(line)
+                    out.write('\n')
+
 
 def print_verbs_with_double_consonant_ending():
     dictionary_file_path = os.path.join(os.path.dirname(__file__), '../resources/master_dictionary.txt')
@@ -135,4 +150,5 @@ if __name__ == '__main__':
 #    remove_proper_nouns()
 #    test_Turkish_char_sorting()
 #    generate_sorted_dictionary()
-    print_verbs_with_double_consonant_ending()
+#    print_verbs_with_double_consonant_ending()
+    remove_numerals()

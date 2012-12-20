@@ -32,6 +32,7 @@ LLCont =  PhoneticAttributes.LastLetterContinuant
 LLNotCont =  PhoneticAttributes.LastLetterNotContinuant
 
 LLVless =  PhoneticAttributes.LastLetterVoiceless
+LLVStop = PhoneticAttributes.LastLetterVoicedStop
 LLVlessStop = PhoneticAttributes.LastLetterVoicelessStop
 LLNotVless =  PhoneticAttributes.LastLetterNotVoiceless
 
@@ -89,8 +90,8 @@ class RootGeneratorTest(unittest.TestCase):
         lexeme = Lexeme(u"hac", u"hac", SyntacticCategory.NOUN, None, {LexemeAttribute.Doubling})
         generated_roots = RootGenerator.generate(lexeme)
         assert_that(generated_roots, has_length(2))
-        assert_that(generated_roots, has_item(Root(u"hac", lexeme, {PhoneticExpectation.ConsonantStart}, {LLNotCont, LVB, LLC, LLNotVless, LVU})))
-        assert_that(generated_roots, has_item(Root(u"hacc", lexeme, {PhoneticExpectation.VowelStart}, {LLNotCont, LVB, LLC, LLNotVless, LVU})))
+        assert_that(generated_roots, has_item(Root(u"hac", lexeme, {PhoneticExpectation.ConsonantStart}, {LLNotCont, LLVStop, LVB, LLC, LLNotVless, LVU})))
+        assert_that(generated_roots, has_item(Root(u"hacc", lexeme, {PhoneticExpectation.VowelStart}, {LLNotCont, LLVStop, LVB, LLC, LLNotVless, LVU})))
 
         lexeme = Lexeme(u"ret", u"ret", SyntacticCategory.NOUN, None, {LexemeAttribute.Voicing, LexemeAttribute.Doubling})
         generated_roots = RootGenerator.generate(lexeme)

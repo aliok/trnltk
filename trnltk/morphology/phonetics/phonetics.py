@@ -300,7 +300,7 @@ class Phonetics(object):
                 attrs.append(PhoneticAttributes.LastLetterVoicelessStop)
         else:
             attrs.append(PhoneticAttributes.LastLetterNotVoiceless)
-            if not last_letter.continuant and not last_vowel:
+            if not last_letter.continuant and not last_letter.vowel:
                 attrs.append(PhoneticAttributes.LastLetterVoicedStop)
 
         if last_letter.continuant:
